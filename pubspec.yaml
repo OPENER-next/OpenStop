@@ -78,6 +78,7 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 
 flutter_icons:
-  image_path: "assets/app_icon.png"
+  image_path_android: "assets/app_icon_android.png"
+  image_path_ios: "assets/app_icon_ios.png"
   android: true
   ios: true
