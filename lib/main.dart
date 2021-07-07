@@ -3,6 +3,12 @@ import 'package:global_configuration/global_configuration.dart';
 import 'package:location/location.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
+// Pages
+import 'onboarding.dart';
+
+final String token = GlobalConfiguration().getValue("mapbox_api_token");
+final String style = GlobalConfiguration().getValue("mapbox_style_url");
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await GlobalConfiguration().loadFromAsset("config");
@@ -13,9 +19,6 @@ void main() async{
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final String token = GlobalConfiguration().getValue("mapbox_api_token");
-    final String style = GlobalConfiguration().getValue("mapbox_style_url");
-
     return MaterialApp(
       title: 'OPENER next',
       theme: ThemeData(
