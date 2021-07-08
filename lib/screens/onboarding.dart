@@ -12,29 +12,40 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
+  final _controller = PageController(initialPage: 0);
 
   _hasSeenOnboarding() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('hasSeenOnboarding', true);
-    bool hasSeenOnboarding = prefs.getBool('hasSeenOnboarding');
-    print('hasSeenOnboarding $hasSeenOnboarding');
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-          child: ElevatedButton(
-            onPressed: (){
-              _hasSeenOnboarding();
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        body: PageView(
+      scrollDirection: Axis.horizontal,
+      controller: _controller,
+      children: <Widget>[
+        Center(
+          child: Text('First Page'),
+        ),
+        Center(
+          child: Text('Second Page'),
+        ),
+        Center(
+          child: Center(
+            child: ElevatedButton(
+              onPressed: () {
+                _hasSeenOnboarding();
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(
+                        builder: (context) => HomeScreen()));
               },
-            child: const Text('Get Started'),
-                ),
+              child: const Text('Get Started'),
             ),
-          );
+          ),
+        )
+      ],
+    ));
   }
 }
-
