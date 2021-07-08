@@ -9,16 +9,12 @@ final String style = GlobalConfiguration().getValue("mapbox_style_url");
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'OPENER next',
-      theme: ThemeData(
-        primarySwatch: Colors.lightGreen,
-      ),
-      home: Scaffold(
+    return Scaffold(
         body: MapboxMap(
           // Public Access Token
             accessToken: token,
             styleString: style,
+
             initialCameraPosition: CameraPosition(
               zoom: 15.0,
               target: LatLng(14.508, 46.048),
@@ -54,8 +50,7 @@ class HomeScreen extends StatelessWidget {
               );
             }
         ),
-      ),
-    );
+      );
   }
 }
 
