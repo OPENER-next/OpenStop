@@ -23,6 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  dots_indicator: ^2.0.0
   mapbox_gl: ^0.12.0
   location: ^4.3.0
   global_configuration: ^2.0.0-nullsafety.1
