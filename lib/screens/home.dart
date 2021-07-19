@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:location/location.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:flutter/services.dart';
 
 final String token = GlobalConfiguration().getValue("mapbox_api_token");
 final String style = GlobalConfiguration().getValue("mapbox_style_url");
 
-class HomeScreen extends StatelessWidget {
+
+class HomeScreen extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+
+class _HomeScreenState extends State<HomeScreen> {
+  MapboxMapController _mapController;
+
+  @override
+  void initState() {
+    super.initState();
     // update native ui colors
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       // TODO: revisit this when https://github.com/flutter/flutter/pull/81303 lands
@@ -17,50 +27,121 @@ class HomeScreen extends StatelessWidget {
       systemNavigationBarColor: Colors.black.withOpacity(0.25),
       statusBarIconBrightness: Brightness.light,
     ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-        body: MapboxMap(
-          // Public Access Token
+      resizeToAvoidBottomInset: false,
+      body: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          MapboxMap(
             accessToken: token,
             styleString: style,
-
+            compassEnabled: true,
+            myLocationEnabled: true,
             initialCameraPosition: CameraPosition(
               zoom: 15.0,
               target: LatLng(14.508, 46.048),
             ),
+            onMapCreated: _handleMapCreation
+          ),
+          _buildActionButtons(context)
+        ]
+      )
+    );
+  }
 
-            // The onMapCreated callback should be used for everything related
-            // to updating map components via the MapboxMapController instance
-            onMapCreated: (MapboxMapController controller) async {
-              // Acquire current location (returns the LatLng instance)
+
+  /**
+   * Builds the buttons which overlay the map.
+   */
+  Widget _buildActionButtons(BuildContext context) {
+    final buttonSpacing = 10.0;
+    final buttonIconSize = 25.0;
+    final buttonStyle = ElevatedButton.styleFrom(
+      primary: Colors.white,
+      onPrimary: Colors.orange,
+      shape: CircleBorder(),
+      padding: EdgeInsets.all(10)
+    );
+    // use builder to get scaffold context
+    return Builder(builder: (context) =>
+      Positioned(
+        // add system bottom bar height
+        bottom: buttonSpacing + MediaQuery.of(context).padding.bottom,
+        right: 0,
+        // add status bar height
+        top: buttonSpacing + MediaQuery.of(context).padding.top,
+        left: 0,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            ElevatedButton(
+              style: buttonStyle,
+              child: Icon(
+                Icons.menu,
+                size: buttonIconSize,
+                color: Colors.black,
+              ),
+              onPressed: Scaffold.of(context).openDrawer,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                ElevatedButton(
+                  style: buttonStyle,
+                  child: Icon(
+                    Icons.add,
+                    size: buttonIconSize,
+                    color: Colors.black,
+                  ),
+                  onPressed: _zoomIn,
+                ),
+                SizedBox (
+                  height: buttonSpacing
+                ),
+                ElevatedButton(
+                  style: buttonStyle,
+                  child: Icon(
+                    Icons.remove,
+                    size: buttonIconSize,
+                    color: Colors.black,
+                  ),
+                  onPressed: _zoomOut,
+                ),
+              ]
+            )
+          ],
+        )
+      )
+    );
+  }
+
+
+  _handleMapCreation(MapboxMapController controller) async {
+    // store reference to controler
+    _mapController = controller;
+    // acquire current location and update map view position
               final result = await acquireCurrentLocation();
-
-              // You can either use the moveCamera or animateCamera, but the former
-              // causes a sudden movement from the initial to 'new' camera position,
-              // while animateCamera gives a smooth animated transition
-              await controller.animateCamera(
+    await _mapController.animateCamera(
                 CameraUpdate.newLatLng(result),
               );
+  }
 
-              // Add a circle denoting current user location
-              await controller.addCircle(
-                CircleOptions(
-                  circleRadius: 8.0,
-                  circleColor: '#006992',
-                  circleOpacity: 0.8,
 
-                  // YOU NEED TO PROVIDE THIS FIELD!!!
-                  // Otherwise, you'll get a silent exception somewhere in the stack
-                  // trace, but the parameter is never marked as @required, so you'll
-                  // never know unless you check the stack trace
-                  geometry: result,
-                  draggable: false,
-                ),
-              );
+  void _zoomIn() {
+    _mapController.animateCamera(CameraUpdate.zoomIn());
             }
-        ),
-      );
+
+
+  void _zoomOut() {
+    _mapController.animateCamera(CameraUpdate.zoomOut());
   }
 }
+
 
 Future<LatLng> acquireCurrentLocation() async {
   // Initializes the plugin and starts listening for potential platform events
