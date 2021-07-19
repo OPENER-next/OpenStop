@@ -3,6 +3,7 @@ import 'package:global_configuration/global_configuration.dart';
 import 'package:location/location.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:flutter/services.dart';
+import 'package:opener_next/widgets/sidebar.dart';
 
 final String token = GlobalConfiguration().getValue("mapbox_api_token");
 final String style = GlobalConfiguration().getValue("mapbox_style_url");
@@ -33,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      drawer: Sidebar(),
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
@@ -125,16 +127,16 @@ class _HomeScreenState extends State<HomeScreen> {
     // store reference to controler
     _mapController = controller;
     // acquire current location and update map view position
-              final result = await acquireCurrentLocation();
+    final result = await acquireCurrentLocation();
     await _mapController.animateCamera(
-                CameraUpdate.newLatLng(result),
-              );
+      CameraUpdate.newLatLng(result),
+    );
   }
 
 
   void _zoomIn() {
     _mapController.animateCamera(CameraUpdate.zoomIn());
-            }
+  }
 
 
   void _zoomOut() {
