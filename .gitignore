@@ -45,5 +45,5 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Config
-config.json
+# Globals
+globals.dart

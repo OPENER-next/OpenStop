@@ -26,7 +26,6 @@ dependencies:
   dots_indicator: ^2.0.0
   mapbox_gl: ^0.12.0
   location: ^4.3.0
-  global_configuration: ^2.0.0-nullsafety.1
   shared_preferences: ^2.0.6
 
   # The following adds the Cupertino Icons font to your application.
@@ -49,10 +48,6 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
-  # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/cfg/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

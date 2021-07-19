@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:global_configuration/global_configuration.dart';
 import 'package:location/location.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:flutter/services.dart';
 import 'package:opener_next/widgets/sidebar.dart';
-
-final String token = GlobalConfiguration().getValue("mapbox_api_token");
-final String style = GlobalConfiguration().getValue("mapbox_style_url");
+import '/commons/globals.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -39,8 +36,8 @@ class _HomeScreenState extends State<HomeScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           MapboxMap(
-            accessToken: token,
-            styleString: style,
+            accessToken: MAPBOX_API_TOKEN,
+            styleString: MAPBOX_STYLE_URL,
             compassEnabled: true,
             myLocationEnabled: true,
             initialCameraPosition: CameraPosition(
@@ -128,9 +125,11 @@ class _HomeScreenState extends State<HomeScreen> {
     _mapController = controller;
     // acquire current location and update map view position
     final result = await acquireCurrentLocation();
-    await _mapController.animateCamera(
-      CameraUpdate.newLatLng(result),
-    );
+    if (result != null) {
+      await _mapController.animateCamera(
+        CameraUpdate.newLatLng(result),
+      );
+    }
   }
 
 
@@ -179,5 +178,7 @@ Future<LatLng> acquireCurrentLocation() async {
 
   // Gets the current location of the user
   final locationData = await location.getLocation();
-  return LatLng(locationData.latitude, locationData.longitude);
+  if (locationData.latitude != null && locationData.longitude != null) {
+    return LatLng(locationData.latitude, locationData.longitude);
+  }
 }

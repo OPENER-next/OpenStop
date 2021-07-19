@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:global_configuration/global_configuration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Screens
 import 'screens/onboarding.dart';
 import 'screens/home.dart';
 
-bool hasSeenOnboarding;
+bool hasSeenOnboarding = false;
 
 Future <void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await GlobalConfiguration().loadFromAsset("config");
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
