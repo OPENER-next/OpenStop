@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:location/location.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
@@ -9,6 +10,13 @@ final String style = GlobalConfiguration().getValue("mapbox_style_url");
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // update native ui colors
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      // TODO: revisit this when https://github.com/flutter/flutter/pull/81303 lands
+      statusBarColor: Colors.black.withOpacity(0.25),
+      systemNavigationBarColor: Colors.black.withOpacity(0.25),
+      statusBarIconBrightness: Brightness.light,
+    ));
     return Scaffold(
         body: MapboxMap(
           // Public Access Token
