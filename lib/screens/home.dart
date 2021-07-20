@@ -122,6 +122,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 ElevatedButton(
                   style: buttonStyle,
                   child: Icon(
+                    Icons.my_location,
+                    size: buttonIconSize,
+                    color: Colors.black,
+                  ),
+                  onPressed: _moveToUserLocation,
+                ),
+                SizedBox (
+                  height: buttonSpacing
+                ),
+                ElevatedButton(
+                  style: buttonStyle,
+                  child: Icon(
                     Icons.add,
                     size: buttonIconSize,
                     color: Colors.black,
@@ -146,6 +158,14 @@ class _HomeScreenState extends State<HomeScreen> {
         )
       )
     );
+  }
+
+
+  void _moveToUserLocation() async {
+    final location = await acquireCurrentLocation();
+    if (location != null) {
+      await _mapController.animateCamera(CameraUpdate.newLatLng(location));
+    }
   }
 
 
