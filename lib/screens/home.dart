@@ -67,13 +67,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     // use builder to get scaffold context
     return Builder(builder: (context) =>
-      Positioned(
-        // add system bottom bar height
-        bottom: buttonSpacing + MediaQuery.of(context).padding.bottom,
-        right: 0,
-        // add status bar height
-        top: buttonSpacing + MediaQuery.of(context).padding.top,
-        left: 0,
+      Padding(
+        padding: EdgeInsets.fromLTRB(
+          0,
+          buttonSpacing + MediaQuery.of(context).padding.top,
+          0,
+          buttonSpacing + MediaQuery.of(context).padding.bottom,
+        ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
