@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
@@ -13,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 
 class _HomeScreenState extends State<HomeScreen> {
+  var _mapCompleter = Completer<MapboxMapController>();
   MapboxMapController _mapController;
 
   @override
@@ -25,6 +29,18 @@ class _HomeScreenState extends State<HomeScreen> {
       systemNavigationBarColor: Colors.black.withOpacity(0.25),
       statusBarIconBrightness: Brightness.light,
     ));
+    // wait for map creation to finish
+    _mapCompleter.future.then((controller) async {
+      // store reference to controler
+      _mapController = controller;
+      // acquire current location and update map view position
+      final result = await acquireCurrentLocation();
+      if (result != null) {
+        await _mapController.animateCamera(
+          CameraUpdate.newLatLng(result),
+        );
+      }
+    });
   }
 
   @override
@@ -44,9 +60,22 @@ class _HomeScreenState extends State<HomeScreen> {
               zoom: 15.0,
               target: LatLng(14.508, 46.048),
             ),
-            onMapCreated: _handleMapCreation
+            onMapCreated: _mapCompleter.complete
           ),
-          _buildActionButtons(context)
+          FutureBuilder(
+            future: _mapCompleter.future,
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              // only show controls when map creation finished
+              return AnimatedSwitcher(
+                duration: Duration(milliseconds: 1000),
+                child: snapshot.hasData ?
+                  _buildControls(context) :
+                  Container(
+                    color: Colors.white.withOpacity(1)
+                  )
+              );
+            }
+          ),
         ]
       )
     );
@@ -54,9 +83,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
   /**
-   * Builds the buttons which overlay the map.
+   * Builds the action buttons which overlay the map.
    */
-  Widget _buildActionButtons(BuildContext context) {
+  Widget _buildControls(BuildContext context) {
     final buttonSpacing = 10.0;
     final buttonIconSize = 25.0;
     final buttonStyle = ElevatedButton.styleFrom(
@@ -117,19 +146,6 @@ class _HomeScreenState extends State<HomeScreen> {
         )
       )
     );
-  }
-
-
-  _handleMapCreation(MapboxMapController controller) async {
-    // store reference to controler
-    _mapController = controller;
-    // acquire current location and update map view position
-    final result = await acquireCurrentLocation();
-    if (result != null) {
-      await _mapController.animateCamera(
-        CameraUpdate.newLatLng(result),
-      );
-    }
   }
 
 
