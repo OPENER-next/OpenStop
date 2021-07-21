@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:flutter/services.dart';
-import 'package:opener_next/widgets/sidebar.dart';
 import '/commons/globals.dart';
+import '/widgets/home-sidebar.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -47,8 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      drawer: Sidebar(),
-      body: Stack(
+      drawer: HomeSidebar(),
         fit: StackFit.expand,
         children: <Widget>[
           MapboxMap(

@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 /**
  * Builds the drawer/sidebar providing access to additional settings.
  */
-class Sidebar extends StatefulWidget {
+class HomeSidebar extends StatefulWidget {
   @override
-  _SidebarState createState() => _SidebarState();
+  _HomeSidebarState createState() => _HomeSidebarState();
 }
 
 
-class _SidebarState extends State<Sidebar> {
+class _HomeSidebarState extends State<HomeSidebar> {
   @override
   Widget build(BuildContext context) {
     return Drawer(child:
