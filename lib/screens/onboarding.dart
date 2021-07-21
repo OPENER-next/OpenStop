@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'home.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key key}) : super(key: key);
+  const OnboardingScreen({Key? key}) : super(key: key);
 
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();
@@ -64,7 +64,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             child: DotsIndicator(
               dotsCount: 3,
               position: _controller.hasClients
-                  ? _controller.page
+                  ? _controller.page!
                   : _controller.initialPage.toDouble(),
               decorator: DotsDecorator(
                 size: const Size.square(9.0),
