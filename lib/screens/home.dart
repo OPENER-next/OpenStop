@@ -28,11 +28,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _mapCompleter = Completer<MapboxMapController>();
 
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-
   late MapboxMapController _mapController;
 
-  PersistentBottomSheetController? _bottomSheetController;
+  final _sheetController = SheetController();
+
+  final _markerStreamController = StreamController<Symbol>();
 
   @override
   void initState() {
@@ -52,7 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
       resizeToAvoidBottomInset: false,
       drawer: HomeSidebar(),
       // use builder to get scaffold context
@@ -96,6 +95,55 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }
           ),
+          StreamBuilder(
+            stream: _markerStreamController.stream,
+            builder: (BuildContext context, AsyncSnapshot<Symbol> snapshot) {
+              // return empty widget if no data is given
+              if (!snapshot.hasData) {
+                return SizedBox.shrink();
+              }
+              if (_sheetController.state?.isHidden == true) {
+                _sheetController.show();
+              }
+
+              final name = snapshot.data != null ? snapshot.data!.id.toString() : 'name';
+
+              return SlidingSheet(
+                controller: _sheetController,
+                addTopViewPaddingOnFullscreen: true,
+                elevation: 8,
+                cornerRadius: 25,
+                cornerRadiusOnFullscreen: 0,
+                liftOnScrollHeaderElevation: 8,
+                closeOnBackButtonPressed: true,
+                duration: const Duration(milliseconds: 300),
+                snapSpec: const SnapSpec(
+                  snap: true,
+                  snappings: [0.4, 1.0],
+                  positioning: SnapPositioning.relativeToAvailableSpace,
+                  // initialSnap: 0
+                ),
+                headerBuilder: (context, state) {
+                  return Container(
+                    color: Colors.white,
+                    height: 50,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    child: Text(name)
+                  );
+                },
+                builder: (context, state) {
+                  return Container(
+                    color: Colors.white,
+                    height: 800,
+                    child: Center(
+                      child: Text('Content')
+                    ),
+                  );
+                },
+              );
+            }
+          )
         ]
       )),
     );
@@ -113,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
   void _addMapData() async {
-    // await mapControllerbutton
+    // await _mapControllerbutton
     await _mapCompleter.future;
 
     _mapController.addSymbols(stops.map<SymbolOptions>((position) => SymbolOptions(
@@ -127,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   _onMapClick(point, xy) async {
     // close bottom sheet if available
-    _bottomSheetController?.close();
+    _sheetController.hide();
   }
 
 
@@ -136,46 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
       iconImage: 'assets/symbols/bus_stop_selected.png'
     ));
 
-
-    showSlidingBottomSheet(context,
-      builder: (context) {
-        return SlidingSheetDialog(
-          backdropColor: Colors.black.withOpacity(0.3),
-          elevation: 8,
-          cornerRadius: 25,
-          avoidStatusBar: true,
-          cornerRadiusOnFullscreen: 0,
-          liftOnScrollHeaderElevation: 8,
-          duration: Duration(milliseconds: 300),
-          /*listener: (SheetState state) {
-            print(state);
-          },*/
-          snapSpec: const SnapSpec(
-            snap: true,
-            snappings: [0.4, 1.0],
-            positioning: SnapPositioning.relativeToAvailableSpace
-          ),
-          headerBuilder: (context, state) {
-            return Container(
-              color: Colors.white,
-              height: 50,
-              width: double.infinity,
-              alignment: Alignment.center,
-              child: Text('Header')
-            );
-          },
-          builder: (context, state) {
-            return Container(
-              color: Colors.white,
-              height: 800,
-              child: Center(
-                child: Text('Content')
-              ),
-            );
-          },
-        );
-      }
-    );
+    _markerStreamController.add(symbol);
 
     // move camera to symbol
     _moveTo(symbol.options.geometry!);
