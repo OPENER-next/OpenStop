@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
@@ -31,6 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
   late MapboxMapController _mapController;
 
   final _sheetController = SheetController();
+
+  static const double _initialSheetSize = 0.4;
 
   final _markerStreamController = StreamController<Symbol>();
 
@@ -119,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 duration: const Duration(milliseconds: 300),
                 snapSpec: const SnapSpec(
                   snap: true,
-                  snappings: [0.4, 1.0],
+                  snappings: [_initialSheetSize, 1.0],
                   positioning: SnapPositioning.relativeToAvailableSpace,
                   // initialSnap: 0
                 ),
@@ -173,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
-  _onMapClick(point, xy) async {
+  _onMapClick(Point point, LatLng location) async {
     // close bottom sheet if available
     _sheetController.hide();
   }
@@ -191,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // therefore use newLatLngBounds as workaround
     final location = symbol.options.geometry!;
     const extend =  LatLng(0.001,0.001);
-    final paddingBottom = (MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top) * (_sheetController.state?.minExtent ?? 0);
+    final paddingBottom = (MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top) * _initialSheetSize;
     _mapController.animateCamera(CameraUpdate.newLatLngBounds(
       LatLngBounds(southwest: location - extend, northeast: location + extend),
       bottom: paddingBottom
