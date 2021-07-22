@@ -187,7 +187,15 @@ class _HomeScreenState extends State<HomeScreen> {
     _markerStreamController.add(symbol);
 
     // move camera to symbol
-    _moveTo(symbol.options.geometry!);
+    // padding is not available for newLatLng()
+    // therefore use newLatLngBounds as workaround
+    final location = symbol.options.geometry!;
+    const extend =  LatLng(0.001,0.001);
+    final paddingBottom = (MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top) * (_sheetController.state?.minExtent ?? 0);
+    _mapController.animateCamera(CameraUpdate.newLatLngBounds(
+      LatLngBounds(southwest: location - extend, northeast: location + extend),
+      bottom: paddingBottom
+    ));
   }
 
 
