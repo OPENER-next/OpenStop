@@ -37,6 +37,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final _markerStreamController = StreamController<Symbol>();
 
+  Symbol? _selectedMarker;
+
   @override
   void initState() {
     super.initState();
@@ -179,26 +181,64 @@ class _HomeScreenState extends State<HomeScreen> {
   _onMapClick(Point point, LatLng location) async {
     // close bottom sheet if available
     _sheetController.hide();
+    // deselect the current marker
+    _deselectCurrentSymbol();
   }
 
 
   void _onSymbolTap(Symbol symbol) {
-    _mapController.updateSymbol(symbol, SymbolOptions(
-      iconImage: 'assets/symbols/bus_stop_selected.png'
-    ));
-
-    _markerStreamController.add(symbol);
+    _deselectCurrentSymbol();
+    _selectSymbol(symbol);
 
     // move camera to symbol
     // padding is not available for newLatLng()
     // therefore use newLatLngBounds as workaround
     final location = symbol.options.geometry!;
-    const extend =  LatLng(0.001,0.001);
+    const extend =  LatLng(0.001, 0.001);
     final paddingBottom = (MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top) * _initialSheetSize;
     _mapController.animateCamera(CameraUpdate.newLatLngBounds(
       LatLngBounds(southwest: location - extend, northeast: location + extend),
       bottom: paddingBottom
     ));
+  }
+
+
+  /**
+   * Deselect a given symbol on the map
+   */
+  void _deselectSymbol(Symbol symbol) {
+    _mapController.updateSymbol(symbol, SymbolOptions(
+      iconImage: 'assets/symbols/bus_stop.png'
+    ));
+    // unset variable
+    _selectedMarker = null;
+  }
+
+
+  /**
+   * Deselect the last selected symbol on the map
+   */
+  void _deselectCurrentSymbol() {
+    if (_selectedMarker != null) {
+      _deselectSymbol(_selectedMarker!);
+    }
+  }
+
+
+  /**
+   * Select a given symbol on the map
+   * This pushes it to the _markerStreamController and changes its icon
+   */
+  void _selectSymbol(Symbol symbol) {
+    // ignore if the symbol is already selected
+    if (_selectedMarker == symbol) {
+      return;
+    }
+    _mapController.updateSymbol(symbol, SymbolOptions(
+      iconImage: 'assets/symbols/bus_stop_selected.png'
+    ));
+    _markerStreamController.add(symbol);
+    _selectedMarker = symbol;
   }
 
 
