@@ -23,7 +23,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  dots_indicator: ^2.0.0
   mapbox_gl: ^0.12.0
   location: ^4.3.0
   shared_preferences: ^2.0.6

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '/widgets/dotsIndicator.dart';
 
 // Screens
 import 'home.dart';
@@ -14,6 +14,10 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final _controller = PageController(initialPage: 0);
+
+  static const _dotsDuration = const Duration(milliseconds: 300);
+
+  static const _dotsCurve = Curves.ease;
 
   _hasSeenOnboarding() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -61,17 +65,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           ),
           Expanded(
             flex: 1,
-            child: DotsIndicator(
-              dotsCount: 3,
-              position: _controller.hasClients
-                  ? _controller.page!
-                  : _controller.initialPage.toDouble(),
-              decorator: DotsDecorator(
-                size: const Size.square(9.0),
-                activeSize: const Size(18.0, 9.0),
-                activeShape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0)),
-              ),
+            child: new DotsIndicator(
+              controller: _controller,
+              itemCount: 3,
+              onPageSelected: (int page) {
+                _controller.animateToPage(
+                  page,
+                  duration: _dotsDuration,
+                  curve: _dotsCurve,
+                );
+              },
             ),
           )
         ],
