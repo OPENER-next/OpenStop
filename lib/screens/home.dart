@@ -68,6 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
             styleString: MAPBOX_STYLE_URL,
             compassEnabled: true,
             myLocationEnabled: true,
+            tiltGesturesEnabled: false,
             initialCameraPosition: CameraPosition(
               zoom: 15.0,
               target: LatLng(50.8261, 12.9278),
