@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 import '/commons/globals.dart';
 import '/commons/location-utils.dart';
-import '/widgets/home-controlls.dart';
+import '/widgets/home-controls.dart';
 import '/widgets/home-sidebar.dart';
 
 // dummy public transport stops
@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return AnimatedSwitcher(
                 duration: Duration(milliseconds: 1000),
                 child: snapshot.hasData ?
-                  HomeControlls(
+                  HomeControls(
                     zoomIn: _zoomIn,
                     zoomOut: _zoomOut,
                     moveToUserLocation: _moveToUserLocation,
@@ -157,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
   _initMap(MapboxMapController controller) async {
-    // store reference to controler
+    // store reference to controller
     _mapController = controller;
 
     _moveToUserLocation();
@@ -204,9 +204,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
-  /**
-   * Deselect a given symbol on the map
-   */
+
+  /// Deselect a given symbol on the map
+
   void _deselectSymbol(Symbol symbol) {
     _mapController.updateSymbol(symbol, SymbolOptions(
       iconImage: 'assets/symbols/bus_stop.png'
@@ -216,9 +216,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
-  /**
-   * Deselect the last selected symbol on the map
-   */
+
+  /// Deselect the last selected symbol on the map
+
   void _deselectCurrentSymbol() {
     if (_selectedMarker != null) {
       _deselectSymbol(_selectedMarker!);
@@ -226,10 +226,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
-  /**
-   * Select a given symbol on the map
-   * This pushes it to the _markerStreamController and changes its icon
-   */
+   /// Select a given symbol on the map
+   /// This pushes it to the _markerStreamController and changes its icon
+
   void _selectSymbol(Symbol symbol) {
     // ignore if the symbol is already selected
     if (_selectedMarker == symbol) {
@@ -243,34 +242,30 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
-  /**
-   * Zoom the map view
-   */
+  /// Zoom the map view
+
   void _zoomIn() {
     _mapController.animateCamera(CameraUpdate.zoomIn());
   }
 
 
-  /**
-   * Zoom out of the map view
-   */
+  /// Zoom out of the map view
+
   void _zoomOut() {
     _mapController.animateCamera(CameraUpdate.zoomOut());
   }
 
 
-  /**
-   * Update the current map view position to a given location
-   */
+  /// Update the current map view position to a given location
+
   Future<void> _moveTo(LatLng location) async {
     await _mapController.animateCamera(CameraUpdate.newLatLng(location));
   }
 
 
-  /**
-   * Acquire current location and update map view position
-   * Returns false if the location couldn't be acquired otherwise true
-   */
+  /// Acquire current location and update map view position
+  /// Returns false if the location couldn't be acquired otherwise true
+
   Future<bool> _moveToUserLocation() async {
     final location = await acquireCurrentLocation();
     if (location != null) {

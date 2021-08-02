@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-/**
- * Builds the drawer/sidebar providing access to additional settings.
- */
+/// Builds the drawer/sidebar providing access to additional settings.
+
 class HomeSidebar extends StatefulWidget {
   @override
   _HomeSidebarState createState() => _HomeSidebarState();

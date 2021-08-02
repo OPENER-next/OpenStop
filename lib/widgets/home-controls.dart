@@ -1,10 +1,9 @@
 
 import 'package:flutter/material.dart';
 
-/**
- * Builds the action buttons which overlay the map.
- */
-class HomeControlls extends StatelessWidget {
+/// Builds the action buttons which overlay the map.
+
+class HomeControls extends StatelessWidget {
   final double buttonSpacing;
   final double buttonIconSize;
   final ButtonStyle buttonStyle;
@@ -14,7 +13,7 @@ class HomeControlls extends StatelessWidget {
   final void Function() moveToUserLocation;
 
 
-  const HomeControlls({
+  const HomeControls({
     Key? key,
     required this.buttonStyle,
     required this.zoomIn,
