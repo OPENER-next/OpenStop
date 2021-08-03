@@ -35,9 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   static const double _initialSheetSize = 0.4;
 
-  final _markerStreamController = StreamController<Symbol>();
-
-  Symbol? _selectedMarker;
+  final _selectedMarker = ValueNotifier<Symbol?>(null);
 
   @override
   void initState() {
@@ -96,23 +94,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     )
                   ) :
                   Container(
-                    color: Colors.white.withOpacity(1)
+                    color: Colors.white
                   )
               );
             }
           ),
-          StreamBuilder(
-            stream: _markerStreamController.stream,
-            builder: (BuildContext context, AsyncSnapshot<Symbol> snapshot) {
+          ValueListenableBuilder(
+            valueListenable: _selectedMarker,
+            builder: (BuildContext context, Symbol? value, Widget? child) {
               // return empty widget if no data is given
-              if (!snapshot.hasData) {
+              if (value == null) {
                 return const SizedBox.shrink();
               }
               if (_sheetController.state?.isHidden == true) {
                 _sheetController.show();
               }
 
-              final name = snapshot.data != null ? snapshot.data!.id.toString() : 'name';
+              final name = value.id.toString();
 
               return SlidingSheet(
                 controller: _sheetController,
@@ -212,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
       iconImage: 'assets/symbols/bus_stop.png'
     ));
     // unset variable
-    _selectedMarker = null;
+    _selectedMarker.value = null;
   }
 
 
@@ -220,8 +218,8 @@ class _HomeScreenState extends State<HomeScreen> {
   /// Deselect the last selected symbol on the map
 
   void _deselectCurrentSymbol() {
-    if (_selectedMarker != null) {
-      _deselectSymbol(_selectedMarker!);
+    if (_selectedMarker.value != null) {
+      _deselectSymbol(_selectedMarker.value!);
     }
   }
 
@@ -231,14 +229,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _selectSymbol(Symbol symbol) {
     // ignore if the symbol is already selected
-    if (_selectedMarker == symbol) {
+    if (_selectedMarker.value == symbol) {
       return;
     }
     _mapController.updateSymbol(symbol, SymbolOptions(
       iconImage: 'assets/symbols/bus_stop_selected.png'
     ));
-    _markerStreamController.add(symbol);
-    _selectedMarker = symbol;
+    _selectedMarker.value = symbol;
   }
 
 
