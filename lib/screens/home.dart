@@ -64,9 +64,11 @@ class _HomeScreenState extends State<HomeScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           MapboxMap(
+            // dispatch camera change events
+            trackCameraPosition: true,
+            compassEnabled: false,
             accessToken: MAPBOX_API_TOKEN,
             styleString: MAPBOX_STYLE_URL,
-            compassEnabled: true,
             myLocationEnabled: true,
             tiltGesturesEnabled: false,
             initialCameraPosition: CameraPosition(
@@ -79,15 +81,13 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           FutureBuilder(
             future: _mapCompleter.future,
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
+            builder: (BuildContext context, AsyncSnapshot<MapboxMapController> snapshot) {
               // only show controls when map creation finished
               return AnimatedSwitcher(
                 duration: Duration(milliseconds: 1000),
                 child: snapshot.hasData ?
                   HomeControls(
-                    zoomIn: _zoomIn,
-                    zoomOut: _zoomOut,
-                    moveToUserLocation: _moveToUserLocation,
+                    mapController: snapshot.data!,
                     buttonStyle: ElevatedButton.styleFrom(
                       primary: Colors.white,
                       onPrimary: Colors.orange,
@@ -106,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
             builder: (BuildContext context, AsyncSnapshot<Symbol> snapshot) {
               // return empty widget if no data is given
               if (!snapshot.hasData) {
-                return SizedBox.shrink();
+                return const SizedBox.shrink();
               }
               if (_sheetController.state?.isHidden == true) {
                 _sheetController.show();
@@ -242,18 +242,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
-  /// Zoom the map view
-
-  void _zoomIn() {
-    _mapController.animateCamera(CameraUpdate.zoomIn());
-  }
-
-
-  /// Zoom out of the map view
-
-  void _zoomOut() {
-    _mapController.animateCamera(CameraUpdate.zoomOut());
-  }
 
 
   /// Update the current map view position to a given location
