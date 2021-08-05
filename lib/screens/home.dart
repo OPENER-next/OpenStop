@@ -99,52 +99,37 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }
           ),
-          ValueListenableBuilder(
-            valueListenable: _selectedMarker,
-            builder: (BuildContext context, Symbol? value, Widget? child) {
-              // return empty widget if no data is given
-              if (value == null) {
-                return const SizedBox.shrink();
-              }
-              if (_sheetController.state?.isHidden == true) {
-                _sheetController.show();
-              }
-
-              final name = value.id.toString();
-
-              return SlidingSheet(
-                controller: _sheetController,
-                addTopViewPaddingOnFullscreen: true,
-                elevation: 8,
-                cornerRadius: 25,
-                cornerRadiusOnFullscreen: 0,
-                liftOnScrollHeaderElevation: 8,
-                closeOnBackButtonPressed: true,
-                duration: const Duration(milliseconds: 300),
-                snapSpec: const SnapSpec(
-                  snap: true,
-                  snappings: [_initialSheetSize, 1.0],
-                  positioning: SnapPositioning.relativeToAvailableSpace,
-                  // initialSnap: 0
+          SlidingSheet(
+            controller: _sheetController,
+            addTopViewPaddingOnFullscreen: true,
+            elevation: 8,
+            cornerRadius: 25,
+            cornerRadiusOnFullscreen: 0,
+            liftOnScrollHeaderElevation: 8,
+            closeOnBackButtonPressed: true,
+            duration: const Duration(milliseconds: 300),
+            snapSpec: const SnapSpec(
+              snap: true,
+              snappings: [_initialSheetSize, 1.0],
+              positioning: SnapPositioning.relativeToAvailableSpace,
+              initialSnap: 0
+            ),
+            headerBuilder: (context, state) {
+              return Container(
+                color: Colors.white,
+                height: 50,
+                width: double.infinity,
+                alignment: Alignment.center,
+                child: Text(_selectedMarker.value?.id.toString() ?? 'name')
+              );
+            },
+            builder: (context, state) {
+              return Container(
+                color: Colors.white,
+                height: 800,
+                child: Center(
+                  child: Text('Content')
                 ),
-                headerBuilder: (context, state) {
-                  return Container(
-                    color: Colors.white,
-                    height: 50,
-                    width: double.infinity,
-                    alignment: Alignment.center,
-                    child: Text(name)
-                  );
-                },
-                builder: (context, state) {
-                  return Container(
-                    color: Colors.white,
-                    height: 800,
-                    child: Center(
-                      child: Text('Content')
-                    ),
-                  );
-                },
               );
             }
           )
@@ -188,6 +173,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void _onSymbolTap(Symbol symbol) {
     _deselectCurrentSymbol();
     _selectSymbol(symbol);
+
+    _sheetController.rebuild();
+    _sheetController.snapToExtent(_initialSheetSize);
 
     // move camera to symbol
     // padding is not available for newLatLng()
