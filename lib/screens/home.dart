@@ -6,9 +6,9 @@ import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:flutter/services.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 import '/commons/globals.dart';
-import '/commons/location-utils.dart';
-import '/widgets/home-controls.dart';
-import '/widgets/home-sidebar.dart';
+import '/commons/location_utils.dart';
+import '/widgets/home_controls.dart';
+import '/widgets/home_sidebar.dart';
 
 // dummy public transport stops
 const stops = [

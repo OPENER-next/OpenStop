@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '/widgets/dotsIndicator.dart';
+import '/widgets/dots_indicator.dart';
 
 // Screens
 import 'home.dart';
