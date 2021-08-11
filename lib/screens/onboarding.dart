@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '/widgets/dots_indicator.dart';
 
 // Screens
 import 'home.dart';
+import 'terms_of_use.dart';
+import 'privacy_policy.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -26,6 +29,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle defaultStyle = TextStyle(color: Colors.grey, fontSize: 12.0);
+    TextStyle linkStyle = TextStyle(color: Colors.blue);
     return Scaffold(
       body: Column(
         children: [
@@ -42,21 +47,55 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                 ),
                 Container(
-                    color: Colors.cyan,
-                    child: Center(
-                        child: Text('Legal Notice / Terms of Use / Privacy'))),
-                Container(
                   color: Colors.yellow,
                   child: Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _hasSeenOnboarding();
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HomeScreen()));
-                      },
-                      child: const Text('Get Started'),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [ElevatedButton(
+                        onPressed: () {
+                          _hasSeenOnboarding();
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomeScreen())
+                          );
+                        },
+                        child: const Text('Los geht\'s!'),
+                      ),
+                        RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                          style: defaultStyle,
+                          children: <TextSpan>[
+                            TextSpan(text: 'Mit dem Klick auf "Los geht\'s!", akzeptierst du unsere '),
+                            TextSpan(
+                                text: 'Nutzungsbedingungen',
+                                style: linkStyle,
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => TermsOfUse())
+                                    );
+                                  }),
+                            TextSpan(text: ' und bestätigst, dass du unsere '),
+                            TextSpan(
+                                text: 'Datenschutzerklärung',
+                                style: linkStyle,
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => PrivacyPolicy())
+                                    );
+                                  }),
+                            TextSpan(text: ' gelesen hast.'),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 )
@@ -67,7 +106,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             flex: 1,
             child: new DotsIndicator(
               controller: _controller,
-              itemCount: 3,
+              itemCount: 2,
               onPageSelected: (int page) {
                 _controller.animateToPage(
                   page,
