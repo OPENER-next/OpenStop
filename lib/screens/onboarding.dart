@@ -51,17 +51,25 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   child: Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: [ElevatedButton(
-                        onPressed: () {
-                          _hasSeenOnboarding();
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => HomeScreen())
-                          );
-                        },
-                        child: const Text('Los geht\'s!'),
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                                padding: MaterialStateProperty.all(EdgeInsets.all(20.0)),
+                                textStyle: MaterialStateProperty.all(TextStyle(fontSize: 24))
+                            ),
+                            onPressed: () {
+                            _hasSeenOnboarding();
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomeScreen())
+                            );
+                          },
+                          child: const Text('Los geht\'s!'),
                       ),
+                        ),
                         RichText(
                           textAlign: TextAlign.center,
                           text: TextSpan(
