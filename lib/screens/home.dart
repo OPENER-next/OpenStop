@@ -37,6 +37,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final _selectedMarker = ValueNotifier<Symbol?>(null);
 
+  bool _locationPermissionGranted = false;
+
   @override
   void initState() {
     super.initState();
@@ -61,13 +63,15 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Builder(builder: (context) => Stack(
         fit: StackFit.expand,
         children: <Widget>[
+          // update the mapbox map widget on location permission changes
+          // this is a workaround to ensure that the user location is always visible when the permission is granted
           MapboxMap(
             // dispatch camera change events
             trackCameraPosition: true,
             compassEnabled: false,
             accessToken: MAPBOX_API_TOKEN,
             styleString: MAPBOX_STYLE_URL,
-            myLocationEnabled: true,
+            myLocationEnabled: _locationPermissionGranted,
             tiltGesturesEnabled: false,
             initialCameraPosition: CameraPosition(
               zoom: 15.0,
@@ -143,7 +147,8 @@ class _HomeScreenState extends State<HomeScreen> {
     // store reference to controller
     _mapController = controller;
 
-    _moveToUserLocation();
+    var granted = await _moveToUserLocation();
+    setState(() => _locationPermissionGranted = granted);
 
     _mapController.onSymbolTapped.add(_onSymbolTap);
   }
