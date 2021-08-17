@@ -1,43 +1,31 @@
-
-import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
 
 Future<LatLng?> acquireCurrentLocation() async {
-  /// Initializes the plugin and starts listening for potential platform events
-  Location location = new Location();
-
-  /// Whether or not the location service is enabled
-  bool serviceEnabled;
-
-  /// Status of a permission request to use location services
-  PermissionStatus permissionGranted;
-
-  /// Check if the location service is enabled, and if not, then request it. In
-  /// case the user refuses to do it, return immediately with a null result
-  serviceEnabled = await location.serviceEnabled();
+  // Test if location services are enabled.
+  final bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
   if (!serviceEnabled) {
-    serviceEnabled = await location.requestService();
-    if (!serviceEnabled) {
+    // Location services are not enabled don't continue
+    return null;
+  }
+
+  LocationPermission permission = await Geolocator.checkPermission();
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      // Permissions are denied don't continue
       return null;
     }
   }
 
-  /// Check for location permissions; similar to the workflow in Android apps,
-  /// so check whether the permissions is granted, if not, first you need to
-  /// request it, and then read the result of the request, and only proceed if
-  /// the permission was granted by the user
-  permissionGranted = await location.hasPermission();
-  if (permissionGranted == PermissionStatus.denied) {
-    permissionGranted = await location.requestPermission();
-    if (permissionGranted != PermissionStatus.granted) {
-      return null;
-    }
+  if (permission == LocationPermission.deniedForever) {
+    // Permissions are denied forever don't continue
+    return null;
   }
 
-  /// Gets the current location of the user
-  final locationData = await location.getLocation();
-  if (locationData.latitude != null && locationData.longitude != null) {
-    return LatLng(locationData.latitude!, locationData.longitude!);
-  }
+  // permissions are granted
+  // continue accessing the position of the device.
+  final location = await Geolocator.getCurrentPosition();
+  return LatLng(location.latitude, location.longitude);
 }
