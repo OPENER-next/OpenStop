@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Question Catalog",
+  "description": "A list of questions.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "description": "A question derived from the DELFI catalog.",
+    "properties": {
+      "id": {
+        "description": "The DELFI id this question is derived from.",
+        "type": "integer",
+        "exclusiveMinimum": 0
+      },
+      "name": {
+        "description": "A short title providing additional context to this question.",
+        "type": "string"
+      },
+      "description": {
+        "description": "Details or further information describing this question.",
+        "type": "string"
+      },
+      "image": {
+        "description": "A list of image urls that may help to clarify this question.",
+        "type": "array",
+        "items": {
+          "type": "string",
+          "format": "uri-reference"
+        },
+        "minItems": 1
+      },
+      "question": {
+        "description": "The actual question. It should be kept as short as possible while still being comprehensible and independent of the context in which it is asked.",
+        "type": "string"
+      },
+      "input": {
+        "type": "object",
+        "description": "This holds properties specifying the UI input element and its constraints.",
+        "properties": {
+          "type": {
+            "description": "The value type of the answer. This is closely related to the widget that will be displayed to the end user.",
+            "enum": ["Bool", "Number", "String", "List", "Duration", "OpeningHours", "BoolNumber"]
+          },
+          "unit": {
+            "description": "An optional unit that will be displayed to the user.",
+            "type": "string"
+          },
+          "min": {
+            "type": "integer"
+          },
+          "max": {
+            "type": "integer"
+          },
+          "decimals": {
+            "description": "An optional property to specify how many decimals are allowed for type Number.",
+            "type": "integer"
+          }
+        },
+        "additionalProperties": false,
+        "required": [ "type" ]
+      },
+      "conditions": {
+        "description": "A list of conditions where one must be met in order to ask this question. (Logical OR)",
+        "type": "array",
+        "items": {
+          "description": "All specified properties must be met in order to evaluate the entire condition as true. (Logical AND)",
+          "type": "object",
+          "properties": {
+            "osm_tags": {
+              "type": "object",
+              "description": "A key value map of OSM tags that must be met in order to evaluate to true.",
+              "additionalProperties": {
+                "description": "If this is set to a boolean the corresponding osm tag either needs to exist or not independent of its value. An array means one of the given values must match the tag value.",
+                "type": ["string", "boolean", "array"],
+                "items": {
+                  "type": ["string", "boolean"]
+                },
+                "minItems": 1
+              }
+            },
+            "osm_element": {
+              "description": "A single OSM element or list of elements. An array means one of the given elements must match.",
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/osm_element_type"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/osm_element_type"
+                  },
+                  "minItems": 1
+                }
+              ]
+            }
+          },
+          "minProperties": 1,
+          "additionalProperties": false
+        },
+        "minItems": 1
+      },
+      "values": {
+        "description": "A map of values with additional information for the user and the corresponding OSM tags.",
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "osm_tags": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "image": {
+              "type": "string",
+              "format": "uri-reference"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "osm_element": {
+        "description": "The type of OSM Element that should be created along side (required for Version 2).",
+        "$ref": "#/definitions/osm_element_type"
+      },
+      "difficulty": {
+        "description": "A number that indicates the difficulty of a question which can be used later to filter questions by different levels. Higher means more difficult.",
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 3
+      }
+    },
+    "additionalProperties": false,
+    "required": [ "id", "name", "question", "input", "values" ]
+  },
+  "definitions": {
+    "osm_element_type": { "enum": ["Node", "OpenWay", "ClosedWay", "Relation"] }
+  }
+}
