@@ -19,9 +19,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
+        
+      - name: Setup NodeJS
+        uses: actions/setup-node@v2
+          
+      - name: Install npm
+        run: npm install
+        
+      - name: Install ajv-cli
+        run: npm install -g ajv-cli
+        
       - name: Validate JSON
-        uses: OrRosenblatt/validate-json-action@0.1.0
-        with:
-          schema: 'assets/questions/question_catalog_schema.json'
-          jsons: 'assets/questions/question_catalog.json'
+        run: >
+          ajv validate 
+          -s assets/questions/question_catalog_schema.json
+          -d assets/questions/question_catalog.json
+          --spec=draft2020
+          --strict=false
