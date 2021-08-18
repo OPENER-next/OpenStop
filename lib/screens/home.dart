@@ -9,15 +9,8 @@ import '/commons/globals.dart';
 import '/commons/location_utils.dart';
 import '/widgets/home_controls.dart';
 import '/widgets/home_sidebar.dart';
-
-// dummy public transport stops
-const stops = [
-  LatLng(50.8260, 12.9278),
-  LatLng(50.821, 12.9273),
-  LatLng(50.8259, 12.9228),
-  LatLng(50.8250, 12.9275),
-  LatLng(50.8261, 12.9268)
-];
+import '/api/stop_query_handler.dart';
+import '/models/stop.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -29,7 +22,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final _mapCompleter = Completer<MapboxMapController>();
 
-  late MapboxMapController _mapController;
+  final _styleCompleter = Completer<void>();
+
+  late final MapboxMapController _mapController;
+
+  final _stopQueryHandler = StopQueryHandler();
 
   final _sheetController = SheetController();
 
@@ -74,8 +71,9 @@ class _HomeScreenState extends State<HomeScreen> {
               target: LatLng(50.8261, 12.9278),
             ),
             onMapCreated: _mapCompleter.complete,
-            onStyleLoadedCallback: _addMapData,
+            onStyleLoadedCallback: _styleCompleter.complete,
             onMapClick: _onMapClick,
+            onCameraIdle: _onCameraIdle,
           ),
           FutureBuilder(
             future: _mapCompleter.future,
@@ -120,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 50,
                 width: double.infinity,
                 alignment: Alignment.center,
-                child: Text(_selectedMarker.value?.id.toString() ?? 'name')
+                child: Text(_selectedMarker.value?.data?['name'] ?? 'Unknown stop name')
               );
             },
             builder: (context, state) {
@@ -146,19 +144,19 @@ class _HomeScreenState extends State<HomeScreen> {
     _moveToUserLocation();
 
     _mapController.onSymbolTapped.add(_onSymbolTap);
+
+    _stopQueryHandler.stops.listen(addStopsToMap);
   }
 
 
-  void _addMapData() async {
-    // await _mapControllerbutton
+  void _onCameraIdle() async {
+    // await _mapController and style loaded callback
     await _mapCompleter.future;
+    await _styleCompleter.future;
 
-    _mapController.addSymbols(stops.map<SymbolOptions>((position) => SymbolOptions(
-      geometry: position,
-      iconImage: 'assets/symbols/bus_stop.png',
-      iconSize: 0.5,
-      iconAnchor: 'bottom'
-    )).toList());
+    if (_mapController.cameraPosition != null) {
+      _stopQueryHandler.update(_mapController.cameraPosition!);
+    }
   }
 
 
@@ -190,7 +188,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
-
   /// Deselect a given symbol on the map
 
   void _deselectSymbol(Symbol symbol) {
@@ -202,7 +199,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
-
   /// Deselect the last selected symbol on the map
 
   void _deselectCurrentSymbol() {
@@ -212,8 +208,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
-   /// Select a given symbol on the map
-   /// This pushes it to the _markerStreamController and changes its icon
+  /// Select a given symbol on the map
+  /// This pushes it to the _selectedMarker ValueNotifier and changes its icon
 
   void _selectSymbol(Symbol symbol) {
     // ignore if the symbol is already selected
@@ -225,8 +221,6 @@ class _HomeScreenState extends State<HomeScreen> {
     ));
     _selectedMarker.value = symbol;
   }
-
-
 
 
   /// Update the current map view position to a given location
@@ -243,7 +237,38 @@ class _HomeScreenState extends State<HomeScreen> {
     final location = await acquireCurrentLocation();
     if (location != null) {
       await _moveTo(location);
+      return true;
     }
-    return location != null;
+    return false;
+  }
+
+
+  /// Add a given list of Stops as symbols to the map
+
+  void addStopsToMap(Iterable<Stop> result) async {
+    final data = <Map<String, String>>[];
+    final symbols = <SymbolOptions>[];
+
+    for (final stop in result) {
+      symbols.add(SymbolOptions(
+        geometry: stop.location,
+        iconImage: 'assets/symbols/bus_stop.png',
+        iconSize: 0.5,
+        iconAnchor: 'bottom'
+      ));
+      data.add({
+        "dhid": stop.dhid,
+        "name": stop.name
+      });
+    }
+
+    _mapController.addSymbols(symbols, data);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _mapController.dispose();
+    _stopQueryHandler.dispose();
   }
 }
