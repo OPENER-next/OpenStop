@@ -25,7 +25,7 @@ jobs:
         run: npm install -g ajv-cli
         
       - name: Download Meta Schema
-        run: curl –o meta_schema.json https://json-schema.org/draft/2020-12/schema
+        run: curl -o meta_schema.json https://json-schema.org/draft/2020-12/schema
         
       - name: Validate JSON
         run: >
