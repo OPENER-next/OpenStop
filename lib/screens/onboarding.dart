@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '/widgets/dots_indicator.dart';
+import '../commons/themes.dart';
 
 // Screens
 import 'home.dart';
@@ -29,8 +30,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle defaultStyle = TextStyle(color: Colors.grey, fontSize: 12.0);
-    TextStyle linkStyle = TextStyle(color: Colors.blue);
     return Scaffold(
       body: Column(
         children: [
@@ -55,10 +54,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: ElevatedButton(
-                            style: ButtonStyle(
-                                padding: MaterialStateProperty.all(EdgeInsets.all(20.0)),
-                                textStyle: MaterialStateProperty.all(TextStyle(fontSize: 24))
-                            ),
                             onPressed: () {
                             _hasSeenOnboarding();
                             Navigator.pushReplacement(

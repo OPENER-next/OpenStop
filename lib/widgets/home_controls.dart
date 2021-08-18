@@ -57,7 +57,6 @@ class _HomeControlsState extends State<HomeControls> {
             child: Icon(
               Icons.menu,
               size: widget.buttonIconSize,
-              color: Colors.black,
             ),
             onPressed: Scaffold.of(context).openDrawer,
           ),
@@ -87,7 +86,6 @@ class _HomeControlsState extends State<HomeControls> {
                 child: Icon(
                   Icons.my_location,
                   size: widget.buttonIconSize,
-                  color: Colors.black,
                 ),
                 onPressed: _moveToUserLocation,
               ),
@@ -99,7 +97,6 @@ class _HomeControlsState extends State<HomeControls> {
                 child: Icon(
                   Icons.add,
                   size: widget.buttonIconSize,
-                  color: Colors.black,
                 ),
                 onPressed: _zoomIn,
               ),
@@ -111,7 +108,6 @@ class _HomeControlsState extends State<HomeControls> {
                 child: Icon(
                   Icons.remove,
                   size: widget.buttonIconSize,
-                  color: Colors.black,
                 ),
                 onPressed: _zoomOut,
               ),

@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mapController: snapshot.data!,
                     buttonStyle: ElevatedButton.styleFrom(
                       primary: Colors.white,
-                      onPrimary: Colors.orange,
+                      onPrimary: Colors.black,
                       shape: CircleBorder(),
                       padding: EdgeInsets.all(10)
                     )

@@ -5,6 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/onboarding.dart';
 import 'screens/home.dart';
 
+import 'commons/themes.dart';
+
 bool hasSeenOnboarding = false;
 
 Future <void> main() async{
@@ -24,9 +26,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'OPENER next',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: appTheme,
       home: hasSeenOnboarding ? HomeScreen() : OnboardingScreen(),
     );
   }
