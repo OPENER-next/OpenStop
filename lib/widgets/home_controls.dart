@@ -74,7 +74,8 @@ class _HomeControlsState extends State<HomeControls> {
                 child: CompassButton(
                   controller: widget.mapController,
                   onPressed: _resetRotation,
-                  style: widget.buttonStyle
+                  style: widget.buttonStyle,
+                  size: widget.buttonIconSize,
                 ),
               ),
               Spacer(),

@@ -104,6 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
             addTopViewPaddingOnFullscreen: true,
             elevation: 8,
             cornerRadius: 25,
+            color: Theme.of(context).primaryColor,
             cornerRadiusOnFullscreen: 0,
             liftOnScrollHeaderElevation: 8,
             closeOnBackButtonPressed: true,
@@ -116,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             headerBuilder: (context, state) {
               return Container(
-                color: Colors.white,
+                color: Theme.of(context).primaryColor,
                 height: 50,
                 width: double.infinity,
                 alignment: Alignment.center,

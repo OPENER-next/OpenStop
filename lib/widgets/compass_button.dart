@@ -15,31 +15,40 @@ class CompassButton extends AnimatedWidget {
     required this.controller,
     required this.onPressed,
     required this.style,
-    this.size = 25.0
+    required this.size,
   }) : super(listenable: controller);
 
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: style,
       onPressed: onPressed,
-      child: Transform.rotate(
-        angle: -piFraction * (controller.cameraPosition?.bearing ?? 1),
-        child: SizedBox(
-          height: size,
-          width: size,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+      child: SizedBox(
+        width: size,
+        height: size,
+        child: Transform.rotate(
+          angle: -piFraction * (controller.cameraPosition?.bearing ?? 1),
+          child: Stack(
+            alignment: AlignmentDirectional.center,
             children: [
-              Text('▲', style: TextStyle(
-                height: size * 0.037,
-                color: Colors.red
-              )),
-              Text('N', style: TextStyle(
-                height: size * 0.035,
-                fontWeight: FontWeight.bold,
-                color: Colors.black
-              )),
+              Positioned(
+                bottom: -(size*0.1),
+                child: Text('N',
+                    style: TextStyle(
+                        fontSize: size*0.6,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black
+                    )
+                ),
+              ),
+              Positioned(
+                top: -(size*0.25),
+                child: Text('▲',
+                    style: TextStyle(
+                        fontSize: size*0.6,
+                        color: Colors.red
+                    ),
+                ),
+              ),
             ],
           )
         )
