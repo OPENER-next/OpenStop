@@ -24,13 +24,9 @@ jobs:
       - name: Install ajv-cli
         run: npm install -g ajv-cli
         
-      - name: Download Meta Schema
-        run: curl -o meta_schema.json https://json-schema.org/draft/2020-12/schema
-        
       - name: Validate JSON
         run: >
           ajv validate 
           -s assets/questions/question_catalog_schema.json
           -d assets/questions/question_catalog.json
-          -m meta_schema.json
-          --strict=false
+          --spec=draft2020
