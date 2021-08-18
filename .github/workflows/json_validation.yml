@@ -30,3 +30,4 @@ jobs:
           -s assets/questions/question_catalog_schema.json
           -d assets/questions/question_catalog.json
           --spec=draft2020
+          --strict=false
