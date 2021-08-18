@@ -1,0 +1,27 @@
+name: JSON Validation
+
+on:
+  push:
+    paths:
+      - '**/question_catalog.json'
+      - '**/question_catalog_schema.json'
+  pull_request:
+    paths:
+      - '**/question_catalog.json'
+      - '**/question_catalog_schema.json'
+
+  # Allow running this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Validate JSON
+        uses: OrRosenblatt/validate-json-action@0.1.0
+        with:
+          schema: 'assets/questions/question_catalog_schema.json'
+          jsons: 'assets/questions/question_catalog.json'
