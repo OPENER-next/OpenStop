@@ -29,3 +29,4 @@ jobs:
           ajv validate 
           -s assets/questions/question_catalog_schema.json
           -d assets/questions/question_catalog.json
+          -m node_modules/ajv/lib/refs/json-schema-draft-2020-12.json
