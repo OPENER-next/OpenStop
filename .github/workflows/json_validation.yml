@@ -33,3 +33,4 @@ jobs:
           -s assets/questions/question_catalog_schema.json
           -d assets/questions/question_catalog.json
           -m meta_schema.json
+          --strict=false
