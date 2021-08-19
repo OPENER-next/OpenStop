@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
@@ -41,14 +42,13 @@ class CompassButton extends AnimatedWidget {
                 ),
               ),
               Positioned(
-                top: -(size*0.25),
-                child: Text('▲',
-                    style: TextStyle(
-                        fontSize: size*0.6,
-                        color: Colors.red
+                top: -(size*0.1),
+                child: Icon(
+                    CupertinoIcons.arrowtriangle_up_fill,
+                    color: Colors.red,
+                    size: size*0.6,
                     ),
                 ),
-              ),
             ],
           )
         )
