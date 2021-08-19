@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
@@ -145,9 +146,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _mapController.onSymbolTapped.add(_onSymbolTap);
 
-    _stopQueryHandler.stops.listen(addStopsToMap);
-  }
+    _stopQueryHandler.stops.listen(_addStopsToMap);
 
+    // preload symbols
+    _styleCompleter.future.then((_) {
+      _addImageToStyle('stop', 'assets/symbols/bus_stop.png');
+    });
+  }
 
   void _onCameraIdle() async {
     // await _mapController and style loaded callback
@@ -243,16 +248,26 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
+  /// Preload and cache a given image
+  /// Specify a unique name so it can be referenced and used later
+
+  Future<void> _addImageToStyle(String name, String path) async{
+    final ByteData bytes = await rootBundle.load(path);
+    final Uint8List list = bytes.buffer.asUint8List();
+    await _mapController.addImage(name, list);
+  }
+
+
   /// Add a given list of Stops as symbols to the map
 
-  void addStopsToMap(Iterable<Stop> result) async {
+  void _addStopsToMap(Iterable<Stop> result) async {
     final data = <Map<String, String>>[];
     final symbols = <SymbolOptions>[];
 
     for (final stop in result) {
       symbols.add(SymbolOptions(
         geometry: stop.location,
-        iconImage: 'assets/symbols/bus_stop.png',
+        iconImage: 'stop',
         iconSize: 0.5,
         iconAnchor: 'bottom'
       ));
