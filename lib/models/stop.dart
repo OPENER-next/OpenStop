@@ -28,4 +28,25 @@ class Stop {
       location: LatLng(entry['latitude'], entry['longitude']),
     );
   }
+
+
+  @override
+  String toString() => '$runtimeType - dhid: $dhid; user: $name; text: $name; location: $location';
+
+
+  @override
+  int get hashCode =>
+    dhid.hashCode ^
+    name.hashCode ^
+    location.hashCode;
+
+
+  @override
+  bool operator == (o) =>
+    identical(this, o) ||
+    o is Stop &&
+    runtimeType == o.runtimeType &&
+    dhid == o.dhid &&
+    name == o.name &&
+    location == o.location;
 }
