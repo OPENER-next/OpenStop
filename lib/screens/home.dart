@@ -159,8 +159,10 @@ class _HomeScreenState extends State<HomeScreen> {
     await _mapCompleter.future;
     await _styleCompleter.future;
 
-    if (_mapController.cameraPosition != null) {
-      _stopQueryHandler.update(_mapController.cameraPosition!);
+    // only update/query until certain zoom level is reached
+    if (_mapController.cameraPosition != null && _mapController.cameraPosition!.zoom >= 12) {
+      var viewBBox = await _mapController.getVisibleRegion();
+      _stopQueryHandler.update(viewBBox);
     }
   }
 
