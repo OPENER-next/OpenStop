@@ -1,5 +1,4 @@
 import 'package:mapbox_gl/mapbox_gl.dart';
-import 'package:postgres/postgres.dart';
 
 
 /// A basic representation of a public transport stop/halt
@@ -18,14 +17,13 @@ class Stop {
   });
 
 
-  /// Method to construct a stop from a database query result
+  /// Method to construct a stop from an Overpass API JSON response
 
-  static Stop fromQueryResult(PostgreSQLResultRow row) {
-    final entry = row.toColumnMap();
+  static Stop fromOverpassJSON(Map<String, dynamic> element) {
     return Stop(
-      dhid: entry['dhid'],
-      name: entry['name'],
-      location: LatLng(entry['latitude'], entry['longitude']),
+      dhid: "",
+      name: element['tags']?['name'] ?? 'Unknown Name',
+      location: LatLng(element['center']['lat'], element['center']['lon'])
     );
   }
 

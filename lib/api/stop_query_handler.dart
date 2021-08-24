@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:mapbox_gl/mapbox_gl.dart';
-import 'package:postgres/postgres.dart';
-import '/commons/globals.dart';
+import 'package:dio/dio.dart';
 import '/models/stop.dart';
 
 /// A class that automatically queries [Stop]s from the database based on a given camera view box.
@@ -28,7 +27,13 @@ class StopQueryHandler {
 
   double viewBoxExtend;
 
-  PostgreSQLConnection? _connection;
+  final _dio = Dio();
+
+  final _queryURL = 'https://overpass-api.de/api/interpreter';
+
+  final _query = '[out:json][timeout:200][bbox];'
+                 'relation["public_transport"="stop_area"];'
+                 'out tags center;';
 
   final _results = StreamController<Iterable<Stop>>();
 
@@ -55,10 +60,11 @@ class StopQueryHandler {
           // add cell index to query cache
           _queryRecorder.add(cellIndex);
           // query stops
-          _queryStopsInCell(cellIndex).then((result) {
+          _queryStopsInCell(cellIndex).then((response) {
               // add stops to the stream
-              _results.add(_queryResultToStops(result));
+              _results.add(_queryResponseToStops(response));
             }, onError: (error) {
+              print(error);
               // on error remove cache entry so it can/will be re-queried
               _queryRecorder.remove(cellIndex);
             }
@@ -94,9 +100,11 @@ class StopQueryHandler {
 
   /// Method to convert the database results to a lazy [Iterable] of [Stop]s.
 
-  Iterable<Stop> _queryResultToStops(PostgreSQLResult result) sync* {
-    for (final row in result) {
-      yield Stop.fromQueryResult(row);
+  Iterable<Stop> _queryResponseToStops(Response<Map<String, dynamic>> response) sync* {
+    if (response.data?['elements'] != null) {
+      for (final element in response.data!['elements']) {
+        yield Stop.fromOverpassJSON(element);
+      }
     }
   }
 
@@ -125,32 +133,18 @@ class StopQueryHandler {
   }
 
 
-  /// Method to query all stops from a specific cell
+  /// Method to query all stops from a specific cell via Overpass API
 
-  Future<PostgreSQLResult> _queryStopsInCell(Point<int> cellIndex) async {
-    // create connection if none exists or it was closed
-    // otherwise reuse existing connection
-    if (_connection == null || _connection!.isClosed) {
-      _connection = PostgreSQLConnection(
-        DB_HOST, DB_PORT, DB_NAME,
-        username: DB_USER,
-        password: DB_PASSWORD
-      );
-      await _connection!.open();
-    }
+  Future<Response<Map<String, dynamic>>> _queryStopsInCell(Point<int> cellIndex) {
+    final southWest = _cellIndexToGeo(cellIndex);
+    final northEast = LatLng(southWest.latitude + cellSize, southWest.longitude + cellSize);
 
-    var topLeft = _cellIndexToGeo(cellIndex);
-    var bottomRight = LatLng(topLeft.latitude + cellSize, topLeft.longitude + cellSize);
-
-    return await _connection!.query(
-      "SELECT dhid, name, ST_X(location::geometry) latitude, ST_Y(location::geometry) longitude "
-      "FROM zhv WHERE zhv.location && ST_MakeEnvelope(@left, @bottom, @right, @top, 4326) AND zhv.type = 'S';",
-      substitutionValues: {
-        'left': topLeft.latitude,
-        'bottom': bottomRight.longitude,
-        'right': bottomRight.latitude,
-        'top': topLeft.longitude
-    });
+    return _dio.get<Map<String, dynamic>>(_queryURL,
+      queryParameters: {
+        'data': _query,
+        'bbox': '${southWest.longitude},${southWest.latitude},${northEast.longitude},${northEast.latitude}'
+      }
+    );
   }
 
 
@@ -158,7 +152,7 @@ class StopQueryHandler {
   /// This should be called inside the widgets dispose callback.
 
   void dispose() {
-    _connection?.close();
+    _dio.close(force: true);
     _results.close();
   }
 }
