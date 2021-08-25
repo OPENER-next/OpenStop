@@ -9,12 +9,10 @@ class HomeControls extends StatefulWidget {
   final MapboxMapController mapController;
   final double buttonSpacing;
   final double buttonIconSize;
-  final ButtonStyle buttonStyle;
 
   const HomeControls({
     Key? key,
     required this.mapController,
-    required this.buttonStyle,
     this.buttonSpacing = 10.0,
     this.buttonIconSize = 25.0
    }) : super(key: key);
@@ -52,11 +50,12 @@ class _HomeControlsState extends State<HomeControls> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          ElevatedButton(
-            style: widget.buttonStyle,
+          FloatingActionButton(
+            mini:true,
+            backgroundColor: Theme.of(context).accentColor,
             child: Icon(
               Icons.menu,
-              size: widget.buttonIconSize,
+              color: Colors.black,
             ),
             onPressed: Scaffold.of(context).openDrawer,
           ),
@@ -74,7 +73,6 @@ class _HomeControlsState extends State<HomeControls> {
                 child: CompassButton(
                   controller: widget.mapController,
                   onPressed: _resetRotation,
-                  style: widget.buttonStyle,
                   size: widget.buttonIconSize,
                 ),
               ),
@@ -82,33 +80,36 @@ class _HomeControlsState extends State<HomeControls> {
               SizedBox (
                 height: widget.buttonSpacing
               ),
-              ElevatedButton(
-                style: widget.buttonStyle,
+              FloatingActionButton(
+                mini: true,
+                backgroundColor: Theme.of(context).accentColor,
                 child: Icon(
                   Icons.my_location,
-                  size: widget.buttonIconSize,
+                  color: Colors.black,
                 ),
                 onPressed: _moveToUserLocation,
               ),
               SizedBox (
                 height: widget.buttonSpacing
               ),
-              ElevatedButton(
-                style: widget.buttonStyle,
+              FloatingActionButton(
+                mini: true,
+                backgroundColor: Theme.of(context).accentColor,
                 child: Icon(
                   Icons.add,
-                  size: widget.buttonIconSize,
+                  color: Colors.black,
                 ),
                 onPressed: _zoomIn,
               ),
               SizedBox (
                 height: widget.buttonSpacing
               ),
-              ElevatedButton(
-                style: widget.buttonStyle,
+              FloatingActionButton(
+                mini:true,
+                backgroundColor: Theme.of(context).accentColor,
                 child: Icon(
                   Icons.remove,
-                  size: widget.buttonIconSize,
+                  color: Colors.black,
                 ),
                 onPressed: _zoomOut,
               ),

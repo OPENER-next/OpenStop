@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
@@ -85,12 +86,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: snapshot.hasData ?
                   HomeControls(
                     mapController: snapshot.data!,
-                    buttonStyle: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                      onPrimary: Colors.black,
-                      shape: CircleBorder(),
-                      padding: EdgeInsets.all(10)
-                    )
                   ) :
                   Container(
                     color: Colors.white

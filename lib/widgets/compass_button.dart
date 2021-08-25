@@ -6,7 +6,6 @@ import 'package:mapbox_gl/mapbox_gl.dart';
 
 class CompassButton extends AnimatedWidget {
   final MapboxMapController controller;
-  final ButtonStyle style;
   final double size;
   final void Function() onPressed;
 
@@ -15,13 +14,13 @@ class CompassButton extends AnimatedWidget {
   CompassButton({
     required this.controller,
     required this.onPressed,
-    required this.style,
     required this.size,
   }) : super(listenable: controller);
 
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: style,
+    return FloatingActionButton(
+      mini: true,
+      backgroundColor: Theme.of(context).accentColor,
       onPressed: onPressed,
       child: SizedBox(
         width: size,

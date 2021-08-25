@@ -1,6 +1,6 @@
 PODS:
   - Flutter (1.0.0)
-  - location (0.0.1):
+  - geolocator_apple (1.0.0):
     - Flutter
   - Mapbox-iOS-SDK (6.3.0):
     - MapboxMobileEvents (~> 0.10.4)
@@ -16,7 +16,7 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - location (from `.symlinks/plugins/location/ios`)
+  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - mapbox_gl (from `.symlinks/plugins/mapbox_gl/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
 
@@ -29,8 +29,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  location:
-    :path: ".symlinks/plugins/location/ios"
+  geolocator_apple:
+    :path: ".symlinks/plugins/geolocator_apple/ios"
   mapbox_gl:
     :path: ".symlinks/plugins/mapbox_gl/ios"
   shared_preferences:
@@ -38,7 +38,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
-  location: 3a2eed4dd2fab25e7b7baf2a9efefe82b512d740
+  geolocator_apple: 60a1c3f5930c090d2f5164ba8bf25f4f89121e3c
   Mapbox-iOS-SDK: 2563ed87ead6ec08f1c2090873977b8a7be335a8
   mapbox_gl: 4b91045a7fefc61a8813bad5248f54a8bd8bd1e5
   MapboxAnnotationExtension: 4eee6c26349ef6d909f1a23a7eae2d0f7ca5fa7d
