@@ -30,6 +30,9 @@ final ThemeData appTheme = ThemeData.light().copyWith(
         ),
         buttonColor: Colors.yellow,
     ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: Color(0xfff0ca00),
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Color(0xff00cc7f)),

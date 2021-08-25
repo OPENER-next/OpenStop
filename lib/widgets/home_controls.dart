@@ -52,7 +52,6 @@ class _HomeControlsState extends State<HomeControls> {
         children: <Widget>[
           FloatingActionButton(
             mini:true,
-            backgroundColor: Theme.of(context).accentColor,
             child: Icon(
               Icons.menu,
               color: Colors.black,
@@ -82,7 +81,6 @@ class _HomeControlsState extends State<HomeControls> {
               ),
               FloatingActionButton(
                 mini: true,
-                backgroundColor: Theme.of(context).accentColor,
                 child: Icon(
                   Icons.my_location,
                   color: Colors.black,
@@ -94,7 +92,6 @@ class _HomeControlsState extends State<HomeControls> {
               ),
               FloatingActionButton(
                 mini: true,
-                backgroundColor: Theme.of(context).accentColor,
                 child: Icon(
                   Icons.add,
                   color: Colors.black,
@@ -106,7 +103,6 @@ class _HomeControlsState extends State<HomeControls> {
               ),
               FloatingActionButton(
                 mini:true,
-                backgroundColor: Theme.of(context).accentColor,
                 child: Icon(
                   Icons.remove,
                   color: Colors.black,

@@ -20,7 +20,6 @@ class CompassButton extends AnimatedWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       mini: true,
-      backgroundColor: Theme.of(context).accentColor,
       onPressed: onPressed,
       child: SizedBox(
         width: size,
