@@ -1,7 +1,7 @@
 import 'package:mapbox_gl/mapbox_gl.dart';
 
 
-/// A basic representation of a public transport stop/halt
+/// A basic representation of a public transport stop/halt.
 
 class Stop {
   final String dhid;
@@ -17,9 +17,9 @@ class Stop {
   });
 
 
-  /// Method to construct a stop from an Overpass API JSON response
+  /// Method to construct a stop from an Overpass API JSON response.
 
-  static Stop fromOverpassJSON(Map<String, dynamic> element) {
+  factory Stop.fromOverpassJSON(Map<String, dynamic> element) {
     return Stop(
       dhid: "",
       name: element['tags']?['name'] ?? 'Unknown Name',
