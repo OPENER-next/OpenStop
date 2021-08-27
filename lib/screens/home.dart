@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   static const double _initialSheetSize = 0.4;
 
-  final _selectedMarker = ValueNotifier<Symbol?>(null);
+  final _selectedMarker = ValueNotifier<Circle?>(null);
 
   @override
   void initState() {
@@ -151,14 +150,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _moveToUserLocation();
 
-    _mapController.onSymbolTapped.add(_onSymbolTap);
+    _mapController.onCircleTapped.add(_onCircleTap);
 
     _stopQueryHandler.stops.listen(_addStopsToMap);
 
     // preload symbols
-    _styleCompleter.future.then((_) {
-      _addImageToStyle('stop', 'assets/symbols/bus_stop.png');
-    });
+    // _styleCompleter.future.then((_) {
+    //   _addImageToStyle('stop', 'assets/symbols/bus_stop_2.png');
+    // });
   }
 
   void _onCameraIdle() async {
@@ -184,13 +183,13 @@ class _HomeScreenState extends State<HomeScreen> {
     // close bottom sheet if available
     _sheetController.hide();
     // deselect the current marker
-    _deselectCurrentSymbol();
+    _deselectCurrentCircle();
   }
 
 
-  void _onSymbolTap(Symbol symbol) {
-    _deselectCurrentSymbol();
-    _selectSymbol(symbol);
+  void _onCircleTap(Circle circle) {
+    _deselectCurrentCircle();
+    _selectCircle(circle);
 
     _sheetController.rebuild();
     _sheetController.snapToExtent(_initialSheetSize);
@@ -198,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // move camera to symbol
     // padding is not available for newLatLng()
     // therefore use newLatLngBounds as workaround
-    final location = symbol.options.geometry!;
+    final location = circle.options.geometry!;
     const extend =  LatLng(0.001, 0.001);
     final paddingBottom = (MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top) * _initialSheetSize;
     _mapController.animateCamera(CameraUpdate.newLatLngBounds(
@@ -210,9 +209,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// Deselect a given symbol on the map
 
-  void _deselectSymbol(Symbol symbol) {
-    _mapController.updateSymbol(symbol, SymbolOptions(
-      iconImage: 'assets/symbols/bus_stop.png'
+  // void _deselectSymbol(Symbol symbol) {
+  //   _mapController.updateSymbol(symbol, SymbolOptions(
+  //     iconImage: 'assets/symbols/bus_stop_2.png'
+  //   ));
+  //   // unset variable
+  //   _selectedMarker.value = null;
+  // }
+
+  void _deselectCircle(Circle circle) {
+    _mapController.updateCircle(circle, CircleOptions(
+        circleStrokeColor: '#f0ca00',
+        circleColor: '#f0ca00'
     ));
     // unset variable
     _selectedMarker.value = null;
@@ -221,9 +229,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// Deselect the last selected symbol on the map
 
-  void _deselectCurrentSymbol() {
+  void _deselectCurrentCircle() {
     if (_selectedMarker.value != null) {
-      _deselectSymbol(_selectedMarker.value!);
+      _deselectCircle(_selectedMarker.value!);
     }
   }
 
@@ -231,15 +239,16 @@ class _HomeScreenState extends State<HomeScreen> {
   /// Select a given symbol on the map
   /// This pushes it to the _selectedMarker ValueNotifier and changes its icon
 
-  void _selectSymbol(Symbol symbol) {
+  void _selectCircle(Circle circle) {
     // ignore if the symbol is already selected
-    if (_selectedMarker.value == symbol) {
+    if (_selectedMarker.value == circle) {
       return;
     }
-    _mapController.updateSymbol(symbol, SymbolOptions(
-      iconImage: 'assets/symbols/bus_stop_selected.png'
+    _mapController.updateCircle(circle, CircleOptions(
+      circleColor: '#00cc7f',
+      circleStrokeColor: '#00cc7f'
     ));
-    _selectedMarker.value = symbol;
+    _selectedMarker.value = circle;
   }
 
 
@@ -266,33 +275,45 @@ class _HomeScreenState extends State<HomeScreen> {
   /// Preload and cache a given image
   /// Specify a unique name so it can be referenced and used later
 
-  Future<void> _addImageToStyle(String name, String path) async{
-    final ByteData bytes = await rootBundle.load(path);
-    final Uint8List list = bytes.buffer.asUint8List();
-    await _mapController.addImage(name, list);
-  }
+  // Future<void> _addImageToStyle(String name, String path) async{
+  //   final ByteData bytes = await rootBundle.load(path);
+  //   final Uint8List list = bytes.buffer.asUint8List();
+  //   await _mapController.addImage(name, list);
+  // }
 
-
-  /// Add a given list of Stops as symbols to the map
+  /// Add a given list of Stops as circles to the map
 
   void _addStopsToMap(Iterable<Stop> result) async {
     final data = <Map<String, String>>[];
-    final symbols = <SymbolOptions>[];
+    final circle = <CircleOptions>[];
+    final dot = <CircleOptions>[];
 
     for (final stop in result) {
-      symbols.add(SymbolOptions(
-        geometry: stop.location,
-        iconImage: 'stop',
-        iconSize: 0.5,
-        iconAnchor: 'bottom'
-      ));
+      dot.add(
+          CircleOptions(
+              circleRadius: 4,
+              circleColor: '#00cc7f',
+              circleOpacity: 1,
+              geometry: stop.location)
+      );
+    }
+    for (final stop in result) {
+      circle.add(CircleOptions(
+              circleRadius: 20,
+              circleColor: '#f0ca00',
+              circleOpacity: 0.2,
+              circleStrokeColor: '#f0ca00',
+              circleStrokeOpacity: 1,
+              circleStrokeWidth: 5,
+              geometry: stop.location)
+      );
       data.add({
         "dhid": stop.dhid,
         "name": stop.name
       });
     }
-
-    _mapController.addSymbols(symbols, data);
+    _mapController.addCircles(dot);
+    _mapController.addCircles(circle, data);
   }
 
   @override
