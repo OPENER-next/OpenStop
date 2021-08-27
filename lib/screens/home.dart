@@ -220,7 +220,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void _deselectCircle(Circle circle) {
     _mapController.updateCircle(circle, CircleOptions(
         circleStrokeColor: '#f0ca00',
-        circleColor: '#f0ca00'
+        circleColor: '#f0ca00',
+        circleRadius: 20,
     ));
     // unset variable
     _selectedMarker.value = null;
@@ -246,7 +247,8 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     _mapController.updateCircle(circle, CircleOptions(
       circleColor: '#00cc7f',
-      circleStrokeColor: '#00cc7f'
+      circleStrokeColor: '#00cc7f',
+      circleRadius: 30,
     ));
     _selectedMarker.value = circle;
   }
