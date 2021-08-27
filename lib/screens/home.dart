@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:flutter/services.dart';
@@ -115,7 +115,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 50,
                 width: double.infinity,
                 alignment: Alignment.center,
-                child: Text(_selectedMarker.value?.data?['name'] ?? 'Unknown stop name')
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16),
+                      child: Text(_selectedMarker.value?.data?['name'] ?? 'Unknown stop name'),
+                    ),
+                    Spacer(),
+                    CloseButton(
+                      onPressed: _onSlidingSheetClose,
+                  )
+                  ],
+                )
               );
             },
             builder: (context, state) {
@@ -162,6 +173,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  _onSlidingSheetClose(){
+    // close bottom sheet if available
+    _sheetController.hide();
+    // deselect the current marker
+    _deselectCurrentSymbol();
+  }
 
   _onMapClick(Point point, LatLng location) async {
     // close bottom sheet if available
