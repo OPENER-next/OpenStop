@@ -72,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             onMapCreated: _mapCompleter.complete,
             onStyleLoadedCallback: _styleCompleter.complete,
-            onMapClick: _onMapClick,
+            onMapClick: (Point point, LatLng location) => _closeSlidingSheet(),
             onCameraIdle: _onCameraIdle,
           ),
           FutureBuilder(
@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Spacer(),
                     CloseButton(
-                      onPressed: _onSlidingSheetClose,
+                      onPressed: _closeSlidingSheet,
                   )
                   ],
                 )
@@ -167,20 +167,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  _onSlidingSheetClose(){
+  _closeSlidingSheet() {
     // close bottom sheet if available
     _sheetController.hide();
     // deselect the current marker
     _deselectCurrentCircle();
   }
-
-  _onMapClick(Point point, LatLng location) async {
-    // close bottom sheet if available
-    _sheetController.hide();
-    // deselect the current marker
-    _deselectCurrentCircle();
-  }
-
 
   void _onCircleTap(Circle circle) {
     _deselectCurrentCircle();
