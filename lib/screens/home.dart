@@ -153,10 +153,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _stopQueryHandler.stops.listen(_addStopsToMap);
 
-    // preload symbols
-    // _styleCompleter.future.then((_) {
-    //   _addImageToStyle('stop', 'assets/symbols/bus_stop_2.png');
-    // });
   }
 
   void _onCameraIdle() async {
@@ -207,14 +203,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
   /// Deselect a given symbol on the map
-
-  // void _deselectSymbol(Symbol symbol) {
-  //   _mapController.updateSymbol(symbol, SymbolOptions(
-  //     iconImage: 'assets/symbols/bus_stop_2.png'
-  //   ));
-  //   // unset variable
-  //   _selectedMarker.value = null;
-  // }
 
   void _deselectCircle(Circle circle) {
     _mapController.updateCircle(circle, CircleOptions(
@@ -271,16 +259,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     return false;
   }
-
-
-  /// Preload and cache a given image
-  /// Specify a unique name so it can be referenced and used later
-
-  // Future<void> _addImageToStyle(String name, String path) async{
-  //   final ByteData bytes = await rootBundle.load(path);
-  //   final Uint8List list = bytes.buffer.asUint8List();
-  //   await _mapController.addImage(name, list);
-  // }
 
   /// Add a given list of Stops as circles to the map
 
