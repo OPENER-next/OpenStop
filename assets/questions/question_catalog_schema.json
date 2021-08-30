@@ -54,10 +54,36 @@
           "decimals": {
             "description": "An optional property to specify how many decimals are allowed for type Number.",
             "type": "integer"
+          },
+          "values": {
+            "description": "A map of values with additional information for the user and the corresponding OSM tags.",
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "osm_tags": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                "name": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "image": {
+                  "type": "string",
+                  "format": "uri-reference"
+                }
+              },
+              "additionalProperties": false
+            }
           }
         },
         "additionalProperties": false,
-        "required": [ "type" ]
+        "required": [ "type", "values" ]
       },
       "conditions": {
         "description": "A list of conditions where one must be met in order to ask this question. (Logical OR)",
@@ -99,32 +125,6 @@
         },
         "minItems": 1
       },
-      "values": {
-        "description": "A map of values with additional information for the user and the corresponding OSM tags.",
-        "type": "object",
-        "additionalProperties": {
-          "type": "object",
-          "properties": {
-            "osm_tags": {
-              "type": "object",
-              "additionalProperties": {
-                "type": "string"
-              }
-            },
-            "name": {
-              "type": "string"
-            },
-            "description": {
-              "type": "string"
-            },
-            "image": {
-              "type": "string",
-              "format": "uri-reference"
-            }
-          },
-          "additionalProperties": false
-        }
-      },
       "osm_element": {
         "description": "The type of OSM Element that should be created along side (required for Version 2).",
         "$ref": "#/definitions/osm_element_type"
@@ -137,7 +137,7 @@
       }
     },
     "additionalProperties": false,
-    "required": [ "id", "name", "question", "input", "values" ]
+    "required": [ "id", "name", "question", "input", "difficulty" ]
   },
   "definitions": {
     "osm_element_type": { "enum": ["Node", "OpenWay", "ClosedWay", "Relation"] }
