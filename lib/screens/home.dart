@@ -275,8 +275,6 @@ class _HomeScreenState extends State<HomeScreen> {
               circleOpacity: 1,
               geometry: stop.location)
       );
-    }
-    for (final stop in result) {
       circle.add(CircleOptions(
               circleRadius: 20,
               circleColor: '#f0ca00',
