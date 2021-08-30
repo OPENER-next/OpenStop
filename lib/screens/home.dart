@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:flutter/services.dart';
@@ -176,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // close bottom sheet if available
     _sheetController.hide();
     // deselect the current marker
-    _deselectCurrentSymbol();
+    _deselectCurrentCircle();
   }
 
   _onMapClick(Point point, LatLng location) async {
