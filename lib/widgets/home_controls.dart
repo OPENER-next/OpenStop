@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:opener_next/commons/location_utils.dart';
 import 'package:opener_next/widgets/compass_button.dart';
+import 'package:opener_next/widgets/zoom_button.dart';
 
 /// Builds the action buttons which overlay the map.
 
@@ -43,7 +44,7 @@ class _HomeControlsState extends State<HomeControls> {
       padding: EdgeInsets.fromLTRB(
         0,
         widget.buttonSpacing + MediaQuery.of(context).padding.top,
-        0,
+        widget.buttonSpacing + MediaQuery.of(context).padding.right,
         widget.buttonSpacing + MediaQuery.of(context).padding.bottom,
       ),
       child: Row(
@@ -80,7 +81,7 @@ class _HomeControlsState extends State<HomeControls> {
                 height: widget.buttonSpacing
               ),
               FloatingActionButton(
-                mini: true,
+                mini: false,
                 child: Icon(
                   Icons.my_location,
                   color: Colors.black,
@@ -90,25 +91,11 @@ class _HomeControlsState extends State<HomeControls> {
               SizedBox (
                 height: widget.buttonSpacing
               ),
-              FloatingActionButton(
-                mini: true,
-                child: Icon(
-                  Icons.add,
-                  color: Colors.black,
-                ),
-                onPressed: _zoomIn,
-              ),
-              SizedBox (
-                height: widget.buttonSpacing
-              ),
-              FloatingActionButton(
-                mini:true,
-                child: Icon(
-                  Icons.remove,
-                  color: Colors.black,
-                ),
-                onPressed: _zoomOut,
-              ),
+              ZoomButton(
+                mini: false,
+                onZoomInPressed: _zoomIn,
+                onZoomOutPressed: _zoomOut,
+                )
             ]
           )
         ],
