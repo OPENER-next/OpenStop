@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:opener_next/commons/location_utils.dart';
+import 'package:opener_next/commons/mapbox_utils.dart';
 import 'package:opener_next/widgets/compass_button.dart';
 import 'package:opener_next/widgets/zoom_button.dart';
 
