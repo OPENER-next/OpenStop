@@ -48,26 +48,26 @@ class QuestionInputValue {
 
   final Map<String, String> osmTags;
 
-  final String name;
+  final String? name;
 
-  final String description;
+  final String? description;
 
-  final String image;
+  final String? image;
 
   const QuestionInputValue({
     required this.osmTags,
-    this.name = '',
-    this.description = '',
-    this.image = ''
+    this.name,
+    this.description,
+    this.image
   });
 
 
   factory QuestionInputValue.fromJSON(Map<String, dynamic> json) =>
     QuestionInputValue(
       osmTags: json['osm_tags']?.cast<String, String>() ?? {},
-      name: json['name'] ?? '',
-      description: json['description'] ?? '',
-      image: json['image'] ?? ''
+      name: json['name'],
+      description: json['description'],
+      image: json['image']
     );
 
 
