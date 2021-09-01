@@ -8,16 +8,16 @@
       ],
       "question": "Gibt es eine Fahrtkartenverkaufsstelle?",
       "input": {
-         "type": "Bool"
-      },
-      "values": {
-         "true": {
-            "osm_tags": {
-               "shop": "ticket",
-               "tickets:public_transport": "yes"
-            }
-         },
-         "false": {}
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "shop": "ticket",
+                  "tickets:public_transport": "yes"
+               }
+            },
+            "false": {}
+         }
       },
       "osm_element": "Node",
       "difficulty": 1
@@ -27,7 +27,14 @@
       "name": "Betreiber",
       "question": "Welches Verkehrsunternehmen betreibt die Verkaufsstelle?",
       "input": {
-         "type": "String"
+         "type": "String",
+         "values": {
+            "_default_": {
+               "osm_tags": {
+                  "operator": "%s"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -38,13 +45,6 @@
             }
          }
       ],
-      "values": {
-         "_default_": {
-            "osm_tags": {
-               "operator": "%s"
-            }
-         }
-      },
       "difficulty": 1
    },
    {
@@ -52,7 +52,19 @@
       "name": "Öffnungszeiten",
       "question": "Wann ist diese Fahrkartenverkaufsstelle geöffnet?",
       "input": {
-         "type": "OpeningHours"
+         "type": "OpeningHours",
+         "values": {
+            "_default_": {
+               "osm_tags": {
+                  "opening_hours": "%s"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "opening_hours": "24/7"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -63,18 +75,6 @@
             }
          }
       ],
-      "values": {
-         "_default_": {
-            "osm_tags": {
-               "opening_hours": "%s"
-            }
-         },
-         "false": {
-            "osm_tags": {
-               "opening_hours": "24/7"
-            }
-         }
-      },
       "difficulty": 2
    },
    {
@@ -83,7 +83,19 @@
       "question": "Ist die Verkaufsstelle stufenfrei erreichbar?",
       "description": "Stufenfrei bedeutet, eine Schwelle ist weniger als 3cm hoch.",
       "input": {
-         "type": "Bool"
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "wheelchair": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "wheelchair": "no"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -94,18 +106,6 @@
             }
          }
       ],
-      "values": {
-         "true": {
-            "osm_tags": {
-               "wheelchair": "yes"
-            }
-         },
-         "false": {
-            "osm_tags": {
-               "wheelchair": "no"
-            }
-         }
-      },
       "difficulty": 1
    },
    {
@@ -117,16 +117,16 @@
       ],
       "question": "Gibt es eine Informationsstelle?",
       "input": {
-         "type": "Bool"
-      },
-      "values": {
-         "true": {
-            "osm_tags": {
-               "tourism": "information",
-               "information": "office"
-            }
-         },
-         "false": {}
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "tourism": "information",
+                  "information": "office"
+               }
+            },
+            "false": {}
+         }
       },
       "osm_element": "Node",
       "difficulty": 1
@@ -136,7 +136,14 @@
       "name": "Betreiber",
       "question": "Welches Verkehrsunternehmen betreibt die Informationsstelle?",
       "input": {
-         "type": "String"
+         "type": "String",
+         "values": {
+            "_default_": {
+               "osm_tags": {
+                  "operator": "%s"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -147,13 +154,6 @@
             }
          }
       ],
-      "values": {
-         "_default_": {
-            "osm_tags": {
-               "operator": "%s"
-            }
-         }
-      },
       "difficulty": 1
    },
    {
@@ -161,7 +161,19 @@
       "name": "Öffnungszeiten",
       "question": "Wann ist diese Informationsstelle geöffnet?",
       "input": {
-         "type": "OpeningHours"
+         "type": "OpeningHours",
+         "values": {
+            "_default_": {
+               "osm_tags": {
+                  "opening_hours": "%s"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "opening_hours": "24/7"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -172,18 +184,6 @@
             }
          }
       ],
-      "values": {
-         "_default_": {
-            "osm_tags": {
-               "opening_hours": "%s"
-            }
-         },
-         "false": {
-            "osm_tags": {
-               "opening_hours": "24/7"
-            }
-         }
-      },
       "difficulty": 2
    },
    {
@@ -192,7 +192,19 @@
       "question": "Ist die Informationsstelle stufenfrei erreichbar?",
       "description": "Stufenfrei bedeutet, eine Schwelle ist weniger als 3cm hoch.",
       "input": {
-         "type": "Bool"
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "wheelchair": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "wheelchair": "no"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -203,18 +215,6 @@
             }
          }
       ],
-      "values": {
-         "true": {
-            "osm_tags": {
-               "wheelchair": "yes"
-            }
-         },
-         "false": {
-            "osm_tags": {
-               "wheelchair": "no"
-            }
-         }
-      },
       "difficulty": 1
    },
    {
@@ -226,16 +226,16 @@
       ],
       "question": "Gibt es einen Fahrkartenautomat?",
       "input": {
-         "type": "Bool"
-      },
-      "values": {
-         "true": {
-            "osm_tags": {
-               "amenity": "vending_machine",
-               "vending": "public_transport_tickets"
-            }
-         },
-         "false": {}
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "amenity": "vending_machine",
+                  "vending": "public_transport_tickets"
+               }
+            },
+            "false": {}
+         }
       },
       "osm_element": "Node",
       "difficulty": 1
@@ -249,16 +249,16 @@
       ],
       "question": "Gibt es öffentliche Parkplätze für Reisende?",
       "input": {
-         "type": "Bool"
-      },
-      "values": {
-         "true": {
-            "osm_tags": {
-               "amenity": "parking",
-               "access": "yes"
-            }
-         },
-         "false": {}
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "amenity": "parking",
+                  "access": "yes"
+               }
+            },
+            "false": {}
+         }
       },
       "osm_element": "ClosedWay",
       "difficulty": 2
@@ -268,7 +268,37 @@
       "name": "Parkplatzart",
       "question": "Um welche Parkplatzart handelt es sich?",
       "input": {
-         "type": "List"
+         "type": "List",
+         "values": {
+            "surface": {
+               "name": "Parkplatz",
+               "image": "assets/questions/image/1051a.jpg",
+               "osm_tags": {
+                  "parking": "surface"
+               }
+            },
+            "underground": {
+               "name": "Tiefgarage",
+               "image": "assets/questions/image/1051b.jpg",
+               "osm_tags": {
+                  "parking": "underground"
+               }
+            },
+            "street_side": {
+               "name": "Parkbucht",
+               "image": "assets/questions/image/1051c.jpg",
+               "osm_tags": {
+                  "parking": "street_side"
+               }
+            },
+            "multi-storey": {
+               "name": "Parkhaus",
+               "image": "assets/questions/image/1051d.jpg",
+               "osm_tags": {
+                  "parking": "multi-storey"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -281,36 +311,6 @@
             }
          }
       ],
-      "values": {
-         "surface": {
-            "name": "Parkplatz",
-            "image": "assets/questions/image/1051a.jpg",
-            "osm_tags": {
-               "parking": "surface"
-            }
-         },
-         "underground": {
-            "name": "Tiefgarage",
-            "image": "assets/questions/image/1051b.jpg",
-            "osm_tags": {
-               "parking": "underground"
-            }
-         },
-         "street_side": {
-            "name": "Parkbucht",
-            "image": "assets/questions/image/1051c.jpg",
-            "osm_tags": {
-               "parking": "street_side"
-            }
-         },
-         "multi-storey": {
-            "name": "Parkhaus",
-            "image": "assets/questions/image/1051d.jpg",
-            "osm_tags": {
-               "parking": "multi-storey"
-            }
-         }
-      },
       "difficulty": 1
    },
    {
@@ -320,7 +320,24 @@
       "input": {
          "type": "BoolNumber",
          "decimals": 0,
-         "min": 1
+         "min": 1,
+         "values": {
+            "_default_": {
+               "osm_tags": {
+                  "capacity:disabled": "%s"
+               }
+            },
+            "true": {
+               "osm_tags": {
+                  "capacity:disabled": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "capacity:disabled": "no"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -334,23 +351,6 @@
             }
          }
       ],
-      "values": {
-         "_default_": {
-            "osm_tags": {
-               "capacity:disabled": "%s"
-            }
-         },
-         "true": {
-            "osm_tags": {
-               "capacity:disabled": "yes"
-            }
-         },
-         "false": {
-            "osm_tags": {
-               "capacity:disabled": "no"
-            }
-         }
-      },
       "difficulty": 1
    },
    {
@@ -358,7 +358,19 @@
       "name": "Öffnungszeiten",
       "question": "Wann darf hier geparkt werden?",
       "input": {
-         "type": "OpeningHours"
+         "type": "OpeningHours",
+         "values": {
+            "_default_": {
+               "osm_tags": {
+                  "opening_hours": "%s"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "opening_hours": "24/7"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -372,18 +384,6 @@
             }
          }
       ],
-      "values": {
-         "_default_": {
-            "osm_tags": {
-               "opening_hours": "%s"
-            }
-         },
-         "false": {
-            "osm_tags": {
-               "opening_hours": "24/7"
-            }
-         }
-      },
       "difficulty": 2
    },
    {
@@ -395,7 +395,19 @@
       ],
       "question": "Ist dies ein Park+Ride-Parkplatz?",
       "input": {
-         "type": "Bool"
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "park_ride": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "park_ride": "no"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -409,18 +421,6 @@
             }
          }
       ],
-      "values": {
-         "true": {
-            "osm_tags": {
-               "park_ride": "yes"
-            }
-         },
-         "false": {
-            "osm_tags": {
-               "park_ride": "no"
-            }
-         }
-      },
       "difficulty": 2
    },
    {
@@ -429,7 +429,19 @@
       "question": "Wie lange darf hier maximal geparkt werden?",
       "input": {
          "type": "Duration",
-         "unit": "Stunden"
+         "unit": "Stunden",
+         "values": {
+            "_default_": {
+               "osm_tags": {
+                  "maxstay": "%s"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "maxstay": "no"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -443,18 +455,6 @@
             }
          }
       ],
-      "values": {
-         "_default_": {
-            "osm_tags": {
-               "maxstay": "%s"
-            }
-         },
-         "false": {
-            "osm_tags": {
-               "maxstay": "no"
-            }
-         }
-      },
       "difficulty": 2
    },
    {
@@ -462,7 +462,19 @@
       "name": "Parkplatzgebühren",
       "question": "Fallen für das Parken Kosten an?",
       "input": {
-         "type": "Bool"
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "fee": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "fee": "no"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -476,18 +488,6 @@
             }
          }
       ],
-      "values": {
-         "true": {
-            "osm_tags": {
-               "fee": "yes"
-            }
-         },
-         "false": {
-            "osm_tags": {
-               "fee": "no"
-            }
-         }
-      },
       "difficulty": 1
    },
    {
@@ -496,15 +496,15 @@
       "question": "Ist ein Taxi-Stand vorhanden?",
       "description": "Taxi-Stände sind ausgewiesene Stellflächen für Taxen. Relevant für diese Erhebung sind Taxi-Stände in unmittelbarer Zuordnung zur Station.",
       "input": {
-         "type": "Bool"
-      },
-      "values": {
-         "true": {
-            "osm_tags": {
-               "amenity": "taxi"
-            }
-         },
-         "false": {}
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "amenity": "taxi"
+               }
+            },
+            "false": {}
+         }
       },
       "osm_element": "Node",
       "difficulty": 2
@@ -515,16 +515,16 @@
       "question": "Sind Toiletten vorhanden?",
       "description": "Fest eingebaute Toiletten, die von Fahrgästen genutzt werden können.",
       "input": {
-         "type": "Bool"
-      },
-      "values": {
-         "true": {
-            "osm_tags": {
-               "amenity": "toilets",
-               "access": "yes"
-            }
-         },
-         "false": {}
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "amenity": "toilets",
+                  "access": "yes"
+               }
+            },
+            "false": {}
+         }
       },
       "osm_element": "Node",
       "difficulty": 1
@@ -538,7 +538,19 @@
       ],
       "description": "Gemeint sind Toiletten, die explizit für Rollstuhlfahrer ausgelegt sind.",
       "input": {
-         "type": "Bool"
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "wheelchair": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "wheelchair": "no"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -552,18 +564,6 @@
             }
          }
       ],
-      "values": {
-         "true": {
-            "osm_tags": {
-               "wheelchair": "yes"
-            }
-         },
-         "false": {
-            "osm_tags": {
-               "wheelchair": "no"
-            }
-         }
-      },
       "difficulty": 1
    },
    {
@@ -574,7 +574,19 @@
          "assets/question/image/1072.png"
       ],
       "input": {
-         "type": "Bool"
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "centralkey": "eurokey"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "centralkey": "no"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -589,18 +601,6 @@
             }
          }
       ],
-      "values": {
-         "true": {
-            "osm_tags": {
-               "centralkey": "eurokey"
-            }
-         },
-         "false": {
-            "osm_tags": {
-               "centralkey": "no"
-            }
-         }
-      },
       "difficulty": 2
    },
    {
@@ -611,7 +611,15 @@
          "assets/question/image/1074.png"
       ],
       "input": {
-         "type": "Bool"
+         "type": "Bool",
+         "values": {
+            "customers": {
+               "osm_tags": {
+                  "access": "customers"
+               }
+            },
+            "false": {}
+         }
       },
       "conditions": [
          {
@@ -628,14 +636,6 @@
             }
          }
       ],
-      "values": {
-         "customers": {
-            "osm_tags": {
-               "access": "customers"
-            }
-         },
-         "false": {}
-      },
       "difficulty": 2
    },
    {
@@ -643,7 +643,19 @@
       "name": "Öffnungszeiten",
       "question": "Wann ist die Toilette geöffnet?",
       "input": {
-         "type": "OpeningHours"
+         "type": "OpeningHours",
+         "values": {
+            "_default_": {
+               "osm_tags": {
+                  "opening_hours": "%s"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "opening_hours": "24/7"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -657,18 +669,6 @@
             }
          }
       ],
-      "values": {
-         "_default_": {
-            "osm_tags": {
-               "opening_hours": "%s"
-            }
-         },
-         "false": {
-            "osm_tags": {
-               "opening_hours": "24/7"
-            }
-         }
-      },
       "difficulty": 2
    },
    {
@@ -676,7 +676,19 @@
       "name": "Toilettengebühren",
       "question": "Fallen für die Nutzung Kosten an?",
       "input": {
-         "type": "Bool"
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "fee": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "fee": "no"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -690,18 +702,6 @@
             }
          }
       ],
-      "values": {
-         "true": {
-            "osm_tags": {
-               "fee": "yes"
-            }
-         },
-         "false": {
-            "osm_tags": {
-               "fee": "no"
-            }
-         }
-      },
       "difficulty": 1
    },
    {
@@ -710,15 +710,15 @@
       "question": "Gibt es Schließfächer oder andere Aufbewahrungsmöglichkeiten?",
       "description": "Zur Gepäckaufbewahrung zählen alle Einrichtungen, die es ermöglichen, Reisegepäck an den Stationen zu deponieren.",
       "input": {
-         "type": "Bool"
-      },
-      "values": {
-         "true": {
-            "osm_tags": {
-               "amenity": "luggage_locker"
-            }
-         },
-         "false": {}
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "amenity": "luggage_locker"
+               }
+            },
+            "false": {}
+         }
       },
       "osm_element": "Node",
       "difficulty": 2
@@ -732,15 +732,15 @@
       ],
       "description": "Zum Gepäcktransport zählen alle Einrichtungen, die es ermöglichen, Gepäck mit Hilfsmitteln zu transportieren. Dazu gehören Kofferkulis bzw. Gepäckträgerservice.",
       "input": {
-         "type": "Bool"
-      },
-      "values": {
-         "true": {
-            "osm_tags": {
-               "amenity": "trolley_bay"
-            }
-         },
-         "false": {}
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "amenity": "trolley_bay"
+               }
+            },
+            "false": {}
+         }
       },
       "osm_element": "Node",
       "difficulty": 2
@@ -753,34 +753,34 @@
          "assets/questions/images/1110.png"
       ],
       "input": {
-         "type": "List"
-      },
-      "values": {
-         "emergency": {
-            "name": "Notrufsäule",
-            "image": "assets/questions/images/1100a.png",
-            "osm_tags": {
-               "emergency": "phone"
-            }
-         },
-         "information": {
-            "name": "Informationssäule",
-            "image": "assets/questions/images/1100b.png",
-            "osm_tags": {
-               "tourism": "information",
-               "information": "terminal"
-            }
-         },
-         "mixed": {
-            "name": "Kombinierte Informations- und Notrufsäule",
-            "image": "assets/questions/images/1100c.png",
-            "osm_tags": {
-               "emergency": "phone",
-               "tourism": "information",
-               "information": "terminal"
-            }
-         },
-         "false": {}
+         "type": "List",
+         "values": {
+            "emergency": {
+               "name": "Notrufsäule",
+               "image": "assets/questions/images/1100a.png",
+               "osm_tags": {
+                  "emergency": "phone"
+               }
+            },
+            "information": {
+               "name": "Informationssäule",
+               "image": "assets/questions/images/1100b.png",
+               "osm_tags": {
+                  "tourism": "information",
+                  "information": "terminal"
+               }
+            },
+            "mixed": {
+               "name": "Kombinierte Informations- und Notrufsäule",
+               "image": "assets/questions/images/1100c.png",
+               "osm_tags": {
+                  "emergency": "phone",
+                  "tourism": "information",
+                  "information": "terminal"
+               }
+            },
+            "false": {}
+         }
       },
       "osm_element": "Node",
       "difficulty": 1
@@ -793,7 +793,19 @@
          "assets/questions/images/1120.png"
       ],
       "input": {
-         "type": "Bool"
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "bench": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "bench": "no"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -803,18 +815,6 @@
             }
          }
       ],
-      "values": {
-         "true": {
-            "osm_tags": {
-               "bench": "yes"
-            }
-         },
-         "false": {
-            "osm_tags": {
-               "bench": "no"
-            }
-         }
-      },
       "difficulty": 1
    },
    {
@@ -826,7 +826,19 @@
          "assets/questions/images/1130.png"
       ],
       "input": {
-         "type": "Bool"
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "depatures_board": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "depatures_board": "no"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -839,18 +851,6 @@
             }
          }
       ],
-      "values": {
-         "true": {
-            "osm_tags": {
-               "depatures_board": "yes"
-            }
-         },
-         "false": {
-            "osm_tags": {
-               "depatures_board": "no"
-            }
-         }
-      },
       "difficulty": 1
    },
    {
@@ -859,7 +859,23 @@
       "question": "Zeigt die Fahrplananzeigetafel Echtzeit-Informationen an?",
       "description": "Echtzeit-Informationen helfen Reisende sich über aktuelle Fahrplanänderungen wie Verspätungen, Ausfälle oder Gleisänderungen zu informieren.",
       "input": {
-         "type": "List"
+         "type": "List",
+         "values": {
+            "timetable": {
+               "name": "Statisch",
+               "image": "assets/questions/image/1130a.jpg",
+               "osm_tags": {
+                  "depatures_board": "timetable"
+               }
+            },
+            "realtime": {
+               "name": "Echtzeit",
+               "image": "assets/questions/image/1130b.jpg",
+               "osm_tags": {
+                  "depatures_board": "realtime"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -868,22 +884,6 @@
             }
          }
       ],
-      "values": {
-         "timetable": {
-            "name": "Statisch",
-            "image": "assets/questions/image/1130a.jpg",
-            "osm_tags": {
-               "depatures_board": "timetable"
-            }
-         },
-         "realtime": {
-            "name": "Echtzeit",
-            "image": "assets/questions/image/1130b.jpg",
-            "osm_tags": {
-               "depatures_board": "realtime"
-            }
-         }
-      },
       "difficulty": 1
    },
    {
@@ -892,7 +892,19 @@
       "question": "Hat die Fahrplananzeige eine akustische Ausgabe?",
       "description": "Einige Anzeigetafeln sind an eine akustische Ausgabe der Informationen gekoppelt, so kann z. B. zusätzlich eine Ansage angefordert werden.",
       "input": {
-         "type": "Bool"
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "speech_output": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "speech_output": "no"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -905,18 +917,6 @@
             }
          }
       ],
-      "values": {
-         "true": {
-            "osm_tags": {
-               "speech_output": "yes"
-            }
-         },
-         "false": {
-            "osm_tags": {
-               "speech_output": "no"
-            }
-         }
-      },
       "difficulty": 1
    },
    {
@@ -928,7 +928,19 @@
          "assets/questions/images/1140.png"
       ],
       "input": {
-         "type": "Bool"
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "passenger_information_display": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "passenger_information_display": "no"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -938,18 +950,6 @@
             }
          }
       ],
-      "values": {
-         "true": {
-            "osm_tags": {
-               "passenger_information_display": "yes"
-            }
-         },
-         "false": {
-            "osm_tags": {
-               "passenger_information_display": "no"
-            }
-         }
-      },
       "difficulty": 1
    },
    {
@@ -958,7 +958,19 @@
       "question": "Hat der Fahrtzielanzeiger eine akustische Ausgabe?",
       "description": "Einige Anzeigetafeln sind an eine akustische Ausgabe der Informationen gekoppelt, so kann z. B. zusätzlich eine Ansage angefordert werden.",
       "input": {
-         "type": "Bool"
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "speech_output": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "speech_output": "no"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -967,18 +979,6 @@
             }
          }
       ],
-      "values": {
-         "true": {
-            "osm_tags": {
-               "speech_output": "yes"
-            }
-         },
-         "false": {
-            "osm_tags": {
-               "speech_output": "no"
-            }
-         }
-      },
       "difficulty": 1
    },
    {
@@ -987,7 +987,19 @@
       "question": "Gibt es Ansagen über Lautsprecher an der Plattform?",
       "description": "Unter Ansagen werden die akustischen Fahrgastinformationen an der Haltestelle verstanden.",
       "input": {
-         "type": "Bool"
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "announcement": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "announcement": "no"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -997,18 +1009,6 @@
             }
          }
       ],
-      "values": {
-         "true": {
-            "osm_tags": {
-               "announcement": "yes"
-            }
-         },
-         "false": {
-            "osm_tags": {
-               "announcement": "no"
-            }
-         }
-      },
       "difficulty": 1
    },
    {
@@ -1017,7 +1017,29 @@
       "question": "Von welcher Art sind die Ansagen?",
       "description": "Unter Ansagen werden die akustischen Fahrgastinformationen an der Haltestelle verstanden.",
       "input": {
-         "type": "List"
+         "type": "List",
+         "values": {
+            "automatic": {
+               "name": "Automatisiert",
+               "description": "Bei den automatischen Ansagen wurden die Informationen vorab aufgenommen und automatisch eingespielt. Die Information beschränkt sich i. d. R. auf die nächsten Fahrten.",
+               "osm_tags": {
+                  "announcement": "automatic"
+               }
+            },
+            "manual": {
+               "name": "Manuell",
+               "description": "Manuelle Ansagen erfolgen direkt und individuell zum relevanten Zeitpunkt. Sie werden von einem Mitarbeiter gesprochen. Neben der Ankündigung der nächsten Verbindung können diese insbesondere zur Durchsage von Verspätungen, Ausfällen oder Gleiswechseln genutzt werden.",
+               "osm_tags": {
+                  "announcement": "manual"
+               }
+            },
+            "mixed": {
+               "name": "Automatisiert und manuell",
+               "osm_tags": {
+                  "announcement": "mixed"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -1026,28 +1048,6 @@
             }
          }
       ],
-      "values": {
-         "automatic": {
-            "name": "Automatisiert",
-            "description": "Bei den automatischen Ansagen wurden die Informationen vorab aufgenommen und automatisch eingespielt. Die Information beschränkt sich i. d. R. auf die nächsten Fahrten.",
-            "osm_tags": {
-               "announcement": "automatic"
-            }
-         },
-         "manual": {
-            "name": "Manuell",
-            "description": "Manuelle Ansagen erfolgen direkt und individuell zum relevanten Zeitpunkt. Sie werden von einem Mitarbeiter gesprochen. Neben der Ankündigung der nächsten Verbindung können diese insbesondere zur Durchsage von Verspätungen, Ausfällen oder Gleiswechseln genutzt werden.",
-            "osm_tags": {
-               "announcement": "manual"
-            }
-         },
-         "mixed": {
-            "name": "Automatisiert und manuell",
-            "osm_tags": {
-               "announcement": "mixed"
-            }
-         }
-      },
       "difficulty": 2
    },
    {
@@ -1055,7 +1055,38 @@
       "name": "Bordstein-/Bussteig-/Bahnsteigart",
       "question": "Welche Art von Bordstein hat die Plattform?",
       "input": {
-         "type": "List"
+         "type": "List",
+         "values": {
+            "raised": {
+               "name": "Erhöht (>3cm)",
+               "osm_tags": {
+                  "kerb": "raised"
+               }
+            },
+            "lowered": {
+               "name": "Abgesenkt (<3cm)",
+               "osm_tags": {
+                  "kerb": "lowered"
+               }
+            },
+            "flush": {
+               "name": "Ebenerdig (≈0cm)",
+               "osm_tags": {
+                  "kerb": "flush"
+               }
+            },
+            "yes": {
+               "description": "Wenn genaue Art unbekannt.",
+               "osm_tags": {
+                  "kerb": "yes"
+               }
+            },
+            "no": {
+               "osm_tags": {
+                  "kerb": "no"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -1069,37 +1100,6 @@
             ]
          }
       ],
-      "values": {
-         "raised": {
-            "name": "Erhöht (>3cm)",
-            "osm_tags": {
-               "kerb": "raised"
-            }
-         },
-         "lowered": {
-            "name": "Abgesenkt (<3cm)",
-            "osm_tags": {
-               "kerb": "lowered"
-            }
-         },
-         "flush": {
-            "name": "Ebenerdig (≈0cm)",
-            "osm_tags": {
-               "kerb": "flush"
-            }
-         },
-         "yes": {
-            "description": "Wenn genaue Art unbekannt.",
-            "osm_tags": {
-               "kerb": "yes"
-            }
-         },
-         "no": {
-            "osm_tags": {
-               "kerb": "no"
-            }
-         }
-      },
       "difficulty": 1
    },
    {
@@ -1110,13 +1110,25 @@
       "input": {
          "type": "Number",
          "decimals": 0,
-         "unit": "Centimeter"
+         "unit": "Centimeter",
+         "values": {
+            "_default_": {
+               "osm_tags": {
+                  "height": "%s cm"
+               }
+            }
+         }
       },
       "conditions": [
          {
             "osm_tags": {
                "public_transport": "platform",
-               "kerb": ["yes", "raised", "lowered", "rolled"],
+               "kerb": [
+                  "yes",
+                  "raised",
+                  "lowered",
+                  "rolled"
+               ],
                "height": false
             },
             "osm_element": [
@@ -1125,13 +1137,6 @@
             ]
          }
       ],
-      "values": {
-         "_default_": {
-            "osm_tags": {
-               "height": "%s cm"
-            }
-         }
-      },
       "difficulty": 2
    },
    {
@@ -1142,7 +1147,14 @@
       "input": {
          "type": "Number",
          "decimals": 2,
-         "unit": "Meter"
+         "unit": "Meter",
+         "values": {
+            "_default_": {
+               "osm_tags": {
+                  "width": "%s"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -1152,13 +1164,6 @@
             "osm_element": "OpenWay"
          }
       ],
-      "values": {
-         "_default_": {
-            "osm_tags": {
-               "width": "%s"
-            }
-         }
-      },
       "difficulty": 2
    },
    {
@@ -1167,31 +1172,34 @@
       "question": "Ist eine Spürführung für Busse vorhanden?",
       "description": "Bordsteine, bei denen es sich um sogenannte Hochborde oder spezielle Formsteine handelt, die Bussen eine Spurführung und somit ein dichtes Heranfahren an die Bordsteinkante ermöglichen.",
       "input": {
-         "type": "Bool"
+         "type": "Bool",
+         "values": {
+            "true": {
+               "image": "assets/questions/images/1200a.png",
+               "osm_tags": {
+                  "kerb:approach_aid": "yes"
+               }
+            },
+            "false": {
+               "image": "assets/questions/images/1200b.png",
+               "osm_tags": {
+                  "kerb:approach_aid": "no"
+               }
+            }
+         }
       },
       "conditions": [
          {
             "osm_tags": {
                "public_transport": "platform",
-               "kerb": ["raised", "yes"],
+               "kerb": [
+                  "raised",
+                  "yes"
+               ],
                "kerb:approach_aid": false
             }
          }
       ],
-      "values": {
-         "true": {
-            "image": "assets/questions/images/1200a.png",
-            "osm_tags": {
-               "kerb:approach_aid": "yes"
-            }
-         },
-         "false": {
-            "image": "assets/questions/images/1200b.png",
-            "osm_tags": {
-               "kerb:approach_aid": "no"
-            }
-         }
-      },
       "difficulty": 1
    },
    {
@@ -1200,7 +1208,24 @@
       "question": "Welche Hochbord-Art wurde verbaut?",
       "description": "Bordsteine, bei denen es sich um sogenannte Hochborde oder spezielle Formsteine handelt, die Bussen eine Spurführung und somit ein dichtes Heranfahren an die Bordsteinkante ermöglichen.",
       "input": {
-         "type": "List"
+         "type": "List",
+         "values": {
+            "double": {
+               "name": "Hochbord mit Spurführung und doppelter Hohlkehle",
+               "image": "assets/questions/images/1201a.png",
+               "osm_tags": {
+                  "kerb:type": "Sonderbord Plus"
+               }
+            },
+            "combi": {
+               "name": "Kombibord mit Spurführung",
+               "description": "Hochbord mit Spurführung für kombinierte Bus- und Straßenbahnhaltestellen",
+               "image": "assets/questions/images/1201b.png",
+               "osm_tags": {
+                  "kerb:type": "Combibord"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -1210,23 +1235,6 @@
             }
          }
       ],
-      "values": {
-         "double": {
-            "name": "Hochbord mit Spurführung und doppelter Hohlkehle",
-            "image": "assets/questions/images/1201a.png",
-            "osm_tags": {
-               "kerb:type": "Sonderbord Plus"
-            }
-         },
-         "combi": {
-            "name": "Kombibord mit Spurführung",
-            "description": "Hochbord mit Spurführung für kombinierte Bus- und Straßenbahnhaltestellen",
-            "image": "assets/questions/images/1201b.png",
-            "osm_tags": {
-               "kerb:type": "Combibord"
-            }
-         }
-      },
       "difficulty": 2
    },
    {
@@ -1238,7 +1246,19 @@
       ],
       "description": "Bahnsteiggebundene Rampen dienen als Einstiegshilfen. Sie sind bewegbar und dienen beim Ein- und Ausstieg von Rollstuhlfahrern zur Überwindung des Spalts und der Stufe.",
       "input": {
-         "type": "Bool"
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "wheelchair:portable_ramp": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "wheelchair:portable_ramp": "no"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -1248,18 +1268,6 @@
             }
          }
       ],
-      "values": {
-         "true": {
-            "osm_tags": {
-               "wheelchair:portable_ramp": "yes"
-            }
-         },
-         "false": {
-            "osm_tags": {
-               "wheelchair:portable_ramp": "no"
-            }
-         }
-      },
       "difficulty": 1
    },
    {
@@ -1270,7 +1278,14 @@
       "input": {
          "type": "Number",
          "decimals": 2,
-         "unit": "Meter"
+         "unit": "Meter",
+         "values": {
+            "_default_": {
+               "osm_tags": {
+                  "wheelchair:portable_ramp:length": "%s"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -1280,13 +1295,6 @@
             }
          }
       ],
-      "values": {
-         "_default_": {
-            "osm_tags": {
-               "wheelchair:portable_ramp:length": "%s"
-            }
-         }
-      },
       "difficulty": 2
    },
    {
@@ -1297,7 +1305,14 @@
       "input": {
          "type": "Number",
          "decimals": 0,
-         "unit": "Kilogramm"
+         "unit": "Kilogramm",
+         "values": {
+            "_default_": {
+               "osm_tags": {
+                  "wheelchair:portable_ramp:maxweight": "%s kg"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -1307,13 +1322,6 @@
             }
          }
       ],
-      "values": {
-         "_default_": {
-            "osm_tags": {
-               "wheelchair:portable_ramp:maxweight": "%s kg"
-            }
-         }
-      },
       "difficulty": 2
    },
    {
@@ -1325,7 +1333,19 @@
       ],
       "description": "Bahnsteiggebundene Hublifte dienen als Einstiegshilfen. Sie sind bewegbar und dienen beim Ein- und Ausstieg von Rollstuhlfahrern zur Überwindung des Spalts und der Stufe.",
       "input": {
-         "type": "Bool"
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "wheelchair:portable_lift": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "wheelchair:portable_lift": "no"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -1335,18 +1355,6 @@
             }
          }
       ],
-      "values": {
-         "true": {
-            "osm_tags": {
-               "wheelchair:portable_lift": "yes"
-            }
-         },
-         "false": {
-            "osm_tags": {
-               "wheelchair:portable_lift": "no"
-            }
-         }
-      },
       "difficulty": 1
    },
    {
@@ -1357,7 +1365,14 @@
       "input": {
          "type": "Number",
          "decimals": 2,
-         "unit": "Meter"
+         "unit": "Meter",
+         "values": {
+            "_default_": {
+               "osm_tags": {
+                  "wheelchair:portable_lift:length": "%s"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -1367,13 +1382,6 @@
             }
          }
       ],
-      "values": {
-         "_default_": {
-            "osm_tags": {
-               "wheelchair:portable_lift:length": "%s"
-            }
-         }
-      },
       "difficulty": 2
    },
    {
@@ -1384,7 +1392,14 @@
       "input": {
          "type": "Number",
          "decimals": 0,
-         "unit": "Kilogramm"
+         "unit": "Kilogramm",
+         "values": {
+            "_default_": {
+               "osm_tags": {
+                  "wheelchair:portable_lift:maxweight": "%s kg"
+               }
+            }
+         }
       },
       "conditions": [
          {
@@ -1394,13 +1409,6 @@
             }
          }
       ],
-      "values": {
-         "_default_": {
-            "osm_tags": {
-               "wheelchair:portable_lift:maxweight": "%s kg"
-            }
-         }
-      },
       "difficulty": 2
    }
 ]
