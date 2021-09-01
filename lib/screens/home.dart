@@ -277,7 +277,6 @@ class _HomeScreenState extends State<HomeScreen> {
               geometry: stop.location)
       );
       data.add({
-        "dhid": stop.dhid,
         "name": stop.name
       });
     }
