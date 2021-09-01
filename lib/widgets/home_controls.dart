@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
-import 'package:opener_next/commons/location_utils.dart';
 import 'package:opener_next/commons/mapbox_utils.dart';
 import 'package:opener_next/widgets/compass_button.dart';
 import 'package:opener_next/widgets/zoom_button.dart';
@@ -87,7 +86,7 @@ class _HomeControlsState extends State<HomeControls> {
                   Icons.my_location,
                   color: Colors.black,
                 ),
-                onPressed: _moveToUserLocation,
+                onPressed: () => moveToUserLocation(widget.mapController, 0.0),
               ),
               SizedBox (
                 height: widget.buttonSpacing
@@ -125,14 +124,4 @@ class _HomeControlsState extends State<HomeControls> {
     widget.mapController.animateCamera(CameraUpdate.bearingTo(0));
   }
 
-
-  /// Moves the camera to the current user location
-
-  Future<bool> _moveToUserLocation() async {
-    final location = await acquireCurrentLocation();
-    if (location != null) {
-      await widget.mapController.animateCamera(CameraUpdate.newLatLng(location));
-    }
-    return location != null;
-  }
 }

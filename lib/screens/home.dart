@@ -6,7 +6,6 @@ import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:flutter/services.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 import '/commons/globals.dart';
-import '/commons/location_utils.dart';
 import '/commons/mapbox_utils.dart';
 import '/widgets/home_controls.dart';
 import '/widgets/home_sidebar.dart';
@@ -148,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // store reference to controller
     _mapController = controller;
 
-    _moveToUserLocation();
+    moveToUserLocation(controller, 0.0);
 
     _mapController.onCircleTapped.add(_onCircleTap);
 
@@ -182,16 +181,12 @@ class _HomeScreenState extends State<HomeScreen> {
     _sheetController.rebuild();
     _sheetController.snapToExtent(_initialSheetSize);
 
-    // move camera to symbol
+    // move camera to circle
     // padding is not available for newLatLng()
     // therefore use newLatLngBounds as workaround
     final location = circle.options.geometry!;
-    const extend =  LatLng(0.001, 0.001);
     final paddingBottom = (MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top) * _initialSheetSize;
-    _mapController.animateCamera(CameraUpdate.newLatLngBounds(
-      LatLngBounds(southwest: location - extend, northeast: location + extend),
-      bottom: paddingBottom
-    ));
+    moveTo(_mapController, location, paddingBottom);
   }
 
 
@@ -233,25 +228,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _selectedMarker.value = circle;
   }
 
-
-  /// Update the current map view position to a given location
-
-  Future<void> _moveTo(LatLng location) async {
-    await _mapController.animateCamera(CameraUpdate.newLatLng(location));
-  }
-
-
-  /// Acquire current location and update map view position
-  /// Returns false if the location couldn't be acquired otherwise true
-
-  Future<bool> _moveToUserLocation() async {
-    final location = await acquireCurrentLocation();
-    if (location != null) {
-      await _moveTo(location);
-      return true;
-    }
-    return false;
-  }
 
   /// Add a given list of Stops as circles to the map
 
