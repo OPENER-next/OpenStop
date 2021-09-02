@@ -20,11 +20,12 @@ class _HomeSidebarState extends State<HomeSidebar> {
             UserAccountsDrawerHeader(
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Theme.of(context).accentColor,
-                child: Text('UN',
-                style: Theme.of(context).textTheme.headline5,
+                child:
+                  Text('MM',
+                    style: Theme.of(context).textTheme.headline5,
                   ),
               ),
-              accountName: Text("User Name"),
+              accountName: Text("Max Muster"),
               accountEmail: null,
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
@@ -32,18 +33,26 @@ class _HomeSidebarState extends State<HomeSidebar> {
               onDetailsPressed: () {},
             ),
             ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Options'),
+              leading: Icon(
+                Icons.settings,
+                color: Colors.black54
+              ),
+              title: Text('Einstellungen'),
               onTap: () {},
             ),
             ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Item 2'),
+              leading: Icon(
+                Icons.info,
+                color: Colors.black54
+              ),
+              title: Text('Über'),
               onTap: () {},
             ),
             ListTile(
-              leading: Icon(Icons.account_circle),
-              title: Text('Item 2'),
+              leading: Icon(Icons.feedback,
+                color: Colors.black54
+              ),
+              title: Text('Feedback'),
               onTap: () {},
             ),
           ],

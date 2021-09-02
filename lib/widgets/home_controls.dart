@@ -81,7 +81,7 @@ class _HomeControlsState extends State<HomeControls> {
                 height: widget.buttonSpacing
               ),
               FloatingActionButton(
-                mini: false,
+                mini: true,
                 child: Icon(
                   Icons.my_location,
                   color: Colors.black,
@@ -92,7 +92,7 @@ class _HomeControlsState extends State<HomeControls> {
                 height: widget.buttonSpacing
               ),
               ZoomButton(
-                mini: false,
+                mini: true,
                 onZoomInPressed: _zoomIn,
                 onZoomOutPressed: _zoomOut,
                 )
