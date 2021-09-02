@@ -21,7 +21,7 @@ Future<void> moveToLocation({required MapboxMapController mapController, require
 Future<bool> moveToUserLocation({required MapboxMapController mapController, double paddingLeft = 0, double paddingTop = 0, double paddingRight = 0, double paddingBottom = 0, LatLng extend = const LatLng(0.001, 0.001)}) async {
   final location = await acquireCurrentLocation();
   if (location != null) {
-      moveToLocation(
+     await moveToLocation(
           mapController: mapController,
           location: location,
           paddingLeft: paddingLeft,
