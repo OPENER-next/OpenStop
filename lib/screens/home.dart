@@ -147,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // store reference to controller
     _mapController = controller;
 
-    moveToUserLocation(controller, 0.0);
+    moveToUserLocation(mapController: controller);
 
     _mapController.onCircleTapped.add(_onCircleTap);
 
@@ -186,7 +186,11 @@ class _HomeScreenState extends State<HomeScreen> {
     // therefore use newLatLngBounds as workaround
     final location = circle.options.geometry!;
     final paddingBottom = (MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top) * _initialSheetSize;
-    moveTo(_mapController, location, paddingBottom);
+    moveToLocation(
+        mapController: _mapController,
+        location: location,
+        paddingBottom: paddingBottom
+    );
   }
 
 

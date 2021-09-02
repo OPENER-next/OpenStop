@@ -86,7 +86,7 @@ class _HomeControlsState extends State<HomeControls> {
                   Icons.my_location,
                   color: Colors.black,
                 ),
-                onPressed: () => moveToUserLocation(widget.mapController, 0.0),
+                onPressed: () {moveToUserLocation(mapController: widget.mapController);},
               ),
               SizedBox (
                 height: widget.buttonSpacing
