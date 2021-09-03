@@ -9,13 +9,11 @@ import 'package:opener_next/widgets/zoom_button.dart';
 class HomeControls extends StatefulWidget {
   final MapboxMapController mapController;
   final double buttonSpacing;
-  final double buttonIconSize;
 
   const HomeControls({
     Key? key,
     required this.mapController,
     this.buttonSpacing = 10.0,
-    this.buttonIconSize = 25.0
    }) : super(key: key);
 
 
@@ -71,9 +69,10 @@ class _HomeControlsState extends State<HomeControls> {
                   );
                 } ,
                 child: CompassButton(
-                  controller: widget.mapController,
+                  listenable: widget.mapController,
+                  getRotation: () => -(widget.mapController.cameraPosition?.bearing ?? 0),
+                  isDegree: true,
                   onPressed: _resetRotation,
-                  size: widget.buttonIconSize,
                 ),
               ),
               Spacer(),
