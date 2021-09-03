@@ -29,8 +29,9 @@ Future<bool> moveToUserLocation({required MapboxMapController mapController, dou
           paddingRight: paddingRight,
           paddingBottom: paddingBottom,
           extend: extend
-      );
-      return true;
+     );
+     mapController.updateMyLocationTrackingMode(MyLocationTrackingMode.Tracking);
+     return true;
   }
   return false;
 }
