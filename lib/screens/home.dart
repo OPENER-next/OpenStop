@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
@@ -9,6 +10,9 @@ import '/commons/globals.dart';
 import '/commons/mapbox_utils.dart';
 import '/widgets/home_controls.dart';
 import '/widgets/home_sidebar.dart';
+import '/models/question.dart';
+import '/widgets/questions/question_input_view.dart';
+import '/widgets/triangle_painter.dart';
 import '/api/stop_query_handler.dart';
 import '/models/stop.dart';
 
@@ -34,6 +38,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final _selectedMarker = ValueNotifier<Circle?>(null);
 
+  Question? _selectedQuestion;
+
+  late final Future<List<Question>> _questionCatalog;
+
   @override
   void initState() {
     super.initState();
@@ -46,6 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
     ));
     // wait for map creation to finish
     _mapCompleter.future.then(_initMap);
+
+    _questionCatalog = parseQuestions();
   }
 
 
@@ -95,8 +105,9 @@ class _HomeScreenState extends State<HomeScreen> {
             controller: _sheetController,
             addTopViewPaddingOnFullscreen: true,
             elevation: 8,
-            cornerRadius: 25,
-            color: Theme.of(context).primaryColor,
+            // reintroduce old top padding color problem
+            color: const Color(0xfff7f7f7),
+            cornerRadius: 15,
             cornerRadiusOnFullscreen: 0,
             liftOnScrollHeaderElevation: 8,
             closeOnBackButtonPressed: true,
@@ -105,35 +116,66 @@ class _HomeScreenState extends State<HomeScreen> {
               snap: true,
               snappings: [_initialSheetSize, 1.0],
               positioning: SnapPositioning.relativeToAvailableSpace,
-              initialSnap: 0
             ),
             headerBuilder: (context, state) {
-              return Container(
-                color: Theme.of(context).primaryColor,
-                height: 50,
-                width: double.infinity,
-                alignment: Alignment.center,
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16),
-                      child: Text(_selectedMarker.value?.data?['name'] ?? 'Unknown stop name'),
+              return _selectedQuestion == null ? SizedBox.shrink() : Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.white,
                     ),
-                    Spacer(),
-                    CloseButton(
-                      onPressed: _closeSlidingSheet,
-                  )
-                  ],
-                )
+                    padding: EdgeInsets.fromLTRB(25, 15, 25, 15),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${_selectedMarker.value?.data?['name'] ?? 'Unknown'}"
+                                " - ${_selectedQuestion!.name}",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.black38,
+                                )
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                _selectedQuestion!.question,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold
+                                ),
+                              ),
+                            ],
+                          )
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(
+                          Icons.info_outline_rounded,
+                          color: Colors.black12,
+                        )
+                      ]
+                    )
+                  ),
+                  const CustomPaint(
+                    painter: const TrianglePainter(color: Colors.white),
+                    size: Size(10,10)
+                  ),
+                ]
               );
             },
             builder: (context, state) {
-              return Container(
-                color: Colors.white,
-                height: 800,
-                child: Center(
-                  child: Text('Content')
-                ),
+              return _selectedQuestion == null ? SizedBox.shrink() : Container(
+                padding: EdgeInsets.all(25),
+                child: QuestionInputView.fromQuestionInput(_selectedQuestion!.input, onChange: null)
               );
             }
           )
@@ -152,7 +194,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _mapController.onCircleTapped.add(_onCircleTap);
 
     _stopQueryHandler.stops.listen(_addStopsToMap);
-
   }
 
   void _onCameraIdle() async {
@@ -174,12 +215,15 @@ class _HomeScreenState extends State<HomeScreen> {
     _deselectCurrentCircle();
   }
 
-  void _onCircleTap(Circle circle) {
+  void _onCircleTap(Circle circle) async {
     _deselectCurrentCircle();
     _selectCircle(circle);
 
+    final questions = await _questionCatalog;
+    _selectedQuestion = questions[Random().nextInt(questions.length)];
+
     _sheetController.rebuild();
-    _sheetController.snapToExtent(_initialSheetSize);
+    _sheetController.show();
 
     // move camera to circle
     // padding is not available for newLatLng()
@@ -265,10 +309,19 @@ class _HomeScreenState extends State<HomeScreen> {
     _mapController.addCircles(circle, data);
   }
 
+
+  Future<List<Question>> parseQuestions() async {
+    final questionJsonData = await rootBundle.loadString("assets/questions/question_catalog.json");
+    final questionJson = jsonDecode(questionJsonData).cast<Map<String, dynamic>>();
+    return questionJson.map<Question>((question) => Question.fromJSON(question)).toList();
+  }
+
+
   @override
   void dispose() {
     super.dispose();
     _mapController.dispose();
     _stopQueryHandler.dispose();
+    _selectedMarker.dispose();
   }
 }

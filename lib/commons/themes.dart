@@ -13,6 +13,9 @@ final ThemeData appTheme = ThemeData.light().copyWith(
     accentIconTheme: IconThemeData(color: Colors.black),
     dividerColor: Colors.black12,
     textTheme: const TextTheme(
+        subtitle1: TextStyle(
+          color: Colors.black87
+        ),
         headline5: TextStyle(
             color: Colors.black87,
         ),
