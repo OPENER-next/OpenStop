@@ -12,7 +12,7 @@ import '/widgets/home_controls.dart';
 import '/widgets/home_sidebar.dart';
 import '/models/question.dart';
 import '/widgets/questions/question_input_view.dart';
-import '/widgets/triangle_painter.dart';
+import '/widgets/triangle_down.dart';
 import '/api/stop_query_handler.dart';
 import '/models/stop.dart';
 
@@ -165,9 +165,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ]
                     )
                   ),
-                  const CustomPaint(
-                    painter: const TrianglePainter(color: Colors.white),
-                    size: Size(10,10)
+                  const TriangleDown(
+                    size: Size(10, 10),
+                    color: Colors.white
                   ),
                 ]
               );
