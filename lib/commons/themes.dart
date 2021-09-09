@@ -5,12 +5,13 @@ TextStyle linkStyle = TextStyle(color: Colors.blue);
 
 final ThemeData appTheme = ThemeData.light().copyWith(
     //primarySwatch: Colors.grey,
-    primaryColor: Color(0xff00cc7f),
-    accentColor: Color(0xfff0ca00),
+    colorScheme: ThemeData.light().colorScheme.copyWith(
+      primary: const Color(0xff00cc7f),
+      secondary: const Color(0xfff0ca00),
+      brightness: Brightness.dark,
+      background: const Color(0xFF212121),
+    ),
     bottomAppBarColor: Color(0xff00cc7f),
-    brightness: Brightness.dark,
-    backgroundColor: const Color(0xFF212121),
-    accentIconTheme: IconThemeData(color: Colors.black),
     dividerColor: Colors.black12,
     textTheme: const TextTheme(
         headline5: TextStyle(
@@ -30,6 +31,7 @@ final ThemeData appTheme = ThemeData.light().copyWith(
         buttonColor: Colors.yellow,
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
+        foregroundColor: Colors.black,
         backgroundColor: Colors.white,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(

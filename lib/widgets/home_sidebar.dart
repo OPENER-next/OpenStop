@@ -19,7 +19,7 @@ class _HomeSidebarState extends State<HomeSidebar> {
           children: <Widget>[
             UserAccountsDrawerHeader(
               currentAccountPicture: CircleAvatar(
-                backgroundColor: Theme.of(context).accentColor,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
                 child:
                   Text('MM',
                     style: Theme.of(context).textTheme.headline5,
@@ -28,7 +28,7 @@ class _HomeSidebarState extends State<HomeSidebar> {
               accountName: Text("Max Muster"),
               accountEmail: null,
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).colorScheme.primary,
               ),
               onDetailsPressed: () {},
             ),
