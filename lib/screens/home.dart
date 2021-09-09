@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
@@ -37,9 +38,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    // set system ui to fullscreen
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     // update native ui colors
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      // TODO: revisit this when https://github.com/flutter/flutter/pull/81303 lands
       statusBarColor: Colors.black.withOpacity(0.25),
       systemNavigationBarColor: Colors.black.withOpacity(0.25),
       statusBarIconBrightness: Brightness.light,
@@ -69,6 +71,19 @@ class _HomeScreenState extends State<HomeScreen> {
             initialCameraPosition: CameraPosition(
               zoom: 15.0,
               target: LatLng(50.8261, 12.9278),
+            ),
+            // Mapbox bug: requires devicePixelDensity for android
+            attributionButtonMargins: Point(
+              // another bug: https://github.com/tobrun/flutter-mapbox-gl/pull/681
+              0,
+              (MediaQuery.of(context).padding.bottom + 5) *
+              (Platform.isAndroid ? MediaQuery.of(context).devicePixelRatio : 1)
+            ),
+            logoViewMargins: Point(
+              25 *
+              (Platform.isAndroid ? MediaQuery.of(context).devicePixelRatio : 1),
+              (MediaQuery.of(context).padding.bottom + 5) *
+              (Platform.isAndroid ? MediaQuery.of(context).devicePixelRatio : 1)
             ),
             onMapCreated: _mapCompleter.complete,
             onStyleLoadedCallback: _styleCompleter.complete,
