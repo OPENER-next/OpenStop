@@ -105,8 +105,10 @@ class _HomeScreenState extends State<HomeScreen> {
             controller: _sheetController,
             addTopViewPaddingOnFullscreen: true,
             elevation: 8,
-            // reintroduce old top padding color problem
-            color: const Color(0xfff7f7f7),
+            // since the background color is overlaid by the individual builders/widgets background colors
+            // this color is only visible as th top padding behind the navigation bar
+            // thus it should match the header color
+            color: Colors.white,
             cornerRadius: 15,
             cornerRadiusOnFullscreen: 0,
             liftOnScrollHeaderElevation: 8,
@@ -118,62 +120,66 @@ class _HomeScreenState extends State<HomeScreen> {
               positioning: SnapPositioning.relativeToAvailableSpace,
             ),
             headerBuilder: (context, state) {
-              return _selectedQuestion == null ? SizedBox.shrink() : Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.white,
-                    ),
-                    padding: EdgeInsets.fromLTRB(25, 15, 25, 15),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${_selectedMarker.value?.data?['name'] ?? 'Unknown'}"
-                                " - ${_selectedQuestion!.name}",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.black38,
-                                )
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                _selectedQuestion!.question,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold
+              return _selectedQuestion == null ? SizedBox.shrink() : ColoredBox(
+                color: const Color(0xfff7f7f7),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.vertical(bottom: Radius.circular(15)),
+                        color: Colors.white,
+                      ),
+                      padding: EdgeInsets.fromLTRB(25, 15, 25, 15),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "${_selectedMarker.value?.data?['name'] ?? 'Unknown'}"
+                                  " - ${_selectedQuestion!.name}",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.black38,
+                                  )
                                 ),
-                              ),
-                            ],
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  _selectedQuestion!.question,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                              ],
+                            )
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Icon(
+                            Icons.info_outline_rounded,
+                            color: Colors.black12,
                           )
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Icon(
-                          Icons.info_outline_rounded,
-                          color: Colors.black12,
-                        )
-                      ]
-                    )
-                  ),
-                  const TriangleDown(
-                    size: Size(10, 10),
-                    color: Colors.white
-                  ),
-                ]
+                        ]
+                      )
+                    ),
+                    const TriangleDown(
+                      size: Size(10, 10),
+                      color: Colors.white
+                    ),
+                  ]
+                )
               );
             },
             builder: (context, state) {
               return _selectedQuestion == null ? SizedBox.shrink() : Container(
+                color: const Color(0xfff7f7f7),
                 padding: EdgeInsets.all(25),
                 child: QuestionInputView.fromQuestionInput(_selectedQuestion!.input, onChange: null)
               );
