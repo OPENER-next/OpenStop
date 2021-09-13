@@ -9,6 +9,7 @@ import '/commons/globals.dart';
 import '/commons/mapbox_utils.dart';
 import '/widgets/home_controls.dart';
 import '/widgets/home_sidebar.dart';
+import '/widgets/loading_indicator.dart';
 import '/api/stop_query_handler.dart';
 import '/models/stop.dart';
 
@@ -90,6 +91,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
               );
             }
+          ),
+          Positioned(
+            top: MediaQuery.of(context).padding.top + 15,
+            right: 0.0,
+            left: 0.0,
+            child: ValueListenableBuilder<int>(
+              builder: (BuildContext context, int value, Widget? child) =>
+                AnimatedSwitcher(
+                  switchInCurve: Curves.elasticOut,
+                  switchOutCurve: Curves.elasticOut,
+                  transitionBuilder: (Widget child, Animation<double> animation) =>
+                    ScaleTransition(child: child, scale: animation),
+                  duration: Duration(milliseconds: 300),
+                  child: value > 0 ? child : const SizedBox.shrink()
+                ),
+              valueListenable: _stopQueryHandler.pendingQueryCount,
+              child: LoadingIndicator()
+            )
           ),
           SlidingSheet(
             controller: _sheetController,
