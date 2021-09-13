@@ -11,8 +11,6 @@ final ThemeData appTheme = ThemeData.light().copyWith(
       brightness: Brightness.dark,
       background: const Color(0xFF212121),
     ),
-    bottomAppBarColor: Color(0xff00cc7f),
-    dividerColor: Colors.black12,
     textTheme: const TextTheme(
         headline5: TextStyle(
             color: Colors.black87,
