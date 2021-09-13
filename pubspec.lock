@@ -331,10 +331,12 @@ packages:
   sliding_sheet:
     dependency: "direct main"
     description:
-      name: sliding_sheet
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.0"
+      path: "."
+      ref: HEAD
+      resolved-ref: effb8f7435e70ebf83d9007d69d66c26cf9bece1
+      url: "https://github.com/Robbendebiene/sliding_sheet.git"
+    source: git
+    version: "0.5.1-dev+2"
   source_span:
     dependency: transitive
     description:

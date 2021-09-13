@@ -122,8 +122,8 @@ class _HomeScreenState extends State<HomeScreen> {
             headerBuilder: (context, state) {
               return _selectedQuestion == null ? SizedBox.shrink() : ColoredBox(
                 color: const Color(0xfff7f7f7),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+                child: Stack(
+                  clipBehavior: Clip.none,
                   children: [
                     Container(
                       decoration: BoxDecoration(
@@ -169,9 +169,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         ]
                       )
                     ),
-                    const TriangleDown(
-                      size: Size(10, 10),
-                      color: Colors.white
+                    Positioned(
+                      left: MediaQuery.of(context).size.width / 2 - 5, bottom: -10,
+                      child:TriangleDown(
+                        size: Size(10, 10),
+                        color: Colors.white
+                      )
                     ),
                   ]
                 )
