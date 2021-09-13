@@ -3,31 +3,28 @@ import 'package:flutter/material.dart';
 class ZoomButton extends StatelessWidget {
   final void Function()? onZoomInPressed;
   final void Function()? onZoomOutPressed;
-  late final double buttonWidth;
-  late final double buttonHeight;
 
   ZoomButton({
     Key? key,
     this.onZoomInPressed,
     this.onZoomOutPressed,
-    mini = false
-  }) : super(key: key) {
-    buttonWidth = mini ? 40.0 : 56.0;
-    buttonHeight = mini ? 50.0 : 60.0;
-  }
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Material(
       elevation: Theme.of(context).floatingActionButtonTheme.elevation ?? 8.0,
-      borderRadius: BorderRadius.all(Radius.circular(this.buttonWidth/2)),
+      borderRadius: BorderRadius.all(
+          Radius.circular(
+              (Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minWidth ?? 40.0) / 2)
+      ),
       color: Theme.of(context).floatingActionButtonTheme.backgroundColor,
       clipBehavior: Clip.antiAlias,
       child: Column(
         children: [
           SizedBox(
-            height: this.buttonHeight,
-            width: this.buttonWidth,
+            height: (Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minHeight ?? 40.0) * 1.25,
+            width: Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minWidth ?? 40.0,
             child: InkWell(
               onTap: onZoomInPressed,
               child: const Icon(Icons.add),
@@ -35,12 +32,12 @@ class ZoomButton extends StatelessWidget {
           ),
           Container(
             height: 1,
-            width: this.buttonWidth,
+            width: Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minWidth,
             color: Colors.black12,
           ),
           SizedBox(
-            height: this.buttonHeight,
-            width: this.buttonWidth,
+            height: (Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minHeight ?? 40.0) * 1.25,
+            width: Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minWidth ?? 40.0,
             child: InkWell(
               onTap: onZoomOutPressed,
               child: const Icon(Icons.remove),

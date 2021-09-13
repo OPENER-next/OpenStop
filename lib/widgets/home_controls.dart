@@ -49,8 +49,7 @@ class _HomeControlsState extends State<HomeControls> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          FloatingActionButton(
-            mini:true,
+          FloatingActionButton.small(
             child: Icon(
               Icons.menu,
               color: Colors.black,
@@ -79,8 +78,7 @@ class _HomeControlsState extends State<HomeControls> {
               SizedBox (
                 height: widget.buttonSpacing
               ),
-              FloatingActionButton(
-                mini: true,
+              FloatingActionButton.small(
                 child: Icon(
                   Icons.my_location,
                   color: Colors.black,
@@ -91,7 +89,6 @@ class _HomeControlsState extends State<HomeControls> {
                 height: widget.buttonSpacing
               ),
               ZoomButton(
-                mini: true,
                 onZoomInPressed: _zoomIn,
                 onZoomOutPressed: _zoomOut,
                 )
