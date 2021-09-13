@@ -44,8 +44,10 @@ class _HomeScreenState extends State<HomeScreen> {
     // update native ui colors
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.black.withOpacity(0.25),
-      systemNavigationBarColor: Colors.black.withOpacity(0.25),
       statusBarIconBrightness: Brightness.light,
+      systemNavigationBarColor: Colors.black.withOpacity(0.25),
+      systemNavigationBarIconBrightness: Brightness.light,
+
     ));
     // wait for map creation to finish
     _mapCompleter.future.then(_initMap);
