@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ import '/widgets/home_sidebar.dart';
 import '/models/question.dart';
 import '/widgets/questions/question_input_view.dart';
 import '/widgets/triangle_down.dart';
+import '/widgets/loading_indicator.dart';
 import '/api/stop_query_handler.dart';
 import '/models/stop.dart';
 
@@ -45,9 +47,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    // set system ui to fullscreen
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     // update native ui colors
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      // TODO: revisit this when https://github.com/flutter/flutter/pull/81303 lands
       statusBarColor: Colors.black.withOpacity(0.25),
       systemNavigationBarColor: Colors.black.withOpacity(0.25),
       statusBarIconBrightness: Brightness.light,
@@ -80,6 +83,19 @@ class _HomeScreenState extends State<HomeScreen> {
               zoom: 15.0,
               target: LatLng(50.8261, 12.9278),
             ),
+            // Mapbox bug: requires devicePixelDensity for android
+            attributionButtonMargins: Point(
+              // another bug: https://github.com/tobrun/flutter-mapbox-gl/pull/681
+              0,
+              (MediaQuery.of(context).padding.bottom + 5) *
+              (Platform.isAndroid ? MediaQuery.of(context).devicePixelRatio : 1)
+            ),
+            logoViewMargins: Point(
+              25 *
+              (Platform.isAndroid ? MediaQuery.of(context).devicePixelRatio : 1),
+              (MediaQuery.of(context).padding.bottom + 5) *
+              (Platform.isAndroid ? MediaQuery.of(context).devicePixelRatio : 1)
+            ),
             onMapCreated: _mapCompleter.complete,
             onStyleLoadedCallback: _styleCompleter.complete,
             onMapClick: (Point point, LatLng location) => _closeSlidingSheet(),
@@ -100,6 +116,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
               );
             }
+          ),
+          Positioned(
+            top: MediaQuery.of(context).padding.top + 15,
+            right: 0.0,
+            left: 0.0,
+            child: ValueListenableBuilder<int>(
+              builder: (BuildContext context, int value, Widget? child) =>
+                AnimatedSwitcher(
+                  switchInCurve: Curves.elasticOut,
+                  switchOutCurve: Curves.elasticOut,
+                  transitionBuilder: (Widget child, Animation<double> animation) =>
+                    ScaleTransition(child: child, scale: animation),
+                  duration: Duration(milliseconds: 300),
+                  child: value > 0 ? child : const SizedBox.shrink()
+                ),
+              valueListenable: _stopQueryHandler.pendingQueryCount,
+              child: LoadingIndicator()
+            )
           ),
           SlidingSheet(
             controller: _sheetController,

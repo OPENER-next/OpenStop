@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:dio/dio.dart';
 import '/models/stop.dart';
@@ -48,6 +49,8 @@ class StopQueryHandler {
 
   final _results = StreamController<Iterable<Stop>>();
 
+  final _pendingQueryCount = ValueNotifier<int>(0);
+
   StopQueryHandler({
     this.cellSize = 0.1,
     this.viewBoxExtend = 0.3
@@ -63,6 +66,16 @@ class StopQueryHandler {
   }
 
 
+  /// A [Stream] that returns a list of newly queried stops.
+
+  Stream<Iterable<Stop>> get stops => _results.stream;
+
+
+  /// A [ValueNotifier] that indicate whether the loading of stops is in progress or not.
+
+  ValueNotifier<int> get pendingQueryCount => _pendingQueryCount;
+
+
   void _update() {
     final cameraViewBox = _applyExtend(_lastCameraViewBox!);
 
@@ -72,25 +85,36 @@ class StopQueryHandler {
         // add cell index to query cache
         _queryRecorder.add(cellIndex);
         // query stops
-        _queryStopsInCell(cellIndex).then((response) {
-            // add stops to the stream
-            _results.add(_queryResponseToStops(response));
-          }, onError: (error) {
-            print(error);
-            // on error remove cache entry so it can/will be re-queried
+        _queryStopsInCell(cellIndex)
+          .then(_handleQuerySuccess)
+          .catchError((error) {
+            // remove cache entry so it can/will be re-queried
             _queryRecorder.remove(cellIndex);
-            // recall update function with the latest cameraViewBox after 1 second
-            Future.delayed(Duration(seconds: 1), () => _update());
-          }
-        );
+            _handleQueryError(error);
+          })
+          .whenComplete(_handleQueryComplete);
       }
     }
   }
 
 
-  /// The stream that returns a list of newly queried stops.
+  _handleQuerySuccess(response) {
+    // add stops to the stream
+    _results.add(_queryResponseToStops(response));
+  }
 
-  Stream<Iterable<Stop>> get stops => _results.stream;
+
+  _handleQueryError(error) {
+    print(error);
+    // recall update function with the latest cameraViewBox after 1 second
+    Future.delayed(Duration(seconds: 1), () => _update());
+  }
+
+
+  _handleQueryComplete() {
+    // decrease query counter
+    _pendingQueryCount.value--;
+  }
 
 
   /// This method calculates the absolute box extend and applies it to the given camera view box
@@ -168,6 +192,8 @@ class StopQueryHandler {
     // get random url from server list
     final url = _overpassAPIServers[_random.nextInt(_overpassAPIServers.length)];
 
+    _pendingQueryCount.value++;
+
     return _dio.get<Map<String, dynamic>>(url,
       queryParameters: {
         'data': _query,
@@ -183,6 +209,7 @@ class StopQueryHandler {
   void dispose() {
     _dio.close(force: true);
     _results.close();
+    _pendingQueryCount.dispose();
   }
 }
 
