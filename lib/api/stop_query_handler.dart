@@ -24,7 +24,7 @@ class StopQueryHandler {
 
   static const _query =
     '[out:json][timeout:200][bbox];'
-    'relation["public_transport"="stop_area"];'
+    'nwr["public_transport"="platform"];'
     'out tags center;';
 
   /// The cell size in degrees.
