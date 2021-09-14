@@ -820,7 +820,7 @@
    {
       "id": 1130,
       "name": "Fahrplananzeigetafel",
-      "question": "Gibt es eine Fahrplananzeige für die gesamte Haltestelle?"
+      "question": "Gibt es eine Fahrplananzeige für die gesamte Haltestelle?",
       "description": "Fahrplananzeigetafeln geben einen Überblick aktueller Fahrten an der gesamten Station. Echtzeit-Informationen helfen Reisende sich über aktuelle Fahrplanänderungen wie Verspätungen, Ausfälle oder Gleisänderungen zu informieren.",
       "input": {
          "type": "List",
@@ -1077,8 +1077,8 @@
    {
       "id": 1170,
       "name": "Bordstein-/Bussteig-/Bahnsteighöhe",
-      "question": "Wie hoch ist der Bordstein der Plattform?",
-      "description": "Wenn diese Höhe innerhalb eines Steiges variiert, ist der typische Wert für die übliche Einstiegsstelle von Rollstuhlfahrern zu bestimmen. Im Straßenverkehr wird die Höhe zwischen dem Straßenniveau und der Bordsteinoberkante, sowie im Schienenverkehr zwischen der Schienenoberkante und der Bahnsteigoberkante gemessen.",
+      "question": "Wie groß ist der Höhenunterschied zwischen Plattform und Straße bzw. Schienenoberkante?",
+      "description": "Wenn diese Höhe innerhalb eines Steiges variiert, ist der typische Wert für die übliche Einstiegsstelle von Rollstuhlfahrern zu bestimmen.",
       "input": {
          "type": "Number",
          "decimals": 0,
@@ -1096,6 +1096,7 @@
             "osm_tags": {
                "public_transport": "platform",
                "kerb": [
+                  false,
                   "yes",
                   "raised",
                   "lowered",
