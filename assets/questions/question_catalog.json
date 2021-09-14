@@ -819,68 +819,40 @@
    },
    {
       "id": 1130,
-      "name": "Fahrplananzeigetafeln",
-      "question": "Gibt es eine Fahrplananzeige für die gesamte Haltestelle?",
-      "description": "Fahrplananzeigetafeln geben einen Überblick aktueller Fahrten an der gesamten Station.",
-      "image": [
-         "assets/questions/images/1130.png"
-      ],
-      "input": {
-         "type": "Bool",
-         "values": {
-            "true": {
-               "osm_tags": {
-                  "depatures_board": "yes"
-               }
-            },
-            "false": {
-               "osm_tags": {
-                  "depatures_board": "no"
-               }
-            }
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "public_transport": [
-                  "station",
-                  "stop_area"
-               ],
-               "depatures_board": false
-            }
-         }
-      ],
-      "difficulty": 1
-   },
-   {
-      "id": 1130,
-      "name": "Echtzeit-Fahrplananzeigetafel",
-      "question": "Zeigt die Fahrplananzeigetafel Echtzeit-Informationen an?",
-      "description": "Echtzeit-Informationen helfen Reisende sich über aktuelle Fahrplanänderungen wie Verspätungen, Ausfälle oder Gleisänderungen zu informieren.",
+      "name": "Fahrplananzeigetafel",
+      "question": "Gibt es eine Fahrplananzeige für die gesamte Haltestelle?"
+      "description": "Fahrplananzeigetafeln geben einen Überblick aktueller Fahrten an der gesamten Station. Echtzeit-Informationen helfen Reisende sich über aktuelle Fahrplanänderungen wie Verspätungen, Ausfälle oder Gleisänderungen zu informieren.",
       "input": {
          "type": "List",
          "values": {
+           "realtime": {
+              "name": "Echtzeit",
+              "image": "assets/questions/image/1130a.jpg",
+              "osm_tags": {
+                 "departures_board": "realtime"
+              }
+           },
             "timetable": {
                "name": "Statisch",
-               "image": "assets/questions/image/1130a.jpg",
-               "osm_tags": {
-                  "depatures_board": "timetable"
-               }
-            },
-            "realtime": {
-               "name": "Echtzeit",
                "image": "assets/questions/image/1130b.jpg",
                "osm_tags": {
-                  "depatures_board": "realtime"
+                  "departures_board": "timetable"
                }
+            },
+            "no" : {
+              "name": "Nein",
+              "osm_tags": {
+                 "departures_board": "no"
+              }
             }
          }
       },
       "conditions": [
          {
             "osm_tags": {
-               "depatures_board": "yes"
+               "public_transport": "station",
+               "railway": "station",
+               "departures_board": false
             }
          }
       ],
@@ -913,7 +885,7 @@
                   "station",
                   "stop_area"
                ],
-               "depatures_board": "realtime"
+               "departures_board": "realtime"
             }
          }
       ],
@@ -1053,7 +1025,7 @@
    {
       "id": 1170,
       "name": "Bordstein-/Bussteig-/Bahnsteigart",
-      "question": "Welche Art von Bordstein hat die Plattform?",
+      "question": "Welche Art von Bordstein hat die Plattform an der Seite, an der das Verkehrsmittel hält?",
       "input": {
          "type": "List",
          "values": {
