@@ -11,8 +11,6 @@ final ThemeData appTheme = ThemeData.light().copyWith(
       brightness: Brightness.dark,
       background: const Color(0xFF212121),
     ),
-    bottomAppBarColor: Color(0xff00cc7f),
-    dividerColor: Colors.black12,
     textTheme: const TextTheme(
         subtitle1: TextStyle(
           color: Colors.black87
@@ -36,6 +34,7 @@ final ThemeData appTheme = ThemeData.light().copyWith(
     floatingActionButtonTheme: FloatingActionButtonThemeData(
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
+        smallSizeConstraints: BoxConstraints.tight(Size.square(48)),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(

@@ -1,56 +1,51 @@
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
-
 
 class CompassButton extends AnimatedWidget {
-  final MapboxMapController controller;
-  final double size;
+  /// A function for obtaining the current map rotation.
+  /// The rotation is expected in clockwise radians if not otherwise specified by the "isDegree" parameter.
+  final double Function() getRotation;
+
   final void Function() onPressed;
 
-  final piFraction = pi / 180;
+  /// Whether the angle unit supplied by the [getRotation] method is in degrees or radians.
+  final bool isDegree;
 
-  CompassButton({
-    required this.controller,
+  static const _piFraction = pi / 180;
+
+  const CompassButton({
+    required Listenable listenable,
+    required this.getRotation,
     required this.onPressed,
-    required this.size,
-  }) : super(listenable: controller);
+    this.isDegree = false
+  }) : super(listenable: listenable);
 
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      mini: true,
-      onPressed: onPressed,
-      child: SizedBox(
-        width: size,
-        height: size,
+    return FloatingActionButton.small(
+        onPressed: onPressed,
         child: Transform.rotate(
-          angle: -piFraction * (controller.cameraPosition?.bearing ?? 1),
-          child: Stack(
-            alignment: AlignmentDirectional.center,
-            children: [
-              Positioned(
-                bottom: -(size*0.1),
-                child: Text('N',
+            angle: getRotation() * (isDegree ? _piFraction : 1),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  CupertinoIcons.arrowtriangle_up_fill,
+                  color: Colors.red,
+                  size: 12,
+                ),
+                Text(
+                    'N',
                     style: TextStyle(
-                        fontSize: size*0.6,
+                        height: 1,
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: Colors.black
                     )
                 ),
-              ),
-              Positioned(
-                top: -(size*0.1),
-                child: Icon(
-                    CupertinoIcons.arrowtriangle_up_fill,
-                    color: Colors.red,
-                    size: size*0.6,
-                    ),
-                ),
-            ],
-          )
+              ],
+            )
         )
-      ),
     );
   }
 }

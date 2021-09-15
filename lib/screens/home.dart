@@ -52,8 +52,10 @@ class _HomeScreenState extends State<HomeScreen> {
     // update native ui colors
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.black.withOpacity(0.25),
-      systemNavigationBarColor: Colors.black.withOpacity(0.25),
       statusBarIconBrightness: Brightness.light,
+      systemNavigationBarColor: Colors.black.withOpacity(0.25),
+      systemNavigationBarIconBrightness: Brightness.light,
+
     ));
     // wait for map creation to finish
     _mapCompleter.future.then(_initMap);
@@ -72,6 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           MapboxMap(
+            // move to user location and track it by default
+            myLocationTrackingMode: MyLocationTrackingMode.Tracking,
             // dispatch camera change events
             trackCameraPosition: true,
             compassEnabled: false,
@@ -128,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   switchOutCurve: Curves.elasticOut,
                   transitionBuilder: (Widget child, Animation<double> animation) =>
                     ScaleTransition(child: child, scale: animation),
-                  duration: Duration(milliseconds: 300),
+                  duration: Duration(milliseconds: 500),
                   child: value > 0 ? child : const SizedBox.shrink()
                 ),
               valueListenable: _stopQueryHandler.pendingQueryCount,
@@ -231,8 +235,6 @@ class _HomeScreenState extends State<HomeScreen> {
   _initMap(MapboxMapController controller) async {
     // store reference to controller
     _mapController = controller;
-
-    moveToUserLocation(mapController: controller);
 
     _mapController.onCircleTapped.add(_onCircleTap);
 

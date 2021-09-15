@@ -9,13 +9,11 @@ import 'package:opener_next/widgets/zoom_button.dart';
 class HomeControls extends StatefulWidget {
   final MapboxMapController mapController;
   final double buttonSpacing;
-  final double buttonIconSize;
 
   const HomeControls({
     Key? key,
     required this.mapController,
     this.buttonSpacing = 10.0,
-    this.buttonIconSize = 25.0
    }) : super(key: key);
 
 
@@ -42,7 +40,7 @@ class _HomeControlsState extends State<HomeControls> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.fromLTRB(
-        0,
+        widget.buttonSpacing + MediaQuery.of(context).padding.left,
         widget.buttonSpacing + MediaQuery.of(context).padding.top,
         widget.buttonSpacing + MediaQuery.of(context).padding.right,
         widget.buttonSpacing + MediaQuery.of(context).padding.bottom,
@@ -51,8 +49,7 @@ class _HomeControlsState extends State<HomeControls> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          FloatingActionButton(
-            mini:true,
+          FloatingActionButton.small(
             child: Icon(
               Icons.menu,
               color: Colors.black,
@@ -71,28 +68,27 @@ class _HomeControlsState extends State<HomeControls> {
                   );
                 } ,
                 child: CompassButton(
-                  controller: widget.mapController,
+                  listenable: widget.mapController,
+                  getRotation: () => -(widget.mapController.cameraPosition?.bearing ?? 0),
+                  isDegree: true,
                   onPressed: _resetRotation,
-                  size: widget.buttonIconSize,
                 ),
               ),
               Spacer(),
               SizedBox (
                 height: widget.buttonSpacing
               ),
-              FloatingActionButton(
-                mini: true,
+              FloatingActionButton.small(
                 child: Icon(
                   Icons.my_location,
                   color: Colors.black,
                 ),
-                onPressed: () => moveToUserLocation(mapController: widget.mapController),
+                onPressed: () => trackUserLocation(widget.mapController),
               ),
               SizedBox (
                 height: widget.buttonSpacing
               ),
               ZoomButton(
-                mini: true,
                 onZoomInPressed: _zoomIn,
                 onZoomOutPressed: _zoomOut,
                 )

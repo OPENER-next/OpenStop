@@ -18,8 +18,10 @@ class Stop {
 
   factory Stop.fromOverpassJSON(Map<String, dynamic> element) {
     return Stop(
-      name: element['tags']?['name'] ?? 'Unknown Name',
-      location: LatLng(element['center']['lat'], element['center']['lon'])
+      name: element['tags']?['name'] ?? element['tags']?['ref'] ?? 'Unknown Name',
+      location: element.containsKey('center')
+        ? LatLng(element['center']['lat'], element['center']['lon'])
+        : LatLng(element['lat'], element['lon'])
     );
   }
 
