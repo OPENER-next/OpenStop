@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-TextStyle defaultStyle = TextStyle(color: Colors.grey, fontSize: 12.0);
-TextStyle linkStyle = TextStyle(color: Colors.blue);
-
 final ThemeData appTheme = ThemeData.light().copyWith(
     colorScheme: ThemeData.light().colorScheme.copyWith(
       primary: const Color(0xff00cc7f),
@@ -23,10 +20,13 @@ final ThemeData appTheme = ThemeData.light().copyWith(
         bodyText1: TextStyle(
             color: Colors.black87,
         ),
+        caption: TextStyle(
+          color: Colors.black45,
+        )
         overline: TextStyle(
           fontSize: 12,
           color: Colors.black38,
-        )
+        ),
     ),
     buttonTheme: ButtonThemeData(
         shape: RoundedRectangleBorder(

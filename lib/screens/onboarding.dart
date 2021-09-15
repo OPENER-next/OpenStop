@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/gestures.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '/widgets/dots_indicator.dart';
-import '/commons/themes.dart';
 
 // Screens
 import 'home.dart';
@@ -81,12 +80,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         RichText(
                           textAlign: TextAlign.center,
                           text: TextSpan(
-                          style: defaultStyle,
+                          style: Theme.of(context).textTheme.caption,
                           children: <TextSpan>[
                             TextSpan(text: 'Mit dem Klick auf "Los geht\'s!", akzeptierst du unsere '),
                             TextSpan(
                                 text: 'Nutzungsbedingungen',
-                                style: linkStyle,
+                                style: TextStyle(
+                                    color: Theme.of(context).colorScheme.secondary
+                                ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     Navigator.push(
@@ -98,7 +99,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             TextSpan(text: ' und bestätigst, dass du unsere '),
                             TextSpan(
                                 text: 'Datenschutzerklärung',
-                                style: linkStyle,
+                                style: TextStyle(
+                                    color: Theme.of(context).colorScheme.secondary
+                                ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
                                     Navigator.push(
