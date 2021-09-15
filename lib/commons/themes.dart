@@ -31,7 +31,7 @@ final ThemeData appTheme = ThemeData.light().copyWith(
     floatingActionButtonTheme: FloatingActionButtonThemeData(
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
-        smallSizeConstraints: BoxConstraints.tight(Size.square(40)),
+        smallSizeConstraints: BoxConstraints.tight(Size.square(48)),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(

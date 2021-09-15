@@ -40,7 +40,7 @@ class _HomeControlsState extends State<HomeControls> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.fromLTRB(
-        0,
+        widget.buttonSpacing + MediaQuery.of(context).padding.left,
         widget.buttonSpacing + MediaQuery.of(context).padding.top,
         widget.buttonSpacing + MediaQuery.of(context).padding.right,
         widget.buttonSpacing + MediaQuery.of(context).padding.bottom,

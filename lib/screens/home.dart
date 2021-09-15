@@ -122,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   switchOutCurve: Curves.elasticOut,
                   transitionBuilder: (Widget child, Animation<double> animation) =>
                     ScaleTransition(child: child, scale: animation),
-                  duration: Duration(milliseconds: 300),
+                  duration: Duration(milliseconds: 500),
                   child: value > 0 ? child : const SizedBox.shrink()
                 ),
               valueListenable: _stopQueryHandler.pendingQueryCount,
