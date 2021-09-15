@@ -3,20 +3,24 @@ import '/widgets/questions/question_input_view.dart';
 import '/models/question_input.dart';
 
 
-class OpeningHoursInputView extends QuestionInputView {
-  OpeningHoursInputView(
+class StringInput extends QuestionInputView {
+  StringInput(
     QuestionInput questionInput,
     { void Function(Map<String, String>)? onChange, Key? key }
   ) : super(questionInput, onChange: onChange, key: key);
 
   @override
-  _OpeningHoursInputViewState createState() => _OpeningHoursInputViewState();
+  _StringInputState createState() => _StringInputState();
 }
 
 
-class _OpeningHoursInputViewState extends State<OpeningHoursInputView> {
+class _StringInputState extends State<StringInput> {
   @override
   Widget build(BuildContext context) {
-    return Text('Dummy');
+    return TextField(
+      decoration: InputDecoration(
+        border: OutlineInputBorder()
+      ),
+    );
   }
 }

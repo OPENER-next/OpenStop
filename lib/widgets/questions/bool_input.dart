@@ -3,18 +3,18 @@ import '/models/question_input.dart';
 import '/widgets/questions/question_input_view.dart';
 
 
-class BoolInputView extends QuestionInputView {
-  BoolInputView(
+class BoolInput extends QuestionInputView {
+  BoolInput(
     QuestionInput questionInput,
     { void Function(Map<String, String>)? onChange, Key? key }
   ) : super(questionInput, onChange: onChange, key: key);
 
   @override
-  _BoolInputViewState createState() => _BoolInputViewState();
+  _BoolInputState createState() => _BoolInputState();
 }
 
 
-class _BoolInputViewState extends State<BoolInputView> {
+class _BoolInputState extends State<BoolInput> {
   bool? _selectedBool;
 
   @override

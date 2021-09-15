@@ -3,24 +3,20 @@ import '/widgets/questions/question_input_view.dart';
 import '/models/question_input.dart';
 
 
-class StringInputView extends QuestionInputView {
-  StringInputView(
+class DurationInput extends QuestionInputView {
+  DurationInput(
     QuestionInput questionInput,
     { void Function(Map<String, String>)? onChange, Key? key }
   ) : super(questionInput, onChange: onChange, key: key);
 
   @override
-  _StringInputViewState createState() => _StringInputViewState();
+  _DurationInputState createState() => _DurationInputState();
 }
 
 
-class _StringInputViewState extends State<StringInputView> {
+class _DurationInputState extends State<DurationInput> {
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        border: OutlineInputBorder()
-      ),
-    );
+    return Text('Dummy');
   }
 }

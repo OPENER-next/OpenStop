@@ -4,18 +4,18 @@ import '/widgets/questions/question_input_view.dart';
 import '/models/question_input.dart';
 
 
-class NumberInputView extends QuestionInputView {
-  NumberInputView(
+class NumberInput extends QuestionInputView {
+  NumberInput(
     QuestionInput questionInput,
     { void Function(Map<String, String>)? onChange, Key? key }
   ) : super(questionInput, onChange: onChange, key: key) ;
 
   @override
-  _NumberInputViewState createState() => _NumberInputViewState();
+  _NumberInputState createState() => _NumberInputState();
 }
 
 
-class _NumberInputViewState extends State<NumberInputView> {
+class _NumberInputState extends State<NumberInput> {
   late final allowsDecimals;
 
   @override

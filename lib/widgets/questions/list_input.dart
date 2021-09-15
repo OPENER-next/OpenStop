@@ -8,18 +8,18 @@ import '/models/question_input.dart';
 
 
 
-class ListInputView extends QuestionInputView {
-  ListInputView(
+class ListInput extends QuestionInputView {
+  ListInput(
     QuestionInput questionInput,
     { void Function(Map<String, String>)? onChange, Key? key }
   ) : super(questionInput, onChange: onChange, key: key);
 
   @override
-  _ListInputViewState createState() => _ListInputViewState();
+  _ListInputState createState() => _ListInputState();
 }
 
 
-class _ListInputViewState extends State<ListInputView> {
+class _ListInputState extends State<ListInput> {
   String? _selectedKey;
 
   @override
