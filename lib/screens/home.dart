@@ -64,6 +64,8 @@ class _HomeScreenState extends State<HomeScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           MapboxMap(
+            // move to user location and track it by default
+            myLocationTrackingMode: MyLocationTrackingMode.Tracking,
             // dispatch camera change events
             trackCameraPosition: true,
             compassEnabled: false,
@@ -182,8 +184,6 @@ class _HomeScreenState extends State<HomeScreen> {
   _initMap(MapboxMapController controller) async {
     // store reference to controller
     _mapController = controller;
-
-    moveToUserLocation(mapController: controller);
 
     _mapController.onCircleTapped.add(_onCircleTap);
 
