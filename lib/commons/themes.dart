@@ -4,10 +4,13 @@ final ThemeData appTheme = ThemeData.light().copyWith(
     colorScheme: ThemeData.light().colorScheme.copyWith(
       primary: const Color(0xff00cc7f),
       secondary: const Color(0xfff0ca00),
-      brightness: Brightness.dark,
-      background: const Color(0xff212121),
+      background: const Color(0xfff7f7f7),
+      surface: Colors.white
     ),
     textTheme: const TextTheme(
+        subtitle1: TextStyle(
+          color: Colors.black87
+        ),
         headline5: TextStyle(
             color: Colors.black87,
         ),
@@ -20,6 +23,10 @@ final ThemeData appTheme = ThemeData.light().copyWith(
         caption: TextStyle(
           color: Colors.black45,
         )
+        overline: TextStyle(
+          fontSize: 12,
+          color: Colors.black38,
+        ),
     ),
     buttonTheme: ButtonThemeData(
         shape: RoundedRectangleBorder(
@@ -39,4 +46,7 @@ final ThemeData appTheme = ThemeData.light().copyWith(
         textStyle: MaterialStateProperty.all(TextStyle(fontSize: 24))
       )
     ),
+    iconTheme: IconThemeData(
+      color: Colors.black87
+    )
   );
