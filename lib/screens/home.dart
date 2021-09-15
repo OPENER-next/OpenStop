@@ -140,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
             addTopViewPaddingOnFullscreen: true,
             elevation: 8,
             // since the background color is overlaid by the individual builders/widgets background colors
-            // this color is only visible as th top padding behind the navigation bar
+            // this color is only visible as the top padding behind the navigation bar
             // thus it should match the header color
             color: Colors.white,
             cornerRadius: 15,
