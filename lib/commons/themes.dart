@@ -22,7 +22,7 @@ final ThemeData appTheme = ThemeData.light().copyWith(
         ),
         caption: TextStyle(
           color: Colors.black45,
-        )
+        ),
         overline: TextStyle(
           fontSize: 12,
           color: Colors.black38,
