@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 
-TextStyle defaultStyle = TextStyle(color: Colors.grey, fontSize: 12.0);
-TextStyle linkStyle = TextStyle(color: Colors.blue);
-
 final ThemeData appTheme = ThemeData.light().copyWith(
-    //primarySwatch: Colors.grey,
     colorScheme: ThemeData.light().colorScheme.copyWith(
       primary: const Color(0xff00cc7f),
       secondary: const Color(0xfff0ca00),
       brightness: Brightness.dark,
-      background: const Color(0xFF212121),
+      background: const Color(0xff212121),
     ),
     textTheme: const TextTheme(
         headline5: TextStyle(
@@ -20,6 +16,9 @@ final ThemeData appTheme = ThemeData.light().copyWith(
         ),
         bodyText1: TextStyle(
             color: Colors.black87,
+        ),
+        caption: TextStyle(
+          color: Colors.black45,
         )
     ),
     buttonTheme: ButtonThemeData(
