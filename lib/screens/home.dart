@@ -217,7 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
             builder: (context, state) {
               return _selectedQuestion == null ? SizedBox.shrink() : Container(
                 color: const Color(0xfff7f7f7),
-                padding: EdgeInsets.all(25),
+                padding: EdgeInsets.fromLTRB(25, 25, 25, 25 + MediaQuery.of(context).padding.bottom),
                 child: QuestionInputView.fromQuestionInput(_selectedQuestion!.input, onChange: null)
               );
             }
