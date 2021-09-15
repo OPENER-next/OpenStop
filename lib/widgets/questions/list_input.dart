@@ -38,7 +38,7 @@ class _ListInputState extends State<ListInput> {
               decoration: BoxDecoration(
                 border: _selectedKey != entry.key ? null : Border.all(
                   width: 2,
-                  color: Theme.of(context).accentColor
+                  color: Theme.of(context).colorScheme.primary
                 ),
                 image: DecorationImage(
                   colorFilter: _selectedKey != entry.key ? null : ColorFilter.mode(

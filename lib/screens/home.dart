@@ -146,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // since the background color is overlaid by the individual builders/widgets background colors
             // this color is only visible as the top padding behind the navigation bar
             // thus it should match the header color
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.surface,
             cornerRadius: 15,
             cornerRadiusOnFullscreen: 0,
             liftOnScrollHeaderElevation: 8,
@@ -159,14 +159,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             headerBuilder: (context, state) {
               return _selectedQuestion == null ? SizedBox.shrink() : ColoredBox(
-                color: const Color(0xfff7f7f7),
+                color: Theme.of(context).colorScheme.background,
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.vertical(bottom: Radius.circular(15)),
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.surface,
                       ),
                       padding: EdgeInsets.fromLTRB(25, 15, 25, 15),
                       child: Row(
@@ -179,10 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Text(
                                   "${_selectedMarker.value?.data?['name'] ?? 'Unknown'}"
                                   " - ${_selectedQuestion!.name}",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.black38,
-                                  )
+                                  style: Theme.of(context).textTheme.overline
                                 ),
                                 SizedBox(
                                   height: 5,
@@ -202,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           Icon(
                             Icons.info_outline_rounded,
-                            color: Colors.black12,
+                            color: Theme.of(context).iconTheme.color?.withOpacity(0.12) ?? Colors.black12
                           )
                         ]
                       )
@@ -211,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       left: MediaQuery.of(context).size.width / 2 - 5, bottom: -10,
                       child:TriangleDown(
                         size: Size(10, 10),
-                        color: Colors.white
+                        color: Theme.of(context).colorScheme.surface
                       )
                     ),
                   ]
@@ -220,7 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             builder: (context, state) {
               return _selectedQuestion == null ? SizedBox.shrink() : Container(
-                color: const Color(0xfff7f7f7),
+                color: Theme.of(context).colorScheme.background,
                 padding: EdgeInsets.fromLTRB(25, 25, 25, 25 + MediaQuery.of(context).padding.bottom),
                 child: QuestionInputView.fromQuestionInput(_selectedQuestion!.input, onChange: null)
               );

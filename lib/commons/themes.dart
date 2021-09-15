@@ -4,12 +4,11 @@ TextStyle defaultStyle = TextStyle(color: Colors.grey, fontSize: 12.0);
 TextStyle linkStyle = TextStyle(color: Colors.blue);
 
 final ThemeData appTheme = ThemeData.light().copyWith(
-    //primarySwatch: Colors.grey,
     colorScheme: ThemeData.light().colorScheme.copyWith(
       primary: const Color(0xff00cc7f),
       secondary: const Color(0xfff0ca00),
-      brightness: Brightness.dark,
-      background: const Color(0xFF212121),
+      background: const Color(0xfff7f7f7),
+      surface: Colors.white
     ),
     textTheme: const TextTheme(
         subtitle1: TextStyle(
@@ -23,6 +22,10 @@ final ThemeData appTheme = ThemeData.light().copyWith(
         ),
         bodyText1: TextStyle(
             color: Colors.black87,
+        ),
+        overline: TextStyle(
+          fontSize: 12,
+          color: Colors.black38,
         )
     ),
     buttonTheme: ButtonThemeData(
@@ -43,4 +46,7 @@ final ThemeData appTheme = ThemeData.light().copyWith(
         textStyle: MaterialStateProperty.all(TextStyle(fontSize: 24))
       )
     ),
+    iconTheme: IconThemeData(
+      color: Colors.black87
+    )
   );
