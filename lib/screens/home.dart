@@ -6,14 +6,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:flutter/services.dart';
-import 'package:sliding_sheet/sliding_sheet.dart';
+import '/widgets/question_sheet.dart';
 import '/commons/globals.dart';
 import '/commons/mapbox_utils.dart';
 import '/widgets/home_controls.dart';
 import '/widgets/home_sidebar.dart';
 import '/models/question.dart';
-import '/widgets/questions/question_input_view.dart';
-import '/widgets/triangle_down.dart';
 import '/widgets/loading_indicator.dart';
 import '/api/stop_query_handler.dart';
 import '/models/stop.dart';
@@ -34,13 +32,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final _stopQueryHandler = StopQueryHandler();
 
-  final _sheetController = SheetController();
-
   static const double _initialSheetSize = 0.4;
 
   final _selectedMarker = ValueNotifier<Circle?>(null);
 
-  Question? _selectedQuestion;
+  final _selectedQuestion = ValueNotifier<Question?>(null);
 
   late final Future<List<Question>> _questionCatalog;
 
@@ -61,6 +57,10 @@ class _HomeScreenState extends State<HomeScreen> {
     _mapCompleter.future.then(_initMap);
 
     _questionCatalog = parseQuestions();
+
+    _selectedQuestion.addListener(() {
+      if (_selectedQuestion.value == null) _deselectCurrentCircle();
+    });
   }
 
 
@@ -102,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             onMapCreated: _mapCompleter.complete,
             onStyleLoadedCallback: _styleCompleter.complete,
-            onMapClick: (Point point, LatLng location) => _closeSlidingSheet(),
+            onMapClick: (Point point, LatLng location) => _selectedQuestion.value = null,
             onCameraIdle: _onCameraIdle,
           ),
           FutureBuilder(
@@ -139,89 +139,11 @@ class _HomeScreenState extends State<HomeScreen> {
               child: LoadingIndicator()
             )
           ),
-          SlidingSheet(
-            controller: _sheetController,
-            addTopViewPaddingOnFullscreen: true,
-            elevation: 8,
-            // since the background color is overlaid by the individual builders/widgets background colors
-            // this color is only visible as the top padding behind the navigation bar
-            // thus it should match the header color
-            color: Theme.of(context).colorScheme.surface,
-            cornerRadius: 15,
-            cornerRadiusOnFullscreen: 0,
-            liftOnScrollHeaderElevation: 8,
-            closeOnBackButtonPressed: true,
-            duration: const Duration(milliseconds: 300),
-            snapSpec: const SnapSpec(
-              snap: true,
-              snappings: [_initialSheetSize, 1.0],
-              positioning: SnapPositioning.relativeToAvailableSpace,
-            ),
-            headerBuilder: (context, state) {
-              return _selectedQuestion == null ? SizedBox.shrink() : ColoredBox(
-                color: Theme.of(context).colorScheme.background,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.vertical(bottom: Radius.circular(15)),
-                        color: Theme.of(context).colorScheme.surface,
-                      ),
-                      padding: EdgeInsets.fromLTRB(25, 15, 25, 15),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "${_selectedMarker.value?.data?['name'] ?? 'Unknown'}"
-                                  " - ${_selectedQuestion!.name}",
-                                  style: Theme.of(context).textTheme.overline
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  _selectedQuestion!.question,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                              ],
-                            )
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Icon(
-                            Icons.info_outline_rounded,
-                            color: Theme.of(context).iconTheme.color?.withOpacity(0.12) ?? Colors.black12
-                          )
-                        ]
-                      )
-                    ),
-                    Positioned(
-                      left: MediaQuery.of(context).size.width / 2 - 5, bottom: -10,
-                      child:TriangleDown(
-                        size: Size(10, 10),
-                        color: Theme.of(context).colorScheme.surface
-                      )
-                    ),
-                  ]
-                )
-              );
-            },
-            builder: (context, state) {
-              return _selectedQuestion == null ? SizedBox.shrink() : Container(
-                color: Theme.of(context).colorScheme.background,
-                padding: EdgeInsets.fromLTRB(25, 25, 25, 25 + MediaQuery.of(context).padding.bottom),
-                child: QuestionInputView.fromQuestionInput(_selectedQuestion!.input, onChange: null)
-              );
-            }
+          QuestionSheet(
+            // TODO: Get rid of marker notifier here for example by combining them to a single notifier
+            marker: _selectedMarker,
+            question: _selectedQuestion,
+            initialSheetSize: _initialSheetSize
           )
         ]
       )),
@@ -250,28 +172,20 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  _closeSlidingSheet() {
-    // close bottom sheet if available
-    _sheetController.hide();
-    // deselect the current marker
-    _deselectCurrentCircle();
-  }
-
   void _onCircleTap(Circle circle) async {
     _deselectCurrentCircle();
     _selectCircle(circle);
 
     final questions = await _questionCatalog;
-    _selectedQuestion = questions[Random().nextInt(questions.length)];
-
-    _sheetController.rebuild();
-    _sheetController.show();
+    _selectedQuestion.value = questions[Random().nextInt(questions.length)];
 
     // move camera to circle
     // padding is not available for newLatLng()
     // therefore use newLatLngBounds as workaround
     final location = circle.options.geometry!;
-    final paddingBottom = (MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top) * _initialSheetSize;
+    final mediaQuery = MediaQuery.of(context);
+    final paddingBottom =
+      (mediaQuery.size.height - mediaQuery.padding.top - mediaQuery.padding.bottom) * _initialSheetSize;
     moveToLocation(
         mapController: _mapController,
         location: location,
