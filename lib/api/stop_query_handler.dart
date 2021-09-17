@@ -19,11 +19,10 @@ class StopQueryHandler {
   static const _overpassAPIServers = [
     'https://overpass.kumi.systems/api/interpreter',
     'https://overpass-api.de/api/interpreter',
-    'https://overpass.openstreetmap.fr/api/interpreter'
   ];
 
   static const _query =
-    '[out:json][timeout:200][bbox];'
+    '[out:json][timeout:1000][bbox];'
     'nwr["public_transport"="platform"];'
     'out tags center;';
 
@@ -98,20 +97,20 @@ class StopQueryHandler {
   }
 
 
-  _handleQuerySuccess(response) {
+  void _handleQuerySuccess(Response<Map<String, dynamic>> response) {
     // add stops to the stream
     _results.add(_queryResponseToStops(response));
   }
 
 
-  _handleQueryError(error) {
+  void _handleQueryError(error) {
     print(error);
     // recall update function with the latest cameraViewBox after 1 second
     Future.delayed(Duration(seconds: 1), () => _update());
   }
 
 
-  _handleQueryComplete() {
+  void _handleQueryComplete() {
     // decrease query counter
     _pendingQueryCount.value--;
   }
