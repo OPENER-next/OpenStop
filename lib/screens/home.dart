@@ -1,20 +1,22 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
+import 'package:latlong2/latlong.dart';
+import '/commons/stream_debouncer.dart';
+import '/widgets/stop_area_indicator.dart';
 import '/widgets/question_sheet.dart';
-import '/commons/globals.dart';
-import '/commons/mapbox_utils.dart';
 import '/widgets/home_controls.dart';
 import '/widgets/home_sidebar.dart';
 import '/models/question.dart';
 import '/widgets/loading_indicator.dart';
 import '/api/stop_query_handler.dart';
 import '/models/stop.dart';
+import '/commons/map_utils.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -23,22 +25,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 
-class _HomeScreenState extends State<HomeScreen> {
-  final _mapCompleter = Completer<MapboxMapController>();
-
-  final _styleCompleter = Completer<void>();
-
-  late final MapboxMapController _mapController;
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  final MapController _mapController = MapController();
 
   final _stopQueryHandler = StopQueryHandler();
 
   static const double _initialSheetSize = 0.4;
 
-  final _selectedMarker = ValueNotifier<Circle?>(null);
+  final _selectedMarker = ValueNotifier<Stop?>(null);
 
   final _selectedQuestion = ValueNotifier<Question?>(null);
 
-  late final Future<List<Question>> _questionCatalog;
+  late final Future<List<Question>> _questionCatalog = parseQuestions();
+
+  final List<Marker> _markers = [];
 
   @override
   void initState() {
@@ -51,15 +51,25 @@ class _HomeScreenState extends State<HomeScreen> {
       statusBarIconBrightness: Brightness.light,
       systemNavigationBarColor: Colors.black.withOpacity(0.25),
       systemNavigationBarIconBrightness: Brightness.light,
-
     ));
-    // wait for map creation to finish
-    _mapCompleter.future.then(_initMap);
 
-    _questionCatalog = parseQuestions();
+    _mapController.mapEventStream.debounce<MapEvent>(Duration(milliseconds: 500)).listen((event) {
+      if (_mapController.bounds != null && _mapController.zoom > 12) {
+        _stopQueryHandler.update(_mapController.bounds!);
+      }
+    });
+
+    _mapController.onReady.then((_) {
+      // use timer as workaround because initial bounds are not applied in onReady yet
+      Timer(Duration(seconds: 1), () {
+        if (_mapController.bounds != null && _mapController.zoom > 12) {
+          _stopQueryHandler.update(_mapController.bounds!);
+        }
+      });
+    });
 
     _selectedQuestion.addListener(() {
-      if (_selectedQuestion.value == null) _deselectCurrentCircle();
+      if (_selectedQuestion.value == null) _deselectCurrentStopArea();
     });
   }
 
@@ -73,49 +83,65 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Builder(builder: (context) => Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          MapboxMap(
-            // move to user location and track it by default
-            myLocationTrackingMode: MyLocationTrackingMode.Tracking,
-            // dispatch camera change events
-            trackCameraPosition: true,
-            compassEnabled: false,
-            accessToken: MAPBOX_API_TOKEN,
-            styleString: MAPBOX_STYLE_URL,
-            myLocationEnabled: true,
-            tiltGesturesEnabled: false,
-            initialCameraPosition: CameraPosition(
-              zoom: 15.0,
-              target: LatLng(50.8261, 12.9278),
-            ),
-            // Mapbox bug: requires devicePixelDensity for android
-            attributionButtonMargins: Point(
-              // another bug: https://github.com/tobrun/flutter-mapbox-gl/pull/681
-              0,
-              (MediaQuery.of(context).padding.bottom + 5) *
-              (Platform.isAndroid ? MediaQuery.of(context).devicePixelRatio : 1)
-            ),
-            logoViewMargins: Point(
-              25 *
-              (Platform.isAndroid ? MediaQuery.of(context).devicePixelRatio : 1),
-              (MediaQuery.of(context).padding.bottom + 5) *
-              (Platform.isAndroid ? MediaQuery.of(context).devicePixelRatio : 1)
-            ),
-            onMapCreated: _mapCompleter.complete,
-            onStyleLoadedCallback: _styleCompleter.complete,
-            onMapClick: (Point point, LatLng location) => _selectedQuestion.value = null,
-            onCameraIdle: _onCameraIdle,
+          StreamBuilder<Iterable<Stop>>(
+            stream: _stopQueryHandler.stops,
+            initialData: [],
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                for (var stop in snapshot.data!) {
+                  _markers.add(Marker(
+                    point: stop.location,
+                    builder: (context) => GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () => _onStopAreaTap(stop),
+                      child: StopAreaIndicator()
+                    )
+                  ));
+                }
+              }
+
+              // TODO: user location + tracking + clustering
+              // TODO: fix  RangeError
+              return FlutterMap(
+                mapController: _mapController,
+                options: MapOptions(
+                  onTap: (position, location) => _selectedQuestion.value = null,
+                  enableMultiFingerGestureRace: true,
+                  center: LatLng(50.8261, 12.9278),
+                  zoom: 15.0,
+                  plugins: [
+                    MarkerClusterPlugin(),
+                  ],
+                ),
+                layers: [
+                  TileLayerOptions(
+                    urlTemplate: "https://osm-2.nearest.place/retina/{z}/{x}/{y}.png",
+                    attributionAlignment: Alignment.bottomLeft,
+                    attributionBuilder: (context) {
+                      return Padding(
+                        padding: EdgeInsets.only(left: 10, bottom: MediaQuery.of(context).padding.bottom + 10),
+                        child: Text("© OpenStreetMap contributors")
+                      );
+                    },
+                  ),
+                  MarkerLayerOptions(
+                    markers: _markers
+                  )
+                ],
+              );
+            }
           ),
           FutureBuilder(
-            future: _mapCompleter.future,
-            builder: (BuildContext context, AsyncSnapshot<MapboxMapController> snapshot) {
+            future: _mapController.onReady,
+            builder: (BuildContext context, AsyncSnapshot<Null> snapshot) {
               // only show controls when map creation finished
               return AnimatedSwitcher(
                 duration: Duration(milliseconds: 1000),
-                child: snapshot.hasData ?
-                  HomeControls(
-                    mapController: snapshot.data!,
-                  ) :
-                  Container(
+                child: snapshot.connectionState == ConnectionState.done
+                  ? HomeControls(
+                    mapController: _mapController
+                  )
+                  : Container(
                     color: Colors.white
                   )
               );
@@ -140,68 +166,44 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           ),
           QuestionSheet(
-            // TODO: Get rid of marker notifier here for example by combining them to a single notifier
-            marker: _selectedMarker,
             question: _selectedQuestion,
             initialSheetSize: _initialSheetSize
-          )
+          ),
         ]
       )),
     );
   }
 
 
-  _initMap(MapboxMapController controller) async {
-    // store reference to controller
-    _mapController = controller;
-
-    _mapController.onCircleTapped.add(_onCircleTap);
-
-    _stopQueryHandler.stops.listen(_addStopsToMap);
-  }
-
-  void _onCameraIdle() async {
-    // await _mapController and style loaded callback
-    await _mapCompleter.future;
-    await _styleCompleter.future;
-
-    // only update/query until certain zoom level is reached
-    if (_mapController.cameraPosition != null && _mapController.cameraPosition!.zoom >= 12) {
-      var viewBBox = await _mapController.getVisibleRegion();
-      _stopQueryHandler.update(viewBBox);
-    }
-  }
-
-  void _onCircleTap(Circle circle) async {
-    _deselectCurrentCircle();
-    _selectCircle(circle);
+  void _onStopAreaTap(Stop stop) async {
+    _deselectCurrentStopArea();
+    _selectStopArea(stop);
 
     final questions = await _questionCatalog;
     _selectedQuestion.value = questions[Random().nextInt(questions.length)];
 
     // move camera to circle
-    // padding is not available for newLatLng()
-    // therefore use newLatLngBounds as workaround
-    final location = circle.options.geometry!;
+    // padding is not available for LatLng()
+    // therefore use LatLngBounds as workaround
     final mediaQuery = MediaQuery.of(context);
     final paddingBottom =
       (mediaQuery.size.height - mediaQuery.padding.top - mediaQuery.padding.bottom) * _initialSheetSize;
-    moveToLocation(
-        mapController: _mapController,
-        location: location,
-        paddingBottom: paddingBottom
+    _mapController.animateToBounds(
+      ticker: this,
+      location: stop.location,
+      padding: EdgeInsets.only(bottom: paddingBottom)
     );
   }
 
 
   /// Deselect a given symbol on the map
 
-  void _deselectCircle(Circle circle) {
-    _mapController.updateCircle(circle, CircleOptions(
+  void _deselectStopArea(Stop stop) {
+    /*_mapController.updateCircle(circle, CircleOptions(
         circleStrokeColor: '#f0ca00',
         circleColor: '#f0ca00',
         circleRadius: 20,
-    ));
+    ));*/
     // unset variable
     _selectedMarker.value = null;
   }
@@ -209,9 +211,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// Deselect the last selected symbol on the map
 
-  void _deselectCurrentCircle() {
+  void _deselectCurrentStopArea() {
     if (_selectedMarker.value != null) {
-      _deselectCircle(_selectedMarker.value!);
+      _deselectStopArea(_selectedMarker.value!);
     }
   }
 
@@ -219,50 +221,17 @@ class _HomeScreenState extends State<HomeScreen> {
   /// Select a given symbol on the map
   /// This pushes it to the _selectedMarker ValueNotifier and changes its icon
 
-  void _selectCircle(Circle circle) {
+  void _selectStopArea(Stop stop) {
     // ignore if the symbol is already selected
-    if (_selectedMarker.value == circle) {
+    if (_selectedMarker.value == stop) {
       return;
     }
-    _mapController.updateCircle(circle, CircleOptions(
+    /*_mapController.updateCircle(stop, CircleOptions(
       circleColor: '#00cc7f',
       circleStrokeColor: '#00cc7f',
       circleRadius: 30,
-    ));
-    _selectedMarker.value = circle;
-  }
-
-
-  /// Add a given list of Stops as circles to the map
-
-  void _addStopsToMap(Iterable<Stop> result) async {
-    final data = <Map<String, String>>[];
-    final circle = <CircleOptions>[];
-    final dot = <CircleOptions>[];
-
-    for (final stop in result) {
-      dot.add(
-          CircleOptions(
-              circleRadius: 4,
-              circleColor: '#00cc7f',
-              circleOpacity: 1,
-              geometry: stop.location)
-      );
-      circle.add(CircleOptions(
-              circleRadius: 20,
-              circleColor: '#f0ca00',
-              circleOpacity: 0.2,
-              circleStrokeColor: '#f0ca00',
-              circleStrokeOpacity: 1,
-              circleStrokeWidth: 5,
-              geometry: stop.location)
-      );
-      data.add({
-        "name": stop.name
-      });
-    }
-    _mapController.addCircles(dot);
-    _mapController.addCircles(circle, data);
+    ));*/
+    _selectedMarker.value = stop;
   }
 
 
@@ -276,7 +245,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     super.dispose();
-    _mapController.dispose();
     _stopQueryHandler.dispose();
     _selectedMarker.dispose();
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 import '/models/question.dart';
 import '/widgets/questions/question_input_view.dart';
@@ -11,11 +10,8 @@ class QuestionSheet extends StatefulWidget {
 
   final ValueNotifier<Question?> question;
 
-  final ValueNotifier<Circle?> marker;
-
   QuestionSheet({
     required this.question,
-    required this.marker,
     this.initialSheetSize = 0.4
   });
 
@@ -80,7 +76,8 @@ class _QuestionSheetState extends State<QuestionSheet> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "${widget.marker.value?.data?['name'] ?? 'Unknown'}"
+                            // TODO: remove or re-implement stop name
+                            // "${widget.marker.value?.data?['name'] ?? 'Unknown'}"
                             " - ${question!.name}",
                             style: Theme.of(context).textTheme.overline
                           ),

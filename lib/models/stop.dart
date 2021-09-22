@@ -1,4 +1,4 @@
-import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:latlong2/latlong.dart';
 
 
 /// A basic representation of a public transport stop/halt.

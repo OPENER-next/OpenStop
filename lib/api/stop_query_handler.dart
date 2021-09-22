@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/foundation.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
+import 'package:flutter_map/plugin_api.dart';
 import 'package:dio/dio.dart';
+import 'package:latlong2/latlong.dart';
 import '/models/stop.dart';
 
 /// A class that automatically queries [Stop]s via the Overpass API based on a given camera view box.
@@ -119,17 +120,24 @@ class StopQueryHandler {
   /// This method calculates the absolute box extend and applies it to the given camera view box
 
   LatLngBounds _applyExtend(LatLngBounds cameraViewBox) {
-    var cameraViewBoxHeight = (cameraViewBox.northeast.latitude - cameraViewBox.southwest.latitude).abs();
-    var cameraViewBoxWidth = (cameraViewBox.northeast.longitude - cameraViewBox.southwest.longitude).abs();
+    var cameraViewBoxHeight = (cameraViewBox.northEast!.latitude - cameraViewBox.southWest!.latitude).abs();
+    var cameraViewBoxWidth = (cameraViewBox.northEast!.longitude - cameraViewBox.southWest!.longitude).abs();
 
+    // calculate relative extend
     var extend = LatLng(
       cameraViewBoxHeight * this.viewBoxExtend,
       cameraViewBoxWidth * this.viewBoxExtend
     );
 
     return LatLngBounds(
-      southwest: cameraViewBox.southwest - extend,
-      northeast: cameraViewBox.northeast + extend
+      LatLng(
+        cameraViewBox.south - extend.latitude,
+        cameraViewBox.west - extend.longitude
+      ),
+      LatLng(
+        cameraViewBox.north + extend.latitude,
+        cameraViewBox.east + extend.longitude
+      )
     );
   }
 
@@ -148,8 +156,8 @@ class StopQueryHandler {
   /// Method to retrieve all cell indexes that cover given bounding box.
 
   Iterable<Point<int>> _bboxToCellIndexes(LatLngBounds cameraViewBox) sync* {
-    final southWestIndex = _geoToCellIndex(cameraViewBox.southwest);
-    final northEastIndex = _geoToCellIndex(cameraViewBox.northeast);
+    final southWestIndex = _geoToCellIndex(cameraViewBox.southWest!);
+    final northEastIndex = _geoToCellIndex(cameraViewBox.northEast!);
 
     for (var x = southWestIndex.x; x <= northEastIndex.x; x++) {
       for (var y = southWestIndex.y; y <= northEastIndex.y; y++) {
