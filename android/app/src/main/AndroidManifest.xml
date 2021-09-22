@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.opener_next">
+   <uses-permission android:name="android.permission.INTERNET"/>
+   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
    <application
         android:label="OPENER next"
         android:icon="@mipmap/ic_launcher">
