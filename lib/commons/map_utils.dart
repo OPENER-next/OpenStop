@@ -102,7 +102,8 @@ extension AnimationUtils on MapController {
     this.animateTo(
       ticker: ticker,
       location: centerZoom.center,
-      zoom: centerZoom.zoom
+      // round zoom level so zoom will always stick to integer levels
+      zoom: centerZoom.zoom.roundToDouble()
     );
   }
 }

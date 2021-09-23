@@ -107,14 +107,16 @@ class _HomeControlsState extends State<HomeControls> with TickerProviderStateMix
   /// Zoom the map view
 
   void _zoomIn() {
-    widget.mapController.animateTo(ticker: this, zoom: widget.mapController.zoom + 1);
+    // round zoom level so zoom will always stick to integer levels
+    widget.mapController.animateTo(ticker: this, zoom: widget.mapController.zoom.roundToDouble() + 1);
   }
 
 
   /// Zoom out of the map view
 
   void _zoomOut() {
-    widget.mapController.animateTo(ticker: this, zoom: widget.mapController.zoom - 1);
+    // round zoom level so zoom will always stick to integer levels
+    widget.mapController.animateTo(ticker: this, zoom: widget.mapController.zoom.roundToDouble() - 1);
   }
 
 
