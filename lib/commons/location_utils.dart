@@ -23,7 +23,7 @@ Future<LatLng?> acquireCurrentLocation() async {
     final location = await Geolocator.getCurrentPosition();
     return LatLng(location.latitude, location.longitude);
   }
-  on LocationServiceDisabledException catch (e) {
+  on LocationServiceDisabledException {
     return null;
   }
 }
