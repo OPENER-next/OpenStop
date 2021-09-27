@@ -43,6 +43,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   final _selectedQuestion = ValueNotifier<Question?>(null);
 
+  final _tileProvider = ValueNotifier("https://osm-2.nearest.place/retina/{z}/{x}/{y}.png");
+
   late final Future<List<Question>> _questionCatalog = parseQuestions();
 
   final List<Marker> _markers = [];
@@ -101,10 +103,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             ],
           ),
           children: [
-            TileLayerWidget(
-              options: TileLayerOptions(
-                urlTemplate: "https://osm-2.nearest.place/retina/{z}/{x}/{y}.png",
-              ),
+            ValueListenableBuilder<String>(
+              valueListenable: _tileProvider,
+              builder: (context, value, child) {
+                return TileLayerWidget(
+                  options: TileLayerOptions(
+                    overrideTilesWhenUrlChanges: true,
+                    urlTemplate: value,
+                  ),
+                );
+              }
             ),
             // place circle layer before marker layer due to: https://github.com/fleaflet/flutter_map/issues/891
             StreamBuilder<Position>(
@@ -197,7 +205,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   duration: Duration(milliseconds: 1000),
                   child: snapshot.connectionState == ConnectionState.done
                     ? HomeControls(
-                      mapController: _mapController
+                      mapController: _mapController,
+                      tileProvider: _tileProvider,
                     )
                     : Container(
                       color: Colors.white

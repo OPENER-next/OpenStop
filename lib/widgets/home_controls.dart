@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
+import '/widgets/map_layer_switcher.dart';
 import '/commons/location_utils.dart';
 import '/commons/map_utils.dart';
 import '/widgets/compass_button.dart';
@@ -9,11 +10,13 @@ import '/widgets/zoom_button.dart';
 
 class HomeControls extends StatefulWidget {
   final MapController mapController;
+  final ValueNotifier<String> tileProvider;
   final double buttonSpacing;
 
   const HomeControls({
     Key? key,
     required this.mapController,
+    required this.tileProvider,
     this.buttonSpacing = 10.0,
    }) : super(key: key);
 
@@ -53,12 +56,35 @@ class _HomeControlsState extends State<HomeControls> with TickerProviderStateMix
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          FloatingActionButton.small(
-            child: Icon(
-              Icons.menu,
-              color: Colors.black,
-            ),
-            onPressed: Scaffold.of(context).openDrawer,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FloatingActionButton.small(
+                child: Icon(
+                  Icons.menu,
+                  color: Colors.black,
+                ),
+                onPressed: Scaffold.of(context).openDrawer,
+              ),
+              Spacer(),
+              MapLayerSwitcher(
+                entries: [
+                  MapLayerSwitcherEntry(key: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                    icon: Icons.satellite_rounded, label: "Satellite"
+                  ),
+                  MapLayerSwitcherEntry(key: "https://osm-2.nearest.place/retina/{z}/{x}/{y}.png",
+                    icon: Icons.map_rounded, label: "Map"
+                  ),
+                  // TODO: We really need this!! Showing where the tram and bus routes are is crucial for our App.
+                  // Thunderforest requires an API key unfortunately
+                  MapLayerSwitcherEntry(key: "https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png",
+                    icon: Icons.map_rounded, label: "Thunderforest.Transport"
+                  ),
+                ],
+                active: widget.tileProvider.value,
+                onSelection: _changeTileProvider,
+              ),
+            ]
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -95,7 +121,7 @@ class _HomeControlsState extends State<HomeControls> with TickerProviderStateMix
               ZoomButton(
                 onZoomInPressed: _zoomIn,
                 onZoomOutPressed: _zoomOut,
-                )
+              )
             ]
           )
         ],
@@ -104,7 +130,7 @@ class _HomeControlsState extends State<HomeControls> with TickerProviderStateMix
   }
 
 
-  /// Zoom the map view
+  /// Zoom the map view.
 
   void _zoomIn() {
     // round zoom level so zoom will always stick to integer levels
@@ -112,7 +138,7 @@ class _HomeControlsState extends State<HomeControls> with TickerProviderStateMix
   }
 
 
-  /// Zoom out of the map view
+  /// Zoom out of the map view.
 
   void _zoomOut() {
     // round zoom level so zoom will always stick to integer levels
@@ -120,13 +146,13 @@ class _HomeControlsState extends State<HomeControls> with TickerProviderStateMix
   }
 
 
-  /// Reset map rotation
+  /// Reset the map rotation.
 
   void _resetRotation() {
     widget.mapController.animateTo(ticker: this, rotation: 0);
   }
 
-  /// Move map center to user location and zoom in
+  /// Move map center to user location and zoom in.
 
   void _moveToUserLocation() async {
     final location = await acquireCurrentLocation();
@@ -135,5 +161,11 @@ class _HomeControlsState extends State<HomeControls> with TickerProviderStateMix
       location: location,
       zoom: 17
     );
+  }
+
+  /// Update the ValueNotifier that contains the url from which tiles are fetched.
+
+  void _changeTileProvider(MapLayerSwitcherEntry) {
+    widget.tileProvider.value = MapLayerSwitcherEntry.key;
   }
 }
