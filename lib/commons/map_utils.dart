@@ -37,7 +37,8 @@ extension AnimationUtils on MapController {
     double? zoom,
     double? rotation,
     Curve curve = Curves.fastOutSlowIn,
-    Duration duration = const Duration(milliseconds: 500)
+    Duration duration = const Duration(milliseconds: 500),
+    String? id,
   }) {
     location ??= this.center;
     zoom ??= this.zoom;
@@ -58,7 +59,8 @@ extension AnimationUtils on MapController {
       this.moveAndRotate(
         LatLng(latTween.evaluate(animation), lngTween.evaluate(animation)),
         zoomTween.evaluate(animation),
-        rotationTween.evaluate(animation)
+        rotationTween.evaluate(animation),
+        id: id
       );
     });
 

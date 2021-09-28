@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
+import 'package:opener_next/helpers/camera_tracker.dart';
+import '/widgets/location_button.dart';
 import '/widgets/map_layer_switcher.dart';
-import '/commons/location_utils.dart';
 import '/commons/map_utils.dart';
 import '/widgets/compass_button.dart';
 import '/widgets/zoom_button.dart';
@@ -11,11 +12,13 @@ import '/widgets/zoom_button.dart';
 class HomeControls extends StatefulWidget {
   final MapController mapController;
   final ValueNotifier<String> tileProvider;
+  final CameraTracker cameraTracker;
   final double buttonSpacing;
 
   const HomeControls({
     Key? key,
     required this.mapController,
+    required this.cameraTracker,
     required this.tileProvider,
     this.buttonSpacing = 10.0,
    }) : super(key: key);
@@ -108,12 +111,8 @@ class _HomeControlsState extends State<HomeControls> with TickerProviderStateMix
               SizedBox (
                 height: widget.buttonSpacing
               ),
-              FloatingActionButton.small(
-                child: Icon(
-                  Icons.my_location,
-                  color: Colors.black,
-                ),
-                onPressed: _moveToUserLocation
+              LocationButton(
+                cameraTracker: widget.cameraTracker,
               ),
               SizedBox (
                 height: widget.buttonSpacing
@@ -152,16 +151,6 @@ class _HomeControlsState extends State<HomeControls> with TickerProviderStateMix
     widget.mapController.animateTo(ticker: this, rotation: 0);
   }
 
-  /// Move map center to user location and zoom in.
-
-  void _moveToUserLocation() async {
-    final location = await acquireCurrentLocation();
-    if (location != null) widget.mapController.animateTo(
-      ticker: this,
-      location: location,
-      zoom: 17
-    );
-  }
 
   /// Update the ValueNotifier that contains the url from which tiles are fetched.
 

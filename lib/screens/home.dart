@@ -8,6 +8,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import '/helpers/camera_tracker.dart';
 import '/commons/stream_debouncer.dart';
 import '/widgets/stop_area_indicator.dart';
 import '/widgets/question_sheet.dart';
@@ -45,6 +46,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   final _tileProvider = ValueNotifier("https://osm-2.nearest.place/retina/{z}/{x}/{y}.png");
 
+  late final _cameraTracker = CameraTracker(
+    ticker: this,
+    mapController: _mapController
+  );
+
   late final Future<List<Question>> _questionCatalog = parseQuestions();
 
   final List<Marker> _markers = [];
@@ -69,6 +75,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
 
     _mapController.onReady.then((_) {
+      // move to user location and start camera tracking on app start
+      _cameraTracker.startTacking();
+
       // use timer as workaround because initial bounds are not applied in onReady yet
       Timer(Duration(seconds: 1), () {
         if (_mapController.bounds != null && _mapController.zoom > 12) {
@@ -90,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       drawer: HomeSidebar(),
       // use builder to get scaffold context
       body: Builder(builder: (context) =>
-        // TODO: tracking + clustering
+        // TODO: clustering
         FlutterMap(
           mapController: _mapController,
           options: MapOptions(
@@ -206,6 +215,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   child: snapshot.connectionState == ConnectionState.done
                     ? HomeControls(
                       mapController: _mapController,
+                      cameraTracker: _cameraTracker,
                       tileProvider: _tileProvider,
                     )
                     : Container(
