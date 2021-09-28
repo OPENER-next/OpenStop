@@ -100,154 +100,168 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       // use builder to get scaffold context
       body: Builder(builder: (context) =>
         // TODO: clustering
-        FlutterMap(
-          mapController: _mapController,
-          options: MapOptions(
-            onTap: (position, location) => _selectedQuestion.value = null,
-            enableMultiFingerGestureRace: true,
-            center: LatLng(50.8261, 12.9278),
-            zoom: 15.0,
-            plugins: [
-              MarkerClusterPlugin(),
-            ],
-          ),
+        Stack(
+          fit: StackFit.expand,
           children: [
-            ValueListenableBuilder<String>(
-              valueListenable: _tileProvider,
-              builder: (context, value, child) {
-                return TileLayerWidget(
-                  options: TileLayerOptions(
-                    overrideTilesWhenUrlChanges: true,
-                    urlTemplate: value,
-                  ),
-                );
-              }
-            ),
-            // place circle layer before marker layer due to: https://github.com/fleaflet/flutter_map/issues/891
-            StreamBuilder<Position>(
-              stream: _locationStream,
-              builder: (context, snapshot) {
-                return GroupLayerWidget(
-                  options: GroupLayerOptions(
-                    group: (!snapshot.hasData) ? const [] : [
-                      // display location accuracy circle
-                      if (snapshot.data!.accuracy > 0) CircleLayerOptions(
-                        circles: [
-                          CircleMarker(
-                            color: Colors.blue.withOpacity(0.3),
-                            useRadiusInMeter: true,
-                            point: LatLng(snapshot.data!.latitude, snapshot.data!.longitude),
-                            radius: snapshot.data!.accuracy
-                          )
-                        ]
+            FlutterMap(
+              mapController: _mapController,
+              options: MapOptions(
+                onTap: (position, location) => _selectedQuestion.value = null,
+                enableMultiFingerGestureRace: true,
+                center: LatLng(50.8261, 12.9278),
+                zoom: 15.0,
+                plugins: [
+                  MarkerClusterPlugin(),
+                ],
+              ),
+              children: [
+                ValueListenableBuilder<String>(
+                  valueListenable: _tileProvider,
+                  builder: (context, value, child) {
+                    return TileLayerWidget(
+                      options: TileLayerOptions(
+                        overrideTilesWhenUrlChanges: true,
+                        urlTemplate: value,
                       ),
-                      // display location marker
-                      MarkerLayerOptions(
-                        markers: [
-                          Marker(
-                            width: 20,
-                            height: 20,
-                            point: LatLng(snapshot.data!.latitude, snapshot.data!.longitude),
-                            builder: (context) => AnimatedContainer(
-                              transform: Matrix4.rotationZ(snapshot.data!.heading * degrees2Radians),
-                              transformAlignment: Alignment.center,
-                              padding: EdgeInsets.all(2),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 3,
-                                ),
-                                shape: BoxShape.circle,
-                                color: Colors.blue,
-                              ),
-                              curve: Curves.ease,
-                              duration: Duration(milliseconds: 300),
-                              child: const FittedBox(
-                                child: const Icon(
-                                  Icons.navigation_sharp,
-                                  color: Colors.white
-                                )
-                              ),
-                            )
-                          )
-                        ]
-                      ),
-                    ]
-                  )
-                );
-              }
-            ),
-            StreamBuilder<Iterable<Stop>>(
-              stream: _stopQueryHandler.stops,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  for (var stop in snapshot.data!) {
-                    _markers.add(Marker(
-                      point: stop.location,
-                      builder: (context) => GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () => _onStopAreaTap(stop),
-                        child: StopAreaIndicator()
-                      )
-                    ));
+                    );
                   }
-                }
-                return MarkerLayerWidget(
-                  options: MarkerLayerOptions(
-                    markers: _markers
-                  ),
-                );
-              }
-            ),
-          ],
-          nonRotatedChildren: [
-            Positioned(
-              left: 10,
-              bottom: MediaQuery.of(context).padding.bottom + 10,
-              child: Text("© OpenStreetMap contributors")
-            ),
-            FutureBuilder(
-              future: _mapController.onReady,
-              builder: (BuildContext context, AsyncSnapshot<Null> snapshot) {
-                // only show controls when map creation finished
-                return AnimatedSwitcher(
-                  duration: Duration(milliseconds: 1000),
-                  child: snapshot.connectionState == ConnectionState.done
-                    ? HomeControls(
-                      mapController: _mapController,
-                      cameraTracker: _cameraTracker,
-                      tileProvider: _tileProvider,
+                ),
+                // place circle layer before marker layer due to: https://github.com/fleaflet/flutter_map/issues/891
+                StreamBuilder<Position>(
+                  stream: _locationStream,
+                  builder: (context, snapshot) {
+                    return GroupLayerWidget(
+                      options: GroupLayerOptions(
+                        group: (!snapshot.hasData) ? const [] : [
+                          // display location accuracy circle
+                          if (snapshot.data!.accuracy > 0) CircleLayerOptions(
+                            circles: [
+                              CircleMarker(
+                                color: Colors.blue.withOpacity(0.3),
+                                useRadiusInMeter: true,
+                                point: LatLng(snapshot.data!.latitude, snapshot.data!.longitude),
+                                radius: snapshot.data!.accuracy
+                              )
+                            ]
+                          ),
+                          // display location marker
+                          MarkerLayerOptions(
+                            markers: [
+                              Marker(
+                                width: 20,
+                                height: 20,
+                                point: LatLng(snapshot.data!.latitude, snapshot.data!.longitude),
+                                builder: (context) => AnimatedContainer(
+                                  transform: Matrix4.rotationZ(snapshot.data!.heading * degrees2Radians),
+                                  transformAlignment: Alignment.center,
+                                  padding: EdgeInsets.all(2),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 3,
+                                    ),
+                                    shape: BoxShape.circle,
+                                    color: Colors.blue,
+                                  ),
+                                  curve: Curves.ease,
+                                  duration: Duration(milliseconds: 300),
+                                  child: const FittedBox(
+                                    child: const Icon(
+                                      Icons.navigation_sharp,
+                                      color: Colors.white
+                                    )
+                                  ),
+                                )
+                              )
+                            ]
+                          ),
+                        ]
+                      )
+                    );
+                  }
+                ),
+                StreamBuilder<Iterable<Stop>>(
+                  stream: _stopQueryHandler.stops,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      for (var stop in snapshot.data!) {
+                        _markers.add(Marker(
+                          point: stop.location,
+                          builder: (context) => GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTap: () => _onStopAreaTap(stop),
+                            child: StopAreaIndicator()
+                          )
+                        ));
+                      }
+                    }
+                    return MarkerLayerWidget(
+                      options: MarkerLayerOptions(
+                        markers: _markers
+                      ),
+                    );
+                  }
+                ),
+              ],
+              nonRotatedChildren: [
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 10),
+                    child: Text(
+                      "© OpenStreetMap contributors",
+                      style: TextStyle(
+                        fontSize: 10
+                      ),
                     )
-                    : Container(
-                      color: Colors.white
+                  )
+                ),
+                FutureBuilder(
+                  future: _mapController.onReady,
+                  builder: (BuildContext context, AsyncSnapshot<Null> snapshot) {
+                    // only show controls when map creation finished
+                    return AnimatedSwitcher(
+                      duration: Duration(milliseconds: 1000),
+                      child: snapshot.connectionState == ConnectionState.done
+                        ? HomeControls(
+                          mapController: _mapController,
+                          cameraTracker: _cameraTracker,
+                          tileProvider: _tileProvider,
+                        )
+                        : Container(
+                          color: Colors.white
+                        )
+                    );
+                  }
+                ),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15),
+                    child: ValueListenableBuilder<int>(
+                      builder: (BuildContext context, int value, Widget? child) =>
+                        AnimatedSwitcher(
+                          switchInCurve: Curves.elasticOut,
+                          switchOutCurve: Curves.elasticOut,
+                          transitionBuilder: (Widget child, Animation<double> animation) =>
+                            ScaleTransition(child: child, scale: animation),
+                          duration: Duration(milliseconds: 500),
+                          child: value > 0 ? child : const SizedBox.shrink()
+                        ),
+                      valueListenable: _stopQueryHandler.pendingQueryCount,
+                      child: LoadingIndicator()
                     )
-                );
-              }
+                  )
+                ),
+              ],
             ),
-            Positioned(
-              top: MediaQuery.of(context).padding.top + 15,
-              right: 0.0,
-              left: 0.0,
-              child: ValueListenableBuilder<int>(
-                builder: (BuildContext context, int value, Widget? child) =>
-                  AnimatedSwitcher(
-                    switchInCurve: Curves.elasticOut,
-                    switchOutCurve: Curves.elasticOut,
-                    transitionBuilder: (Widget child, Animation<double> animation) =>
-                      ScaleTransition(child: child, scale: animation),
-                    duration: Duration(milliseconds: 500),
-                    child: value > 0 ? child : const SizedBox.shrink()
-                  ),
-                valueListenable: _stopQueryHandler.pendingQueryCount,
-                child: LoadingIndicator()
-              )
-            ),
+            // place sheet on extra stack above map so touch events won't pass through
             QuestionSheet(
               question: _selectedQuestion,
               initialSheetSize: _initialSheetSize
             ),
           ],
-        ),
+        )
       ),
     );
   }
