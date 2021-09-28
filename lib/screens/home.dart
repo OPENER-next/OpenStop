@@ -122,6 +122,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       options: TileLayerOptions(
                         overrideTilesWhenUrlChanges: true,
                         urlTemplate: value,
+                        tileProvider: NetworkTileProvider(),
                       ),
                     );
                   }
