@@ -160,7 +160,8 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with TickerProvider
           child: AnimatedBuilder(
             animation: animationStateChange,
             builder: (context, child) {
-              return controller.status == AnimationStatus.forward
+              return controller.status == AnimationStatus.forward ||
+                     controller.status == AnimationStatus.completed
                 ? Icon(
                   Icons.layers_clear_rounded,
                   color: Colors.black,
