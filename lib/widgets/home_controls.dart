@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:opener_next/helpers/camera_tracker.dart';
-import '/widgets/location_button.dart';
-import '/widgets/map_layer_switcher.dart';
+import '/widgets/map_buttons/location_button.dart';
+import '/widgets/map_buttons/map_layer_switcher.dart';
+import '/widgets/map_buttons/compass_button.dart';
+import '/widgets/map_buttons/zoom_button.dart';
 import '/commons/map_utils.dart';
-import '/widgets/compass_button.dart';
-import '/widgets/zoom_button.dart';
 
 /// Builds the action buttons which overlay the map.
 
