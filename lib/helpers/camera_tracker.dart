@@ -93,7 +93,7 @@ class CameraTracker extends ChangeNotifier {
     // cancel tracking on user interaction or any map move not caused by the camera tracker
     if (
       (mapEvent is MapEventDoubleTapZoomStart) ||
-      (mapEvent is MapEventMove && mapEvent.id != "CameraTracker")
+      (mapEvent is MapEventMove && mapEvent.id != "CameraTracker" && mapEvent.targetCenter != mapEvent.center)
     ) {
       stopTracking();
     }
