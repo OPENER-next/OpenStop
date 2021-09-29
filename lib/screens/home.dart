@@ -275,9 +275,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final questions = await _questionCatalog;
     _selectedQuestion.value = questions[Random().nextInt(questions.length)];
 
-    // move camera to circle
-    // padding is not available for LatLng()
-    // therefore use LatLngBounds as workaround
+    // move camera to stop area and include default sheet size as bottom padding
     final mediaQuery = MediaQuery.of(context);
     final paddingBottom =
       (mediaQuery.size.height - mediaQuery.padding.top - mediaQuery.padding.bottom) * _initialSheetSize;
@@ -292,11 +290,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   /// Deselect a given symbol on the map
 
   void _deselectStopArea(Stop stop) {
-    /*_mapController.updateCircle(circle, CircleOptions(
-        circleStrokeColor: '#f0ca00',
-        circleColor: '#f0ca00',
-        circleRadius: 20,
-    ));*/
     // unset variable
     _selectedMarker.value = null;
   }
@@ -319,11 +312,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     if (_selectedMarker.value == stop) {
       return;
     }
-    /*_mapController.updateCircle(stop, CircleOptions(
-      circleColor: '#00cc7f',
-      circleStrokeColor: '#00cc7f',
-      circleRadius: 30,
-    ));*/
     _selectedMarker.value = stop;
   }
 

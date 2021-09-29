@@ -78,7 +78,7 @@ class _QuestionSheetState extends State<QuestionSheet> {
                           Text(
                             // TODO: remove or re-implement stop name
                             // "${widget.marker.value?.data?['name'] ?? 'Unknown'}"
-                            " - ${question!.name}",
+                            "${question!.name}",
                             style: Theme.of(context).textTheme.overline
                           ),
                           SizedBox(
