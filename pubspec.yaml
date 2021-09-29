@@ -23,8 +23,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  mapbox_gl: ^0.12.0
+  flutter_map: ^0.14.0
+  flutter_map_marker_cluster: ^0.4.0
   geolocator: ^7.6.0
+  latlong2: ^0.8.0
+
   dio: ^4.0.0
   shared_preferences: ^2.0.7
   # required until https://github.com/flutter/flutter/issues/41599 is resolved
@@ -45,19 +48,6 @@ dependency_overrides:
   sliding_sheet:
     git:
       url: https://github.com/Robbendebiene/sliding_sheet.git
-
-  # required for null safety
-  mapbox_gl:
-    git:
-      url: https://github.com/tobrun/flutter-mapbox-gl.git
-  mapbox_gl_platform_interface:
-    git:
-      url: https://github.com/tobrun/flutter-mapbox-gl.git
-      path: mapbox_gl_platform_interface
-  mapbox_gl_web:
-    git:
-      url: https://github.com/tobrun/flutter-mapbox-gl.git
-      path: mapbox_gl_web
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

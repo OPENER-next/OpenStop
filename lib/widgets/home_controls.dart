@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:mapbox_gl/mapbox_gl.dart';
-import 'package:opener_next/commons/mapbox_utils.dart';
-import 'package:opener_next/widgets/compass_button.dart';
-import 'package:opener_next/widgets/zoom_button.dart';
+import 'package:flutter_map/plugin_api.dart';
+import 'package:opener_next/helpers/camera_tracker.dart';
+import '/widgets/map_buttons/location_button.dart';
+import '/widgets/map_buttons/map_layer_switcher.dart';
+import '/widgets/map_buttons/compass_button.dart';
+import '/widgets/map_buttons/zoom_button.dart';
+import '/commons/map_utils.dart';
 
 /// Builds the action buttons which overlay the map.
 
 class HomeControls extends StatefulWidget {
-  final MapboxMapController mapController;
+  final MapController mapController;
+  final ValueNotifier<String> tileProvider;
+  final CameraTracker cameraTracker;
   final double buttonSpacing;
 
   const HomeControls({
     Key? key,
     required this.mapController,
+    required this.cameraTracker,
+    required this.tileProvider,
     this.buttonSpacing = 10.0,
    }) : super(key: key);
 
@@ -22,16 +29,19 @@ class HomeControls extends StatefulWidget {
 }
 
 
-class _HomeControlsState extends State<HomeControls> {
+class _HomeControlsState extends State<HomeControls> with TickerProviderStateMixin {
 
-  final ValueNotifier<bool> _isRotated = ValueNotifier<bool>(false);
+  final ValueNotifier<bool> _isRotatedNotifier = ValueNotifier<bool>(false);
+
+  final ValueNotifier<double> _rotationNotifier = ValueNotifier<double>(0);
 
   @override
   void initState() {
     super.initState();
 
-    widget.mapController.addListener(() {
-      _isRotated.value = widget.mapController.cameraPosition?.bearing != 0;
+    widget.mapController.mapEventStream.listen((event) {
+      _rotationNotifier.value = widget.mapController.rotation;
+      _isRotatedNotifier.value = widget.mapController.rotation != 0;
     });
   }
 
@@ -49,18 +59,41 @@ class _HomeControlsState extends State<HomeControls> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          FloatingActionButton.small(
-            child: Icon(
-              Icons.menu,
-              color: Colors.black,
-            ),
-            onPressed: Scaffold.of(context).openDrawer,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FloatingActionButton.small(
+                child: Icon(
+                  Icons.menu,
+                  color: Colors.black,
+                ),
+                onPressed: Scaffold.of(context).openDrawer,
+              ),
+              Spacer(),
+              MapLayerSwitcher(
+                entries: [
+                  MapLayerSwitcherEntry(key: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                    icon: Icons.satellite_rounded, label: "Satellite"
+                  ),
+                  MapLayerSwitcherEntry(key: "https://osm-2.nearest.place/retina/{z}/{x}/{y}.png",
+                    icon: Icons.map_rounded, label: "Map"
+                  ),
+                  // TODO: We really need this!! Showing where the tram and bus routes are is crucial for our App.
+                  // Thunderforest requires an API key unfortunately
+                  MapLayerSwitcherEntry(key: "https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png",
+                    icon: Icons.map_rounded, label: "Thunderforest.Transport"
+                  ),
+                ],
+                active: widget.tileProvider.value,
+                onSelection: _changeTileProvider,
+              ),
+            ]
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               ValueListenableBuilder(
-                valueListenable: _isRotated,
+                valueListenable: _isRotatedNotifier,
                 builder: (BuildContext context, bool isRotated, Widget? compass) {
                   return AnimatedSwitcher(
                     duration: Duration(milliseconds: 300),
@@ -68,8 +101,8 @@ class _HomeControlsState extends State<HomeControls> {
                   );
                 } ,
                 child: CompassButton(
-                  listenable: widget.mapController,
-                  getRotation: () => -(widget.mapController.cameraPosition?.bearing ?? 0),
+                  listenable: _rotationNotifier,
+                  getRotation: () => widget.mapController.rotation,
                   isDegree: true,
                   onPressed: _resetRotation,
                 ),
@@ -78,12 +111,8 @@ class _HomeControlsState extends State<HomeControls> {
               SizedBox (
                 height: widget.buttonSpacing
               ),
-              FloatingActionButton.small(
-                child: Icon(
-                  Icons.my_location,
-                  color: Colors.black,
-                ),
-                onPressed: () => trackUserLocation(widget.mapController),
+              LocationButton(
+                cameraTracker: widget.cameraTracker,
               ),
               SizedBox (
                 height: widget.buttonSpacing
@@ -91,7 +120,7 @@ class _HomeControlsState extends State<HomeControls> {
               ZoomButton(
                 onZoomInPressed: _zoomIn,
                 onZoomOutPressed: _zoomOut,
-                )
+              )
             ]
           )
         ],
@@ -100,24 +129,32 @@ class _HomeControlsState extends State<HomeControls> {
   }
 
 
-  /// Zoom the map view
+  /// Zoom the map view.
 
   void _zoomIn() {
-    widget.mapController.animateCamera(CameraUpdate.zoomIn());
+    // round zoom level so zoom will always stick to integer levels
+    widget.mapController.animateTo(ticker: this, zoom: widget.mapController.zoom.roundToDouble() + 1);
   }
 
 
-  /// Zoom out of the map view
+  /// Zoom out of the map view.
 
   void _zoomOut() {
-    widget.mapController.animateCamera(CameraUpdate.zoomOut());
+    // round zoom level so zoom will always stick to integer levels
+    widget.mapController.animateTo(ticker: this, zoom: widget.mapController.zoom.roundToDouble() - 1);
   }
 
 
-  /// Reset map rotation
+  /// Reset the map rotation.
 
   void _resetRotation() {
-    widget.mapController.animateCamera(CameraUpdate.bearingTo(0));
+    widget.mapController.animateTo(ticker: this, rotation: 0);
   }
 
+
+  /// Update the ValueNotifier that contains the url from which tiles are fetched.
+
+  void _changeTileProvider(MapLayerSwitcherEntry) {
+    widget.tileProvider.value = MapLayerSwitcherEntry.key;
+  }
 }
