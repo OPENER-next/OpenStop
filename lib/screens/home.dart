@@ -4,12 +4,13 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_compass/flutter_compass.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import '/helpers/camera_tracker.dart';
 import '/commons/stream_debouncer.dart';
+import '/widgets/location_indicator.dart';
 import '/widgets/stop_area_indicator.dart';
 import '/widgets/question_sheet.dart';
 import '/widgets/home_controls.dart';
@@ -110,9 +111,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 enableMultiFingerGestureRace: true,
                 center: LatLng(50.8261, 12.9278),
                 zoom: 15.0,
-                plugins: [
-                  MarkerClusterPlugin(),
-                ],
               ),
               children: [
                 ValueListenableBuilder<String>(
@@ -131,17 +129,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 StreamBuilder<Position>(
                   stream: _locationStream,
                   builder: (context, snapshot) {
+                    if (!snapshot.hasData) return SizedBox.shrink();
+                    final position = snapshot.data!;
+
                     return GroupLayerWidget(
                       options: GroupLayerOptions(
-                        group: (!snapshot.hasData) ? const [] : [
+                        group: [
                           // display location accuracy circle
-                          if (snapshot.data!.accuracy > 0) CircleLayerOptions(
+                          if (position.accuracy > 0) CircleLayerOptions(
                             circles: [
                               CircleMarker(
                                 color: Colors.blue.withOpacity(0.3),
                                 useRadiusInMeter: true,
-                                point: LatLng(snapshot.data!.latitude, snapshot.data!.longitude),
-                                radius: snapshot.data!.accuracy
+                                point: LatLng(position.latitude, position.longitude),
+                                radius: position.accuracy
                               )
                             ]
                           ),
@@ -149,30 +150,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           MarkerLayerOptions(
                             markers: [
                               Marker(
-                                width: 20,
-                                height: 20,
-                                point: LatLng(snapshot.data!.latitude, snapshot.data!.longitude),
-                                builder: (context) => AnimatedContainer(
-                                  transform: Matrix4.rotationZ(snapshot.data!.heading * degrees2Radians),
-                                  transformAlignment: Alignment.center,
-                                  padding: EdgeInsets.all(2),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.white,
-                                      width: 3,
-                                    ),
-                                    shape: BoxShape.circle,
-                                    color: Colors.blue,
-                                  ),
-                                  curve: Curves.ease,
-                                  duration: Duration(milliseconds: 300),
-                                  child: const FittedBox(
-                                    child: const Icon(
-                                      Icons.navigation_sharp,
-                                      color: Colors.white
-                                    )
-                                  ),
-                                )
+                                width: 80,
+                                height: 80,
+                                point: LatLng(position.latitude, position.longitude),
+                                builder: (context) =>
+                                  StreamBuilder<CompassEvent>(
+                                    stream: FlutterCompass.events,
+                                    builder: (context, snapshot) {
+                                      final compass = snapshot.data;
+                                      return LocationIndicator(
+                                        heading: (compass?.heading ?? 0) * degrees2Radians,
+                                        sectorSize: compass?.heading != null ? 1.5 : 0,
+                                        duration: Duration(seconds: 1),
+                                      );
+                                    }
+                                  )
                               )
                             ]
                           ),
