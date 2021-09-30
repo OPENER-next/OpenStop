@@ -23,7 +23,7 @@ class CameraTracker extends ChangeNotifier {
 
   StreamSubscription<ServiceStatus>? _serviceStatusStreamSub;
 
-  bool _isActive = false;
+  CameraTrackerState _state = CameraTrackerState.inactive;
 
   CameraTracker({
     required this.ticker,
@@ -33,47 +33,61 @@ class CameraTracker extends ChangeNotifier {
   }) : super();
 
 
-  get isActive => _isActive;
-
+  get state => _state;
 
   /// This function will automatically request permissions and the activation of the location service.
   /// Only call this function if the [MapController] is ready ([onReady]). Otherwise an error might occur.
 
   void startTacking() async {
-    if (isActive) return;
+    if (_state != CameraTrackerState.inactive) return;
 
-    final location = await acquireCurrentLocation(false);
-    if (location != null) {
-      // move to last known location
-      _updateCamera(location);
+    _updateState(CameraTrackerState.pending);
+
+    // request permissions and get last known position
+    final lastPosition = await acquireUserLocation(false);
+    // if location was successfully granted and retrieved
+    // and if state is still pending which means it wasn't canceled during the process
+    if (lastPosition != null && _state == CameraTrackerState.pending) {
+      // move to last known location if available
+      _handlePositionUpdate(lastPosition);
 
       _positionStreamSub = Geolocator.getPositionStream(
         intervalDuration: this.updateInterval,
         timeLimit: timeout
-      ).listen(_updateCamera, onError: (e) => stopTracking);
+      ).listen(_handlePositionUpdate, onError: (e) => stopTracking);
 
       _serviceStatusStreamSub = Geolocator.getServiceStatusStream().listen(_handleServiceStatus);
+
       _mapEventStreamSub = mapController.mapEventStream.listen(_handleMapEvent, onError: (e) => stopTracking);
 
-      _isActive = true;
-      notifyListeners();
+      _updateState(CameraTrackerState.active);
+    }
+    else {
+      _updateState(CameraTrackerState.inactive);
     }
   }
 
 
   void stopTracking() {
-    if (!isActive) return;
+    if (_state == CameraTrackerState.inactive) return;
 
     _positionStreamSub?.cancel();
     _serviceStatusStreamSub?.cancel();
     _mapEventStreamSub?.cancel();
 
-    _isActive = false;
-    notifyListeners();
+    _updateState(CameraTrackerState.inactive);
   }
 
 
-  void _updateCamera(Position position) {
+  _updateState(CameraTrackerState newState) {
+    if (newState != _state) {
+      _state = newState;
+      notifyListeners();
+    }
+  }
+
+
+  void _handlePositionUpdate(Position position) {
     mapController.animateTo(
       ticker: ticker,
       location: LatLng(position.latitude, position.longitude),
@@ -82,12 +96,14 @@ class CameraTracker extends ChangeNotifier {
     );
   }
 
+
   void _handleServiceStatus(ServiceStatus status) {
     // cancel tracking when location service gets disabled
     if (status == ServiceStatus.disabled) {
       stopTracking();
     }
   }
+
 
   void _handleMapEvent(MapEvent mapEvent) {
     // cancel tracking on user interaction or any map move not caused by the camera tracker
@@ -98,4 +114,13 @@ class CameraTracker extends ChangeNotifier {
       stopTracking();
     }
   }
+}
+
+/// Pending means that the tracking has been requested, but at this point
+/// it's unclear if the user grants the permissions or enables the location service.
+
+enum CameraTrackerState {
+  pending,
+  active,
+  inactive
 }

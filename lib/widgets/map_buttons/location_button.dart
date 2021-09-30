@@ -34,11 +34,16 @@ class _LocationButtonState extends State<LocationButton> with SingleTickerProvid
   initState() {
     super.initState();
 
+    // set initial animation state
+    if (widget.cameraTracker.state == CameraTrackerState.active) {
+      _animationController.value = _animationController.upperBound;
+    }
+
     widget.cameraTracker.addListener(() {
-      if (widget.cameraTracker.isActive) {
+      if (widget.cameraTracker.state == CameraTrackerState.active) {
         _animationController.forward();
       }
-      else {
+      else if (widget.cameraTracker.state == CameraTrackerState.inactive) {
         _animationController.reverse();
       }
     });
@@ -61,10 +66,10 @@ class _LocationButtonState extends State<LocationButton> with SingleTickerProvid
 
 
   _handleButtonPress() {
-    if (!widget.cameraTracker.isActive) {
+    if (widget.cameraTracker.state == CameraTrackerState.inactive) {
       widget.cameraTracker.startTacking();
     }
-    else {
+    else if (widget.cameraTracker.state == CameraTrackerState.active) {
       widget.cameraTracker.stopTracking();
     }
   }
