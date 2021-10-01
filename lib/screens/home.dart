@@ -4,7 +4,7 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_compass/flutter_compass.dart';
+import 'package:motion_sensors/motion_sensors.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
@@ -36,8 +36,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final MapController _mapController = MapController();
 
   final _stopQueryHandler = StopQueryHandler();
-
-  static const degrees2Radians = pi/180;
 
   static const double _initialSheetSize = 0.4;
 
@@ -154,13 +152,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 height: 80,
                                 point: LatLng(position.latitude, position.longitude),
                                 builder: (context) =>
-                                  StreamBuilder<CompassEvent>(
-                                    stream: FlutterCompass.events,
+                                  StreamBuilder<AbsoluteOrientationEvent>(
+                                    stream: motionSensors.absoluteOrientation,
                                     builder: (context, snapshot) {
-                                      final compass = snapshot.data;
+                                      final piDoubled = 2 * pi;
                                       return LocationIndicator(
-                                        heading: (compass?.heading ?? 0) * degrees2Radians,
-                                        sectorSize: compass?.heading != null ? 1.5 : 0,
+                                        // convert from [-pi, pi] to [0,2pi]
+                                        heading: snapshot.hasData ? (piDoubled - snapshot.data!.yaw) % piDoubled : 0,
+                                        sectorSize: snapshot.hasData ? 1.5 : 0,
                                         duration: Duration(seconds: 1),
                                       );
                                     }
