@@ -7,7 +7,11 @@ import 'package:flutter/widgets.dart';
 class LocationIndicator extends ImplicitlyAnimatedWidget {
   final Color color;
   final Color strokeColor;
+
+  /// The value is expected to be in radians.
+
   final double heading;
+
   final Size size;
 
   /// The value is expected to be in radians.
@@ -31,22 +35,22 @@ class LocationIndicator extends ImplicitlyAnimatedWidget {
 }
 
 class _LocationIndicatorState extends AnimatedWidgetBaseState<LocationIndicator> {
-  Tween? _rotationTween;
+  RotationTween? _rotationTween;
 
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
     _rotationTween = visitor(
       _rotationTween,
       widget.heading,
-      (value) => Tween<double>(begin: value)
-    );
+      (value) => RotationTween(begin: value)
+    ) as RotationTween;
   }
 
   @override
   Widget build(context) {
     return Transform.rotate(
       alignment: Alignment.center,
-      angle: (_rotationTween?.evaluate(animation) ?? 0) as double,
+      angle: _rotationTween?.evaluate(animation) ?? _rotationTween?.begin ?? 0,
       child: CustomPaint(
         painter: LocationIndicatorPainter(
           color: widget.color,
@@ -59,6 +63,21 @@ class _LocationIndicatorState extends AnimatedWidgetBaseState<LocationIndicator>
   }
 }
 
+
+/// Interpolate radians values in the direction of the shortest rotation delta / rotation angle.
+
+class RotationTween extends Tween<double> {
+  static const piDoubled = pi * 2;
+
+  RotationTween({ double? begin, double? end }) : super(begin: begin, end: end);
+
+  @override
+  double lerp(double t) {
+    // thanks to https://stackoverflow.com/questions/2708476/rotation-interpolation
+    double rotationDelta = ((end! - begin!) + pi) % piDoubled - pi;
+    return begin! + rotationDelta * t;
+  }
+}
 
 
 class LocationIndicatorPainter extends CustomPainter {
