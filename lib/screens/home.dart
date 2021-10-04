@@ -8,6 +8,7 @@ import 'package:motion_sensors/motion_sensors.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import '/helpers/scaled_marker_plugin.dart';
 import '/helpers/camera_tracker.dart';
 import '/commons/stream_debouncer.dart';
 import '/widgets/map_markers/location_indicator.dart';
@@ -52,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   late final Future<List<Question>> _questionCatalog = parseQuestions();
 
-  final List<Marker> _markers = [];
+  final List<ScaledMarker> _markers = [];
 
   @override
   void initState() {
@@ -177,9 +178,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       for (var stop in snapshot.data!) {
-                        _markers.add(Marker(
+                        _markers.add(ScaledMarker(
+                          size: 100,
                           point: stop.location,
-                          builder: (context) => GestureDetector(
+                          child: GestureDetector(
                             behavior: HitTestBehavior.translucent,
                             onTap: () => _onStopAreaTap(stop),
                             child: StopAreaIndicator()
@@ -187,8 +189,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ));
                       }
                     }
-                    return MarkerLayerWidget(
-                      options: MarkerLayerOptions(
+                    return ScaledMarkerLayerWidget(
+                      options: ScaledMarkerLayerOptions(
                         markers: _markers
                       ),
                     );
