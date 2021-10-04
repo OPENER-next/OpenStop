@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong2/latlong.dart';
+import '/commons/geo_utils.dart';
 
 
 class ScaledMarkerLayerOptions extends LayerOptions {
@@ -135,15 +136,5 @@ class _ScaledMarkerLayerState extends State<ScaledMarkerLayer> {
         );
       },
     );
-  }
-
-  double metersPerPixel(double latitude, double zoomLevel) {
-    var earthCircumference = 40075017;
-    var latitudeRadians = latitude * (pi/180);
-    return earthCircumference * cos(latitudeRadians) / pow(2, zoomLevel + 8);
-  }
-
-  double pixelValue(double latitude, double meters, double zoomLevel) {
-    return meters / metersPerPixel(latitude, zoomLevel);
   }
 }
