@@ -8,6 +8,7 @@ import 'package:motion_sensors/motion_sensors.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import '/helpers/stop_unifier.dart';
 import '/helpers/scaled_marker_plugin.dart';
 import '/helpers/camera_tracker.dart';
 import '/commons/stream_debouncer.dart';
@@ -20,6 +21,7 @@ import '/models/question.dart';
 import '/widgets/loading_indicator.dart';
 import '/api/stop_query_handler.dart';
 import '/models/stop.dart';
+import '/models/stop_area.dart';
 import '/commons/map_utils.dart';
 
 
@@ -40,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   static const double _initialSheetSize = 0.4;
 
-  final _selectedMarker = ValueNotifier<Stop?>(null);
+  final _selectedMarker = ValueNotifier<StopArea?>(null);
 
   final _selectedQuestion = ValueNotifier<Question?>(null);
 
@@ -177,13 +179,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   stream: _stopQueryHandler.stops,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      for (var stop in snapshot.data!) {
+                      final stopAreas = unifyStops(snapshot.data!, 100) ;
+                      for (var stopArea in stopAreas) {
                         _markers.add(ScaledMarker(
-                          size: 100,
-                          point: stop.location,
+                          size: stopArea.diameter + 100,
+                          point: stopArea.center,
                           child: GestureDetector(
                             behavior: HitTestBehavior.translucent,
-                            onTap: () => _onStopAreaTap(stop),
+                            onTap: () => _onStopAreaTap(stopArea),
                             child: StopAreaIndicator()
                           )
                         ));
@@ -261,9 +264,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
 
-  void _onStopAreaTap(Stop stop) async {
+  void _onStopAreaTap(StopArea stopArea) async {
     _deselectCurrentStopArea();
-    _selectStopArea(stop);
+    _selectStopArea(stopArea);
 
     final questions = await _questionCatalog;
     _selectedQuestion.value = questions[Random().nextInt(questions.length)];
@@ -274,7 +277,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       (mediaQuery.size.height - mediaQuery.padding.top - mediaQuery.padding.bottom) * _initialSheetSize;
     _mapController.animateToBounds(
       ticker: this,
-      location: stop.location,
+      location: stopArea.center,
       padding: EdgeInsets.only(bottom: paddingBottom)
     );
   }
@@ -282,7 +285,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   /// Deselect a given symbol on the map
 
-  void _deselectStopArea(Stop stop) {
+  void _deselectStopArea(StopArea stopArea) {
     // unset variable
     _selectedMarker.value = null;
   }
@@ -300,12 +303,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   /// Select a given symbol on the map
   /// This pushes it to the _selectedMarker ValueNotifier and changes its icon
 
-  void _selectStopArea(Stop stop) {
+  void _selectStopArea(StopArea stopArea) {
     // ignore if the symbol is already selected
-    if (_selectedMarker.value == stop) {
+    if (_selectedMarker.value == stopArea) {
       return;
     }
-    _selectedMarker.value = stop;
+    _selectedMarker.value = stopArea;
   }
 
 
