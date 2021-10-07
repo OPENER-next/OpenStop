@@ -157,7 +157,6 @@ class LocationIndicatorPainter extends CustomPainter {
       offset,
       innerRadius,
       Paint()
-      ..strokeMiterLimit
         ..color = strokeColor
         ..strokeWidth = innerRadius / 2
         ..style = PaintingStyle.stroke
