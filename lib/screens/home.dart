@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:motion_sensors/motion_sensors.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -70,6 +71,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       systemNavigationBarIconBrightness: Brightness.light,
     ));
 
+    // query stops on map interactions
     _mapController.mapEventStream.debounce<MapEvent>(Duration(milliseconds: 500)).listen((event) {
       if (_mapController.bounds != null && _mapController.zoom > 12) {
         _stopQueryHandler.update(_mapController.bounds!);
@@ -77,14 +79,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
 
     _mapController.onReady.then((_) {
+      // use post frame callback because initial bounds are not applied in onReady yet
+      SchedulerBinding.instance?.addPostFrameCallback((duration) {
       // move to user location and start camera tracking on app start
-      _cameraTracker.startTacking();
-
-      // use timer as workaround because initial bounds are not applied in onReady yet
-      Timer(Duration(seconds: 1), () {
-        if (_mapController.bounds != null && _mapController.zoom > 12) {
-          _stopQueryHandler.update(_mapController.bounds!);
-        }
+        // this will also trigger the first query of stops, but only if the user enabled the location service
+        _cameraTracker.startTacking(defaultZoom: 15);
       });
     });
 
@@ -101,7 +100,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       drawer: HomeSidebar(),
       // use builder to get scaffold context
       body: Builder(builder: (context) =>
-        // TODO: clustering
         Stack(
           fit: StackFit.expand,
           children: [
@@ -111,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 onTap: (position, location) => _selectedQuestion.value = null,
                 enableMultiFingerGestureRace: true,
                 center: LatLng(50.8261, 12.9278),
-                zoom: 15.0,
+                zoom: 10.0,
               ),
               children: [
                 ValueListenableBuilder<String>(

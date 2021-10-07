@@ -38,7 +38,7 @@ class CameraTracker extends ChangeNotifier {
   /// This function will automatically request permissions and the activation of the location service.
   /// Only call this function if the [MapController] is ready ([onReady]). Otherwise an error might occur.
 
-  void startTacking() async {
+  void startTacking({double? defaultZoom}) async {
     if (_state != CameraTrackerState.inactive) return;
 
     _updateState(CameraTrackerState.pending);
@@ -49,7 +49,7 @@ class CameraTracker extends ChangeNotifier {
     // and if state is still pending which means it wasn't canceled during the process
     if (lastPosition != null && _state == CameraTrackerState.pending) {
       // move to last known location if available
-      _handlePositionUpdate(lastPosition);
+      _handlePositionUpdate(lastPosition, defaultZoom);
 
       _positionStreamSub = Geolocator.getPositionStream(
         intervalDuration: this.updateInterval,
@@ -87,10 +87,11 @@ class CameraTracker extends ChangeNotifier {
   }
 
 
-  void _handlePositionUpdate(Position position) {
+  void _handlePositionUpdate(Position position, [double? zoom]) {
     mapController.animateTo(
       ticker: ticker,
       location: LatLng(position.latitude, position.longitude),
+      zoom: zoom,
       duration: updateInterval,
       id: "CameraTracker"
     );
