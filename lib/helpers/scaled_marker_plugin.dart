@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong2/latlong.dart';
@@ -24,13 +23,19 @@ class ScaledMarker {
   final LatLng point;
   final Widget child;
   final Key? key;
+
+  /// The size of the widget in meters.
   final double size;
 
-  ScaledMarker({
+  /// Whether the markers state should be kept alive when it's off the screen.
+  final bool maintainState;
+
+  const ScaledMarker({
     required this.point,
     required this.child,
     this.key,
     this.size = 30.0,
+    this.maintainState = false
   });
 }
 
@@ -38,7 +43,7 @@ class ScaledMarker {
 class ScaledMarkerLayerWidget extends StatelessWidget {
   final ScaledMarkerLayerOptions options;
 
-  ScaledMarkerLayerWidget({Key? key, required this.options}) : super(key: key);
+  const ScaledMarkerLayerWidget({Key? key, required this.options}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -92,13 +97,13 @@ class _ScaledMarkerLayerState extends State<ScaledMarkerLayer> {
 
         final markers = <Widget>[];
         final sameZoom = widget.map.zoom == lastZoom;
+        final mapOrigin = widget.map.getPixelOrigin();
 
         for (var i = 0; i < widget.markerLayerOptions.markers.length; i++) {
           final marker = widget.markerLayerOptions.markers[i];
 
           // Decide whether to use cached point or calculate it
-          final pxPoint =
-              sameZoom ? _pxCache[i] : widget.map.project(marker.point);
+          final pxPoint = sameZoom ? _pxCache[i] : widget.map.project(marker.point);
           if (!sameZoom) {
             _pxCache[i] = pxPoint;
           }
@@ -109,13 +114,15 @@ class _ScaledMarkerLayerState extends State<ScaledMarkerLayer> {
           final sw = CustomPoint(pxPoint.x + shift, pxPoint.y - shift);
           final ne = CustomPoint(pxPoint.x - shift, pxPoint.y + shift);
 
-          if (!widget.map.pixelBounds.containsPartialBounds(Bounds(sw, ne)) ||
-              size < widget.markerLayerOptions.sizeThreshold
-          ) {
+          final isVisible =
+            widget.map.pixelBounds.containsPartialBounds(Bounds(sw, ne)) &&
+            size >= widget.markerLayerOptions.sizeThreshold;
+
+          if (!isVisible && !marker.maintainState) {
             continue;
           }
 
-          final pos = pxPoint - widget.map.getPixelOrigin();
+          final pos = pxPoint - mapOrigin;
 
           markers.add(
             Positioned(
@@ -124,15 +131,22 @@ class _ScaledMarkerLayerState extends State<ScaledMarkerLayer> {
               height: size,
               left: pos.x - shift,
               top: pos.y - shift,
-              child: marker.child,
-            ),
+              child: marker.maintainState
+                ? Visibility(
+                  visible: isVisible,
+                  maintainState: true,
+                  maintainAnimation: true,
+                  child: marker.child
+                )
+                : marker.child
+            )
           );
         }
 
         lastZoom = widget.map.zoom;
 
         return Stack(
-          children: markers,
+          children: markers
         );
       },
     );
