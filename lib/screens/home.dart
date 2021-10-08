@@ -9,19 +9,16 @@ import 'package:motion_sensors/motion_sensors.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
-import '/helpers/stop_unifier.dart';
-import '/helpers/scaled_marker_plugin.dart';
 import '/helpers/camera_tracker.dart';
 import '/commons/stream_debouncer.dart';
 import '/widgets/map_markers/location_indicator.dart';
-import '/widgets/map_markers/stop_area_indicator.dart';
+import '/widgets/map_layer/stop_area_layer.dart';
 import '/widgets/question_sheet.dart';
 import '/widgets/home_controls.dart';
 import '/widgets/home_sidebar.dart';
 import '/models/question.dart';
 import '/widgets/loading_indicator.dart';
 import '/api/stop_query_handler.dart';
-import '/models/stop.dart';
 import '/models/stop_area.dart';
 import '/commons/map_utils.dart';
 
@@ -33,6 +30,10 @@ class HomeScreen extends StatefulWidget {
 
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  static const double _initialSheetSize = 0.4;
+
+  static const double _stopAreaDiameter = 100;
+
   final Stream<Position> _locationStream = Geolocator.getPositionStream(
     intervalDuration: Duration(seconds: 1)
   );
@@ -40,8 +41,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final MapController _mapController = MapController();
 
   final _stopQueryHandler = StopQueryHandler();
-
-  static const double _initialSheetSize = 0.4;
 
   final _selectedMarker = ValueNotifier<StopArea?>(null);
 
@@ -55,8 +54,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   );
 
   late final Future<List<Question>> _questionCatalog = parseQuestions();
-
-  final List<ScaledMarker> _markers = [];
 
   @override
   void initState() {
@@ -81,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _mapController.onReady.then((_) {
       // use post frame callback because initial bounds are not applied in onReady yet
       SchedulerBinding.instance?.addPostFrameCallback((duration) {
-      // move to user location and start camera tracking on app start
+        // move to user location and start camera tracking on app start
         // this will also trigger the first query of stops, but only if the user enabled the location service
         _cameraTracker.startTacking(defaultZoom: 15);
       });
@@ -173,30 +170,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     );
                   }
                 ),
-                StreamBuilder<Iterable<Stop>>(
-                  stream: _stopQueryHandler.stops,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final stopAreas = unifyStops(snapshot.data!, 100) ;
-                      for (var stopArea in stopAreas) {
-                        _markers.add(ScaledMarker(
-                          size: stopArea.diameter + 100,
-                          point: stopArea.center,
-                          child: GestureDetector(
-                            behavior: HitTestBehavior.translucent,
-                            onTap: () => _onStopAreaTap(stopArea),
-                            child: StopAreaIndicator()
-                          )
-                        ));
-                      }
-                    }
-                    return ScaledMarkerLayerWidget(
-                      options: ScaledMarkerLayerOptions(
-                        markers: _markers
-                      ),
-                    );
-                  }
-                ),
+                StopAreaLayer(
+                  stopStream: _stopQueryHandler.stops,
+                  onStopAreaTap: _onStopAreaTap,
+                )
               ],
               nonRotatedChildren: [
                 Align(
