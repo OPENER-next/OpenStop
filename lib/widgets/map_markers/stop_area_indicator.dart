@@ -68,34 +68,37 @@ class _StopAreaIndicatorState extends State<StopAreaIndicator> with SingleTicker
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      behavior: HitTestBehavior.deferToChild,
       onTap: widget.onTap,
-      child: CustomPaint(
-      painter: CirclePainter(
-        color: Colors.blue.withOpacity(0.2),
-        strokeColor: Colors.blue,
-        strokeWidth: 2
-      ),
-      size: Size.square(widget.size),
-      child: widget.isLoading
-        ? AnimatedBuilder(
-          animation: _controller,
-          builder: (context, child) {
-            return Opacity(
-              opacity: opacityAnimation.value,
-              child: Transform.scale(
-                scale: scaleAnimation.value,
-                child: child!
+      // this is used to provider proper hit testing because currently it cannot be done in the CustomPainter
+      // see: https://github.com/flutter/flutter/issues/28206
+      child: ClipOval(
+        child: CustomPaint(
+          painter: CirclePainter(
+            color: Colors.blue.withOpacity(0.2),
+            strokeColor: Colors.blue,
+            strokeWidth: 2
+          ),
+          size: Size.square(widget.size),
+          child: widget.isLoading
+            ? AnimatedBuilder(
+              animation: _controller,
+              builder: (context, child) {
+                return Opacity(
+                  opacity: opacityAnimation.value,
+                  child: Transform.scale(
+                    scale: scaleAnimation.value,
+                    child: child!
+                  )
+                );
+              },
+              child: CustomPaint(
+                painter: CirclePainter(
+                  color: Colors.blue.withOpacity(0.4)
+                ),
               )
-            );
-          },
-          child: CustomPaint(
-            painter: CirclePainter(
-              color: Colors.blue.withOpacity(0.4)
-            ),
-          )
+            )
+            : null
         )
-        : null
       )
     );
   }
@@ -118,7 +121,6 @@ class CirclePainter extends CustomPainter {
     this.strokeWidth = 2
   });
 
-
   @override
   void paint(Canvas canvas, Size size) {
     final halfWidth = size.width/2;
@@ -139,7 +141,8 @@ class CirclePainter extends CustomPainter {
     if (strokeColor != Colors.transparent && strokeWidth > 0) {
       canvas.drawCircle(
       offset,
-      radius,
+      // make stroke width inset
+      radius - strokeWidth/2,
       Paint()
         ..color = strokeColor
         ..strokeWidth = strokeWidth
