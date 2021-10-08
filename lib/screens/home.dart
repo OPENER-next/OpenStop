@@ -273,9 +273,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final mediaQuery = MediaQuery.of(context);
     final paddingBottom =
       (mediaQuery.size.height - mediaQuery.padding.top - mediaQuery.padding.bottom) * _initialSheetSize;
-    _mapController.animateToBounds(
+
+    _mapController.animateToCircle(
       ticker: this,
-      location: stopArea.center,
+      center: stopArea.center,
+      radius: _stopAreaDiameter / 2 + stopArea.diameter / 2,
       padding: EdgeInsets.only(bottom: paddingBottom)
     );
   }

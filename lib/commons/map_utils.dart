@@ -54,23 +54,11 @@ extension AnimationUtils on MapController {
 
   animateToBounds({
     required TickerProvider ticker,
-    required LatLng location,
-    LatLng? extend,
+    required LatLngBounds bounds,
     EdgeInsets padding = const EdgeInsets.all(0)
   }) {
-    extend ??= LatLng(0.001, 0.001);
-
-    var centerZoom = this.centerZoomFitBounds(
-      LatLngBounds(
-        LatLng(
-          location.latitude - extend.latitude,
-          location.longitude - extend.longitude
-        ),
-        LatLng(
-          location.latitude + extend.latitude,
-          location.longitude + extend.longitude
-        ),
-      ),
+    final centerZoom = this.centerZoomFitBounds(
+      bounds,
       options: FitBoundsOptions(
         maxZoom: 25,
         padding: padding
@@ -81,7 +69,36 @@ extension AnimationUtils on MapController {
       ticker: ticker,
       location: centerZoom.center,
       // round zoom level so zoom will always stick to integer levels
-      zoom: centerZoom.zoom.roundToDouble()
+      // floor so the bounds are always visible
+      zoom: centerZoom.zoom.floorToDouble()
+    );
+  }
+
+
+  animateToCircle({
+    required TickerProvider ticker,
+    required LatLng center,
+    required double radius,
+    EdgeInsets padding = const EdgeInsets.all(0)
+  }) {
+    final distance = Distance();
+    final outerBounds = LatLngBounds(
+      distance.offset(
+        distance.offset(center, radius, 0),
+        radius,
+        90
+      ),
+      distance.offset(
+        distance.offset(center, radius, 180),
+        radius,
+        270
+      ),
+    );
+
+    this.animateToBounds(
+      ticker: ticker,
+      bounds: outerBounds,
+      padding: padding
     );
   }
 }
