@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       SchedulerBinding.instance?.addPostFrameCallback((duration) {
         // move to user location and start camera tracking on app start
         // this will also trigger the first query of stops, but only if the user enabled the location service
-        _cameraTracker.startTacking(defaultZoom: 15);
+        _cameraTracker.startTacking(initialZoom: 15);
       });
     });
 
@@ -105,8 +105,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               options: MapOptions(
                 onTap: (position, location) => _selectedQuestion.value = null,
                 enableMultiFingerGestureRace: true,
-                center: LatLng(50.8261, 12.9278),
-                zoom: 10.0,
+                center: LatLng(50.8144951, 12.9295576),
+                zoom: 15.0,
               ),
               children: [
                 ValueListenableBuilder<String>(
