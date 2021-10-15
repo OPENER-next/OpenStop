@@ -39,7 +39,7 @@
         "properties": {
           "type": {
             "description": "The value type of the answer. This is closely related to the widget that will be displayed to the end user.",
-            "enum": ["Bool", "Number", "String", "List", "Duration", "OpeningHours", "BoolNumber"]
+            "enum": ["Bool", "Number", "String", "List", "Duration", "OpeningHours"]
           },
           "unit": {
             "description": "An optional unit that will be displayed to the user.",

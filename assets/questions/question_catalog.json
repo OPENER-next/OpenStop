@@ -318,15 +318,8 @@
       "name": "Behindertenparkplätze",
       "question": "Gibt es hier gesonderte Parkplätze für beeinträchtigte Personen?",
       "input": {
-         "type": "BoolNumber",
-         "decimals": 0,
-         "min": 1,
+         "type": "Bool",
          "values": {
-            "_default_": {
-               "osm_tags": {
-                  "capacity:disabled": "%s"
-               }
-            },
             "true": {
                "osm_tags": {
                   "capacity:disabled": "yes"
@@ -348,6 +341,36 @@
                   false
                ],
                "capacity:disabled": false
+            }
+         }
+      ],
+      "difficulty": 1
+   },
+   {
+      "id": 1051,
+      "name": "Behindertenparkplätze",
+      "question": "Wie viele Parkplätze für beeinträchtigte Personen gibt es hier?",
+      "input": {
+         "type": "Number",
+         "decimals": 0,
+         "min": 1,
+         "values": {
+            "_default_": {
+               "osm_tags": {
+                  "capacity:disabled": "%s"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "amenity": "parking",
+               "access": [
+                  "yes",
+                  false
+               ],
+               "capacity:disabled": "yes"
             }
          }
       ],
