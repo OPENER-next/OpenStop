@@ -1025,6 +1025,39 @@
    {
       "id": 1170,
       "name": "Bordstein-/Bussteig-/Bahnsteigart",
+      "question": "Hat die Plattform an der Seite, an der das Verkehrsmittel hält einen Bordstein?",
+      "input": {
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "kerb": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "kerb": "no"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "kerb": false
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay"
+            ]
+         }
+      ],
+      "difficulty": 1
+   },
+   {
+      "id": 1170,
+      "name": "Bordstein-/Bussteig-/Bahnsteigart",
       "question": "Welche Art von Bordstein hat die Plattform an der Seite, an der das Verkehrsmittel hält?",
       "input": {
          "type": "List",
@@ -1046,17 +1079,6 @@
                "osm_tags": {
                   "kerb": "flush"
                }
-            },
-            "yes": {
-               "description": "Wenn genaue Art unbekannt.",
-               "osm_tags": {
-                  "kerb": "yes"
-               }
-            },
-            "no": {
-               "osm_tags": {
-                  "kerb": "no"
-               }
             }
          }
       },
@@ -1064,7 +1086,7 @@
          {
             "osm_tags": {
                "public_transport": "platform",
-               "kerb": false
+               "kerb": "yes"
             },
             "osm_element": [
                "OpenWay",
