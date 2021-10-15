@@ -5,13 +5,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:motion_sensors/motion_sensors.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:animated_location_indicator/animated_location_indicator.dart';
 import 'package:latlong2/latlong.dart';
 import '/helpers/camera_tracker.dart';
 import '/commons/stream_debouncer.dart';
-import '/widgets/map_markers/location_indicator.dart';
 import '/widgets/map_layer/stop_area_layer.dart';
 import '/widgets/question_sheet.dart';
 import '/widgets/home_controls.dart';
@@ -33,10 +31,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   static const double _initialSheetSize = 0.4;
 
   static const double _stopAreaDiameter = 100;
-
-  final Stream<Position> _locationStream = Geolocator.getPositionStream(
-    intervalDuration: Duration(seconds: 1)
-  );
 
   final MapController _mapController = MapController();
 
@@ -121,58 +115,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     );
                   }
                 ),
-                // place circle layer before marker layer due to: https://github.com/fleaflet/flutter_map/issues/891
-                StreamBuilder<Position>(
-                  stream: _locationStream,
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) return SizedBox.shrink();
-                    final position = snapshot.data!;
-
-                    return GroupLayerWidget(
-                      options: GroupLayerOptions(
-                        group: [
-                          // display location accuracy circle
-                          if (position.accuracy > 0) CircleLayerOptions(
-                            circles: [
-                              CircleMarker(
-                                color: Colors.blue.withOpacity(0.3),
-                                useRadiusInMeter: true,
-                                point: LatLng(position.latitude, position.longitude),
-                                radius: position.accuracy
-                              )
-                            ]
-                          ),
-                          // display location marker
-                          MarkerLayerOptions(
-                            markers: [
-                              Marker(
-                                width: 80,
-                                height: 80,
-                                point: LatLng(position.latitude, position.longitude),
-                                builder: (context) =>
-                                  StreamBuilder<AbsoluteOrientationEvent>(
-                                    stream: motionSensors.absoluteOrientation,
-                                    builder: (context, snapshot) {
-                                      final piDoubled = 2 * pi;
-                                      return LocationIndicator(
-                                        // convert from [-pi, pi] to [0,2pi]
-                                        heading: snapshot.hasData ? (piDoubled - snapshot.data!.yaw) % piDoubled : 0,
-                                        sectorSize: snapshot.hasData ? 1.5 : 0,
-                                        duration: Duration(seconds: 1),
-                                      );
-                                    }
-                                  )
-                              )
-                            ]
-                          ),
-                        ]
-                      )
-                    );
-                  }
-                ),
                 StopAreaLayer(
                   stopStream: _stopQueryHandler.stops,
                   onStopAreaTap: _onStopAreaTap,
+                ),
+                AnimatedLocationLayerWidget(
+                  options: AnimatedLocationOptions()
                 )
               ],
               nonRotatedChildren: [
