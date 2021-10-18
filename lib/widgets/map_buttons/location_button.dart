@@ -1,83 +1,59 @@
 
 import 'package:flutter/material.dart';
-import '/helpers/camera_tracker.dart';
 
-class LocationButton extends StatefulWidget {
-  final CameraTracker cameraTracker;
+class LocationButton extends ImplicitlyAnimatedWidget {
+  final bool active;
 
-  LocationButton({
-    required this.cameraTracker,
-  });
+  final Function()? onPressed;
+
+  final Color? color, activeColor, iconColor, activeIconColor;
+
+  const LocationButton({
+    Key? key,
+    this.active = false,
+    this.onPressed,
+    this.color = Colors.white,
+    this.activeColor = Colors.black,
+    this.iconColor = Colors.black,
+    this.activeIconColor = Colors.white,
+    Duration duration = const Duration(milliseconds: 300),
+    Curve curve = Curves.ease,
+  }) : super(key: key, duration: duration, curve: curve);
+
 
   @override
-  State<LocationButton> createState() => _LocationButtonState();
+  AnimatedWidgetBaseState<LocationButton> createState() => _LocationButtonState();
 }
 
-class _LocationButtonState extends State<LocationButton> with SingleTickerProviderStateMixin {
-  late AnimationController _animationController = AnimationController(
-    vsync: this,
-    duration: Duration(milliseconds: 300)
-  );
+class _LocationButtonState extends AnimatedWidgetBaseState<LocationButton> {
+  ColorTween? _colorTween;
 
-  late final _colorTweenAnimation = ColorTween(
-    begin: Colors.black,
-    end: Colors.white
-  ).animate(_animationController);
-
-  late final _backgroundColorTweenAnimation = ColorTween(
-    begin: Colors.white,
-    end: Theme.of(context).colorScheme.primary
-  ).animate(_animationController);
-
+  ColorTween? _iconColorTween;
 
   @override
-  initState() {
-    super.initState();
+  void forEachTween(TweenVisitor<dynamic> visitor) {
+    _colorTween = visitor(
+      _colorTween,
+      widget.active ? widget.activeColor : widget.color,
+      (value) => ColorTween(begin: value)
+    ) as ColorTween?;
 
-    // set initial animation state
-    if (widget.cameraTracker.state == CameraTrackerState.active) {
-      _animationController.value = _animationController.upperBound;
-    }
-
-    widget.cameraTracker.addListener(() {
-      if (widget.cameraTracker.state == CameraTrackerState.active) {
-        _animationController.forward();
-      }
-      else if (widget.cameraTracker.state == CameraTrackerState.inactive) {
-        _animationController.reverse();
-      }
-    });
+    _iconColorTween = visitor(
+      _iconColorTween,
+      widget.active ? widget.activeIconColor : widget.iconColor,
+      (value) => ColorTween(begin: value)
+    ) as ColorTween?;
   }
 
 
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _colorTweenAnimation,
-      builder: (context, child) => FloatingActionButton.small(
-        backgroundColor: _backgroundColorTweenAnimation.value,
-        child: Icon(
-          Icons.my_location,
-          color: _colorTweenAnimation.value,
-        ),
-        onPressed: _handleButtonPress
-      )
+    return FloatingActionButton.small(
+      backgroundColor: _colorTween?.evaluate(animation),
+      child: Icon(
+        Icons.my_location,
+        color: _iconColorTween?.evaluate(animation),
+      ),
+      onPressed: widget.onPressed
     );
-  }
-
-
-  _handleButtonPress() {
-    if (widget.cameraTracker.state == CameraTrackerState.inactive) {
-      widget.cameraTracker.startTacking();
-    }
-    else if (widget.cameraTracker.state == CameraTrackerState.active) {
-      widget.cameraTracker.stopTracking();
-    }
-  }
-
-
-  @override
-  void dispose() {
-    super.dispose();
-    _animationController.dispose();
   }
 }

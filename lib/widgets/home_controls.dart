@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:opener_next/helpers/camera_tracker.dart';
+import 'package:opener_next/view_models/map_view_model.dart';
+import 'package:provider/provider.dart';
 import '/widgets/map_buttons/location_button.dart';
 import '/widgets/map_buttons/map_layer_switcher.dart';
 import '/widgets/map_buttons/compass_button.dart';
 import '/widgets/map_buttons/zoom_button.dart';
+// ignore: unused_import
 import '/commons/map_utils.dart';
-
 /// Builds the action buttons which overlay the map.
 
 class HomeControls extends StatefulWidget {
-  final MapController mapController;
-  final ValueNotifier<String> tileProvider;
-  final CameraTracker cameraTracker;
   final double buttonSpacing;
 
   const HomeControls({
     Key? key,
-    required this.mapController,
-    required this.cameraTracker,
-    required this.tileProvider,
     this.buttonSpacing = 10.0,
    }) : super(key: key);
 
@@ -35,13 +31,15 @@ class _HomeControlsState extends State<HomeControls> with TickerProviderStateMix
 
   final ValueNotifier<double> _rotationNotifier = ValueNotifier<double>(0);
 
+  late final mapController = context.read<MapController>();
+
   @override
   void initState() {
     super.initState();
 
-    widget.mapController.mapEventStream.listen((event) {
-      _rotationNotifier.value = widget.mapController.rotation;
-      _isRotatedNotifier.value = widget.mapController.rotation != 0;
+    mapController.mapEventStream.listen((event) {
+      _rotationNotifier.value = mapController.rotation;
+      _isRotatedNotifier.value = mapController.rotation != 0;
     });
   }
 
@@ -70,23 +68,28 @@ class _HomeControlsState extends State<HomeControls> with TickerProviderStateMix
                 onPressed: Scaffold.of(context).openDrawer,
               ),
               Spacer(),
-              MapLayerSwitcher(
-                entries: [
-                  MapLayerSwitcherEntry(key: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                    icon: Icons.satellite_rounded, label: "Satellite"
-                  ),
-                  MapLayerSwitcherEntry(key: "https://osm-2.nearest.place/retina/{z}/{x}/{y}.png",
-                    icon: Icons.map_rounded, label: "Map"
-                  ),
-                  // TODO: We really need this!! Showing where the tram and bus routes are is crucial for our App.
-                  // Thunderforest requires an API key unfortunately
-                  MapLayerSwitcherEntry(key: "https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png",
-                    icon: Icons.map_rounded, label: "Thunderforest.Transport"
-                  ),
-                ],
-                active: widget.tileProvider.value,
-                onSelection: _changeTileProvider,
-              ),
+              Selector<MapViewModel, String>(
+                selector: (context, value) => value.urlTemplate,
+                builder: (context, urlTemplate, child) {
+                  return MapLayerSwitcher(
+                    entries: [
+                      MapLayerSwitcherEntry(key: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                        icon: Icons.satellite_rounded, label: "Satellite"
+                      ),
+                      MapLayerSwitcherEntry(key: "https://osm-2.nearest.place/retina/{z}/{x}/{y}.png",
+                        icon: Icons.map_rounded, label: "Map"
+                      ),
+                      // TODO: We really need this!! Showing where the tram and bus routes are is crucial for our App.
+                      // Thunderforest requires an API key unfortunately
+                      MapLayerSwitcherEntry(key: "https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png",
+                        icon: Icons.map_rounded, label: "Thunderforest.Transport"
+                      ),
+                    ],
+                    active: urlTemplate,
+                    onSelection: _changeTileProvider,
+                  );
+                }
+              )
             ]
           ),
           Column(
@@ -102,7 +105,7 @@ class _HomeControlsState extends State<HomeControls> with TickerProviderStateMix
                 } ,
                 child: CompassButton(
                   listenable: _rotationNotifier,
-                  getRotation: () => widget.mapController.rotation,
+                  getRotation: () => mapController.rotation,
                   isDegree: true,
                   onPressed: _resetRotation,
                 ),
@@ -111,8 +114,12 @@ class _HomeControlsState extends State<HomeControls> with TickerProviderStateMix
               SizedBox (
                 height: widget.buttonSpacing
               ),
-              LocationButton(
-                cameraTracker: widget.cameraTracker,
+              Consumer<CameraTracker>(
+                builder: (context, value, child) => LocationButton(
+                  activeColor: Theme.of(context).colorScheme.primary,
+                  active: value.state == CameraTrackerState.active,
+                  onPressed: _toggleCameraTracker
+                )
               ),
               SizedBox (
                 height: widget.buttonSpacing
@@ -133,7 +140,7 @@ class _HomeControlsState extends State<HomeControls> with TickerProviderStateMix
 
   void _zoomIn() {
     // round zoom level so zoom will always stick to integer levels
-    widget.mapController.animateTo(ticker: this, zoom: widget.mapController.zoom.roundToDouble() + 1);
+    mapController.animateTo(ticker: this, zoom: mapController.zoom.roundToDouble() + 1);
   }
 
 
@@ -141,20 +148,33 @@ class _HomeControlsState extends State<HomeControls> with TickerProviderStateMix
 
   void _zoomOut() {
     // round zoom level so zoom will always stick to integer levels
-    widget.mapController.animateTo(ticker: this, zoom: widget.mapController.zoom.roundToDouble() - 1);
+    mapController.animateTo(ticker: this, zoom: mapController.zoom.roundToDouble() - 1);
   }
 
 
   /// Reset the map rotation.
 
   void _resetRotation() {
-    widget.mapController.animateTo(ticker: this, rotation: 0);
+    mapController.animateTo(ticker: this, rotation: 0);
+  }
+
+
+  /// Activate or deactivate camera tracker depending on its current state.
+
+  void _toggleCameraTracker() {
+    final cameraTracker = context.read<CameraTracker>();
+    if (cameraTracker.state == CameraTrackerState.inactive) {
+      cameraTracker.startTacking();
+    }
+    else if (cameraTracker.state == CameraTrackerState.active) {
+      cameraTracker.stopTracking();
+    }
   }
 
 
   /// Update the ValueNotifier that contains the url from which tiles are fetched.
 
   void _changeTileProvider(MapLayerSwitcherEntry) {
-    widget.tileProvider.value = MapLayerSwitcherEntry.key;
+    context.read<MapViewModel>().urlTemplate = MapLayerSwitcherEntry.key;
   }
 }

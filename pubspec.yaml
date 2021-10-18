@@ -32,6 +32,9 @@ dependencies:
       url: https://github.com/OPENER-next/animated_location_indicator.git
 
   dio: ^4.0.0
+
+  provider: ^6.0.1
+
   shared_preferences: ^2.0.7
   # required until https://github.com/flutter/flutter/issues/41599 is resolved
   sliding_sheet: ^0.5.0

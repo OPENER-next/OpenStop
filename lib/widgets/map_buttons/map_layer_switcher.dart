@@ -33,11 +33,9 @@ class MapLayerSwitcher extends StatefulWidget {
 class _MapLayerSwitcherState extends State<MapLayerSwitcher> with TickerProviderStateMixin {
   late double animationLengthScale, intervalLength, overlapLength, intervalOffset;
 
-  late String active;
-
   late final AnimationController controller = AnimationController(vsync: this);
 
-  final animationStateChange = ChangeNotifier();
+  late final isActive = ValueNotifier(false);
 
   // pre calculate necessary variables
   _setup() {
@@ -56,8 +54,6 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with TickerProvider
     // stretch length by amount of items minus the animation overlap
     controller.duration = widget.duration * animationLengthScale;
     controller.reverseDuration = widget.reverseDuration * animationLengthScale;
-
-    active = widget.active;
   }
 
   @override
@@ -68,7 +64,7 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with TickerProvider
 
     controller.addStatusListener((status) {
       if (status == AnimationStatus.forward || status == AnimationStatus.reverse) {
-        animationStateChange.notifyListeners();
+        isActive.value = status == AnimationStatus.forward;
       }
 
       if (status == AnimationStatus.dismissed) {
@@ -116,17 +112,14 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with TickerProvider
                     ),
                   ),
                   child: FloatingActionButton(
-                    backgroundColor: active == entry.key ? Theme.of(context).colorScheme.primary : null,
+                    backgroundColor: widget.active == entry.key ? Theme.of(context).colorScheme.primary : null,
                     mini: true,
                     child: Icon(
                       entry.icon,
                       color: Colors.black,
                     ),
                     onPressed: () {
-                      if (active != entry.key) {
-                        setState(() {
-                          active = entry.key;
-                        });
+                      if (widget.active != entry.key) {
                         widget.onSelection(entry);
                       }
                     },
@@ -157,11 +150,10 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with TickerProvider
           );
         }),
         FloatingActionButton.small(
-          child: AnimatedBuilder(
-            animation: animationStateChange,
-            builder: (context, child) {
-              return controller.status == AnimationStatus.forward ||
-                     controller.status == AnimationStatus.completed
+          child: ValueListenableBuilder<bool>(
+            valueListenable: isActive,
+            builder: (context, isActive, child) {
+              return isActive
                 ? Icon(
                   Icons.layers_clear_rounded,
                   color: Colors.black,
@@ -193,7 +185,7 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with TickerProvider
   void dispose() {
     super.dispose();
     controller.dispose();
-    animationStateChange.dispose();
+    isActive.dispose();
   }
 }
 

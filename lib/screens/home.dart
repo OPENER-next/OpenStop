@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:animated_location_indicator/animated_location_indicator.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:provider/provider.dart';
+import '/view_models/map_view_model.dart';
 import '/helpers/camera_tracker.dart';
 import '/commons/stream_debouncer.dart';
 import '/widgets/map_layer/stop_area_layer.dart';
@@ -39,8 +41,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final _selectedMarker = ValueNotifier<StopArea?>(null);
 
   final _selectedQuestion = ValueNotifier<Question?>(null);
-
-  final _tileProvider = ValueNotifier("https://osm-2.nearest.place/retina/{z}/{x}/{y}.png");
 
   late final _cameraTracker = CameraTracker(
     ticker: this,
@@ -86,103 +86,109 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      drawer: HomeSidebar(),
-      // use builder to get scaffold context
-      body: Builder(builder: (context) =>
-        Stack(
-          fit: StackFit.expand,
-          children: [
-            FlutterMap(
-              mapController: _mapController,
-              options: MapOptions(
-                onTap: (position, location) => _selectedQuestion.value = null,
-                enableMultiFingerGestureRace: true,
-                center: LatLng(50.8144951, 12.9295576),
-                zoom: 15.0,
-              ),
-              children: [
-                ValueListenableBuilder<String>(
-                  valueListenable: _tileProvider,
-                  builder: (context, value, child) {
-                    return TileLayerWidget(
-                      options: TileLayerOptions(
-                        overrideTilesWhenUrlChanges: true,
-                        urlTemplate: value,
-                        tileProvider: NetworkTileProvider(),
-                      ),
-                    );
-                  }
+    return MultiProvider(
+      providers: [
+        Provider(create: (_) => _mapController),
+        ListenableProvider.value(value: _cameraTracker),
+        ListenableProvider.value(value: MapViewModel(
+          urlTemplate: "https://osm-2.nearest.place/retina/{z}/{x}/{y}.png"
+        )),
+      ],
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        drawer: HomeSidebar(),
+        // use builder to get scaffold context
+        body: Builder(builder: (context) =>
+          Stack(
+            fit: StackFit.expand,
+            children: [
+              FlutterMap(
+                mapController: _mapController,
+                options: MapOptions(
+                  onTap: (position, location) => _selectedQuestion.value = null,
+                  enableMultiFingerGestureRace: true,
+                  center: LatLng(50.8144951, 12.9295576),
+                  zoom: 15.0,
                 ),
-                StopAreaLayer(
-                  stopStream: _stopQueryHandler.stops,
-                  onStopAreaTap: _onStopAreaTap,
-                ),
-                AnimatedLocationLayerWidget(
-                  options: AnimatedLocationOptions()
-                )
-              ],
-              nonRotatedChildren: [
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 10),
-                    child: Text(
-                      "© OpenStreetMap contributors",
-                      style: TextStyle(
-                        fontSize: 10
-                      ),
-                    )
-                  )
-                ),
-                FutureBuilder(
-                  future: _mapController.onReady,
-                  builder: (BuildContext context, AsyncSnapshot<Null> snapshot) {
-                    // only show controls when map creation finished
-                    return AnimatedSwitcher(
-                      duration: Duration(milliseconds: 1000),
-                      child: snapshot.connectionState == ConnectionState.done
-                        ? HomeControls(
-                          mapController: _mapController,
-                          cameraTracker: _cameraTracker,
-                          tileProvider: _tileProvider,
-                        )
-                        : Container(
-                          color: Colors.white
-                        )
-                    );
-                  }
-                ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15),
-                    child: ValueListenableBuilder<int>(
-                      builder: (BuildContext context, int value, Widget? child) =>
-                        AnimatedSwitcher(
-                          switchInCurve: Curves.elasticOut,
-                          switchOutCurve: Curves.elasticOut,
-                          transitionBuilder: (Widget child, Animation<double> animation) =>
-                            ScaleTransition(child: child, scale: animation),
-                          duration: Duration(milliseconds: 500),
-                          child: value > 0 ? child : const SizedBox.shrink()
+                children: [
+                  Consumer<MapViewModel>(
+                    builder: (context, value, child) {
+                      return TileLayerWidget(
+                        options: TileLayerOptions(
+                          overrideTilesWhenUrlChanges: true,
+                          urlTemplate: value.urlTemplate,
+                          minZoom: value.minZoom,
+                          maxZoom: value.maxZoom,
+                          tileProvider: NetworkTileProvider(),
                         ),
-                      valueListenable: _stopQueryHandler.pendingQueryCount,
-                      child: LoadingIndicator()
-                    )
+                      );
+                    }
+                  ),
+                  StopAreaLayer(
+                    stopStream: _stopQueryHandler.stops,
+                    onStopAreaTap: _onStopAreaTap,
+                  ),
+                  AnimatedLocationLayerWidget(
+                    options: AnimatedLocationOptions()
                   )
-                ),
-              ],
-            ),
-            // place sheet on extra stack above map so touch events won't pass through
-            QuestionSheet(
-              question: _selectedQuestion,
-              initialSheetSize: _initialSheetSize
-            ),
-          ],
-        )
-      ),
+                ],
+                nonRotatedChildren: [
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 10),
+                      child: Text(
+                        "© OpenStreetMap contributors",
+                        style: TextStyle(
+                          fontSize: 10
+                        ),
+                      )
+                    )
+                  ),
+                  FutureBuilder(
+                    future: _mapController.onReady,
+                    builder: (BuildContext context, AsyncSnapshot<Null> snapshot) {
+                      // only show controls when map creation finished
+                      return AnimatedSwitcher(
+                        duration: Duration(milliseconds: 1000),
+                        child: snapshot.connectionState == ConnectionState.done
+                          ? HomeControls()
+                          : Container(
+                            color: Colors.white
+                          )
+                      );
+                    }
+                  ),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15),
+                      child: ValueListenableBuilder<int>(
+                        builder: (BuildContext context, int value, Widget? child) =>
+                          AnimatedSwitcher(
+                            switchInCurve: Curves.elasticOut,
+                            switchOutCurve: Curves.elasticOut,
+                            transitionBuilder: (Widget child, Animation<double> animation) =>
+                              ScaleTransition(child: child, scale: animation),
+                            duration: Duration(milliseconds: 500),
+                            child: value > 0 ? child : const SizedBox.shrink()
+                          ),
+                        valueListenable: _stopQueryHandler.pendingQueryCount,
+                        child: LoadingIndicator()
+                      )
+                    )
+                  ),
+                ],
+              ),
+              // place sheet on extra stack above map so touch events won't pass through
+              QuestionSheet(
+                question: _selectedQuestion,
+                initialSheetSize: _initialSheetSize
+              ),
+            ],
+          )
+        ),
+      )
     );
   }
 
