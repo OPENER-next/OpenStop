@@ -164,17 +164,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     child: Padding(
                       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15),
                       child: ValueListenableBuilder<int>(
-                        builder: (BuildContext context, int value, Widget? child) =>
-                          AnimatedSwitcher(
-                            switchInCurve: Curves.elasticOut,
-                            switchOutCurve: Curves.elasticOut,
-                            transitionBuilder: (Widget child, Animation<double> animation) =>
-                              ScaleTransition(child: child, scale: animation),
-                            duration: Duration(milliseconds: 500),
-                            child: value > 0 ? child : const SizedBox.shrink()
-                          ),
                         valueListenable: _stopQueryHandler.pendingQueryCount,
-                        child: LoadingIndicator()
+                        builder: (BuildContext context, int value, Widget? child) =>
+                          LoadingIndicator(
+                            active: _stopQueryHandler.pendingQueryCount.value > 0,
+                          ),
                       )
                     )
                   ),

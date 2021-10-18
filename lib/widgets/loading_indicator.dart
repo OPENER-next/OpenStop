@@ -1,27 +1,45 @@
 import 'package:flutter/material.dart';
 
 class LoadingIndicator extends StatelessWidget {
+  final bool active;
+
+  final Duration duration;
+
   const LoadingIndicator({
+    this.active = false,
+    this.duration = const Duration(milliseconds: 500),
     Key? key
   }) : super(key: key);
 
   Widget build(BuildContext context) {
-    return Material(
-      type: MaterialType.circle,
-      elevation: Theme.of(context).floatingActionButtonTheme.elevation ?? 8.0,
-      color: Theme.of(context).floatingActionButtonTheme.backgroundColor,
-      // enforce no box constraints
-      // see: https://flutter.dev/docs/development/ui/layout/constraints
-      child: UnconstrainedBox(
-        child: Container(
-          height: 40.0,
-          width: 40.0,
-          padding: const EdgeInsets.all(10),
-          child: CircularProgressIndicator(
-            color: Theme.of(context).colorScheme.secondary,
+
+    return AnimatedSwitcher(
+      switchInCurve: Curves.elasticOut,
+      switchOutCurve: Curves.elasticOut,
+      transitionBuilder: _transition,
+      duration: duration,
+      child: active ? Material(
+        type: MaterialType.circle,
+        elevation: Theme.of(context).floatingActionButtonTheme.elevation ?? 8.0,
+        color: Theme.of(context).floatingActionButtonTheme.backgroundColor,
+        // enforce no box constraints
+        // see: https://flutter.dev/docs/development/ui/layout/constraints
+        child: UnconstrainedBox(
+          child: Container(
+            height: 40.0,
+            width: 40.0,
+            padding: const EdgeInsets.all(10),
+            child: CircularProgressIndicator(
+              color: Theme.of(context).colorScheme.secondary,
+            )
           )
         )
-      )
+      ) : const SizedBox.shrink()
     );
+  }
+
+
+  Widget _transition(Widget child, Animation<double> animation) {
+    return ScaleTransition(child: child, scale: animation);
   }
 }
