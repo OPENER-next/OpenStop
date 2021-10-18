@@ -1,6 +1,5 @@
 import 'package:latlong2/latlong.dart';
 
-
 /// A basic representation of a public transport stop/halt.
 
 class Stop {
@@ -27,7 +26,7 @@ class Stop {
 
 
   @override
-  String toString() => '$runtimeType - user: $name; text: $name; location: $location';
+  String toString() => 'Stop(name: $name, location: $location)';
 
 
   @override

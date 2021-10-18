@@ -3,22 +3,21 @@ import 'dart:convert';
 import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:motion_sensors/motion_sensors.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:animated_location_indicator/animated_location_indicator.dart';
 import 'package:latlong2/latlong.dart';
 import '/helpers/camera_tracker.dart';
 import '/commons/stream_debouncer.dart';
-import '/widgets/map_markers/location_indicator.dart';
-import '/widgets/map_markers/stop_area_indicator.dart';
+import '/widgets/map_layer/stop_area_layer.dart';
 import '/widgets/question_sheet.dart';
 import '/widgets/home_controls.dart';
 import '/widgets/home_sidebar.dart';
 import '/models/question.dart';
 import '/widgets/loading_indicator.dart';
 import '/api/stop_query_handler.dart';
-import '/models/stop.dart';
+import '/models/stop_area.dart';
 import '/commons/map_utils.dart';
 
 
@@ -29,17 +28,15 @@ class HomeScreen extends StatefulWidget {
 
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  final Stream<Position> _locationStream = Geolocator.getPositionStream(
-    intervalDuration: Duration(seconds: 1)
-  );
+  static const double _initialSheetSize = 0.4;
+
+  static const double _stopAreaDiameter = 100;
 
   final MapController _mapController = MapController();
 
   final _stopQueryHandler = StopQueryHandler();
 
-  static const double _initialSheetSize = 0.4;
-
-  final _selectedMarker = ValueNotifier<Stop?>(null);
+  final _selectedMarker = ValueNotifier<StopArea?>(null);
 
   final _selectedQuestion = ValueNotifier<Question?>(null);
 
@@ -51,8 +48,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   );
 
   late final Future<List<Question>> _questionCatalog = parseQuestions();
-
-  final List<Marker> _markers = [];
 
   @override
   void initState() {
@@ -67,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       systemNavigationBarIconBrightness: Brightness.light,
     ));
 
+    // query stops on map interactions
     _mapController.mapEventStream.debounce<MapEvent>(Duration(milliseconds: 500)).listen((event) {
       if (_mapController.bounds != null && _mapController.zoom > 12) {
         _stopQueryHandler.update(_mapController.bounds!);
@@ -74,14 +70,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
 
     _mapController.onReady.then((_) {
-      // move to user location and start camera tracking on app start
-      _cameraTracker.startTacking();
-
-      // use timer as workaround because initial bounds are not applied in onReady yet
-      Timer(Duration(seconds: 1), () {
-        if (_mapController.bounds != null && _mapController.zoom > 12) {
-          _stopQueryHandler.update(_mapController.bounds!);
-        }
+      // use post frame callback because initial bounds are not applied in onReady yet
+      SchedulerBinding.instance?.addPostFrameCallback((duration) {
+        // move to user location and start camera tracking on app start
+        // this will also trigger the first query of stops, but only if the user enabled the location service
+        _cameraTracker.startTacking(initialZoom: 15);
       });
     });
 
@@ -98,7 +91,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       drawer: HomeSidebar(),
       // use builder to get scaffold context
       body: Builder(builder: (context) =>
-        // TODO: clustering
         Stack(
           fit: StackFit.expand,
           children: [
@@ -107,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               options: MapOptions(
                 onTap: (position, location) => _selectedQuestion.value = null,
                 enableMultiFingerGestureRace: true,
-                center: LatLng(50.8261, 12.9278),
+                center: LatLng(50.8144951, 12.9295576),
                 zoom: 15.0,
               ),
               children: [
@@ -123,77 +115,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     );
                   }
                 ),
-                // place circle layer before marker layer due to: https://github.com/fleaflet/flutter_map/issues/891
-                StreamBuilder<Position>(
-                  stream: _locationStream,
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) return SizedBox.shrink();
-                    final position = snapshot.data!;
-
-                    return GroupLayerWidget(
-                      options: GroupLayerOptions(
-                        group: [
-                          // display location accuracy circle
-                          if (position.accuracy > 0) CircleLayerOptions(
-                            circles: [
-                              CircleMarker(
-                                color: Colors.blue.withOpacity(0.3),
-                                useRadiusInMeter: true,
-                                point: LatLng(position.latitude, position.longitude),
-                                radius: position.accuracy
-                              )
-                            ]
-                          ),
-                          // display location marker
-                          MarkerLayerOptions(
-                            markers: [
-                              Marker(
-                                width: 80,
-                                height: 80,
-                                point: LatLng(position.latitude, position.longitude),
-                                builder: (context) =>
-                                  StreamBuilder<AbsoluteOrientationEvent>(
-                                    stream: motionSensors.absoluteOrientation,
-                                    builder: (context, snapshot) {
-                                      final piDoubled = 2 * pi;
-                                      return LocationIndicator(
-                                        // convert from [-pi, pi] to [0,2pi]
-                                        heading: snapshot.hasData ? (piDoubled - snapshot.data!.yaw) % piDoubled : 0,
-                                        sectorSize: snapshot.hasData ? 1.5 : 0,
-                                        duration: Duration(seconds: 1),
-                                      );
-                                    }
-                                  )
-                              )
-                            ]
-                          ),
-                        ]
-                      )
-                    );
-                  }
+                StopAreaLayer(
+                  stopStream: _stopQueryHandler.stops,
+                  onStopAreaTap: _onStopAreaTap,
                 ),
-                StreamBuilder<Iterable<Stop>>(
-                  stream: _stopQueryHandler.stops,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      for (var stop in snapshot.data!) {
-                        _markers.add(Marker(
-                          point: stop.location,
-                          builder: (context) => GestureDetector(
-                            behavior: HitTestBehavior.translucent,
-                            onTap: () => _onStopAreaTap(stop),
-                            child: StopAreaIndicator()
-                          )
-                        ));
-                      }
-                    }
-                    return MarkerLayerWidget(
-                      options: MarkerLayerOptions(
-                        markers: _markers
-                      ),
-                    );
-                  }
-                ),
+                AnimatedLocationLayerWidget(
+                  options: AnimatedLocationOptions()
+                )
               ],
               nonRotatedChildren: [
                 Align(
@@ -259,9 +187,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
 
-  void _onStopAreaTap(Stop stop) async {
+  void _onStopAreaTap(StopArea stopArea) async {
     _deselectCurrentStopArea();
-    _selectStopArea(stop);
+    _selectStopArea(stopArea);
 
     final questions = await _questionCatalog;
     _selectedQuestion.value = questions[Random().nextInt(questions.length)];
@@ -270,9 +198,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final mediaQuery = MediaQuery.of(context);
     final paddingBottom =
       (mediaQuery.size.height - mediaQuery.padding.top - mediaQuery.padding.bottom) * _initialSheetSize;
-    _mapController.animateToBounds(
+
+    _mapController.animateToCircle(
       ticker: this,
-      location: stop.location,
+      center: stopArea.center,
+      radius: _stopAreaDiameter / 2 + stopArea.diameter / 2,
       padding: EdgeInsets.only(bottom: paddingBottom)
     );
   }
@@ -280,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   /// Deselect a given symbol on the map
 
-  void _deselectStopArea(Stop stop) {
+  void _deselectStopArea(StopArea stopArea) {
     // unset variable
     _selectedMarker.value = null;
   }
@@ -298,12 +228,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   /// Select a given symbol on the map
   /// This pushes it to the _selectedMarker ValueNotifier and changes its icon
 
-  void _selectStopArea(Stop stop) {
+  void _selectStopArea(StopArea stopArea) {
     // ignore if the symbol is already selected
-    if (_selectedMarker.value == stop) {
+    if (_selectedMarker.value == stopArea) {
       return;
     }
-    _selectedMarker.value = stop;
+    _selectedMarker.value = stopArea;
   }
 
 
