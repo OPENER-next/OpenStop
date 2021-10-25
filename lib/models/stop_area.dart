@@ -20,7 +20,7 @@ class StopArea {
     diameter = _calculateDiameter();
   }
 
-  get center => bounds.center;
+  LatLng get center => bounds.center;
 
   LatLngBounds _calculateBounds() {
     return LatLngBounds.fromPoints(

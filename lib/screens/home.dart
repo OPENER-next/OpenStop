@@ -9,6 +9,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:animated_location_indicator/animated_location_indicator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
+import '/view_models/osm_elements_provider.dart';
 import '/view_models/map_view_model.dart';
 import '/helpers/camera_tracker.dart';
 import '/commons/stream_debouncer.dart';
@@ -18,9 +19,10 @@ import '/widgets/home_controls.dart';
 import '/widgets/home_sidebar.dart';
 import '/models/question.dart';
 import '/widgets/loading_indicator.dart';
-import '/api/stop_query_handler.dart';
+import '/view_models/stop_areas_provider.dart';
 import '/models/stop_area.dart';
 import '/commons/map_utils.dart';
+import '/commons/geo_utils.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -36,9 +38,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   final MapController _mapController = MapController();
 
-  final _stopQueryHandler = StopQueryHandler();
-
-  final _selectedMarker = ValueNotifier<StopArea?>(null);
+  final _stopAreasProvider = StopAreasProvider(
+    stopAreaDiameter: _stopAreaDiameter
+  );
 
   final _selectedQuestion = ValueNotifier<Question?>(null);
 
@@ -65,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     // query stops on map interactions
     _mapController.mapEventStream.debounce<MapEvent>(Duration(milliseconds: 500)).listen((event) {
       if (_mapController.bounds != null && _mapController.zoom > 12) {
-        _stopQueryHandler.update(_mapController.bounds!);
+        _stopAreasProvider.loadStopAreas(_mapController.bounds!);
       }
     });
 
@@ -77,10 +79,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         _cameraTracker.startTacking(initialZoom: 15);
       });
     });
-
-    _selectedQuestion.addListener(() {
-      if (_selectedQuestion.value == null) _deselectCurrentStopArea();
-    });
   }
 
 
@@ -90,6 +88,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       providers: [
         Provider(create: (_) => _mapController),
         ListenableProvider.value(value: _cameraTracker),
+        ListenableProvider.value(value: _stopAreasProvider),
+        ListenableProvider.value(value: OSMElementProvider(
+          stopAreaDiameter: _stopAreaDiameter
+        )),
         ListenableProvider.value(value: MapViewModel(
           urlTemplate: "https://osm-2.nearest.place/retina/{z}/{x}/{y}.png"
         )),
@@ -124,10 +126,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       );
                     }
                   ),
-                  StopAreaLayer(
-                    stopStream: _stopQueryHandler.stops,
-                    onStopAreaTap: _onStopAreaTap,
-                  ),
+                  Consumer2<StopAreasProvider, OSMElementProvider>(
+                    builder: (context, stopAreaProvider, osmElementProvider, child) {
+                    return StopAreaLayer(
+                      stopAreas: stopAreaProvider.stopAreas,
+                      loadingStopAreas: osmElementProvider.loadingStopAreas,
+                      stopAreaDiameter: stopAreaProvider.stopAreaDiameter,
+                      onStopAreaTap: (stopArea) => _onStopAreaTap(stopArea, context),
+                    );
+                  }),
                   AnimatedLocationLayerWidget(
                     options: AnimatedLocationOptions()
                   )
@@ -163,12 +170,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     alignment: Alignment.topCenter,
                     child: Padding(
                       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15),
-                      child: ValueListenableBuilder<int>(
-                        valueListenable: _stopQueryHandler.pendingQueryCount,
-                        builder: (BuildContext context, int value, Widget? child) =>
-                          LoadingIndicator(
-                            active: _stopQueryHandler.pendingQueryCount.value > 0,
-                          ),
+                      child: ValueListenableBuilder<bool>(
+                        valueListenable: context.read<StopAreasProvider>().isLoading,
+                        builder: (context, value, child) => LoadingIndicator(
+                          active: value,
+                        ),
                       )
                     )
                   ),
@@ -187,9 +193,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
 
-  void _onStopAreaTap(StopArea stopArea) async {
-    _deselectCurrentStopArea();
-    _selectStopArea(stopArea);
+  void _onStopAreaTap(StopArea stopArea, BuildContext context) async {
+    context.read<OSMElementProvider>().loadStopAreaElements(stopArea);
 
     final questions = await _questionCatalog;
     _selectedQuestion.value = questions[Random().nextInt(questions.length)];
@@ -199,41 +204,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final paddingBottom =
       (mediaQuery.size.height - mediaQuery.padding.top - mediaQuery.padding.bottom) * _initialSheetSize;
 
-    _mapController.animateToCircle(
+    final radius = context.read<StopAreasProvider>().stopAreaDiameter / 2;
+
+    _mapController.animateToBounds(
       ticker: this,
-      center: stopArea.center,
-      radius: _stopAreaDiameter / 2 + stopArea.diameter / 2,
+      bounds: stopArea.bounds.enlargeByMeters(radius),
       padding: EdgeInsets.only(bottom: paddingBottom)
     );
-  }
-
-
-  /// Deselect a given symbol on the map
-
-  void _deselectStopArea(StopArea stopArea) {
-    // unset variable
-    _selectedMarker.value = null;
-  }
-
-
-  /// Deselect the last selected symbol on the map
-
-  void _deselectCurrentStopArea() {
-    if (_selectedMarker.value != null) {
-      _deselectStopArea(_selectedMarker.value!);
-    }
-  }
-
-
-  /// Select a given symbol on the map
-  /// This pushes it to the _selectedMarker ValueNotifier and changes its icon
-
-  void _selectStopArea(StopArea stopArea) {
-    // ignore if the symbol is already selected
-    if (_selectedMarker.value == stopArea) {
-      return;
-    }
-    _selectedMarker.value = stopArea;
   }
 
 
@@ -247,7 +224,5 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void dispose() {
     super.dispose();
-    _stopQueryHandler.dispose();
-    _selectedMarker.dispose();
   }
 }

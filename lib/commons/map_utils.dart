@@ -41,9 +41,7 @@ extension AnimationUtils on MapController {
     });
 
     animation.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        controller.dispose();
-      } else if (status == AnimationStatus.dismissed) {
+      if (status == AnimationStatus.completed || status == AnimationStatus.dismissed) {
         controller.dispose();
       }
     });
@@ -71,34 +69,6 @@ extension AnimationUtils on MapController {
       // round zoom level so zoom will always stick to integer levels
       // floor so the bounds are always visible
       zoom: centerZoom.zoom.floorToDouble()
-    );
-  }
-
-
-  animateToCircle({
-    required TickerProvider ticker,
-    required LatLng center,
-    required double radius,
-    EdgeInsets padding = const EdgeInsets.all(0)
-  }) {
-    final distance = Distance();
-    final outerBounds = LatLngBounds(
-      distance.offset(
-        distance.offset(center, radius, 0),
-        radius,
-        90
-      ),
-      distance.offset(
-        distance.offset(center, radius, 180),
-        radius,
-        270
-      ),
-    );
-
-    this.animateToBounds(
-      ticker: ticker,
-      bounds: outerBounds,
-      padding: padding
     );
   }
 }
