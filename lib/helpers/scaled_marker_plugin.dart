@@ -109,7 +109,7 @@ class _ScaledMarkerLayerState extends State<ScaledMarkerLayer> {
           }
 
           final size = pixelValue(marker.point.latitude, marker.size, widget.map.zoom);
-          final shift = size - size/2;
+          final shift = size/2;
 
           final sw = CustomPoint(pxPoint.x + shift, pxPoint.y - shift);
           final ne = CustomPoint(pxPoint.x - shift, pxPoint.y + shift);

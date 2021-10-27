@@ -30,7 +30,7 @@ class MapLayerSwitcher extends StatefulWidget {
   State createState() => new _MapLayerSwitcherState();
 }
 
-class _MapLayerSwitcherState extends State<MapLayerSwitcher> with TickerProviderStateMixin {
+class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerProviderStateMixin {
   late double animationLengthScale, intervalLength, overlapLength, intervalOffset;
 
   late final AnimationController controller = AnimationController(vsync: this);
@@ -183,9 +183,9 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with TickerProvider
 
   @override
   void dispose() {
-    super.dispose();
     controller.dispose();
     isActive.dispose();
+    super.dispose();
   }
 }
 

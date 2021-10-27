@@ -39,7 +39,6 @@ class OSMElementProvider extends ChangeNotifier {
         final bbox = stopArea.bounds.enlargeByMeters(stopAreaDiameter/2);
         final osmElements = await _osmElementQueryHandler.queryByBBox(bbox);
         _loadedStopAreas[stopArea] = osmElements;
-        print(osmElements.nodes);print(osmElements.ways);print(osmElements.relations);
       }
       catch(error) {
         // TODO: display error.

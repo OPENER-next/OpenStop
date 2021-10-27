@@ -45,7 +45,6 @@ class StopAreaLayer extends StatelessWidget {
 
 
   ScaledMarker _createMarker(StopArea stopArea, bool isLoading) {
-    // update related stopArea marker
     return ScaledMarker(
       // instead of making all markers maintain their state only activate it for markers
       // where their loading animation is active in order to improve performance
