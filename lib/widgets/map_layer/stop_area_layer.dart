@@ -1,9 +1,9 @@
+import 'package:animated_marker_layer/animated_marker_layer.dart';
 import 'package:flutter/material.dart';
-import '/helpers/scaled_marker_plugin.dart';
 import '/models/stop_area.dart';
 import '/widgets/map_markers/stop_area_indicator.dart';
 
-class StopAreaLayer extends StatelessWidget {
+class StopAreaLayer extends StatefulWidget {
   final Iterable<StopArea> stopAreas;
 
   final Iterable<StopArea> loadingStopAreas;
@@ -19,44 +19,63 @@ class StopAreaLayer extends StatelessWidget {
     required this.loadingStopAreas,
     this.onStopAreaTap,
     this.stopAreaDiameter = 100,
+    // TODO: reimplement this in the AnimatedMarkerLayer
     this.sizeThreshold = 5
   });
+
+  @override
+  State<StopAreaLayer> createState() => _StopAreaLayerState();
+}
+
+
+class _StopAreaLayerState extends State<StopAreaLayer> {
+  late List<AnimatedMarker> _markers;
+
+  @override
+  void initState() {
+    super.initState();
+    _markers = _buildMarkers();
+  }
+
+
+  @override
+  void didUpdateWidget(covariant StopAreaLayer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _markers = _buildMarkers();
+  }
+
+
+  List<AnimatedMarker> _buildMarkers() {
+    final markers = <AnimatedMarker>[];
+    for (final stopArea in widget.stopAreas) {
+      markers.add(_createMarker(
+        stopArea,
+        isLoading: widget.loadingStopAreas.contains(stopArea)
+      ));
+    }
+    return markers;
+  }
 
 
   @override
   Widget build(BuildContext context) {
-    return ScaledMarkerLayerWidget(
-      options: ScaledMarkerLayerOptions(
-        sizeThreshold: sizeThreshold,
-        markers: _createMarkers()
-      )
+    return AnimatedMarkerLayer(
+      markers: _markers,
     );
   }
 
 
-  List<ScaledMarker> _createMarkers() {
-    return stopAreas.map((stopArea) {
-      return _createMarker(
-        stopArea,
-        loadingStopAreas.contains(stopArea)
-      );
-    }).toList();
-  }
-
-
-  ScaledMarker _createMarker(StopArea stopArea, bool isLoading) {
-    return ScaledMarker(
-      // instead of making all markers maintain their state only activate it for markers
-      // where their loading animation is active in order to improve performance
-      maintainState: isLoading,
+  AnimatedMarker _createMarker(StopArea stopArea, { required bool isLoading }) {
+    return AnimatedMarker(
       // create unique key based on location
       // this needs to be done so flutter can re-identify the correct element
-      key: isLoading ? ValueKey(stopArea.center) : null,
-      size: stopArea.diameter + stopAreaDiameter,
+      key: ValueKey(stopArea.center),
+      size: Size.square(stopArea.diameter + widget.stopAreaDiameter),
+      sizeUnit: SizeUnit.meters,
       point: stopArea.center,
       child: StopAreaIndicator(
         isLoading: isLoading,
-        onTap: () => onStopAreaTap?.call(stopArea),
+        onTap: () => widget.onStopAreaTap?.call(stopArea),
       )
     );
   }

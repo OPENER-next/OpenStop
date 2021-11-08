@@ -10,6 +10,15 @@ packages:
       url: "https://github.com/OPENER-next/animated_location_indicator.git"
     source: git
     version: "1.0.0"
+  animated_marker_layer:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "0d34651cec5eb418c8f80864bb78ba8d4c498101"
+      url: "https://github.com/OPENER-next/animated_marker_layer.git"
+    source: git
+    version: "0.0.1"
   archive:
     dependency: transitive
     description:
@@ -80,6 +89,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
+  diffutil_dart:
+    dependency: transitive
+    description:
+      name: diffutil_dart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.0"
   dio:
     dependency: "direct main"
     description:
@@ -150,14 +166,14 @@ packages:
       name: geolocator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.6.0"
+    version: "7.7.0"
   geolocator_android:
     dependency: transitive
     description:
       name: geolocator_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "2.1.0"
   geolocator_apple:
     dependency: transitive
     description:
@@ -220,7 +236,7 @@ packages:
       name: latlong2
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.0"
+    version: "0.8.1"
   lints:
     dependency: transitive
     description:
@@ -275,7 +291,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "86677de434c5cfb047a97e08eb8c4d442314d1ee"
+      resolved-ref: "39262e1e78d4c957f9ea032b59cd9a4e8f5c701e"
       url: "https://github.com/OPENER-next/osm_api.git"
     source: git
     version: "0.0.1"

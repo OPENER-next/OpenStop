@@ -31,6 +31,10 @@ dependencies:
     git:
       url: https://github.com/OPENER-next/animated_location_indicator.git
 
+  animated_marker_layer:
+    git:
+      url: https://github.com/OPENER-next/animated_marker_layer.git
+
   osm_api:
     git:
       url: https://github.com/OPENER-next/osm_api.git
