@@ -38,6 +38,11 @@ final ThemeData appTheme = ThemeData.light().copyWith(
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
         smallSizeConstraints: BoxConstraints.tight(Size.square(48)),
+        shape: const RoundedRectangleBorder(
+          borderRadius: const BorderRadius.all(
+            const Radius.circular(10)
+          )
+        )
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(

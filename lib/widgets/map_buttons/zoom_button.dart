@@ -14,10 +14,7 @@ class ZoomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       elevation: Theme.of(context).floatingActionButtonTheme.elevation ?? 8.0,
-      borderRadius: BorderRadius.all(
-          Radius.circular(
-              (Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minWidth ?? 40.0) / 2)
-      ),
+      shape: Theme.of(context).floatingActionButtonTheme.shape,
       color: Theme.of(context).floatingActionButtonTheme.backgroundColor,
       clipBehavior: Clip.antiAlias,
       child: Column(

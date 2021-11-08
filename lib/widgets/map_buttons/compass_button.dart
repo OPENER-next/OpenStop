@@ -24,6 +24,7 @@ class CompassButton extends AnimatedWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton.small(
         onPressed: onPressed,
+        shape: CircleBorder(),
         child: Transform.rotate(
             angle: getRotation() * (isDegree ? _piFraction : 1),
             child: Column(
