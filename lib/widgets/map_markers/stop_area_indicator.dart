@@ -51,7 +51,9 @@ class _StopAreaIndicatorState extends State<StopAreaIndicator> with SingleTicker
   void initState() {
     super.initState();
 
-    widget.isLoading ? _controller.repeat() : _controller.reset();
+    if (widget.isLoading) {
+      _controller.repeat();
+    }
   }
 
 
@@ -60,7 +62,9 @@ class _StopAreaIndicatorState extends State<StopAreaIndicator> with SingleTicker
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.isLoading != widget.isLoading) {
-      widget.isLoading ? _controller.repeat() : _controller.reset();
+      widget.isLoading
+      ? _controller.repeat()
+      : _controller.forward(from: _controller.value);
     }
   }
 
@@ -79,7 +83,7 @@ class _StopAreaIndicatorState extends State<StopAreaIndicator> with SingleTicker
             strokeWidth: 2
           ),
           size: Size.square(widget.size),
-          child: widget.isLoading
+          child: _controller.isAnimating
             ? AnimatedBuilder(
               animation: _controller,
               builder: (context, child) {
@@ -109,6 +113,7 @@ class _StopAreaIndicatorState extends State<StopAreaIndicator> with SingleTicker
     super.dispose();
   }
 }
+
 
 class CirclePainter extends CustomPainter {
   final Color color;
