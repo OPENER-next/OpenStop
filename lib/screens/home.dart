@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:animated_location_indicator/animated_location_indicator.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:osm_api/osm_api.dart';
 import 'package:provider/provider.dart';
 import '/view_models/osm_elements_provider.dart';
 import '/view_models/map_view_model.dart';
@@ -19,6 +20,7 @@ import '/widgets/home_controls.dart';
 import '/widgets/home_sidebar.dart';
 import '/models/question.dart';
 import '/widgets/loading_indicator.dart';
+import '/widgets/map_layer/osm_element_layer.dart';
 import '/view_models/stop_areas_provider.dart';
 import '/models/stop_area.dart';
 import '/commons/map_utils.dart';
@@ -135,6 +137,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       onStopAreaTap: (stopArea) => _onStopAreaTap(stopArea, context),
                     );
                   }),
+                  Consumer<OSMElementProvider>(
+                    builder: (context, osmElementProvider, child) {
+                    return OsmElementLayer(
+                      onOsmElementTap: _onOsmElementTap,
+                      osmElements: osmElementProvider.loadedOsmElements
+                    );
+                  }),
                   AnimatedLocationLayerWidget(
                     options: AnimatedLocationOptions()
                   )
@@ -196,6 +205,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void _onStopAreaTap(StopArea stopArea, BuildContext context) async {
     context.read<OSMElementProvider>().loadStopAreaElements(stopArea);
 
+    // move camera to stop area and include default sheet size as bottom padding
+    final radius = context.read<StopAreasProvider>().stopAreaDiameter / 2;
+
+    _mapController.animateToBounds(
+      ticker: this,
+      bounds: stopArea.bounds.enlargeByMeters(radius),
+    );
+  }
+
+
+  void _onOsmElementTap(OSMElement osmElement) async {
     final questions = await _questionCatalog;
     _selectedQuestion.value = questions[Random().nextInt(questions.length)];
 
@@ -204,13 +224,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final paddingBottom =
       (mediaQuery.size.height - mediaQuery.padding.top - mediaQuery.padding.bottom) * _initialSheetSize;
 
-    final radius = context.read<StopAreasProvider>().stopAreaDiameter / 2;
+    // TODO: take padding into account
+    // TODO: handle ways and relations
 
-    _mapController.animateToBounds(
-      ticker: this,
-      bounds: stopArea.bounds.enlargeByMeters(radius),
-      padding: EdgeInsets.only(bottom: paddingBottom)
-    );
+    if (osmElement is OSMNode) {
+      // move camera to element and include default sheet size as bottom padding
+      _mapController.animateTo(
+        ticker: this,
+        location: LatLng(osmElement.lat, osmElement.lon),
+        zoom: 17
+      );
+    }
   }
 
 

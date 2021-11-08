@@ -31,6 +31,14 @@ class OSMElementProvider extends ChangeNotifier {
     => UnmodifiableMapView(_loadedStopAreas);
 
 
+  Set<OSMElement> get loadedOsmElements {
+    // use set to remove duplicates
+    return Set.of(_loadedStopAreas.values.expand<OSMElement>(
+      (bundle) => bundle.elements
+    ));
+  }
+
+
   void loadStopAreaElements(StopArea stopArea) async {
     if (!_loadingStopAreas.contains(stopArea) && !_loadedStopAreas.containsKey(stopArea)) {
       _loadingStopAreas.add(stopArea);
