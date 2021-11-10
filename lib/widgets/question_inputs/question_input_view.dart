@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '/models/question_input.dart';
-import '/widgets/questions/string_input.dart';
-import '/widgets/questions/bool_input.dart';
-import '/widgets/questions/bool_number_input.dart';
-import '/widgets/questions/duration_input.dart';
-import '/widgets/questions/list_input.dart';
-import '/widgets/questions/number_input.dart';
-import '/widgets/questions/opening_hours_input.dart';
+import '/widgets/question_inputs/string_input.dart';
+import '/widgets/question_inputs/bool_input.dart';
+import '/widgets/question_inputs/bool_number_input.dart';
+import '/widgets/question_inputs/duration_input.dart';
+import '/widgets/question_inputs/list_input.dart';
+import '/widgets/question_inputs/number_input.dart';
+import '/widgets/question_inputs/opening_hours_input.dart';
 
 
 abstract class QuestionInputView extends StatefulWidget {

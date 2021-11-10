@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '/models/question_input.dart';
-import '/widgets/questions/question_input_view.dart';
+import '/widgets/question_inputs/question_input_view.dart';
 
 
 class BoolInput extends QuestionInputView {
