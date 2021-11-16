@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '/models/question_input.dart';
 import '/widgets/question_inputs/string_input.dart';
 import '/widgets/question_inputs/bool_input.dart';
-import '/widgets/question_inputs/bool_number_input.dart';
 import '/widgets/question_inputs/duration_input.dart';
 import '/widgets/question_inputs/list_input.dart';
 import '/widgets/question_inputs/number_input.dart';
@@ -38,7 +37,6 @@ abstract class QuestionInputView extends StatefulWidget {
       case 'List': return ListInput(questionInput, onChange: onChange);
       case 'Duration': return DurationInput(questionInput, onChange: onChange);
       case 'OpeningHours': return OpeningHoursInput(questionInput, onChange: onChange);
-      case 'BoolNumber': return BoolNumberInput(questionInput, onChange: onChange);
       default: throw TypeError();
     }
   }

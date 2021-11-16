@@ -60,6 +60,6 @@ class _BoolInputState extends State<BoolInput> {
 
 
   ButtonStyle? _toggleStyle(isSelected) {
-    return isSelected ? OutlinedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.primary) : null;
+    return isSelected ? OutlinedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.primary, primary: Theme.of(context).colorScheme.onPrimary,) : null;
   }
 }
