@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 
+class CustomColors {
+  static const Color DarkGreen = const Color(0xff407336);
+  static const Color Green = const Color(0xff6cc15a);
+  static const Color LightGreen = const Color(0xffe9ffe4);
+}
+
 final ThemeData appTheme = ThemeData.light().copyWith(
     colorScheme: ThemeData.light().colorScheme.copyWith(
-      primary: const Color(0xff00cc7f),
+      primary: CustomColors.Green,
+      secondary: CustomColors.LightGreen,
       onPrimary: Colors.white,
-      secondary: const Color(0xfff0ca00),
-      background: const Color(0xfff7f7f7),
+      onSecondary: CustomColors.DarkGreen,
+      background: Colors.white,
       surface: Colors.white
     ),
     textTheme: const TextTheme(
@@ -46,11 +53,20 @@ final ThemeData appTheme = ThemeData.light().copyWith(
         )
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Color(0xff00cc7f)),
-        padding: MaterialStateProperty.all(EdgeInsets.all(20.0)),
-        textStyle: MaterialStateProperty.all(TextStyle(fontSize: 24))
-      )
+        style: ElevatedButton.styleFrom(
+            primary: CustomColors.Green,
+            padding: EdgeInsets.all(20.0),
+            textStyle:TextStyle(fontSize: 24)
+        )
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+            primary: CustomColors.DarkGreen,
+            backgroundColor: CustomColors.LightGreen,
+            side: BorderSide(
+              style: BorderStyle.none,
+            )
+        )
     ),
     iconTheme: IconThemeData(
       color: Colors.black87

@@ -52,7 +52,7 @@ class _QuestionTextBubbleState extends State<QuestionTextBubble> with SingleTick
   );
 
   late final _iconColorAnimation = ColorTween(
-    begin: Theme.of(context).colorScheme.primary,
+    begin: Theme.of(context).colorScheme.onSecondary,
     end: Theme.of(context).colorScheme.onPrimary
   ).animate(
     CurvedAnimation(
