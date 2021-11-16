@@ -433,15 +433,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  sliding_sheet:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: effb8f7435e70ebf83d9007d69d66c26cf9bece1
-      url: "https://github.com/Robbendebiene/sliding_sheet.git"
-    source: git
-    version: "0.5.1-dev+2"
   source_span:
     dependency: transitive
     description:
