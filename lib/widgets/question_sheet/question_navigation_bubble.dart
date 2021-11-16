@@ -76,15 +76,16 @@ class QuestionNavigationBubble extends StatelessWidget {
             ],
           )
         ),
-        SizedBox.square(
-          dimension: 65,
-          child: AnimatedSwitcher(
-            duration: Duration(milliseconds: 600),
-            reverseDuration: Duration(milliseconds: 300),
-            switchInCurve: Curves.elasticOut,
-            switchOutCurve: Curves.decelerate,
-            transitionBuilder: _scaleTransitionBuilder,
-            child: onConfirm == null ? null : FloatingActionButton(
+        AnimatedSwitcher(
+          duration: Duration(milliseconds: 600),
+          reverseDuration: Duration(milliseconds: 300),
+          switchInCurve: Curves.elasticOut,
+          switchOutCurve: Curves.decelerate,
+          transitionBuilder: _scaleTransitionBuilder,
+          child: onConfirm == null
+            ? SizedBox.square(dimension: 65, key: ValueKey(1))
+            : SizedBox.square(dimension: 65, key: ValueKey(2),
+              child: FloatingActionButton(
               // elevation: 0,
               onPressed: onConfirm,
               backgroundColor: Theme.of(context).colorScheme.primary,
