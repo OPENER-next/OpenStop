@@ -15,7 +15,7 @@ import '/view_models/map_view_model.dart';
 import '/helpers/camera_tracker.dart';
 import '/commons/stream_debouncer.dart';
 import '/widgets/map_layer/stop_area_layer.dart';
-import '/widgets/question_sheet.dart';
+import '/widgets/question_sheet/question_dialog.dart';
 import '/widgets/home_controls.dart';
 import '/widgets/home_sidebar.dart';
 import '/models/question.dart';
@@ -34,8 +34,6 @@ class HomeScreen extends StatefulWidget {
 
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  static const double _initialSheetSize = 0.4;
-
   static const double _stopAreaDiameter = 100;
 
   final MapController _mapController = MapController();
@@ -99,12 +97,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         )),
       ],
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         drawer: HomeSidebar(),
         // use builder to get scaffold context
         body: Builder(builder: (context) =>
           Stack(
-            fit: StackFit.expand,
             children: [
               FlutterMap(
                 mapController: _mapController,
@@ -190,10 +186,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ],
               ),
               // place sheet on extra stack above map so touch events won't pass through
-              QuestionSheet(
-                question: _selectedQuestion,
-                initialSheetSize: _initialSheetSize
-              ),
+              QuestionDialog(
+                question: _selectedQuestion
+              )
             ],
           )
         ),
@@ -222,7 +217,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     // move camera to stop area and include default sheet size as bottom padding
     final mediaQuery = MediaQuery.of(context);
     final paddingBottom =
-      (mediaQuery.size.height - mediaQuery.padding.top - mediaQuery.padding.bottom) * _initialSheetSize;
+      (mediaQuery.size.height - mediaQuery.padding.top - mediaQuery.padding.bottom) * 0.4;
 
     // TODO: take padding into account
     // TODO: handle ways and relations

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 final ThemeData appTheme = ThemeData.light().copyWith(
     colorScheme: ThemeData.light().colorScheme.copyWith(
       primary: const Color(0xff00cc7f),
+      onPrimary: Colors.white,
       secondary: const Color(0xfff0ca00),
       background: const Color(0xfff7f7f7),
       surface: Colors.white
