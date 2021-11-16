@@ -171,8 +171,6 @@ class ViewClipper extends CustomClipper<Rect> {
 
   @override
   Rect getClip(Size size) {
-    print(insets);
-    print(this.size);
     return Rect.fromLTRB(
       0 + insets.left,
       0 + insets.top,
