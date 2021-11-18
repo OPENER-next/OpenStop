@@ -15,7 +15,7 @@ import '/view_models/map_view_model.dart';
 import '/helpers/camera_tracker.dart';
 import '/commons/stream_debouncer.dart';
 import '/widgets/map_layer/stop_area_layer.dart';
-import '/widgets/question_sheet/question_dialog.dart';
+import '/widgets/question_dialog/question_dialog.dart';
 import '/widgets/home_controls.dart';
 import '/widgets/home_sidebar.dart';
 import '/models/question.dart';

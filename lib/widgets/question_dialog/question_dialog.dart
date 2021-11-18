@@ -12,13 +12,10 @@ import 'question_navigation_bubble.dart';
 import 'question_text_bubble.dart';
 
 class QuestionDialog extends StatefulWidget {
-  final double initialSheetSize;
-
   final ValueNotifier<Question?> question;
 
   QuestionDialog({
-    required this.question,
-    this.initialSheetSize = 0.4
+    required this.question
   });
 
   @override
