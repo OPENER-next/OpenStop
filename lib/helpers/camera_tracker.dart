@@ -1,6 +1,7 @@
 
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
@@ -8,9 +9,7 @@ import 'package:latlong2/latlong.dart';
 import '/commons/map_utils.dart';
 import '/commons/location_utils.dart';
 
-class CameraTracker extends ChangeNotifier {
-  final TickerProvider ticker;
-
+class CameraTracker extends ChangeNotifier implements TickerProvider {
   final MapController mapController;
 
   final Duration updateInterval;
@@ -23,10 +22,11 @@ class CameraTracker extends ChangeNotifier {
 
   StreamSubscription<ServiceStatus>? _serviceStatusStreamSub;
 
+  Ticker? _ticker;
+
   CameraTrackerState _state = CameraTrackerState.inactive;
 
   CameraTracker({
-    required this.ticker,
     required this.mapController,
     this.updateInterval = const Duration(milliseconds: 300),
     this.timeout = const Duration(seconds: 4)
@@ -60,6 +60,8 @@ class CameraTracker extends ChangeNotifier {
 
       _mapEventStreamSub = mapController.mapEventStream.listen(_handleMapEvent, onError: (e) => stopTracking);
 
+      if (_ticker?.isActive == false) _ticker?.start();
+
       _updateState(CameraTrackerState.active);
     }
     else {
@@ -74,6 +76,7 @@ class CameraTracker extends ChangeNotifier {
     _positionStreamSub?.cancel();
     _serviceStatusStreamSub?.cancel();
     _mapEventStreamSub?.cancel();
+    _ticker?.stop();
 
     _updateState(CameraTrackerState.inactive);
   }
@@ -89,7 +92,7 @@ class CameraTracker extends ChangeNotifier {
 
   void _handlePositionUpdate(Position position, [double? zoom]) {
     mapController.animateTo(
-      ticker: ticker,
+      ticker: this,
       location: LatLng(position.latitude, position.longitude),
       zoom: zoom,
       duration: updateInterval,
@@ -114,6 +117,24 @@ class CameraTracker extends ChangeNotifier {
     ) {
       stopTracking();
     }
+  }
+
+
+  @override
+  Ticker createTicker(TickerCallback onTick) {
+    _ticker = Ticker(onTick, debugLabel: kDebugMode ? 'created by ${describeIdentity(this)}' : null);
+    return _ticker!;
+  }
+
+
+  @override
+  void dispose() {
+    _positionStreamSub?.cancel();
+    _serviceStatusStreamSub?.cancel();
+    _mapEventStreamSub?.cancel();
+    _ticker?.stop();
+
+    super.dispose();
   }
 }
 

@@ -45,7 +45,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final _selectedQuestion = ValueNotifier<Question?>(null);
 
   late final _cameraTracker = CameraTracker(
-    ticker: this,
     mapController: _mapController
   );
 
@@ -242,6 +241,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   void dispose() {
+    _cameraTracker.dispose();
     super.dispose();
   }
 }
