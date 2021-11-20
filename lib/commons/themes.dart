@@ -63,6 +63,11 @@ final ThemeData appTheme = ThemeData.light().copyWith(
         style: OutlinedButton.styleFrom(
             primary: CustomColors.DarkGreen,
             backgroundColor: CustomColors.LightGreen,
+            minimumSize: Size(double.infinity, 48),
+            padding: EdgeInsets.symmetric(vertical: 0.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0),
+            ),
             side: BorderSide(
               style: BorderStyle.none,
             )

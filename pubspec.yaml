@@ -67,6 +67,7 @@ flutter:
   assets:
   - assets/symbols/
   - assets/questions/
+  - assets/placeholder_image.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
