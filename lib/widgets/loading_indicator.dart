@@ -18,7 +18,7 @@ class LoadingIndicator extends StatelessWidget {
       switchOutCurve: Curves.elasticOut,
       transitionBuilder: _transition,
       duration: duration,
-      child: active ? Material(
+      child: !active ? null : Material(
         type: MaterialType.circle,
         elevation: Theme.of(context).floatingActionButtonTheme.elevation ?? 8.0,
         color: Theme.of(context).floatingActionButtonTheme.backgroundColor,
@@ -34,7 +34,7 @@ class LoadingIndicator extends StatelessWidget {
             )
           )
         )
-      ) : const SizedBox.shrink()
+      )
     );
   }
 
