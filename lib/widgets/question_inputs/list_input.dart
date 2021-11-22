@@ -26,10 +26,11 @@ class _ListInputState extends State<ListInput> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Wrap(
+      runSpacing: 8.0,
       children: widget.questionInput.values.entries.map<Widget>((entry) {
-        return ListItemBuilder(
-          entry: entry,
+        return ListInputItem(
+          item: entry.value,
           onTap: () => _toogleExpand(entry.key),
           active: _selectedKey == entry.key,
         );
@@ -38,46 +39,38 @@ class _ListInputState extends State<ListInput> {
   }
 }
 
-class ListItemBuilder extends StatefulWidget {
-  final MapEntry<String, QuestionInputValue> entry;
+class ListInputItem extends StatefulWidget {
+  final QuestionInputValue item;
   final bool active;
   final VoidCallback onTap;
 
-  ListItemBuilder(
+  ListInputItem(
       {Key? key,
-      required this.entry,
-      required this.active,
-      required this.onTap})
+        required this.item,
+        required this.onTap,
+        this.active = false})
       : super(key: key);
 
   @override
-  _ListItemBuilderState createState() => _ListItemBuilderState();
+  _ListInputItemState createState() => _ListInputItemState();
 }
 
-class _ListItemBuilderState extends State<ListItemBuilder>
+class _ListInputItemState extends State<ListInputItem>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
+  late final _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+      reverseDuration: const Duration(milliseconds: 500)
+  );
 
-  @override
-  void initState() {
-    super.initState();
-    prepareAnimations();
-  }
-
-  void prepareAnimations() {
-    _controller = AnimationController(
-        vsync: this,
-        duration: const Duration(milliseconds: 800),
-        reverseDuration: const Duration(milliseconds: 500));
-    _animation = CurvedAnimation(
+  late final _animation = CurvedAnimation(
         parent: _controller,
         curve: Curves.easeOutExpo,
-        reverseCurve: Curves.ease);
-  }
+        reverseCurve: Curves.ease
+  );
 
   @override
-  void didUpdateWidget(covariant ListItemBuilder oldWidget) {
+  void didUpdateWidget(covariant ListInputItem oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.active) {
       _controller.forward();
@@ -94,64 +87,61 @@ class _ListItemBuilderState extends State<ListItemBuilder>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 8.0),
-      child: OutlinedButton(
-        style: _toggleStyle(widget.active),
-        onPressed: widget.onTap,
-        child: Row(
-          children: [
-            Flexible(
-              flex: 3,
-              child: Column(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.only(left: 16.0),
-                    child: Text(
-                      widget.entry.value.name ?? 'Unknown label',
-                      textAlign: TextAlign.left,
-                    ),
+    return OutlinedButton(
+      style: _toggleStyle(widget.active),
+      onPressed: widget.onTap,
+      child: Row(
+        children: [
+          Flexible(
+            flex: 3,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
+                  child: Text(
+                    widget.item.name ?? 'Unknown label',
+                    textAlign: TextAlign.left,
                   ),
-                  if (widget.entry.value.description != null)
-                    SizeTransition(
-                      axisAlignment: -1,
-                      sizeFactor: _animation,
-                      child: FadeTransition(
-                        opacity: _animation,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 16.0, right: 8.0, bottom: 8.0),
-                          child: Text(
-                            widget.entry.value.description ?? 'No Description',
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontSize: 12,
-                            ),
+                ),
+                if (widget.item.description != null)
+                  SizeTransition(
+                    axisAlignment: -1,
+                    sizeFactor: _animation,
+                    child: FadeTransition(
+                      opacity: _animation,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 16.0, right: 8.0, bottom: 8.0),
+                        child: Text(
+                          widget.item.description ?? 'No Description',
+                          style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 12,
                           ),
                         ),
                       ),
-                    )
-                ],
-              ),
-            ),
-            if (widget.entry.value.image != null)
-              Expanded(
-                  flex: 2,
-                  child: Container(
-                    padding: const EdgeInsets.all(4.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.only(topRight: Radius.circular(8.0), bottomRight: Radius.circular(8.0)),
-                      child: Image.asset(
-                        'assets/placeholder_image.png',
-                        fit: BoxFit.cover,
-                        height: 90,
-                      ),
                     ),
                   )
-              )
-          ],
-        ),
+              ],
+            ),
+          ),
+          if (widget.item.image != null)
+            Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(topRight: Radius.circular(8.0), bottomRight: Radius.circular(8.0)),
+                    child: Image.asset(
+                      'assets/placeholder_image.png',
+                      fit: BoxFit.cover,
+                      height: 90,
+                    ),
+                  ),
+                )
+            )
+        ],
       ),
     );
   }
