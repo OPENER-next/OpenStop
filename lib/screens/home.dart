@@ -16,7 +16,7 @@ import '/helpers/camera_tracker.dart';
 import '/commons/stream_debouncer.dart';
 import '/widgets/map_layer/stop_area_layer.dart';
 import '/widgets/question_dialog/question_dialog.dart';
-import '/widgets/home_controls.dart';
+import '/widgets/map_overlay.dart';
 import '/widgets/home_sidebar.dart';
 import '/models/question.dart';
 import '/widgets/loading_indicator.dart';
@@ -144,18 +144,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   )
                 ],
                 nonRotatedChildren: [
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 10),
-                      child: Text(
-                        "© OpenStreetMap contributors",
-                        style: TextStyle(
-                          fontSize: 10
-                        ),
-                      )
-                    )
-                  ),
                   FutureBuilder(
                     future: _mapController.onReady,
                     builder: (BuildContext context, AsyncSnapshot<Null> snapshot) {
@@ -163,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       return AnimatedSwitcher(
                         duration: Duration(milliseconds: 1000),
                         child: snapshot.connectionState == ConnectionState.done
-                          ? HomeControls()
+                          ? MapOverlay()
                           : Container(
                             color: Colors.white
                           )

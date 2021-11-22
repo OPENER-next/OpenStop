@@ -9,23 +9,25 @@ import '/widgets/map_buttons/compass_button.dart';
 import '/widgets/map_buttons/zoom_button.dart';
 // ignore: unused_import
 import '/commons/map_utils.dart';
-/// Builds the action buttons which overlay the map.
 
-class HomeControls extends StatefulWidget {
+
+/// Builds the action/control buttons and attribution text which overlay the map.
+
+class MapOverlay extends StatefulWidget {
   final double buttonSpacing;
 
-  const HomeControls({
+  const MapOverlay({
     Key? key,
     this.buttonSpacing = 10.0,
    }) : super(key: key);
 
 
   @override
-  _HomeControlsState createState() => _HomeControlsState();
+  _MapOverlayState createState() => _MapOverlayState();
 }
 
 
-class _HomeControlsState extends State<HomeControls> with TickerProviderStateMixin {
+class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
 
   final ValueNotifier<bool> _isRotatedNotifier = ValueNotifier<bool>(false);
 
@@ -92,6 +94,15 @@ class _HomeControlsState extends State<HomeControls> with TickerProviderStateMix
               )
             ]
           ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Text(
+              "© OpenStreetMap contributors",
+              style: TextStyle(
+                fontSize: 10
+              ),
+            )
+          ),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
@@ -129,7 +140,7 @@ class _HomeControlsState extends State<HomeControls> with TickerProviderStateMix
                 onZoomOutPressed: _zoomOut,
               )
             ]
-          )
+          ),
         ],
       )
     );
