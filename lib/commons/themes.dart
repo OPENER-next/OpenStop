@@ -75,5 +75,11 @@ final ThemeData appTheme = ThemeData.light().copyWith(
     ),
     iconTheme: IconThemeData(
       color: Colors.black87
+    ),
+    inputDecorationTheme: ThemeData.light().inputDecorationTheme.copyWith(
+      contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(12.0))
+      )
     )
   );

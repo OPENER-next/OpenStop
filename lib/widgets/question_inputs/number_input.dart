@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import '/widgets/question_inputs/question_input_view.dart';
 import '/models/question_input.dart';
 
-
 class NumberInput extends QuestionInputView {
   NumberInput(
     QuestionInput questionInput,
@@ -14,56 +13,71 @@ class NumberInput extends QuestionInputView {
   _NumberInputState createState() => _NumberInputState();
 }
 
-
 class _NumberInputState extends State<NumberInput> {
-  late final allowsDecimals;
+  final _controller = TextEditingController();
+  late final _focusNode = FocusNode();
+  late final minValue = widget.questionInput.min?.toDouble() ?? double.negativeInfinity;
+  late final maxValue = widget.questionInput.max?.toDouble() ?? double.infinity;
+  void _clearTextfield (){
+    _controller.clear();
+  }
 
   @override
   void initState() {
     super.initState();
+    _focusNode.addListener(()  {
+      setState(() {});
+    });
+  }
 
-    allowsDecimals = widget.questionInput.decimals != null ? (widget.questionInput.decimals! > 0) : true;
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        border: OutlineInputBorder(),
-        suffixText: widget.questionInput.unit,
-      ),
-      keyboardType: TextInputType.numberWithOptions(
-        decimal: allowsDecimals,
-        signed: false,
-      ),
-      inputFormatters: <TextInputFormatter>[
-        allowsDecimals ?
-          FilteringTextInputFormatter.allow(RegExp(r'([0-9]*\.)?[0-9]*')) :
-          FilteringTextInputFormatter.digitsOnly,
-        LimitRangeTextInputFormatter(
-          widget.questionInput.min?.toDouble() ?? double.negativeInfinity,
-          widget.questionInput.max?.toDouble() ?? double.infinity
-        )
-      ],
-    );
-  }
-}
-
-
-class LimitRangeTextInputFormatter extends TextInputFormatter {
-  LimitRangeTextInputFormatter(this.min, this.max) : assert(min < max);
-
-  final double min;
-  final double max;
-
-  @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-    final value = double.parse(newValue.text);
-    if (value < min) {
-      return TextEditingValue(text: min.toString());
-    } else if (value > max) {
-      return TextEditingValue(text: max.toString());
-    }
-    return newValue;
+    return ValueListenableBuilder(
+        valueListenable: _controller,
+        builder: (context, TextEditingValue value, __) {
+          return TextFormField(
+            focusNode: _focusNode,
+            controller: _controller,
+            decoration: InputDecoration(
+                hintText: 'Hier eintragen...',
+                suffixText: widget.questionInput.unit,
+                suffixIcon: IconButton(
+                  onPressed: _focusNode.hasFocus ? () => _clearTextfield() : null,
+                  disabledColor: Colors.transparent,
+                  color: Colors.black54,
+                  icon: Icon(Icons.clear_rounded),
+                )
+            ),
+            autovalidateMode: AutovalidateMode.always,
+            validator: (text) {
+              debugPrint('$text');
+              if (text == null || text.isEmpty) {
+                return null;
+              }
+              else {
+                text=text.replaceAll(",", ".");
+                final value = double.parse(text);
+                if (value < minValue || value > maxValue) {
+                  return 'Wert muss zwischen $minValue und $maxValue liegen';
+                }
+              }
+            },
+            keyboardType: TextInputType.numberWithOptions(
+              decimal: true,
+              signed: false,
+            ),
+            inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp(r'^\d+(\,)?\d{0,''${widget.questionInput.decimals}}'))
+            ],
+          );
+        }
+        );
   }
 }
