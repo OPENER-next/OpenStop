@@ -139,4 +139,11 @@ class _QuestionTextBubbleState extends State<QuestionTextBubble> with SingleTick
       ),
     );
   }
+
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 }
