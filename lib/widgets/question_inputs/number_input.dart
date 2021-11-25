@@ -57,7 +57,6 @@ class _NumberInputState extends State<NumberInput> {
             ),
             autovalidateMode: AutovalidateMode.always,
             validator: (text) {
-              debugPrint('$text');
               if (text == null || text.isEmpty) {
                 return null;
               }
