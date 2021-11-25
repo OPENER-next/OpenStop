@@ -212,7 +212,6 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerPr
   void dispose() {
     _controller.dispose();
 
-    _overlayEntry.remove();
     // this is required since the widget might be unmounted in a later frame
     _overlayEntry.addListener(() {
       if (!_overlayEntry.mounted) {
