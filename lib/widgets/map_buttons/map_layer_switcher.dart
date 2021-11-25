@@ -39,7 +39,7 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerPr
 
   late final AnimationController _controller = AnimationController(vsync: this);
 
-  late OverlayEntry _overlayEntry = _buildOverlayEntry();
+  late final OverlayEntry _overlayEntry = _buildOverlayEntry();
 
 
   // pre calculate necessary variables
@@ -96,12 +96,12 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerPr
 
 
   OverlayEntry _buildOverlayEntry() {
-    final renderBox = context.findRenderObject() as RenderBox;
-    final size = renderBox.size;
-    final offset = renderBox.localToGlobal(Offset.zero);
-
     return OverlayEntry(
-      builder: (context) {
+      builder: (overlayContext) {
+        final renderBox = context.findRenderObject() as RenderBox;
+        final size = renderBox.size;
+        final offset = renderBox.localToGlobal(Offset.zero);
+
         return Positioned(
           left: offset.dx,
           bottom: MediaQuery.of(context).size.height - offset.dy - size.height + MediaQuery.of(context).padding.bottom,
@@ -211,7 +211,15 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerPr
   @override
   void dispose() {
     _controller.dispose();
-    _overlayEntry.dispose();
+
+    _overlayEntry.remove();
+    // this is required since the widget might be unmounted in a later frame
+    _overlayEntry.addListener(() {
+      if (!_overlayEntry.mounted) {
+        _overlayEntry.dispose();
+      }
+    });
+
     super.dispose();
   }
 }
