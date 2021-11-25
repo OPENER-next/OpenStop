@@ -48,101 +48,114 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(
-        widget.buttonSpacing + MediaQuery.of(context).padding.left,
-        widget.buttonSpacing + MediaQuery.of(context).padding.top,
-        widget.buttonSpacing + MediaQuery.of(context).padding.right,
-        widget.buttonSpacing + MediaQuery.of(context).padding.bottom,
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FloatingActionButton.small(
-                child: Icon(
-                  Icons.menu,
-                  color: Colors.black,
-                ),
-                onPressed: Scaffold.of(context).openDrawer,
+    // This allows other widgets which make use of the OverlayEntry widget to display
+    // widgets above these widgets without overlaying every widget like the drawer.
+    // This is basically an in between layer, while widgets like dialogs or drawers
+    // are rendered on the top layer/Overlay widget.
+    // The map layer switcher makes use of this.
+    return Overlay(
+      initialEntries: [
+        OverlayEntry(
+          builder: (context) {
+            return Padding(
+              padding: EdgeInsets.fromLTRB(
+                widget.buttonSpacing + MediaQuery.of(context).padding.left,
+                widget.buttonSpacing + MediaQuery.of(context).padding.top,
+                widget.buttonSpacing + MediaQuery.of(context).padding.right,
+                widget.buttonSpacing + MediaQuery.of(context).padding.bottom,
               ),
-              Spacer(),
-              Selector<MapViewModel, String>(
-                selector: (context, value) => value.urlTemplate,
-                builder: (context, urlTemplate, child) {
-                  return MapLayerSwitcher(
-                    entries: [
-                      MapLayerSwitcherEntry(key: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                        icon: Icons.satellite_rounded, label: "Satellite"
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FloatingActionButton.small(
+                        child: Icon(
+                          Icons.menu,
+                          color: Colors.black,
+                        ),
+                        onPressed: Scaffold.of(context).openDrawer,
                       ),
-                      MapLayerSwitcherEntry(key: "https://osm-2.nearest.place/retina/{z}/{x}/{y}.png",
-                        icon: Icons.map_rounded, label: "Map"
+                      Spacer(),
+                      Selector<MapViewModel, String>(
+                        selector: (context, value) => value.urlTemplate,
+                        builder: (context, urlTemplate, child) {
+                          return MapLayerSwitcher(
+                            entries: [
+                              MapLayerSwitcherEntry(key: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                                icon: Icons.satellite_rounded, label: "Satellite"
+                              ),
+                              MapLayerSwitcherEntry(key: "https://osm-2.nearest.place/retina/{z}/{x}/{y}.png",
+                                icon: Icons.map_rounded, label: "Map"
+                              ),
+                              // TODO: We really need this!! Showing where the tram and bus routes are is crucial for our App.
+                              // Thunderforest requires an API key unfortunately
+                              MapLayerSwitcherEntry(key: "https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png",
+                                icon: Icons.map_rounded, label: "Thunderforest.Transport"
+                              ),
+                            ],
+                            active: urlTemplate,
+                            onSelection: _changeTileProvider,
+                          );
+                        }
+                      )
+                    ]
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Text(
+                      "© OpenStreetMap contributors",
+                      style: TextStyle(
+                        fontSize: 10
                       ),
-                      // TODO: We really need this!! Showing where the tram and bus routes are is crucial for our App.
-                      // Thunderforest requires an API key unfortunately
-                      MapLayerSwitcherEntry(key: "https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png",
-                        icon: Icons.map_rounded, label: "Thunderforest.Transport"
+                    )
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      ValueListenableBuilder(
+                        valueListenable: _isRotatedNotifier,
+                        builder: (BuildContext context, bool isRotated, Widget? compass) {
+                          return AnimatedSwitcher(
+                            duration: Duration(milliseconds: 300),
+                            child: isRotated ? compass : const SizedBox.shrink()
+                          );
+                        } ,
+                        child: CompassButton(
+                          listenable: _rotationNotifier,
+                          getRotation: () => mapController.rotation,
+                          isDegree: true,
+                          onPressed: _resetRotation,
+                        ),
                       ),
-                    ],
-                    active: urlTemplate,
-                    onSelection: _changeTileProvider,
-                  );
-                }
+                      Spacer(),
+                      SizedBox (
+                        height: widget.buttonSpacing
+                      ),
+                      Consumer<CameraTracker>(
+                        builder: (context, value, child) => LocationButton(
+                          activeColor: Theme.of(context).colorScheme.primary,
+                          active: value.state == CameraTrackerState.active,
+                          onPressed: _toggleCameraTracker
+                        )
+                      ),
+                      SizedBox (
+                        height: widget.buttonSpacing
+                      ),
+                      ZoomButton(
+                        onZoomInPressed: _zoomIn,
+                        onZoomOutPressed: _zoomOut,
+                      )
+                    ]
+                  ),
+                ],
               )
-            ]
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Text(
-              "© OpenStreetMap contributors",
-              style: TextStyle(
-                fontSize: 10
-              ),
-            )
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              ValueListenableBuilder(
-                valueListenable: _isRotatedNotifier,
-                builder: (BuildContext context, bool isRotated, Widget? compass) {
-                  return AnimatedSwitcher(
-                    duration: Duration(milliseconds: 300),
-                    child: isRotated ? compass : const SizedBox.shrink()
-                  );
-                } ,
-                child: CompassButton(
-                  listenable: _rotationNotifier,
-                  getRotation: () => mapController.rotation,
-                  isDegree: true,
-                  onPressed: _resetRotation,
-                ),
-              ),
-              Spacer(),
-              SizedBox (
-                height: widget.buttonSpacing
-              ),
-              Consumer<CameraTracker>(
-                builder: (context, value, child) => LocationButton(
-                  activeColor: Theme.of(context).colorScheme.primary,
-                  active: value.state == CameraTrackerState.active,
-                  onPressed: _toggleCameraTracker
-                )
-              ),
-              SizedBox (
-                height: widget.buttonSpacing
-              ),
-              ZoomButton(
-                onZoomInPressed: _zoomIn,
-                onZoomOutPressed: _zoomOut,
-              )
-            ]
-          ),
-        ],
-      )
+            );
+          }
+        )
+      ]
     );
   }
 
