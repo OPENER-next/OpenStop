@@ -15,7 +15,6 @@ class NumberInput extends QuestionInputView {
 
 class _NumberInputState extends State<NumberInput> {
   final _controller = TextEditingController();
-  late final _focusNode = FocusNode();
   late final minValue = widget.questionInput.min?.toDouble() ?? double.negativeInfinity;
   late final maxValue = widget.questionInput.max?.toDouble() ?? double.infinity;
   void _clearTextfield (){
@@ -25,14 +24,10 @@ class _NumberInputState extends State<NumberInput> {
   @override
   void initState() {
     super.initState();
-    _focusNode.addListener(()  {
-      setState(() {});
-    });
   }
 
   @override
   void dispose() {
-    _focusNode.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -43,16 +38,23 @@ class _NumberInputState extends State<NumberInput> {
         valueListenable: _controller,
         builder: (context, TextEditingValue value, __) {
           return TextFormField(
-            focusNode: _focusNode,
             controller: _controller,
             decoration: InputDecoration(
                 hintText: 'Hier eintragen...',
-                suffixText: widget.questionInput.unit,
-                suffixIcon: IconButton(
-                  onPressed: _focusNode.hasFocus ? () => _clearTextfield() : null,
-                  disabledColor: Colors.transparent,
-                  color: Colors.black54,
-                  icon: Icon(Icons.clear_rounded),
+                suffixIcon: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                        widget.questionInput.unit,
+                        style: Theme.of(context).textTheme.subtitle1
+                    ),
+                    IconButton(
+                      onPressed: () => _clearTextfield(),
+                      color: Colors.black87,
+                      icon: Icon(Icons.clear_rounded),
+                    )
+                  ]
                 )
             ),
             autovalidateMode: AutovalidateMode.always,
