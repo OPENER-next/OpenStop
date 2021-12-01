@@ -53,7 +53,7 @@ class QuestionCondition {
   /// Check whether the element types of this condition matches the given element type.
 
   bool matchesElement(OSMElementType type) =>
-    osmElements.contains(type);
+    osmElements.isEmpty || osmElements.contains(type);
 
 
   /// Returns true:
