@@ -452,7 +452,7 @@
       "question": "Wie lange darf hier maximal geparkt werden?",
       "input": {
          "type": "Duration",
-         "unit": "Stunden",
+         "unit": "d:1,h:1,m:5",
          "values": {
             "_default_": {
                "osm_tags": {
