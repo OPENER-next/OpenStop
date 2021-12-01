@@ -3,9 +3,10 @@ import 'dart:math';
 import 'package:animated_marker_layer/animated_marker_layer.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
-
-
 import 'package:osm_api/osm_api.dart';
+import 'package:provider/provider.dart';
+
+import '/models/question.dart';
 
 class OsmElementLayer extends StatefulWidget {
   final Iterable<OSMElement> osmElements;
@@ -53,18 +54,24 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 
 
   List<AnimatedMarker> _buildMarkers() {
-    final List<AnimatedMarker> _markers = [];
+    final List<AnimatedMarker> markers = [];
     for (final osmElement in widget.osmElements) {
-      if (_ignore(osmElement)) continue;
-
-      _markers.add(_buildNodeMarker(osmElement as OSMNode));
+      if (_matches(osmElement)) {
+        markers.add(_buildNodeMarker(osmElement as OSMNode));
+      }
     }
-    return _markers;
+    return markers;
   }
 
 
-  bool _ignore(OSMElement osmElement) {
-    return !(osmElement is OSMNode && osmElement.tags.isNotEmpty);
+  bool _matches(OSMElement osmElement) {
+    final questionCatalog = context.read<List<Question>>();
+    // TODO: allow ways and relations
+    return osmElement is OSMNode && osmElement.tags.isNotEmpty && questionCatalog.any((question) {
+      return question.conditions.any((condition) {
+        return condition.matchesTags(osmElement.tags);
+      });
+    });
   }
 
 

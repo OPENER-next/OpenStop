@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -10,6 +9,8 @@ import 'package:animated_location_indicator/animated_location_indicator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:osm_api/osm_api.dart';
 import 'package:provider/provider.dart';
+
+import '/view_models/questionnaire_provider.dart';
 import '/view_models/osm_elements_provider.dart';
 import '/view_models/map_view_model.dart';
 import '/helpers/camera_tracker.dart';
@@ -41,8 +42,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final _stopAreasProvider = StopAreasProvider(
     stopAreaDiameter: _stopAreaDiameter
   );
-
-  final _selectedQuestion = ValueNotifier<Question?>(null);
 
   late final _cameraTracker = CameraTracker(
     mapController: _mapController
@@ -85,15 +84,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider(create: (_) => _mapController),
-        ListenableProvider.value(value: _cameraTracker),
-        ListenableProvider.value(value: _stopAreasProvider),
-        ListenableProvider.value(value: OSMElementProvider(
+        FutureProvider(
+          create: (_) => parseQuestions(),
+          initialData: const <Question>[],
+          lazy: false,
+        ),
+        ChangeNotifierProvider(create: (_) => QuestionnaireProvider()),
+        ChangeNotifierProvider.value(value: _cameraTracker),
+        ChangeNotifierProvider.value(value: _stopAreasProvider),
+        ChangeNotifierProvider(create: (_) => OSMElementProvider(
           stopAreaDiameter: _stopAreaDiameter
         )),
-        ListenableProvider.value(value: MapViewModel(
+        ChangeNotifierProvider(create: (_) => MapViewModel(
           urlTemplate: "https://osm-2.nearest.place/retina/{z}/{x}/{y}.png"
         )),
+        Provider.value(value: _mapController),
       ],
       child: Scaffold(
         drawer: HomeSidebar(),
@@ -104,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               FlutterMap(
                 mapController: _mapController,
                 options: MapOptions(
-                  onTap: (position, location) => _selectedQuestion.value = null,
+                  onTap: (position, location) => _closeQuestionDialog(context),
                   enableMultiFingerGestureRace: true,
                   center: LatLng(50.8144951, 12.9295576),
                   zoom: 15.0,
@@ -125,36 +130,49 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                   Consumer2<StopAreasProvider, OSMElementProvider>(
                     builder: (context, stopAreaProvider, osmElementProvider, child) {
-                    return StopAreaLayer(
-                      stopAreas: stopAreaProvider.stopAreas,
-                      loadingStopAreas: osmElementProvider.loadingStopAreas,
-                      stopAreaDiameter: stopAreaProvider.stopAreaDiameter,
-                      onStopAreaTap: (stopArea) => _onStopAreaTap(stopArea, context),
-                    );
-                  }),
+                      return StopAreaLayer(
+                        stopAreas: stopAreaProvider.stopAreas,
+                        loadingStopAreas: osmElementProvider.loadingStopAreas,
+                        stopAreaDiameter: stopAreaProvider.stopAreaDiameter,
+                        onStopAreaTap: (stopArea) => _onStopAreaTap(stopArea, context),
+                      );
+                    }
+                  ),
                   Consumer<OSMElementProvider>(
                     builder: (context, osmElementProvider, child) {
-                    return OsmElementLayer(
-                      onOsmElementTap: _onOsmElementTap,
-                      osmElements: osmElementProvider.loadedOsmElements
-                    );
-                  }),
+                      return OsmElementLayer(
+                        onOsmElementTap: (osmElement) => _onOsmElementTap(osmElement, context),
+                        osmElements: osmElementProvider.loadedOsmElements
+                      );
+                    }
+                  ),
                   AnimatedLocationLayerWidget(
                     options: AnimatedLocationOptions()
                   )
                 ],
                 nonRotatedChildren: [
+                  // only show controls when map creation finished
                   FutureBuilder(
                     future: _mapController.onReady,
                     builder: (BuildContext context, AsyncSnapshot<Null> snapshot) {
-                      // only show controls when map creation finished
-                      return AnimatedSwitcher(
-                        duration: Duration(milliseconds: 1000),
-                        child: snapshot.connectionState == ConnectionState.done
-                          ? MapOverlay()
-                          : Container(
-                            color: Colors.white
-                          )
+                      // only show overlay when question history has no active entry
+                      return Consumer<QuestionnaireProvider>(
+                        builder: (context, questionnaire,child) {
+                          final mapIsLoaded = snapshot.connectionState == ConnectionState.done;
+                          final noActiveEntry = !questionnaire.hasEntries;
+
+                          return AnimatedSwitcher(
+                            switchInCurve: Curves.ease,
+                            switchOutCurve: Curves.ease,
+                            duration: Duration(milliseconds: 300),
+                            child: mapIsLoaded && noActiveEntry
+                              ? MapOverlay()
+                              : SizedBox.expand(
+                                // TODO: decide overlay style/color
+                                child: ColoredBox(color: Colors.transparent)
+                              )
+                          );
+                        }
                       );
                     }
                   ),
@@ -173,9 +191,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ],
               ),
               // place sheet on extra stack above map so touch events won't pass through
-              QuestionDialog(
-                question: _selectedQuestion
-              )
+              QuestionDialog(),
             ],
           )
         ),
@@ -185,6 +201,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
 
   void _onStopAreaTap(StopArea stopArea, BuildContext context) async {
+    // exit function/ignore tap if questions haven't been loaded yet
+    final questionCatalog = context.read<List<Question>>();
+    if (questionCatalog.isEmpty) {
+      return;
+    }
+
     context.read<OSMElementProvider>().loadStopAreaElements(stopArea);
 
     // move camera to stop area and include default sheet size as bottom padding
@@ -197,11 +219,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
 
-  void _onOsmElementTap(OSMElement osmElement) async {
-    final questions = await _questionCatalog;
-    _selectedQuestion.value = questions[Random().nextInt(questions.length)];
+  void _onOsmElementTap(OSMElement osmElement, BuildContext context) async {
+    final questionCatalog = context.read<List<Question>>();
+    final questionnaire = context.read<QuestionnaireProvider>();
 
-    // move camera to stop area and include default sheet size as bottom padding
+    if (questionnaire.workingElement?.id != osmElement.id) {
+      questionnaire.create(osmElement, questionCatalog);
+    }
+    else {
+      return;
+    }
+
+
     final mediaQuery = MediaQuery.of(context);
     final paddingBottom =
       (mediaQuery.size.height - mediaQuery.padding.top - mediaQuery.padding.bottom) * 0.4;
@@ -224,6 +253,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final questionJsonData = await rootBundle.loadString("assets/questions/question_catalog.json");
     final questionJson = jsonDecode(questionJsonData).cast<Map<String, dynamic>>();
     return questionJson.map<Question>((question) => Question.fromJSON(question)).toList();
+  }
+
+
+  _closeQuestionDialog(BuildContext context) {
+    context.read<QuestionnaireProvider>().discard();
   }
 
 
