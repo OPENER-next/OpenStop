@@ -17,7 +17,7 @@ class Questionnaire {
     _osmElement = osmElement
   {
     _updateWorkingElement();
-    _addMatchingEntries();
+    _addMatchingEntries(afterIndex: -1);
   }
 
   final List<Question> _questionCatalog;
@@ -104,8 +104,11 @@ class Questionnaire {
   }
 
 
-  _addMatchingEntries() {
-    for (final question in _questionCatalog) {
+  _addMatchingEntries({ int? afterIndex }) {
+    afterIndex ??= _activeIndex;
+    // insert questions in reverse so questions that follow next in the catalog
+    // also follow next in the questionnaire
+    for (final question in _questionCatalog.reversed) {
       final questionMatches = question.conditions.any((condition) {
         return condition.matches(
           workingElement.tags,
@@ -117,7 +120,8 @@ class Questionnaire {
         // check if there already exists an answer with the same question
         final index = _entries.indexWhere((entry) => entry.question == question);
         if (index == -1) {
-          _entries.add(QuestionnaireEntry(question));
+          // insert new questions after the current active index
+          _entries.insert(afterIndex + 1, QuestionnaireEntry(question));
         }
       }
     }
