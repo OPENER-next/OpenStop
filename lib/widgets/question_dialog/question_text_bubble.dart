@@ -24,13 +24,13 @@ class _QuestionTextBubbleState extends State<QuestionTextBubble> with SingleTick
 
   late final _animationController = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 800),
+    duration: const Duration(milliseconds: 500),
     reverseDuration: const Duration(milliseconds: 500)
   );
 
   late final _sizeAnimation = CurvedAnimation(
     parent: _animationController,
-    curve: Curves.elasticOut,
+    curve: Curves.easeInOutCubicEmphasized,
     reverseCurve: Curves.easeInCubic
   );
 
