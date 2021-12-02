@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:animated_marker_layer/animated_marker_layer.dart';
 import 'package:flutter/material.dart';
+
 import '/models/stop_area.dart';
 import '/widgets/map_markers/stop_area_indicator.dart';
 
@@ -15,13 +18,14 @@ class StopAreaLayer extends StatefulWidget {
   final void Function(StopArea stopArea)? onStopAreaTap;
 
   const StopAreaLayer({
+    Key? key,
     required this.stopAreas,
     required this.loadingStopAreas,
     this.onStopAreaTap,
     this.stopAreaDiameter = 100,
     // TODO: reimplement this in the AnimatedMarkerLayer
-    this.sizeThreshold = 5
-  });
+    this.sizeThreshold = 5,
+  }) : super(key: key);
 
   @override
   State<StopAreaLayer> createState() => _StopAreaLayerState();
@@ -29,13 +33,9 @@ class StopAreaLayer extends StatefulWidget {
 
 
 class _StopAreaLayerState extends State<StopAreaLayer> {
-  late List<AnimatedMarker> _markers;
+  final _random = Random();
 
-  @override
-  void initState() {
-    super.initState();
-    _markers = _buildMarkers();
-  }
+  late List<AnimatedMarker> _markers = _buildMarkers();
 
 
   @override
@@ -67,6 +67,12 @@ class _StopAreaLayerState extends State<StopAreaLayer> {
 
   AnimatedMarker _createMarker(StopArea stopArea, { required bool isLoading }) {
     return AnimatedMarker(
+      animateInBuilder: _animateInOutBuilder,
+      animateOutBuilder: _animateInOutBuilder,
+      animateInCurve: Curves.ease,
+      animateOutCurve: Curves.ease,
+      animateInDelay: _getRandomDelay(),
+      animateOutDelay: _getRandomDelay(),
       // create unique key based on location
       // this needs to be done so flutter can re-identify the correct element
       key: ValueKey(stopArea.center),
@@ -78,5 +84,19 @@ class _StopAreaLayerState extends State<StopAreaLayer> {
         onTap: () => widget.onStopAreaTap?.call(stopArea),
       )
     );
+  }
+
+
+  Widget _animateInOutBuilder(BuildContext context, Animation<double> animation, Widget child) {
+    return FadeTransition(
+      opacity: animation,
+      child: child,
+    );
+  }
+
+
+  Duration _getRandomDelay() {
+    final randomTimeOffset = _random.nextInt(300);
+    return Duration(milliseconds: randomTimeOffset);
   }
 }
