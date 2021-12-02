@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '/models/answer.dart';
+import 'package:flutter/services.dart';
 import '/widgets/question_inputs/question_input_view.dart';
 import '/models/question_input.dart';
-
 
 class StringInput extends QuestionInputView {
   StringInput(
@@ -14,9 +14,10 @@ class StringInput extends QuestionInputView {
   _StringInputState createState() => _StringInputState();
 }
 
-
 class _StringInputState extends State<StringInput> {
   final _controller = TextEditingController();
+  late final minValue = widget.questionInput.min ?? 0;
+  late final maxValue = widget.questionInput.max;
   void _clearTextfield (){
     _controller.clear();
   }
@@ -29,16 +30,32 @@ class _StringInputState extends State<StringInput> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: _controller,
-      decoration: InputDecoration(
-        hintText: "Hier eintragen...",
-        suffixIcon: IconButton(
-          onPressed: () => _clearTextfield(),
-          color: Colors.black87,
-          icon: Icon(Icons.clear_rounded),
-        )
-      ),
+    return ValueListenableBuilder(
+        valueListenable: _controller,
+        builder: (context, TextEditingValue text, __) {
+          return TextFormField(
+            controller: _controller,
+            maxLength: maxValue,
+            decoration: InputDecoration(
+              hintText: 'Hier eintragen...',
+              counter: Offstage(),
+              suffixIcon: IconButton(
+                onPressed: () => _clearTextfield(),
+                color: Colors.black87,
+                icon: Icon(Icons.clear_rounded),
+              )
+            ),
+            autovalidateMode: AutovalidateMode.always,
+            validator: (text) {
+              if (text == null || text.isEmpty) {
+                return null;
+              }
+              if (text.length < minValue ){
+                return 'Eingabe zu kurz';
+              }
+            },
+          );
+        }
     );
   }
 }
