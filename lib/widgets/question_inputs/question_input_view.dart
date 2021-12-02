@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '/models/answer.dart';
 import '/models/question_input.dart';
 import '/widgets/question_inputs/string_input.dart';
 import '/widgets/question_inputs/bool_input.dart';
@@ -17,7 +19,7 @@ abstract class QuestionInputView extends StatefulWidget {
 
   /// A callback function with the applicable OSM tags constructed by the currently entered/selected value.
 
-  final void Function(Map<String, String>)? onChange;
+  final void Function(Answer?)? onChange;
 
 
   const QuestionInputView(
@@ -28,7 +30,7 @@ abstract class QuestionInputView extends StatefulWidget {
 
   factory QuestionInputView.fromQuestionInput(
     QuestionInput questionInput,
-    { void Function(Map<String, String>)? onChange }
+    { void Function(Answer?)? onChange, Key? key }
   ) {
     switch (questionInput.type) {
       case 'Bool': return BoolInput(questionInput, onChange: onChange);

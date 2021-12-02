@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import '/models/answer.dart';
 import '/widgets/question_inputs/question_input_view.dart';
 import '/models/question_input.dart';
 
 class ListInput extends QuestionInputView {
   ListInput(QuestionInput questionInput,
-      {void Function(Map<String, String>)? onChange, Key? key})
+      { void Function(Answer?)? onChange, Key? key })
       : super(questionInput, onChange: onChange, key: key);
 
   @override
