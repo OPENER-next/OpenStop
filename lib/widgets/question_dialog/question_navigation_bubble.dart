@@ -4,14 +4,12 @@ import 'question_bubble.dart';
 
 
 class QuestionNavigationBubble extends StatelessWidget {
-  final void Function()? onSkip;
+  final void Function()? onNext;
   final void Function()? onBack;
-  final void Function()? onConfirm;
 
   QuestionNavigationBubble({
-    this.onSkip,
     this.onBack,
-    this.onConfirm,
+    this.onNext,
     Key? key,
   }) : super(key: key);
 
@@ -69,8 +67,8 @@ class QuestionNavigationBubble extends StatelessWidget {
                     ),
                     alignment: Alignment.centerRight
                   ),
-                  onPressed: onSkip,
-                  child: const Text('Überspringen')
+              onPressed: onNext,
+              child: const Text('Weiter')
                 ),
               )
             ],

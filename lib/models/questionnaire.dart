@@ -71,7 +71,7 @@ class Questionnaire {
   }
 
 
-  void update(Answer answer) {
+  void update(Answer? answer) {
     if (_isValidIndex(_activeIndex)) {
       _entries[_activeIndex] = QuestionnaireEntry(
         _entries[_activeIndex].question,
@@ -90,17 +90,7 @@ class Questionnaire {
 
 
   void _updateWorkingElement() {
-    final List<Map<String, String>> changes = [];
-    _entries.forEach((entry) {
-      if (entry.answer != null) {
-        changes.add(entry.answer!.toTagMap());
-      }
-    });
-
-    _workingElement = ProxyOSMElement(
-      _osmElement,
-      changes: changes
-    );
+    _workingElement = _createWorkingElement(_entries);
   }
 
 
@@ -109,14 +99,15 @@ class Questionnaire {
     // insert questions in reverse so questions that follow next in the catalog
     // also follow next in the questionnaire
     for (final question in _questionCatalog.reversed) {
-      final questionMatches = question.conditions.any((condition) {
+      // get whether the question conditions matches the current working element
+      final questionIsMatching = question.conditions.any((condition) {
         return condition.matches(
-          workingElement.tags,
-          workingElement.type
+          _workingElement.tags,
+          _workingElement.type
         );
       });
 
-      if (questionMatches) {
+      if (questionIsMatching) {
         // check if there already exists an answer with the same question
         final index = _entries.indexWhere((entry) => entry.question == question);
         if (index == -1) {
@@ -132,19 +123,44 @@ class Questionnaire {
     // only iterate over all elements after the current active index
     for (var i = _entries.length - 1; i > _activeIndex; i--) {
       final entry = _entries[i];
-      // if the conditions of an answer in the history do not match anymore
-      // remove the answer
-      final questionMatches = entry.question.conditions.any((condition) {
+      // create working element from all preceding entries excluding the current entry
+      // this needs to be done, because otherwise an entry can get obsolete by its own answer or answers of succeeding questions
+      final subWorkingElement = _createWorkingElement(
+        _entries.getRange(0, i)
+      );
+      // get whether the question conditions of an entry still matches
+      // the current working element
+      final questionIsMatching = entry.question.conditions.any((condition) {
         return condition.matches(
-          workingElement.tags,
-          workingElement.type
+          subWorkingElement.tags,
+          subWorkingElement.type
         );
       });
 
-      if (!questionMatches) {
+      // if the conditions of an answer in the history do not match anymore
+      if (!questionIsMatching) {
+        // remove the answer
         _entries.removeAt(i);
       }
     }
+  }
+
+
+  /// Optionally specify a custom list of entries from which the working element is constructed.
+
+  ProxyOSMElement _createWorkingElement(Iterable<QuestionnaireEntry> entries) {
+    final List<Map<String, String>> changes = [];
+
+    for (final entry in entries) {
+      if (entry.answer != null) {
+        changes.add(entry.answer!.toTagMap());
+      }
+    }
+
+    return ProxyOSMElement(
+      _osmElement,
+      changes: changes
+    );
   }
 }
 

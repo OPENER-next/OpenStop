@@ -45,7 +45,7 @@ class QuestionnaireProvider extends ChangeNotifier {
   }
 
 
-  void update(Answer answer) {
+  void update(Answer? answer) {
     if (_qaSelection != null) {
       _qaSelection!.update(answer);
       notifyListeners();

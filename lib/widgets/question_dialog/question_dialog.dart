@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '/models/answer.dart';
 import '/view_models/questionnaire_provider.dart';
 import '/widgets/question_inputs/question_input_view.dart';
 import 'question_list.dart';
@@ -21,6 +22,10 @@ class QuestionDialog extends StatefulWidget {
 
 
 class _QuestionDialogState extends State<QuestionDialog> {
+
+  Answer? _answer;
+
+
   @override
   Widget build(BuildContext context) {
     final questionnaire = context.watch<QuestionnaireProvider>();
@@ -86,7 +91,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
                                     QuestionInputBubble(
                                       child: QuestionInputView.fromQuestionInput(
                                         questionnaireEntry.question.input,
-                                        onChange: null
+                                        onChange: _handleChange
                                       )
                                     ),
                                   ],
@@ -108,9 +113,8 @@ class _QuestionDialogState extends State<QuestionDialog> {
                   bottom: 10 + MediaQuery.of(context).padding.bottom
                 ),
                 child: QuestionNavigationBubble(
-                  onConfirm: _handleConfirm,
+                  onNext: _handleNext,
                   onBack: _handleBack,
-                  onSkip: _handleSkip,
                 )
               )
             ],
@@ -119,21 +123,23 @@ class _QuestionDialogState extends State<QuestionDialog> {
   }
 
 
+  void _handleChange(Answer? answer) {
+    _answer = answer;
+  }
+
+
   void _handleBack() {
     final questionnaire = context.read<QuestionnaireProvider>();
     questionnaire.previous();
+    _answer = questionnaire.activeEntry?.answer;
   }
 
 
-  void _handleSkip() {
+  void _handleNext() {
     final questionnaire = context.read<QuestionnaireProvider>();
+    questionnaire.update(_answer);
     questionnaire.next();
-  }
-
-
-  void _handleConfirm() {
-    final questionnaire = context.read<QuestionnaireProvider>();
-    questionnaire.next();
+    _answer = questionnaire.activeEntry?.answer;
   }
 }
 
