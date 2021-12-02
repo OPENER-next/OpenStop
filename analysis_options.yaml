@@ -1,0 +1,23 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    prefer_single_quotes: true
+    prefer_relative_imports: true
+    always_put_required_named_parameters_first: true
+    avoid_positional_boolean_parameters: true
+    eol_at_end_of_file: true
+    sized_box_shrink_expand: true
+    prefer_final_locals: true
+    prefer_final_parameters: true
+    prefer_final_in_for_each: true
+    prefer_if_elements_to_conditional_expressions: true
+    prefer_interpolation_to_compose_strings: true
+    unnecessary_parenthesis: true
+    prefer_null_aware_method_calls: true
+    unnecessary_lambdas: true
+    unnecessary_null_aware_assignments: true
+    use_decorated_box: true
+    use_late_for_private_fields_and_variables: true
+    use_named_constants: true
+    no_leading_underscores_for_local_identifiers: true
