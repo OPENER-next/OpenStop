@@ -32,7 +32,8 @@ class _BoolInputState extends State<BoolInput> {
             style: _toggleStyle(_selectedBool == true),
             onPressed: () {
               setState(() {
-                _selectedBool = true;
+                _selectedBool = _selectedBool != true ? true : null;
+                _handleChange();
               });
             }
           )
@@ -50,7 +51,8 @@ class _BoolInputState extends State<BoolInput> {
             style: _toggleStyle(_selectedBool == false),
             onPressed: () {
               setState(() {
-                _selectedBool = false;
+                _selectedBool = _selectedBool != false ? false : null;
+                _handleChange();
               });
             }
           )
@@ -60,7 +62,24 @@ class _BoolInputState extends State<BoolInput> {
   }
 
 
-  ButtonStyle? _toggleStyle(isSelected) {
-    return isSelected ? OutlinedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.primary, primary: Theme.of(context).colorScheme.onPrimary,) : null;
+  void _handleChange() {
+    final answer = _selectedBool != null
+      ? BoolAnswer(
+        questionValues: widget.questionInput.values,
+        answer: _selectedBool!
+      )
+      : null;
+
+    widget.onChange?.call(answer);
+  }
+
+
+  ButtonStyle? _toggleStyle(bool isSelected) {
+    return isSelected
+      ? OutlinedButton.styleFrom(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          primary: Theme.of(context).colorScheme.onPrimary,
+        )
+      : null;
   }
 }
