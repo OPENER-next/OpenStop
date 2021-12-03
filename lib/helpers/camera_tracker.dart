@@ -52,8 +52,10 @@ class CameraTracker extends ChangeNotifier implements TickerProvider {
       _handlePositionUpdate(lastPosition, initialZoom);
 
       _positionStreamSub = Geolocator.getPositionStream(
-        intervalDuration: this.updateInterval,
-        timeLimit: timeout
+        locationSettings: AndroidSettings(
+          intervalDuration: updateInterval,
+          timeLimit: timeout
+        )
       ).listen(_handlePositionUpdate, onError: (e) => stopTracking);
 
       _serviceStatusStreamSub = Geolocator.getServiceStatusStream().listen(_handleServiceStatus);
@@ -96,7 +98,7 @@ class CameraTracker extends ChangeNotifier implements TickerProvider {
       location: LatLng(position.latitude, position.longitude),
       zoom: zoom,
       duration: updateInterval,
-      id: "CameraTracker"
+      id: 'CameraTracker'
     );
   }
 
@@ -113,7 +115,7 @@ class CameraTracker extends ChangeNotifier implements TickerProvider {
     // cancel tracking on user interaction or any map move not caused by the camera tracker
     if (
       (mapEvent is MapEventDoubleTapZoomStart) ||
-      (mapEvent is MapEventMove && mapEvent.id != "CameraTracker" && mapEvent.targetCenter != mapEvent.center)
+      (mapEvent is MapEventMove && mapEvent.id != 'CameraTracker' && mapEvent.targetCenter != mapEvent.center)
     ) {
       stopTracking();
     }

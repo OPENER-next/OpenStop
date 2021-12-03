@@ -6,7 +6,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "39ede273cdd89d31e8f4868b69d9a1d935bc152d"
+      resolved-ref: "2db19d375b128197567867694e01adc90c0389e7"
       url: "https://github.com/OPENER-next/animated_location_indicator.git"
     source: git
     version: "1.0.0"
@@ -166,35 +166,35 @@ packages:
       name: geolocator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.7.1"
+    version: "8.0.0"
   geolocator_android:
     dependency: transitive
     description:
       name: geolocator_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "3.0.0+4"
   geolocator_apple:
     dependency: transitive
     description:
       name: geolocator_apple
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.2"
+    version: "2.0.0+2"
   geolocator_platform_interface:
     dependency: transitive
     description:
       name: geolocator_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.6"
+    version: "3.0.0+1"
   geolocator_web:
     dependency: transitive
     description:
       name: geolocator_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.6"
+    version: "2.1.0"
   http:
     dependency: transitive
     description:
