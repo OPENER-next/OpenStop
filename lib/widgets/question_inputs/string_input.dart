@@ -5,7 +5,7 @@ import '/widgets/question_inputs/question_input_view.dart';
 import '/models/question_input.dart';
 
 class StringInput extends QuestionInputView {
-  StringInput(
+  const StringInput(
     QuestionInput questionInput,
     { void Function(Answer?)? onChange, Key? key }
   ) : super(questionInput, onChange: onChange, key: key);
@@ -16,11 +16,6 @@ class StringInput extends QuestionInputView {
 
 class _StringInputState extends State<StringInput> {
   final _controller = TextEditingController();
-  late final minValue = widget.questionInput.min ?? 0;
-  late final maxValue = widget.questionInput.max;
-  void _clearTextfield (){
-    _controller.clear();
-  }
 
   @override
   void dispose() {
@@ -30,6 +25,9 @@ class _StringInputState extends State<StringInput> {
 
   @override
   Widget build(BuildContext context) {
+    final minValue = widget.questionInput.min ?? 0;
+    final maxValue = widget.questionInput.max;
+
     return ValueListenableBuilder(
         valueListenable: _controller,
         builder: (context, TextEditingValue text, __) {
@@ -38,11 +36,11 @@ class _StringInputState extends State<StringInput> {
             maxLength: maxValue,
             decoration: InputDecoration(
               hintText: 'Hier eintragen...',
-              counter: Offstage(),
+              counter: const Offstage(),
               suffixIcon: IconButton(
-                onPressed: () => _clearTextfield(),
+                onPressed: _controller.clear,
                 color: Colors.black87,
-                icon: Icon(Icons.clear_rounded),
+                icon: const Icon(Icons.clear_rounded),
               )
             ),
             autovalidateMode: AutovalidateMode.always,
