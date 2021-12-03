@@ -18,18 +18,19 @@ class CompassButton extends AnimatedWidget {
     required Listenable listenable,
     required this.getRotation,
     required this.onPressed,
-    this.isDegree = false
-  }) : super(listenable: listenable);
+    this.isDegree = false,
+    Key? key
+  }) : super(listenable: listenable, key: key);
 
   Widget build(BuildContext context) {
     return FloatingActionButton.small(
         onPressed: onPressed,
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         child: Transform.rotate(
             angle: getRotation() * (isDegree ? _piFraction : 1),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: const [
                 Icon(
                   CupertinoIcons.arrowtriangle_up_fill,
                   color: Colors.red,

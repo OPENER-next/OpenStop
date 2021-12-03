@@ -4,7 +4,7 @@ class ZoomButton extends StatelessWidget {
   final void Function()? onZoomInPressed;
   final void Function()? onZoomOutPressed;
 
-  ZoomButton({
+  const ZoomButton({
     Key? key,
     this.onZoomInPressed,
     this.onZoomOutPressed,

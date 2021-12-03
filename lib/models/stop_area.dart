@@ -7,7 +7,7 @@ import '/models/stop.dart';
 /// A bundle of multiple nearby [Stop]s.
 
 class StopArea {
-  static const _distance = const Distance();
+  static const _distance = Distance();
 
   final Set<Stop> stops;
 

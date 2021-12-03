@@ -28,7 +28,7 @@ extension ParseToOSMElementType on String {
       case 'OpenWay': return OSMElementType.OpenWay;
       case 'ClosedWay': return OSMElementType.ClosedWay;
       case 'Relation': return OSMElementType.Relation;
-      default: throw(Exception('Cannot convert String "$this" to OSMElementType.'));
+      default: throw Exception('Cannot convert String "$this" to OSMElementType.');
     }
   }
 }

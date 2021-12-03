@@ -4,8 +4,8 @@ import '/widgets/question_inputs/question_input_view.dart';
 import '/models/question_input.dart';
 
 class DurationInput extends QuestionInputView {
-  DurationInput(QuestionInput questionInput,
-      { void Function(Answer?)? onChange, Key? key })
+  const DurationInput(QuestionInput questionInput,
+      {void Function(Answer?)? onChange, Key? key})
       : super(questionInput, onChange: onChange, key: key);
 
   @override
@@ -16,35 +16,32 @@ class _DurationInputState extends State<DurationInput> {
   final List<TimeUnit> _unitList = [];
 
   void initUnits() {
-    final units = widget.questionInput.unit.split(',').map((e) => e.split(":"));
-    for (var element in units) {
-      if (element[0] == "d") {
-        var d = TimeUnit(
+    final units = widget.questionInput.unit.split(',').map((e) => e.split(':'));
+    for (final element in units) {
+      if (element[0] == 'd') {
+        _unitList.add(TimeUnit(
             unit: 'Tage',
             max: 366,
-            steps: int.parse(element[1]));
-        _unitList.add(d);
-      } else if (element[0] == "h") {
-        var h = TimeUnit(
+            steps: int.parse(element[1]))
+        );
+      } else if (element[0] == 'h') {
+        _unitList.add(TimeUnit(
           unit: 'Stunden',
           max: 24,
-          steps: int.parse(element[1]),
+          steps: int.parse(element[1]))
         );
-        _unitList.add(h);
-      } else if (element[0] == "m") {
-        var m = TimeUnit(
+      } else if (element[0] == 'm') {
+        _unitList.add(TimeUnit(
           unit: 'Minuten',
           max: 60,
-          steps: int.parse(element[1]),
+          steps: int.parse(element[1])),
         );
-        _unitList.add(m);
-      } else if (element[0] == "s") {
-        var s = TimeUnit(
+      } else if (element[0] == 's') {
+        _unitList.add(TimeUnit(
           unit: 'Sekunden',
           max: 60,
-          steps: int.parse(element[1]),
+          steps: int.parse(element[1])),
         );
-        _unitList.add(s);
       }
     }
   }
@@ -62,7 +59,7 @@ class _DurationInputState extends State<DurationInput> {
     ));
 
     for (var i = 1; i < _unitList.length; i++) {
-      widgets.add(VerticalDivider(color: Colors.transparent));
+      widgets.add(const VerticalDivider(color: Colors.transparent));
 
       final entry = _unitList[i];
       widgets.add(Flexible(
@@ -114,12 +111,12 @@ class TimeScroller extends StatefulWidget {
   final int timeUnitMax;
   final int timeUnitSteps;
 
-  TimeScroller(
-      {Key? key,
-        required this.timeUnit,
-        required this.timeUnitMax,
-        required this.timeUnitSteps})
-      : super(key: key);
+  const TimeScroller({
+    required this.timeUnit,
+    required this.timeUnitMax,
+    required this.timeUnitSteps,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _TimeScrollerState createState() => _TimeScrollerState();
@@ -132,7 +129,7 @@ class _TimeScrollerState extends State<TimeScroller> {
   Widget build(BuildContext context) {
     return Stack(children: [
       Container(
-        margin: const EdgeInsets.only(top:6.0),
+        margin: const EdgeInsets.only(top: 6.0),
         foregroundDecoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -143,41 +140,41 @@ class _TimeScrollerState extends State<TimeScroller> {
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            stops: [0.07, 0.2, 0.8, 0.93],
+            stops: const [0.07, 0.2, 0.8, 0.93],
           ),
           border: Border.all(color: Theme.of(context).colorScheme.primary),
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(8.0)),
         ),
         child: ListWheelScrollView.useDelegate(
           itemExtent: 30,
           controller: FixedExtentScrollController(),
-          physics: FixedExtentScrollPhysics(),
+          physics: const FixedExtentScrollPhysics(),
           onSelectedItemChanged: (int index) => setState(() => _selected =
               (-index) % (widget.timeUnitMax ~/ widget.timeUnitSteps)),
           childDelegate: ListWheelChildBuilderDelegate(
               builder: (BuildContext context, int index) {
-                index = (-index) % (widget.timeUnitMax ~/ widget.timeUnitSteps);
-                return Center(
-                  child: AnimatedOpacity(
-                    opacity: index == _selected ? 1 : 0.3,
-                    duration: Duration(milliseconds: 200),
-                    child: AnimatedScale(
-                      scale: index == _selected ? 1 : 0.7,
-                      duration: Duration(milliseconds: 200),
-                      child: Text(
-                          (index * widget.timeUnitSteps).toString().padLeft(2, '0'),
-                          style: Theme.of(context).textTheme.headline5),
-                    ),
-                  ),
-                );
-              }),
+            index = (-index) % (widget.timeUnitMax ~/ widget.timeUnitSteps);
+            return Center(
+              child: AnimatedOpacity(
+                opacity: index == _selected ? 1 : 0.3,
+                duration: const Duration(milliseconds: 200),
+                child: AnimatedScale(
+                  scale: index == _selected ? 1 : 0.7,
+                  duration: const Duration(milliseconds: 200),
+                  child: Text(
+                      (index * widget.timeUnitSteps).toString().padLeft(2, '0'),
+                      style: Theme.of(context).textTheme.headline5),
+                ),
+              ),
+            );
+          }),
         ),
       ),
       Positioned(
         left: 8,
         child: Container(
             color: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 4.0),
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
             child: Text(widget.timeUnit,
                 style: Theme.of(context).textTheme.caption)),
       )

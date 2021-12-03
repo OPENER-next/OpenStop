@@ -4,7 +4,7 @@ import '/models/stop_area.dart';
 import '/commons/geo_utils.dart';
 import '/models/stop.dart';
 
-const _distance = const Distance();
+const _distance = Distance();
 
 /// Merge a list of [Stop]s to a bundle of [StopArea]s based on a given merge distance.
 

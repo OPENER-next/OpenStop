@@ -25,7 +25,7 @@ extension LatLngBoundsUtils on LatLngBounds {
   /// Extend a [LatLngBounds] equally to all sides by a give size in meters.
 
   LatLngBounds enlargeByMeters(double size) {
-    final distance = const Distance();
+    const distance = Distance();
     return LatLngBounds(
       distance.offset(
         distance.offset(this.northWest, size, 0),

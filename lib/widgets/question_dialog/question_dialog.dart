@@ -13,8 +13,10 @@ import 'question_input_bubble.dart';
 import 'question_navigation_bubble.dart';
 import 'question_text_bubble.dart';
 
+
 class QuestionDialog extends StatefulWidget {
-  QuestionDialog();
+
+  const QuestionDialog({Key? key}) : super(key: key);
 
   @override
   State<QuestionDialog> createState() => _QuestionDialogState();
@@ -80,7 +82,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
                               key: ValueKey(questionnaireEntry.question),
                               child: SingleChildScrollView(
                                 clipBehavior: Clip.none,
-                                physics: BouncingScrollPhysics(),
+                                physics: const BouncingScrollPhysics(),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -168,6 +170,6 @@ class ViewClipper extends CustomClipper<Rect> {
 
   @override
   bool shouldReclip(ViewClipper oldClipper) {
-    return (oldClipper.size != size || oldClipper.insets != insets);
+    return oldClipper.size != size || oldClipper.insets != insets;
   }
 }

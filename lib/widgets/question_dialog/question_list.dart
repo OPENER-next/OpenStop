@@ -9,9 +9,9 @@ class QuestionList extends StatefulWidget {
   final int index;
 
   const QuestionList({
-    Key? key,
     required this.children,
     this.index = -1,
+    Key? key
   }) : super(key: key);
 
   @override
@@ -62,16 +62,18 @@ class _QuestionListState extends State<QuestionList> {
   void _refreshSizesCache() {
     setState(() {
       _sizes.clear();
-      _keys.forEach((childKey) {
+      for (final childKey in _keys) {
         _sizes.add(childKey.currentContext?.size ?? Size.zero);
-      });
+      }
     });
   }
 
 
   double _calcTotalHeight() {
     double totalHeight = 0;
-    _sizes.forEach((size) => totalHeight += size.height);
+    for (final size in _sizes) {
+      totalHeight += size.height;
+    }
     return totalHeight;
   }
 
@@ -87,7 +89,7 @@ class _QuestionListState extends State<QuestionList> {
 
   @override
   Widget build(BuildContext context) {
-    var totalHeight = _calcTotalHeight();
+    final totalHeight = _calcTotalHeight();
     var accumulatedOffset = 0.0;
 
     return LayoutBuilder(
@@ -161,7 +163,7 @@ class _QuestionListState extends State<QuestionList> {
 class QuestionListEntry extends StatelessWidget {
   final Widget child;
 
-  QuestionListEntry({
+  const QuestionListEntry({
     required Key key,
     required this.child
   }) : super(key: key);

@@ -12,9 +12,7 @@ class ProxyOSMElement<T extends osmapi.OSMElement> {
     _osmElement = osmElement
   {
     tags = Map.of(_osmElement.tags);
-    changes?.forEach((osmTags) {
-      tags.addAll(osmTags);
-    });
+    changes?.forEach(tags.addAll);
   }
 
   final T _osmElement;

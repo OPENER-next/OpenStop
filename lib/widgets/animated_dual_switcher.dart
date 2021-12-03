@@ -29,7 +29,6 @@ class AnimatedDualSwitcher extends StatefulWidget {
   ) layoutBuilder;
 
   const AnimatedDualSwitcher({
-    Key? key,
     required this.animateInBuilder,
     required this.animateOutBuilder,
     this.child,
@@ -38,6 +37,7 @@ class AnimatedDualSwitcher extends StatefulWidget {
     this.animateInCurve = Curves.linear,
     this.animateOutCurve = Curves.linear,
     this.layoutBuilder = AnimatedDualSwitcher.defaultLayoutBuilder,
+    Key? key,
   }) : super(key: key);
 
 
@@ -160,12 +160,12 @@ class _CustomDualTransitionBuilder extends StatefulWidget {
 
   final Widget? child;
 
-  _CustomDualTransitionBuilder({
-    Key? key,
+  const _CustomDualTransitionBuilder({
     required this.animation,
     required this.forwardBuilder,
     required this.reverseBuilder,
-    this.child
+    this.child,
+    Key? key
   }) : super(key: key);
 
   @override

@@ -50,7 +50,7 @@ class OSMElementProvider extends ChangeNotifier {
       }
       catch(error) {
         // TODO: display error.
-        print(error);
+        debugPrint(error.toString());
       }
       finally {
         _loadingStopAreas.remove(stopArea);

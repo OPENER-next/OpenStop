@@ -11,7 +11,7 @@ class QuestionCondition {
   const QuestionCondition(this.osmTags, this.osmElements);
 
   factory QuestionCondition.fromJSON(Map<String, dynamic> json) {
-    List<OSMElementType> osmElement = [];
+    final List<OSMElementType> osmElement = [];
     if (json['osm_element'] is List) {
       osmElement.addAll(json['osm_element']
       .cast<String>()

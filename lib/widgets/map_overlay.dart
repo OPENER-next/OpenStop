@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:opener_next/helpers/camera_tracker.dart';
-import 'package:opener_next/view_models/map_view_model.dart';
 import 'package:provider/provider.dart';
+import '/helpers/camera_tracker.dart';
+import '/view_models/map_view_model.dart';
 import '/widgets/map_buttons/location_button.dart';
 import '/widgets/map_buttons/map_layer_switcher.dart';
 import '/widgets/map_buttons/compass_button.dart';
@@ -72,28 +72,28 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       FloatingActionButton.small(
-                        child: Icon(
+                        child: const Icon(
                           Icons.menu,
                           color: Colors.black,
                         ),
                         onPressed: Scaffold.of(context).openDrawer,
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Selector<MapViewModel, String>(
                         selector: (context, value) => value.urlTemplate,
                         builder: (context, urlTemplate, child) {
                           return MapLayerSwitcher(
-                            entries: [
-                              MapLayerSwitcherEntry(key: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                                icon: Icons.satellite_rounded, label: "Satellite"
+                            entries: const [
+                              MapLayerSwitcherEntry(key: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+                                icon: Icons.satellite_rounded, label: 'Satellite'
                               ),
-                              MapLayerSwitcherEntry(key: "https://osm-2.nearest.place/retina/{z}/{x}/{y}.png",
-                                icon: Icons.map_rounded, label: "Map"
+                              MapLayerSwitcherEntry(key: 'https://osm-2.nearest.place/retina/{z}/{x}/{y}.png',
+                                icon: Icons.map_rounded, label: 'Map'
                               ),
                               // TODO: We really need this!! Showing where the tram and bus routes are is crucial for our App.
                               // Thunderforest requires an API key unfortunately
-                              MapLayerSwitcherEntry(key: "https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png",
-                                icon: Icons.map_rounded, label: "Thunderforest.Transport"
+                              MapLayerSwitcherEntry(key: 'https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png',
+                                icon: Icons.map_rounded, label: 'Thunderforest.Transport'
                               ),
                             ],
                             active: urlTemplate,
@@ -103,10 +103,10 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                       )
                     ]
                   ),
-                  Align(
+                  const Align(
                     alignment: Alignment.bottomCenter,
                     child: Text(
-                      "© OpenStreetMap contributors",
+                      '© OpenStreetMap contributors',
                       style: TextStyle(
                         fontSize: 10
                       ),
@@ -119,7 +119,7 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                         valueListenable: _isRotatedNotifier,
                         builder: (BuildContext context, bool isRotated, Widget? compass) {
                           return AnimatedSwitcher(
-                            duration: Duration(milliseconds: 300),
+                            duration: const Duration(milliseconds: 300),
                             child: isRotated ? compass : const SizedBox.shrink()
                           );
                         } ,
@@ -130,7 +130,7 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                           onPressed: _resetRotation,
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       SizedBox (
                         height: widget.buttonSpacing
                       ),

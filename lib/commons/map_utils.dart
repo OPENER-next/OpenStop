@@ -29,7 +29,10 @@ extension AnimationUtils on MapController {
       duration: duration,
       vsync: ticker
     );
-    Animation<double> animation = CurvedAnimation(parent: controller, curve: curve);
+    final animation = CurvedAnimation(
+        parent: controller,
+        curve: curve
+    );
 
     animation.addListener(() {
       this.moveAndRotate(
@@ -53,7 +56,7 @@ extension AnimationUtils on MapController {
   animateToBounds({
     required TickerProvider ticker,
     required LatLngBounds bounds,
-    EdgeInsets padding = const EdgeInsets.all(0)
+    EdgeInsets padding = EdgeInsets.zero
   }) {
     final centerZoom = this.centerZoomFitBounds(
       bounds,

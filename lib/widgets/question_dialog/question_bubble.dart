@@ -13,7 +13,6 @@ class QuestionBubble extends StatelessWidget {
   final BoxDecoration _decoration;
 
   QuestionBubble({
-    Key? key,
     required this.child,
     Radius topLeft = const Radius.circular(20),
     Radius topRight = const Radius.circular(20),
@@ -22,13 +21,14 @@ class QuestionBubble extends StatelessWidget {
       horizontal: 20
     ),
     this.margin,
-    this.color
+    this.color,
+    Key? key
   }) : _decoration = BoxDecoration(
     boxShadow: const [
-      const BoxShadow(
+      BoxShadow(
         color: Colors.black26,
         blurRadius: 3,
-        offset: const Offset(0, 2)
+        offset: Offset(0, 2)
       )
     ],
     borderRadius: BorderRadius.only(

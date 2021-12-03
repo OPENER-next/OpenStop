@@ -19,12 +19,12 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final _controller = PageController(initialPage: 0);
 
-  static const _dotsDuration = const Duration(milliseconds: 300);
+  static const _dotsDuration = Duration(milliseconds: 300);
 
   static const _dotsCurve = Curves.ease;
 
   _hasSeenOnboarding() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('hasSeenOnboarding', true);
   }
 
@@ -32,7 +32,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   void initState() {
     super.initState();
     // update native ui colors
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,
       systemNavigationBarColor: Colors.white,
@@ -53,7 +53,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               children: <Widget>[
                 Container(
                   color: Colors.redAccent,
-                  child: Center(
+                  child: const Center(
                     child: Text('Introduction/ Purpose / How to Use'),
                   ),
                 ),
@@ -71,7 +71,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomeScreen())
+                                    builder: (context) => const HomeScreen())
                             );
                           },
                           child: const Text('Los geht\'s!'),
@@ -82,7 +82,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           text: TextSpan(
                           style: Theme.of(context).textTheme.caption,
                           children: <TextSpan>[
-                            TextSpan(text: 'Mit dem Klick auf "Los geht\'s!", akzeptierst du unsere '),
+                            const TextSpan(text: 'Mit dem Klick auf "Los geht\'s!", akzeptierst du unsere '),
                             TextSpan(
                                 text: 'Nutzungsbedingungen',
                                 style: TextStyle(
@@ -93,10 +93,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => TermsOfUse())
+                                            builder: (context) => const TermsOfUse())
                                     );
                                   }),
-                            TextSpan(text: ' und bestätigst, dass du unsere '),
+                            const TextSpan(text: ' und bestätigst, dass du unsere '),
                             TextSpan(
                                 text: 'Datenschutzerklärung',
                                 style: TextStyle(
@@ -107,10 +107,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => PrivacyPolicy())
+                                            builder: (context) => const PrivacyPolicy())
                                     );
                                   }),
-                            TextSpan(text: ' gelesen hast.'),
+                            const TextSpan(text: ' gelesen hast.'),
                             ],
                           ),
                         ),
@@ -123,7 +123,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           ),
           Expanded(
             flex: 1,
-            child: new DotsIndicator(
+            child: DotsIndicator(
               controller: _controller,
               itemCount: 2,
               onPageSelected: (int page) {

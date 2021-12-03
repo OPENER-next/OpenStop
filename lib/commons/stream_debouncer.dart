@@ -5,7 +5,7 @@ import 'dart:async';
 
 extension Debouncer on Stream {
   Stream<T> debounce<T> ([duration = const Duration(milliseconds: 300)]) {
-    var streamController = StreamController<T>();
+    final streamController = StreamController<T>();
 
     Timer? timer;
 

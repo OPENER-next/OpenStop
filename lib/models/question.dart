@@ -29,11 +29,11 @@ class Question {
     required this.name,
     required this.question,
     required this.difficulty,
+    required this.conditions,
+    required this.input,
     this.description = '',
     this.images = const [],
-    this.osmElement,
-    required this.conditions,
-    required this.input
+    this.osmElement
   });
 
 

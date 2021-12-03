@@ -5,7 +5,7 @@ import '/models/question_input.dart';
 
 
 class OpeningHoursInput extends QuestionInputView {
-  OpeningHoursInput(
+  const OpeningHoursInput(
     QuestionInput questionInput,
     { void Function(Answer?)? onChange, Key? key }
   ) : super(questionInput, onChange: onChange, key: key);
@@ -18,6 +18,6 @@ class OpeningHoursInput extends QuestionInputView {
 class _OpeningHoursInputState extends State<OpeningHoursInput> {
   @override
   Widget build(BuildContext context) {
-    return Text('Dummy');
+    return const Text('Dummy');
   }
 }

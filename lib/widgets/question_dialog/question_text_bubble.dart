@@ -9,10 +9,10 @@ class QuestionTextBubble extends StatefulWidget {
 
   final String details;
 
-  QuestionTextBubble({
-    Key? key,
+  const QuestionTextBubble({
     required this.question,
-    required this.details
+    required this.details,
+    Key? key
   }) : super(key: key);
 
   @override
@@ -110,7 +110,7 @@ class _QuestionTextBubbleState extends State<QuestionTextBubble> with SingleTick
                           color: _iconColorAnimation.value!,
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
-                          fontFamily: "Times"
+                          fontFamily: 'Times'
                         )
                       )
                     );

@@ -5,7 +5,7 @@ import '/widgets/question_inputs/question_input_view.dart';
 
 
 class BoolInput extends QuestionInputView {
-  BoolInput(
+  const BoolInput(
     QuestionInput questionInput,
     { void Function(Answer?)? onChange, Key? key }
   ) : super(questionInput, onChange: onChange, key: key);
@@ -38,7 +38,7 @@ class _BoolInputState extends State<BoolInput> {
             }
           )
         ),
-        Spacer(
+        const Spacer(
           flex: 1,
         ),
         Flexible(

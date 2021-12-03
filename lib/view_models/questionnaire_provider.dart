@@ -1,8 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
-import 'package:opener_next/models/questionnaire.dart';
 import 'package:osm_api/osm_api.dart';
 
+import '/models/questionnaire.dart';
 import '/models/proxy_osm_element.dart';
 import '/models/answer.dart';
 import '/models/question.dart';

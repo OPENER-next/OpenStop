@@ -25,10 +25,11 @@ class MapLayerSwitcher extends StatefulWidget {
     this.duration = const Duration(milliseconds: 500),
     this.reverseDuration = const Duration(milliseconds: 300),
     this.animationOverlap = 0.8,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State createState() => new _MapLayerSwitcherState();
+  State createState() => _MapLayerSwitcherState();
 }
 
 
@@ -124,7 +125,7 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerPr
 
     return Container(
       height: 50,
-      padding: EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 10),
       child: Row(
         children: [
           ScaleTransition(
@@ -165,13 +166,13 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerPr
               ),
             ),
             child: Container(
-              margin: EdgeInsets.only(left: 5),
+              margin: const EdgeInsets.only(left: 5),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(3),
                 boxShadow: kElevationToShadow[4]
               ),
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               child: Text(
                 entry.label,
                 style: Theme.of(context).textTheme.bodyText2
@@ -187,11 +188,11 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerPr
   Widget build(BuildContext context) {
     return FloatingActionButton.small(
       child: _isActive
-        ? Icon(
+        ? const Icon(
           Icons.layers_clear_rounded,
           color: Colors.black,
         )
-        : Icon(
+        : const Icon(
           Icons.layers_rounded,
           color: Colors.black,
         ),
