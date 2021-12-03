@@ -9,7 +9,6 @@ linter:
     eol_at_end_of_file: true
     sized_box_shrink_expand: true
     prefer_final_locals: true
-    prefer_final_parameters: true
     prefer_final_in_for_each: true
     prefer_if_elements_to_conditional_expressions: true
     prefer_interpolation_to_compose_strings: true
