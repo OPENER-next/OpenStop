@@ -41,7 +41,7 @@ class StopAreasProvider extends ChangeNotifier {
 
   final _stopAPI = StopQueryAPI();
 
-  final _queryRecords = Set<CellIndex>();
+  final _queryRecords = <CellIndex>{};
 
   final _isLoading = ValueNotifier(false);
 
@@ -76,7 +76,7 @@ class StopAreasProvider extends ChangeNotifier {
         // check whether a query is in progress for the given index
         if (!_queryRecords.contains(cellIndex)) {
           _queryRecords.add(cellIndex);
-          _isLoading.value = _queryRecords.length > 0;
+          _isLoading.value = _queryRecords.isNotEmpty;
 
           // query cell and add cell index to query records
           final southWest = _cellIndexToGeo(cellIndex);
@@ -92,11 +92,11 @@ class StopAreasProvider extends ChangeNotifier {
           }
           catch(error) {
             // TODO: display error.
-            print(error);
+            debugPrint(error.toString());
           }
           finally {
             _queryRecords.remove(cellIndex);
-            _isLoading.value = _queryRecords.length > 0;
+            _isLoading.value = _queryRecords.isNotEmpty;
           }
         }
       }
@@ -107,13 +107,13 @@ class StopAreasProvider extends ChangeNotifier {
   /// This method calculates the absolute box extend and applies it to the given camera view box
 
   LatLngBounds _applyExtend(LatLngBounds cameraViewBox) {
-    var cameraViewBoxHeight = (cameraViewBox.northEast!.latitude - cameraViewBox.southWest!.latitude).abs();
-    var cameraViewBoxWidth = (cameraViewBox.northEast!.longitude - cameraViewBox.southWest!.longitude).abs();
+    final cameraViewBoxHeight = (cameraViewBox.northEast!.latitude - cameraViewBox.southWest!.latitude).abs();
+    final cameraViewBoxWidth = (cameraViewBox.northEast!.longitude - cameraViewBox.southWest!.longitude).abs();
 
     // calculate relative extend
-    var extend = LatLng(
-      cameraViewBoxHeight * this.viewBoxExtend,
-      cameraViewBoxWidth * this.viewBoxExtend
+    final extend = LatLng(
+      cameraViewBoxHeight * viewBoxExtend,
+      cameraViewBoxWidth * viewBoxExtend
     );
 
     return LatLngBounds(

@@ -29,6 +29,9 @@ import '/commons/geo_utils.dart';
 
 
 class HomeScreen extends StatefulWidget {
+
+  const HomeScreen({Key? key}) : super(key: key);
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -47,8 +50,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     mapController: _mapController
   );
 
-  late final Future<List<Question>> _questionCatalog = parseQuestions();
-
   @override
   void initState() {
     super.initState();
@@ -63,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     ));
 
     // query stops on map interactions
-    _mapController.mapEventStream.debounce<MapEvent>(Duration(milliseconds: 500)).listen((event) {
+    _mapController.mapEventStream.debounce<MapEvent>(const Duration(milliseconds: 500)).listen((event) {
       if (_mapController.bounds != null && _mapController.zoom > 12) {
         _stopAreasProvider.loadStopAreas(_mapController.bounds!);
       }
@@ -96,12 +97,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           stopAreaDiameter: _stopAreaDiameter
         )),
         ChangeNotifierProvider(create: (_) => MapViewModel(
-          urlTemplate: "https://osm-2.nearest.place/retina/{z}/{x}/{y}.png"
+          urlTemplate: 'https://osm-2.nearest.place/retina/{z}/{x}/{y}.png'
         )),
         Provider.value(value: _mapController),
       ],
       child: Scaffold(
-        drawer: HomeSidebar(),
+        drawer: const HomeSidebar(),
         // use builder to get scaffold context
         body: Builder(builder: (context) =>
           Stack(
@@ -154,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   // only show controls when map creation finished
                   FutureBuilder(
                     future: _mapController.onReady,
-                    builder: (BuildContext context, AsyncSnapshot<Null> snapshot) {
+                    builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
                       // only show overlay when question history has no active entry
                       return Consumer<QuestionnaireProvider>(
                         builder: (context, questionnaire,child) {
@@ -164,10 +165,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           return AnimatedSwitcher(
                             switchInCurve: Curves.ease,
                             switchOutCurve: Curves.ease,
-                            duration: Duration(milliseconds: 300),
+                            duration: const Duration(milliseconds: 300),
                             child: mapIsLoaded && noActiveEntry
-                              ? MapOverlay()
-                              : SizedBox.expand(
+                              ? const MapOverlay()
+                              : const SizedBox.expand(
                                 // TODO: decide overlay style/color
                                 child: ColoredBox(color: Colors.transparent)
                               )
@@ -191,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ],
               ),
               // place sheet on extra stack above map so touch events won't pass through
-              QuestionDialog(),
+              const QuestionDialog(),
             ],
           )
         ),
@@ -250,7 +251,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
 
   Future<List<Question>> parseQuestions() async {
-    final questionJsonData = await rootBundle.loadString("assets/questions/question_catalog.json");
+    final questionJsonData = await rootBundle.loadString('assets/questions/question_catalog.json');
     final questionJson = jsonDecode(questionJsonData).cast<Map<String, dynamic>>();
     return questionJson.map<Question>((question) => Question.fromJSON(question)).toList();
   }

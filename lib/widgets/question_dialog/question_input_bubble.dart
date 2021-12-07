@@ -7,9 +7,9 @@ import 'question_bubble.dart';
 class QuestionInputBubble extends StatelessWidget {
   final Widget child;
 
-  QuestionInputBubble({
-    Key? key,
-    required this.child
+  const QuestionInputBubble({
+    required this.child,
+    Key? key
   }) : super(key: key);
 
   @override

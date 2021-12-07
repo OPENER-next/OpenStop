@@ -28,7 +28,7 @@ Future<Position?> acquireUserLocation([forceCurrent = true]) async {
       lastPosition = await Geolocator.getLastKnownPosition();
     }
     // if no previous position is known automatically try to get the current one
-    return lastPosition == null ? await Geolocator.getCurrentPosition() : lastPosition;
+    return lastPosition ?? await Geolocator.getCurrentPosition();
   }
   on LocationServiceDisabledException {
     return null;

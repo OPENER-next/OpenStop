@@ -21,7 +21,8 @@ class OsmElementLayer extends StatefulWidget {
     required this.osmElements,
     this.onOsmElementTap,
     this.durationOffsetRange = const Duration(milliseconds: 300),
-  });
+    Key? key
+  }) : super(key: key);
 
   @override
   State<OsmElementLayer> createState() => _OsmElementLayerState();

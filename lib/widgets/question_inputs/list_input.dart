@@ -4,8 +4,8 @@ import '/widgets/question_inputs/question_input_view.dart';
 import '/models/question_input.dart';
 
 class ListInput extends QuestionInputView {
-  ListInput(QuestionInput questionInput,
-      { void Function(Answer?)? onChange, Key? key })
+  const ListInput(QuestionInput questionInput,
+      {void Function(Answer?)? onChange, Key? key})
       : super(questionInput, onChange: onChange, key: key);
 
   @override
@@ -45,12 +45,12 @@ class ListInputItem extends StatefulWidget {
   final bool active;
   final VoidCallback onTap;
 
-  ListInputItem(
-      {Key? key,
-        required this.item,
-        required this.onTap,
-        this.active = false})
-      : super(key: key);
+  const ListInputItem({
+    required this.item,
+    required this.onTap,
+    this.active = false,
+    Key? key,
+  }) : super(key: key);
 
   @override
   _ListInputItemState createState() => _ListInputItemState();
@@ -61,14 +61,12 @@ class _ListInputItemState extends State<ListInputItem>
   late final _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 800),
-      reverseDuration: const Duration(milliseconds: 500)
-  );
+      reverseDuration: const Duration(milliseconds: 500));
 
   late final _animation = CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeOutExpo,
-        reverseCurve: Curves.ease
-  );
+      parent: _controller,
+      curve: Curves.easeOutExpo,
+      reverseCurve: Curves.ease);
 
   @override
   void didUpdateWidget(covariant ListInputItem oldWidget) {
@@ -99,7 +97,8 @@ class _ListInputItemState extends State<ListInputItem>
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
+                  padding:
+                      const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
                   child: Text(
                     widget.item.name ?? 'Unknown label',
                     textAlign: TextAlign.left,
@@ -116,7 +115,7 @@ class _ListInputItemState extends State<ListInputItem>
                             left: 16.0, right: 8.0, bottom: 8.0),
                         child: Text(
                           widget.item.description ?? 'No Description',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.normal,
                             fontSize: 12,
                           ),
@@ -133,15 +132,16 @@ class _ListInputItemState extends State<ListInputItem>
                 child: Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.only(topRight: Radius.circular(8.0), bottomRight: Radius.circular(8.0)),
+                    borderRadius: const BorderRadius.only(
+                        topRight: Radius.circular(8.0),
+                        bottomRight: Radius.circular(8.0)),
                     child: Image.asset(
                       'assets/placeholder_image.png',
                       fit: BoxFit.cover,
                       height: 90,
                     ),
                   ),
-                )
-            )
+                ))
         ],
       ),
     );

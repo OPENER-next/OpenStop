@@ -18,13 +18,13 @@ class StopAreaLayer extends StatefulWidget {
   final void Function(StopArea stopArea)? onStopAreaTap;
 
   const StopAreaLayer({
-    Key? key,
     required this.stopAreas,
     required this.loadingStopAreas,
     this.onStopAreaTap,
     this.stopAreaDiameter = 100,
     // TODO: reimplement this in the AnimatedMarkerLayer
     this.sizeThreshold = 5,
+    Key? key,
   }) : super(key: key);
 
   @override

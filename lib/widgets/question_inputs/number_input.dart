@@ -5,7 +5,7 @@ import '/widgets/question_inputs/question_input_view.dart';
 import '/models/question_input.dart';
 
 class NumberInput extends QuestionInputView {
-  NumberInput(
+  const NumberInput(
     QuestionInput questionInput,
     { void Function(Answer?)? onChange, Key? key }
   ) : super(questionInput, onChange: onChange, key: key) ;
@@ -18,9 +18,6 @@ class _NumberInputState extends State<NumberInput> {
   final _controller = TextEditingController();
   late final minValue = widget.questionInput.min?.toDouble() ?? double.negativeInfinity;
   late final maxValue = widget.questionInput.max?.toDouble() ?? double.infinity;
-  void _clearTextfield (){
-    _controller.clear();
-  }
 
   @override
   void initState() {
@@ -51,9 +48,9 @@ class _NumberInputState extends State<NumberInput> {
                         style: Theme.of(context).textTheme.subtitle1
                     ),
                     IconButton(
-                      onPressed: () => _clearTextfield(),
+                      onPressed: _controller.clear,
                       color: Colors.black87,
-                      icon: Icon(Icons.clear_rounded),
+                      icon: const Icon(Icons.clear_rounded),
                     )
                   ]
                 )
@@ -64,14 +61,14 @@ class _NumberInputState extends State<NumberInput> {
                 return null;
               }
               else {
-                text=text.replaceAll(",", ".");
+                text=text.replaceAll(',', '.');
                 final value = double.parse(text);
                 if (value < minValue || value > maxValue) {
                   return 'Wert muss zwischen $minValue und $maxValue liegen';
                 }
               }
             },
-            keyboardType: TextInputType.numberWithOptions(
+            keyboardType: const TextInputType.numberWithOptions(
               decimal: true,
               signed: false,
             ),

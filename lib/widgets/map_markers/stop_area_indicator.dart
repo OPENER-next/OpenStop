@@ -14,8 +14,9 @@ class StopAreaIndicator extends StatefulWidget {
     this.size = 100,
     this.duration = const Duration(seconds: 3),
     this.isLoading = false,
-    this.onTap
-  });
+    this.onTap,
+    Key? key
+  }) : super(key: key);
 
   @override
   State<StopAreaIndicator> createState() => _StopAreaIndicatorState();
@@ -30,7 +31,7 @@ class _StopAreaIndicatorState extends State<StopAreaIndicator> with SingleTicker
 
   late final scaleAnimation = CurvedAnimation(
     parent: _controller,
-    curve: Interval(
+    curve: const Interval(
       0,
       0.8,
       curve: Curves.linearToEaseOut
@@ -39,7 +40,7 @@ class _StopAreaIndicatorState extends State<StopAreaIndicator> with SingleTicker
 
   late final opacityAnimation = CurvedAnimation(
     parent: Tween(begin: 1.0, end: 0.0).animate(_controller),
-    curve: Interval(
+    curve: const Interval(
       0.5,
       1,
       curve: Curves.linear
@@ -138,7 +139,7 @@ class CirclePainter extends CustomPainter {
         offset,
         radius,
         Paint()
-          ..color = this.color
+          ..color = color
           ..style = PaintingStyle.fill
       );
     }

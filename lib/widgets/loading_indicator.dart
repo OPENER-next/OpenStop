@@ -11,8 +11,8 @@ class LoadingIndicator extends StatelessWidget {
     Key? key
   }) : super(key: key);
 
+  @override
   Widget build(BuildContext context) {
-
     return AnimatedSwitcher(
       switchInCurve: Curves.elasticOut,
       switchOutCurve: Curves.elasticOut,

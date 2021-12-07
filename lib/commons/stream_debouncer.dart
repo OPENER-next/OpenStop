@@ -5,15 +5,15 @@ import 'dart:async';
 
 extension Debouncer on Stream {
   Stream<T> debounce<T> ([duration = const Duration(milliseconds: 300)]) {
-    var streamController = StreamController<T>();
+    final streamController = StreamController<T>();
 
     Timer? timer;
 
     DateTime lastTimestamp = DateTime.fromMillisecondsSinceEpoch(0);
 
-    var lastEvent;
+    T? lastEvent;
 
-    this.listen((event) {
+    listen((event) {
       final currentTimestamp = DateTime.now();
 
       // store latest event
@@ -29,7 +29,7 @@ extension Debouncer on Stream {
         // otherwise set a timer that will fire with the most up to date event after the remaining time
         else {
           timer = Timer(duration - timeDifference, () {
-            if (lastEvent != null) streamController.add(lastEvent);
+            if (lastEvent != null) streamController.add(lastEvent!);
           });
         }
       }

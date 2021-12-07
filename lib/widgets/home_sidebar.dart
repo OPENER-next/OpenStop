@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 /// Builds the drawer/sidebar providing access to additional settings.
 
 class HomeSidebar extends StatefulWidget {
+
+  const HomeSidebar({Key? key}) : super(key: key);
+
   @override
   _HomeSidebarState createState() => _HomeSidebarState();
 }
@@ -11,7 +14,7 @@ class HomeSidebar extends StatefulWidget {
 class _HomeSidebarState extends State<HomeSidebar> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width * 0.65,
       child: Drawer(
         child: ListView(
@@ -25,7 +28,7 @@ class _HomeSidebarState extends State<HomeSidebar> {
                     style: Theme.of(context).textTheme.headline5,
                   ),
               ),
-              accountName: Text("Max Muster"),
+              accountName: const Text('Max Muster'),
               accountEmail: null,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primary,
@@ -33,26 +36,26 @@ class _HomeSidebarState extends State<HomeSidebar> {
               onDetailsPressed: () {},
             ),
             ListTile(
-              leading: Icon(
+              leading: const Icon(
                 Icons.settings,
                 color: Colors.black54
               ),
-              title: Text('Einstellungen'),
+              title: const Text('Einstellungen'),
               onTap: () {},
             ),
             ListTile(
-              leading: Icon(
+              leading: const Icon(
                 Icons.info,
                 color: Colors.black54
               ),
-              title: Text('Über'),
+              title: const Text('Über'),
               onTap: () {},
             ),
             ListTile(
-              leading: Icon(Icons.feedback,
+              leading: const Icon(Icons.feedback,
                 color: Colors.black54
               ),
-              title: Text('Feedback'),
+              title: const Text('Feedback'),
               onTap: () {},
             ),
           ],

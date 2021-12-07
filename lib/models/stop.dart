@@ -36,10 +36,10 @@ class Stop {
 
 
   @override
-  bool operator == (o) =>
-    identical(this, o) ||
-    o is Stop &&
-    runtimeType == o.runtimeType &&
-    name == o.name &&
-    location == o.location;
+  bool operator == (other) =>
+    identical(this, other) ||
+    other is Stop &&
+    runtimeType == other.runtimeType &&
+    name == other.name &&
+    location == other.location;
 }

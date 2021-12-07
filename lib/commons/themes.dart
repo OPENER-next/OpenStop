@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 class CustomColors {
-  static const Color DarkGreen = const Color(0xff407336);
-  static const Color Green = const Color(0xff6cc15a);
-  static const Color LightGreen = const Color(0xffe9ffe4);
+  static const Color darkGreen = Color(0xff407336);
+  static const Color green = Color(0xff6cc15a);
+  static const Color lightGreen = Color(0xffe9ffe4);
 }
 
 final ThemeData appTheme = ThemeData.light().copyWith(
     colorScheme: ThemeData.light().colorScheme.copyWith(
-      primary: CustomColors.Green,
-      secondary: CustomColors.LightGreen,
+      primary: CustomColors.green,
+      secondary: CustomColors.lightGreen,
       onPrimary: Colors.white,
-      onSecondary: CustomColors.DarkGreen,
+      onSecondary: CustomColors.darkGreen,
       background: Colors.white,
       surface: Colors.white
     ),
@@ -45,40 +45,40 @@ final ThemeData appTheme = ThemeData.light().copyWith(
     floatingActionButtonTheme: FloatingActionButtonThemeData(
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
-        smallSizeConstraints: BoxConstraints.tight(Size.square(48)),
+        smallSizeConstraints: BoxConstraints.tight(const Size.square(48)),
         shape: const RoundedRectangleBorder(
-          borderRadius: const BorderRadius.all(
-            const Radius.circular(10)
+          borderRadius: BorderRadius.all(
+              Radius.circular(10)
           )
         )
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-            primary: CustomColors.Green,
-            padding: EdgeInsets.all(20.0),
-            textStyle:TextStyle(fontSize: 24)
+            primary: CustomColors.green,
+            padding: const EdgeInsets.all(20.0),
+            textStyle:const TextStyle(fontSize: 24)
         )
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-            primary: CustomColors.DarkGreen,
-            backgroundColor: CustomColors.LightGreen,
-            minimumSize: Size(double.infinity, 48),
-            padding: EdgeInsets.symmetric(vertical: 0.0),
+            primary: CustomColors.darkGreen,
+            backgroundColor: CustomColors.lightGreen,
+            minimumSize: const Size(double.infinity, 48),
+            padding: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12.0),
             ),
-            side: BorderSide(
+            side: const BorderSide(
               style: BorderStyle.none,
             )
         )
     ),
-    iconTheme: IconThemeData(
+    iconTheme: const IconThemeData(
       color: Colors.black87
     ),
     inputDecorationTheme: ThemeData.light().inputDecorationTheme.copyWith(
-      contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
-      border: OutlineInputBorder(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+      border: const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(12.0))
       )
     )

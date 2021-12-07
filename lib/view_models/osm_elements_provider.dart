@@ -14,9 +14,9 @@ class OSMElementProvider extends ChangeNotifier {
 
   final _osmElementQueryHandler = OSMElementQueryAPI();
 
-  final _loadingStopAreas = Set<StopArea>();
+  final _loadingStopAreas = <StopArea>{};
 
-  final _loadedStopAreas = Map<StopArea, OSMElementBundle>();
+  final _loadedStopAreas = <StopArea, OSMElementBundle>{};
 
   OSMElementProvider({
     required this.stopAreaDiameter
@@ -50,7 +50,7 @@ class OSMElementProvider extends ChangeNotifier {
       }
       catch(error) {
         // TODO: display error.
-        print(error);
+        debugPrint(error.toString());
       }
       finally {
         _loadingStopAreas.remove(stopArea);

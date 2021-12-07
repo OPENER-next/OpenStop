@@ -12,14 +12,16 @@ bool hasSeenOnboarding = false;
 Future <void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
 
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
   hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
-  print('hasSeenOnboarding $hasSeenOnboarding');
+  debugPrint('hasSeenOnboarding $hasSeenOnboarding');
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'OPENER next',
       theme: appTheme,
-      home: hasSeenOnboarding ? HomeScreen() : OnboardingScreen(),
+      home: hasSeenOnboarding ? const HomeScreen() : const OnboardingScreen(),
     );
   }
 }

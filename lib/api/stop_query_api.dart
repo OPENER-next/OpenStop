@@ -59,7 +59,7 @@ class StopQueryAPI {
     }
     catch(error) {
       if (retryCount < maxRetries) {
-        return Future.delayed(Duration(seconds: 1), () => _queryByBBox(southWest, northEast, retryCount + 1));
+        return Future.delayed(const Duration(seconds: 1), () => _queryByBBox(southWest, northEast, retryCount + 1));
       }
       rethrow;
     }
