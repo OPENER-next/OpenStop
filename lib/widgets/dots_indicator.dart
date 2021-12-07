@@ -59,6 +59,7 @@ class DotsIndicator extends AnimatedWidget {
     );
   }
 
+  @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

@@ -16,12 +16,12 @@ extension AnimationUtils on MapController {
     Duration duration = const Duration(milliseconds: 500),
     String? id,
   }) {
-    location ??= this.center;
+    location ??= center;
     zoom ??= this.zoom;
     rotation ??= this.rotation;
 
-    final latTween = Tween<double>(begin: this.center.latitude, end: location.latitude);
-    final lngTween = Tween<double>(begin: this.center.longitude, end: location.longitude);
+    final latTween = Tween<double>(begin: center.latitude, end: location.latitude);
+    final lngTween = Tween<double>(begin: center.longitude, end: location.longitude);
     final zoomTween = Tween<double>(begin: this.zoom, end: zoom);
     final rotationTween = Tween<double>(begin: this.rotation, end: rotation);
 
@@ -35,7 +35,7 @@ extension AnimationUtils on MapController {
     );
 
     animation.addListener(() {
-      this.moveAndRotate(
+      moveAndRotate(
         LatLng(latTween.evaluate(animation), lngTween.evaluate(animation)),
         zoomTween.evaluate(animation),
         rotationTween.evaluate(animation),
@@ -58,7 +58,7 @@ extension AnimationUtils on MapController {
     required LatLngBounds bounds,
     EdgeInsets padding = EdgeInsets.zero
   }) {
-    final centerZoom = this.centerZoomFitBounds(
+    final centerZoom = centerZoomFitBounds(
       bounds,
       options: FitBoundsOptions(
         maxZoom: 25,
@@ -66,7 +66,7 @@ extension AnimationUtils on MapController {
       )
     );
 
-    this.animateTo(
+    animateTo(
       ticker: ticker,
       location: centerZoom.center,
       // round zoom level so zoom will always stick to integer levels

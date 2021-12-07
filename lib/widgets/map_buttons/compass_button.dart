@@ -22,6 +22,7 @@ class CompassButton extends AnimatedWidget {
     Key? key
   }) : super(listenable: listenable, key: key);
 
+  @override
   Widget build(BuildContext context) {
     return FloatingActionButton.small(
         onPressed: onPressed,

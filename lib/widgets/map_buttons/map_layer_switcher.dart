@@ -185,6 +185,7 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerPr
   }
 
 
+  @override
   Widget build(BuildContext context) {
     return FloatingActionButton.small(
       child: _isActive

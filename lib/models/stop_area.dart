@@ -15,7 +15,9 @@ class StopArea {
 
   late final double diameter;
 
-  StopArea(Iterable<Stop> stops) : stops = Set.unmodifiable(stops) {
+  StopArea(
+    Iterable<Stop> stops
+  ) : stops = Set.unmodifiable(stops) {
     bounds = _calculateBounds();
     diameter = _calculateDiameter();
   }
@@ -24,7 +26,7 @@ class StopArea {
 
   LatLngBounds _calculateBounds() {
     return LatLngBounds.fromPoints(
-      this.stops.map<LatLng>((stop) => stop.location).toList(growable: false)
+      stops.map<LatLng>((stop) => stop.location).toList(growable: false)
     );
   }
 

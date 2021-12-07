@@ -57,9 +57,9 @@ class AnimatedDualSwitcher extends StatefulWidget {
 }
 
 class _AnimatedDualSwitcherState extends State<AnimatedDualSwitcher> with TickerProviderStateMixin {
-  final _newWidgets = Map<_CustomDualTransitionBuilder, AnimationController>();
+  final _newWidgets = <_CustomDualTransitionBuilder, AnimationController>{};
 
-  final _oldWidgets = Map<_CustomDualTransitionBuilder, AnimationController>();
+  final _oldWidgets = <_CustomDualTransitionBuilder, AnimationController>{};
 
   @override
   void initState() {

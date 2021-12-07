@@ -50,8 +50,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     mapController: _mapController
   );
 
-  late final Future<List<Question>> _questionCatalog = parseQuestions();
-
   @override
   void initState() {
     super.initState();
@@ -157,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   // only show controls when map creation finished
                   FutureBuilder(
                     future: _mapController.onReady,
-                    builder: (BuildContext context, AsyncSnapshot<Null> snapshot) {
+                    builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
                       // only show overlay when question history has no active entry
                       return Consumer<QuestionnaireProvider>(
                         builder: (context, questionnaire,child) {

@@ -198,7 +198,7 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
 
   /// Update the ValueNotifier that contains the url from which tiles are fetched.
 
-  void _changeTileProvider(MapLayerSwitcherEntry) {
-    context.read<MapViewModel>().urlTemplate = MapLayerSwitcherEntry.key;
+  void _changeTileProvider(MapLayerSwitcherEntry entry) {
+    context.read<MapViewModel>().urlTemplate = entry.key;
   }
 }

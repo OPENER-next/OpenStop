@@ -26,6 +26,7 @@ class StringAnswer extends Answer<String> {
   }) : super(questionValues: questionValues, answer: answer);
 
 
+  @override
   Map<String, String> toTagMap() {
     final tags = questionValues.values.first.osmTags;
 
@@ -46,6 +47,7 @@ class NumberAnswer extends Answer<double> {
   }) : super(questionValues: questionValues, answer: answer);
 
 
+  @override
   Map<String, String> toTagMap() {
     final tags = questionValues.values.first.osmTags;
 
@@ -66,6 +68,7 @@ class BoolAnswer extends Answer<bool> {
   }) : super(questionValues: questionValues, answer: answer);
 
 
+  @override
   Map<String, String> toTagMap() {
     final tags = questionValues[answer.toString()]?.osmTags;
 
@@ -85,6 +88,7 @@ class ListAnswer extends Answer<String> {
   }) : super(questionValues: questionValues, answer: answer);
 
 
+  @override
   Map<String, String> toTagMap() {
     final tags = questionValues[answer]?.osmTags;
 

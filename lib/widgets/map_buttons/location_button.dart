@@ -46,6 +46,7 @@ class _LocationButtonState extends AnimatedWidgetBaseState<LocationButton> {
   }
 
 
+  @override
   Widget build(BuildContext context) {
     return FloatingActionButton.small(
       backgroundColor: _colorTween?.evaluate(animation),

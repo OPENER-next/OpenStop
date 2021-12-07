@@ -28,12 +28,12 @@ extension LatLngBoundsUtils on LatLngBounds {
     const distance = Distance();
     return LatLngBounds(
       distance.offset(
-        distance.offset(this.northWest, size, 0),
+        distance.offset(northWest, size, 0),
         size,
         270
       ),
       distance.offset(
-        distance.offset(this.southEast, size, 180),
+        distance.offset(southEast, size, 180),
         size,
         90
       ),

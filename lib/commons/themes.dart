@@ -64,7 +64,7 @@ final ThemeData appTheme = ThemeData.light().copyWith(
             primary: CustomColors.darkGreen,
             backgroundColor: CustomColors.lightGreen,
             minimumSize: const Size(double.infinity, 48),
-            padding: const EdgeInsets.symmetric(vertical: 0.0),
+            padding: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12.0),
             ),

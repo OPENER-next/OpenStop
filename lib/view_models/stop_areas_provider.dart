@@ -41,7 +41,7 @@ class StopAreasProvider extends ChangeNotifier {
 
   final _stopAPI = StopQueryAPI();
 
-  final _queryRecords = Set<CellIndex>();
+  final _queryRecords = <CellIndex>{};
 
   final _isLoading = ValueNotifier(false);
 
@@ -112,8 +112,8 @@ class StopAreasProvider extends ChangeNotifier {
 
     // calculate relative extend
     final extend = LatLng(
-      cameraViewBoxHeight * this.viewBoxExtend,
-      cameraViewBoxWidth * this.viewBoxExtend
+      cameraViewBoxHeight * viewBoxExtend,
+      cameraViewBoxWidth * viewBoxExtend
     );
 
     return LatLngBounds(
