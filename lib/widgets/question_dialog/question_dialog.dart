@@ -21,14 +21,16 @@ class QuestionDialog extends StatefulWidget {
 
 class _QuestionDialogState extends State<QuestionDialog> {
 
-  Answer? _answer;
+  final _answer = ValueNotifier<Answer?>(null);
 
 
   @override
   Widget build(BuildContext context) {
     final questionnaire = context.watch<QuestionnaireProvider>();
 
-    return AnimatedSwitcher(
+    return ValueListenableProvider<Answer?>.value(
+      value: _answer,
+      child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 500),
         reverseDuration: const Duration(milliseconds: 300),
         switchInCurve: Curves.easeInOutCubicEmphasized,
@@ -117,27 +119,33 @@ class _QuestionDialogState extends State<QuestionDialog> {
               )
             ],
         )
+      )
     );
   }
 
 
   void _handleChange(Answer? answer) {
-    _answer = answer;
+    _answer.value = answer;
   }
 
 
   void _handleBack() {
     final questionnaire = context.read<QuestionnaireProvider>();
+    debugPrint('Previous Answer: ${_answer.value?.answer}');
+    questionnaire.update(_answer.value);
     questionnaire.previous();
-    _answer = questionnaire.activeEntry?.answer;
+    _answer.value = questionnaire.activeEntry?.answer;
+    debugPrint('Current Answer: ${_answer.value?.answer}');
   }
 
 
   void _handleNext() {
     final questionnaire = context.read<QuestionnaireProvider>();
-    questionnaire.update(_answer);
+    debugPrint('Previous Answer: ${_answer.value?.answer}');
+    questionnaire.update(_answer.value);
     questionnaire.next();
-    _answer = questionnaire.activeEntry?.answer;
+    _answer.value = questionnaire.activeEntry?.answer;
+    debugPrint('Current Answer: ${_answer.value?.answer}');
   }
 }
 
