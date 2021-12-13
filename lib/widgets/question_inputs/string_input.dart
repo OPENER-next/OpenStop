@@ -39,7 +39,7 @@ class _StringInputState extends State<StringInput> {
               hintText: 'Hier eintragen...',
               counter: const Offstage(),
               suffixIcon: IconButton(
-                onPressed: _controller.clear,
+                onPressed: _handleClear,
                 color: Colors.black87,
                 icon: const Icon(Icons.clear_rounded),
               )
@@ -59,7 +59,13 @@ class _StringInputState extends State<StringInput> {
   }
 
 
-  void _handleChange(String value) {
+  void _handleClear() {
+    _controller.clear();
+    _handleChange();
+  }
+
+
+  void _handleChange([String value = '']) {
     final answer = value.isNotEmpty
       ? StringAnswer(
         questionValues: widget.questionInput.values,

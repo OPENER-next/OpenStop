@@ -49,7 +49,7 @@ class _NumberInputState extends State<NumberInput> {
                         style: Theme.of(context).textTheme.subtitle1
                     ),
                     IconButton(
-                      onPressed: _controller.clear,
+                      onPressed: _handleClear,
                       color: Colors.black87,
                       icon: const Icon(Icons.clear_rounded),
                     )
@@ -85,7 +85,13 @@ class _NumberInputState extends State<NumberInput> {
   bool _isValid(double value) => value >= minValue && value <= maxValue;
 
 
-  void _handleChange(String value) {
+  void _handleClear() {
+    _controller.clear();
+    _handleChange();
+  }
+
+
+  void _handleChange([String value = '']) {
     value = value.replaceAll(',', '.');
     Answer? answer;
 
