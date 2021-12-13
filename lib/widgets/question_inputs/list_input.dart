@@ -15,13 +15,9 @@ class ListInput extends QuestionInputView {
 class _ListInputState extends State<ListInput> {
   String? _selectedKey;
 
-  void _toogleExpand(String entry) {
+  void _toggleExpand(String entry) {
     setState(() {
-      if (_selectedKey == entry) {
-        _selectedKey = null;
-      } else {
-        _selectedKey = entry;
-      }
+      _selectedKey = _selectedKey == entry ? null : entry;
     });
   }
 
@@ -32,13 +28,28 @@ class _ListInputState extends State<ListInput> {
       children: widget.questionInput.values.entries.map<Widget>((entry) {
         return ListInputItem(
           item: entry.value,
-          onTap: () => _toogleExpand(entry.key),
+          onTap: () {
+            _toggleExpand(entry.key);
+            _handleChange();
+          },
           active: _selectedKey == entry.key,
         );
       }).toList(),
     );
   }
+
+  void _handleChange() {
+    final answer = _selectedKey != null
+      ? ListAnswer(
+        questionValues: widget.questionInput.values,
+        answer: _selectedKey!
+      )
+      : null;
+
+    widget.onChange?.call(answer);
+  }
 }
+
 
 class ListInputItem extends StatefulWidget {
   final QuestionInputValue item;

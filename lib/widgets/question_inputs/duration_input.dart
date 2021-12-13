@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
 import '/models/answer.dart';
-import '/widgets/question_inputs/question_input_view.dart';
 import '/models/question_input.dart';
+import '/widgets/question_inputs/question_input_view.dart';
 
 class DurationInput extends QuestionInputView {
   const DurationInput(QuestionInput questionInput,
@@ -13,60 +14,48 @@ class DurationInput extends QuestionInputView {
 }
 
 class _DurationInputState extends State<DurationInput> {
-  final List<TimeUnit> _unitList = [];
+  Map<TimeUnit, int> _unitValueMap = const {};
 
-  void initUnits() {
-    final units = widget.questionInput.unit.split(',').map((e) => e.split(':'));
-    for (final element in units) {
-      if (element[0] == 'd') {
-        _unitList.add(TimeUnit(
-            unit: 'Tage',
-            max: 366,
-            steps: int.parse(element[1]))
-        );
-      } else if (element[0] == 'h') {
-        _unitList.add(TimeUnit(
-          unit: 'Stunden',
-          max: 24,
-          steps: int.parse(element[1]))
-        );
-      } else if (element[0] == 'm') {
-        _unitList.add(TimeUnit(
-          unit: 'Minuten',
-          max: 60,
-          steps: int.parse(element[1])),
-        );
-      } else if (element[0] == 's') {
-        _unitList.add(TimeUnit(
-          unit: 'Sekunden',
-          max: 60,
-          steps: int.parse(element[1])),
-        );
-      }
+  void _initUnits() {
+    final Map<TimeUnit, int> newUnitValueMap = {};
+    final unitStrings = widget.questionInput.unit.split(',');
+
+    for (final unitString in unitStrings) {
+      final key = TimeUnit.fromString(unitString);
+      newUnitValueMap[key] = _unitValueMap[key] ?? 0;
     }
+    _unitValueMap = newUnitValueMap;
   }
+
 
   List<Widget> _buildChildren() {
     final List<Widget> widgets = [];
 
-    final entry = _unitList.first;
+    final entry = _unitValueMap.keys.first;
     widgets.add(Flexible(
       child: TimeScroller(
-        timeUnit: entry.unit,
+        timeUnitLabel: entry.label,
         timeUnitMax: entry.max,
         timeUnitSteps: entry.steps,
+        onChange: (value) {
+          _unitValueMap[entry] = value;
+          _handleChange();
+        }
       ),
     ));
 
-    for (var i = 1; i < _unitList.length; i++) {
+    for (final entry in _unitValueMap.keys.skip(1)) {
       widgets.add(const VerticalDivider(color: Colors.transparent));
 
-      final entry = _unitList[i];
       widgets.add(Flexible(
         child: TimeScroller(
-          timeUnit: entry.unit,
+          timeUnitLabel: entry.label,
           timeUnitMax: entry.max,
           timeUnitSteps: entry.steps,
+          onChange: (value) {
+            _unitValueMap[entry] = value;
+            _handleChange();
+          }
         ),
       ));
     }
@@ -76,15 +65,14 @@ class _DurationInputState extends State<DurationInput> {
 
   @override
   void initState() {
-    initUnits();
+    _initUnits();
     super.initState();
   }
 
   @override
   void didUpdateWidget(covariant DurationInput oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _unitList.clear();
-    initUnits();
+    _initUnits();
   }
 
   @override
@@ -96,25 +84,126 @@ class _DurationInputState extends State<DurationInput> {
       ),
     );
   }
+
+  void _handleChange() {
+    final duration = Duration(
+      days: _getValueByUnit('d'),
+      hours: _getValueByUnit('h'),
+      minutes: _getValueByUnit('m'),
+      seconds: _getValueByUnit('s'),
+    );
+
+    // if all values are zero return null
+    final answer = duration != Duration.zero
+      ? DurationAnswer(
+        questionValues: widget.questionInput.values,
+        answer: duration
+      )
+      : null;
+
+    widget.onChange?.call(answer);
+  }
+
+
+  int _getValueByUnit(String unitKey) {
+     try {
+       return _unitValueMap.entries.firstWhere(
+         (entry) => entry.key.key == unitKey
+        ).value;
+     }
+     catch (e) {
+       return 0;
+     }
+  }
 }
+
 
 class TimeUnit {
-  String unit;
-  int max;
-  int steps;
+  final String key;
+  final String label;
+  final int max;
+  final int steps;
 
-  TimeUnit({required this.unit, required this.max, required this.steps});
+  const TimeUnit({
+    required this.key,
+    required this.label,
+    required this.max,
+    required this.steps
+  });
+
+  /// A single time unit string is composed of a unit identifier, a colon separator and a number that indicates the step size:
+  /// <identifier>:<number of steps>
+
+  factory TimeUnit.fromString(String unitString) {
+    final unitParts = unitString.split(':');
+
+    final unitKey = unitParts[0];
+    final unitSteps = int.parse(unitParts[1]);
+    final String unitName;
+    final int unitMax;
+
+    switch (unitKey) {
+      case 'd':
+        unitName = 'Tage';
+        unitMax = 366;
+      break;
+      case 'h':
+        unitName = 'Stunden';
+        unitMax = 24;
+      break;
+      case 'm':
+        unitName = 'Minuten';
+        unitMax = 60;
+      break;
+      case 's':
+        unitName = 'Sekunden';
+        unitMax = 60;
+      break;
+      default:
+        unitName = 'Unknown';
+        unitMax = 0;
+    }
+
+    return TimeUnit(
+      key: unitKey,
+      label: unitName,
+      max: unitMax,
+      steps: unitSteps
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is TimeUnit &&
+      other.key == key &&
+      other.label == label &&
+      other.max == max &&
+      other.steps == steps;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^
+      label.hashCode ^
+      max.hashCode ^
+      steps.hashCode;
+  }
 }
 
+
 class TimeScroller extends StatefulWidget {
-  final String timeUnit;
+  final String timeUnitLabel;
   final int timeUnitMax;
   final int timeUnitSteps;
+  final Function(int value)? onChange;
 
   const TimeScroller({
-    required this.timeUnit,
+    required this.timeUnitLabel,
     required this.timeUnitMax,
     required this.timeUnitSteps,
+    this.onChange,
     Key? key,
   }) : super(key: key);
 
@@ -149,8 +238,7 @@ class _TimeScrollerState extends State<TimeScroller> {
           itemExtent: 30,
           controller: FixedExtentScrollController(),
           physics: const FixedExtentScrollPhysics(),
-          onSelectedItemChanged: (int index) => setState(() => _selected =
-              (-index) % (widget.timeUnitMax ~/ widget.timeUnitSteps)),
+          onSelectedItemChanged: _handleChange,
           childDelegate: ListWheelChildBuilderDelegate(
               builder: (BuildContext context, int index) {
             index = (-index) % (widget.timeUnitMax ~/ widget.timeUnitSteps);
@@ -175,9 +263,18 @@ class _TimeScrollerState extends State<TimeScroller> {
         child: Container(
             color: Colors.white,
             padding: const EdgeInsets.symmetric(horizontal: 4.0),
-            child: Text(widget.timeUnit,
+            child: Text(widget.timeUnitLabel,
                 style: Theme.of(context).textTheme.caption)),
       )
     ]);
+  }
+
+
+  void _handleChange(int index) {
+    setState(() {
+      _selected = (-index) % (widget.timeUnitMax ~/ widget.timeUnitSteps);
+    });
+
+    widget.onChange?.call(_selected * widget.timeUnitSteps);
   }
 }

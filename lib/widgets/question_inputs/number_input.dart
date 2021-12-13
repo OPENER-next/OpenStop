@@ -36,6 +36,7 @@ class _NumberInputState extends State<NumberInput> {
         valueListenable: _controller,
         builder: (context, TextEditingValue value, __) {
           return TextFormField(
+            onChanged: _handleChange,
             controller: _controller,
             decoration: InputDecoration(
                 hintText: 'Hier eintragen...',
@@ -61,9 +62,9 @@ class _NumberInputState extends State<NumberInput> {
                 return null;
               }
               else {
-                text=text.replaceAll(',', '.');
+                text = text.replaceAll(',', '.');
                 final value = double.parse(text);
-                if (value < minValue || value > maxValue) {
+                if (!_isValid(value)) {
                   return 'Wert muss zwischen $minValue und $maxValue liegen';
                 }
               }
@@ -78,5 +79,26 @@ class _NumberInputState extends State<NumberInput> {
           );
         }
         );
+  }
+
+
+  bool _isValid(double value) => value >= minValue && value <= maxValue;
+
+
+  void _handleChange(String value) {
+    value = value.replaceAll(',', '.');
+    Answer? answer;
+
+    if (value.isNotEmpty) {
+      final numberValue = double.parse(value);
+      if (_isValid(numberValue)) {
+        answer = NumberAnswer(
+          questionValues: widget.questionInput.values,
+          answer: numberValue
+        );
+      }
+    }
+
+    widget.onChange?.call(answer);
   }
 }

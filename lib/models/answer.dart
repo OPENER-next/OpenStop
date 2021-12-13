@@ -99,3 +99,30 @@ class ListAnswer extends Answer<String> {
     return Map.of(tags);
   }
 }
+
+
+class DurationAnswer extends Answer<Duration> {
+  DurationAnswer({
+    required Map<String, QuestionInputValue> questionValues,
+    required Duration answer
+  }) : super(questionValues: questionValues, answer: answer);
+
+
+  @override
+  Map<String, String> toTagMap() {
+    final tags = questionValues.values.first.osmTags;
+    return tags.map((key, value) {
+      final hours = answer.inHours.toString().padLeft(2, '0');
+      final minutes = (answer.inMinutes % 60).toString().padLeft(2, '0');
+      final seconds = (answer.inSeconds % 60).toString().padLeft(2, '0');
+
+      return MapEntry(
+        key,
+        value.replaceAll(
+          RegExp(r'%s'),
+         '$hours:$minutes:$seconds'
+        )
+      );
+    });
+  }
+}

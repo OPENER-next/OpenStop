@@ -32,6 +32,7 @@ class _StringInputState extends State<StringInput> {
         valueListenable: _controller,
         builder: (context, TextEditingValue text, __) {
           return TextFormField(
+            onChanged: _handleChange,
             controller: _controller,
             maxLength: maxValue,
             decoration: InputDecoration(
@@ -55,5 +56,17 @@ class _StringInputState extends State<StringInput> {
           );
         }
     );
+  }
+
+
+  void _handleChange(String value) {
+    final answer = value.isNotEmpty
+      ? StringAnswer(
+        questionValues: widget.questionInput.values,
+        answer: value
+      )
+      : null;
+
+    widget.onChange?.call(answer);
   }
 }
