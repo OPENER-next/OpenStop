@@ -7,6 +7,7 @@ import 'package:osm_api/osm_api.dart';
 import 'package:provider/provider.dart';
 
 import '/models/question.dart';
+import '/widgets/map_markers/osm_element_marker.dart';
 
 class OsmElementLayer extends StatefulWidget {
   final Iterable<OSMElement> osmElements;
@@ -29,6 +30,14 @@ class OsmElementLayer extends StatefulWidget {
 }
 
 class _OsmElementLayerState extends State<OsmElementLayer> {
+  static Widget _animateInOutBuilder(BuildContext context, Animation<double> animation, Widget child) {
+    return Transform.scale(
+      scale: animation.value,
+      alignment: Alignment.bottomCenter,
+      child: child
+    );
+  }
+
   final _random = Random();
 
   late List<AnimatedMarker> _markers;
@@ -89,20 +98,15 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
     return AnimatedMarker(
       key: ValueKey(osmNode),
       point: LatLng(osmNode.lat, osmNode.lon),
+      size: const Size.fromRadius(30),
+      anchor: Alignment.bottomCenter,
+      animateInBuilder: _animateInOutBuilder,
+      animateOutBuilder: _animateInOutBuilder,
       animateInDelay: _getRandomDelay(),
       animateOutDelay: _getRandomDelay(),
-      child: GestureDetector(
+      child: OsmElementMarker(
         onTap: () => widget.onOsmElementTap?.call(osmNode),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.blue,
-            border: Border.all(
-              color: Colors.white,
-              width: 3
-            )
-          ),
-        ),
+        icon: Icons.ac_unit_rounded
       ),
     );
   }
