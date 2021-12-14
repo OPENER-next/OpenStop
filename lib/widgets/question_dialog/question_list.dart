@@ -80,7 +80,9 @@ class _QuestionListState extends State<QuestionList> {
 
   double _calcBottomOffset() {
     double offsetBottom = 0;
-    for (var i = 0; i < min(widget.index, _sizes.length); i++) {
+    final max = min(widget.index + 1, _sizes.length);
+
+    for (var i = 1; i < max; i++) {
       offsetBottom -= _sizes[i].height;
     }
     return offsetBottom;
@@ -112,18 +114,19 @@ class _QuestionListState extends State<QuestionList> {
                   children: List.generate(widget.children.length, (index) {
                     final isActive = index == widget.index;
                     final offsetBottom = totalHeight - accumulatedOffset;
+                    // all items that currently do not have a size
+                    final isOffstage = index >= _sizes.length;
 
-                    var isOffstage = true;
-
-                    if (index < _sizes.length) {
-                      accumulatedOffset += _sizes[index].height;
-                      isOffstage = false;
+                    final nextIndex = index + 1;
+                    if (nextIndex < _sizes.length) {
+                      accumulatedOffset += _sizes[nextIndex].height;
                     }
 
                     return Positioned(
                       bottom: offsetBottom,
                       left: 0,
                       right: 0,
+                      // layout new items but hide them for the first frame so we can get the height after wards
                       child: Offstage(
                         offstage: isOffstage,
                         child: IgnorePointer(
