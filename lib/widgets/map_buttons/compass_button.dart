@@ -25,6 +25,7 @@ class CompassButton extends AnimatedWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.small(
+        heroTag: null,
         onPressed: onPressed,
         shape: const CircleBorder(),
         child: Transform.rotate(

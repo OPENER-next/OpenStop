@@ -188,6 +188,7 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerPr
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.small(
+      heroTag: null,
       child: _isActive
         ? const Icon(
           Icons.layers_clear_rounded,

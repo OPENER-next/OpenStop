@@ -72,6 +72,7 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       FloatingActionButton.small(
+                        heroTag: null,
                         child: const Icon(
                           Icons.menu,
                           color: Colors.black,

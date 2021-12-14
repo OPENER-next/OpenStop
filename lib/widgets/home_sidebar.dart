@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+// Screens
+import '/screens/about.dart';
+
 /// Builds the drawer/sidebar providing access to additional settings.
 
 class HomeSidebar extends StatefulWidget {
@@ -49,7 +52,13 @@ class _HomeSidebarState extends State<HomeSidebar> {
                 color: Colors.black54
               ),
               title: const Text('Über'),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const About())
+                );
+              },
             ),
             ListTile(
               leading: const Icon(Icons.feedback,
