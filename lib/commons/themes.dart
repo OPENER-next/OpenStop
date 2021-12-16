@@ -10,7 +10,7 @@ final ThemeData appTheme = ThemeData.light().copyWith(
     colorScheme: ThemeData.light().colorScheme.copyWith(
       primary: CustomColors.green,
       secondary: CustomColors.lightGreen,
-      onPrimary: Colors.white,
+      onPrimary: Colors.black87,
       onSecondary: CustomColors.darkGreen,
       background: Colors.white,
       surface: Colors.white
