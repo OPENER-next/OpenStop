@@ -15,6 +15,10 @@ final ThemeData appTheme = ThemeData.light().copyWith(
       background: Colors.white,
       surface: Colors.white
     ),
+    appBarTheme: const AppBarTheme(
+        elevation: 0.0,
+        backgroundColor: Colors.white10,
+    ),
     textTheme: const TextTheme(
         subtitle1: TextStyle(
           color: Colors.black87
