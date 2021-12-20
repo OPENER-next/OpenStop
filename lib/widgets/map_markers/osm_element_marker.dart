@@ -18,23 +18,45 @@ class OsmElementMarker extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: CustomPaint(
-        painter: MarkerPinPainter(
-          color: Theme.of(context).colorScheme.primary,
-          strokeColor: Colors.white,
-          icon: icon
-        ),
-      ),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: FractionalTranslation(
+              translation: const Offset(0, 0.5),
+              child: FractionallySizedBox(
+                widthFactor: 0.5,
+                heightFactor: 0.175,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 4
+                      )
+                    ]
+                  )
+                ),
+              ),
+            )
+          ),
+          CustomPaint(
+            painter: MarkerPinPainter(
+              color: Theme.of(context).colorScheme.primary,
+              strokeColor: Colors.white,
+              icon: icon
+            ),
+          ),
+        ],
+      )
     );
   }
 }
 
 
 class MarkerPinPainter extends CustomPainter {
-  static const skewX = 0.5;
-  static const scaleY = 0.4;
-  static const scaleX = 1.0;
-
   final Color color;
   final double strokeWidth;
   final Color strokeColor;
@@ -68,26 +90,6 @@ class MarkerPinPainter extends CustomPainter {
       )
       ..lineTo(circleCenter.dx, size.height)
       ..close();
-
-    final transformedPath = path.transform(Float64List.fromList([
-      scaleX, 0, 0, 0,
-      skewX, scaleY, 0, 0,
-      0, 0, 1, 0,
-      0, 0, 0, 1
-    ]));
-
-    // TODO: The shadow currently overflows the canvas rect.
-    // While this works on android Flutter doc explicitly states that this is not guaranteed to work on every platform.
-    // Therefore figure out a good solution to draw the shadow (for example by using a stack and a separate painter)
-
-    canvas.drawShadow(
-      transformedPath.shift(Offset(
-        -size.width * skewX + size.width/2 * (1 - scaleX),
-        size.height * (1 - scaleY))
-      ),
-      Colors.black87,
-      2.0, true
-    );
 
     // paint outer border with tip
     canvas.drawPath(
