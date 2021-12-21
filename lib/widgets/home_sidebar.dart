@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 // Screens
 import '/screens/about.dart';
+import '/screens/settings.dart';
 
 /// Builds the drawer/sidebar providing access to additional settings.
 
@@ -46,7 +47,13 @@ class _HomeSidebarState extends State<HomeSidebar> {
                 color: Colors.black54
               ),
               title: const Text('Einstellungen'),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const Settings())
+                );
+              },
             ),
             ListTile(
               leading: const Icon(
