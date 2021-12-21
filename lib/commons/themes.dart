@@ -10,18 +10,22 @@ final ThemeData appTheme = ThemeData.light().copyWith(
     colorScheme: ThemeData.light().colorScheme.copyWith(
       primary: CustomColors.green,
       secondary: CustomColors.lightGreen,
-      onPrimary: Colors.black87,
+      onPrimary: Colors.white,
       onSecondary: CustomColors.darkGreen,
       background: Colors.white,
       surface: Colors.white
     ),
     appBarTheme: const AppBarTheme(
-        elevation: 0.0,
-        backgroundColor: Colors.white10,
+        elevation: 2.0,
+        backgroundColor: Colors.white70,
+        foregroundColor: Colors.black87
     ),
     textTheme: const TextTheme(
         subtitle1: TextStyle(
           color: Colors.black87
+        ),
+        headline6: TextStyle(
+          color: Colors.black87,
         ),
         headline5: TextStyle(
             color: Colors.black87,
