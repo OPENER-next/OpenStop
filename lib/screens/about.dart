@@ -26,16 +26,11 @@ class _AboutState extends State<About> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Über OPENER next'),
-          ),
+      appBar: AppBar(
+        title: const Text('Über'),
+      ),
       body: FutureBuilder<PackageInfo>(
         future: _packageInfo,
         builder: (BuildContext context, AsyncSnapshot<PackageInfo> snapshot) {
@@ -43,53 +38,41 @@ class _AboutState extends State<About> {
             return Scrollbar(
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
-                padding: EdgeInsets.only(bottom: MediaQuery
-                    .of(context)
-                    .padding
-                    .bottom),
+                padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
                 child: Column(
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(20.0),
-                      child: Image.asset('assets/app_icon_android.png',
-                        height: 120,),
+                      child: Image.asset(
+                        'assets/app_icon_android.png',
+                        height: 120,
+                      ),
                     ),
                     const Padding(
                       padding: EdgeInsets.only(bottom: 20.0),
                       child: Text(
                         '"DIE Erfassungs-App für Barrieredaten im ÖPV"',
-                        style: TextStyle(
-                            fontStyle: FontStyle.italic
-                        ),
+                        style: TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ),
                     ListTile(
                       dense: true,
-                      leading: const Icon(
-                          Icons.info,
-                          color: Colors.black54
-                      ),
+                      leading: const Icon(Icons.info, color: Colors.black54),
                       title: const Text('Version'),
-                      subtitle: Text('${snapshot.data?.version}+${snapshot.data?.buildNumber}'),
+                      subtitle: Text('${snapshot.data!.version}+${snapshot.data!.buildNumber}'),
                       onTap: () {},
                     ),
                     ListTile(
                       dense: true,
-                      leading: const Icon(
-                          Icons.supervisor_account,
-                          color: Colors.black54
-                      ),
+                      leading: const Icon(Icons.supervisor_account, color: Colors.black54),
                       title: const Text('Autoren'),
-                      subtitle: const Text('OPENER next Contributors'),
+                      subtitle: Text('${snapshot.data!.appName} Mitwirkende'),
                       onTap: () => _launchUrl(_urlContributors),
                     ),
                     ListTile(
                       dense: true,
                       isThreeLine: true,
-                      leading: const Icon(
-                          Icons.lightbulb,
-                          color: Colors.black54
-                      ),
+                      leading: const Icon(Icons.lightbulb, color: Colors.black54),
                       title: const Text('Idee'),
                       subtitle: const Text('Technische Universität Chemnitz\n'
                           'Professur Schaltkreis- und Systementwurf'),
@@ -97,53 +80,39 @@ class _AboutState extends State<About> {
                     ),
                     ListTile(
                       dense: true,
-                      leading: const Icon(
-                          Icons.code,
-                          color: Colors.black54
-                      ),
+                      leading: const Icon(Icons.code, color: Colors.black54),
                       title: const Text('Quellcode'),
                       subtitle: const Text('https://github.com/OPENER-next'),
                       onTap: () => _launchUrl(_urlCode),
                     ),
                     ListTile(
                       dense: true,
-                      leading: const Icon(
-                          Icons.text_snippet,
-                          color: Colors.black54
-                      ),
+                      leading: const Icon(Icons.text_snippet, color: Colors.black54),
                       title: const Text('Lizenz'),
                       subtitle: const Text('GPL-3.0'),
                       onTap: () => _launchUrl(_urlLicence),
                     ),
                     ListTile(
                       dense: true,
-                      leading: const Icon(
-                          Icons.privacy_tip,
-                          color: Colors.black54
-                      ),
+                      leading: const Icon(Icons.privacy_tip, color: Colors.black54),
                       title: const Text('Datenschutzerklärung'),
-                      onTap: () =>
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const PrivacyPolicy(),
-                              )
-                          ),
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const PrivacyPolicy(),
+                          )
+                      ),
                     ),
                     ListTile(
                       dense: true,
-                      leading: const Icon(
-                          Icons.contact_page,
-                          color: Colors.black54
-                      ),
+                      leading: const Icon(Icons.contact_page, color: Colors.black54),
                       title: const Text('Nutzungsbedingungen'),
-                      onTap: () =>
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const TermsOfUse(),
-                              )
-                          ),
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const TermsOfUse(),
+                          )
+                      ),
                     ),
                     Container(
                       color: Colors.white,
@@ -155,17 +124,14 @@ class _AboutState extends State<About> {
                           Flexible(
                               flex: 1,
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0),
+                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                                 child: Image.asset(
                                     'assets/logos/BMVI_Fz_2017_Office_Farbe_de.png'),
-                              )
-                          ),
+                              )),
                           Flexible(
                               flex: 1,
                               child: Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    20.0, 50.0, 20.0, 50.0),
+                                padding: const EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 50.0),
                                 child: Image.asset(
                                     'assets/logos/mFUND_Logo_sRGB.png'),
                               )
@@ -182,35 +148,32 @@ class _AboutState extends State<About> {
               child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    const Icon(
-                        Icons.error_outline_outlined,
-                        color: Colors.black54,
-                        size: 60
-                    ),
+                    const Icon(Icons.error_outline_outlined,
+                        color: Colors.black54, size: 60),
                     Padding(
                       padding: const EdgeInsets.only(top: 16),
                       child: Text('Error: ${snapshot.error}'),
+                )
+              ]
+              ),
+            );
+          } else {
+            return Center(
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const <Widget>[
+                    SizedBox(
+                      width: 60,
+                      height: 60,
+                      child: CircularProgressIndicator(),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 16),
+                      child: Text('Rufe Informationen ab...'),
                     )
                   ]
               ),
             );
-          } else {
-              return Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                    children: const <Widget>[
-                      SizedBox(
-                        width: 60,
-                        height: 60,
-                        child: CircularProgressIndicator(),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 16),
-                        child: Text('Rufe Informationen ab...'),
-                      )
-                    ]
-                ),
-              );
           }
         },
       ),
