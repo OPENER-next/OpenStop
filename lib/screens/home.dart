@@ -9,6 +9,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:osm_api/osm_api.dart';
 import 'package:provider/provider.dart';
 
+import '/view_models/incomplete_osm_elements_provider.dart';
 import '/view_models/questionnaire_provider.dart';
 import '/view_models/osm_elements_provider.dart';
 import '/view_models/map_view_model.dart';
@@ -82,120 +83,138 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        FutureProvider(
-          create: (_) => parseQuestions(),
-          initialData: const <Question>[],
-          lazy: false,
-        ),
-        ChangeNotifierProvider(create: (_) => QuestionnaireProvider()),
-        ChangeNotifierProvider.value(value: _cameraTracker),
-        ChangeNotifierProvider.value(value: _stopAreasProvider),
-        ChangeNotifierProvider(create: (_) => OSMElementProvider(
-          stopAreaDiameter: _stopAreaDiameter
-        )),
-        ChangeNotifierProvider(create: (_) => MapViewModel(
-          urlTemplate: 'https://osm-2.nearest.place/retina/{z}/{x}/{y}.png'
-        )),
-        Provider.value(value: _mapController),
-      ],
-      child: Scaffold(
-        drawer: const HomeSidebar(),
-        // use builder to get scaffold context
-        body: Builder(builder: (context) =>
-          Stack(
-            children: [
-              FlutterMap(
-                mapController: _mapController,
-                options: MapOptions(
-                  onTap: (position, location) => _closeQuestionDialog(context),
-                  enableMultiFingerGestureRace: true,
-                  center: LatLng(50.8144951, 12.9295576),
-                  zoom: 15.0,
-                ),
-                children: [
-                  Consumer<MapViewModel>(
-                    builder: (context, value, child) {
-                      return TileLayerWidget(
-                        options: TileLayerOptions(
-                          overrideTilesWhenUrlChanges: true,
-                          urlTemplate: value.urlTemplate,
-                          minZoom: value.minZoom,
-                          maxZoom: value.maxZoom,
-                          tileProvider: NetworkTileProvider(),
-                        ),
-                      );
-                    }
-                  ),
-                  Consumer2<StopAreasProvider, OSMElementProvider>(
-                    builder: (context, stopAreaProvider, osmElementProvider, child) {
-                      return StopAreaLayer(
-                        stopAreas: stopAreaProvider.stopAreas,
-                        loadingStopAreas: osmElementProvider.loadingStopAreas,
-                        stopAreaDiameter: stopAreaProvider.stopAreaDiameter,
-                        onStopAreaTap: (stopArea) => _onStopAreaTap(stopArea, context),
-                      );
-                    }
-                  ),
-                  Consumer<OSMElementProvider>(
-                    builder: (context, osmElementProvider, child) {
-                      return OsmElementLayer(
-                        onOsmElementTap: (osmElement) => _onOsmElementTap(osmElement, context),
-                        osmElements: osmElementProvider.loadedOsmElements
-                      );
-                    }
-                  ),
-                  AnimatedLocationLayerWidget(
-                    options: AnimatedLocationOptions()
-                  )
-                ],
-                nonRotatedChildren: [
-                  // only show controls when map creation finished
-                  FutureBuilder(
-                    future: _mapController.onReady,
-                    builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                      // only show overlay when question history has no active entry
-                      return Consumer<QuestionnaireProvider>(
-                        builder: (context, questionnaire,child) {
-                          final mapIsLoaded = snapshot.connectionState == ConnectionState.done;
-                          final noActiveEntry = !questionnaire.hasEntries;
+    return FutureBuilder<QuestionCatalog>(
+      future: _parseQuestionCatalog(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          // TODO: Style this properly
+          return const Center(
+            child: CircularProgressIndicator()
+          );
+        }
+        else {
+          final questionCatalog = snapshot.requireData;
 
-                          return AnimatedSwitcher(
-                            switchInCurve: Curves.ease,
-                            switchOutCurve: Curves.ease,
-                            duration: const Duration(milliseconds: 300),
-                            child: mapIsLoaded && noActiveEntry
-                              ? const MapOverlay()
-                              : const SizedBox.expand(
-                                // TODO: decide overlay style/color
-                                child: ColoredBox(color: Colors.transparent)
-                              )
-                          );
-                        }
-                      );
-                    }
-                  ),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15),
-                      child: ValueListenableBuilder<bool>(
-                        valueListenable: context.read<StopAreasProvider>().isLoading,
-                        builder: (context, value, child) => LoadingIndicator(
-                          active: value,
-                        ),
-                      )
-                    )
-                  ),
-                ],
+          return MultiProvider(
+            providers: [
+              Provider.value(value: questionCatalog),
+              ChangeNotifierProvider(create: (_) => QuestionnaireProvider()),
+              ChangeNotifierProvider.value(value: _cameraTracker),
+              ChangeNotifierProvider.value(value: _stopAreasProvider),
+              ChangeNotifierProvider(create: (_) => OSMElementProvider(
+                stopAreaDiameter: _stopAreaDiameter
+              )),
+              ChangeNotifierProxyProvider<OSMElementProvider, IncompleteOSMElementProvider>(
+                create: (_) => IncompleteOSMElementProvider(questionCatalog),
+                update: (_, osmElementProvider, incompleteOSMElementProvider) {
+                  return incompleteOSMElementProvider!
+                    ..extractNew(osmElementProvider.loadedStopAreas);
+                }
               ),
-              // place sheet on extra stack above map so touch events won't pass through
-              const QuestionDialog(),
+              ChangeNotifierProvider(create: (_) => MapViewModel(
+                urlTemplate: 'https://osm-2.nearest.place/retina/{z}/{x}/{y}.png'
+              )),
+              Provider.value(value: _mapController),
             ],
-          )
-        ),
-      )
+            child: Scaffold(
+              drawer: const HomeSidebar(),
+              // use builder to get scaffold context
+              body: Builder(builder: (context) =>
+                Stack(
+                  children: [
+                    FlutterMap(
+                      mapController: _mapController,
+                      options: MapOptions(
+                        onTap: (position, location) => _closeQuestionDialog(context),
+                        enableMultiFingerGestureRace: true,
+                        center: LatLng(50.8144951, 12.9295576),
+                        zoom: 15.0,
+                      ),
+                      children: [
+                        Consumer<MapViewModel>(
+                          builder: (context, value, child) {
+                            return TileLayerWidget(
+                              options: TileLayerOptions(
+                                overrideTilesWhenUrlChanges: true,
+                                urlTemplate: value.urlTemplate,
+                                minZoom: value.minZoom,
+                                maxZoom: value.maxZoom,
+                                tileProvider: NetworkTileProvider(),
+                              ),
+                            );
+                          }
+                        ),
+                        Consumer2<StopAreasProvider, OSMElementProvider>(
+                          builder: (context, stopAreaProvider, osmElementProvider, child) {
+                            return StopAreaLayer(
+                              stopAreas: stopAreaProvider.stopAreas,
+                              loadingStopAreas: osmElementProvider.loadingStopAreas,
+                              stopAreaDiameter: stopAreaProvider.stopAreaDiameter,
+                              onStopAreaTap: (stopArea) => _onStopAreaTap(stopArea, context),
+                            );
+                          }
+                        ),
+                        Consumer<IncompleteOSMElementProvider>(
+                          builder: (context, incompleteOsmElementProvider, child) {
+                            return OsmElementLayer(
+                              onOsmElementTap: (osmElement) => _onOsmElementTap(osmElement, context),
+                              geoElements: incompleteOsmElementProvider.loadedOsmElements
+                            );
+                          }
+                        ),
+                        AnimatedLocationLayerWidget(
+                          options: AnimatedLocationOptions()
+                        )
+                      ],
+                      nonRotatedChildren: [
+                        // only show controls when map creation finished
+                        FutureBuilder(
+                          future: _mapController.onReady,
+                          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                            // only show overlay when question history has no active entry
+                            return Consumer<QuestionnaireProvider>(
+                              builder: (context, questionnaire,child) {
+                                final mapIsLoaded = snapshot.connectionState == ConnectionState.done;
+                                final noActiveEntry = !questionnaire.hasEntries;
+
+                                return AnimatedSwitcher(
+                                  switchInCurve: Curves.ease,
+                                  switchOutCurve: Curves.ease,
+                                  duration: const Duration(milliseconds: 300),
+                                  child: mapIsLoaded && noActiveEntry
+                                    ? const MapOverlay()
+                                    : const SizedBox.expand(
+                                      // TODO: decide overlay style/color
+                                      child: ColoredBox(color: Colors.transparent)
+                                    )
+                                );
+                              }
+                            );
+                          }
+                        ),
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: Padding(
+                            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15),
+                            child: ValueListenableBuilder<bool>(
+                              valueListenable: context.read<StopAreasProvider>().isLoading,
+                              builder: (context, value, child) => LoadingIndicator(
+                                active: value,
+                              ),
+                            )
+                          )
+                        ),
+                      ],
+                    ),
+                    // place sheet on extra stack above map so touch events won't pass through
+                    const QuestionDialog(),
+                  ],
+                )
+              ),
+            )
+          );
+        }
+      }
     );
   }
 
@@ -251,7 +270,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Future<QuestionCatalog> _parseQuestionCatalog() async {
     final jsonString = await rootBundle.loadString('assets/questions/question_catalog.json');
-    return QuestionCatalog.fromJson(jsonDecode(jsonString));
+    return QuestionCatalog.fromJson(jsonDecode(jsonString).cast<Map<String, dynamic>>());
   }
 
 

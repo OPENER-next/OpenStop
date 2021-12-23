@@ -70,7 +70,7 @@ class MarkerPinPainter extends CustomPainter {
     this.color = Colors.black,
     this.strokeColor = Colors.black,
     this.strokeWidth = 6,
-    this.tipHeight = 9,
+    this.tipHeight = 7,
     this.tipAngle = 0.6,
     this.iconScale = 0.75,
   });
