@@ -25,24 +25,7 @@ class ProxyOSMElement<T extends osmapi.OSMElement> {
 
   int get version => _osmElement.version;
 
-  OSMElementType get type {
-    switch (_osmElement.type) {
-      case osmapi.OSMElementType.node:
-      return OSMElementType.Node;
-
-      case osmapi.OSMElementType.way:
-      final osmElement = _osmElement as osmapi.OSMWay;
-      if (osmElement.nodeIds.first == osmElement.nodeIds.last) {
-        return OSMElementType.ClosedWay;
-      }
-      else {
-        return OSMElementType.OpenWay;
-      }
-
-      case osmapi.OSMElementType.relation:
-      return OSMElementType.Relation;
-    }
-  }
+  OSMElementType get type => typeFromOSMElement(_osmElement);
 
 
   /// Applies all changes to the underlying osm element and returns it.
