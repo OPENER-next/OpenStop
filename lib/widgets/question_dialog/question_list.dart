@@ -78,7 +78,7 @@ class _QuestionListState extends State<QuestionList> {
   }
 
 
-  double _calcBottomOffset() {
+  double _calcTopOffset() {
     double offsetBottom = 0;
     final max = min(widget.index + 1, _sizes.length);
 
@@ -100,7 +100,7 @@ class _QuestionListState extends State<QuestionList> {
           clipBehavior: Clip.none,
           children: [
             AnimatedPositioned(
-              top: _calcBottomOffset(),
+              top: _calcTopOffset(),
               left: 0,
               right: 0,
               curve: Curves.easeInOutCubicEmphasized,
