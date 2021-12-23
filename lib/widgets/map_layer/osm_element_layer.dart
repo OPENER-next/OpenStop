@@ -6,7 +6,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:osm_api/osm_api.dart';
 import 'package:provider/provider.dart';
 
-import '/models/question.dart';
+import '/models/question_catalog.dart';
 import '/widgets/map_markers/osm_element_marker.dart';
 
 class OsmElementLayer extends StatefulWidget {
@@ -75,9 +75,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 
 
   bool _matches(OSMElement osmElement) {
-    final questionCatalog = context.read<List<Question>>();
-    // TODO: allow ways and relations
-    return osmElement is OSMNode && osmElement.tags.isNotEmpty && questionCatalog.any((question) {
+    final questionCatalog = context.read<QuestionCatalog>();
       return question.conditions.any((condition) {
         return condition.matchesTags(osmElement.tags);
       });

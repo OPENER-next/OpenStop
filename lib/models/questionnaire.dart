@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:osm_api/osm_api.dart';
 
+import '/models/question_catalog.dart';
 import '/models/question.dart';
 import '/models/answer.dart';
 import '/models/proxy_osm_element.dart';
@@ -11,7 +12,7 @@ class Questionnaire {
 
   Questionnaire({
     required OSMElement osmElement,
-    required List<Question> questionCatalog,
+    required QuestionCatalog questionCatalog,
   }) :
     _questionCatalog = questionCatalog,
     _osmElement = osmElement
@@ -20,7 +21,7 @@ class Questionnaire {
     _addMatchingEntries(afterIndex: -1);
   }
 
-  final List<Question> _questionCatalog;
+  final QuestionCatalog _questionCatalog;
 
   final List<QuestionnaireEntry> _entries = [];
 

@@ -5,7 +5,7 @@ import 'package:osm_api/osm_api.dart';
 import '/models/questionnaire.dart';
 import '/models/proxy_osm_element.dart';
 import '/models/answer.dart';
-import '/models/question.dart';
+import '/models/question_catalog.dart';
 
 
 class QuestionnaireProvider extends ChangeNotifier {
@@ -30,7 +30,7 @@ class QuestionnaireProvider extends ChangeNotifier {
   QuestionnaireEntry? get activeEntry => _qaSelection?.activeEntry;
 
 
-  void create(OSMElement osmElement, List<Question> questionCatalog) {
+  void create(OSMElement osmElement, QuestionCatalog questionCatalog) {
     _qaSelection = Questionnaire(
       osmElement: osmElement,
       questionCatalog: questionCatalog

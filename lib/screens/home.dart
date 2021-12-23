@@ -12,16 +12,16 @@ import 'package:provider/provider.dart';
 import '/view_models/questionnaire_provider.dart';
 import '/view_models/osm_elements_provider.dart';
 import '/view_models/map_view_model.dart';
+import '/view_models/stop_areas_provider.dart';
 import '/helpers/camera_tracker.dart';
 import '/commons/stream_debouncer.dart';
 import '/widgets/map_layer/stop_area_layer.dart';
 import '/widgets/question_dialog/question_dialog.dart';
 import '/widgets/map_overlay.dart';
 import '/widgets/home_sidebar.dart';
-import '/models/question.dart';
 import '/widgets/loading_indicator.dart';
 import '/widgets/map_layer/osm_element_layer.dart';
-import '/view_models/stop_areas_provider.dart';
+import '/models/question_catalog.dart';
 import '/models/stop_area.dart';
 import '/commons/map_utils.dart';
 import '/commons/geo_utils.dart';
@@ -202,7 +202,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   void _onStopAreaTap(StopArea stopArea, BuildContext context) async {
     // exit function/ignore tap if questions haven't been loaded yet
-    final questionCatalog = context.read<List<Question>>();
+    final questionCatalog = context.read<QuestionCatalog>();
     if (questionCatalog.isEmpty) {
       return;
     }
@@ -220,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
 
   void _onOsmElementTap(OSMElement osmElement, BuildContext context) async {
-    final questionCatalog = context.read<List<Question>>();
+    final questionCatalog = context.read<QuestionCatalog>();
     final questionnaire = context.read<QuestionnaireProvider>();
 
     if (questionnaire.workingElement?.id != osmElement.id) {
@@ -249,10 +249,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
 
-  Future<List<Question>> parseQuestions() async {
-    final questionJsonData = await rootBundle.loadString('assets/questions/question_catalog.json');
-    final questionJson = jsonDecode(questionJsonData).cast<Map<String, dynamic>>();
-    return questionJson.map<Question>((question) => Question.fromJSON(question)).toList();
+  Future<QuestionCatalog> _parseQuestionCatalog() async {
+    final jsonString = await rootBundle.loadString('assets/questions/question_catalog.json');
+    return QuestionCatalog.fromJson(jsonDecode(jsonString));
   }
 
 
