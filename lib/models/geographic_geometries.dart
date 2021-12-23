@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 
 // TODO: Maybe precalculate the center since it might be quite expensive for elements other than point
@@ -72,9 +75,10 @@ class GeographicPolygon implements GeographicGeometry {
     required this.outerShape,
     List<GeographicPolyline>? innerShapes
   }) : innerShapes = innerShapes ?? [] {
-    if (!outerShape.isClosed || this.innerShapes.any((shape) => !shape.isClosed)) {
-      throw AssertionError('One of the given GeographicPaths is not closed.');
-    }
+    assert(
+      !outerShape.isClosed || this.innerShapes.any((shape) => !shape.isClosed),
+      'One of the given GeographicPaths is not closed.'
+    );
   }
 
   LatLngBounds get boundingBox => LatLngBounds.fromPoints(outerShape.path);
@@ -82,9 +86,173 @@ class GeographicPolygon implements GeographicGeometry {
   @override
   LatLng get center => boundingBox.center;
 
+  /// Returns true when this polygon has any holes.
+
+  bool get hasHoles => innerShapes.isNotEmpty;
+
   /// Returns true when this polygon has no holes.
 
-  bool get isSimple => innerShapes.isEmpty;
+  bool get hasNoHoles => innerShapes.isEmpty;
+
+  /// Checks whether this polygon contains another polygon.
+
+  bool enclosesPolygon(GeographicPolygon polygon) {
+    return enclosesPolyline(polygon.outerShape);
+  }
+
+  /// Checks whether this polygon contains the given polyline.
+
+  bool enclosesPolyline(GeographicPolyline polyline) {
+    final isInsideOfOuterShape = _pathIsInsidePath(outerShape.path, polyline.path);
+    final isOutsideOfInnerShapes = innerShapes.every(
+      (innerShape) => _pathIsOutsidePath(innerShape.path, polyline.path)
+    );
+
+    return isInsideOfOuterShape && isOutsideOfInnerShapes;
+  }
+
+
+  /// Perform line intersection tests for each pair of lines.
+  /// If no intersections occur and one of the line end-points lies inside the polygon,
+  /// then the path is entirely inside the polygon.
+  /// Note: [closedPath] should resemble a closed shape.
+
+  bool _pathIsInsidePath(List<LatLng> closedPath, List<LatLng> innerPath) {
+    assert(closedPath.length < 3, 'Given path is not a shape.');
+    assert(closedPath.first != closedPath.last, 'Given path is not closed.');
+    assert(innerPath.length < 2, 'Given path should at least contain 2 points.');
+
+    // check if arbitrary point is inside the closed path
+    // if so and no intersections occurred the path lies within
+    return !_pathsIntersect(closedPath, innerPath) && _isPointInsideClosedPath(closedPath, innerPath.first);
+  }
+
+  /// Note: [closedPath] should resemble a closed shape.
+
+  bool _pathIsOutsidePath(List<LatLng> closedPath, List<LatLng> outerPath) {
+    assert(closedPath.length < 3, 'Given path is not a shape.');
+    assert(closedPath.first != closedPath.last, 'Given path is not closed.');
+    assert(outerPath.length < 2, 'Given path should at least contain 2 points.');
+
+    // check if arbitrary point is not inside the closed path
+    // if so and no intersections occurred the path lies within
+    return !_pathsIntersect(closedPath, outerPath) && !_isPointInsideClosedPath(closedPath, outerPath.first);
+  }
+
+
+  bool _pathsIntersect(List<LatLng> pathA, List<LatLng> pathB) {
+    assert(pathA.length < 2, 'Given path should at least contain 2 points.');
+    assert(pathB.length < 2, 'Given path should at least contain 2 points.');
+
+    for (var i = 1; i < pathA.length; i++) {
+      final lineAStart = pathA[i - 1];
+      final lineAEnd = pathA[i];
+
+      for (var j = 1; j < pathB.length; j++) {
+        final lineBStart = pathB[i - 1];
+        final lineBEnd = pathB[i];
+
+        if(_linesIntersect(lineAStart, lineAEnd, lineBStart, lineBEnd)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+
+  bool _linesIntersect(LatLng line1Start, LatLng line1End, LatLng line2Start, LatLng line2End) {
+    final line1StartV = _latLngTo3DVector(line1Start);
+    final line1EndV = _latLngTo3DVector(line1End);
+    final line2StartV = _latLngTo3DVector(line2Start);
+    final line2EndV = _latLngTo3DVector(line2End);
+    return _intersects(line1StartV, line1EndV, line2StartV, line2EndV);
+  }
+
+
+  _latLngTo3DVector(LatLng coordinate) {
+    return Vector3(
+      earthRadius * cos(coordinate.latitudeInRad) * cos(coordinate.longitudeInRad),
+      earthRadius * cos(coordinate.latitudeInRad) * sin(coordinate.longitudeInRad),
+      earthRadius * sin(coordinate.latitudeInRad)
+    );
+  }
+
+  // derived from: https://stackoverflow.com/a/26669130
+  double _det(Vector3 v1, Vector3 v2, Vector3 v3) {
+    return v1.dot( v2.cross(v3) );
+  }
+  bool _straddles(line1StartV, line1EndV, line2StartV, line2EndV) {
+    return _det(
+      line1StartV, line2StartV, line2EndV) * _det(line1EndV, line2StartV, line2EndV
+    ) < 0;
+  }
+  bool _intersects(line1StartV, line1EndV, line2StartV, line2EndV) {
+    return _straddles(line1StartV, line1EndV, line2StartV, line2EndV) &&
+           _straddles(line2StartV, line2EndV, line1StartV, line1EndV);
+  }
+
+
+  /// Checks whether this polygon contains the given point.
+
+  bool enclosesPoint(GeographicPoint point) {
+    // check if outer contains the given point and all inner do not contain the point
+    return _isPointInsideClosedPath(outerShape.path, point.center) &&
+      innerShapes.every((shape) => !_isPointInsideClosedPath(shape.path, point.center));
+  }
+
+
+  // derived from: https://stackoverflow.com/a/13951139
+  bool _isPointInsideClosedPath(List<LatLng> pathPoints, LatLng point) {
+    // pre-check: if the point isn't event located inside the bounding box
+    // then it cannot be located inside the polygon
+    final bbox = LatLngBounds.fromPoints(pathPoints);
+    if (!bbox.contains(point)) {
+      return false;
+    }
+
+    var lastPoint = pathPoints.last;
+    var isInside = false;
+    final x = point.longitude;
+    for (final pathPoint in pathPoints) {
+      var x1 = lastPoint.longitude;
+      var x2 = pathPoint.longitude;
+      var dx = x2 - x1;
+
+      if (dx.abs() > 180.0) {
+        // we have, most likely, just jumped the dateline; normalise the numbers.
+        if (x > 0) {
+          while (x1 < 0) {
+            x1 += 360;
+          }
+          while (x2 < 0) {
+            x2 += 360;
+          }
+        }
+        else {
+          while (x1 > 0) {
+            x1 -= 360;
+          }
+          while (x2 > 0) {
+            x2 -= 360;
+          }
+        }
+        dx = x2 - x1;
+      }
+
+      if ((x1 <= x && x2 > x) || (x1 >= x && x2 < x)) {
+        final grad = (pathPoint.latitude - lastPoint.latitude) / dx;
+        final intersectAtLat = lastPoint.latitude + ((x - x1) * grad);
+
+        if (intersectAtLat > point.latitude) {
+          isInside = !isInside;
+        }
+      }
+      lastPoint = pathPoint;
+    }
+
+    return isInside;
+  }
 }
 
 
