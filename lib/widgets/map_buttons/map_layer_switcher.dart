@@ -100,13 +100,11 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerPr
     return OverlayEntry(
       builder: (overlayContext) {
         final renderBox = context.findRenderObject() as RenderBox;
-        final size = renderBox.size;
         final offset = renderBox.localToGlobal(Offset.zero);
 
         return Positioned(
           left: offset.dx,
-          bottom: MediaQuery.of(context).size.height - offset.dy - size.height + MediaQuery.of(context).padding.bottom,
-          width: MediaQuery.of(context).size.width - offset.dx,
+          bottom: MediaQuery.of(context).size.height - offset.dy,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
