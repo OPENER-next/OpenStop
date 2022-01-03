@@ -104,14 +104,35 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                       )
                     ]
                   ),
-                  const Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Text(
-                      '© OpenStreetMap contributors',
-                      style: TextStyle(
-                        fontSize: 10
-                      ),
-                    )
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Stack(
+                        children: <Widget>[
+                          // Stroked text as border.
+                          Opacity(
+                            opacity: 0.5,
+                            child: Text(
+                              '© OpenStreetMap-Mitwirkende',
+                              style: TextStyle(
+                                fontSize: 10,
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 2
+                                  ..strokeJoin = StrokeJoin.round
+                                  ..color = Colors.white,
+                              ),
+                            ),
+                          ),
+                          // Solid text as fill.
+                          const Text(
+                            '© OpenStreetMap-Mitwirkende',
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      )
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.end,
