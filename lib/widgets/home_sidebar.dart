@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 // Screens
@@ -18,7 +20,7 @@ class _HomeSidebarState extends State<HomeSidebar> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.65,
+      width: min(MediaQuery.of(context).size.width * 0.65, 300),
       child: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
