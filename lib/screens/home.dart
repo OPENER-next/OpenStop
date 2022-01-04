@@ -25,7 +25,6 @@ import '/widgets/map_layer/osm_element_layer.dart';
 import '/models/question_catalog.dart';
 import '/models/stop_area.dart';
 import '/commons/map_utils.dart';
-import '/commons/geo_utils.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -38,12 +37,10 @@ class HomeScreen extends StatefulWidget {
 
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  static const double _stopAreaDiameter = 100;
-
   final MapController _mapController = MapController();
 
   final _stopAreasProvider = StopAreasProvider(
-    stopAreaDiameter: _stopAreaDiameter
+    stopAreaRadius: 50
   );
 
   late final _cameraTracker = CameraTracker(
@@ -101,9 +98,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ChangeNotifierProvider(create: (_) => QuestionnaireProvider()),
               ChangeNotifierProvider.value(value: _cameraTracker),
               ChangeNotifierProvider.value(value: _stopAreasProvider),
-              ChangeNotifierProvider(create: (_) => OSMElementProvider(
-                stopAreaDiameter: _stopAreaDiameter
-              )),
+              ChangeNotifierProvider(create: (_) => OSMElementProvider()),
               ChangeNotifierProxyProvider<OSMElementProvider, IncompleteOSMElementProvider>(
                 create: (_) => IncompleteOSMElementProvider(questionCatalog),
                 update: (_, osmElementProvider, incompleteOSMElementProvider) {
@@ -149,7 +144,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             return StopAreaLayer(
                               stopAreas: stopAreaProvider.stopAreas,
                               loadingStopAreas: osmElementProvider.loadingStopAreas,
-                              stopAreaDiameter: stopAreaProvider.stopAreaDiameter,
                               onStopAreaTap: (stopArea) => _onStopAreaTap(stopArea, context),
                             );
                           }
@@ -220,20 +214,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
 
   void _onStopAreaTap(StopArea stopArea, BuildContext context) async {
-    // exit function/ignore tap if questions haven't been loaded yet
-    final questionCatalog = context.read<QuestionCatalog>();
-    if (questionCatalog.isEmpty) {
-      return;
-    }
-
     context.read<OSMElementProvider>().loadStopAreaElements(stopArea);
-
-    // move camera to stop area and include default sheet size as bottom padding
-    final radius = context.read<StopAreasProvider>().stopAreaDiameter / 2;
 
     _mapController.animateToBounds(
       ticker: this,
-      bounds: stopArea.bounds.enlargeByMeters(radius),
+      bounds: stopArea.bounds,
     );
   }
 

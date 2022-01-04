@@ -11,8 +11,6 @@ class StopAreaLayer extends StatefulWidget {
 
   final Iterable<StopArea> loadingStopAreas;
 
-  final double stopAreaDiameter;
-
   final double sizeThreshold;
 
   final void Function(StopArea stopArea)? onStopAreaTap;
@@ -21,7 +19,6 @@ class StopAreaLayer extends StatefulWidget {
     required this.stopAreas,
     required this.loadingStopAreas,
     this.onStopAreaTap,
-    this.stopAreaDiameter = 100,
     // TODO: reimplement this in the AnimatedMarkerLayer
     this.sizeThreshold = 5,
     Key? key,
@@ -76,7 +73,7 @@ class _StopAreaLayerState extends State<StopAreaLayer> {
       // create unique key based on location
       // this needs to be done so flutter can re-identify the correct element
       key: ValueKey(stopArea.center),
-      size: Size.square(stopArea.diameter + widget.stopAreaDiameter),
+      size: Size.square(stopArea.diameter),
       sizeUnit: SizeUnit.meters,
       point: stopArea.center,
       child: StopAreaIndicator(

@@ -18,9 +18,9 @@ import '/api/stop_query_api.dart';
 
 class StopAreasProvider extends ChangeNotifier {
 
-  /// The diameter by which stops should be merged into a single [StopArea]
+  /// The radius by which stops should be merged into a single [StopArea]
 
-  final double stopAreaDiameter;
+  final double stopAreaRadius;
 
 
   /// The cell size in degrees.
@@ -46,7 +46,7 @@ class StopAreasProvider extends ChangeNotifier {
   final _isLoading = ValueNotifier(false);
 
   StopAreasProvider({
-    this.stopAreaDiameter = 100.0,
+    this.stopAreaRadius = 50.0,
     this.cellSize = 0.1,
     this.viewBoxExtend = 0.3
   });
@@ -85,7 +85,7 @@ class StopAreasProvider extends ChangeNotifier {
           try {
             final stops = await _stopAPI.queryByBBox(southWest, northEast);
             final stopAreas = Set.unmodifiable(
-              unifyStops(stops, stopAreaDiameter)
+              unifyStops(stops, stopAreaRadius)
             );
             _stopAreaCache.add(cellIndex, stopAreas);
             notifyListeners();

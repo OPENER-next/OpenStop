@@ -4,13 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:osm_api/osm_api.dart';
 import '/api/osm_element_query_api.dart';
 import '/models/stop_area.dart';
-import '/commons/geo_utils.dart';
 
 class OSMElementProvider extends ChangeNotifier {
-
-  /// The diameter by which stops should be merged into a single [StopArea]
-
-  final double stopAreaDiameter;
 
   final _osmElementQueryHandler = OSMElementQueryAPI();
 
@@ -18,9 +13,7 @@ class OSMElementProvider extends ChangeNotifier {
 
   final _loadedStopAreas = <StopArea, OSMElementBundle>{};
 
-  OSMElementProvider({
-    required this.stopAreaDiameter
-  });
+  OSMElementProvider();
 
 
   UnmodifiableSetView<StopArea> get loadingStopAreas
@@ -44,7 +37,7 @@ class OSMElementProvider extends ChangeNotifier {
       _loadingStopAreas.add(stopArea);
       notifyListeners();
       try {
-        final bbox = stopArea.bounds.enlargeByMeters(stopAreaDiameter/2);
+        final bbox = stopArea.bounds;
         final osmElements = await _osmElementQueryHandler.queryByBBox(bbox);
         _loadedStopAreas[stopArea] = osmElements;
       }
