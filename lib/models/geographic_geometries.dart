@@ -54,11 +54,10 @@ class GeographicPolyline implements GeographicGeometry {
     final lowerPoint = path[lowerIndex];
     final upperPoint = path[upperIndex];
 
-    return _distance.offset(
-      lowerPoint,
-      lengths[upperIndex] - lengths[lowerIndex],
-      _distance.bearing(lowerPoint, upperPoint)
-    );
+    final offset = halfLength - lengths[lowerIndex];
+    final bearing = _distance.bearing(lowerPoint, upperPoint);
+
+    return _distance.offset(lowerPoint, offset, bearing);
   }
 
   bool get isClosed => path.length > 2 && path.first == path.last;
