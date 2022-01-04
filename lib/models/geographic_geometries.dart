@@ -75,7 +75,7 @@ class GeographicPolygon implements GeographicGeometry {
     List<GeographicPolyline>? innerShapes
   }) : innerShapes = innerShapes ?? [] {
     assert(
-      !outerShape.isClosed || this.innerShapes.any((shape) => !shape.isClosed),
+      outerShape.isClosed && this.innerShapes.every((shape) => shape.isClosed),
       'One of the given GeographicPaths is not closed.'
     );
   }
@@ -117,9 +117,8 @@ class GeographicPolygon implements GeographicGeometry {
   /// Note: [closedPath] should resemble a closed shape.
 
   bool _pathIsInsidePath(List<LatLng> closedPath, List<LatLng> innerPath) {
-    assert(closedPath.length < 3, 'Given path is not a shape.');
-    assert(closedPath.first != closedPath.last, 'Given path is not closed.');
-    assert(innerPath.length < 2, 'Given path should at least contain 2 points.');
+    assert(closedPath.length > 2 && closedPath.first == closedPath.last, 'Given path is not a closed shape.');
+    assert(innerPath.length >= 2, 'Given inner path should at least contain 2 points.');
 
     // check if arbitrary point is inside the closed path
     // if so and no intersections occurred the path lies within
@@ -129,9 +128,8 @@ class GeographicPolygon implements GeographicGeometry {
   /// Note: [closedPath] should resemble a closed shape.
 
   bool _pathIsOutsidePath(List<LatLng> closedPath, List<LatLng> outerPath) {
-    assert(closedPath.length < 3, 'Given path is not a shape.');
-    assert(closedPath.first != closedPath.last, 'Given path is not closed.');
-    assert(outerPath.length < 2, 'Given path should at least contain 2 points.');
+    assert(closedPath.length > 2 && closedPath.first == closedPath.last, 'Given path is not a closed shape.');
+    assert(outerPath.length >= 2, 'Given outer path should at least contain 2 points.');
 
     // check if arbitrary point is not inside the closed path
     // if so and no intersections occurred the path lies within
@@ -140,8 +138,7 @@ class GeographicPolygon implements GeographicGeometry {
 
 
   bool _pathsIntersect(List<LatLng> pathA, List<LatLng> pathB) {
-    assert(pathA.length < 2, 'Given path should at least contain 2 points.');
-    assert(pathB.length < 2, 'Given path should at least contain 2 points.');
+    assert(pathA.length >= 2 && pathB.length >= 2, 'Each given path should at least contain 2 points.');
 
     for (var i = 1; i < pathA.length; i++) {
       final lineAStart = pathA[i - 1];
