@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -22,16 +24,11 @@ class StopArea extends Circle {
   /// Returns the bounding box enclosing the stop area circle.
 
   LatLngBounds get bounds {
-    final corner1 = _distance.offset(
-      _distance.offset(center, radius, 0),
-      radius,
-      270
-    );
-    final corner2 = _distance.offset(
-      _distance.offset(center, radius, 180),
-      radius,
-      90
-    );
+    // the offset is the hypotenuse of the triangle where the other sides are equal to the circle radius
+    final offset = sqrt(2 * pow(radius, 2));
+
+    final corner1 = _distance.offset(center, offset, 315);
+    final corner2 = _distance.offset(center, offset, 135);
 
     return LatLngBounds(corner1, corner2);
   }
