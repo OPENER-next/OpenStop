@@ -1,148 +1,86 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-enum userTheme {
-  light,
-  dark,
-  contrast
-}
-
-enum difficulty {
-  novice,
-  amatuer,
-  expert
-}
+import '/view_models/preferences_provider.dart';
+import '/widgets/select_dialog.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
-
 
   @override
   State<Settings> createState() => _SettingsState();
 }
 
 class _SettingsState extends State<Settings> {
+  var appThemesMap = {
+    themeEnum.light : 'Hell',
+    themeEnum.dark : 'Dunkel',
+    themeEnum.contrast : 'Kontrast',
+  };
+
+  var difficultyMap = {
+    1 : 'Einfach',
+    2 : 'Standard',
+    3 : 'Schwer',
+  };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Einstellungen'),
-      ),
-      body: Scrollbar(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-                child: Column(
-                  children: [
-                    ListTile(
-                      dense: true,
-                      leading: const Icon(Icons.palette, color: Colors.black54),
-                      title: const Text('Design'),
-                      //subtitle: const Text('Farbliche Darstellung'),
-                      onTap: _selectDesign,
-                    ),
-                    const Divider(height: 1),
-                    ListTile(
-                      dense: true,
-                      leading: const Icon(Icons.line_weight, color: Colors.black54),
-                      title: const Text('Schwierigkeitsgrad'),
-                      //subtitle: const Text('Farbliche Darstellung'),
-                      onTap: _selectDifficulty,
-                    )
-                  ],
+        appBar: AppBar(
+          title: const Text('Einstellungen'),
+        ),
+        body: Scrollbar(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                  child: Column(
+                    children: [
+                      ListTile(
+                        leading: const Icon(Icons.palette, color: Colors.black54),
+                        title: const Text('Design'),
+                        trailing: Text(appThemesMap[context.select<PreferencesProvider, themeEnum>((preferences) => preferences.theme)] ?? 'Unbekannt'),
+                        //subtitle: const Text('Farbliche Darstellung'),
+                        onTap: () async {
+                          // change int to the type you are using as the key in the map below
+                          final selection = await showDialog<themeEnum>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return SelectDialog(
+                                  valueLabelMap: appThemesMap,
+                                  value: context.select<PreferencesProvider, themeEnum>((preference) => preference.theme),
+                                  title: const Text('Design wählen'),
+                                );
+                              }
+                          );
+                          context.read<PreferencesProvider>().theme = selection!;
+                        },
+                      ),
+                      const Divider(height: 1),
+                      ListTile(
+                        leading: const Icon(Icons.line_weight, color: Colors.black54),
+                        title: const Text('Schwierigkeitsgrad'),
+                        trailing: Text(difficultyMap[context.select<PreferencesProvider, int>((preferences) => preferences.difficulty)] ?? 'Unbekannt'),
+                        //subtitle: const Text('Schwere der Fragen'),
+                        onTap: () async {
+                          // change int to the type you are using as the key in the map below
+                          final selection = await showDialog<int>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return SelectDialog(
+                                  valueLabelMap: difficultyMap,
+                                  value: context.select<PreferencesProvider, int>((preference) => preference.difficulty),
+                                  title: const Text('Schwierigkeitsgrad wählen'),
+                                );
+                              }
+                          );
+                          context.read<PreferencesProvider>().difficulty = selection!;
+                        },
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            )
-    );
-  }
-
-Future<void> _selectDesign() async {
-    switch (await showDialog<userTheme>(
-        context: context,
-        builder: (BuildContext context) {
-          return SimpleDialog(
-            title: const Text('Design auswählen'),
-            children: <Widget>[
-              SimpleDialogOption(
-                onPressed: () { Navigator.pop(context, userTheme.light); },
-                child: const Text('Hell'),
-              ),
-              SimpleDialogOption(
-                onPressed: () {
-                  Navigator.pop(context, userTheme.dark);
-                  },
-                child: const Text('Dunkel'),
-              ),
-              SimpleDialogOption(
-                onPressed: () { Navigator.pop(context, userTheme.contrast); },
-                child: const Text('Kontrast'),
-              ),
-            ],
-          );
-        }
-    )) {
-      case userTheme.light:
-        _showToast(context, 'Helles Design gewählt');
-        break;
-      case userTheme.dark:
-        _showToast(context, 'Dunkles Design gewählt');
-        break;
-      case userTheme.contrast:
-        _showToast(context, 'Kontrastreiches Design gewählt');
-        break;
-      case null:
-      // dialog dismissed
-        break;
-    }
-  }
-
-  Future<void> _selectDifficulty() async {
-    switch (await showDialog<difficulty>(
-        context: context,
-        builder: (BuildContext context) {
-          return SimpleDialog(
-            title: const Text('Design auswählen'),
-            children: <Widget>[
-              SimpleDialogOption(
-                onPressed: () { Navigator.pop(context, difficulty.novice); },
-                child: const Text('Einfach'),
-              ),
-              SimpleDialogOption(
-                onPressed: () {
-                  Navigator.pop(context, difficulty.amatuer);
-                },
-                child: const Text('Standard'),
-              ),
-              SimpleDialogOption(
-                onPressed: () { Navigator.pop(context, difficulty.expert); },
-                child: const Text('Schwer'),
-              ),
-            ],
-          );
-        }
-    )) {
-      case difficulty.novice:
-        _showToast(context, 'Schwierigkeitsgrad: Einfach');
-        break;
-      case difficulty.amatuer:
-        _showToast(context, 'Schwierigkeitsgrad: Standard');
-        break;
-      case difficulty.expert:
-        _showToast(context, 'Schwierigkeitsgrad: Schwer');
-        break;
-      case null:
-      // dialog dismissed
-        break;
-    }
-  }
-
-  void _showToast(BuildContext context, String message) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(
-      SnackBar(
-        content: Text(message),
-        //action: SnackBarAction(label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
-      ),
-    );
+              )
+      );
   }
 }

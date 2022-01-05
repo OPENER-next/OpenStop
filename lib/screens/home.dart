@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 import '/view_models/incomplete_osm_elements_provider.dart';
 import '/view_models/questionnaire_provider.dart';
 import '/view_models/osm_elements_provider.dart';
-import '/view_models/map_view_model.dart';
+import '/view_models/preferences_provider.dart';
 import '/view_models/stop_areas_provider.dart';
 import '/helpers/camera_tracker.dart';
 import '/commons/stream_debouncer.dart';
@@ -106,9 +106,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ..extractNew(osmElementProvider.loadedStopAreas);
                 }
               ),
-              ChangeNotifierProvider(create: (_) => MapViewModel(
-                urlTemplate: 'https://osm-2.nearest.place/retina/{z}/{x}/{y}.png'
-              )),
               Provider.value(value: _mapController),
             ],
             child: Scaffold(
@@ -126,12 +123,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         zoom: 15.0,
                       ),
                       children: [
-                        Consumer<MapViewModel>(
+                        Consumer<PreferencesProvider>(
                           builder: (context, value, child) {
                             return TileLayerWidget(
                               options: TileLayerOptions(
                                 overrideTilesWhenUrlChanges: true,
-                                urlTemplate: value.urlTemplate,
+                                urlTemplate: value.tileTemplateServer,
                                 minZoom: value.minZoom,
                                 maxZoom: value.maxZoom,
                                 tileProvider: NetworkTileProvider(),
@@ -233,11 +230,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     else {
       return;
     }
-
-
-    final mediaQuery = MediaQuery.of(context);
-    final paddingBottom =
-      (mediaQuery.size.height - mediaQuery.padding.top - mediaQuery.padding.bottom) * 0.4;
 
     // TODO: take padding into account
     // TODO: handle ways and relations
