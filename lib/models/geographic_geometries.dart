@@ -145,8 +145,8 @@ class GeographicPolygon implements GeographicGeometry {
       final lineAEnd = pathA[i];
 
       for (var j = 1; j < pathB.length; j++) {
-        final lineBStart = pathB[i - 1];
-        final lineBEnd = pathB[i];
+        final lineBStart = pathB[j - 1];
+        final lineBEnd = pathB[j];
 
         if(_linesIntersect(lineAStart, lineAEnd, lineBStart, lineBEnd)) {
           return true;
