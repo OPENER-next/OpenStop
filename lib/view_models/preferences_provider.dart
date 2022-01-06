@@ -38,7 +38,7 @@ class PreferencesProvider extends ChangeNotifier {
     final themeIndex = _preferences.getInt('theme');
     return themeIndex != null && themeIndex < ThemeIdentifier.values.length
         ? ThemeIdentifier.values[themeIndex]
-    : _defaultTheme;
+        : _defaultTheme;
   }
 
   set theme(ThemeIdentifier newTheme) {
@@ -49,7 +49,10 @@ class PreferencesProvider extends ChangeNotifier {
   }
 
   DifficultyLevel get difficulty{
-    return DifficultyLevel.values[_preferences.getInt('difficulty') ?? _defaultDifficulty.index];
+    final difficultyIndex = _preferences.getInt('difficulty');
+    return difficultyIndex != null && difficultyIndex < DifficultyLevel.values.length
+        ? DifficultyLevel.values[difficultyIndex]
+        : _defaultDifficulty;
   }
 
   set difficulty(DifficultyLevel newDifficulty){
