@@ -24,7 +24,10 @@ class ZoomButton extends StatelessWidget {
             width: Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minWidth ?? 40.0,
             child: InkWell(
               onTap: onZoomInPressed,
-              child: const Icon(Icons.add),
+              child: Icon(
+                Icons.add,
+                color: Theme.of(context).floatingActionButtonTheme.foregroundColor,
+              ),
             ),
           ),
           Container(
@@ -37,7 +40,10 @@ class ZoomButton extends StatelessWidget {
             width: Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minWidth ?? 40.0,
             child: InkWell(
               onTap: onZoomOutPressed,
-              child: const Icon(Icons.remove),
+              child: Icon(
+                Icons.remove,
+                color: Theme.of(context).floatingActionButtonTheme.foregroundColor,
+              ),
             ),
           ),
         ],

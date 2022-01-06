@@ -76,7 +76,6 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                         heroTag: null,
                         child: const Icon(
                           Icons.menu,
-                          color: Colors.black,
                         ),
                         onPressed: Scaffold.of(context).openDrawer,
                       ),

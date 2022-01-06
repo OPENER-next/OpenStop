@@ -37,7 +37,7 @@ class _SettingsState extends State<Settings> {
                   child: Column(
                     children: [
                       ListTile(
-                        leading: const Icon(Icons.palette, color: Colors.black54),
+                        leading: const Icon(Icons.palette),
                         title: const Text('Design'),
                         trailing: Text(appThemesMap[context.select<PreferencesProvider, themeEnum>((preferences) => preferences.theme)] ?? 'Unbekannt'),
                         //subtitle: const Text('Farbliche Darstellung'),
@@ -58,7 +58,7 @@ class _SettingsState extends State<Settings> {
                       ),
                       const Divider(height: 1),
                       ListTile(
-                        leading: const Icon(Icons.line_weight, color: Colors.black54),
+                        leading: const Icon(Icons.line_weight),
                         title: const Text('Schwierigkeitsgrad'),
                         trailing: Text(difficultyMap[context.select<PreferencesProvider, int>((preferences) => preferences.difficulty)] ?? 'Unbekannt'),
                         //subtitle: const Text('Schwere der Fragen'),

@@ -44,7 +44,6 @@ class _HomeSidebarState extends State<HomeSidebar> {
             ListTile(
               leading: const Icon(
                 Icons.settings,
-                color: Colors.black54
               ),
               title: const Text('Einstellungen'),
               onTap: () {
@@ -58,7 +57,6 @@ class _HomeSidebarState extends State<HomeSidebar> {
             ListTile(
               leading: const Icon(
                 Icons.info,
-                color: Colors.black54
               ),
               title: const Text('Über'),
               onTap: () {
@@ -71,7 +69,6 @@ class _HomeSidebarState extends State<HomeSidebar> {
             ),
             ListTile(
               leading: const Icon(Icons.feedback,
-                color: Colors.black54
               ),
               title: const Text('Feedback'),
               onTap: () {},

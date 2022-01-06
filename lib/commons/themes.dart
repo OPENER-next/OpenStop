@@ -82,7 +82,7 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
         )
     ),
     iconTheme: const IconThemeData(
-      color: Colors.black87
+      color: Colors.black
     ),
     inputDecorationTheme: ThemeData.light().inputDecorationTheme.copyWith(
       contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -92,43 +92,19 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
     )
   );
 
-final ThemeData darkTheme = ThemeData.light().copyWith(
-    colorScheme: ThemeData.light().colorScheme.copyWith(
-        primary: Colors.black87,
-        secondary: Colors.black12,
-        onPrimary: Colors.white38,
-        onSecondary: Colors.white70,
+final ThemeData darkTheme = ThemeData.dark().copyWith(
+    colorScheme: ThemeData.dark().colorScheme.copyWith(
+        primary: CustomColors.green,
+        secondary: CustomColors.lightGreen,
+        onPrimary: Colors.white,
+        onSecondary: CustomColors.darkGreen,
         background: Colors.white,
-        surface: Colors.blueGrey
+        surface: Colors.black
     ),
     appBarTheme: const AppBarTheme(
         elevation: 2.0,
         backgroundColor: Colors.black12,
         foregroundColor: Colors.white70
-    ),
-    textTheme: const TextTheme(
-      subtitle1: TextStyle(
-          color: Colors.black87
-      ),
-      headline6: TextStyle(
-        color: Colors.black87,
-      ),
-      headline5: TextStyle(
-        color: Colors.black87,
-      ),
-      bodyText2: TextStyle(
-        color: Colors.black87,
-      ),
-      bodyText1: TextStyle(
-        color: Colors.black87,
-      ),
-      caption: TextStyle(
-        color: Colors.black45,
-      ),
-      overline: TextStyle(
-        fontSize: 12,
-        color: Colors.black38,
-      ),
     ),
     buttonTheme: ButtonThemeData(
       shape: RoundedRectangleBorder(
@@ -137,8 +113,8 @@ final ThemeData darkTheme = ThemeData.light().copyWith(
       buttonColor: Colors.yellow,
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.white,
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.black,
         smallSizeConstraints: BoxConstraints.tight(const Size.square(48)),
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
@@ -168,9 +144,9 @@ final ThemeData darkTheme = ThemeData.light().copyWith(
         )
     ),
     iconTheme: const IconThemeData(
-        color: Colors.black87
+        color: Colors.white70
     ),
-    inputDecorationTheme: ThemeData.light().inputDecorationTheme.copyWith(
+    inputDecorationTheme: ThemeData.dark().inputDecorationTheme.copyWith(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
         border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(12.0))
