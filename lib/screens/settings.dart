@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '/models/difficulty_level.dart';
+import '/models/theme_identifier.dart';
 import '/view_models/preferences_provider.dart';
 import '/widgets/select_dialog.dart';
 
@@ -12,16 +14,16 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  var appThemesMap = {
-    themeEnum.light : 'Hell',
-    themeEnum.dark : 'Dunkel',
-    themeEnum.contrast : 'Kontrast',
+  static const appThemesMap = {
+    ThemeIdentifier.light : 'Hell',
+    ThemeIdentifier.dark : 'Dunkel',
+    ThemeIdentifier.contrast : 'Kontrast',
   };
 
-  var difficultyMap = {
-    1 : 'Einfach',
-    2 : 'Standard',
-    3 : 'Schwer',
+  static const difficultyMap = {
+    DifficultyLevel.easy : 'Einfach',
+    DifficultyLevel.standard : 'Standard',
+    DifficultyLevel.hard : 'Schwer',
   };
 
   @override
@@ -39,42 +41,44 @@ class _SettingsState extends State<Settings> {
                       ListTile(
                         leading: const Icon(Icons.palette),
                         title: const Text('Design'),
-                        trailing: Text(appThemesMap[context.select<PreferencesProvider, themeEnum>((preferences) => preferences.theme)] ?? 'Unbekannt'),
+                        trailing: Text(appThemesMap[context.select<PreferencesProvider, ThemeIdentifier>((preferences) => preferences.theme)] ?? 'Unbekannt'),
                         //subtitle: const Text('Farbliche Darstellung'),
                         onTap: () async {
-                          // change int to the type you are using as the key in the map below
-                          final selection = await showDialog<themeEnum>(
+                          final selection = await showDialog<ThemeIdentifier>(
                               context: context,
                               builder: (BuildContext context) {
                                 return SelectDialog(
                                   valueLabelMap: appThemesMap,
-                                  value: context.select<PreferencesProvider, themeEnum>((preferences) => preferences.theme),
+                                  value: context.select<PreferencesProvider, ThemeIdentifier>((preferences) => preferences.theme),
                                   title: const Text('Design wählen'),
                                 );
                               }
                           );
-                          context.read<PreferencesProvider>().theme = selection!;
+                          if (selection != null) {
+                            context.read<PreferencesProvider>().theme = selection;
+                          }
                         },
                       ),
                       const Divider(height: 1),
                       ListTile(
                         leading: const Icon(Icons.line_weight),
                         title: const Text('Schwierigkeitsgrad'),
-                        trailing: Text(difficultyMap[context.select<PreferencesProvider, int>((preferences) => preferences.difficulty)] ?? 'Unbekannt'),
+                        trailing: Text(difficultyMap[context.select<PreferencesProvider, DifficultyLevel>((preferences) => preferences.difficulty)] ?? 'Unbekannt'),
                         //subtitle: const Text('Schwere der Fragen'),
                         onTap: () async {
-                          // change int to the type you are using as the key in the map below
-                          final selection = await showDialog<int>(
+                          final selection = await showDialog<DifficultyLevel>(
                               context: context,
                               builder: (BuildContext context) {
                                 return SelectDialog(
                                   valueLabelMap: difficultyMap,
-                                  value: context.select<PreferencesProvider, int>((preferences) => preferences.difficulty),
+                                  value: context.select<PreferencesProvider, DifficultyLevel>((preferences) => preferences.difficulty),
                                   title: const Text('Schwierigkeitsgrad wählen'),
                                 );
                               }
                           );
-                          context.read<PreferencesProvider>().difficulty = selection!;
+                          if (selection != null) {
+                            context.read<PreferencesProvider>().difficulty = selection;
+                          }
                         },
                       )
                     ],

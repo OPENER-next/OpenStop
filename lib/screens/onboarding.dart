@@ -64,7 +64,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           padding: const EdgeInsets.all(16.0),
                           child: ElevatedButton(
                             onPressed: () {
-                              context.read<PreferencesProvider>().onboarding = true;
+                              context.read<PreferencesProvider>().hasSeenOnboarding = true;
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(

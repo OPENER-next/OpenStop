@@ -1,41 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '/commons/themes.dart';
+import '/models/difficulty_level.dart';
+import '/models/theme_identifier.dart';
 
-
-abstract class DifficultyLevels {
-  static const int easy = 1;
-  static const int standard = 2;
-  static const int hard = 3;
-}
-
-enum difficultyEnum {
-  easy, standard, hard
-}
-
-enum themeEnum {
-  light, dark, contrast
-}
-
-ThemeData themeSelector (themeEnum theme) {
-  switch (theme) {
-    case themeEnum.dark:
-      return darkTheme;
-    case themeEnum.contrast:
-      return darkTheme;
-    case themeEnum.light:
-    default:
-      return lightTheme;
-  }
-}
 
 class PreferencesProvider extends ChangeNotifier {
   final SharedPreferences _preferences;
-  final themeEnum _defaultTheme = themeEnum.light;
-  final int _defaultDifficulty = DifficultyLevels.easy;
-  final bool _defaultOnboarding = false;
-  final String _defaultTileTemplateServer = 'https://osm-2.nearest.place/retina/{z}/{x}/{y}.png';
+  static const ThemeIdentifier _defaultTheme = ThemeIdentifier.light;
+  static const DifficultyLevel _defaultDifficulty = DifficultyLevel.easy;
+  static const bool _defaultOnboarding = false;
+  static const String _defaultTileTemplateServer = 'https://osm-2.nearest.place/retina/{z}/{x}/{y}.png';
   double _minZoom;
   double _maxZoom;
 
@@ -48,35 +23,38 @@ class PreferencesProvider extends ChangeNotifier {
         _maxZoom = maxZoom;
 
 
-  bool get onboarding {
+  bool get hasSeenOnboarding {
     return _preferences.getBool('hasSeenOnboarding') ?? _defaultOnboarding;
   }
 
-  set onboarding(bool newValue) {
-    if (newValue != onboarding) {
+  set hasSeenOnboarding(bool newValue) {
+    if (newValue != hasSeenOnboarding) {
       _preferences.setBool('hasSeenOnboarding', newValue);
       notifyListeners();
     }
   }
 
-  themeEnum get theme {
-    return themeEnum.values[_preferences.getInt('theme') ?? _defaultTheme.index];
+  ThemeIdentifier get theme {
+    final themeIndex = _preferences.getInt('theme');
+    return themeIndex != null && themeIndex < ThemeIdentifier.values.length
+        ? ThemeIdentifier.values[themeIndex]
+    : _defaultTheme;
   }
 
-  set theme(themeEnum newTheme) {
+  set theme(ThemeIdentifier newTheme) {
     if (newTheme != theme) {
       _preferences.setInt('theme', newTheme.index);
       notifyListeners();
     }
   }
 
-  int get difficulty{
-    return _preferences.getInt('difficulty') ?? _defaultDifficulty;
+  DifficultyLevel get difficulty{
+    return DifficultyLevel.values[_preferences.getInt('difficulty') ?? _defaultDifficulty.index];
   }
 
-  set difficulty(int newDifficulty){
+  set difficulty(DifficultyLevel newDifficulty){
     if (newDifficulty != difficulty) {
-      _preferences.setInt('difficulty', newDifficulty);
+      _preferences.setInt('difficulty', newDifficulty.index);
       notifyListeners();
     }
   }
