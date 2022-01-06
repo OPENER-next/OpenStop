@@ -129,6 +129,20 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_appauth:
+    dependency: "direct main"
+    description:
+      name: flutter_appauth
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.0"
+  flutter_appauth_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_appauth_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.0"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -291,7 +305,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "0e10386ca3857eec6fdf50be9e9f378126dbc0cb"
+      resolved-ref: "2f1114e0ccd00e9781feac33b43ed80c158690ec"
       url: "https://github.com/OPENER-next/osm_api.git"
     source: git
     version: "0.0.1"
