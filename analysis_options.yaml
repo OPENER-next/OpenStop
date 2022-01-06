@@ -19,4 +19,5 @@ linter:
     use_decorated_box: true
     use_late_for_private_fields_and_variables: true
     use_named_constants: true
+    use_setters_to_change_properties: true
     no_leading_underscores_for_local_identifiers: true
