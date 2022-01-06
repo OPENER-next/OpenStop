@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'OPENER next',
           theme: themeSelector(context.select<PreferencesProvider, themeEnum>((preference) => preference.theme)),
-          home: context.select<PreferencesProvider, bool>((preference) => preference.onboarding) ? const HomeScreen() : const OnboardingScreen(),
+          home: context.read<PreferencesProvider>().onboarding ? const HomeScreen() : const OnboardingScreen(),
         );
   }
 }
