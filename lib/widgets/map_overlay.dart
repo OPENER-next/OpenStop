@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:provider/provider.dart';
+
 import '/helpers/camera_tracker.dart';
-import '/view_models/map_view_model.dart';
+import '/view_models/preferences_provider.dart';
 import '/widgets/map_buttons/location_button.dart';
 import '/widgets/map_buttons/map_layer_switcher.dart';
 import '/widgets/map_buttons/compass_button.dart';
@@ -75,13 +76,12 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                         heroTag: null,
                         child: const Icon(
                           Icons.menu,
-                          color: Colors.black,
                         ),
                         onPressed: Scaffold.of(context).openDrawer,
                       ),
                       const Spacer(),
-                      Selector<MapViewModel, String>(
-                        selector: (context, value) => value.urlTemplate,
+                      Selector<PreferencesProvider, String>(
+                        selector: (context, value) => value.tileTemplateServer,
                         builder: (context, urlTemplate, child) {
                           return MapLayerSwitcher(
                             entries: const [
@@ -221,6 +221,6 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
   /// Update the ValueNotifier that contains the url from which tiles are fetched.
 
   void _changeTileProvider(MapLayerSwitcherEntry entry) {
-    context.read<MapViewModel>().urlTemplate = entry.key;
+    context.read<PreferencesProvider>().tileTemplateServer = entry.key;
   }
 }

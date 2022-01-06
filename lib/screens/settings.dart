@@ -1,0 +1,90 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '/models/difficulty_level.dart';
+import '/models/theme_identifier.dart';
+import '/view_models/preferences_provider.dart';
+import '/widgets/select_dialog.dart';
+
+class Settings extends StatefulWidget {
+  const Settings({Key? key}) : super(key: key);
+
+  @override
+  State<Settings> createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  static const appThemesMap = {
+    ThemeIdentifier.light : 'Hell',
+    ThemeIdentifier.dark : 'Dunkel',
+    ThemeIdentifier.contrast : 'Kontrast',
+  };
+
+  static const difficultyMap = {
+    DifficultyLevel.easy : 'Einfach',
+    DifficultyLevel.standard : 'Standard',
+    DifficultyLevel.hard : 'Schwer',
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Einstellungen'),
+        ),
+        body: Scrollbar(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+                  child: Column(
+                    children: [
+                      ListTile(
+                        leading: const Icon(Icons.palette),
+                        title: const Text('Design'),
+                        trailing: Text(appThemesMap[context.select<PreferencesProvider, ThemeIdentifier>((preferences) => preferences.theme)] ?? 'Unbekannt'),
+                        //subtitle: const Text('Farbliche Darstellung'),
+                        onTap: () async {
+                          final selection = await showDialog<ThemeIdentifier>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return SelectDialog(
+                                  valueLabelMap: appThemesMap,
+                                  value: context.select<PreferencesProvider, ThemeIdentifier>((preferences) => preferences.theme),
+                                  title: const Text('Design wählen'),
+                                );
+                              }
+                          );
+                          if (selection != null) {
+                            context.read<PreferencesProvider>().theme = selection;
+                          }
+                        },
+                      ),
+                      const Divider(height: 1),
+                      ListTile(
+                        leading: const Icon(Icons.line_weight),
+                        title: const Text('Schwierigkeitsgrad'),
+                        trailing: Text(difficultyMap[context.select<PreferencesProvider, DifficultyLevel>((preferences) => preferences.difficulty)] ?? 'Unbekannt'),
+                        //subtitle: const Text('Schwere der Fragen'),
+                        onTap: () async {
+                          final selection = await showDialog<DifficultyLevel>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return SelectDialog(
+                                  valueLabelMap: difficultyMap,
+                                  value: context.select<PreferencesProvider, DifficultyLevel>((preferences) => preferences.difficulty),
+                                  title: const Text('Schwierigkeitsgrad wählen'),
+                                );
+                              }
+                          );
+                          if (selection != null) {
+                            context.read<PreferencesProvider>().difficulty = selection;
+                          }
+                        },
+                      )
+                    ],
+                  ),
+                ),
+              )
+      );
+  }
+}

@@ -32,8 +32,8 @@ class CompassButton extends AnimatedWidget {
             angle: getRotation() * (isDegree ? _piFraction : 1),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Icon(
+              children: [
+                const Icon(
                   CupertinoIcons.arrowtriangle_up_fill,
                   color: Colors.red,
                   size: 12,
@@ -44,7 +44,7 @@ class CompassButton extends AnimatedWidget {
                         height: 1,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black
+                        color: Theme.of(context).floatingActionButtonTheme.foregroundColor,
                     )
                 ),
               ],

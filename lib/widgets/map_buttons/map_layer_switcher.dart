@@ -144,8 +144,7 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerPr
               backgroundColor: widget.active == entry.key ? Theme.of(context).colorScheme.primary : null,
               mini: true,
               child: Icon(
-                entry.icon,
-                color: Colors.black,
+                entry.icon
               ),
               onPressed: () {
                 if (widget.active != entry.key) {
@@ -190,11 +189,9 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerPr
       child: _isActive
         ? const Icon(
           Icons.layers_clear_rounded,
-          color: Colors.black,
         )
         : const Icon(
           Icons.layers_rounded,
-          color: Colors.black,
         ),
       onPressed: () {
         if (_controller.isDismissed) {

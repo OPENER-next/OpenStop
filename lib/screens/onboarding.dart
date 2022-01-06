@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/gestures.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+
 import '/widgets/dots_indicator.dart';
+import '/view_models/preferences_provider.dart';
 
 // Screens
 import 'home.dart';
@@ -22,11 +24,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   static const _dotsDuration = Duration(milliseconds: 300);
 
   static const _dotsCurve = Curves.ease;
-
-  _hasSeenOnboarding() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('hasSeenOnboarding', true);
-  }
 
   @override
   void initState() {
@@ -67,8 +64,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           padding: const EdgeInsets.all(16.0),
                           child: ElevatedButton(
                             onPressed: () {
-                            _hasSeenOnboarding();
-                            Navigator.pushReplacement(
+                              context.read<PreferencesProvider>().hasSeenOnboarding = true;
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => const HomeScreen())

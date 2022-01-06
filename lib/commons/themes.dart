@@ -6,7 +6,7 @@ class CustomColors {
   static const Color lightGreen = Color(0xffe9ffe4);
 }
 
-final ThemeData appTheme = ThemeData.light().copyWith(
+final ThemeData lightTheme = ThemeData.light().copyWith(
     colorScheme: ThemeData.light().colorScheme.copyWith(
       primary: CustomColors.green,
       secondary: CustomColors.lightGreen,
@@ -82,7 +82,7 @@ final ThemeData appTheme = ThemeData.light().copyWith(
         )
     ),
     iconTheme: const IconThemeData(
-      color: Colors.black87
+      color: Colors.black
     ),
     inputDecorationTheme: ThemeData.light().inputDecorationTheme.copyWith(
       contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -91,3 +91,65 @@ final ThemeData appTheme = ThemeData.light().copyWith(
       )
     )
   );
+
+final ThemeData darkTheme = ThemeData.dark().copyWith(
+    colorScheme: ThemeData.dark().colorScheme.copyWith(
+        primary: CustomColors.green,
+        secondary: CustomColors.lightGreen,
+        onPrimary: Colors.white,
+        onSecondary: CustomColors.darkGreen,
+        background: Colors.white,
+        surface: Colors.black
+    ),
+    appBarTheme: const AppBarTheme(
+        elevation: 2.0,
+        backgroundColor: Colors.black12,
+        foregroundColor: Colors.white70
+    ),
+    buttonTheme: ButtonThemeData(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0)
+      ),
+      buttonColor: Colors.yellow,
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.black,
+        smallSizeConstraints: BoxConstraints.tight(const Size.square(48)),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+                Radius.circular(10)
+            )
+        )
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+            primary: CustomColors.green,
+            padding: const EdgeInsets.all(20.0),
+            textStyle:const TextStyle(fontSize: 24)
+        )
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+            primary: CustomColors.darkGreen,
+            backgroundColor: CustomColors.lightGreen,
+            minimumSize: const Size(double.infinity, 48),
+            padding: EdgeInsets.zero,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            side: const BorderSide(
+              style: BorderStyle.none,
+            )
+        )
+    ),
+    iconTheme: const IconThemeData(
+        color: Colors.white70
+    ),
+    inputDecorationTheme: ThemeData.dark().inputDecorationTheme.copyWith(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+        border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12.0))
+        )
+    )
+);

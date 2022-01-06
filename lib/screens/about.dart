@@ -57,14 +57,14 @@ class _AboutState extends State<About> {
                     ),
                     ListTile(
                       dense: true,
-                      leading: const Icon(Icons.info, color: Colors.black54),
+                      leading: const Icon(Icons.info),
                       title: const Text('Version'),
                       subtitle: Text('${snapshot.data!.version}+${snapshot.data!.buildNumber}'),
                       onTap: () {},
                     ),
                     ListTile(
                       dense: true,
-                      leading: const Icon(Icons.supervisor_account, color: Colors.black54),
+                      leading: const Icon(Icons.supervisor_account),
                       title: const Text('Autoren'),
                       subtitle: Text('${snapshot.data!.appName} Mitwirkende'),
                       onTap: () => _launchUrl(_urlContributors),
@@ -72,7 +72,7 @@ class _AboutState extends State<About> {
                     ListTile(
                       dense: true,
                       isThreeLine: true,
-                      leading: const Icon(Icons.lightbulb, color: Colors.black54),
+                      leading: const Icon(Icons.lightbulb),
                       title: const Text('Idee'),
                       subtitle: const Text('Technische Universität Chemnitz\n'
                           'Professur Schaltkreis- und Systementwurf'),
@@ -80,21 +80,21 @@ class _AboutState extends State<About> {
                     ),
                     ListTile(
                       dense: true,
-                      leading: const Icon(Icons.code, color: Colors.black54),
+                      leading: const Icon(Icons.code),
                       title: const Text('Quellcode'),
                       subtitle: const Text('https://github.com/OPENER-next'),
                       onTap: () => _launchUrl(_urlCode),
                     ),
                     ListTile(
                       dense: true,
-                      leading: const Icon(Icons.text_snippet, color: Colors.black54),
+                      leading: const Icon(Icons.text_snippet),
                       title: const Text('Lizenz'),
                       subtitle: const Text('GPL-3.0'),
                       onTap: () => _launchUrl(_urlLicence),
                     ),
                     ListTile(
                       dense: true,
-                      leading: const Icon(Icons.privacy_tip, color: Colors.black54),
+                      leading: const Icon(Icons.privacy_tip),
                       title: const Text('Datenschutzerklärung'),
                       onTap: () => Navigator.push(
                           context,
@@ -105,7 +105,7 @@ class _AboutState extends State<About> {
                     ),
                     ListTile(
                       dense: true,
-                      leading: const Icon(Icons.contact_page, color: Colors.black54),
+                      leading: const Icon(Icons.contact_page),
                       title: const Text('Nutzungsbedingungen'),
                       onTap: () => Navigator.push(
                           context,
