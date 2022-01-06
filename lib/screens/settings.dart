@@ -48,7 +48,7 @@ class _SettingsState extends State<Settings> {
                               builder: (BuildContext context) {
                                 return SelectDialog(
                                   valueLabelMap: appThemesMap,
-                                  value: context.select<PreferencesProvider, themeEnum>((preference) => preference.theme),
+                                  value: context.select<PreferencesProvider, themeEnum>((preferences) => preferences.theme),
                                   title: const Text('Design wählen'),
                                 );
                               }
@@ -69,7 +69,7 @@ class _SettingsState extends State<Settings> {
                               builder: (BuildContext context) {
                                 return SelectDialog(
                                   valueLabelMap: difficultyMap,
-                                  value: context.select<PreferencesProvider, int>((preference) => preference.difficulty),
+                                  value: context.select<PreferencesProvider, int>((preferences) => preferences.difficulty),
                                   title: const Text('Schwierigkeitsgrad wählen'),
                                 );
                               }

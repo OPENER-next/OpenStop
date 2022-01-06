@@ -28,11 +28,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.select<PreferencesProvider, themeEnum>((preferences) => preferences.theme);
+    final hasSeenOnboarding = context.select<PreferencesProvider, bool>((preferences) => preferences.onboarding);
+
     return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'OPENER next',
-          theme: themeSelector(context.select<PreferencesProvider, themeEnum>((preference) => preference.theme)),
-          home: context.read<PreferencesProvider>().onboarding ? const HomeScreen() : const OnboardingScreen(),
+          theme: themeSelector(theme),
+          home: hasSeenOnboarding ? const HomeScreen() : const OnboardingScreen(),
         );
   }
 }
