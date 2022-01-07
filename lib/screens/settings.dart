@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '/models/difficulty_level.dart';
-import '/models/theme_identifier.dart';
+//import '/models/theme_identifier.dart';
 import '/view_models/preferences_provider.dart';
 import '/widgets/select_dialog.dart';
 
@@ -14,10 +14,16 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  static const appThemesMap = {
-    ThemeIdentifier.light : 'Hell',
-    ThemeIdentifier.dark : 'Dunkel',
-    ThemeIdentifier.contrast : 'Kontrast',
+  // static const appThemesMap = {
+  //   ThemeIdentifier.light : 'Hell',
+  //   ThemeIdentifier.dark : 'Dunkel',
+  //   ThemeIdentifier.contrast : 'Kontrast',
+  // };
+
+  static const themeModesMap = {
+    ThemeMode.light : 'Hell',
+    ThemeMode.dark : 'Dunkel',
+    ThemeMode.system : 'Systemvorgabe',
   };
 
   static const difficultyMap = {
@@ -41,21 +47,21 @@ class _SettingsState extends State<Settings> {
                       ListTile(
                         leading: const Icon(Icons.palette),
                         title: const Text('Design'),
-                        trailing: Text(appThemesMap[context.select<PreferencesProvider, ThemeIdentifier>((preferences) => preferences.theme)] ?? 'Unbekannt'),
+                        trailing: Text(themeModesMap[context.select<PreferencesProvider, ThemeMode>((preferences) => preferences.themeMode)] ?? 'Unbekannt'),
                         //subtitle: const Text('Farbliche Darstellung'),
                         onTap: () async {
-                          final selection = await showDialog<ThemeIdentifier>(
+                          final selection = await showDialog<ThemeMode>(
                               context: context,
                               builder: (BuildContext context) {
                                 return SelectDialog(
-                                  valueLabelMap: appThemesMap,
-                                  value: context.select<PreferencesProvider, ThemeIdentifier>((preferences) => preferences.theme),
-                                  title: const Text('Design wählen'),
+                                  valueLabelMap: themeModesMap,
+                                  value: context.select<PreferencesProvider, ThemeMode>((preferences) => preferences.themeMode),
+                                  title: const Text('Design'),
                                 );
                               }
                           );
                           if (selection != null) {
-                            context.read<PreferencesProvider>().theme = selection;
+                            context.read<PreferencesProvider>().themeMode = selection;
                           }
                         },
                       ),
@@ -72,7 +78,7 @@ class _SettingsState extends State<Settings> {
                                 return SelectDialog(
                                   valueLabelMap: difficultyMap,
                                   value: context.select<PreferencesProvider, DifficultyLevel>((preferences) => preferences.difficulty),
-                                  title: const Text('Schwierigkeitsgrad wählen'),
+                                  title: const Text('Schwierigkeitsgrad'),
                                 );
                               }
                           );

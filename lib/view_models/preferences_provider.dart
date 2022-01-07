@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '/models/difficulty_level.dart';
-import '/models/theme_identifier.dart';
 
 
 class PreferencesProvider extends ChangeNotifier {
   final SharedPreferences _preferences;
-  static const ThemeIdentifier _defaultTheme = ThemeIdentifier.light;
+  static const ThemeMode _defaultThemeMode = ThemeMode.light;
   static const DifficultyLevel _defaultDifficulty = DifficultyLevel.easy;
   static const bool _defaultOnboarding = false;
   static const String _defaultTileTemplateServer = 'https://osm-2.nearest.place/retina/{z}/{x}/{y}.png';
@@ -34,16 +33,16 @@ class PreferencesProvider extends ChangeNotifier {
     }
   }
 
-  ThemeIdentifier get theme {
-    final themeIndex = _preferences.getInt('theme');
-    return themeIndex != null && themeIndex < ThemeIdentifier.values.length
-        ? ThemeIdentifier.values[themeIndex]
-        : _defaultTheme;
+  ThemeMode get themeMode {
+    final themeModeIndex = _preferences.getInt('theme');
+    return themeModeIndex != null && themeModeIndex < ThemeMode.values.length
+        ? ThemeMode.values[themeModeIndex]
+        : _defaultThemeMode;
   }
 
-  set theme(ThemeIdentifier newTheme) {
-    if (newTheme != theme) {
-      _preferences.setInt('theme', newTheme.index);
+  set themeMode(ThemeMode newThemeMode) {
+    if (newThemeMode != themeMode) {
+      _preferences.setInt('theme', newThemeMode.index);
       notifyListeners();
     }
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '/models/theme_identifier.dart';
+import '/commons/themes.dart';
 import '/view_models/preferences_provider.dart';
 
 // Screens
@@ -29,13 +29,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.select<PreferencesProvider, ThemeIdentifier>((preferences) => preferences.theme);
+    final themeMode = context.select<PreferencesProvider, ThemeMode>((preferences) => preferences.themeMode);
     final hasSeenOnboarding = context.select<PreferencesProvider, bool>((preferences) => preferences.hasSeenOnboarding);
 
     return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'OPENER next',
-          theme: theme.toThemeData(),
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          highContrastTheme: highContrastLightTheme,
+          highContrastDarkTheme: highContrastDarkTheme,
+          themeMode: themeMode,
           home: hasSeenOnboarding ? const HomeScreen() : const OnboardingScreen(),
         );
   }

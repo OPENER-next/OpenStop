@@ -153,3 +153,11 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
         )
     )
 );
+
+final ThemeData highContrastDarkTheme = ThemeData.dark().copyWith(
+    colorScheme: const ColorScheme.highContrastDark(),
+);
+
+final ThemeData highContrastLightTheme = ThemeData.light().copyWith(
+  colorScheme: const ColorScheme.highContrastLight(),
+);
