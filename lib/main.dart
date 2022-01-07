@@ -29,8 +29,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeMode = context.select<PreferencesProvider, ThemeMode>((preferences) => preferences.themeMode);
-    final hasSeenOnboarding = context.select<PreferencesProvider, bool>((preferences) => preferences.hasSeenOnboarding);
+    final themeMode = context.read<PreferencesProvider>().themeMode;
+    final hasSeenOnboarding = context.read<PreferencesProvider>().hasSeenOnboarding;
 
     return MaterialApp(
           debugShowCheckedModeBanner: false,

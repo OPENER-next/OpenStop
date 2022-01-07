@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '/models/difficulty_level.dart';
-//import '/models/theme_identifier.dart';
 import '/view_models/preferences_provider.dart';
 import '/widgets/select_dialog.dart';
 
