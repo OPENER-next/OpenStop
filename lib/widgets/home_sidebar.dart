@@ -2,11 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-// Screens
-import '/screens/about.dart';
-import '/screens/settings.dart';
+import '/models/routes.dart';
 
-/// Builds the drawer/sidebar providing access to additional settings.
 
 class HomeSidebar extends StatefulWidget {
 
@@ -46,26 +43,14 @@ class _HomeSidebarState extends State<HomeSidebar> {
                 Icons.settings,
               ),
               title: const Text('Einstellungen'),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const Settings())
-                );
-              },
+              onTap: () => Navigator.pushNamed(context, Routes.settings),
             ),
             ListTile(
               leading: const Icon(
                 Icons.info,
               ),
               title: const Text('Über'),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const About())
-                );
-              },
+              onTap: () => Navigator.pushNamed(context, Routes.about),
             ),
             ListTile(
               leading: const Icon(Icons.feedback,

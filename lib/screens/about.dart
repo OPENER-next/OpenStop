@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-// Screens
-import 'terms_of_use.dart';
-import 'privacy_policy.dart';
-import 'licences.dart';
+import '/models/routes.dart';
 
 class About extends StatefulWidget {
   const About({Key? key}) : super(key: key);
@@ -97,34 +94,19 @@ class _AboutState extends State<About> {
                       dense: true,
                       leading: const Icon(Icons.privacy_tip),
                       title: const Text('Datenschutzerklärung'),
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const PrivacyPolicy(),
-                          )
-                      ),
+                      onTap: () => Navigator.pushNamed(context, Routes.privacyPolicy),
                     ),
                     ListTile(
                       dense: true,
                       leading: const Icon(Icons.contact_page),
                       title: const Text('Nutzungsbedingungen'),
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const TermsOfUse(),
-                          )
-                      ),
+                      onTap: () => Navigator.pushNamed(context, Routes.termsOfUse),
                     ),
                     ListTile(
                       dense: true,
                       leading: const Icon(Icons.text_snippet),
                       title: const Text('Lizenzen verwendeter Pakete'),
-                      onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const Licenses(),
-                          )
-                      ),
+                      onTap: () => Navigator.pushNamed(context, Routes.licenses),
                     ),
                     Container(
                       color: Colors.white,

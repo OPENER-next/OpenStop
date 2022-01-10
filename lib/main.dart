@@ -5,10 +5,16 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '/commons/themes.dart';
 import '/view_models/preferences_provider.dart';
+import '/models/routes.dart';
 
 // Screens
-import 'screens/onboarding.dart';
-import 'screens/home.dart';
+import '/screens/about.dart';
+import '/screens/home.dart';
+import '/screens/licences.dart';
+import '/screens/onboarding.dart';
+import '/screens/privacy_policy.dart';
+import '/screens/settings.dart';
+import '/screens/terms_of_use.dart';
 
 
 Future <void> main() async{
@@ -41,13 +47,22 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: const [
             Locale('de','DE')
-          ] ,
+          ],
+          initialRoute: hasSeenOnboarding ? Routes.home : Routes.onboarding,
+          routes: {
+            Routes.home: (context) => const HomeScreen(),
+            Routes.about: (context) => const About(),
+            Routes.licenses: (context) => const Licenses(),
+            Routes.onboarding: (context) => const OnboardingScreen(),
+            Routes.privacyPolicy: (context) => const PrivacyPolicy(),
+            Routes.settings: (context) => const Settings(),
+            Routes.termsOfUse: (context) => const TermsOfUse(),
+          },
           theme: lightTheme,
           darkTheme: darkTheme,
           highContrastTheme: highContrastLightTheme,
           highContrastDarkTheme: highContrastDarkTheme,
           themeMode: themeMode,
-          home: hasSeenOnboarding ? const HomeScreen() : const OnboardingScreen(),
         );
   }
 }
