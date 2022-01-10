@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
 
 import '/helpers/camera_tracker.dart';
@@ -36,6 +37,8 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
 
   late final mapController = context.read<MapController>();
 
+  static const String _urlContributors = 'https://www.openstreetmap.org/copyright';
+
   @override
   void initState() {
     super.initState();
@@ -46,6 +49,9 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
     });
   }
 
+  void _launchUrl(_url) async {
+    if (!await launch(_url)) throw '$_url kann nicht aufgerufen werden';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,32 +112,35 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                   ),
                   Align(
                       alignment: Alignment.bottomCenter,
-                      child: Stack(
-                        children: <Widget>[
-                          // Stroked text as border.
-                          Opacity(
-                            opacity: 0.5,
-                            child: Text(
+                      child: GestureDetector(
+                        onTap: () => _launchUrl(_urlContributors),
+                        child: Stack(
+                          children: <Widget>[
+                            // Stroked text as border.
+                            Opacity(
+                              opacity: 0.5,
+                              child: Text(
+                                '© OpenStreetMap-Mitwirkende',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  foreground: Paint()
+                                    ..style = PaintingStyle.stroke
+                                    ..strokeWidth = 2
+                                    ..strokeJoin = StrokeJoin.round
+                                    ..color = Colors.white,
+                                ),
+                              ),
+                            ),
+                            // Solid text as fill.
+                            const Text(
                               '© OpenStreetMap-Mitwirkende',
                               style: TextStyle(
                                 fontSize: 10,
-                                foreground: Paint()
-                                  ..style = PaintingStyle.stroke
-                                  ..strokeWidth = 2
-                                  ..strokeJoin = StrokeJoin.round
-                                  ..color = Colors.white,
+                                color: Colors.black,
                               ),
                             ),
-                          ),
-                          // Solid text as fill.
-                          const Text(
-                            '© OpenStreetMap-Mitwirkende',
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       )
                   ),
                   Column(
