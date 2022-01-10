@@ -5,6 +5,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 // Screens
 import 'terms_of_use.dart';
 import 'privacy_policy.dart';
+import 'licences.dart';
 
 class About extends StatefulWidget {
   const About({Key? key}) : super(key: key);
@@ -87,7 +88,7 @@ class _AboutState extends State<About> {
                     ),
                     ListTile(
                       dense: true,
-                      leading: const Icon(Icons.text_snippet),
+                      leading: const Icon(Icons.copyright),
                       title: const Text('Lizenz'),
                       subtitle: const Text('GPL-3.0'),
                       onTap: () => _launchUrl(_urlLicence),
@@ -111,6 +112,17 @@ class _AboutState extends State<About> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => const TermsOfUse(),
+                          )
+                      ),
+                    ),
+                    ListTile(
+                      dense: true,
+                      leading: const Icon(Icons.text_snippet),
+                      title: const Text('Lizenzen verwendeter Pakete'),
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Licenses(),
                           )
                       ),
                     ),
