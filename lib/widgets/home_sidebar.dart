@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '/models/routes.dart';
+import '/commons/screens.dart';
 
 
 class HomeSidebar extends StatefulWidget {
@@ -43,14 +43,14 @@ class _HomeSidebarState extends State<HomeSidebar> {
                 Icons.settings,
               ),
               title: const Text('Einstellungen'),
-              onTap: () => Navigator.pushNamed(context, Routes.settings),
+              onTap: () => Navigator.pushNamed(context, Screen.settings),
             ),
             ListTile(
               leading: const Icon(
                 Icons.info,
               ),
               title: const Text('Über'),
-              onTap: () => Navigator.pushNamed(context, Routes.about),
+              onTap: () => Navigator.pushNamed(context, Screen.about),
             ),
             ListTile(
               leading: const Icon(Icons.feedback,

@@ -5,7 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '/commons/themes.dart';
 import '/view_models/preferences_provider.dart';
-import '/models/routes.dart';
+import '/commons/screens.dart';
 
 // Screens
 import '/screens/about.dart';
@@ -48,15 +48,15 @@ class MyApp extends StatelessWidget {
           supportedLocales: const [
             Locale('de','DE')
           ],
-          initialRoute: hasSeenOnboarding ? Routes.home : Routes.onboarding,
+          initialRoute: hasSeenOnboarding ? Screen.home : Screen.onboarding,
           routes: {
-            Routes.home: (context) => const HomeScreen(),
-            Routes.about: (context) => const About(),
-            Routes.licenses: (context) => const Licenses(),
-            Routes.onboarding: (context) => const OnboardingScreen(),
-            Routes.privacyPolicy: (context) => const PrivacyPolicy(),
-            Routes.settings: (context) => const Settings(),
-            Routes.termsOfUse: (context) => const TermsOfUse(),
+            Screen.home: (context) => const HomeScreen(),
+            Screen.about: (context) => const About(),
+            Screen.licenses: (context) => const Licenses(),
+            Screen.onboarding: (context) => const OnboardingScreen(),
+            Screen.privacyPolicy: (context) => const PrivacyPolicy(),
+            Screen.settings: (context) => const Settings(),
+            Screen.termsOfUse: (context) => const TermsOfUse(),
           },
           theme: lightTheme,
           darkTheme: darkTheme,

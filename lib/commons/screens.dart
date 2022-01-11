@@ -1,4 +1,4 @@
-class Routes {
+class Screen {
   static const String home = '/';
   static const String about = '/about';
   static const String licenses = '/licenses';

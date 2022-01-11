@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import '/models/routes.dart';
+import '/commons/screens.dart';
 
 class About extends StatefulWidget {
   const About({Key? key}) : super(key: key);
@@ -94,19 +94,19 @@ class _AboutState extends State<About> {
                       dense: true,
                       leading: const Icon(Icons.privacy_tip),
                       title: const Text('Datenschutzerklärung'),
-                      onTap: () => Navigator.pushNamed(context, Routes.privacyPolicy),
+                      onTap: () => Navigator.pushNamed(context, Screen.privacyPolicy),
                     ),
                     ListTile(
                       dense: true,
                       leading: const Icon(Icons.contact_page),
                       title: const Text('Nutzungsbedingungen'),
-                      onTap: () => Navigator.pushNamed(context, Routes.termsOfUse),
+                      onTap: () => Navigator.pushNamed(context, Screen.termsOfUse),
                     ),
                     ListTile(
                       dense: true,
                       leading: const Icon(Icons.text_snippet),
                       title: const Text('Lizenzen verwendeter Pakete'),
-                      onTap: () => Navigator.pushNamed(context, Routes.licenses),
+                      onTap: () => Navigator.pushNamed(context, Screen.licenses),
                     ),
                     Container(
                       color: Colors.white,
