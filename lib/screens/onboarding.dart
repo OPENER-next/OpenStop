@@ -5,11 +5,8 @@ import 'package:provider/provider.dart';
 
 import '/widgets/dots_indicator.dart';
 import '/view_models/preferences_provider.dart';
+import '/commons/screens.dart';
 
-// Screens
-import 'home.dart';
-import 'terms_of_use.dart';
-import 'privacy_policy.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -65,11 +62,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           child: ElevatedButton(
                             onPressed: () {
                               context.read<PreferencesProvider>().hasSeenOnboarding = true;
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const HomeScreen())
-                            );
+                              Navigator.pushReplacementNamed(context, Screen.home);
                           },
                           child: const Text('Los geht\'s!'),
                       ),
@@ -86,13 +79,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                     color: Theme.of(context).colorScheme.secondary
                                 ),
                                 recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => const TermsOfUse())
-                                    );
-                                  }),
+                                  ..onTap = () => Navigator.pushNamed(context, Screen.termsOfUse),
+                            ),
                             const TextSpan(text: ' und bestätigst, dass du unsere '),
                             TextSpan(
                                 text: 'Datenschutzerklärung',
@@ -100,13 +88,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                     color: Theme.of(context).colorScheme.secondary
                                 ),
                                 recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => const PrivacyPolicy())
-                                    );
-                                  }),
+                                  ..onTap = () => Navigator.pushNamed(context, Screen.privacyPolicy),
+                            ),
                             const TextSpan(text: ' gelesen hast.'),
                             ],
                           ),
