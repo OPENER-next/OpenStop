@@ -147,12 +147,19 @@ class _ListInputItemState extends State<ListInputItem>
                         topRight: Radius.circular(8.0),
                         bottomRight: Radius.circular(8.0)),
                     child: Image.asset(
-                      'assets/placeholder_image.png',
+                      widget.item.image!,
+                      errorBuilder: (context, error, stackTrace){
+                        return Image.asset(
+                            'assets/placeholder_image.png',
+                            fit: BoxFit.cover,
+                            height: 90);
+                      },
                       fit: BoxFit.cover,
                       height: 90,
                     ),
                   ),
-                ))
+                )
+            )
         ],
       ),
     );
