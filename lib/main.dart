@@ -17,7 +17,7 @@ import '/screens/settings.dart';
 import '/screens/terms_of_use.dart';
 
 
-Future <void> main() async{
+Future <void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -27,8 +27,7 @@ Future <void> main() async{
         preferences: prefs,
     ),
     child: const MyApp(),
-  ),
-  );
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -36,7 +35,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeMode = context.read<PreferencesProvider>().themeMode;
+    final themeMode = context.select<PreferencesProvider, ThemeMode>((preferences) => preferences.themeMode);
+    // Using read to prevent unnessecary rebuilt
     final hasSeenOnboarding = context.read<PreferencesProvider>().hasSeenOnboarding;
 
     return MaterialApp(
