@@ -32,26 +32,24 @@ class _SelectDialogState<T> extends State<SelectDialog<T>> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      scrollable: true,
       title: widget.title,
-      contentPadding: EdgeInsets.zero,
-      // use list view because the content could potentially be scrollable
-      // also build the items lazy because there could potentially be hundred of them
-      content: ListView.builder(
-          shrinkWrap: true,
-          itemCount: _entries.length,
-          itemBuilder: (context, index) {
-            final entry = _entries[index];
-            return RadioListTile<T>(
-              groupValue: _selectedValue,
-              value: entry.key,
-              onChanged: (T? value) {
-                setState(() {
-                  _selectedValue = value;
-                });
-              },
-              title: Text(entry.value),
-            );
-          }
+      // Use column instead of ListView. See: https://github.com/flutter/flutter/issues/18108
+      content: Column(
+        children: List.generate(_entries.length, (index) {
+          final entry = _entries[index];
+          return RadioListTile<T>(
+            groupValue: _selectedValue,
+            value: entry.key,
+            contentPadding: EdgeInsets.zero,
+            onChanged: (T? value) {
+              setState(() {
+                _selectedValue = value;
+              });
+            },
+            title: Text(entry.value),
+          );
+        }),
       ),
       actions: [
         TextButton(
