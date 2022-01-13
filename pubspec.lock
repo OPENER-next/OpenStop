@@ -15,7 +15,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: cb99ceb87d95888a484b022dd26c8ea321c01555
+      resolved-ref: "31bcaeed2a1323287fea4e4170800fa2aaf614d6"
       url: "https://github.com/OPENER-next/animated_marker_layer.git"
     source: git
     version: "0.0.1"
@@ -129,6 +129,20 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_appauth:
+    dependency: "direct main"
+    description:
+      name: flutter_appauth
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.0"
+  flutter_appauth_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_appauth_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.0"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -155,6 +169,48 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.14.0"
+  flutter_secure_storage:
+    dependency: "direct main"
+    description:
+      name: flutter_secure_storage
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.2"
+  flutter_secure_storage_linux:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_linux
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
+  flutter_secure_storage_macos:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_macos
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
+  flutter_secure_storage_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
+  flutter_secure_storage_web:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
+  flutter_secure_storage_windows:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_windows
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -296,7 +352,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "0e10386ca3857eec6fdf50be9e9f378126dbc0cb"
+      resolved-ref: "240fe3a07d88bee17a6afa52b3527feeec129802"
       url: "https://github.com/OPENER-next/osm_api.git"
     source: git
     version: "0.0.1"
