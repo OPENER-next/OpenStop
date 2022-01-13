@@ -10,7 +10,7 @@ import '/commons/screens.dart';
 // Screens
 import '/screens/about.dart';
 import '/screens/home.dart';
-import '/screens/licences.dart';
+import '/screens/licenses.dart';
 import '/screens/onboarding.dart';
 import '/screens/privacy_policy.dart';
 import '/screens/settings.dart';
