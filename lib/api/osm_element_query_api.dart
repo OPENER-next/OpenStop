@@ -6,7 +6,7 @@ import 'package:osm_api/osm_api.dart';
 /// This class exposes API calls for querying [OSMElement]s via the OSM API.
 
 class OSMElementQueryAPI {
-  final osm = OSMAPI(
+  final _osm = OSMAPI(
     baseUrl: 'https://www.openstreetmap.org/api/0.6',
   );
 
@@ -17,7 +17,7 @@ class OSMElementQueryAPI {
   /// This method will throw [OSMAPI] connection errors.
 
   Future<OSMElementBundle> queryByBBox(LatLngBounds bbox) {
-    return osm.getElementsByBoundingBox(
+    return _osm.getElementsByBoundingBox(
       BoundingBox(
         bbox.west, bbox.south, bbox.east, bbox.north
       )
@@ -29,6 +29,6 @@ class OSMElementQueryAPI {
   /// This should be called inside the widgets dispose callback.
 
   dispose() {
-    osm.dispose();
+    _osm.dispose();
   }
 }

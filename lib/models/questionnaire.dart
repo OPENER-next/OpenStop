@@ -18,7 +18,7 @@ class Questionnaire {
     _osmElement = osmElement
   {
     _updateWorkingElement();
-    _addMatchingEntries(afterIndex: -1);
+    _insertMatchingEntries(afterIndex: -1);
   }
 
   final QuestionCatalog _questionCatalog;
@@ -80,7 +80,7 @@ class Questionnaire {
       );
       _updateWorkingElement();
       _removeObsoleteEntries();
-      _addMatchingEntries();
+      _insertMatchingEntries();
     }
   }
 
@@ -95,7 +95,7 @@ class Questionnaire {
   }
 
 
-  _addMatchingEntries({ int? afterIndex }) {
+  _insertMatchingEntries({ int? afterIndex }) {
     afterIndex ??= _activeIndex;
     // insert questions in reverse so questions that follow next in the catalog
     // also follow next in the questionnaire
