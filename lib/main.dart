@@ -18,28 +18,36 @@ import '/screens/terms_of_use.dart';
 
 
 Future <void> main() async {
+  // this is required to run flutter dependent code before runApp is called
+  // in this case SharedPreferences requires this
   WidgetsFlutterBinding.ensureInitialized();
 
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  runApp(ChangeNotifierProvider<PreferencesProvider>(
-    create: (_) => PreferencesProvider(
-        preferences: prefs,
-    ),
-    child: const MyApp(),
+  runApp(MyApp(
+    sharedPreferences: await SharedPreferences.getInstance()
   ));
 }
 
+
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final SharedPreferences sharedPreferences;
+
+  const MyApp({
+    required this.sharedPreferences,
+    Key? key
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final themeMode = context.select<PreferencesProvider, ThemeMode>((preferences) => preferences.themeMode);
-    // Using read to prevent unnessecary rebuilt
-    final hasSeenOnboarding = context.read<PreferencesProvider>().hasSeenOnboarding;
+    return ChangeNotifierProvider<PreferencesProvider>(
+      create: (_) => PreferencesProvider(
+        preferences: sharedPreferences,
+      ),
+      builder: (context, child) {
+        final themeMode = context.select<PreferencesProvider, ThemeMode>((preferences) => preferences.themeMode);
+        // Using read to prevent unnecessary rebuilt
+        final hasSeenOnboarding = context.read<PreferencesProvider>().hasSeenOnboarding;
 
-    return MaterialApp(
+        return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'OPENER next',
           localizationsDelegates: const [
@@ -64,5 +72,7 @@ class MyApp extends StatelessWidget {
           highContrastDarkTheme: highContrastDarkTheme,
           themeMode: themeMode,
         );
+      },
+    );
   }
 }
