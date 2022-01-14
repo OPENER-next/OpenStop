@@ -76,6 +76,10 @@ class OSMAuthenticationManager {
       _osmApi.authentication = OAuth2(
         accessToken: accessToken,
       );
+
+      if (!await _verify()) {
+        _osmApi.authentication = null;
+      }
     }
   }
 
@@ -94,6 +98,19 @@ class OSMAuthenticationManager {
       //   )
       // ),
     ]);
+  }
+
+
+  /// Verify that the current api is (still) authenticated and grants the required permissions.
+
+  Future<bool> _verify() async {
+    try {
+      final permissions = await _osmApi.getPermissions();
+      return permissions.hasAll(const ['allow_read_prefs', 'allow_write_api']);
+    }
+    catch (e) {
+      return false;
+    }
   }
 
 
