@@ -131,6 +131,7 @@ class UserAccountHeader extends StatelessWidget {
   final double profilePictureSize;
   final double borderWidth;
   final double borderRadius;
+  final Offset buttonOffset;
 
   const UserAccountHeader({
     required this.name,
@@ -140,6 +141,7 @@ class UserAccountHeader extends StatelessWidget {
     this.profilePictureSize = 100,
     this.borderWidth = 4,
     this.borderRadius = 20,
+    this.buttonOffset = const Offset(15, 15),
     Key? key,
   }) : super(key: key);
 
@@ -165,10 +167,11 @@ class UserAccountHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: 10 + totalSize,
-                width: 30 + totalSize,
+                height: buttonOffset.dy + totalSize,
+                // double the offset value, because the image is (top) centered
+                // therefore the surrounding box needs to be extended equally left and right
+                width: 2 * buttonOffset.dx + totalSize,
                 child: Stack(
-                  fit: StackFit.expand,
                   children: [
                     Align(
                       alignment: Alignment.topCenter,
