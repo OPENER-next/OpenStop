@@ -51,15 +51,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    // set system ui to fullscreen
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    // update native ui colors
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.black.withOpacity(0.25),
-      statusBarIconBrightness: Brightness.light,
-      systemNavigationBarColor: Colors.black.withOpacity(0.25),
-      systemNavigationBarIconBrightness: Brightness.light,
-    ));
 
     // query stops on map interactions
     _mapController.mapEventStream.debounce<MapEvent>(const Duration(milliseconds: 500)).listen((event) {

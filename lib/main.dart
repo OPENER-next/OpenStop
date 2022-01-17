@@ -15,6 +15,7 @@ import '/screens/onboarding.dart';
 import '/screens/privacy_policy.dart';
 import '/screens/settings.dart';
 import '/screens/terms_of_use.dart';
+import '/helpers/system_ui_adaptor.dart';
 
 
 Future <void> main() async {
@@ -66,6 +67,11 @@ class MyApp extends StatelessWidget {
             Screen.settings: (context) => const Settings(),
             Screen.termsOfUse: (context) => const TermsOfUse(),
           },
+          navigatorObservers: [
+            SystemUIAdaptor({
+              Screen.home: SystemUIAdaptor.edgeToEdgeStyle,
+            })
+          ],
           theme: lightTheme,
           darkTheme: darkTheme,
           highContrastTheme: highContrastLightTheme,

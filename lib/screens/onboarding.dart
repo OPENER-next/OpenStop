@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
 
@@ -17,22 +16,6 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final _controller = PageController(initialPage: 0);
-
-  static const _dotsDuration = Duration(milliseconds: 300);
-
-  static const _dotsCurve = Curves.ease;
-
-  @override
-  void initState() {
-    super.initState();
-    // update native ui colors
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarColor: Colors.white,
-      systemNavigationBarIconBrightness: Brightness.dark,
-    ));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +92,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               onPageSelected: (int page) {
                 _controller.animateToPage(
                   page,
-                  duration: _dotsDuration,
-                  curve: _dotsCurve,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.ease,
                 );
               },
             ),
