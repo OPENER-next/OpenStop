@@ -48,6 +48,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     mapController: _mapController
   );
 
+  late final _questionCatalog = _parseQuestionCatalog();
+
   @override
   void initState() {
     super.initState();
@@ -76,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<QuestionCatalog>(
-      future: _parseQuestionCatalog(),
+      future: _questionCatalog,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           // TODO: Style this properly
@@ -89,8 +91,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
           return MultiProvider(
             providers: [
-              Provider.value(value: questionCatalog),
-              ChangeNotifierProvider(create: (_) => QuestionnaireProvider()),
+              ProxyProvider<PreferencesProvider, QuestionCatalog>(
+                update: (_, preferences, __) {
+                  return questionCatalog.filterBy(
+                    difficulty: preferences.difficulty
+                  );
+                },
+              ),
+              ChangeNotifierProvider(
+                create: (_) => QuestionnaireProvider()
+              ),
               ChangeNotifierProvider.value(value: _cameraTracker),
               ChangeNotifierProvider.value(value: _stopAreasProvider),
               ChangeNotifierProvider(
@@ -98,111 +108,109 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 // do this so the previous session is loaded on start in parallel
                 lazy: false,
               ),
-              ChangeNotifierProvider(create: (_) => OSMElementProvider()),
-              ChangeNotifierProxyProvider<OSMElementProvider, IncompleteOSMElementProvider>(
-                create: (_) => IncompleteOSMElementProvider(questionCatalog),
-                update: (_, osmElementProvider, incompleteOSMElementProvider) {
-                  return incompleteOSMElementProvider!
-                    ..extractNew(osmElementProvider.loadedStopAreas);
+              ChangeNotifierProvider(
+                create: (_) => OSMElementProvider()
+              ),
+              ChangeNotifierProxyProvider2<OSMElementProvider, QuestionCatalog, IncompleteOSMElementProvider>(
+                create: (_) => IncompleteOSMElementProvider(),
+                update: (_, osmElementProvider, questionCatalog, incompleteOSMElementProvider) {
+                  return incompleteOSMElementProvider!..update(osmElementProvider.loadedStopAreas, questionCatalog);
                 }
               ),
               Provider.value(value: _mapController),
             ],
-            child: Scaffold(
+            builder: (context, child) => Scaffold(
               drawer: const HomeSidebar(),
-              // use builder to get scaffold context
-              body: Builder(builder: (context) =>
-                Stack(
-                  children: [
-                    FlutterMap(
-                      mapController: _mapController,
-                      options: MapOptions(
-                        onTap: (position, location) => _closeQuestionDialog(context),
-                        enableMultiFingerGestureRace: true,
-                        center: LatLng(50.8144951, 12.9295576),
-                        zoom: 15.0,
-                      ),
-                      children: [
-                        Consumer<PreferencesProvider>(
-                          builder: (context, value, child) {
-                            return TileLayerWidget(
-                              options: TileLayerOptions(
-                                overrideTilesWhenUrlChanges: true,
-                                urlTemplate: value.tileTemplateServer,
-                                minZoom: value.minZoom,
-                                maxZoom: value.maxZoom,
-                                tileProvider: NetworkTileProvider(),
-                              ),
-                            );
-                          }
-                        ),
-                        Consumer2<StopAreasProvider, OSMElementProvider>(
-                          builder: (context, stopAreaProvider, osmElementProvider, child) {
-                            return StopAreaLayer(
-                              stopAreas: stopAreaProvider.stopAreas,
-                              loadingStopAreas: osmElementProvider.loadingStopAreas,
-                              onStopAreaTap: (stopArea) => _onStopAreaTap(stopArea, context),
-                            );
-                          }
-                        ),
-                        Consumer<IncompleteOSMElementProvider>(
-                          builder: (context, incompleteOsmElementProvider, child) {
-                            return OsmElementLayer(
-                              onOsmElementTap: (osmElement) => _onOsmElementTap(osmElement, context),
-                              geoElements: incompleteOsmElementProvider.loadedOsmElements
-                            );
-                          }
-                        ),
-                        AnimatedLocationLayerWidget(
-                          options: AnimatedLocationOptions()
-                        )
-                      ],
-                      nonRotatedChildren: [
-                        // only show controls when map creation finished
-                        FutureBuilder(
-                          future: _mapController.onReady,
-                          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                            // only show overlay when question history has no active entry
-                            return Consumer<QuestionnaireProvider>(
-                              builder: (context, questionnaire,child) {
-                                final mapIsLoaded = snapshot.connectionState == ConnectionState.done;
-                                final noActiveEntry = !questionnaire.hasEntries;
-
-                                return AnimatedSwitcher(
-                                  switchInCurve: Curves.ease,
-                                  switchOutCurve: Curves.ease,
-                                  duration: const Duration(milliseconds: 300),
-                                  child: mapIsLoaded && noActiveEntry
-                                    ? const MapOverlay()
-                                    : const SizedBox.expand(
-                                      // TODO: decide overlay style/color
-                                      child: ColoredBox(color: Colors.transparent)
-                                    )
-                                );
-                              }
-                            );
-                          }
-                        ),
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: Padding(
-                            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15),
-                            child: ValueListenableBuilder<bool>(
-                              valueListenable: context.read<StopAreasProvider>().isLoading,
-                              builder: (context, value, child) => LoadingIndicator(
-                                active: value,
-                              ),
-                            )
-                          )
-                        ),
-                      ],
+              body: Stack(
+                children: [
+                  FlutterMap(
+                    mapController: _mapController,
+                    options: MapOptions(
+                      onTap: (position, location) => _closeQuestionDialog(context),
+                      enableMultiFingerGestureRace: true,
+                      center: LatLng(50.8144951, 12.9295576),
+                      zoom: 15.0,
                     ),
-                    // place sheet on extra stack above map so touch events won't pass through
-                    const QuestionDialog(),
-                  ],
-                )
-              ),
-            )
+                    children: [
+                      Consumer<PreferencesProvider>(
+                        builder: (context, value, child) {
+                          return TileLayerWidget(
+                            options: TileLayerOptions(
+                              overrideTilesWhenUrlChanges: true,
+                              urlTemplate: value.tileTemplateServer,
+                              minZoom: value.minZoom,
+                              maxZoom: value.maxZoom,
+                              tileProvider: NetworkTileProvider(),
+                            ),
+                          );
+                        }
+                      ),
+                      Consumer2<StopAreasProvider, OSMElementProvider>(
+                        builder: (context, stopAreaProvider, osmElementProvider, child) {
+                          return StopAreaLayer(
+                            stopAreas: stopAreaProvider.stopAreas,
+                            loadingStopAreas: osmElementProvider.loadingStopAreas,
+                            onStopAreaTap: (stopArea) => _onStopAreaTap(stopArea, context),
+                          );
+                        }
+                      ),
+                      Consumer<IncompleteOSMElementProvider>(
+                        builder: (context, incompleteOsmElementProvider, child) {
+                          return OsmElementLayer(
+                            onOsmElementTap: (osmElement) => _onOsmElementTap(osmElement, context),
+                            geoElements: incompleteOsmElementProvider.loadedOsmElements
+                          );
+                        }
+                      ),
+                      AnimatedLocationLayerWidget(
+                        options: AnimatedLocationOptions()
+                      )
+                    ],
+                    nonRotatedChildren: [
+                      // only show controls when map creation finished
+                      FutureBuilder(
+                        future: _mapController.onReady,
+                        builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                          // only show overlay when question history has no active entry
+                          return Consumer<QuestionnaireProvider>(
+                            builder: (context, questionnaire,child) {
+                              final mapIsLoaded = snapshot.connectionState == ConnectionState.done;
+                              final noActiveEntry = !questionnaire.hasEntries;
+
+                              return AnimatedSwitcher(
+                                switchInCurve: Curves.ease,
+                                switchOutCurve: Curves.ease,
+                                duration: const Duration(milliseconds: 300),
+                                child: mapIsLoaded && noActiveEntry
+                                  ? const MapOverlay()
+                                  : const SizedBox.expand(
+                                    // TODO: decide overlay style/color
+                                    child: ColoredBox(color: Colors.transparent)
+                                  )
+                              );
+                            }
+                          );
+                        }
+                      ),
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15),
+                          child: ValueListenableBuilder<bool>(
+                            valueListenable: context.read<StopAreasProvider>().isLoading,
+                            builder: (context, value, child) => LoadingIndicator(
+                              active: value,
+                            ),
+                          )
+                        )
+                      ),
+                    ],
+                  ),
+                  // place sheet on extra stack above map so touch events won't pass through
+                  const QuestionDialog(),
+                ],
+              )
+            ),
           );
         }
       }

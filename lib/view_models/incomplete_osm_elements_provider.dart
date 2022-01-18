@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:osm_api/osm_api.dart';
 
-import '/models/osm_element_type.dart' as specialTypes;
+import '/models/osm_element_type.dart' as special_types;
 import '/models/question_catalog.dart';
 import '/models/geometric_osm_element.dart';
 import '/models/stop_area.dart';
@@ -12,12 +12,10 @@ import '/models/stop_area.dart';
 /// Additionally the osm elements will be provided as [GeometricOSMElement] which allows easy rendering.
 
 class IncompleteOSMElementProvider extends ChangeNotifier {
-  final QuestionCatalog questionCatalog;
 
   final _loadedStopAreas = <StopArea, List<GeometricOSMElement>>{};
 
-  IncompleteOSMElementProvider(this.questionCatalog);
-
+  IncompleteOSMElementProvider();
 
   UnmodifiableMapView<StopArea, List<GeometricOSMElement>> get loadedStopAreas
     => UnmodifiableMapView(_loadedStopAreas);
@@ -32,22 +30,21 @@ class IncompleteOSMElementProvider extends ChangeNotifier {
   }
 
 
-  /// Extract [GeometricOSMElement]s from a bundle of osm elements grouped by [StopArea]s.
+  /// Extract all [GeometricOSMElement]s from a bundle of osm elements grouped by [StopArea]s
+  /// where at least one question matches.
 
-  void extractNew(Map<StopArea, OSMElementBundle> stopAreaBundle) {
+  void update(Map<StopArea, OSMElementBundle> stopAreaBundle, QuestionCatalog questionCatalog) {
     // TODO: run this method in separate isolate?
 
-    var hasChanged = false;
+    _loadedStopAreas.clear();
 
     for (final entry in stopAreaBundle.entries) {
       final stopArea = entry.key;
       final elementBundle = entry.value;
-      // skip stop areas that have already been extracted
-      if (_loadedStopAreas.containsKey(stopArea)) continue;
 
       for (final osmElement in elementBundle.elements) {
         // filter all osm elements where no question matches
-        if (_matches(osmElement)) {
+        if (_matches(osmElement, questionCatalog)) {
           try {
             final geoElement = _constructGeometricElement(osmElement, entry.value);
 
@@ -55,8 +52,6 @@ class IncompleteOSMElementProvider extends ChangeNotifier {
               (value) => value..add(geoElement),
               ifAbsent: () => [geoElement]
             );
-
-            hasChanged = true;
           } catch(error) {
             print(error);
           }
@@ -64,16 +59,16 @@ class IncompleteOSMElementProvider extends ChangeNotifier {
       }
     }
 
-    if (hasChanged) notifyListeners();
+    notifyListeners();
   }
 
 
-  /// Check whether the given [OSMElement] matches any question condition from the question catalog.
+  /// Check whether the given [OSMElement] matches any question condition from the [QuestionCatalog].
 
-  bool _matches(OSMElement osmElement) {
+  bool _matches(OSMElement osmElement, QuestionCatalog questionCatalog) {
     return osmElement.tags.isNotEmpty && questionCatalog.any((question) {
       return question.conditions.any((condition) {
-        return condition.matches(osmElement.tags, specialTypes.typeFromOSMElement(osmElement));
+        return condition.matches(osmElement.tags, special_types.typeFromOSMElement(osmElement));
       });
     });
   }

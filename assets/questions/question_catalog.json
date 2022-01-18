@@ -20,7 +20,7 @@
          }
       },
       "osm_element": "Node",
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1021,
@@ -45,7 +45,7 @@
             }
          }
       ],
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1021,
@@ -75,7 +75,7 @@
             }
          }
       ],
-      "difficulty": 2
+      "difficulty": 1
    },
    {
       "id": 1022,
@@ -106,7 +106,7 @@
             }
          }
       ],
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1030,
@@ -129,7 +129,7 @@
          }
       },
       "osm_element": "Node",
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1031,
@@ -154,7 +154,7 @@
             }
          }
       ],
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1031,
@@ -184,7 +184,7 @@
             }
          }
       ],
-      "difficulty": 2
+      "difficulty": 1
    },
    {
       "id": 1032,
@@ -215,7 +215,7 @@
             }
          }
       ],
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1040,
@@ -238,7 +238,7 @@
          }
       },
       "osm_element": "Node",
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1050,
@@ -261,7 +261,7 @@
          }
       },
       "osm_element": "ClosedWay",
-      "difficulty": 2
+      "difficulty": 1
    },
    {
       "id": 1051,
@@ -311,7 +311,7 @@
             }
          }
       ],
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1051,
@@ -344,7 +344,7 @@
             }
          }
       ],
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1051,
@@ -374,7 +374,7 @@
             }
          }
       ],
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1052,
@@ -407,7 +407,7 @@
             }
          }
       ],
-      "difficulty": 2
+      "difficulty": 1
    },
    {
       "id": 1052,
@@ -444,7 +444,7 @@
             }
          }
       ],
-      "difficulty": 2
+      "difficulty": 1
    },
    {
       "id": 1052,
@@ -478,7 +478,7 @@
             }
          }
       ],
-      "difficulty": 2
+      "difficulty": 1
    },
    {
       "id": 1052,
@@ -511,7 +511,7 @@
             }
          }
       ],
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1060,
@@ -530,7 +530,7 @@
          }
       },
       "osm_element": "Node",
-      "difficulty": 2
+      "difficulty": 1
    },
    {
       "id": 1070,
@@ -550,7 +550,7 @@
          }
       },
       "osm_element": "Node",
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1071,
@@ -587,7 +587,7 @@
             }
          }
       ],
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1072,
@@ -624,7 +624,7 @@
             }
          }
       ],
-      "difficulty": 2
+      "difficulty": 1
    },
    {
       "id": 1074,
@@ -659,7 +659,7 @@
             }
          }
       ],
-      "difficulty": 2
+      "difficulty": 1
    },
    {
       "id": 1075,
@@ -692,7 +692,7 @@
             }
          }
       ],
-      "difficulty": 2
+      "difficulty": 1
    },
    {
       "id": 1075,
@@ -725,7 +725,7 @@
             }
          }
       ],
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1090,
@@ -744,7 +744,7 @@
          }
       },
       "osm_element": "Node",
-      "difficulty": 2
+      "difficulty": 1
    },
    {
       "id": 1100,
@@ -766,7 +766,7 @@
          }
       },
       "osm_element": "Node",
-      "difficulty": 2
+      "difficulty": 1
    },
    {
       "id": 1110,
@@ -806,7 +806,7 @@
          }
       },
       "osm_element": "Node",
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1120,
@@ -838,7 +838,7 @@
             }
          }
       ],
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1130,
@@ -879,7 +879,7 @@
             }
          }
       ],
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1131,
@@ -912,7 +912,7 @@
             }
          }
       ],
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1140,
@@ -945,7 +945,7 @@
             }
          }
       ],
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1141,
@@ -974,7 +974,7 @@
             }
          }
       ],
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1150,
@@ -1004,7 +1004,7 @@
             }
          }
       ],
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1150,
@@ -1043,7 +1043,7 @@
             }
          }
       ],
-      "difficulty": 2
+      "difficulty": 1
    },
    {
       "id": 1170,
@@ -1076,7 +1076,7 @@
             ]
          }
       ],
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1170,
@@ -1117,7 +1117,7 @@
             ]
          }
       ],
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1170,
@@ -1155,7 +1155,7 @@
             ]
          }
       ],
-      "difficulty": 2
+      "difficulty": 1
    },
    {
       "id": 1180,
@@ -1182,7 +1182,7 @@
             "osm_element": "OpenWay"
          }
       ],
-      "difficulty": 2
+      "difficulty": 1
    },
    {
       "id": 1200,
@@ -1218,7 +1218,7 @@
             }
          }
       ],
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1201,
@@ -1253,7 +1253,7 @@
             }
          }
       ],
-      "difficulty": 2
+      "difficulty": 1
    },
    {
       "id": 1210,
@@ -1286,7 +1286,7 @@
             }
          }
       ],
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1211,
@@ -1313,7 +1313,7 @@
             }
          }
       ],
-      "difficulty": 2
+      "difficulty": 1
    },
    {
       "id": 1212,
@@ -1340,7 +1340,7 @@
             }
          }
       ],
-      "difficulty": 2
+      "difficulty": 1
    },
    {
       "id": 1220,
@@ -1373,7 +1373,7 @@
             }
          }
       ],
-      "difficulty": 1
+      "difficulty": 0
    },
    {
       "id": 1221,
@@ -1400,7 +1400,7 @@
             }
          }
       ],
-      "difficulty": 2
+      "difficulty": 1
    },
    {
       "id": 1222,
@@ -1427,6 +1427,6 @@
             }
          }
       ],
-      "difficulty": 2
+      "difficulty": 1
    }
 ]

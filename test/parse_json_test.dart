@@ -3,7 +3,7 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:opener_next/models/question.dart';
+import 'package:opener_next/models/question_catalog.dart';
 
 void main() async {
   // required to use rootBundle
@@ -19,8 +19,8 @@ void main() async {
 
   test('test if the question_catalog.json can be parsed successfully to its corresponding models', () {
     expect(
-      questionJson.map<Question>((question) => Question.fromJSON(question)).toList(),
-      isInstanceOf<List<Question>>()
+      QuestionCatalog.fromJson(questionJson),
+      isInstanceOf<QuestionCatalog>()
     );
   });
 }

@@ -1,6 +1,7 @@
 import 'dart:collection';
 
-import 'question.dart';
+import '/models/difficulty_level.dart';
+import '/models/question.dart';
 
 /// This class resembles a list of questions.
 
@@ -34,5 +35,12 @@ class QuestionCatalog extends ListBase<Question> {
       (jsonQuestion) => Question.fromJSON(jsonQuestion)
     ).toList();
     return QuestionCatalog(questionList);
+  }
+
+
+  QuestionCatalog filterBy({ DifficultyLevel difficulty = DifficultyLevel.hard }) {
+    return QuestionCatalog(where(
+      (question) => question.difficulty.isSubLevelOf(difficulty)
+    ).toList());
   }
 }

@@ -4,3 +4,12 @@
 enum DifficultyLevel {
   easy, standard, hard
 }
+
+
+/// Returns true if this [DifficultyLevel] is immanent in the given [DifficultyLevel].
+
+extension DifficultyCheck on DifficultyLevel {
+  bool isSubLevelOf(DifficultyLevel difficultyLevel) {
+    return index <= difficultyLevel.index;
+  }
+}

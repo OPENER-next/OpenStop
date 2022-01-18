@@ -1,3 +1,4 @@
+import '/models/difficulty_level.dart';
 import '/models/osm_element_type.dart';
 import '/models/question_condition.dart';
 import '/models/question_input.dart';
@@ -16,7 +17,7 @@ class Question {
 
   final List<String> images;
 
-  final int difficulty;
+  final DifficultyLevel difficulty;
 
   final OSMElementType? osmElement;
 
@@ -49,7 +50,7 @@ class Question {
         ?.toList(growable: false) ?? [],
       input: QuestionInput.fromJSON(json['input']) ,
       osmElement: (json['osm_element'] as String?)?.toOSMElementType(),
-      difficulty: json['difficulty']
+      difficulty: DifficultyLevel.values[json['difficulty']]
     );
 
 

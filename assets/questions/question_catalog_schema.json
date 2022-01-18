@@ -132,8 +132,8 @@
       "difficulty": {
         "description": "A number that indicates the difficulty of a question which can be used later to filter questions by different levels. Higher means more difficult.",
         "type": "integer",
-        "minimum": 1,
-        "maximum": 3
+        "minimum": 0,
+        "maximum": 2
       }
     },
     "additionalProperties": false,
