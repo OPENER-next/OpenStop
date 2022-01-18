@@ -22,9 +22,6 @@ jobs:
         
       - name: Setup NodeJS
         uses: actions/setup-node@v2
-          
-      - name: Install npm
-        run: npm install
         
       - name: Install ajv-cli
         run: npm install -g ajv-cli
