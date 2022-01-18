@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import '/widgets/custom_list_tile.dart';
+
 import '/commons/screens.dart';
 
 class AboutScreen extends StatefulWidget {
@@ -53,59 +55,51 @@ class _AboutScreenState extends State<AboutScreen> {
                         style: TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ),
-                    ListTile(
-                      dense: true,
-                      leading: const Icon(Icons.info),
-                      title: const Text('Version'),
-                      subtitle: Text('${snapshot.data!.version}+${snapshot.data!.buildNumber}'),
+                    CustomListTile(
+                      leadingIcon: Icons.info,
+                      title: 'Version',
+                      subtitle: '${snapshot.data!.version}+${snapshot.data!.buildNumber}',
                       onTap: () {},
                     ),
-                    ListTile(
-                      dense: true,
-                      leading: const Icon(Icons.supervisor_account),
-                      title: const Text('Autoren'),
-                      subtitle: Text('${snapshot.data!.appName} Mitwirkende'),
+                    CustomListTile(
+                      leadingIcon: Icons.supervisor_account,
+                      title: 'Autoren',
+                      subtitle: '${snapshot.data!.appName} Mitwirkende',
                       onTap: () => _launchUrl(_urlContributors),
                     ),
-                    ListTile(
-                      dense: true,
+                    CustomListTile(
                       isThreeLine: true,
-                      leading: const Icon(Icons.lightbulb),
-                      title: const Text('Idee'),
-                      subtitle: const Text('Technische Universität Chemnitz\n'
-                          'Professur Schaltkreis- und Systementwurf'),
+                      leadingIcon: Icons.lightbulb,
+                      title: 'Idee',
+                      subtitle: 'Technische Universität Chemnitz\n'
+                          'Professur Schaltkreis- und Systementwurf',
                       onTap: () => _launchUrl(_urlIdea),
                     ),
-                    ListTile(
-                      dense: true,
-                      leading: const Icon(Icons.code),
-                      title: const Text('Quellcode'),
-                      subtitle: const Text('https://github.com/OPENER-next'),
+                    CustomListTile(
+                      leadingIcon: Icons.code,
+                      title: 'Quellcode',
+                      subtitle: 'https://github.com/OPENER-next',
                       onTap: () => _launchUrl(_urlCode),
                     ),
-                    ListTile(
-                      dense: true,
-                      leading: const Icon(Icons.copyright),
-                      title: const Text('Lizenz'),
-                      subtitle: const Text('GPL-3.0'),
+                    CustomListTile(
+                      leadingIcon: Icons.copyright,
+                      title: 'Lizenz',
+                      subtitle: 'GPL-3.0',
                       onTap: () => _launchUrl(_urlLicence),
                     ),
-                    ListTile(
-                      dense: true,
-                      leading: const Icon(Icons.privacy_tip),
-                      title: const Text('Datenschutzerklärung'),
+                    CustomListTile(
+                      leadingIcon: Icons.privacy_tip,
+                      title: 'Datenschutzerklärung',
                       onTap: () => Navigator.pushNamed(context, Screen.privacyPolicy),
                     ),
-                    ListTile(
-                      dense: true,
-                      leading: const Icon(Icons.contact_page),
-                      title: const Text('Nutzungsbedingungen'),
+                    CustomListTile(
+                      leadingIcon: Icons.contact_page,
+                      title: 'Nutzungsbedingungen',
                       onTap: () => Navigator.pushNamed(context, Screen.termsOfUse),
                     ),
-                    ListTile(
-                      dense: true,
-                      leading: const Icon(Icons.text_snippet),
-                      title: const Text('Lizenzen verwendeter Pakete'),
+                    CustomListTile(
+                      leadingIcon: Icons.text_snippet,
+                      title: 'Lizenzen verwendeter Pakete',
                       onTap: () => Navigator.pushNamed(context, Screen.licenses),
                     ),
                     Container(

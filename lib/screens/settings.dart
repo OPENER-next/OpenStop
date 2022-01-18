@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '/models/difficulty_level.dart';
 import '/view_models/preferences_provider.dart';
 import '/widgets/select_dialog.dart';
+import '/widgets/custom_list_tile.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -35,14 +36,10 @@ class SettingsScreen extends StatelessWidget {
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
           child: Column(
             children: [
-              ListTile(
-                // used to vertically center the icon
-                leading: const SizedBox(
-                  height: double.infinity,
-                  child: Icon(Icons.palette),
-                ),
-                title: const Text('Farbliche Darstellung der App'),
-                subtitle: Text(themeModesMap[themeMode] ?? 'Unbekannt'),
+              CustomListTile(
+                leadingIcon: Icons.palette,
+                title: 'Farbliche Darstellung der App',
+                subtitle: themeModesMap[themeMode] ?? 'Unbekannt',
                 onTap: () async {
                   final selection = await showDialog<ThemeMode>(
                     context: context,
@@ -59,15 +56,10 @@ class SettingsScreen extends StatelessWidget {
                   }
                 },
               ),
-              const Divider(height: 1),
-              ListTile(
-                // used to vertically center the icon
-                leading: const SizedBox(
-                  height: double.infinity,
-                  child: Icon(Icons.line_weight),
-                ),
-                title: const Text('Schwierigkeitsgrad der Fragen'),
-                subtitle: Text(difficultyMap[difficulty] ?? 'Unbekannt'),
+              CustomListTile(
+                leadingIcon: Icons.line_weight,
+                title: 'Schwierigkeitsgrad der Fragen',
+                subtitle: difficultyMap[difficulty] ?? 'Unbekannt',
                 onTap: () async {
                   final selection = await showDialog<DifficultyLevel>(
                     context: context,
