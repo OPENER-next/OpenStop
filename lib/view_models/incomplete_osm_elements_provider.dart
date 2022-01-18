@@ -48,10 +48,13 @@ class IncompleteOSMElementProvider extends ChangeNotifier {
           try {
             final geoElement = _constructGeometricElement(osmElement, entry.value);
 
+            // filter all elements whose geometric center lies outside of the stop area circle
+            if (stopArea.isPointInside(geoElement.geometry.center)) {
             _loadedStopAreas.update(stopArea,
               (value) => value..add(geoElement),
               ifAbsent: () => [geoElement]
             );
+            }
           } catch(error) {
             print(error);
           }
