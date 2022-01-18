@@ -60,12 +60,12 @@ class MyApp extends StatelessWidget {
           initialRoute: hasSeenOnboarding ? Screen.home : Screen.onboarding,
           routes: {
             Screen.home: (context) => const HomeScreen(),
-            Screen.about: (context) => const About(),
-            Screen.licenses: (context) => const Licenses(),
+            Screen.about: (context) => const AboutScreen(),
+            Screen.licenses: (context) => const LicensesScreen(),
             Screen.onboarding: (context) => const OnboardingScreen(),
-            Screen.privacyPolicy: (context) => const PrivacyPolicy(),
-            Screen.settings: (context) => const Settings(),
-            Screen.termsOfUse: (context) => const TermsOfUse(),
+            Screen.privacyPolicy: (context) => const PrivacyPolicyScreen(),
+            Screen.settings: (context) => const SettingsScreen(),
+            Screen.termsOfUse: (context) => const TermsOfUseScreen(),
           },
           navigatorObservers: [
             SystemUIAdaptor({

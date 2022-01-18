@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Licenses extends StatelessWidget {
-  const Licenses({Key? key}) : super(key: key);
+class LicensesScreen extends StatelessWidget {
+  const LicensesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

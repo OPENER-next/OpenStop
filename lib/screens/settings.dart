@@ -5,19 +5,8 @@ import '/models/difficulty_level.dart';
 import '/view_models/preferences_provider.dart';
 import '/widgets/select_dialog.dart';
 
-class Settings extends StatefulWidget {
-  const Settings({Key? key}) : super(key: key);
-
-  @override
-  State<Settings> createState() => _SettingsState();
-}
-
-class _SettingsState extends State<Settings> {
-  // static const appThemesMap = {
-  //   ThemeIdentifier.light : 'Hell',
-  //   ThemeIdentifier.dark : 'Dunkel',
-  //   ThemeIdentifier.contrast : 'Kontrast',
-  // };
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({Key? key}) : super(key: key);
 
   static const themeModesMap = {
     ThemeMode.light : 'Hell',

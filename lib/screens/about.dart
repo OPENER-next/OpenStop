@@ -4,14 +4,14 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 import '/commons/screens.dart';
 
-class About extends StatefulWidget {
-  const About({Key? key}) : super(key: key);
+class AboutScreen extends StatefulWidget {
+  const AboutScreen({Key? key}) : super(key: key);
 
   @override
-  State<About> createState() => _AboutState();
+  State<AboutScreen> createState() => _AboutScreenState();
 }
 
-class _AboutState extends State<About> {
+class _AboutScreenState extends State<AboutScreen> {
   static const String _urlContributors = 'https://github.com/OPENER-next/OPENER-next/graphs/contributors';
   static const String _urlCode = 'https://github.com/OPENER-next';
   static const String _urlLicence = 'https://github.com/OPENER-next/OPENER-next/blob/master/LICENSE';
