@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -6,7 +7,6 @@ import 'package:url_launcher/url_launcher.dart' as url;
 
 import '/view_models/osm_authentication_provider.dart';
 import '/commons/globals.dart' as globals;
-
 import '/commons/screens.dart';
 
 
@@ -122,6 +122,9 @@ class _HomeSidebarState extends State<HomeSidebar> {
 
 
 class UserAccountHeader extends StatelessWidget {
+  // taken from https://png-pixel.com/
+  static final _transparentImage = base64Decode('R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==');
+
   final String name;
   final String? imageUrl;
 
@@ -188,22 +191,16 @@ class UserAccountHeader extends StatelessWidget {
                             ? UserAccountImagePlaceholder(
                               size: profilePictureSize,
                             )
-                            : Image.network(
-                              imageUrl!,
+                            : FadeInImage.memoryNetwork(
+                              placeholder: _transparentImage,
+                              image: imageUrl!,
                               fit: BoxFit.cover,
                               width: profilePictureSize,
                               height: profilePictureSize,
-                              frameBuilder:(context, child, frame, wasSynchronouslyLoaded) {
-                                if (wasSynchronouslyLoaded) {
-                                  return child;
-                                }
-                                return AnimatedOpacity(
-                                  opacity: frame == null ? 0 : 1,
-                                  duration: const Duration(milliseconds: 300),
-                                  child: child,
-                                );
-                              },
-                              errorBuilder:(context, error, stackTrace) {
+                              fadeInDuration: const Duration(milliseconds: 300),
+                              imageCacheWidth: profilePictureSize.toInt(),
+                              imageCacheHeight: profilePictureSize.toInt(),
+                              imageErrorBuilder:(context, error, stackTrace) {
                                 return UserAccountImagePlaceholder(
                                   size: profilePictureSize,
                                 );

@@ -77,7 +77,6 @@ flutter:
 
   assets:
   - assets/
-  - assets/symbols/
   - assets/logos/
   - assets/questions/
   - assets/placeholder_image.png

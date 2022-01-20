@@ -84,22 +84,16 @@ class _StopAreaIndicatorState extends State<StopAreaIndicator> with SingleTicker
           ),
           size: Size.square(widget.size),
           child: _controller.isAnimating
-            ? AnimatedBuilder(
-              animation: _controller,
-              builder: (context, child) {
-                return Opacity(
-                  opacity: opacityAnimation.value,
-                  child: Transform.scale(
-                    scale: scaleAnimation.value,
-                    child: child!
-                  )
-                );
-              },
+            ? FadeTransition(
+                opacity: opacityAnimation,
+                child: ScaleTransition(
+                  scale: scaleAnimation,
               child: CustomPaint(
                 painter: CirclePainter(
                   color: Theme.of(context).colorScheme.primary.withOpacity(0.4)
                 ),
               )
+                )
             )
             : null
         )
