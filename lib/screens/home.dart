@@ -25,6 +25,7 @@ import '/widgets/loading_indicator.dart';
 import '/widgets/map_layer/osm_element_layer.dart';
 import '/models/question_catalog.dart';
 import '/models/stop_area.dart';
+import '/models/osm_object.dart';
 import '/commons/map_utils.dart';
 
 
@@ -49,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   );
 
   late final _questionCatalog = _parseQuestionCatalog();
+  late final _osmObjects = _parseOSMOBjects();
 
   @override
   void initState() {
@@ -77,8 +79,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<QuestionCatalog>(
-      future: _questionCatalog,
+    return FutureBuilder<List<dynamic>>(
+      future: Future.wait([
+        _questionCatalog,
+        _osmObjects,
+      ]),
+      //_questionCatalog,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           // TODO: Style this properly
@@ -87,7 +93,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           );
         }
         else {
-          final questionCatalog = snapshot.requireData;
+          final QuestionCatalog questionCatalog = snapshot.requireData[0];
+          final TemplateOSMObjects osmObjects = snapshot.requireData[1];
 
           return MultiProvider(
             providers: [
@@ -158,7 +165,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         builder: (context, incompleteOsmElementProvider, child) {
                           return OsmElementLayer(
                             onOsmElementTap: (osmElement) => _onOsmElementTap(osmElement, context),
-                            geoElements: incompleteOsmElementProvider.loadedOsmElements
+                            geoElements: incompleteOsmElementProvider.loadedOsmElements,
+                            osmObjects: osmObjects,
                           );
                         }
                       ),
@@ -256,6 +264,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Future<QuestionCatalog> _parseQuestionCatalog() async {
     final jsonString = await rootBundle.loadString('assets/questions/question_catalog.json');
     return QuestionCatalog.fromJson(jsonDecode(jsonString).cast<Map<String, dynamic>>());
+  }
+
+  Future<TemplateOSMObjects> _parseOSMOBjects() async {
+    final jsonString = await rootBundle.loadString('assets/osm_objects.json');
+    return TemplateOSMObjects.fromJson(jsonDecode(jsonString).cast<Map<String, dynamic>>());
   }
 
 

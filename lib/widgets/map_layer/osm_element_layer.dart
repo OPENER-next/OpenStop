@@ -2,14 +2,16 @@ import 'dart:math';
 
 import 'package:animated_marker_layer/animated_marker_layer.dart';
 import 'package:flutter/material.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:osm_api/osm_api.dart';
 
 import '/models/geometric_osm_element.dart';
+import '/models/osm_object.dart';
+import '/commons/custom_icons.dart';
 import '/widgets/map_markers/osm_element_marker.dart';
 
 class OsmElementLayer extends StatefulWidget {
   final Iterable<GeometricOSMElement> geoElements;
+  final TemplateOSMObjects osmObjects;
 
   final void Function(OSMElement osmElement)? onOsmElementTap;
 
@@ -19,6 +21,7 @@ class OsmElementLayer extends StatefulWidget {
 
   const OsmElementLayer({
     required this.geoElements,
+    required this.osmObjects,
     this.onOsmElementTap,
     this.durationOffsetRange = const Duration(milliseconds: 300),
     Key? key
@@ -92,8 +95,32 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       animateOutDelay: _getRandomDelay(),
       child: OsmElementMarker(
         onTap: () => widget.onOsmElementTap?.call(geoElement.osmElement),
-        icon: Icons.ac_unit_rounded
+        icon: customIcons[_matchTags(geoElement, widget.osmObjects)] ?? Icons.home
       ),
     );
+  }
+
+  String _matchTags (GeometricOSMElement geoElement, TemplateOSMObjects osmObjects){
+    final _element = geoElement.osmElement.tags;
+    String _bestMatch = '';
+    int _score = 0;
+
+    outer: for (final TemplateOSMObject element in osmObjects) {
+      int _newScore = 0;
+
+      for (final key in element.osmTags.keys) {
+        if (_element.containsKey(key) && _element[key] == element.osmTags[key]){
+          _newScore = _newScore + 1;
+        }
+        else {
+          continue outer;
+        }
+      }
+      if (_newScore > _score){
+        _score = _newScore;
+        _bestMatch = element.icon;
+      }
+    }
+    return _bestMatch;
   }
 }

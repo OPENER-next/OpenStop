@@ -1,5 +1,29 @@
 [
   {
+    "name": "Plattform",
+    "icon":  "platform",
+    "osm_tags": {
+      "public_transport": "platform"
+    },
+    "osm_element": "Node"
+  },
+  {
+    "name": "Bus",
+    "icon":  "bus",
+    "osm_tags": {
+      "bus": "yes"
+    },
+    "osm_element": "Node"
+  },
+  {
+    "name": "Train",
+    "icon":  "train",
+    "osm_tags": {
+      "train": "yes"
+    },
+    "osm_element": "Node"
+  },
+  {
     "name": "Fahrtkartenverkaufsstelle",
     "icon":  "ticket_shop",
     "osm_tags": {
@@ -10,7 +34,7 @@
   },
   {
     "name": "Informationsstelle",
-    "icon":  "ticket_shop",
+    "icon":  "information",
     "osm_tags": {
       "tourism": "information",
       "information": "office"
@@ -19,7 +43,7 @@
   },
   {
     "name": "Fahrkartenautomat",
-    "icon":  "ticket_shop",
+    "icon":  "vending_machine",
     "osm_tags": {
       "amenity": "vending_machine",
       "vending": "public_transport_tickets"
@@ -28,16 +52,25 @@
   },
   {
     "name": "Parkplatz",
-    "icon":  "ticket_shop",
+    "icon":  "parking",
     "osm_tags": {
       "amenity": "parking",
       "access": "yes"
     },
-    "osm_element": ["Node",  "ClosedWay"]
+    "osm_element": "Node"
+  },
+  {
+    "name": "Parkplatz",
+    "icon":  "parking",
+    "osm_tags": {
+      "amenity": "parking",
+      "access": "yes"
+    },
+    "osm_element": "ClosedWay"
   },
   {
     "name": "Taxi-Stand",
-    "icon":  "ticket_shop",
+    "icon":  "taxi",
     "osm_tags": {
       "amenity": "taxi"
     },
@@ -45,7 +78,7 @@
   },
   {
     "name": "Toiletten",
-    "icon":  "ticket_shop",
+    "icon":  "toilet",
     "osm_tags": {
       "amenity": "toilets",
       "access": "yes"
@@ -54,7 +87,7 @@
   },
   {
     "name": "Aufbewahrungsmöglichkeiten",
-    "icon":  "ticket_shop",
+    "icon":  "locker",
     "osm_tags": {
       "amenity": "luggage_locker"
     },
@@ -62,7 +95,7 @@
   },
   {
     "name": "Gepäcktransport",
-    "icon":  "ticket_shop",
+    "icon":  "bag",
     "osm_tags": {
       "amenity": "trolley_bay"
     },
@@ -70,7 +103,7 @@
   },
   {
     "name": "Informationssäule",
-    "icon":  "ticket_shop",
+    "icon":  "terminal",
     "osm_tags": {
       "tourism": "information",
       "information": "terminal"
@@ -79,7 +112,7 @@
   },
   {
     "name": "Kombinierte Informations- und Notrufsäule",
-    "icon":  "ticket_shop",
+    "icon":  "terminal",
     "osm_tags": {
       "emergency": "phone",
       "tourism": "information",
@@ -89,7 +122,7 @@
   },
   {
     "name": "Notrufsäule",
-    "image": "ticket_shop",
+    "icon": "phone",
     "osm_tags": {
       "emergency": "phone"
     },
