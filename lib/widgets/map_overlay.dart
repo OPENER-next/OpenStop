@@ -97,10 +97,8 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                               MapLayerSwitcherEntry(key: 'https://osm-2.nearest.place/retina/{z}/{x}/{y}.png',
                                 icon: Icons.map_rounded, label: 'Map'
                               ),
-                              // TODO: We really need this!! Showing where the tram and bus routes are is crucial for our App.
-                              // Thunderforest requires an API key unfortunately
-                              MapLayerSwitcherEntry(key: 'https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png',
-                                icon: Icons.map_rounded, label: 'Thunderforest.Transport'
+                              MapLayerSwitcherEntry(key: 'https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png',
+                                icon: Icons.map_rounded, label: 'ÖPNV'
                               ),
                             ],
                             active: urlTemplate,
