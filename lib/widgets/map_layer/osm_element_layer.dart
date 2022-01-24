@@ -2,9 +2,10 @@ import 'dart:math';
 
 import 'package:animated_marker_layer/animated_marker_layer.dart';
 import 'package:flutter/material.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:osm_api/osm_api.dart';
+import 'package:provider/provider.dart';
 
+import '/models/map_feature_template_collection.dart';
 import '/models/geometric_osm_element.dart';
 import '/widgets/map_markers/osm_element_marker.dart';
 
@@ -81,8 +82,10 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 
 
   AnimatedMarker _buildMarker(GeometricOSMElement geoElement) {
+    final osmElement = geoElement.osmElement;
+
     return AnimatedMarker(
-      key: ValueKey(geoElement.osmElement),
+      key: ValueKey(osmElement),
       point: geoElement.geometry.center,
       size: const Size.fromRadius(30),
       anchor: Alignment.bottomCenter,
@@ -91,9 +94,12 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       animateInDelay: _getRandomDelay(),
       animateOutDelay: _getRandomDelay(),
       child: OsmElementMarker(
-        onTap: () => widget.onOsmElementTap?.call(geoElement.osmElement),
-        icon: Icons.ac_unit_rounded
+        onTap: () => widget.onOsmElementTap?.call(osmElement),
+        icon: context.read<MapTemplateFeatureCollection>()
+            .getMatchingFeature(osmElement)?.icon ?? Icons.outdoor_grill
       ),
     );
   }
+
+
 }

@@ -1,28 +1,5 @@
 [
    {
-      "id": 1020,
-      "name": "Fahrtkartenverkaufsstelle",
-      "description": "Verkaufsstelle mit Person hinter einem Verkaufsschalter.",
-      "image": [
-         "assets/questions/image/1020.png"
-      ],
-      "question": "Gibt es eine Fahrtkartenverkaufsstelle?",
-      "input": {
-         "type": "Bool",
-         "values": {
-            "true": {
-               "osm_tags": {
-                  "shop": "ticket",
-                  "tickets:public_transport": "yes"
-               }
-            },
-            "false": {}
-         }
-      },
-      "osm_element": "Node",
-      "difficulty": 0
-   },
-   {
       "id": 1021,
       "name": "Betreiber",
       "question": "Welches Verkehrsunternehmen betreibt die Verkaufsstelle?",
@@ -109,29 +86,6 @@
       "difficulty": 0
    },
    {
-      "id": 1030,
-      "name": "Informationsstelle",
-      "description": "Es handelt es sich um Einrichtungen wie beispielsweise Service-Points, die ausschließlich der Fahrplanauskunft dienen und Hilfestellung z.B. für eine barrierefreie Reisekette leisten.",
-      "image": [
-         "assets/questions/image/1030.png"
-      ],
-      "question": "Gibt es eine Informationsstelle?",
-      "input": {
-         "type": "Bool",
-         "values": {
-            "true": {
-               "osm_tags": {
-                  "tourism": "information",
-                  "information": "office"
-               }
-            },
-            "false": {}
-         }
-      },
-      "osm_element": "Node",
-      "difficulty": 0
-   },
-   {
       "id": 1031,
       "name": "Betreiber",
       "question": "Welches Verkehrsunternehmen betreibt die Informationsstelle?",
@@ -215,29 +169,6 @@
             }
          }
       ],
-      "difficulty": 0
-   },
-   {
-      "id": 1040,
-      "name": "Fahrkartenautomat",
-      "description": "An Fahrkartenautomaten können Fahrgäste ihre Fahrkarten selbstständig erwerben.",
-      "image": [
-         "assets/questions/image/1040.png"
-      ],
-      "question": "Gibt es einen Fahrkartenautomat?",
-      "input": {
-         "type": "Bool",
-         "values": {
-            "true": {
-               "osm_tags": {
-                  "amenity": "vending_machine",
-                  "vending": "public_transport_tickets"
-               }
-            },
-            "false": {}
-         }
-      },
-      "osm_element": "Node",
       "difficulty": 0
    },
    {
@@ -514,45 +445,6 @@
       "difficulty": 0
    },
    {
-      "id": 1060,
-      "name": "Taxi-Stand",
-      "question": "Ist ein Taxi-Stand vorhanden?",
-      "description": "Taxi-Stände sind ausgewiesene Stellflächen für Taxen. Relevant für diese Erhebung sind Taxi-Stände in unmittelbarer Zuordnung zur Station.",
-      "input": {
-         "type": "Bool",
-         "values": {
-            "true": {
-               "osm_tags": {
-                  "amenity": "taxi"
-               }
-            },
-            "false": {}
-         }
-      },
-      "osm_element": "Node",
-      "difficulty": 1
-   },
-   {
-      "id": 1070,
-      "name": "Toiletten",
-      "question": "Sind Toiletten vorhanden?",
-      "description": "Fest eingebaute Toiletten, die von Fahrgästen genutzt werden können.",
-      "input": {
-         "type": "Bool",
-         "values": {
-            "true": {
-               "osm_tags": {
-                  "amenity": "toilets",
-                  "access": "yes"
-               }
-            },
-            "false": {}
-         }
-      },
-      "osm_element": "Node",
-      "difficulty": 0
-   },
-   {
       "id": 1071,
       "name": "Rollstuhlfahrer-Toilette",
       "question": "Gibt es eine Toilette für Rollstuhlfahrer?",
@@ -725,87 +617,6 @@
             }
          }
       ],
-      "difficulty": 0
-   },
-   {
-      "id": 1090,
-      "name": "Aufbewahrungsmöglichkeiten",
-      "question": "Gibt es Schließfächer oder andere Aufbewahrungsmöglichkeiten?",
-      "description": "Zur Gepäckaufbewahrung zählen alle Einrichtungen, die es ermöglichen, Reisegepäck an den Stationen zu deponieren.",
-      "input": {
-         "type": "Bool",
-         "values": {
-            "true": {
-               "osm_tags": {
-                  "amenity": "luggage_locker"
-               }
-            },
-            "false": {}
-         }
-      },
-      "osm_element": "Node",
-      "difficulty": 1
-   },
-   {
-      "id": 1100,
-      "name": "Gepäcktransport",
-      "question": "Gibt es Hilfsmittel zum Gepäcktransport?",
-      "image": [
-         "assets/questions/images/1100.png"
-      ],
-      "description": "Zum Gepäcktransport zählen alle Einrichtungen, die es ermöglichen, Gepäck mit Hilfsmitteln zu transportieren. Dazu gehören Kofferkulis bzw. Gepäckträgerservice.",
-      "input": {
-         "type": "Bool",
-         "values": {
-            "true": {
-               "osm_tags": {
-                  "amenity": "trolley_bay"
-               }
-            },
-            "false": {}
-         }
-      },
-      "osm_element": "Node",
-      "difficulty": 1
-   },
-   {
-      "id": 1110,
-      "name": "Notruf- /Informationssäule",
-      "question": "Gibt es eine Notruf-/Informationssäule bzw. eine Kombination beider?",
-      "image": [
-         "assets/questions/images/1110.png"
-      ],
-      "input": {
-         "type": "List",
-         "values": {
-            "emergency": {
-               "name": "Notrufsäule",
-               "image": "assets/questions/images/1100a.png",
-               "osm_tags": {
-                  "emergency": "phone"
-               }
-            },
-            "information": {
-               "name": "Informationssäule",
-               "image": "assets/questions/images/1100b.png",
-               "osm_tags": {
-                  "tourism": "information",
-                  "information": "terminal"
-               }
-            },
-            "mixed": {
-               "name": "Kombinierte Informations- und Notrufsäule",
-               "image": "assets/questions/images/1100c.png",
-               "osm_tags": {
-                  "emergency": "phone",
-                  "tourism": "information",
-                  "information": "terminal"
-               }
-            },
-            "false": {}
-         }
-      },
-      "osm_element": "Node",
       "difficulty": 0
    },
    {

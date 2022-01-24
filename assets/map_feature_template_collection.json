@@ -1,0 +1,123 @@
+[
+  {
+    "name": "Haltestelle ohne Plattform",
+    "icon":  "stop",
+    "osm_tags": {
+      "public_transport": "platform"
+    },
+    "osm_element": "Node"
+  },
+  {
+    "name": "Haltestelle mit Plattform",
+    "icon":  "platform",
+    "osm_tags": {
+      "public_transport": "platform"
+    },
+    "osm_element": "OpenWay"
+  },
+  {
+    "name": "Fahrtkartenverkaufsstelle",
+    "icon":  "ticket_shop",
+    "osm_tags": {
+      "shop": "ticket",
+      "tickets:public_transport": "yes"
+    },
+    "osm_element": "Node"
+  },
+  {
+    "name": "Informationsstelle",
+    "icon":  "information",
+    "osm_tags": {
+      "tourism": "information",
+      "information": "office"
+    },
+    "osm_element": "Node"
+  },
+  {
+    "name": "Fahrkartenautomat",
+    "icon":  "vending_machine",
+    "osm_tags": {
+      "amenity": "vending_machine",
+      "vending": "public_transport_tickets"
+    },
+    "osm_element": "Node"
+  },
+  {
+    "name": "Öffentlicher Parkplatz",
+    "icon":  "parking",
+    "osm_tags": {
+      "amenity": "parking",
+      "access": "yes"
+    },
+    "osm_element": "Node"
+  },
+  {
+    "name": "Öffentlicher Parkplatz",
+    "icon":  "parking",
+    "osm_tags": {
+      "amenity": "parking",
+      "access": "yes"
+    },
+    "osm_element": "ClosedWay"
+  },
+  {
+    "name": "Taxi-Stand",
+    "icon":  "taxi",
+    "osm_tags": {
+      "amenity": "taxi"
+    },
+    "osm_element": "Node"
+  },
+  {
+    "name": "Öffentliche Toiletten",
+    "icon":  "toilet",
+    "osm_tags": {
+      "amenity": "toilets",
+      "access": "yes"
+    },
+    "osm_element": "Node"
+  },
+  {
+    "name": "Gepäckschließfächer",
+    "icon":  "locker",
+    "osm_tags": {
+      "amenity": "luggage_locker"
+    },
+    "osm_element": "Node"
+  },
+  {
+    "name": "Gepäcktransport",
+    "icon":  "bag",
+    "osm_tags": {
+      "amenity": "trolley_bay"
+    },
+    "osm_element": "Node"
+  },
+  {
+    "name": "Informationssäule",
+    "icon":  "terminal",
+    "osm_tags": {
+      "tourism": "information",
+      "information": "terminal"
+    },
+    "osm_element": "Node"
+  },
+  {
+    "name": "Kombinierte Informations- und Notrufsäule",
+    "icon":  "terminal",
+    "osm_tags": {
+      "emergency": "phone",
+      "tourism": "information",
+      "information": "terminal"
+    },
+    "osm_element": "Node"
+  },
+  {
+    "name": "Notrufsäule",
+    "icon": "phone",
+    "osm_tags": {
+      "emergency": "phone"
+    },
+    "osm_element": "Node"
+  }
+]

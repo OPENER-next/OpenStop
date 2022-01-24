@@ -25,6 +25,7 @@ import '/widgets/loading_indicator.dart';
 import '/widgets/map_layer/osm_element_layer.dart';
 import '/models/question_catalog.dart';
 import '/models/stop_area.dart';
+import '/models/map_feature_template_collection.dart';
 import '/commons/map_utils.dart';
 
 
@@ -49,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   );
 
   late final _questionCatalog = _parseQuestionCatalog();
+  late final _osmObjects = _parseOSMObjects();
 
   @override
   void initState() {
@@ -77,8 +79,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<QuestionCatalog>(
-      future: _questionCatalog,
+    return FutureBuilder<List<dynamic>>(
+      future: Future.wait([
+        _questionCatalog,
+        _osmObjects,
+      ]),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           // TODO: Style this properly
@@ -87,7 +92,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           );
         }
         else {
-          final questionCatalog = snapshot.requireData;
+          final QuestionCatalog questionCatalog = snapshot.requireData[0];
+          final MapTemplateFeatureCollection osmObjects = snapshot.requireData[1];
 
           return MultiProvider(
             providers: [
@@ -118,6 +124,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 }
               ),
               Provider.value(value: _mapController),
+              Provider.value(value: osmObjects),
             ],
             builder: (context, child) => Scaffold(
               drawer: const HomeSidebar(),
@@ -256,6 +263,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Future<QuestionCatalog> _parseQuestionCatalog() async {
     final jsonString = await rootBundle.loadString('assets/questions/question_catalog.json');
     return QuestionCatalog.fromJson(jsonDecode(jsonString).cast<Map<String, dynamic>>());
+  }
+
+  Future<MapTemplateFeatureCollection> _parseOSMObjects() async {
+    final jsonString = await rootBundle.loadString('assets/map_feature_template_collection.json');
+    return MapTemplateFeatureCollection.fromJson(jsonDecode(jsonString).cast<Map<String, dynamic>>());
   }
 
 
