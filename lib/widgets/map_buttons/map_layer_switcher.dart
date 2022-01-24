@@ -141,6 +141,7 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerPr
               ),
             ),
             child: FloatingActionButton(
+              heroTag: null,
               backgroundColor: widget.active == entry.key ? Theme.of(context).colorScheme.primary : null,
               mini: true,
               child: Icon(
