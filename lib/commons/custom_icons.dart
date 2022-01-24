@@ -7,6 +7,7 @@ const Map<String, IconData> customIcons = {
   'bus': Icons.directions_bus,
   'train': Icons.train,
   'platform': Icons.home,
+  'stop': Icons.home,
   'information': Icons.info,
   'parking': Icons.local_parking,
   'taxi': Icons.local_taxi,

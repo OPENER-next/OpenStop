@@ -1,27 +1,19 @@
 [
   {
-    "name": "Plattform",
-    "icon":  "platform",
+    "name": "Haltestelle ohne Plattform",
+    "icon":  "stop",
     "osm_tags": {
       "public_transport": "platform"
     },
     "osm_element": "Node"
   },
   {
-    "name": "Bus",
-    "icon":  "bus",
+    "name": "Haltestelle mit Plattform",
+    "icon":  "platform",
     "osm_tags": {
-      "bus": "yes"
+      "public_transport": "platform"
     },
-    "osm_element": "Node"
-  },
-  {
-    "name": "Train",
-    "icon":  "train",
-    "osm_tags": {
-      "train": "yes"
-    },
-    "osm_element": "Node"
+    "osm_element": "OpenWay"
   },
   {
     "name": "Fahrtkartenverkaufsstelle",
@@ -51,7 +43,7 @@
     "osm_element": "Node"
   },
   {
-    "name": "Parkplatz",
+    "name": "Öffentlicher Parkplatz",
     "icon":  "parking",
     "osm_tags": {
       "amenity": "parking",
@@ -60,7 +52,7 @@
     "osm_element": "Node"
   },
   {
-    "name": "Parkplatz",
+    "name": "Öffentlicher Parkplatz",
     "icon":  "parking",
     "osm_tags": {
       "amenity": "parking",
@@ -77,7 +69,7 @@
     "osm_element": "Node"
   },
   {
-    "name": "Toiletten",
+    "name": "Öffentliche Toiletten",
     "icon":  "toilet",
     "osm_tags": {
       "amenity": "toilets",
@@ -86,7 +78,7 @@
     "osm_element": "Node"
   },
   {
-    "name": "Aufbewahrungsmöglichkeiten",
+    "name": "Gepäckschließfächer",
     "icon":  "locker",
     "osm_tags": {
       "amenity": "luggage_locker"

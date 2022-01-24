@@ -25,7 +25,7 @@ import '/widgets/loading_indicator.dart';
 import '/widgets/map_layer/osm_element_layer.dart';
 import '/models/question_catalog.dart';
 import '/models/stop_area.dart';
-import '/models/osm_object.dart';
+import '/models/map_feature_template_collection.dart';
 import '/commons/map_utils.dart';
 
 
@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   );
 
   late final _questionCatalog = _parseQuestionCatalog();
-  late final _osmObjects = _parseOSMOBjects();
+  late final _osmObjects = _parseOSMObjects();
 
   @override
   void initState() {
@@ -84,7 +84,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         _questionCatalog,
         _osmObjects,
       ]),
-      //_questionCatalog,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           // TODO: Style this properly
@@ -94,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         }
         else {
           final QuestionCatalog questionCatalog = snapshot.requireData[0];
-          final TemplateOSMObjects osmObjects = snapshot.requireData[1];
+          final MapTemplateFeatureCollection osmObjects = snapshot.requireData[1];
 
           return MultiProvider(
             providers: [
@@ -125,6 +124,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 }
               ),
               Provider.value(value: _mapController),
+              Provider.value(value: osmObjects),
             ],
             builder: (context, child) => Scaffold(
               drawer: const HomeSidebar(),
@@ -165,8 +165,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         builder: (context, incompleteOsmElementProvider, child) {
                           return OsmElementLayer(
                             onOsmElementTap: (osmElement) => _onOsmElementTap(osmElement, context),
-                            geoElements: incompleteOsmElementProvider.loadedOsmElements,
-                            osmObjects: osmObjects,
+                            geoElements: incompleteOsmElementProvider.loadedOsmElements
                           );
                         }
                       ),
@@ -266,9 +265,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return QuestionCatalog.fromJson(jsonDecode(jsonString).cast<Map<String, dynamic>>());
   }
 
-  Future<TemplateOSMObjects> _parseOSMOBjects() async {
-    final jsonString = await rootBundle.loadString('assets/osm_objects.json');
-    return TemplateOSMObjects.fromJson(jsonDecode(jsonString).cast<Map<String, dynamic>>());
+  Future<MapTemplateFeatureCollection> _parseOSMObjects() async {
+    final jsonString = await rootBundle.loadString('assets/map_feature_template_collection.json');
+    return MapTemplateFeatureCollection.fromJson(jsonDecode(jsonString).cast<Map<String, dynamic>>());
   }
 
 
