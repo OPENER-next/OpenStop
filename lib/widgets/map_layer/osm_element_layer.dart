@@ -102,25 +102,25 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 
   String _matchTags (GeometricOSMElement geoElement, TemplateOSMObjects osmObjects){
     final _element = geoElement.osmElement.tags;
-    String _bestMatch = '';
+    String _bestMatchIcon = '';
     int _score = 0;
 
-    outer: for (final TemplateOSMObject element in osmObjects) {
+    outer: for (final TemplateOSMObject object in osmObjects) {
       int _newScore = 0;
 
-      for (final key in element.osmTags.keys) {
-        if (_element.containsKey(key) && _element[key] == element.osmTags[key]){
+      for (final key in object.osmTags.keys) {
+        if (_element.containsKey(key) && _element[key] == object.osmTags[key]){
           _newScore = _newScore + 1;
         }
         else {
           continue outer;
         }
       }
-      if (_newScore > _score){
+      if (_newScore >= _score){
         _score = _newScore;
-        _bestMatch = element.icon;
+        _bestMatchIcon = object.icon;
       }
     }
-    return _bestMatch;
+    return _bestMatchIcon;
   }
 }
