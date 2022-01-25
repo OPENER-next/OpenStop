@@ -34,7 +34,7 @@ class MapFeatureCollection extends ListBase<MapFeature> {
     return MapFeatureCollection(elementList);
   }
 
-  /// Compare the elements of this Map Feature Template Collection with given OSM element and return the best matching Map Feature Template.
+  /// Compare the elements of this Map Feature Collection with given OSM element and return the best matching Map Feature Template.
 
   MapFeature? getMatchingFeature (OSMElement osmElement){
     MapFeature? bestMatch;

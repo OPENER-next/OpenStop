@@ -5,10 +5,12 @@ import 'package:provider/provider.dart';
 
 import '/helpers/camera_tracker.dart';
 import '/view_models/preferences_provider.dart';
+import '/view_models/stop_areas_provider.dart';
 import '/widgets/map_buttons/location_button.dart';
 import '/widgets/map_buttons/map_layer_switcher.dart';
 import '/widgets/map_buttons/compass_button.dart';
 import '/widgets/map_buttons/zoom_button.dart';
+import '/widgets/loading_indicator.dart';
 // ignore: unused_import
 import '/commons/map_utils.dart';
 
@@ -71,115 +73,128 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                 widget.buttonSpacing + MediaQuery.of(context).padding.right,
                 widget.buttonSpacing + MediaQuery.of(context).padding.bottom,
               ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FloatingActionButton.small(
-                        heroTag: null,
-                        child: const Icon(
-                          Icons.menu,
-                        ),
-                        onPressed: Scaffold.of(context).openDrawer,
-                      ),
-                      const Spacer(),
-                      Selector<PreferencesProvider, String>(
-                        selector: (context, value) => value.tileTemplateServer,
-                        builder: (context, urlTemplate, child) {
-                          return MapLayerSwitcher(
-                            entries: const [
-                              MapLayerSwitcherEntry(key: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-                                icon: Icons.satellite_rounded, label: 'Satellite'
-                              ),
-                              MapLayerSwitcherEntry(key: 'https://osm-2.nearest.place/retina/{z}/{x}/{y}.png',
-                                icon: Icons.map_rounded, label: 'Map'
-                              ),
-                              MapLayerSwitcherEntry(key: 'https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png',
-                                icon: Icons.map_rounded, label: 'ÖPNV'
-                              ),
-                            ],
-                            active: urlTemplate,
-                            onSelection: _changeTileProvider,
-                          );
-                        }
-                      )
-                    ]
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Consumer<StopAreasProvider>(
+                      builder: (context, stopAreasProvider, child) {
+                        return ValueListenableBuilder<bool>(
+                          valueListenable: stopAreasProvider.isLoading,
+                          builder: (context, value, child) => LoadingIndicator(
+                            active: value,
+                          ),
+                        );
+                      }
+                    )
                   ),
                   Align(
-                      alignment: Alignment.bottomCenter,
-                      child: GestureDetector(
-                        onTap: () => _launchUrl(_urlContributors),
-                        child: Stack(
-                          children: <Widget>[
-                            // Stroked text as border.
-                            Opacity(
-                              opacity: 0.5,
-                              child: Text(
-                                '© OpenStreetMap-Mitwirkende',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  foreground: Paint()
-                                    ..style = PaintingStyle.stroke
-                                    ..strokeWidth = 2
-                                    ..strokeJoin = StrokeJoin.round
-                                    ..color = Colors.white,
-                                ),
-                              ),
+                    alignment: Alignment.topLeft,
+                    child: FloatingActionButton.small(
+                      heroTag: null,
+                      child: const Icon(
+                        Icons.menu,
+                      ),
+                      onPressed: Scaffold.of(context).openDrawer,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: ValueListenableBuilder(
+                      valueListenable: _isRotatedNotifier,
+                      builder: (BuildContext context, bool isRotated, Widget? compass) {
+                        return AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 300),
+                          child: isRotated ? compass : const SizedBox.shrink()
+                        );
+                      } ,
+                      child: CompassButton(
+                        listenable: _rotationNotifier,
+                        getRotation: () => mapController.rotation,
+                        isDegree: true,
+                        onPressed: _resetRotation,
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Selector<PreferencesProvider, String>(
+                      selector: (context, value) => value.tileTemplateServer,
+                      builder: (context, urlTemplate, child) {
+                        return MapLayerSwitcher(
+                          entries: const [
+                            MapLayerSwitcherEntry(key: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+                              icon: Icons.satellite_rounded, label: 'Satellite'
                             ),
-                            // Solid text as fill.
-                            const Text(
+                            MapLayerSwitcherEntry(key: 'https://osm-2.nearest.place/retina/{z}/{x}/{y}.png',
+                              icon: Icons.map_rounded, label: 'Map'
+                            ),
+                            MapLayerSwitcherEntry(key: 'https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png',
+                              icon: Icons.map_rounded, label: 'ÖPNV'
+                            ),
+                          ],
+                          active: urlTemplate,
+                          onSelection: _changeTileProvider,
+                        );
+                      }
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: GestureDetector(
+                      onTap: () => _launchUrl(_urlContributors),
+                      child: Stack(
+                        children: [
+                          // Stroked text as border.
+                          Opacity(
+                            opacity: 0.5,
+                            child: Text(
                               '© OpenStreetMap-Mitwirkende',
                               style: TextStyle(
                                 fontSize: 10,
-                                color: Colors.black,
+                                foreground: Paint()
+                                  ..style = PaintingStyle.stroke
+                                  ..strokeWidth = 2
+                                  ..strokeJoin = StrokeJoin.round
+                                  ..color = Colors.white,
                               ),
                             ),
-                          ],
-                        ),
-                      )
+                          ),
+                          // Solid text as fill.
+                          const Text(
+                            '© OpenStreetMap-Mitwirkende',
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      ValueListenableBuilder(
-                        valueListenable: _isRotatedNotifier,
-                        builder: (BuildContext context, bool isRotated, Widget? compass) {
-                          return AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 300),
-                            child: isRotated ? compass : const SizedBox.shrink()
-                          );
-                        } ,
-                        child: CompassButton(
-                          listenable: _rotationNotifier,
-                          getRotation: () => mapController.rotation,
-                          isDegree: true,
-                          onPressed: _resetRotation,
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Consumer<CameraTracker>(
+                          builder: (context, value, child) => LocationButton(
+                            activeColor: Theme.of(context).colorScheme.primary,
+                            active: value.state == CameraTrackerState.active,
+                            onPressed: _toggleCameraTracker
+                          )
                         ),
-                      ),
-                      const Spacer(),
-                      SizedBox (
-                        height: widget.buttonSpacing
-                      ),
-                      Consumer<CameraTracker>(
-                        builder: (context, value, child) => LocationButton(
-                          activeColor: Theme.of(context).colorScheme.primary,
-                          active: value.state == CameraTrackerState.active,
-                          onPressed: _toggleCameraTracker
+                        SizedBox (
+                          height: widget.buttonSpacing
+                        ),
+                        ZoomButton(
+                          onZoomInPressed: _zoomIn,
+                          onZoomOutPressed: _zoomOut,
                         )
-                      ),
-                      SizedBox (
-                        height: widget.buttonSpacing
-                      ),
-                      ZoomButton(
-                        onZoomInPressed: _zoomIn,
-                        onZoomOutPressed: _zoomOut,
-                      )
-                    ]
-                  ),
-                ],
+                      ]
+                    ),
+                  )
+                ]
               )
             );
           }

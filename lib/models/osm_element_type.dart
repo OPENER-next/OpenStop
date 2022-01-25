@@ -37,6 +37,7 @@ extension ParseToOSMElementType on String {
 
 
 /// A function that returns the special [OSMElementType] from a given [OSMElement].
+/// Note: Enums cannot have static methods or constructors via extensions. Because of that this is defined as a "global" method.
 
 OSMElementType typeFromOSMElement(osmapi.OSMElement osmElement) {
   switch (osmElement.type) {

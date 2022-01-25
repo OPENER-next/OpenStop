@@ -37,7 +37,7 @@ class SystemUIAdaptor extends RouteObserver<PageRoute<dynamic>> {
   }
 
   /// Edge to edge system style is defined as follows:
-  /// - Widget can grow to the edge of the screens and lie behind the top and bottom bar
+  /// - Widgets can grow to the edge of the screen and lie behind the top and bottom bar
   /// - transparent top and bottom bar
 
   static void edgeToEdgeStyle(BuildContext context) {

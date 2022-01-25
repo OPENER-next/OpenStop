@@ -174,8 +174,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       )
                     ],
                     nonRotatedChildren: [
-                      // only show controls when map creation finished
-                      FutureBuilder(
+                      RepaintBoundary(
+                        child: FutureBuilder(
                         future: _mapController.onReady,
                         builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
                           // only show overlay when question history has no active entry
@@ -198,19 +198,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             }
                           );
                         }
-                      ),
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15),
-                          child: ValueListenableBuilder<bool>(
-                            valueListenable: context.read<StopAreasProvider>().isLoading,
-                            builder: (context, value, child) => LoadingIndicator(
-                              active: value,
-                            ),
                           )
                         )
-                      ),
                     ],
                   ),
                   // place sheet on extra stack above map so touch events won't pass through
@@ -266,7 +255,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Future<MapFeatureCollection> _parseOSMObjects() async {
-    final jsonString = await rootBundle.loadString('assets/map_feature_template_collection.json');
+    final jsonString = await rootBundle.loadString('assets/map_feature_collection.json');
     return MapFeatureCollection.fromJson(jsonDecode(jsonString).cast<Map<String, dynamic>>());
   }
 
