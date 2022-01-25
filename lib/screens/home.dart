@@ -25,7 +25,7 @@ import '/widgets/loading_indicator.dart';
 import '/widgets/map_layer/osm_element_layer.dart';
 import '/models/question_catalog.dart';
 import '/models/stop_area.dart';
-import '/models/map_feature_template_collection.dart';
+import '/models/map_feature_collection.dart';
 import '/commons/map_utils.dart';
 
 
@@ -93,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         }
         else {
           final QuestionCatalog questionCatalog = snapshot.requireData[0];
-          final MapTemplateFeatureCollection osmObjects = snapshot.requireData[1];
+          final MapFeatureCollection osmObjects = snapshot.requireData[1];
 
           return MultiProvider(
             providers: [
@@ -265,9 +265,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return QuestionCatalog.fromJson(jsonDecode(jsonString).cast<Map<String, dynamic>>());
   }
 
-  Future<MapTemplateFeatureCollection> _parseOSMObjects() async {
+  Future<MapFeatureCollection> _parseOSMObjects() async {
     final jsonString = await rootBundle.loadString('assets/map_feature_template_collection.json');
-    return MapTemplateFeatureCollection.fromJson(jsonDecode(jsonString).cast<Map<String, dynamic>>());
+    return MapFeatureCollection.fromJson(jsonDecode(jsonString).cast<Map<String, dynamic>>());
   }
 
 

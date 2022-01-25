@@ -4,7 +4,7 @@ import '/models/osm_element_type.dart';
 import '/commons/custom_icons.dart';
 
 
-class MapFeatureTemplate {
+class MapFeature {
   final String name;
 
   final IconData? icon;
@@ -13,15 +13,15 @@ class MapFeatureTemplate {
 
   final OSMElementType osmElement;
 
-  const MapFeatureTemplate({
+  const MapFeature({
     required this.name,
-    required this.icon,
     required this.osmTags,
-    required this.osmElement
+    required this.osmElement,
+    this.icon,
   });
 
-  factory MapFeatureTemplate.fromJSON(Map<String, dynamic> json) =>
-      MapFeatureTemplate(
+  factory MapFeature.fromJSON(Map<String, dynamic> json) =>
+      MapFeature(
         name: json['name'],
         icon: customIcons[json['icon']],
         osmTags: json['osm_tags']?.cast<String, String>() ?? <String, String>{},
@@ -30,21 +30,21 @@ class MapFeatureTemplate {
 
   @override
   String toString() =>
-      'TemplateOSMObject(name: $name, icon: $icon, osm_tags: $osmTags, osm_element: $osmElement)';
+      'MapFeature(name: $name, icon: $icon, osm_tags: $osmTags, osm_element: $osmElement)';
 
-  /// Check whether this condition matches the given data.
+  /// Check whether this map feature matches the given data.
 
   bool matches(Map<String, String> tags, OSMElementType type) =>
       matchesElement(type) && matchesTags(tags);
 
 
-  /// Check whether the tags of this condition matches the given tags.
+  /// Check whether the tags of this map feature matches the given tags.
 
   bool matchesTags(Map<String, String> tags) =>
       osmTags.entries.every((entry) => tags[entry.key] == entry.value);
 
 
-  /// Check whether the element types of this condition matches the given element type.
+  /// Check whether the element types of this map feature matches the given element type.
 
   bool matchesElement(OSMElementType type) =>
       osmElement == type;

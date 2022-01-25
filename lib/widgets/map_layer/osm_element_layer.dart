@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:osm_api/osm_api.dart';
 import 'package:provider/provider.dart';
 
-import '/models/map_feature_template_collection.dart';
+import '/models/map_feature_collection.dart';
 import '/models/geometric_osm_element.dart';
 import '/widgets/map_markers/osm_element_marker.dart';
 
@@ -95,11 +95,9 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       animateOutDelay: _getRandomDelay(),
       child: OsmElementMarker(
         onTap: () => widget.onOsmElementTap?.call(osmElement),
-        icon: context.read<MapTemplateFeatureCollection>()
+        icon: context.read<MapFeatureCollection>()
             .getMatchingFeature(osmElement)?.icon ?? Icons.outdoor_grill
       ),
     );
   }
-
-
 }
