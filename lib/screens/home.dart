@@ -63,17 +63,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       }
     });
 
-    // only add post frame callback when this widget gets build
-    if (SchedulerBinding.instance?.schedulerPhase == SchedulerPhase.persistentCallbacks) {
       _mapController.onReady.then((_) {
         // use post frame callback because initial bounds are not applied in onReady yet
-        SchedulerBinding.instance?.addPostFrameCallback((duration) {
+      WidgetsBinding.instance?.addPostFrameCallback((duration) {
           // move to user location and start camera tracking on app start
           // this will also trigger the first query of stops, but only if the user enabled the location service
           _cameraTracker.startTacking(initialZoom: 15);
+
+        void handleInitialCameraStateChange() {
+         if (_cameraTracker.state != CameraTrackerState.pending) {
+            _cameraTracker.removeListener(handleInitialCameraStateChange);
+            _stopAreasProvider.loadStopAreas(_mapController.bounds!);
+          }
+        }
+        _cameraTracker.addListener(handleInitialCameraStateChange);
         });
       });
-    }
   }
 
 

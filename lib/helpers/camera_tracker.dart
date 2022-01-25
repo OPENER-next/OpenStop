@@ -33,7 +33,7 @@ class CameraTracker extends ChangeNotifier implements TickerProvider {
   }) : super();
 
 
-  get state => _state;
+  CameraTrackerState get state => _state;
 
   /// This function will automatically request permissions and the activation of the location service.
   /// Only call this function if the [MapController] is ready ([onReady]). Otherwise an error might occur.
