@@ -5,10 +5,14 @@ on:
     paths:
       - '**/question_catalog.json'
       - '**/question_catalog_schema.json'
+      - '**/map_feature_collection.json'
+      - '**/map_feature_collection_schema.json'
   pull_request:
     paths:
       - '**/question_catalog.json'
       - '**/question_catalog_schema.json'
+      - '**/map_feature_collection.json'
+      - '**/map_feature_collection_schema.json'
 
   # Allow running this workflow manually from the Actions tab
   workflow_dispatch:
@@ -19,17 +23,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        
+
       - name: Setup NodeJS
         uses: actions/setup-node@v2
-        
+
       - name: Install ajv-cli
         run: npm install -g ajv-cli
-        
-      - name: Validate JSON
+
+      - name: Validate questions JSON
         run: >
-          ajv validate 
+          ajv validate
           -s assets/questions/question_catalog_schema.json
           -d assets/questions/question_catalog.json
+          --spec=draft2020
+          --strict=false
+
+      - name: Validate map features JSON
+        run: >
+          ajv validate
+          -s assets/map_feature_collection_schema.json
+          -d assets/map_feature_collection.json
           --spec=draft2020
           --strict=false
