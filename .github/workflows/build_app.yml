@@ -1,0 +1,50 @@
+name: Build app for target platforms
+
+on:
+  # Allow running this workflow manually from the Actions tab
+  # Later maybe run this automatically on new releases
+  workflow_dispatch:
+
+  build_android:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+
+    - run: flutter pub get
+    - run: flutter build apk --release
+    - run: flutter build appbundle --release
+
+    # Upload generated apk to the artifacts.
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Android APK
+        path: build/app/outputs/apk/release/app-release.apk
+
+    # Upload generated appbundle to the artifacts.
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Android App Bundle
+        path: build/app/outputs/bundle/release/app-release.aab
+
+  build_ios:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+
+    - run: flutter pub get
+    - run: flutter build ios --release --no-codesign
+
+    # Upload generated apk to the artifacts.
+    - uses: actions/upload-artifact@v2
+      with:
+        name: iOS App
+        path: build/ios/iphoneos/Runner.app
