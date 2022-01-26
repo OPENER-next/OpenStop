@@ -44,7 +44,7 @@ class _AboutScreenState extends State<AboutScreen> {
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Image.asset(
-                        'assets/app_icon_android.png',
+                        'assets/images/app_icon_android.png',
                         height: 120,
                       ),
                     ),
@@ -114,14 +114,14 @@ class _AboutScreenState extends State<AboutScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                                 child: Image.asset(
-                                    'assets/logos/BMVI_Fz_2017_Office_Farbe_de.png'),
+                                    'assets/images/logos/BMVI_Fz_2017_Office_Farbe_de.png'),
                               )),
                           Flexible(
                               flex: 1,
                               child: Padding(
                                 padding: const EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 50.0),
                                 child: Image.asset(
-                                    'assets/logos/mFUND_Logo_sRGB.png'),
+                                    'assets/images/logos/mFUND_Logo_sRGB.png'),
                               )
                           )
                         ],

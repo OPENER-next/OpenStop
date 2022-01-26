@@ -150,7 +150,7 @@ class _ListInputItemState extends State<ListInputItem>
                       widget.item.image!,
                       errorBuilder: (context, error, stackTrace){
                         return Image.asset(
-                            'assets/placeholder_image.png',
+                            'assets/images/placeholder_image.png',
                             fit: BoxFit.cover,
                             height: 90);
                       },

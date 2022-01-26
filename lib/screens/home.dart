@@ -257,12 +257,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
 
   Future<QuestionCatalog> _parseQuestionCatalog() async {
-    final jsonString = await rootBundle.loadString('assets/questions/question_catalog.json');
+    final jsonString = await rootBundle.loadString('assets/datasets/question_catalog.json');
     return QuestionCatalog.fromJson(jsonDecode(jsonString).cast<Map<String, dynamic>>());
   }
 
   Future<MapFeatureCollection> _parseOSMObjects() async {
-    final jsonString = await rootBundle.loadString('assets/map_feature_collection.json');
+    final jsonString = await rootBundle.loadString('assets/datasets/map_feature_collection.json');
     return MapFeatureCollection.fromJson(jsonDecode(jsonString).cast<Map<String, dynamic>>());
   }
 

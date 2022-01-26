@@ -33,15 +33,15 @@ jobs:
       - name: Validate questions JSON
         run: >
           ajv validate
-          -s assets/questions/question_catalog_schema.json
-          -d assets/questions/question_catalog.json
+          -s assets/datasets/question_catalog_schema.json
+          -d assets/datasets/question_catalog.json
           --spec=draft2020
           --strict=false
 
       - name: Validate map features JSON
         run: >
           ajv validate
-          -s assets/map_feature_collection_schema.json
-          -d assets/map_feature_collection.json
+          -s assets/datasets/map_feature_collection_schema.json
+          -d assets/datasets/map_feature_collection.json
           --spec=draft2020
           --strict=false

@@ -13,7 +13,7 @@ void main() async {
   late final List<Map<String, dynamic>> questionJson;
 
   setUpAll(() async {
-    final questionJsonData = await rootBundle.loadString('assets/questions/question_catalog.json');
+    final questionJsonData = await rootBundle.loadString('assets/datasets/question_catalog.json');
     questionJson = jsonDecode(questionJsonData).cast<Map<String, dynamic>>();
   });
 
