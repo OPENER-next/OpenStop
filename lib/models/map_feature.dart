@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:community_material_icon/community_material_icon.dart';
 
 import '/models/osm_element_type.dart';
 import '/commons/custom_icons.dart';
@@ -15,15 +16,15 @@ class MapFeature {
 
   const MapFeature({
     required this.name,
+    required this.icon,
     required this.osmTags,
     required this.osmElement,
-    this.icon,
   });
 
   factory MapFeature.fromJSON(Map<String, dynamic> json) =>
       MapFeature(
         name: json['name'],
-        icon: customIcons[json['icon']],
+        icon: customIcons[json['icon']] ?? CommunityMaterialIcons.cancel,
         osmTags: json['osm_tags']?.cast<String, String>() ?? <String, String>{},
         osmElement: (json['osm_element'] as String).toOSMElementType(),
       );

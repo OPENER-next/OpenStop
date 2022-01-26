@@ -9,7 +9,7 @@ const Map<String, IconData> customIcons = {
   'ticket_machine': CommunityMaterialIcons.fridge_bottom,
   'parking': CommunityMaterialIcons.parking,
   'taxi': CommunityMaterialIcons.taxi,
-  'toilets': CommunityMaterialIcons.human_male_female,
+  'toilet': CommunityMaterialIcons.human_male_female,
   'locker': CommunityMaterialIcons.locker_multiple,
   'trolley': CommunityMaterialIcons.dolly,
   'terminal_info': CommunityMaterialIcons.phone_message,

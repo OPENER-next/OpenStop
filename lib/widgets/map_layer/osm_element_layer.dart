@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:animated_marker_layer/animated_marker_layer.dart';
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:osm_api/osm_api.dart';
 import 'package:provider/provider.dart';
@@ -96,7 +97,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       child: OsmElementMarker(
         onTap: () => widget.onOsmElementTap?.call(osmElement),
         icon: context.read<MapFeatureCollection>()
-            .getMatchingFeature(osmElement)?.icon ?? Icons.outdoor_grill
+            .getMatchingFeature(osmElement)?.icon ?? CommunityMaterialIcons.help_rhombus_outline
       ),
     );
   }
