@@ -8,7 +8,7 @@ import '/commons/custom_icons.dart';
 class MapFeature {
   final String name;
 
-  final IconData? icon;
+  final IconData icon;
 
   final Map<String, String> osmTags;
 

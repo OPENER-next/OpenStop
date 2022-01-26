@@ -15,7 +15,7 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final _controller = PageController(initialPage: 0);
+  final _controller = PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       body: Column(
         children: [
           Expanded(
-            flex: 13,
             child: PageView(
               scrollDirection: Axis.horizontal,
               controller: _controller,
@@ -84,8 +83,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ],
             ),
           ),
-          Expanded(
-            flex: 1,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
             child: DotsIndicator(
               controller: _controller,
               itemCount: 2,

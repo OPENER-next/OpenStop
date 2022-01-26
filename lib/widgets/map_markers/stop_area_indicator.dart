@@ -89,6 +89,7 @@ class _StopAreaIndicatorState extends State<StopAreaIndicator> with SingleTicker
                 child: ScaleTransition(
                   scale: scaleAnimation,
               child: CustomPaint(
+                    willChange: true,
                 painter: CirclePainter(
                   color: Theme.of(context).colorScheme.primary.withOpacity(0.4)
                 ),

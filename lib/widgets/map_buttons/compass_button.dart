@@ -34,14 +34,14 @@ class CompassButton extends AnimatedWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Icon(
-                  CommunityMaterialIcons.navigation,
+                  CommunityMaterialIcons.triangle,
                   color: Colors.red,
-                  size: 13,
+                  size: 9,
                 ),
                 Text(
                     'N',
                     style: TextStyle(
-                        height: 1,
+                        height: 1.1,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).floatingActionButtonTheme.foregroundColor,

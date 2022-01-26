@@ -56,7 +56,7 @@ class IncompleteOSMElementProvider extends ChangeNotifier {
             );
             }
           } catch(error) {
-            print(error);
+            debugPrint(error.toString());
           }
         }
       }

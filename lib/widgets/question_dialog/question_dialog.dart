@@ -124,6 +124,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
   }
 
 
+  // ignore: use_setters_to_change_properties
   void _handleChange(Answer? answer) {
     _answer.value = answer;
   }
