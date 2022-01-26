@@ -1,6 +1,7 @@
 name: Build app for target platforms
 
 on:
+  push:
   # Allow running this workflow manually from the Actions tab
   # Later maybe run this automatically on new releases
   workflow_dispatch:
