@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:community_material_icon/community_material_icon.dart';
 
 import '/models/difficulty_level.dart';
 import '/view_models/preferences_provider.dart';
@@ -57,7 +58,7 @@ class SettingsScreen extends StatelessWidget {
                 },
               ),
               CustomListTile(
-                leadingIcon: Icons.line_weight,
+                leadingIcon: CommunityMaterialIcons.gauge,
                 title: 'Schwierigkeitsgrad der Fragen',
                 subtitle: difficultyMap[difficulty] ?? 'Unbekannt',
                 onTap: () async {

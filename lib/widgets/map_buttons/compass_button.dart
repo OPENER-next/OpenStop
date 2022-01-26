@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:flutter/cupertino.dart';
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 
 class CompassButton extends AnimatedWidget {
@@ -34,9 +34,9 @@ class CompassButton extends AnimatedWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Icon(
-                  CupertinoIcons.arrowtriangle_up_fill,
+                  CommunityMaterialIcons.navigation,
                   color: Colors.red,
-                  size: 12,
+                  size: 13,
                 ),
                 Text(
                     'N',

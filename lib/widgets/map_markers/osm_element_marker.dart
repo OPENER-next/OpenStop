@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
@@ -72,7 +71,7 @@ class MarkerPinPainter extends CustomPainter {
     this.strokeWidth = 6,
     this.tipHeight = 7,
     this.tipAngle = 0.6,
-    this.iconScale = 0.75,
+    this.iconScale = 0.7,
   });
 
   @override
