@@ -7,7 +7,6 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import '/commons/map_utils.dart';
-import '/commons/location_utils.dart';
 
 class CameraTracker extends ChangeNotifier implements TickerProvider {
   final MapController mapController;
@@ -25,6 +24,11 @@ class CameraTracker extends ChangeNotifier implements TickerProvider {
   Ticker? _ticker;
 
   CameraTrackerState _state = CameraTrackerState.inactive;
+
+  /// Whether the location permission has been granted and the location service has been enabled or not.
+  /// This only changes after calls to [startTacking] since there is no permission notification API.
+
+  bool hasLocationAccess = false;
 
   CameraTracker({
     required this.mapController,
@@ -44,12 +48,15 @@ class CameraTracker extends ChangeNotifier implements TickerProvider {
     _updateState(CameraTrackerState.pending);
 
     // request permissions and get last known position
-    final lastPosition = await acquireUserLocation(false);
+    final lastPosition = await _acquireUserLocation(false);
+
+    hasLocationAccess = lastPosition != null;
+
     // if location was successfully granted and retrieved
     // and if state is still pending which means it wasn't canceled during the process
-    if (lastPosition != null && _state == CameraTrackerState.pending) {
+    if (hasLocationAccess && _state == CameraTrackerState.pending) {
       // move to last known location if available
-      _handlePositionUpdate(lastPosition, initialZoom);
+      _handlePositionUpdate(lastPosition!, initialZoom);
 
       _positionStreamSub = Geolocator.getPositionStream(
         locationSettings: AndroidSettings(
@@ -81,6 +88,42 @@ class CameraTracker extends ChangeNotifier implements TickerProvider {
     _ticker?.stop();
 
     _updateState(CameraTrackerState.inactive);
+  }
+
+
+  /// This function will automatically request permissions if not already granted
+  /// as well as the activation of the device's location service if not already activated.
+  /// If [forceCurrent] is set to [true] this function will directly try to gather the most up-to-date position.
+  /// Else the last known position will preferably be returned if available.
+
+  Future<Position?> _acquireUserLocation([forceCurrent = true]) async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // permissions are denied don't continue
+        return null;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // permissions are denied forever don't continue
+      return null;
+    }
+
+    // if permissions are granted try to access the position of the device
+    // on android the user will be automatically asked if he wants to enable the location service if it is disabled
+    try {
+      Position? lastPosition;
+      if (!forceCurrent) {
+        lastPosition = await Geolocator.getLastKnownPosition();
+      }
+      // if no previous position is known automatically try to get the current one
+      return lastPosition ?? await Geolocator.getCurrentPosition();
+    }
+    on LocationServiceDisabledException {
+      return null;
+    }
   }
 
 

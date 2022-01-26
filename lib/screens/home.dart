@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:animated_location_indicator/animated_location_indicator.dart';
@@ -21,7 +20,6 @@ import '/widgets/map_layer/stop_area_layer.dart';
 import '/widgets/question_dialog/question_dialog.dart';
 import '/widgets/map_overlay.dart';
 import '/widgets/home_sidebar.dart';
-import '/widgets/loading_indicator.dart';
 import '/widgets/map_layer/osm_element_layer.dart';
 import '/models/question_catalog.dart';
 import '/models/stop_area.dart';
@@ -67,7 +65,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         // use post frame callback because initial bounds are not applied in onReady yet
       WidgetsBinding.instance?.addPostFrameCallback((duration) {
           // move to user location and start camera tracking on app start
-          // this will also trigger the first query of stops, but only if the user enabled the location service
           _cameraTracker.startTacking(initialZoom: 15);
 
         void handleInitialCameraStateChange() {
@@ -174,9 +171,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           );
                         }
                       ),
-                      AnimatedLocationLayerWidget(
+                      Selector<CameraTracker, bool>(
+                        selector: (_, cameraTracker) => cameraTracker.hasLocationAccess,
+                        builder: (context, cameraTracker, child) {
+                          return AnimatedLocationLayerWidget(
                         options: AnimatedLocationOptions()
-                      )
+                          );
+                        }
+                      ),
                     ],
                     nonRotatedChildren: [
                       RepaintBoundary(
