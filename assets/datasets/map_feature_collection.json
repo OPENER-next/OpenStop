@@ -35,7 +35,7 @@
   },
   {
     "name": "Fahrkartenautomat",
-    "icon": "vending_machine",
+    "icon": "ticket_machine",
     "osm_tags": {
       "amenity": "vending_machine",
       "vending": "public_transport_tickets"
@@ -84,7 +84,7 @@
   },
   {
     "name": "Gepäcktransport",
-    "icon": "bag",
+    "icon": "trolley",
     "osm_tags": {
       "amenity": "trolley_bay"
     },
@@ -92,7 +92,7 @@
   },
   {
     "name": "Informationssäule",
-    "icon": "terminal",
+    "icon": "terminal_info",
     "osm_tags": {
       "tourism": "information",
       "information": "terminal"
@@ -111,7 +111,7 @@
   },
   {
     "name": "Notrufsäule",
-    "icon": "phone",
+    "icon": "terminal_emergency",
     "osm_tags": {
       "emergency": "phone"
     },
