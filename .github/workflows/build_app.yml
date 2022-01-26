@@ -5,6 +5,7 @@ on:
   # Later maybe run this automatically on new releases
   workflow_dispatch:
 
+jobs:
   build_android:
     runs-on: ubuntu-latest
     steps:
