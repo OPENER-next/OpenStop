@@ -45,7 +45,7 @@ jobs:
     - run: flutter pub get
     - run: flutter build ios --release --no-codesign
 
-    # Upload generated apk to the artifacts.
+    # Upload generated .app folder to the artifacts.
     - uses: actions/upload-artifact@v2
       with:
         name: iOS App
