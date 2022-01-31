@@ -47,6 +47,8 @@ class OsmElementMarker extends StatelessWidget {
               strokeColor: Colors.white,
               icon: icon
             ),
+            isComplex: true,
+            willChange: false,
           ),
         ],
       )
@@ -59,6 +61,7 @@ class MarkerPinPainter extends CustomPainter {
   final Color color;
   final double strokeWidth;
   final Color strokeColor;
+  final Color shadowColor;
   final int tipHeight;
   final double tipAngle;
   final IconData icon;
@@ -68,10 +71,11 @@ class MarkerPinPainter extends CustomPainter {
     required this.icon,
     this.color = Colors.black,
     this.strokeColor = Colors.black,
+    this.shadowColor = Colors.black12,
     this.strokeWidth = 6,
     this.tipHeight = 7,
     this.tipAngle = 0.6,
-    this.iconScale = 0.7,
+    this.iconScale = 0.6,
   });
 
   @override
@@ -116,7 +120,14 @@ class MarkerPinPainter extends CustomPainter {
         text: String.fromCharCode(icon.codePoint),
         style: TextStyle(
           fontSize: availableHeight * iconScale,
-          fontFamily: icon.fontFamily
+          fontFamily: icon.fontFamily,
+          shadows: [
+            Shadow(
+              color: shadowColor,
+              blurRadius: 0,
+              offset: const Offset(2, 2)
+            )
+          ]
         )
       );
     textPainter.layout();
