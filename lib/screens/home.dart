@@ -139,6 +139,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       enableMultiFingerGestureRace: true,
                       center: LatLng(50.8144951, 12.9295576),
                       zoom: 15.0,
+                      minZoom: context.select<PreferencesProvider, double>((pref) => pref.minZoom),
+                      maxZoom: context.select<PreferencesProvider, double>((pref) => pref.maxZoom)
                     ),
                     children: [
                       Consumer<PreferencesProvider>(
@@ -147,8 +149,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             options: TileLayerOptions(
                               overrideTilesWhenUrlChanges: true,
                               urlTemplate: value.tileTemplateServer,
-                              minZoom: value.minZoom,
-                              maxZoom: value.maxZoom,
                               tileProvider: NetworkTileProvider(),
                             ),
                           );
