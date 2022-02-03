@@ -2,24 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '/models/difficulty_level.dart';
+import '/commons/tile_layers.dart';
 
 
 class PreferencesProvider extends ChangeNotifier {
   final SharedPreferences _preferences;
-  static const ThemeMode _defaultThemeMode = ThemeMode.light;
-  static const DifficultyLevel _defaultDifficulty = DifficultyLevel.easy;
-  static const bool _defaultOnboarding = false;
-  static const String _defaultTileTemplateServer = 'https://osm-2.nearest.place/retina/{z}/{x}/{y}.png';
-  double _minZoom;
-  double _maxZoom;
+  static const _defaultThemeMode = ThemeMode.light;
+  static const _defaultDifficulty = DifficultyLevel.easy;
+  static const _defaultOnboarding = false;
+  static const _defaultTileLayerId = TileLayerId.publicTransport;
 
   PreferencesProvider({
     required SharedPreferences preferences,
-    double minZoom = 0,
-    double maxZoom = 18,
-  }) : _preferences = preferences,
-        _minZoom = minZoom,
-        _maxZoom = maxZoom;
+  }) : _preferences = preferences;
 
 
   bool get hasSeenOnboarding {
@@ -61,31 +56,16 @@ class PreferencesProvider extends ChangeNotifier {
     }
   }
 
-  String get tileTemplateServer {
-    return _preferences.getString('tileTemplateServer') ?? _defaultTileTemplateServer;
+  TileLayerId get tileLayerId {
+    final tileLayerIdIndex = _preferences.getInt('tileLayerId');
+    return tileLayerIdIndex != null && tileLayerIdIndex < TileLayerId.values.length
+        ? TileLayerId.values[tileLayerIdIndex]
+        : _defaultTileLayerId;
   }
 
-  set tileTemplateServer(String newTileTemplateServer) {
-    if (newTileTemplateServer != tileTemplateServer) {
-      _preferences.setString('tileTemplateServer', newTileTemplateServer);
-      notifyListeners();
-    }
-  }
-
-  double get minZoom => _minZoom;
-
-  set minZoom(double value) {
-    if (value != _minZoom) {
-      _minZoom = value;
-      notifyListeners();
-    }
-  }
-
-  double get maxZoom => _maxZoom;
-
-  set maxZoom(double value) {
-    if (value != _maxZoom) {
-      _maxZoom = value;
+  set tileLayerId(TileLayerId newTileLayerId) {
+    if (newTileLayerId != tileLayerId) {
+      _preferences.setInt('tileLayerId', newTileLayerId.index);
       notifyListeners();
     }
   }
