@@ -61,11 +61,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       }
     });
 
-      _mapController.onReady.then((_) {
-        // use post frame callback because initial bounds are not applied in onReady yet
+    _mapController.onReady.then((_) {
+      // use post frame callback because initial bounds are not applied in onReady yet
       WidgetsBinding.instance?.addPostFrameCallback((duration) {
-          // move to user location and start camera tracking on app start
-          _cameraTracker.startTacking(initialZoom: 15);
+        // move to user location and start camera tracking on app start
+        _cameraTracker.startTacking(initialZoom: 15);
 
         void handleInitialCameraStateChange() {
          if (_cameraTracker.state != CameraTrackerState.pending) {
@@ -74,8 +74,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           }
         }
         _cameraTracker.addListener(handleInitialCameraStateChange);
-        });
       });
+    });
   }
 
 
@@ -150,6 +150,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               overrideTilesWhenUrlChanges: true,
                               urlTemplate: value.tileTemplateServer,
                               tileProvider: NetworkTileProvider(),
+                              minZoom: value.minZoom,
+                              maxZoom: value.maxZoom
                             ),
                           );
                         }
@@ -175,7 +177,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         selector: (_, cameraTracker) => cameraTracker.hasLocationAccess,
                         builder: (context, cameraTracker, child) {
                           return AnimatedLocationLayerWidget(
-                        options: AnimatedLocationOptions()
+                            options: AnimatedLocationOptions()
                           );
                         }
                       ),
@@ -183,30 +185,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     nonRotatedChildren: [
                       RepaintBoundary(
                         child: FutureBuilder(
-                        future: _mapController.onReady,
-                        builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                          // only show overlay when question history has no active entry
-                          return Consumer<QuestionnaireProvider>(
-                            builder: (context, questionnaire,child) {
-                              final mapIsLoaded = snapshot.connectionState == ConnectionState.done;
-                              final noActiveEntry = !questionnaire.hasEntries;
+                          future: _mapController.onReady,
+                          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                            // only show overlay when question history has no active entry
+                            return Consumer<QuestionnaireProvider>(
+                              builder: (context, questionnaire,child) {
+                                final mapIsLoaded = snapshot.connectionState == ConnectionState.done;
+                                final noActiveEntry = !questionnaire.hasEntries;
 
-                              return AnimatedSwitcher(
-                                switchInCurve: Curves.ease,
-                                switchOutCurve: Curves.ease,
-                                duration: const Duration(milliseconds: 300),
-                                child: mapIsLoaded && noActiveEntry
-                                  ? const MapOverlay()
-                                  : const SizedBox.expand(
-                                    // TODO: decide overlay style/color
-                                    child: ColoredBox(color: Colors.transparent)
-                                  )
-                              );
-                            }
-                          );
-                        }
-                          )
+                                return AnimatedSwitcher(
+                                  switchInCurve: Curves.ease,
+                                  switchOutCurve: Curves.ease,
+                                  duration: const Duration(milliseconds: 300),
+                                  child: mapIsLoaded && noActiveEntry
+                                    ? const MapOverlay()
+                                    : const SizedBox.expand(
+                                      // TODO: decide overlay style/color
+                                      child: ColoredBox(color: Colors.transparent)
+                                    )
+                                );
+                              }
+                            );
+                          }
                         )
+                      )
                     ],
                   ),
                   // place sheet on extra stack above map so touch events won't pass through

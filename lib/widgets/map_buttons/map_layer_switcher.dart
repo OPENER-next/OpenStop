@@ -18,6 +18,9 @@ class MapLayerSwitcher extends StatefulWidget {
   /// A Number from 0 (no overlap) to 1 (full overlap) defining the overlap of the entry animations.
   final double animationOverlap;
 
+  /// The dimensions of the speed dial buttons.
+  final Size subButtonSize;
+
   const MapLayerSwitcher({
     required this.onSelection,
     required this.entries,
@@ -25,6 +28,7 @@ class MapLayerSwitcher extends StatefulWidget {
     this.duration = const Duration(milliseconds: 500),
     this.reverseDuration = const Duration(milliseconds: 300),
     this.animationOverlap = 0.8,
+    this.subButtonSize = const Size.square(42),
     Key? key,
   }) : super(key: key);
 
@@ -90,7 +94,7 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerPr
 
     _setup();
 
-    WidgetsBinding.instance!.addPostFrameCallback(
+    WidgetsBinding.instance?.addPostFrameCallback(
       (_) => _overlayEntry.markNeedsBuild()
     );
   }
@@ -101,9 +105,11 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerPr
       builder: (overlayContext) {
         final renderBox = context.findRenderObject() as RenderBox;
         final offset = renderBox.localToGlobal(Offset.zero);
+        // calculate the horizontal offset that centers the speed dial buttons alongside the toggle button
+        final centerOffsetX = (renderBox.size.width - widget.subButtonSize.width) / 2;
 
         return Positioned(
-          left: offset.dx,
+          left: offset.dx + centerOffsetX,
           bottom: MediaQuery.of(context).size.height - offset.dy,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,9 +126,9 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerPr
     final entry = widget.entries[index];
     final start = (widget.entries.length - (index + 1)) * _intervalOffset;
     final end = start + _intervalLength;
+    final isActive = widget.active == entry.key;
 
-    return Container(
-      height: 50,
+    return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Row(
         children: [
@@ -140,19 +146,22 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerPr
                 curve: Curves.easeOutBack,
               ),
             ),
-            child: FloatingActionButton(
-              heroTag: null,
-              backgroundColor: widget.active == entry.key ? Theme.of(context).colorScheme.primary : null,
-              mini: true,
-              child: Icon(
-                entry.icon
+            child: SizedBox.fromSize(
+              size: widget.subButtonSize,
+              child: FloatingActionButton.small(
+                heroTag: null,
+                backgroundColor: isActive ? Theme.of(context).colorScheme.primary : null,
+                child: Icon(
+                  entry.icon,
+                  color: isActive ? Theme.of(context).colorScheme.onPrimary : null,
+                ),
+                onPressed: () {
+                  if (widget.active != entry.key) {
+                    widget.onSelection(entry);
+                  }
+                },
               ),
-              onPressed: () {
-                if (widget.active != entry.key) {
-                  widget.onSelection(entry);
-                }
-              },
-            ),
+            )
           ),
           FadeTransition(
             opacity: CurvedAnimation(
@@ -164,7 +173,7 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerPr
               ),
             ),
             child: Container(
-              margin: const EdgeInsets.only(left: 5),
+              margin: const EdgeInsets.only(left: 10),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(3),
