@@ -125,10 +125,6 @@
         },
         "minItems": 1
       },
-      "osm_element": {
-        "description": "The type of OSM Element that should be created along side (required for Version 2).",
-        "$ref": "#/definitions/osm_element_type"
-      },
       "difficulty": {
         "description": "A number that indicates the difficulty of a question which can be used later to filter questions by different levels. Higher means more difficult.",
         "type": "integer",
