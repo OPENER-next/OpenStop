@@ -16,6 +16,8 @@ import '/view_models/preferences_provider.dart';
 import '/view_models/stop_areas_provider.dart';
 import '/helpers/camera_tracker.dart';
 import '/commons/stream_debouncer.dart';
+import '/commons/tile_layers.dart';
+import '/commons/map_utils.dart';
 import '/widgets/map_layer/stop_area_layer.dart';
 import '/widgets/question_dialog/question_dialog.dart';
 import '/widgets/map_overlay.dart';
@@ -24,7 +26,6 @@ import '/widgets/map_layer/osm_element_layer.dart';
 import '/models/question_catalog.dart';
 import '/models/stop_area.dart';
 import '/models/map_feature_collection.dart';
-import '/commons/map_utils.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -128,94 +129,98 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               Provider.value(value: _mapController),
               Provider.value(value: osmObjects),
             ],
-            builder: (context, child) => Scaffold(
-              drawer: const HomeSidebar(),
-              body: Stack(
-                children: [
-                  FlutterMap(
-                    mapController: _mapController,
-                    options: MapOptions(
-                      onTap: (position, location) => _closeQuestionDialog(context),
-                      enableMultiFingerGestureRace: true,
-                      center: LatLng(50.8144951, 12.9295576),
-                      zoom: 15.0,
-                      minZoom: context.select<PreferencesProvider, double>((pref) => pref.minZoom),
-                      maxZoom: context.select<PreferencesProvider, double>((pref) => pref.maxZoom)
-                    ),
-                    children: [
-                      Consumer<PreferencesProvider>(
-                        builder: (context, value, child) {
-                          return TileLayerWidget(
-                            options: TileLayerOptions(
-                              overrideTilesWhenUrlChanges: true,
-                              urlTemplate: value.tileTemplateServer,
-                              tileProvider: NetworkTileProvider(),
-                              minZoom: value.minZoom,
-                              maxZoom: value.maxZoom
-                            ),
-                          );
-                        }
-                      ),
-                      Consumer2<StopAreasProvider, OSMElementProvider>(
-                        builder: (context, stopAreaProvider, osmElementProvider, child) {
-                          return StopAreaLayer(
-                            stopAreas: stopAreaProvider.stopAreas,
-                            loadingStopAreas: osmElementProvider.loadingStopAreas,
-                            onStopAreaTap: (stopArea) => _onStopAreaTap(stopArea, context),
-                          );
-                        }
-                      ),
-                      Consumer<IncompleteOSMElementProvider>(
-                        builder: (context, incompleteOsmElementProvider, child) {
-                          return OsmElementLayer(
-                            onOsmElementTap: (osmElement) => _onOsmElementTap(osmElement, context),
-                            geoElements: incompleteOsmElementProvider.loadedOsmElements
-                          );
-                        }
-                      ),
-                      Selector<CameraTracker, bool>(
-                        selector: (_, cameraTracker) => cameraTracker.hasLocationAccess,
-                        builder: (context, cameraTracker, child) {
-                          return AnimatedLocationLayerWidget(
-                            options: AnimatedLocationOptions()
-                          );
-                        }
-                      ),
-                    ],
-                    nonRotatedChildren: [
-                      RepaintBoundary(
-                        child: FutureBuilder(
-                          future: _mapController.onReady,
-                          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                            // only show overlay when question history has no active entry
-                            return Consumer<QuestionnaireProvider>(
-                              builder: (context, questionnaire,child) {
-                                final mapIsLoaded = snapshot.connectionState == ConnectionState.done;
-                                final noActiveEntry = !questionnaire.hasEntries;
+            builder: (context, child) {
+              final tileLayerId = context.select<PreferencesProvider, TileLayerId>((pref) => pref.tileLayerId);
+              final tileLayerDescription = tileLayers[tileLayerId]!;
+              final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-                                return AnimatedSwitcher(
-                                  switchInCurve: Curves.ease,
-                                  switchOutCurve: Curves.ease,
-                                  duration: const Duration(milliseconds: 300),
-                                  child: mapIsLoaded && noActiveEntry
-                                    ? const MapOverlay()
-                                    : const SizedBox.expand(
-                                      // TODO: decide overlay style/color
-                                      child: ColoredBox(color: Colors.transparent)
-                                    )
-                                );
-                              }
+              return Scaffold(
+                drawer: const HomeSidebar(),
+                body: Stack(
+                  children: [
+                    FlutterMap(
+                      mapController: _mapController,
+                      options: MapOptions(
+                        onTap: (position, location) => _closeQuestionDialog(context),
+                        enableMultiFingerGestureRace: true,
+                        center: LatLng(50.8144951, 12.9295576),
+                        zoom: 15.0,
+                        minZoom: tileLayerDescription.minZoom.toDouble(),
+                        maxZoom: tileLayerDescription.maxZoom.toDouble()
+                      ),
+                      children: [
+                        TileLayerWidget(
+                          options: TileLayerOptions(
+                            overrideTilesWhenUrlChanges: true,
+                            tileProvider: NetworkTileProvider(),
+                            urlTemplate: isDarkMode && tileLayerDescription.darkVariantTemplateUrl != null
+                              ? tileLayerDescription.darkVariantTemplateUrl
+                              : tileLayerDescription.templateUrl,
+                            minZoom: tileLayerDescription.minZoom.toDouble(),
+                            maxZoom: tileLayerDescription.maxZoom.toDouble()
+                          ),
+                        ),
+                        Consumer2<StopAreasProvider, OSMElementProvider>(
+                          builder: (context, stopAreaProvider, osmElementProvider, child) {
+                            return StopAreaLayer(
+                              stopAreas: stopAreaProvider.stopAreas,
+                              loadingStopAreas: osmElementProvider.loadingStopAreas,
+                              onStopAreaTap: (stopArea) => _onStopAreaTap(stopArea, context),
                             );
                           }
+                        ),
+                        Consumer<IncompleteOSMElementProvider>(
+                          builder: (context, incompleteOsmElementProvider, child) {
+                            return OsmElementLayer(
+                              onOsmElementTap: (osmElement) => _onOsmElementTap(osmElement, context),
+                              geoElements: incompleteOsmElementProvider.loadedOsmElements
+                            );
+                          }
+                        ),
+                        Selector<CameraTracker, bool>(
+                          selector: (_, cameraTracker) => cameraTracker.hasLocationAccess,
+                          builder: (context, cameraTracker, child) {
+                            return AnimatedLocationLayerWidget(
+                              options: AnimatedLocationOptions()
+                            );
+                          }
+                        ),
+                      ],
+                      nonRotatedChildren: [
+                        RepaintBoundary(
+                          child: FutureBuilder(
+                            future: _mapController.onReady,
+                            builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                              // only show overlay when question history has no active entry
+                              return Consumer<QuestionnaireProvider>(
+                                builder: (context, questionnaire,child) {
+                                  final mapIsLoaded = snapshot.connectionState == ConnectionState.done;
+                                  final noActiveEntry = !questionnaire.hasEntries;
+
+                                  return AnimatedSwitcher(
+                                    switchInCurve: Curves.ease,
+                                    switchOutCurve: Curves.ease,
+                                    duration: const Duration(milliseconds: 300),
+                                    child: mapIsLoaded && noActiveEntry
+                                      ? const MapOverlay()
+                                      : const SizedBox.expand(
+                                        // TODO: decide overlay style/color
+                                        child: ColoredBox(color: Colors.transparent)
+                                      )
+                                  );
+                                }
+                              );
+                            }
+                          )
                         )
-                      )
-                    ],
-                  ),
-                  // place sheet on extra stack above map so touch events won't pass through
-                  const QuestionDialog(),
-                ],
-              )
-            ),
+                      ],
+                    ),
+                    // place sheet on extra stack above map so touch events won't pass through
+                    const QuestionDialog(),
+                  ],
+                )
+              );
+            }
           );
         }
       }

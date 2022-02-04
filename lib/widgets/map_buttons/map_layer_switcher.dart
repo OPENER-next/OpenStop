@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 
-class MapLayerSwitcher extends StatefulWidget {
+class MapLayerSwitcher<T> extends StatefulWidget {
   /// A callback function that gets
-  final Function(MapLayerSwitcherEntry entry) onSelection;
+  final void Function(T id) onSelection;
 
-  final List<MapLayerSwitcherEntry> entries;
+  final List<MapLayerSwitcherEntry<T>> entries;
 
-  final String active;
+  final T active;
 
   /// Show animation duration of a single entry.
   final Duration duration;
@@ -33,11 +33,11 @@ class MapLayerSwitcher extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State createState() => _MapLayerSwitcherState();
+  State createState() => _MapLayerSwitcherState<T>();
 }
 
 
-class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerProviderStateMixin {
+class _MapLayerSwitcherState<T> extends State<MapLayerSwitcher<T>> with SingleTickerProviderStateMixin {
   late double _animationLengthScale, _intervalLength, _overlapLength, _intervalOffset;
 
   var _isActive = false;
@@ -126,7 +126,7 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerPr
     final entry = widget.entries[index];
     final start = (widget.entries.length - (index + 1)) * _intervalOffset;
     final end = start + _intervalLength;
-    final isActive = widget.active == entry.key;
+    final isActive = widget.active == entry.id;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
@@ -156,8 +156,8 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerPr
                   color: isActive ? Theme.of(context).colorScheme.onPrimary : null,
                 ),
                 onPressed: () {
-                  if (widget.active != entry.key) {
-                    widget.onSelection(entry);
+                  if (widget.active != entry.id) {
+                    widget.onSelection(entry.id);
                   }
                 },
               ),
@@ -232,15 +232,15 @@ class _MapLayerSwitcherState extends State<MapLayerSwitcher> with SingleTickerPr
 }
 
 
-class MapLayerSwitcherEntry {
-  final String key;
+class MapLayerSwitcherEntry<T> {
+  final T id;
 
   final IconData icon;
 
   final String label;
 
   const MapLayerSwitcherEntry({
-    required this.key,
+    required this.id,
     required this.icon,
     required this.label,
   });

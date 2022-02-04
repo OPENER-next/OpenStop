@@ -11,6 +11,7 @@ import '/widgets/map_buttons/map_layer_switcher.dart';
 import '/widgets/map_buttons/compass_button.dart';
 import '/widgets/map_buttons/zoom_button.dart';
 import '/widgets/loading_indicator.dart';
+import '/commons/tile_layers.dart';
 // ignore: unused_import
 import '/commons/map_utils.dart';
 
@@ -39,7 +40,9 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
 
   late final mapController = context.read<MapController>();
 
-  static const String _urlContributors = 'https://www.openstreetmap.org/copyright';
+  static const String _osmCreditsText = '© OpenStreetMap-Mitwirkende';
+
+  static const String _osmCreditsURL= 'https://www.openstreetmap.org/copyright';
 
   @override
   void initState() {
@@ -51,9 +54,6 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
     });
   }
 
-  void _launchUrl(_url) async {
-    if (!await launch(_url)) throw '$_url kann nicht aufgerufen werden';
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,23 +118,19 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                   ),
                   Align(
                     alignment: Alignment.bottomLeft,
-                    child: Selector<PreferencesProvider, String>(
-                      selector: (context, value) => value.tileTemplateServer,
-                      builder: (context, urlTemplate, child) {
+                    child: Selector<PreferencesProvider, TileLayerId>(
+                      selector: (context, value) => value.tileLayerId,
+                      builder: (context, tileLayerId, child) {
                         return MapLayerSwitcher(
-                          entries: const [
-                            MapLayerSwitcherEntry(key: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-                              icon: Icons.satellite_rounded, label: 'Satellite'
-                            ),
-                            MapLayerSwitcherEntry(key: 'https://osm-2.nearest.place/retina/{z}/{x}/{y}.png',
-                              icon: Icons.map_rounded, label: 'Map'
-                            ),
-                            MapLayerSwitcherEntry(key: 'https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png',
-                              icon: Icons.map_rounded, label: 'ÖPNV'
-                            ),
-                          ],
-                          active: urlTemplate,
-                          onSelection: _changeTileProvider,
+                          entries: tileLayers.entries.map((entry) =>
+                            MapLayerSwitcherEntry(
+                              id: entry.key,
+                              icon: entry.value.icon ?? Icons.map_rounded,
+                              label: entry.value.name
+                            )
+                          ).toList(),
+                          active: tileLayerId,
+                          onSelection: _updateTileProvider,
                         );
                       }
                     ),
@@ -142,14 +138,14 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: GestureDetector(
-                      onTap: () => _launchUrl(_urlContributors),
+                      onTap: _openCreditsUrl,
                       child: Stack(
                         children: [
                           // Stroked text as border.
                           Opacity(
                             opacity: 0.5,
                             child: Text(
-                              '© OpenStreetMap-Mitwirkende',
+                              _osmCreditsText,
                               style: TextStyle(
                                 fontSize: 10,
                                 foreground: Paint()
@@ -162,7 +158,7 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                           ),
                           // Solid text as fill.
                           const Text(
-                            '© OpenStreetMap-Mitwirkende',
+                            _osmCreditsText,
                             style: TextStyle(
                               fontSize: 10,
                               color: Colors.black,
@@ -240,9 +236,17 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
   }
 
 
-  /// Update the ValueNotifier that contains the url from which tiles are fetched.
+  /// Store and apply selected tile layer id.
 
-  void _changeTileProvider(MapLayerSwitcherEntry entry) {
-    context.read<PreferencesProvider>().tileTemplateServer = entry.key;
+  // ignore: use_setters_to_change_properties
+  void _updateTileProvider(TileLayerId newTileLayerId) {
+    context.read<PreferencesProvider>().tileLayerId = newTileLayerId;
+  }
+
+
+  /// Open the OpenStreetMap credits URL in the default browser.
+
+  void _openCreditsUrl() async {
+    if (!await launch(_osmCreditsURL)) throw '$_osmCreditsURL kann nicht aufgerufen werden';
   }
 }
