@@ -44,24 +44,6 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
 
   static const String _osmCreditsURL= 'https://www.openstreetmap.org/copyright';
 
-  static const _mapLayerSwitcherEntries = [
-    MapLayerSwitcherEntry(
-      label: 'Satellite',
-      id: TileLayerId.satelliteImagery,
-      icon: Icons.satellite_rounded,
-    ),
-    MapLayerSwitcherEntry(
-      label: 'Map',
-      id: TileLayerId.openStreetMap,
-      icon: Icons.map_rounded
-    ),
-    MapLayerSwitcherEntry(
-      label: 'Map',
-      id: TileLayerId.publicTransport,
-      icon: Icons.map_rounded
-    ),
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -140,7 +122,13 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                       selector: (context, value) => value.tileLayerId,
                       builder: (context, tileLayerId, child) {
                         return MapLayerSwitcher(
-                          entries: _mapLayerSwitcherEntries,
+                          entries: tileLayers.entries.map((entry) =>
+                            MapLayerSwitcherEntry(
+                              id: entry.key,
+                              icon: entry.value.icon ?? Icons.map_rounded,
+                              label: entry.value.name
+                            )
+                          ).toList(),
                           active: tileLayerId,
                           onSelection: _changeTileProvider,
                         );
