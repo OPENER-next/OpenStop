@@ -132,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             builder: (context, child) {
               final tileLayerId = context.select<PreferencesProvider, TileLayerId>((pref) => pref.tileLayerId);
               final tileLayerDescription = tileLayers[tileLayerId]!;
-              final isDarkMode = MediaQuery.of(context).platformBrightness == Brightness.dark;
+              final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
               return Scaffold(
                 drawer: const HomeSidebar(),
