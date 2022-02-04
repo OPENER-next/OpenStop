@@ -130,7 +130,7 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                             )
                           ).toList(),
                           active: tileLayerId,
-                          onSelection: _changeTileProvider,
+                          onSelection: _updateTileProvider,
                         );
                       }
                     ),
@@ -238,7 +238,8 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
 
   /// Store and apply selected tile layer id.
 
-  void _changeTileProvider(TileLayerId newTileLayerId) {
+  // ignore: use_setters_to_change_properties
+  void _updateTileProvider(TileLayerId newTileLayerId) {
     context.read<PreferencesProvider>().tileLayerId = newTileLayerId;
   }
 
