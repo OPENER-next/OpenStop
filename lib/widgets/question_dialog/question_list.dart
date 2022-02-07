@@ -46,26 +46,29 @@ class _QuestionListState extends State<QuestionList> {
     if (difference < 0) {
       for (int i = 0; i > difference; i--) {
         _keys.add(GlobalKey());
+        // add complementary empty default size
+        _sizes.add(Size.zero);
       }
     }
     else if (difference > 0) {
       for (int i = 0; i < difference; i++) {
         _keys.removeAt(_keys.length - 1);
+        _sizes.removeAt(_sizes.length - 1);
       }
     }
 
     // refresh sizes after build
-    WidgetsBinding.instance?.addPostFrameCallback((_) => _refreshSizesCache());
+    WidgetsBinding.instance?.addPostFrameCallback(
+      (_) => setState(_refreshSizesCache)
+    );
   }
 
 
   void _refreshSizesCache() {
-    setState(() {
-      _sizes.clear();
-      for (final childKey in _keys) {
-        _sizes.add(childKey.currentContext?.size ?? Size.zero);
-      }
-    });
+    _sizes.clear();
+    for (final childKey in _keys) {
+      _sizes.add(childKey.currentContext?.size ?? Size.zero);
+    }
   }
 
 
@@ -79,13 +82,13 @@ class _QuestionListState extends State<QuestionList> {
 
 
   double _calcTopOffset() {
-    double offsetBottom = 0;
+    double offsetTop = 0;
     final max = min(widget.index + 1, _sizes.length);
 
     for (var i = 1; i < max; i++) {
-      offsetBottom -= _sizes[i].height;
+      offsetTop -= _sizes[i].height;
     }
-    return offsetBottom;
+    return offsetTop;
   }
 
 
@@ -93,6 +96,8 @@ class _QuestionListState extends State<QuestionList> {
   Widget build(BuildContext context) {
     final totalHeight = _calcTotalHeight();
     var accumulatedOffset = 0.0;
+
+    print(_calcTopOffset());
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -113,13 +118,37 @@ class _QuestionListState extends State<QuestionList> {
                 child: Stack(
                   children: List.generate(widget.children.length, (index) {
                     final isActive = index == widget.index;
+
+                    final isFollowingQuestion = widget.index < index;
+
                     final offsetBottom = totalHeight - accumulatedOffset;
                     // all items that currently do not have a size
-                    final isOffstage = index >= _sizes.length;
+                    final isOffstage = index >= _sizes.length || _sizes[index].isEmpty;
 
                     final nextIndex = index + 1;
                     if (nextIndex < _sizes.length) {
                       accumulatedOffset += _sizes[nextIndex].height;
+                    }
+
+                    Widget child = KeyedSubtree(
+                      key: _keys[index],
+                      child: widget.children[index]
+                    );
+
+                    // only add shadow to active element
+                    if (isActive) {
+                      child = DecoratedBox(
+                        decoration: const BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 2,
+                              offset: Offset(0, -2)
+                            )
+                          ]
+                        ),
+                        child: child,
+                      );
                     }
 
                     return Positioned(
@@ -132,14 +161,11 @@ class _QuestionListState extends State<QuestionList> {
                         child: IgnorePointer(
                           ignoring: !isActive,
                           child: AnimatedOpacity(
-                            opacity: isActive ? 1 : 0,
+                            opacity: isActive || isFollowingQuestion ? 1 : 0,
                             duration: const Duration(milliseconds: 300),
                             child: ConstrainedBox(
                               constraints: constraints,
-                              child: KeyedSubtree(
-                                key: _keys[index],
-                                child: widget.children[index],
-                              ),
+                              child: child,
                             )
                           )
                         )

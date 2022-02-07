@@ -1,9 +1,6 @@
 
 import 'package:flutter/material.dart';
 
-import 'question_bubble.dart';
-
-
 class QuestionTextBubble extends StatefulWidget {
   final String question;
 
@@ -66,6 +63,7 @@ class _QuestionTextBubbleState extends State<QuestionTextBubble> with SingleTick
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: widget.details.isEmpty ? null : () {
         _selected = !_selected;
         if (_selected) {
@@ -75,10 +73,13 @@ class _QuestionTextBubbleState extends State<QuestionTextBubble> with SingleTick
           _animationController.reverse();
         }
       },
-      child: QuestionBubble(
-        topLeft: Radius.zero,
-        color: Theme.of(context).colorScheme.surface,
-        margin: const EdgeInsets.only(bottom: 10),
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: 25,
+          left: 20,
+          right: 20,
+          bottom: 20
+        ),
         child: Column(
           children: [
             Row(

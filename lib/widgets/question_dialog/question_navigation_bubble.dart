@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '/view_models/questionnaire_provider.dart';
 import '/models/answer.dart';
-import 'question_bubble.dart';
 
 
 class QuestionNavigationBubble extends StatelessWidget {
@@ -17,18 +17,25 @@ class QuestionNavigationBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return QuestionBubble(
-      padding: EdgeInsets.zero,
+    final questionnaire = context.watch<QuestionnaireProvider>();
+    final hasPrevious = (questionnaire.activeIndex ?? 0) > 0;
+
+    return Container(
       color: Theme.of(context).colorScheme.surface,
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).padding.bottom
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Flexible(
             fit: FlexFit.tight,
-            child: TextButton(
+            child: (!hasPrevious)
+            ? const SizedBox.shrink()
+            : TextButton(
               style: ButtonStyle(
-                textStyle:  MaterialStateProperty.all<TextStyle>(
+                textStyle: MaterialStateProperty.all<TextStyle>(
                   const TextStyle(
                     fontSize: 13
                   )
@@ -39,7 +46,12 @@ class QuestionNavigationBubble extends StatelessWidget {
                 alignment: Alignment.centerLeft
               ),
               onPressed: onBack,
-              child: const Text('Zurück')
+              child: Row(
+                children: const [
+                  Icon(Icons.keyboard_arrow_left_rounded),
+                  Text('Zurück'),
+                ],
+              )
             ),
           ),
           Flexible(
@@ -71,9 +83,18 @@ class QuestionNavigationBubble extends StatelessWidget {
                         ],
                       );
                     },
-                    child: hasAnswer
-                      ? const Text('Weiter', key: ValueKey(true), )
-                      : const Text('Überspringen', key: ValueKey(false))
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: hasAnswer
+                        ? const [
+                          Text('Weiter', key: ValueKey(true)),
+                          Icon(Icons.keyboard_arrow_right_rounded)
+                        ]
+                        : const [
+                          Text('Überspringen', key: ValueKey(false)),
+                          Icon(Icons.keyboard_arrow_right_rounded)
+                        ],
+                    )
                   );
                 },
               ),

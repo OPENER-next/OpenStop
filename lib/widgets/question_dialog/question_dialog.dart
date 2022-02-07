@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 
 import '/models/answer.dart';
 import '/view_models/questionnaire_provider.dart';
+import '/widgets/animated_progress_bar.dart';
 import '/widgets/question_inputs/question_input_view.dart';
 import 'question_list.dart';
-import 'question_input_bubble.dart';
 import 'question_navigation_bubble.dart';
 import 'question_text_bubble.dart';
 
@@ -22,7 +22,6 @@ class QuestionDialog extends StatefulWidget {
 class _QuestionDialogState extends State<QuestionDialog> {
 
   final _answer = ValueNotifier<Answer?>(null);
-
 
   @override
   Widget build(BuildContext context) {
@@ -52,74 +51,67 @@ class _QuestionDialogState extends State<QuestionDialog> {
         child: !questionnaire.hasEntries
           ? null
           : Column(
-            children: [
-              Expanded(
-                child: ClipRect(
-                  // this is required to clip the scrollable bubbles behind the navigation bubbles
-                  // this needs to be put outside of the paddings since these affect the clipper starting point
-                  clipper: ViewClipper(
-                    size: MediaQuery.of(context).size,
-                    insets: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 55)
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: MediaQuery.of(context).size.height * (0.5)
                   ),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        left: 10,
-                        right: 10,
-                        top: 10 + MediaQuery.of(context).padding.top
-                      ),
-                      child: QuestionList(
-                        index: questionnaire.activeIndex!,
-                        children: List.generate(
-                          questionnaire.length!,
-                          (index) {
-                            final questionnaireEntry = questionnaire.entries![index];
+                  child: QuestionList(
+                    index: questionnaire.activeIndex!,
+                    children: List.generate(
+                      questionnaire.length!,
+                      (index) {
+                        final questionnaireEntry = questionnaire.entries![index];
 
-                            return QuestionListEntry(
-                              key: ValueKey(questionnaireEntry.question),
-                              child: SingleChildScrollView(
-                                clipBehavior: Clip.none,
-                                physics: const BouncingScrollPhysics(),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    QuestionTextBubble(
-                                      question: questionnaireEntry.question.question,
-                                      details: questionnaireEntry.question.description,
+                        return QuestionListEntry(
+                          key: ValueKey(questionnaireEntry.question),
+                          child: ColoredBox(
+                            color: Colors.white,
+                            child: SingleChildScrollView(
+                              physics: const BouncingScrollPhysics(),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  QuestionTextBubble(
+                                    question: questionnaireEntry.question.question,
+                                    details: questionnaireEntry.question.description,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      right: 20,
+                                      left: 20,
+                                      bottom: 30
                                     ),
-                                    QuestionInputBubble(
-                                      child: QuestionInputView.fromQuestionInput(
-                                        questionnaireEntry.question.input,
-                                        onChange: _handleChange
-                                      )
-                                    ),
-                                  ],
-                                )
+                                    child: QuestionInputView.fromQuestionInput(
+                                      questionnaireEntry.question.input,
+                                      onChange: _handleChange
+                                    )
+                                  )
+                                ],
                               )
-                            );
-                          },
-                          growable: false
-                        )
-                      )
+                            )
+                          )
+                        );
+                      },
+                      growable: false
                     )
                   )
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 10,
-                  right: 10,
-                  bottom: 10 + MediaQuery.of(context).padding.bottom
+                AnimatedProgressBar(
+                  minHeight: 1,
+                  color: Theme.of(context).colorScheme.primary,
+                  value: (questionnaire.activeIndex!) / questionnaire.length!,
+                  // cannot use transparent color here otherwise the map widget behind will become slightly visible
+                  backgroundColor: const Color(0xFFEEEEEE)
                 ),
-                child: QuestionNavigationBubble(
+                QuestionNavigationBubble(
                   onNext: _handleNext,
                   onBack: _handleBack,
                 )
-              )
-            ],
-        )
-      )
+              ],
+            )
+          )
     );
   }
 
@@ -147,34 +139,5 @@ class _QuestionDialogState extends State<QuestionDialog> {
     questionnaire.next();
     _answer.value = questionnaire.activeEntry?.answer;
     debugPrint('Current Answer: ${_answer.value?.answer}');
-  }
-}
-
-
-/// Clips the given size minus any provided insets.
-
-class ViewClipper extends CustomClipper<Rect> {
-  final Size size;
-
-  final EdgeInsets insets;
-
-  ViewClipper({
-    required this.size,
-    this.insets = EdgeInsets.zero
-  });
-
-  @override
-  Rect getClip(Size size) {
-    return Rect.fromLTRB(
-      0 + insets.left,
-      0 + insets.top,
-      this.size.width - insets.right,
-      this.size.height - insets.bottom
-    );
-  }
-
-  @override
-  bool shouldReclip(ViewClipper oldClipper) {
-    return oldClipper.size != size || oldClipper.insets != insets;
   }
 }

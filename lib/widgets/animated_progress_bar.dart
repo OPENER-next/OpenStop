@@ -42,9 +42,9 @@ class _AnimatedProgressBarState extends AnimatedWidgetBaseState<AnimatedProgress
   Widget build(BuildContext context) {
     return LinearProgressIndicator(
       minHeight: 1,
-      color: Theme.of(context).colorScheme.primary,
+      color: widget.color,
       value: _valueTween?.evaluate(animation),
-      backgroundColor: Colors.black12,
+      backgroundColor: widget.backgroundColor
     );
   }
 }
