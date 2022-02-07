@@ -2,11 +2,10 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
-import '/commons/map_utils.dart';
+import '/utils/map_utils.dart';
 
 class CameraTracker extends ChangeNotifier implements TickerProvider {
   final MapController mapController;

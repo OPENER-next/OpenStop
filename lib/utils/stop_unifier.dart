@@ -1,6 +1,6 @@
 import 'package:latlong2/latlong.dart';
 import '/models/stop_area.dart';
-import '/commons/geo_utils.dart';
+import '/utils/geo_utils.dart';
 import '/models/stop.dart';
 
 const _distance = Distance();

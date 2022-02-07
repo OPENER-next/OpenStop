@@ -4,7 +4,7 @@ import 'dart:collection';
 import 'package:latlong2/latlong.dart';
 import 'package:osm_api/osm_api.dart';
 
-import '/commons/osm_tag_area_resolver.dart';
+import '/utils/osm_tag_area_resolver.dart';
 import 'geographic_geometries.dart';
 
 

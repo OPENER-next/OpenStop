@@ -12,8 +12,7 @@ import '/widgets/map_buttons/compass_button.dart';
 import '/widgets/map_buttons/zoom_button.dart';
 import '/widgets/loading_indicator.dart';
 import '/commons/tile_layers.dart';
-// ignore: unused_import
-import '/commons/map_utils.dart';
+import '/utils/map_utils.dart';
 
 
 /// Builds the action/control buttons and attribution text which overlay the map.
