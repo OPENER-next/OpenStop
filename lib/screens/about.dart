@@ -114,7 +114,7 @@ class _AboutScreenState extends State<AboutScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                                 child: Image.asset(
-                                    'assets/images/logos/BMVI_Fz_2017_Office_Farbe_de.png'),
+                                    'assets/images/logos/BMDV_Fz_2021_Office_Farbe_de.png'),
                               )),
                           Flexible(
                               flex: 1,
