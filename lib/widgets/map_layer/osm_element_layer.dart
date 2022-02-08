@@ -3,17 +3,18 @@ import 'dart:math';
 import 'package:animated_marker_layer/animated_marker_layer.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:osm_api/osm_api.dart';
 import 'package:provider/provider.dart';
 
 import '/models/map_feature_collection.dart';
 import '/models/geometric_osm_element.dart';
+import '/models/proxy_osm_element.dart';
 import '/widgets/map_markers/osm_element_marker.dart';
+import '/view_models/questionnaire_provider.dart';
 
 class OsmElementLayer extends StatefulWidget {
   final Iterable<GeometricOSMElement> geoElements;
 
-  final void Function(OSMElement osmElement)? onOsmElementTap;
+  final void Function(GeometricOSMElement osmElement)? onOsmElementTap;
 
   /// The maximum shift in duration between different markers.
 
@@ -41,35 +42,11 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 
   final _random = Random();
 
-  late List<AnimatedMarker> _markers;
-
-  @override
-  void initState() {
-    super.initState();
-    _markers = _buildMarkers();
-  }
-
-  @override
-  void didUpdateWidget(covariant OsmElementLayer oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _markers = _buildMarkers();
-  }
-
-
   @override
   Widget build(BuildContext context) {
     return AnimatedMarkerLayer(
-      markers: _markers,
+      markers: widget.geoElements.map(_buildMarker).toList(),
     );
-  }
-
-
-  List<AnimatedMarker> _buildMarkers() {
-    final List<AnimatedMarker> markers = [];
-    for (final geoElement in widget.geoElements) {
-      markers.add(_buildMarker(geoElement));
-    }
-    return markers;
   }
 
 
@@ -84,6 +61,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 
   AnimatedMarker _buildMarker(GeometricOSMElement geoElement) {
     final osmElement = geoElement.osmElement;
+    final mapFeature = context.watch<MapFeatureCollection>().getMatchingFeature(osmElement);
 
     return AnimatedMarker(
       key: ValueKey(osmElement),
@@ -94,11 +72,18 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       animateOutBuilder: _animateInOutBuilder,
       animateInDelay: _getRandomDelay(),
       animateOutDelay: _getRandomDelay(),
-      child: OsmElementMarker(
-        onTap: () => widget.onOsmElementTap?.call(osmElement),
-        icon: context.read<MapFeatureCollection>()
-            .getMatchingFeature(osmElement)?.icon ?? CommunityMaterialIcons.help_rhombus_outline
-      ),
+      // only rebuild when working element changes
+      child: Selector<QuestionnaireProvider, ProxyOSMElement?>(
+        selector: (_, questionnaire) => questionnaire.workingElement,
+        builder: (context, activeElement, child) {
+          final isActive = activeElement?.isSameElement(osmElement) ?? false;
+          return OsmElementMarker(
+            onTap: () => widget.onOsmElementTap?.call(geoElement),
+            backgroundColor: isActive ? Colors.redAccent : null,
+            icon: mapFeature?.icon ?? CommunityMaterialIcons.help_rhombus_outline
+          );
+        },
+      )
     );
   }
 }

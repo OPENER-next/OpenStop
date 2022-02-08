@@ -51,67 +51,69 @@ class _QuestionDialogState extends State<QuestionDialog> {
         child: !questionnaire.hasEntries
           ? null
           : Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxHeight: MediaQuery.of(context).size.height * (0.5)
-                  ),
-                  child: QuestionList(
-                    index: questionnaire.activeIndex!,
-                    children: List.generate(
-                      questionnaire.length!,
-                      (index) {
-                        final questionnaireEntry = questionnaire.entries![index];
+            // add key so changes of the underlying questionnaire will be animated
+            key: questionnaire.key,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.5
+                ),
+                child: QuestionList(
+                  index: questionnaire.activeIndex!,
+                  children: List.generate(
+                    questionnaire.length!,
+                    (index) {
+                      final questionnaireEntry = questionnaire.entries![index];
 
-                        return QuestionListEntry(
-                          key: ValueKey(questionnaireEntry.question),
-                          child: ColoredBox(
-                            color: Colors.white,
-                            child: SingleChildScrollView(
-                              physics: const BouncingScrollPhysics(),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  QuestionTextBubble(
-                                    question: questionnaireEntry.question.question,
-                                    details: questionnaireEntry.question.description,
+                      return QuestionListEntry(
+                        key: ValueKey(questionnaireEntry.question),
+                        child: ColoredBox(
+                          color: Colors.white,
+                          child: SingleChildScrollView(
+                            physics: const BouncingScrollPhysics(),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                QuestionTextBubble(
+                                  question: questionnaireEntry.question.question,
+                                  details: questionnaireEntry.question.description,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    right: 20,
+                                    left: 20,
+                                    bottom: 30
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      right: 20,
-                                      left: 20,
-                                      bottom: 30
-                                    ),
-                                    child: QuestionInputView.fromQuestionInput(
-                                      questionnaireEntry.question.input,
-                                      onChange: _handleChange
-                                    )
+                                  child: QuestionInputView.fromQuestionInput(
+                                    questionnaireEntry.question.input,
+                                    onChange: _handleChange
                                   )
-                                ],
-                              )
+                                )
+                              ],
                             )
                           )
-                        );
-                      },
-                      growable: false
-                    )
+                        )
+                      );
+                    },
+                    growable: false
                   )
-                ),
-                AnimatedProgressBar(
-                  minHeight: 1,
-                  color: Theme.of(context).colorScheme.primary,
-                  value: (questionnaire.activeIndex!) / questionnaire.length!,
-                  // cannot use transparent color here otherwise the map widget behind will become slightly visible
-                  backgroundColor: const Color(0xFFEEEEEE)
-                ),
-                QuestionNavigationBubble(
-                  onNext: _handleNext,
-                  onBack: _handleBack,
                 )
-              ],
-            )
+              ),
+              AnimatedProgressBar(
+                minHeight: 1,
+                color: Theme.of(context).colorScheme.primary,
+                value: (questionnaire.activeIndex!) / questionnaire.length!,
+                // cannot use transparent color here otherwise the map widget behind will become slightly visible
+                backgroundColor: const Color(0xFFEEEEEE)
+              ),
+              QuestionNavigationBubble(
+                onNext: _handleNext,
+                onBack: _handleBack,
+              )
+            ],
           )
+        )
     );
   }
 

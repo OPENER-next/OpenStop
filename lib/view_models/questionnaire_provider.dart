@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:osm_api/osm_api.dart';
 
 import '/models/questionnaire.dart';
@@ -11,6 +11,8 @@ import '/models/question_catalog.dart';
 class QuestionnaireProvider extends ChangeNotifier {
 
   Questionnaire? _qaSelection;
+
+  UniqueKey? _key;
 
 
   bool get hasEntries => _qaSelection != null && _qaSelection!.length > 0;
@@ -30,17 +32,24 @@ class QuestionnaireProvider extends ChangeNotifier {
   QuestionnaireEntry? get activeEntry => _qaSelection?.activeEntry;
 
 
+  /// An unique identifier for the current questionnaire
+
+  UniqueKey? get key => _key;
+
+
   void create(OSMElement osmElement, QuestionCatalog questionCatalog) {
     _qaSelection = Questionnaire(
       osmElement: osmElement,
       questionCatalog: questionCatalog
     );
+    _key = UniqueKey();
     notifyListeners();
   }
 
 
   void discard() {
     _qaSelection = null;
+    _key = null;
     notifyListeners();
   }
 

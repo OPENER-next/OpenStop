@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 class OsmElementMarker extends StatelessWidget {
   final VoidCallback? onTap;
   final IconData icon;
+  final Color? backgroundColor;
 
   const OsmElementMarker({
     Key? key,
     this.onTap,
     this.icon = Icons.block,
+    this.backgroundColor
   }) : super(key: key);
 
 
@@ -43,7 +45,7 @@ class OsmElementMarker extends StatelessWidget {
           ),
           CustomPaint(
             painter: MarkerPinPainter(
-              color: Theme.of(context).colorScheme.primary,
+              color: backgroundColor ?? Theme.of(context).colorScheme.primary,
               strokeColor: Colors.white,
               icon: icon
             ),

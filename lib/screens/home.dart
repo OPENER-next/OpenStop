@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:animated_location_indicator/animated_location_indicator.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:osm_api/osm_api.dart';
 import 'package:provider/provider.dart';
 
 import '/view_models/incomplete_osm_elements_provider.dart';
@@ -26,6 +26,7 @@ import '/widgets/map_layer/osm_element_layer.dart';
 import '/models/question_catalog.dart';
 import '/models/stop_area.dart';
 import '/models/map_feature_collection.dart';
+import '/models/geometric_osm_element.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -169,19 +170,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             );
                           }
                         ),
-                        Consumer<IncompleteOSMElementProvider>(
-                          builder: (context, incompleteOsmElementProvider, child) {
-                            return OsmElementLayer(
-                              onOsmElementTap: (osmElement) => _onOsmElementTap(osmElement, context),
-                              geoElements: incompleteOsmElementProvider.loadedOsmElements
-                            );
-                          }
-                        ),
                         Selector<CameraTracker, bool>(
                           selector: (_, cameraTracker) => cameraTracker.hasLocationAccess,
                           builder: (context, cameraTracker, child) {
                             return AnimatedLocationLayerWidget(
                               options: AnimatedLocationOptions()
+                            );
+                          }
+                        ),
+                        Consumer<IncompleteOSMElementProvider>(
+                          builder: (context, incompleteOsmElementProvider, child) {
+                            return OsmElementLayer(
+                              onOsmElementTap: (osmElement) => _onOsmElementTap(osmElement, context),
+                              geoElements: incompleteOsmElementProvider.loadedOsmElements
                             );
                           }
                         ),
@@ -191,22 +192,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           child: FutureBuilder(
                             future: _mapController.onReady,
                             builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                              final mapIsLoaded = snapshot.connectionState == ConnectionState.done;
                               // only show overlay when question history has no active entry
-                              return Consumer<QuestionnaireProvider>(
+                              return !mapIsLoaded
+                              ? const ModalBarrier(
+                                dismissible: false,
+                              )
+                              : Consumer<QuestionnaireProvider>(
                                 builder: (context, questionnaire,child) {
-                                  final mapIsLoaded = snapshot.connectionState == ConnectionState.done;
                                   final noActiveEntry = !questionnaire.hasEntries;
 
                                   return AnimatedSwitcher(
                                     switchInCurve: Curves.ease,
                                     switchOutCurve: Curves.ease,
                                     duration: const Duration(milliseconds: 300),
-                                    child: mapIsLoaded && noActiveEntry
+                                    child: noActiveEntry
                                       ? const MapOverlay()
-                                      : const SizedBox.expand(
-                                        // TODO: decide overlay style/color
-                                        child: ColoredBox(color: Colors.transparent)
-                                      )
+                                      : null
                                   );
                                 }
                               );
@@ -215,7 +217,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         )
                       ],
                     ),
-                    // place sheet on extra stack above map so touch events won't pass through
+                    // place sheet on extra stack above map so map pan events won't pass through
                     const QuestionDialog(),
                   ],
                 )
@@ -238,28 +240,27 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
 
-  void _onOsmElementTap(OSMElement osmElement, BuildContext context) async {
-    final questionCatalog = context.read<QuestionCatalog>();
+  void _onOsmElementTap(GeometricOSMElement geometricOSMElement, BuildContext context) async {
     final questionnaire = context.read<QuestionnaireProvider>();
+    final osmElement = geometricOSMElement.osmElement;
 
-    if (questionnaire.workingElement?.id != osmElement.id) {
+    // show questions if a new marker is selected, else hide the current one
+    if (questionnaire.workingElement == null || !questionnaire.workingElement!.isSameElement(osmElement)) {
+      final questionCatalog = context.read<QuestionCatalog>();
       questionnaire.create(osmElement, questionCatalog);
     }
     else {
-      return;
+      return questionnaire.discard();
     }
 
     // TODO: take padding into account
-    // TODO: handle ways and relations
 
-    if (osmElement is OSMNode) {
-      // move camera to element and include default sheet size as bottom padding
-      _mapController.animateTo(
-        ticker: this,
-        location: LatLng(osmElement.lat, osmElement.lon),
-        zoom: 17
-      );
-    }
+    // move camera to element and include default sheet size as bottom padding
+    _mapController.animateTo(
+      ticker: this,
+      location: geometricOSMElement.geometry.center,
+      zoom: max(18, _mapController.zoom)
+    );
   }
 
 
