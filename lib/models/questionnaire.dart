@@ -46,11 +46,8 @@ class Questionnaire {
   int get activeIndex => _activeIndex;
 
 
-  QuestionnaireEntry? get activeEntry{
-    if (_isValidIndex(_activeIndex)) {
-      return _entries[_activeIndex];
-    }
-  }
+  QuestionnaireEntry? get activeEntry =>
+    _isValidIndex(_activeIndex) ? _entries[_activeIndex] : null;
 
 
   bool jumpTo(int index) {

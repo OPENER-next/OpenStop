@@ -97,8 +97,6 @@ class _QuestionListState extends State<QuestionList> {
     final totalHeight = _calcTotalHeight();
     var accumulatedOffset = 0.0;
 
-    print(_calcTopOffset());
-
     return LayoutBuilder(
       builder: (context, constraints) {
         return Stack(

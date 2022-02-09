@@ -46,12 +46,10 @@ class _StringInputState extends State<StringInput> {
             ),
             autovalidateMode: AutovalidateMode.always,
             validator: (text) {
-              if (text == null || text.isEmpty) {
-                return null;
-              }
-              if (text.length < minValue ){
+              if (text != null && text.isNotEmpty && text.length < minValue ) {
                 return 'Eingabe zu kurz';
               }
+              return null;
             },
           );
         }

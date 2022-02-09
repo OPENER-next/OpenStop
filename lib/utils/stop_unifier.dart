@@ -79,4 +79,5 @@ Stop? _takeStopByCircle(List<Stop> unassignedStops, Circle circle, double stopAr
       return unassignedStops.removeAt(i);
     }
   }
+  return null;
 }

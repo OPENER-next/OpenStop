@@ -58,16 +58,14 @@ class _NumberInputState extends State<NumberInput> {
             ),
             autovalidateMode: AutovalidateMode.always,
             validator: (text) {
-              if (text == null || text.isEmpty) {
-                return null;
-              }
-              else {
+              if (text != null && text.isNotEmpty) {
                 text = text.replaceAll(',', '.');
                 final value = double.parse(text);
                 if (!_isValid(value)) {
                   return 'Wert muss zwischen $minValue und $maxValue liegen';
                 }
               }
+              return null;
             },
             keyboardType: const TextInputType.numberWithOptions(
               decimal: true,

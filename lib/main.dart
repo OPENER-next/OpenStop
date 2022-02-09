@@ -51,9 +51,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'OPENER next',
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-          ],
+          localizationsDelegates: GlobalMaterialLocalizations.delegates,
           supportedLocales: const [
             Locale('de','DE')
           ],

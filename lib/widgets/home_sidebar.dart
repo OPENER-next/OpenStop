@@ -179,6 +179,7 @@ class UserAccountHeader extends StatelessWidget {
                     Align(
                       alignment: Alignment.topCenter,
                       // required so the border can be drawn outside/around the image
+                      // ignore: use_decorated_box
                       child: Container(
                         decoration: BoxDecoration(
                           color: theme.colorScheme.onPrimary,

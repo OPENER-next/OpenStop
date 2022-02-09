@@ -16,13 +16,13 @@ class AboutScreen extends StatefulWidget {
 class _AboutScreenState extends State<AboutScreen> {
   static const String _urlContributors = 'https://github.com/OPENER-next/OPENER-next/graphs/contributors';
   static const String _urlCode = 'https://github.com/OPENER-next';
-  static const String _urlLicence = 'https://github.com/OPENER-next/OPENER-next/blob/master/LICENSE';
+  static const String _urlLicense = 'https://github.com/OPENER-next/OPENER-next/blob/master/LICENSE';
   static const String _urlIdea = 'https://www.tu-chemnitz.de/etit/sse';
 
   final _packageInfo = PackageInfo.fromPlatform();
 
-  void _launchUrl(_url) async {
-    if (!await launch(_url)) throw '$_url kann nicht aufgerufen werden';
+  void _launchUrl(String url) async {
+    if (!await launch(url)) throw '$url kann nicht aufgerufen werden';
   }
 
   @override
@@ -85,7 +85,7 @@ class _AboutScreenState extends State<AboutScreen> {
                       leadingIcon: Icons.copyright,
                       title: 'Lizenz',
                       subtitle: 'GPL-3.0',
-                      onTap: () => _launchUrl(_urlLicence),
+                      onTap: () => _launchUrl(_urlLicense),
                     ),
                     CustomListTile(
                       leadingIcon: Icons.privacy_tip,
