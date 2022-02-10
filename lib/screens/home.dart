@@ -231,6 +231,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
 
   void _onStopAreaTap(StopArea stopArea, BuildContext context) async {
+    // hide questionnaire sheet
+    final questionnaire = context.read<QuestionnaireProvider>();
+    if (questionnaire.workingElement != null ) {
+      questionnaire.discard();
+    }
+
     context.read<OSMElementProvider>().loadStopAreaElements(stopArea);
 
     _mapController.animateToBounds(
