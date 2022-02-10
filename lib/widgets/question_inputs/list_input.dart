@@ -67,17 +67,27 @@ class ListInputItem extends StatefulWidget {
   _ListInputItemState createState() => _ListInputItemState();
 }
 
-class _ListInputItemState extends State<ListInputItem>
-    with SingleTickerProviderStateMixin {
-  late final _controller = AnimationController(
+class _ListInputItemState extends State<ListInputItem> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  late final CurvedAnimation _animation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 800),
-      reverseDuration: const Duration(milliseconds: 500));
+      reverseDuration: const Duration(milliseconds: 500)
+    );
 
-  late final _animation = CurvedAnimation(
+    _animation = CurvedAnimation(
       parent: _controller,
       curve: Curves.easeOutExpo,
-      reverseCurve: Curves.ease);
+      reverseCurve: Curves.ease
+    );
+  }
 
   @override
   void didUpdateWidget(covariant ListInputItem oldWidget) {

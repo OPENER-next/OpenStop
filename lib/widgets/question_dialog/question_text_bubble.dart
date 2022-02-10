@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class QuestionTextBubble extends StatefulWidget {
@@ -19,45 +18,65 @@ class QuestionTextBubble extends StatefulWidget {
 class _QuestionTextBubbleState extends State<QuestionTextBubble> with SingleTickerProviderStateMixin {
   bool _selected = false;
 
-  late final _animationController = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 500),
-    reverseDuration: const Duration(milliseconds: 500)
-  );
+  late final AnimationController _animationController;
 
-  late final _sizeAnimation = CurvedAnimation(
-    parent: _animationController,
-    curve: Curves.easeInOutCubicEmphasized,
-    reverseCurve: Curves.easeInCubic
-  );
+  late final CurvedAnimation _sizeAnimation;
 
-  late final _fadeAnimation = CurvedAnimation(
-    parent: _animationController,
-    curve: const Interval(0, 0.5),
-    reverseCurve: const Interval(0.5, 1)
-  );
+  late final CurvedAnimation _fadeAnimation;
 
-  late final _fillColorAnimation = ColorTween(
-    begin: Theme.of(context).colorScheme.secondary,
-    end: Theme.of(context).colorScheme.primary
-  ).animate(
-    CurvedAnimation(
+  late Animation<Color?> _fillColorAnimation;
+
+  late Animation<Color?>_iconColorAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+      reverseDuration: const Duration(milliseconds: 500)
+    );
+
+    _sizeAnimation = CurvedAnimation(
       parent: _animationController,
-      curve: const Interval(0, 0.3),
-      reverseCurve: const Interval(0.5, 1)
-    )
-  );
+      curve: Curves.easeInOutCubicEmphasized,
+      reverseCurve: Curves.easeInCubic
+    );
 
-  late final _iconColorAnimation = ColorTween(
-    begin: Theme.of(context).colorScheme.onSecondary,
-    end: Theme.of(context).colorScheme.onPrimary
-  ).animate(
-    CurvedAnimation(
+    _fadeAnimation = CurvedAnimation(
       parent: _animationController,
-      curve: const Interval(0, 0.3),
+      curve: const Interval(0, 0.5),
       reverseCurve: const Interval(0.5, 1)
-    )
-  );
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _fillColorAnimation = ColorTween(
+      begin: Theme.of(context).colorScheme.secondary,
+      end: Theme.of(context).colorScheme.primary
+    ).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: const Interval(0, 0.3),
+        reverseCurve: const Interval(0.5, 1)
+      )
+    );
+
+    _iconColorAnimation = ColorTween(
+      begin: Theme.of(context).colorScheme.onSecondary,
+      end: Theme.of(context).colorScheme.onPrimary
+    ).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: const Interval(0, 0.3),
+        reverseCurve: const Interval(0.5, 1)
+      )
+    );
+  }
 
 
   @override
