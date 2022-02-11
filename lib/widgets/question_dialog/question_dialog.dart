@@ -66,32 +66,30 @@ class _QuestionDialogState extends State<QuestionDialog> {
                     (index) {
                       final questionnaireEntry = questionnaire.entries![index];
 
-                      return QuestionListEntry(
+                      return ColoredBox(
                         key: ValueKey(questionnaireEntry.question),
-                        child: ColoredBox(
-                          color: Colors.white,
-                          child: SingleChildScrollView(
-                            physics: const BouncingScrollPhysics(),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                QuestionTextBubble(
-                                  question: questionnaireEntry.question.question,
-                                  details: questionnaireEntry.question.description,
+                        color: Colors.white,
+                        child: SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              QuestionTextBubble(
+                                question: questionnaireEntry.question.question,
+                                details: questionnaireEntry.question.description,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  right: 20,
+                                  left: 20,
+                                  bottom: 30
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    right: 20,
-                                    left: 20,
-                                    bottom: 30
-                                  ),
-                                  child: QuestionInputView.fromQuestionInput(
-                                    questionnaireEntry.question.input,
-                                    onChange: _handleChange
-                                  )
+                                child: QuestionInputView.fromQuestionInput(
+                                  questionnaireEntry.question.input,
+                                  onChange: _handleChange
                                 )
-                              ],
-                            )
+                              )
+                            ],
                           )
                         )
                       );

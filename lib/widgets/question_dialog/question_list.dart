@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 
 class QuestionList extends StatefulWidget {
-  final List<QuestionListEntry> children;
+  final List<Widget> children;
 
   final int index;
 
@@ -76,8 +76,11 @@ class _QuestionListState extends State<QuestionList> with SingleTickerProviderSt
       children: List.generate(widget.children.length, (index) {
         final isActive = index == widget.index;
         final isFollowing = widget.index < index;
+        final child = widget.children[index];
 
         return IgnorePointer(
+          // add child widget key on top to preserve state if needed
+          key: child.key,
           ignoring: !isActive,
           child: AnimatedOpacity(
             opacity: isActive || isFollowing ? 1 : 0,
@@ -94,7 +97,7 @@ class _QuestionListState extends State<QuestionList> with SingleTickerProviderSt
                   )
                 ]
               ),
-              child: widget.children[index],
+              child: child,
             )
           )
         );
@@ -108,22 +111,6 @@ class _QuestionListState extends State<QuestionList> with SingleTickerProviderSt
     _controller.dispose();
     _animation.dispose();
     super.dispose();
-  }
-}
-
-
-class QuestionListEntry extends StatelessWidget {
-  final Widget child;
-
-  const QuestionListEntry({
-    required Key key,
-    required this.child
-  }) : super(key: key);
-
-
-  @override
-  Widget build(BuildContext context) {
-    return child;
   }
 }
 
