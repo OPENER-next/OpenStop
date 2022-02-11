@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 
@@ -10,7 +8,7 @@ class QuestionList extends StatefulWidget {
 
   const QuestionList({
     required this.children,
-    this.index = -1,
+    this.index = 0,
     Key? key
   }) : super(key: key);
 
@@ -19,169 +17,96 @@ class QuestionList extends StatefulWidget {
 }
 
 
-class _QuestionListState extends State<QuestionList> {
-  final _keys = <GlobalKey>[];
-  final _sizes = <Size>[];
+class _QuestionListState extends State<QuestionList> with SingleTickerProviderStateMixin {
+  final _proxyAnimation = ProxyAnimation();
+
+  late final AnimationController _controller;
+
+  late final CurvedAnimation _animation;
+
+  late final _QuestionListDelegate _delegate;
 
   @override
   void initState() {
     super.initState();
-    _update();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500)
+    );
+
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOutCubicEmphasized
+    );
+
+    _delegate = _QuestionListDelegate(_proxyAnimation);
+
+    _updateTweenAnimation();
   }
+
 
   @override
   void didUpdateWidget(covariant QuestionList oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _update(oldWidget);
+
+    _updateTweenAnimation();
+    // rerun animation
+    _controller.value = 0;
+    _controller.forward();
   }
 
 
-  void _update([covariant QuestionList? oldWidget]) {
-    // NOTE: This might not be bullet proof when entries are removed or added in between
-
-    final difference = _keys.length - widget.children.length;
-
-    // add additional global keys for new children or remove obsolete global keys
-
-    if (difference < 0) {
-      for (int i = 0; i > difference; i--) {
-        _keys.add(GlobalKey());
-        // add complementary empty default size
-        _sizes.add(Size.zero);
-      }
-    }
-    else if (difference > 0) {
-      for (int i = 0; i < difference; i++) {
-        _keys.removeAt(_keys.length - 1);
-        _sizes.removeAt(_sizes.length - 1);
-      }
-    }
-
-    // refresh sizes after build
-    WidgetsBinding.instance?.addPostFrameCallback(
-      (_) => setState(_refreshSizesCache)
+  void _updateTweenAnimation() {
+    _proxyAnimation.parent = _animation.drive(
+      Tween<double>(
+        // this will be 0 the first time
+        begin: _proxyAnimation.value,
+        end: widget.index.toDouble()
+      )
     );
-  }
-
-
-  void _refreshSizesCache() {
-    _sizes.clear();
-    for (final childKey in _keys) {
-      _sizes.add(childKey.currentContext?.size ?? Size.zero);
-    }
-  }
-
-
-  double _calcTotalHeight() {
-    double totalHeight = 0;
-    for (final size in _sizes) {
-      totalHeight += size.height;
-    }
-    return totalHeight;
-  }
-
-
-  double _calcTopOffset() {
-    double offsetTop = 0;
-    final max = min(widget.index + 1, _sizes.length);
-
-    for (var i = 1; i < max; i++) {
-      offsetTop -= _sizes[i].height;
-    }
-    return offsetTop;
   }
 
 
   @override
   Widget build(BuildContext context) {
-    final totalHeight = _calcTotalHeight();
-    var accumulatedOffset = 0.0;
+    return Flow(
+      clipBehavior: Clip.none,
+      delegate: _delegate,
+      children: List.generate(widget.children.length, (index) {
+        final isActive = index == widget.index;
+        final isFollowing = widget.index < index;
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Stack(
-          clipBehavior: Clip.none,
-          children: [
-            AnimatedPositioned(
-              top: _calcTopOffset(),
-              left: 0,
-              right: 0,
-              curve: Curves.easeInOutCubicEmphasized,
-              duration: const Duration(milliseconds: 500),
-              child: ConstrainedBox(
-                // required, otherwise the stack will throw an error due to infinite height
-                constraints: BoxConstraints.expand(
-                  height: totalHeight + constraints.biggest.height
-                ),
-                child: Stack(
-                  children: List.generate(widget.children.length, (index) {
-                    final isActive = index == widget.index;
-
-                    final isFollowingQuestion = widget.index < index;
-
-                    final offsetBottom = totalHeight - accumulatedOffset;
-                    // all items that currently do not have a size
-                    final isOffstage = index >= _sizes.length || _sizes[index].isEmpty;
-
-                    final nextIndex = index + 1;
-                    if (nextIndex < _sizes.length) {
-                      accumulatedOffset += _sizes[nextIndex].height;
-                    }
-
-                    Widget child = KeyedSubtree(
-                      key: _keys[index],
-                      child: widget.children[index]
-                    );
-
-                    // only add shadow to active element
-                    if (isActive) {
-                      child = DecoratedBox(
-                        decoration: const BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 2,
-                              offset: Offset(0, -2)
-                            )
-                          ]
-                        ),
-                        child: child,
-                      );
-                    }
-
-                    return Positioned(
-                      bottom: offsetBottom,
-                      left: 0,
-                      right: 0,
-                      // layout new items but hide them for the first frame so we can get the height after wards
-                      child: Offstage(
-                        offstage: isOffstage,
-                        child: IgnorePointer(
-                          ignoring: !isActive,
-                          child: AnimatedOpacity(
-                            opacity: isActive || isFollowingQuestion ? 1 : 0,
-                            duration: const Duration(milliseconds: 300),
-                            child: ConstrainedBox(
-                              constraints: constraints,
-                              child: child,
-                            )
-                          )
-                        )
-                      )
-                    );
-                  }, growable: false)
-                )
+        return IgnorePointer(
+          ignoring: !isActive,
+          child: AnimatedOpacity(
+            opacity: isActive || isFollowing ? 1 : 0,
+            duration: const Duration(milliseconds: 300),
+            // don't remove decorated box entirely to keep state
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                // only add shadow to active element
+                boxShadow: !isActive ? null : const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 2,
+                    offset: Offset(0, -2)
+                  )
+                ]
               ),
+              child: widget.children[index],
             )
-          ]
+          )
         );
-      }
+      }, growable: false)
     );
   }
 
 
   @override
   void dispose() {
+    _controller.dispose();
+    _animation.dispose();
     super.dispose();
   }
 }
@@ -199,5 +124,59 @@ class QuestionListEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return child;
+  }
+}
+
+
+class _QuestionListDelegate extends FlowDelegate {
+  final Animation<double>  indexAnimation;
+
+  _QuestionListDelegate(this.indexAnimation,) : super(repaint: indexAnimation);
+
+  @override
+  bool shouldRepaint(_QuestionListDelegate oldDelegate) {
+    return true;
+  }
+
+  @override
+  bool shouldRelayout(covariant FlowDelegate oldDelegate) {
+    return false;
+  }
+
+  @override
+  void paintChildren(FlowPaintingContext context) {
+    final viewSize = context.size;
+
+    double indexOffset = 0;
+    // sum all child heights that are below the current animation index
+    final max = indexAnimation.value.floor();
+    for (var i = 0; i <= max; i++) {
+      indexOffset += context.getChildSize(i)!.height;
+    }
+
+    final fraction = indexAnimation.value - indexAnimation.value.truncate();
+    // calculate the fractional height of the child based on the current animation index
+    // fraction will be zero at the end so this will rightfully do nothing
+    indexOffset += context.getChildSize(indexAnimation.value.ceil())!.height * fraction;
+
+    double accumulatedOffset = 0;
+    for (int i = 0; i < context.childCount; i++) {
+      final childSize = context.getChildSize(i)!;
+
+      // translate from top to bottom (out of view)
+      double translate = viewSize.height;
+      // translate every child adjacent to its previous child
+      translate += accumulatedOffset;
+      // sum child heights
+      accumulatedOffset += childSize.height;
+      // offset each child by the current active index
+      translate -= indexOffset;
+
+      // Note: One could implement some performance improvements by only rendering widgets inside the visible area.
+      // However in this case widgets should also be drawn outside of their view area (notice the Clip.none in the QuestionList widget)
+      // This is why this is not implemented here.
+      final transformationMatrix = Matrix4.translationValues(0, translate, 0);
+      context.paintChild(i, transform: transformationMatrix);
+    }
   }
 }
