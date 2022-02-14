@@ -31,28 +31,31 @@ class QuestionNavigationBubble extends StatelessWidget {
         children: [
           Flexible(
             fit: FlexFit.tight,
-            child: (!hasPrevious)
-            ? const SizedBox.shrink()
-            : TextButton(
-              style: ButtonStyle(
-                textStyle: MaterialStateProperty.all<TextStyle>(
-                  const TextStyle(
-                    fontSize: 13
-                  )
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: (!hasPrevious)
+              ? const SizedBox.shrink()
+              : TextButton(
+                style: ButtonStyle(
+                  textStyle: MaterialStateProperty.all<TextStyle>(
+                    const TextStyle(
+                      fontSize: 13
+                    )
+                  ),
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                    const EdgeInsets.all(20),
+                  ),
+                  alignment: Alignment.centerLeft
                 ),
-                padding: MaterialStateProperty.all<EdgeInsets>(
-                  const EdgeInsets.all(20),
-                ),
-                alignment: Alignment.centerLeft
+                onPressed: onBack,
+                child: Row(
+                  children: const [
+                    Icon(Icons.keyboard_arrow_left_rounded),
+                    Text('Zurück'),
+                  ],
+                )
               ),
-              onPressed: onBack,
-              child: Row(
-                children: const [
-                  Icon(Icons.keyboard_arrow_left_rounded),
-                  Text('Zurück'),
-                ],
-              )
-            ),
+            )
           ),
           Flexible(
             fit: FlexFit.tight,
@@ -74,26 +77,13 @@ class QuestionNavigationBubble extends StatelessWidget {
                 builder: (context, hasAnswer, child) {
                   return AnimatedSwitcher(
                     duration: const Duration(milliseconds: 300),
-                    layoutBuilder: (currentChild, previousChildren) {
-                      return Stack(
-                        alignment: Alignment.centerRight,
-                        children: [
-                          ...previousChildren,
-                          if(currentChild != null) currentChild
-                        ],
-                      );
-                    },
                     child: Row(
+                      key: ValueKey(hasAnswer),
                       mainAxisAlignment: MainAxisAlignment.end,
-                      children: hasAnswer
-                        ? const [
-                          Text('Weiter', key: ValueKey(true)),
-                          Icon(Icons.keyboard_arrow_right_rounded)
-                        ]
-                        : const [
-                          Text('Überspringen', key: ValueKey(false)),
-                          Icon(Icons.keyboard_arrow_right_rounded)
-                        ],
+                      children: [
+                        Text(hasAnswer ? 'Weiter' : 'Überspringen'),
+                        const Icon(Icons.keyboard_arrow_right_rounded)
+                      ]
                     )
                   );
                 },
