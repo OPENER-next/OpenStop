@@ -123,21 +123,23 @@ class _QuestionDialogState extends State<QuestionDialog> {
 
 
   void _handleBack() {
-    final questionnaire = context.read<QuestionnaireProvider>();
-    debugPrint('Previous Answer: ${_answer.value?.answer}');
-    questionnaire.update(_answer.value);
-    questionnaire.previous();
-    _answer.value = questionnaire.activeEntry?.answer;
-    debugPrint('Current Answer: ${_answer.value?.answer}');
+    _update(goBack: true);
   }
 
 
   void _handleNext() {
+    _update();
+  }
+
+
+  void _update({bool goBack = false}) {
     final questionnaire = context.read<QuestionnaireProvider>();
     debugPrint('Previous Answer: ${_answer.value?.answer}');
     questionnaire.update(_answer.value);
-    questionnaire.next();
+    goBack ? questionnaire.previous() : questionnaire.next();
     _answer.value = questionnaire.activeEntry?.answer;
     debugPrint('Current Answer: ${_answer.value?.answer}');
+    // always onfocus the current node to close all onscreen keyboards
+    FocusManager.instance.primaryFocus?.unfocus();
   }
 }
