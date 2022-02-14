@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
 
 import '/helpers/camera_tracker.dart';
@@ -11,6 +10,7 @@ import '/widgets/map_buttons/map_layer_switcher.dart';
 import '/widgets/map_buttons/compass_button.dart';
 import '/widgets/map_buttons/zoom_button.dart';
 import '/widgets/loading_indicator.dart';
+import '/widgets/credit_text.dart';
 import '/commons/tile_layers.dart';
 import '/utils/map_utils.dart';
 
@@ -116,77 +116,68 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                     ),
                   ),
                   Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Selector<PreferencesProvider, TileLayerId>(
-                      selector: (context, value) => value.tileLayerId,
-                      builder: (context, tileLayerId, child) {
-                        return MapLayerSwitcher(
-                          entries: tileLayers.entries.map((entry) =>
-                            MapLayerSwitcherEntry(
-                              id: entry.key,
-                              icon: entry.value.icon ?? Icons.map_rounded,
-                              label: entry.value.name
-                            )
-                          ).toList(),
-                          active: tileLayerId,
-                          onSelection: _updateTileProvider,
-                        );
-                      }
-                    ),
-                  ),
-                  Align(
                     alignment: Alignment.bottomCenter,
-                    child: GestureDetector(
-                      onTap: _openCreditsUrl,
-                      child: Stack(
-                        children: [
-                          // Stroked text as border.
-                          Opacity(
-                            opacity: 0.5,
-                            child: Text(
-                              _osmCreditsText,
-                              style: TextStyle(
-                                fontSize: 10,
-                                foreground: Paint()
-                                  ..style = PaintingStyle.stroke
-                                  ..strokeWidth = 2
-                                  ..strokeJoin = StrokeJoin.round
-                                  ..color = Colors.white,
-                              ),
-                            ),
-                          ),
-                          // Solid text as fill.
-                          const Text(
-                            _osmCreditsText,
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Consumer<CameraTracker>(
-                          builder: (context, value, child) => LocationButton(
-                            activeColor: Theme.of(context).colorScheme.primary,
-                            active: value.state == CameraTrackerState.active,
-                            onPressed: _toggleCameraTracker
+                        Selector<PreferencesProvider, TileLayerId>(
+                          selector: (context, value) => value.tileLayerId,
+                          builder: (context, tileLayerId, child) {
+                            return MapLayerSwitcher(
+                              entries: tileLayers.entries.map((entry) =>
+                                MapLayerSwitcherEntry(
+                                  id: entry.key,
+                                  icon: entry.value.icon ?? Icons.map_rounded,
+                                  label: entry.value.name
+                                )
+                              ).toList(),
+                              active: tileLayerId,
+                              onSelection: _updateTileProvider,
+                            );
+                          }
+                        ),
+                        Expanded(
+                          child: Selector<PreferencesProvider, TileLayerId>(
+                            selector: (context, value) => value.tileLayerId,
+                            builder: (context, tileLayerId, child) {
+                              return CreditText(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10
+                                ),
+                                children: [
+                                  const CreditTextPart(
+                                    _osmCreditsText,
+                                    creditsUrl: _osmCreditsURL
+                                  ),
+                                  CreditTextPart(
+                                    tileLayers[tileLayerId]?.creditsText ?? 'Unknown',
+                                    creditsUrl: tileLayers[tileLayerId]?.creditsUrl
+                                  )
+                                ],
+                              );
+                            }
                           )
                         ),
-                        SizedBox (
-                          height: widget.buttonSpacing
-                        ),
-                        ZoomButton(
-                          onZoomInPressed: _zoomIn,
-                          onZoomOutPressed: _zoomOut,
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Consumer<CameraTracker>(
+                              builder: (context, value, child) => LocationButton(
+                                activeColor: Theme.of(context).colorScheme.primary,
+                                active: value.state == CameraTrackerState.active,
+                                onPressed: _toggleCameraTracker
+                              )
+                            ),
+                            SizedBox (
+                              height: widget.buttonSpacing
+                            ),
+                            ZoomButton(
+                              onZoomInPressed: _zoomIn,
+                              onZoomOutPressed: _zoomOut,
+                            )
+                          ]
                         )
-                      ]
+                      ],
                     ),
                   )
                 ]
@@ -240,12 +231,5 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
   // ignore: use_setters_to_change_properties
   void _updateTileProvider(TileLayerId newTileLayerId) {
     context.read<PreferencesProvider>().tileLayerId = newTileLayerId;
-  }
-
-
-  /// Open the OpenStreetMap credits URL in the default browser.
-
-  void _openCreditsUrl() async {
-    if (!await launch(_osmCreditsURL)) throw '$_osmCreditsURL kann nicht aufgerufen werden';
   }
 }
