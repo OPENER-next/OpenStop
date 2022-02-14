@@ -12,8 +12,6 @@ class QuestionnaireProvider extends ChangeNotifier {
 
   Questionnaire? _qaSelection;
 
-  UniqueKey? _key;
-
 
   bool get hasEntries => _qaSelection != null && _qaSelection!.length > 0;
 
@@ -34,7 +32,7 @@ class QuestionnaireProvider extends ChangeNotifier {
 
   /// An unique identifier for the current questionnaire
 
-  UniqueKey? get key => _key;
+  ValueKey<Questionnaire?> get key => ValueKey(_qaSelection);
 
 
   void create(OSMElement osmElement, QuestionCatalog questionCatalog) {
@@ -42,14 +40,12 @@ class QuestionnaireProvider extends ChangeNotifier {
       osmElement: osmElement,
       questionCatalog: questionCatalog
     );
-    _key = UniqueKey();
     notifyListeners();
   }
 
 
   void discard() {
     _qaSelection = null;
-    _key = null;
     notifyListeners();
   }
 

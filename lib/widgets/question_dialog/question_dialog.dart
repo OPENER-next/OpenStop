@@ -11,7 +11,6 @@ import 'question_text_bubble.dart';
 
 
 class QuestionDialog extends StatefulWidget {
-
   const QuestionDialog({Key? key}) : super(key: key);
 
   @override
@@ -20,39 +19,56 @@ class QuestionDialog extends StatefulWidget {
 
 
 class _QuestionDialogState extends State<QuestionDialog> {
-
+  // This is used in lower widgets to get notified whenever the current answer changes.
+  // In contrast to the answer of the QuestionnaireProvider which is only updated if the user
+  // presses one of the navigation buttons, this is updated every time the answer value changes.
+  // This can happen quite often, especially in the Duration picker, hence the separation.
   final _answer = ValueNotifier<Answer?>(null);
+
+  Key? _questionnaireKey;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final questionnaire = context.read<QuestionnaireProvider>();
+    // This is required so the current stored answer is cleared whenever the questionnaire changes
+    if (questionnaire.key != _questionnaireKey) {
+      _answer.value = null;
+      _questionnaireKey = questionnaire.key;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final questionnaire = context.watch<QuestionnaireProvider>();
 
-    return ValueListenableProvider<Answer?>.value(
-      value: _answer,
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 500),
-        reverseDuration: const Duration(milliseconds: 300),
-        switchInCurve: Curves.easeInOutCubicEmphasized,
-        switchOutCurve: Curves.ease,
-        transitionBuilder: (child, animation) {
-          final offsetAnimation = Tween<Offset>(
-            begin: const Offset(0, 1),
-            end: Offset.zero,
-          ).animate(animation);
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 500),
+      reverseDuration: const Duration(milliseconds: 300),
+      switchInCurve: Curves.easeInOutCubicEmphasized,
+      switchOutCurve: Curves.ease,
+      transitionBuilder: (child, animation) {
+        final offsetAnimation = Tween<Offset>(
+          begin: const Offset(0, 1),
+          end: Offset.zero,
+        ).animate(animation);
 
-          return SlideTransition(
-            position: offsetAnimation,
-            child: FadeTransition(
-              opacity: animation,
-              child: child,
-            )
-          );
-        },
-        child: !questionnaire.hasEntries
-          ? null
-          : Column(
-            // add key so changes of the underlying questionnaire will be animated
-            key: questionnaire.key,
+        return SlideTransition(
+          position: offsetAnimation,
+          child: FadeTransition(
+            opacity: animation,
+            child: child,
+          )
+        );
+      },
+      child: !questionnaire.hasEntries
+        ? null
+        : ValueListenableProvider<Answer?>.value(
+          // add key so changes of the underlying questionnaire will be animated
+          key: _questionnaireKey,
+          value: _answer,
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               ConstrainedBox(
