@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart' as url;
 
 import '/view_models/osm_authentication_provider.dart';
-import '/commons/globals.dart' as globals;
+import '/commons/osm_config.dart' as osm_config;
 import '/commons/screens.dart';
 
 
@@ -115,7 +115,7 @@ class _HomeSidebarState extends State<HomeSidebar> {
     final authenticationProvider = context.read<OSMAuthenticationProvider>();
     final userName = authenticationProvider.userDetails?.name;
     if (userName != null) {
-      url.launch('${globals.osmServerUri}/user/$userName');
+      url.launch('${osm_config.osmServerUri}/user/$userName');
     }
   }
 }

@@ -5,11 +5,11 @@ import '/view_models/questionnaire_provider.dart';
 import '/models/answer.dart';
 
 
-class QuestionNavigationBubble extends StatelessWidget {
+class QuestionNavigationBar extends StatelessWidget {
   final void Function()? onNext;
   final void Function()? onBack;
 
-  const QuestionNavigationBubble({
+  const QuestionNavigationBar({
     this.onBack,
     this.onNext,
     Key? key,

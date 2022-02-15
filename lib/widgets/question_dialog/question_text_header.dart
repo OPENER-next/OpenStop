@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
-class QuestionTextBubble extends StatefulWidget {
+class QuestionTextHeader extends StatefulWidget {
   final String question;
 
   final String details;
 
-  const QuestionTextBubble({
+  const QuestionTextHeader({
     required this.question,
     required this.details,
     Key? key
   }) : super(key: key);
 
   @override
-  State<QuestionTextBubble> createState() => _QuestionTextBubbleState();
+  State<QuestionTextHeader> createState() => _QuestionTextHeaderState();
 }
 
-class _QuestionTextBubbleState extends State<QuestionTextBubble> with SingleTickerProviderStateMixin {
+class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTickerProviderStateMixin {
   bool _selected = false;
 
   late final AnimationController _animationController;

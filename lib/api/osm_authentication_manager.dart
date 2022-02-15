@@ -2,16 +2,16 @@ import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:osm_api/osm_api.dart';
 
-import '/commons/globals.dart' as globals;
+import '/commons/osm_config.dart' as osm_config;
 
   // OAuth 2 login
   // A good introduction can be found here https://www.oauth.com/oauth2-servers/oauth-native-apps/
 
 class OSMAuthenticationManager {
   static const _config = AuthorizationServiceConfiguration(
-    authorizationEndpoint: '${globals.osmServerUri}/oauth2/authorize',
-    tokenEndpoint: '${globals.osmServerUri}/oauth2/token',
-    endSessionEndpoint: '${globals.osmServerUri}/oauth2/revoke'
+    authorizationEndpoint: '${osm_config.osmServerUri}/oauth2/authorize',
+    tokenEndpoint: '${osm_config.osmServerUri}/oauth2/token',
+    endSessionEndpoint: '${osm_config.osmServerUri}/oauth2/revoke'
   );
 
   static const _secureStorage = FlutterSecureStorage();
@@ -21,7 +21,7 @@ class OSMAuthenticationManager {
 
 
   final _osmApi = OSMAPI(
-    baseUrl: '${globals.osmServerUri}/api/0.6',
+    baseUrl: '${osm_config.osmServerUri}/api/0.6',
   );
 
 
@@ -47,8 +47,8 @@ class OSMAuthenticationManager {
     // otherwise PKCE authorization won't work.
     final tokenResponse = await _appAuth.authorizeAndExchangeCode(
       AuthorizationTokenRequest(
-        globals.oAuth2ClientId,
-        globals.oAuth2RedirectUri,
+        osm_config.oAuth2ClientId,
+        osm_config.oAuth2RedirectUri,
         serviceConfiguration: _config,
         scopes: const ['write_api', 'read_prefs']
       ),

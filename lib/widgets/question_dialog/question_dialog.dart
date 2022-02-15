@@ -6,8 +6,8 @@ import '/view_models/questionnaire_provider.dart';
 import '/widgets/animated_progress_bar.dart';
 import '/widgets/question_inputs/question_input_view.dart';
 import 'question_list.dart';
-import 'question_navigation_bubble.dart';
-import 'question_text_bubble.dart';
+import 'question_navigation_bar.dart';
+import 'question_text_header.dart';
 
 
 class QuestionDialog extends StatefulWidget {
@@ -90,7 +90,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              QuestionTextBubble(
+                              QuestionTextHeader(
                                 question: questionnaireEntry.question.question,
                                 details: questionnaireEntry.question.description,
                               ),
@@ -121,7 +121,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
                 // cannot use transparent color here otherwise the map widget behind will become slightly visible
                 backgroundColor: const Color(0xFFEEEEEE)
               ),
-              QuestionNavigationBubble(
+              QuestionNavigationBar(
                 onNext: _handleNext,
                 onBack: _handleBack,
               )
