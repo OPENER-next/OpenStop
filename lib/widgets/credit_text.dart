@@ -28,7 +28,7 @@ class CreditText extends StatefulWidget {
 
 
 class _CreditTextState extends State<CreditText> {
-  final List<TapGestureRecognizer?> _list = [];
+  final List<TapGestureRecognizer?> _gestureRecognizers = [];
 
   @override
   void initState() {
@@ -44,29 +44,27 @@ class _CreditTextState extends State<CreditText> {
   }
 
 
-  void _updateGestureRecognizers() {
-    _cleanupGestureRecognizers();
-    _setupGestureRecognizers();
-  }
-
-
   void _setupGestureRecognizers() {
-    _list.addAll(
-      widget.children.map(
-        (creditTextLink) {
-          return creditTextLink.url != null
-          ? (TapGestureRecognizer()..onTap = () => openUrl(creditTextLink.url!))
-          : null;
-        }
-      )
+    _gestureRecognizers.addAll(
+      widget.children.map((creditTextLink) {
+        return creditTextLink.url != null
+        ? (TapGestureRecognizer()..onTap = () => openUrl(creditTextLink.url!))
+        : null;
+      })
     );
   }
 
 
   void _cleanupGestureRecognizers() {
-    for (var i = _list.length - 1; i >= 0; i--) {
-      _list.removeAt(i)?.dispose();
+    for (var i = _gestureRecognizers.length - 1; i >= 0; i--) {
+      _gestureRecognizers.removeAt(i)?.dispose();
     }
+  }
+
+
+  void _updateGestureRecognizers() {
+    _cleanupGestureRecognizers();
+    _setupGestureRecognizers();
   }
 
 
@@ -129,7 +127,7 @@ class _CreditTextState extends State<CreditText> {
   TextSpan _buildPart(int index) {
     return TextSpan(
       text: widget.children[index].text,
-      recognizer: _list[index]
+      recognizer: _gestureRecognizers[index]
     );
   }
 
