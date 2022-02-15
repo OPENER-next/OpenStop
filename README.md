@@ -1,7 +1,9 @@
+[<img align="right" src="https://www.openernext.de/img/opener_next-logo-text.svg" alt="OPENER next Logo" width=250>](https://www.openernext.de)
+
 # OPENER next
 
-The goal of this app is to collect accessibility data for public transport stops in [OpenStreetMap](https://www.openstreetmap.org) so that everyone can benefit from it. 
-Due to the huge amount of public transport stops out there we want to encourage all citizen (experienced OSM users and newcomers) to help gathering this data. That's why we are developing this app that allows collecting the data in an easy, accessible and safe manner by asking simple questions. For deeper insight read  the [working principle](https://github.com/OPENER-next/OPENER-next/WORKING_PRINCIPLE.md) of the app. 
+The goal of this app is to collect accessibility data for public transport stops in [OpenStreetMap](https://www.openstreetmap.org) so that everyone can benefit from it.
+Due to the huge amount of public transport stops out there we want to encourage all citizen (experienced OSM users and newcomers) to help gathering this data. That's why we are developing this app that allows collecting the data in an easy, accessible and safe manner by asking simple questions. For deeper insight read  the [working principle](./WORKING_PRINCIPLE.md) of the app.
 
 The data shall be the foundation for better routing especially for impaired people and lead to a renovation of non accessible stops, as well as many other things we ourselves can't even imagine right now.
 
@@ -22,4 +24,4 @@ This app is released under the terms of the [GNU General Public License](https:/
 ## Funding
 <img src="https://www.openernext.de/resources/BMDV_Fz_2021_Office_Farbe_de.png" alt="Logo of the German Federal Ministry of Digital Affairs and Transport" width=150> <img src="https://www.openernext.de/resources/mFUND_Logo_sRGB.PNG" alt="Logo of the mFUND innovation initiative" width=150>
 
-The OPENER next project is funded by the German Federal Ministry for Digital and Transport as part of the mFUND innovation initiative.
+The project OPENER next is funded by the German Federal Ministry for Digital and Transport as part of the mFUND innovation initiative.
