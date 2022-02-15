@@ -147,11 +147,11 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                                 children: [
                                   const CreditTextPart(
                                     _osmCreditsText,
-                                    creditsUrl: _osmCreditsURL
+                                    url: _osmCreditsURL
                                   ),
                                   CreditTextPart(
                                     tileLayers[tileLayerId]?.creditsText ?? 'Unknown',
-                                    creditsUrl: tileLayers[tileLayerId]?.creditsUrl
+                                    url: tileLayers[tileLayerId]?.creditsUrl
                                   )
                                 ],
                               );
