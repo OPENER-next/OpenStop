@@ -15,17 +15,19 @@ const tileLayers = {
     name: 'Satellit',
     icon: Icons.satellite_rounded,
     templateUrl: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    creditsText: 'credit text here'
+    creditsText: 'Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
   ),
   TileLayerId.openStreetMap: _TileLayerDefinition(
     name: 'Map',
     templateUrl: 'https://osm-2.nearest.place/retina/{z}/{x}/{y}.png',
-    creditsText: 'credit text here'
+    creditsText: '© Nearest!',
+    creditsUrl: 'https://nearest.place'
   ),
   TileLayerId.publicTransport: _TileLayerDefinition(
     name: 'ÖPNV',
     templateUrl: 'https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png',
-    creditsText: 'credit text here'
+    creditsText: 'Map memomaps.de CC-BY-SA',
+    creditsUrl: 'https://memomaps.de/'
   ),
 };
 
