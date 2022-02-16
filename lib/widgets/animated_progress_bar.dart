@@ -41,7 +41,7 @@ class _AnimatedProgressBarState extends AnimatedWidgetBaseState<AnimatedProgress
   @override
   Widget build(BuildContext context) {
     return LinearProgressIndicator(
-      minHeight: 1,
+      minHeight: widget.minHeight,
       color: widget.color,
       value: _valueTween?.evaluate(animation),
       backgroundColor: widget.backgroundColor
