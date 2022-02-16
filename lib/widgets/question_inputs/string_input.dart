@@ -14,47 +14,66 @@ class StringInput extends QuestionInputView {
   _StringInputState createState() => _StringInputState();
 }
 
+
 class _StringInputState extends State<StringInput> {
   final _controller = TextEditingController();
 
+  late int _minValue;
+  late int _maxValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _updateMinMax();
+  }
+
+
+  @override
+  void didUpdateWidget(covariant StringInput oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _updateMinMax();
+  }
+
+
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final minValue = widget.questionInput.min ?? 0;
-    final maxValue = widget.questionInput.max;
-
-    return ValueListenableBuilder(
-        valueListenable: _controller,
-        builder: (context, TextEditingValue text, __) {
-          return TextFormField(
-            onChanged: _handleChange,
-            controller: _controller,
-            maxLength: maxValue,
-            decoration: InputDecoration(
-              hintText: 'Hier eintragen...',
-              counter: const Offstage(),
-              suffixIcon: IconButton(
-                onPressed: _handleClear,
-                color: Colors.black87,
-                icon: const Icon(Icons.clear_rounded),
-              )
-            ),
-            autovalidateMode: AutovalidateMode.always,
-            validator: (text) {
-              if (text != null && text.isNotEmpty && text.length < minValue ) {
-                return 'Eingabe zu kurz';
-              }
-              return null;
-            },
-          );
+    return TextFormField(
+      onChanged: _handleChange,
+      controller: _controller,
+      maxLength: _maxValue,
+      decoration: InputDecoration(
+        hintText: 'Hier eintragen...',
+        counter: const Offstage(),
+        suffixIcon: IconButton(
+          onPressed: _handleClear,
+          color: Colors.black87,
+          icon: const Icon(Icons.clear_rounded),
+        )
+      ),
+      autovalidateMode: AutovalidateMode.always,
+      validator: (text) {
+        if (text != null && text.isNotEmpty && text.length < _minValue ) {
+          return 'Eingabe zu kurz';
         }
+        return null;
+      },
     );
   }
+
+
+  void _updateMinMax() {
+    _minValue = widget.questionInput.min ?? 0;
+    _maxValue = widget.questionInput.max ?? 255;
+  }
+
+
+  bool _isValidLength(String value) => value.length >= _minValue && value.length <= _maxValue;
 
 
   void _handleClear() {
@@ -64,12 +83,14 @@ class _StringInputState extends State<StringInput> {
 
 
   void _handleChange([String value = '']) {
-    final answer = value.isNotEmpty
-      ? StringAnswer(
+    Answer? answer;
+
+    if (value.isNotEmpty && _isValidLength(value)) {
+      answer = StringAnswer(
         questionValues: widget.questionInput.values,
         answer: value
-      )
-      : null;
+      );
+    }
 
     widget.onChange?.call(answer);
   }
