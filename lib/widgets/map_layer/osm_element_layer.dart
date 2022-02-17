@@ -66,7 +66,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
     return AnimatedMarker(
       key: ValueKey(osmElement),
       point: geoElement.geometry.center,
-      size: const Size.fromRadius(30),
+      size: const Size.square(60),
       anchor: Alignment.bottomCenter,
       animateInBuilder: _animateInOutBuilder,
       animateOutBuilder: _animateInOutBuilder,

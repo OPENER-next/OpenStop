@@ -39,6 +39,8 @@ class HomeScreen extends StatefulWidget {
 
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  static const questionDialogMaxHeightFactor = 2/3;
+
   final MapController _mapController = MapController();
 
   final _stopAreasProvider = StopAreasProvider(
@@ -50,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   );
 
   late final _questionCatalog = _parseQuestionCatalog();
-  late final _osmObjects = _parseOSMObjects();
+  late final _mapFeatureCollection = _parseOSMObjects();
 
   @override
   void initState() {
@@ -86,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return FutureBuilder<List<dynamic>>(
       future: Future.wait([
         _questionCatalog,
-        _osmObjects,
+        _mapFeatureCollection,
       ]),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
@@ -97,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         }
         else {
           final QuestionCatalog questionCatalog = snapshot.requireData[0];
-          final MapFeatureCollection osmObjects = snapshot.requireData[1];
+          final MapFeatureCollection mapFeatureCollection = snapshot.requireData[1];
 
           return MultiProvider(
             providers: [
@@ -128,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 }
               ),
               Provider.value(value: _mapController),
-              Provider.value(value: osmObjects),
+              Provider.value(value: mapFeatureCollection),
             ],
             builder: (context, child) {
               final tileLayerId = context.select<PreferencesProvider, TileLayerId>((pref) => pref.tileLayerId);
@@ -218,7 +220,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       ],
                     ),
                     // place sheet on extra stack above map so map pan events won't pass through
-                    const QuestionDialog(),
+                    const QuestionDialog(
+                      maxHeightFactor: questionDialogMaxHeightFactor,
+                    ),
                   ],
                 )
               );
@@ -259,13 +263,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       return questionnaire.discard();
     }
 
-    // TODO: take padding into account
+    final mediaQuery = MediaQuery.of(context);
 
     // move camera to element and include default sheet size as bottom padding
-    _mapController.animateTo(
+    _mapController.animateToBounds(
       ticker: this,
-      location: geometricOSMElement.geometry.center,
-      zoom: max(18, _mapController.zoom)
+      // use bounds method because the normal move to doesn't support padding
+      // the benefit of this approach is, that it will always try to zoom in on the marker as much as possible
+      bounds: LatLngBounds.fromPoints([geometricOSMElement.geometry.center]),
+      // calculate padding based on question dialog max height
+      padding: EdgeInsets.only(
+        // add hardcoded marker height for now so it is centered between the top and bottom of the marker
+        top: mediaQuery.padding.top + 60,
+        bottom: mediaQuery.size.height * questionDialogMaxHeightFactor
+      )
     );
   }
 
