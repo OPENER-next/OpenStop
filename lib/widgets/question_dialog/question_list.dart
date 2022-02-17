@@ -134,20 +134,24 @@ class _QuestionListDelegate extends FlowDelegate {
   void paintChildren(FlowPaintingContext context) {
     final viewSize = context.size;
 
-    double indexOffset = 0;
+    final flooredIndex = indexAnimation.value.floor();
+    final ceiledIndex = indexAnimation.value.ceil();
+
     // sum all child heights that are below the current animation index
-    final max = indexAnimation.value.floor();
-    for (var i = 0; i <= max; i++) {
+    double indexOffset = 0;
+    for (var i = 0; i <= flooredIndex; i++) {
       indexOffset += context.getChildSize(i)!.height;
     }
 
     final fraction = indexAnimation.value - indexAnimation.value.truncate();
     // calculate the fractional height of the child based on the current animation index
     // fraction will be zero at the end so this will rightfully do nothing
-    indexOffset += context.getChildSize(indexAnimation.value.ceil())!.height * fraction;
+    indexOffset += context.getChildSize(ceiledIndex)!.height * fraction;
 
     double accumulatedOffset = 0;
-    for (int i = 0; i < context.childCount; i++) {
+
+    // only render widgets to the current (ceiled) active index for better performance
+    for (int i = 0; i <= ceiledIndex; i++) {
       final childSize = context.getChildSize(i)!;
 
       // translate from top to bottom (out of view)
