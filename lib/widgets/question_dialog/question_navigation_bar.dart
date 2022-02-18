@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '/view_models/questionnaire_provider.dart';
-import '/models/answer.dart';
-
 
 class QuestionNavigationBar extends StatelessWidget {
+  final String? nextText;
+  final String? backText;
+
   final void Function()? onNext;
   final void Function()? onBack;
 
   const QuestionNavigationBar({
+    this.nextText,
+    this.backText,
     this.onBack,
     this.onNext,
     Key? key,
@@ -17,9 +17,6 @@ class QuestionNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final questionnaire = context.watch<QuestionnaireProvider>();
-    final hasPrevious = (questionnaire.activeIndex ?? 0) > 0;
-
     return Container(
       color: Theme.of(context).colorScheme.surface,
       padding: EdgeInsets.only(
@@ -29,11 +26,10 @@ class QuestionNavigationBar extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Flexible(
-            fit: FlexFit.tight,
+          Expanded(
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
-              child: (!hasPrevious)
+              child: backText == null
               ? const SizedBox.shrink()
               : TextButton(
                 style: ButtonStyle(
@@ -49,45 +45,41 @@ class QuestionNavigationBar extends StatelessWidget {
                 ),
                 onPressed: onBack,
                 child: Row(
-                  children: const [
-                    Icon(Icons.keyboard_arrow_left_rounded),
-                    Text('Zurück'),
+                  children: [
+                    const Icon(Icons.keyboard_arrow_left_rounded),
+                    Text(backText!),
                   ],
                 )
               ),
             )
           ),
-          Flexible(
-            fit: FlexFit.tight,
-            child: TextButton(
-              style: ButtonStyle(
-                textStyle: MaterialStateProperty.all<TextStyle>(
-                  const TextStyle(
-                    fontSize: 13
-                  )
-                ),
-                padding: MaterialStateProperty.all<EdgeInsets>(
-                  const EdgeInsets.all(20),
-                ),
-                alignment: Alignment.centerRight
-              ),
-              onPressed: onNext,
-              child: Selector<Answer?, bool>(
-                selector: (_, answer) => answer != null,
-                builder: (context, hasAnswer, child) {
-                  return AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 300),
-                    child: Row(
-                      key: ValueKey(hasAnswer),
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(hasAnswer ? 'Weiter' : 'Überspringen'),
-                        const Icon(Icons.keyboard_arrow_right_rounded)
-                      ]
+          Expanded(
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: nextText == null
+              ? const SizedBox.shrink()
+              : TextButton(
+                key: ValueKey(nextText),
+                style: ButtonStyle(
+                  textStyle: MaterialStateProperty.all<TextStyle>(
+                    const TextStyle(
+                      fontSize: 13
                     )
-                  );
-                },
-              ),
+                  ),
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                    const EdgeInsets.all(20),
+                  ),
+                  alignment: Alignment.centerRight
+                ),
+                onPressed: onNext,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(nextText!),
+                    const Icon(Icons.keyboard_arrow_right_rounded)
+                  ]
+                )
+              )
             ),
           )
         ],

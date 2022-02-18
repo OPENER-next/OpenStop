@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -220,8 +219,36 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       ],
                     ),
                     // place sheet on extra stack above map so map pan events won't pass through
-                    const QuestionDialog(
-                      maxHeightFactor: questionDialogMaxHeightFactor,
+                    Consumer<QuestionnaireProvider>(
+                      builder: (context, questionnaireProvider, child) {
+                        return AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 500),
+                          reverseDuration: const Duration(milliseconds: 300),
+                          switchInCurve: Curves.easeInOutCubicEmphasized,
+                          switchOutCurve: Curves.ease,
+                          transitionBuilder: (child, animation) {
+                            final offsetAnimation = Tween<Offset>(
+                              begin: const Offset(0, 1),
+                              end: Offset.zero,
+                            ).animate(animation);
+                            return SlideTransition(
+                              position: offsetAnimation,
+                              child: FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              )
+                            );
+                          },
+                          child: questionnaireProvider.hasEntries
+                            ? QuestionDialog(
+                              activeQuestionIndex: questionnaireProvider.activeIndex!,
+                              questionEntries: questionnaireProvider.entries!,
+                              maxHeightFactor: questionDialogMaxHeightFactor,
+                              key: questionnaireProvider.key,
+                            )
+                            : null
+                        );
+                      }
                     ),
                   ],
                 )
