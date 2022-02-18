@@ -39,7 +39,7 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
 
   late final mapController = context.read<MapController>();
 
-  static const String _osmCreditsText = '© OpenStreetMap-Mitwirkende';
+  static const String _osmCreditsText = 'Data © OpenStreetMap-Mitwirkende';
 
   static const String _osmCreditsURL= 'https://www.openstreetmap.org/copyright';
 

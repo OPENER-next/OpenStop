@@ -3,31 +3,30 @@ import 'package:flutter/material.dart';
 /// A unique identifier for a [_TileLayerDefinition] used in the [tileLayers] map.
 
 enum TileLayerId {
-  satelliteImagery,
   openStreetMap,
   publicTransport,
 }
 
+const _thunderforestAPIKey = String.fromEnvironment('THUNDERFOREST_API_KEY', defaultValue: '');
+
 /// A map of tile layers used in the app.
 
 const tileLayers = {
-  TileLayerId.satelliteImagery: _TileLayerDefinition(
-    name: 'Satellit',
-    icon: Icons.satellite_rounded,
-    templateUrl: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    creditsText: 'Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-  ),
   TileLayerId.openStreetMap: _TileLayerDefinition(
-    name: 'Map',
-    templateUrl: 'https://osm-2.nearest.place/retina/{z}/{x}/{y}.png',
-    creditsText: '© Nearest!',
-    creditsUrl: 'https://nearest.place'
+    name: 'Base Map',
+    templateUrl: 'https://tile.thunderforest.com/atlas/{z}/{x}/{y}@2x.png?apikey=$_thunderforestAPIKey',
+    creditsText: 'Maps © Thunderforest',
+    creditsUrl: 'https://www.thunderforest.com',
+    maxZoom: 22
   ),
   TileLayerId.publicTransport: _TileLayerDefinition(
     name: 'ÖPNV',
-    templateUrl: 'https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png',
-    creditsText: 'Map memomaps.de CC-BY-SA',
-    creditsUrl: 'https://memomaps.de/'
+    icon: Icons.directions_bus_rounded,
+    templateUrl: 'https://tile.thunderforest.com/transport/{z}/{x}/{y}@2x.png?apikey=$_thunderforestAPIKey',
+    darkVariantTemplateUrl: 'https://tile.thunderforest.com/transport-dark/{z}/{x}/{y}@2x.png?apikey=$_thunderforestAPIKey',
+    creditsText: 'Maps © Thunderforest',
+    creditsUrl: 'https://www.thunderforest.com',
+    maxZoom: 22
   ),
 };
 
