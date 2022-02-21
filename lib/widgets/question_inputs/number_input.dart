@@ -73,7 +73,15 @@ class _NumberInputState extends State<NumberInput> {
             return 'Ungültige Zahl';
           }
           else if (!_isValidRange(value)) {
-            return 'Wert muss zwischen $_minValue und $_maxValue liegen';
+            if (_maxValue != double.infinity && _minValue != double.negativeInfinity) {
+              return 'Wert muss zwischen $_minValue und $_maxValue liegen';
+            }
+            else if (_maxValue != double.infinity) {
+              return 'Wert muss gleich oder kleiner sein als $_maxValue';
+            }
+            else {
+              return 'Wert muss gleich oder größer sein als $_minValue';
+            }
           }
         }
         return null;
@@ -83,7 +91,7 @@ class _NumberInputState extends State<NumberInput> {
         signed: false,
       ),
       inputFormatters: <TextInputFormatter>[
-        FilteringTextInputFormatter.allow(RegExp(r'^\d+(\,)?\d{0,''${widget.questionInput.decimals}}'))
+        FilteringTextInputFormatter.allow(RegExp('^\\d+((\\,)?\\d{0,${widget.questionInput.decimals}}){${widget.questionInput.decimals == 0 ? 0 : 1}}'))
       ],
     );
   }
