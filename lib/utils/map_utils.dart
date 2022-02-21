@@ -55,12 +55,13 @@ extension AnimationUtils on MapController {
   animateToBounds({
     required TickerProvider ticker,
     required LatLngBounds bounds,
+    double maxZoom = 25,
     EdgeInsets padding = EdgeInsets.zero
   }) {
     final centerZoom = centerZoomFitBounds(
       bounds,
       options: FitBoundsOptions(
-        maxZoom: 25,
+        maxZoom: maxZoom,
         padding: padding
       )
     );

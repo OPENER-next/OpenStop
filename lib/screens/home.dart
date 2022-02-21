@@ -303,7 +303,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         // add hardcoded marker height for now so it is centered between the top and bottom of the marker
         top: mediaQuery.padding.top + 60,
         bottom: mediaQuery.size.height * questionDialogMaxHeightFactor
-      )
+      ),
+      maxZoom: 20
     );
   }
 
