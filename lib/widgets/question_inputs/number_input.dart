@@ -18,8 +18,8 @@ class NumberInput extends QuestionInputView {
 class _NumberInputState extends State<NumberInput> {
   final _controller = TextEditingController();
 
-  late double _minValue;
-  late double _maxValue;
+  late int? _minValue;
+  late int? _maxValue;
 
   @override
   void initState() {
@@ -73,7 +73,15 @@ class _NumberInputState extends State<NumberInput> {
             return 'Ungültige Zahl';
           }
           else if (!_isValidRange(value)) {
-            return 'Wert muss zwischen $_minValue und $_maxValue liegen';
+            if (_maxValue != null && _minValue != null) {
+              return 'Wert muss zwischen $_minValue und $_maxValue liegen';
+            }
+            else if (_maxValue != null) {
+              return 'Wert darf höchstens $_maxValue sein';
+            }
+            else {
+              return 'Wert muss mindestens $_minValue sein';
+            }
           }
         }
         return null;
@@ -83,19 +91,36 @@ class _NumberInputState extends State<NumberInput> {
         signed: false,
       ),
       inputFormatters: <TextInputFormatter>[
-        FilteringTextInputFormatter.allow(RegExp(r'^\d+(\,)?\d{0,''${widget.questionInput.decimals}}'))
+        FilteringTextInputFormatter.allow(_buildRegex())
       ],
     );
   }
 
 
   void _updateMinMax() {
-    _minValue = widget.questionInput.min?.toDouble() ?? double.negativeInfinity;
-    _maxValue = widget.questionInput.max?.toDouble() ?? double.infinity;
+    _minValue = widget.questionInput.min;
+    _maxValue = widget.questionInput.max;
   }
 
 
-  bool _isValidRange(double value) => value >= _minValue && value <= _maxValue;
+  bool _isValidRange(double value) {
+    if (_minValue != null && value < _minValue!) {
+      return false;
+    }
+    if (_maxValue != null && _maxValue! < value) {
+      return false;
+    }
+    return true;
+  }
+
+
+  RegExp _buildRegex() {
+    var regexString = '^\\d+';
+    if (widget.questionInput.decimals != null && widget.questionInput.decimals! > 0) {
+      regexString += '[\\,.]?\\d{0,${widget.questionInput.decimals}}';
+    }
+    return RegExp(regexString);
+  }
 
 
   void _handleClear() {
