@@ -42,7 +42,9 @@ class _QuestionDialogState extends State<QuestionDialog> {
     final activeIndex = widget.activeQuestionIndex + (_isFinished ? 1 : 0);
     final hasPrevious = activeIndex > 0;
 
-    return Align(
+    return Padding(
+      padding: MediaQuery.of(context).viewInsets,
+      child: Align(
       alignment: Alignment.bottomCenter,
       child: FractionallySizedBox(
         heightFactor: widget.maxHeightFactor,
@@ -75,6 +77,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
               onBack: _handleBack,
             )
           ],
+          )
         )
       )
     );

@@ -137,6 +137,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
               return Scaffold(
+                resizeToAvoidBottomInset: false,
                 drawer: const HomeSidebar(),
                 body: Stack(
                   children: [
