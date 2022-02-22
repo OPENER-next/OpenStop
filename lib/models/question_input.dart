@@ -6,11 +6,11 @@ class QuestionInput {
   final Map<String, QuestionInputValue> values;
 
   final String unit;
-
+  /// If decimals = null, there is no limit of decimal places.
   final int? decimals;
-
+  /// If min = null, there is no lower bound for input number values.
   final int? min;
-
+  /// If max = null, there is no upper bound for input number values.
   final int? max;
 
   const QuestionInput({

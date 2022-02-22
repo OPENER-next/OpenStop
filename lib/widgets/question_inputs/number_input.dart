@@ -18,22 +18,6 @@ class NumberInput extends QuestionInputView {
 class _NumberInputState extends State<NumberInput> {
   final _controller = TextEditingController();
 
-  late int? _minValue;
-  late int? _maxValue;
-
-  @override
-  void initState() {
-    super.initState();
-    _updateMinMax();
-  }
-
-
-  @override
-  void didUpdateWidget(covariant NumberInput oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _updateMinMax();
-  }
-
 
   @override
   void dispose() {
@@ -73,14 +57,14 @@ class _NumberInputState extends State<NumberInput> {
             return 'Ungültige Zahl';
           }
           else if (!_isValidRange(value)) {
-            if (_maxValue != null && _minValue != null) {
-              return 'Wert muss zwischen $_minValue und $_maxValue liegen';
+            if (widget.questionInput.max != null && widget.questionInput.min != null) {
+              return 'Wert muss zwischen $widget.questionInput.min und $widget.questionInput.max liegen';
             }
-            else if (_maxValue != null) {
-              return 'Wert darf höchstens $_maxValue sein';
+            else if (widget.questionInput.max != null) {
+              return 'Wert darf höchstens $widget.questionInput.max sein';
             }
             else {
-              return 'Wert muss mindestens $_minValue sein';
+              return 'Wert muss mindestens $widget.questionInput.min sein';
             }
           }
         }
@@ -91,33 +75,39 @@ class _NumberInputState extends State<NumberInput> {
         signed: false,
       ),
       inputFormatters: <TextInputFormatter>[
-        FilteringTextInputFormatter.allow(_buildRegex())
+        /// First conditionally deny comma or point, then check allowed decimal places. Doesn't work vice versa.
+        FilteringTextInputFormatter.deny(_buildDenyRegex()),
+        FilteringTextInputFormatter.allow(_buildAllowRegex())
       ],
     );
   }
 
 
-  void _updateMinMax() {
-    _minValue = widget.questionInput.min;
-    _maxValue = widget.questionInput.max;
-  }
-
-
   bool _isValidRange(double value) {
-    if (_minValue != null && value < _minValue!) {
+    if (widget.questionInput.min != null && value < widget.questionInput.min!) {
       return false;
     }
-    if (_maxValue != null && _maxValue! < value) {
+    if (widget.questionInput.max != null && widget.questionInput.max! < value) {
       return false;
     }
     return true;
   }
 
 
-  RegExp _buildRegex() {
+  RegExp _buildDenyRegex() {
+    if (widget.questionInput.decimals != null && widget.questionInput.decimals! == 0) {
+      return RegExp('');
+    }
+    else {
+      return RegExp('[,.]{1}');
+    }
+  }
+
+
+  RegExp _buildAllowRegex() {
     var regexString = '^\\d+';
     if (widget.questionInput.decimals != null && widget.questionInput.decimals! > 0) {
-      regexString += '[\\,.]?\\d{0,${widget.questionInput.decimals}}';
+      regexString += '[,.]?\\d{0,${widget.questionInput.decimals}}';
     }
     return RegExp(regexString);
   }
