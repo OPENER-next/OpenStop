@@ -14,10 +14,11 @@ class AboutScreen extends StatefulWidget {
 }
 
 class _AboutScreenState extends State<AboutScreen> {
-  static const String _urlContributors = 'https://github.com/OPENER-next/OPENER-next/graphs/contributors';
   static const String _urlCode = 'https://github.com/OPENER-next';
-  static const String _urlLicense = 'https://github.com/OPENER-next/OPENER-next/blob/master/LICENSE';
+  static const String _urlContributors = 'https://github.com/OPENER-next/OPENER-next/graphs/contributors';
   static const String _urlIdea = 'https://www.tu-chemnitz.de/etit/sse';
+  static const String _urlLicense = 'https://github.com/OPENER-next/OPENER-next/blob/master/LICENSE';
+  static const String _urlVersion = 'https://github.com/OPENER-next/OPENER-next/releases';
 
   final _packageInfo = PackageInfo.fromPlatform();
 
@@ -57,12 +58,14 @@ class _AboutScreenState extends State<AboutScreen> {
                     ),
                     CustomListTile(
                       leadingIcon: Icons.info,
+                      trailingIcon: Icons.open_in_new,
                       title: 'Version',
                       subtitle: '${snapshot.data!.version}+${snapshot.data!.buildNumber}',
-                      onTap: () {},
+                      onTap: () => _launchUrl(_urlVersion),
                     ),
                     CustomListTile(
                       leadingIcon: Icons.supervisor_account,
+                      trailingIcon: Icons.open_in_new,
                       title: 'Autoren',
                       subtitle: '${snapshot.data!.appName} Mitwirkende',
                       onTap: () => _launchUrl(_urlContributors),
@@ -70,6 +73,7 @@ class _AboutScreenState extends State<AboutScreen> {
                     CustomListTile(
                       isThreeLine: true,
                       leadingIcon: Icons.lightbulb,
+                      trailingIcon: Icons.open_in_new,
                       title: 'Idee',
                       subtitle: 'Technische Universität Chemnitz\n'
                           'Professur Schaltkreis- und Systementwurf',
@@ -77,28 +81,32 @@ class _AboutScreenState extends State<AboutScreen> {
                     ),
                     CustomListTile(
                       leadingIcon: Icons.code,
+                      trailingIcon: Icons.open_in_new,
                       title: 'Quellcode',
                       subtitle: 'https://github.com/OPENER-next',
                       onTap: () => _launchUrl(_urlCode),
                     ),
                     CustomListTile(
                       leadingIcon: Icons.copyright,
+                      trailingIcon: Icons.open_in_new,
                       title: 'Lizenz',
                       subtitle: 'GPL-3.0',
                       onTap: () => _launchUrl(_urlLicense),
                     ),
                     CustomListTile(
                       leadingIcon: Icons.privacy_tip,
+                      trailingIcon: Icons.arrow_forward_ios_rounded,
                       title: 'Datenschutzerklärung',
                       onTap: () => Navigator.pushNamed(context, Screen.privacyPolicy),
                     ),
-                    CustomListTile(
-                      leadingIcon: Icons.contact_page,
-                      title: 'Nutzungsbedingungen',
-                      onTap: () => Navigator.pushNamed(context, Screen.termsOfUse),
-                    ),
+                    // CustomListTile(
+                    //   leadingIcon: Icons.contact_page,
+                    //   title: 'Nutzungsbedingungen',
+                    //   onTap: () => Navigator.pushNamed(context, Screen.termsOfUse),
+                    // ),
                     CustomListTile(
                       leadingIcon: Icons.text_snippet,
+                      trailingIcon: Icons.arrow_forward_ios_rounded,
                       title: 'Lizenzen verwendeter Pakete',
                       onTap: () => Navigator.pushNamed(context, Screen.licenses),
                     ),
