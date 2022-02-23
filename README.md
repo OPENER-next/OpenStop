@@ -1,6 +1,6 @@
-[<img align="right" src="https://www.openernext.de/img/opener_next-logo-text.svg" alt="OPENER next Logo" width=250>](https://www.openernext.de)
-
 # OPENER next
+
+[<img align="right" src="https://www.openernext.de/img/opener_next-logo-text.svg" alt="OPENER next Logo" width="250">](https://www.openernext.de)
 
 The goal of this app is to collect accessibility data for public transport stops in [OpenStreetMap](https://www.openstreetmap.org) so that everyone can benefit from it.
 Due to the huge amount of public transport stops out there we want to encourage all citizen (experienced OSM users and newcomers) to help gathering this data. That's why we are developing this app that allows collecting the data in an easy, accessible and safe manner by asking simple questions. For deeper insight read  the [working principle](./WORKING_PRINCIPLE.md) of the app.
@@ -25,3 +25,6 @@ This app is released under the terms of the [GNU General Public License](https:/
 <img src="https://www.openernext.de/resources/BMDV_Fz_2021_Office_Farbe_de.png" alt="Logo of the German Federal Ministry of Digital Affairs and Transport" width=150> <img src="https://www.openernext.de/resources/mFUND_Logo_sRGB.PNG" alt="Logo of the mFUND innovation initiative" width=150>
 
 The project OPENER next is funded by the German Federal Ministry for Digital and Transport as part of the mFUND innovation initiative.
+
+## Acknowledgement
+Special thanks to Andy Allan ([@gravitystorm](https://github.com/gravitystorm/)) for granting us free access to the beautiful [Thunderforest](https://www.thunderforest.com/) map tiles.
