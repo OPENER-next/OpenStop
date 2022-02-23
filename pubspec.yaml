@@ -58,6 +58,8 @@ dependencies:
 
   community_material_icon: ^5.9.55
 
+  flutter_markdown: ^0.6.9
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -78,11 +80,12 @@ flutter:
         - asset: packages/community_material_icon/fonts/materialdesignicons-webfont.ttf
 
   assets:
-  - assets/images/
-  - assets/images/logos/
-  - assets/images/questions/
-  - assets/datasets/question_catalog.json
-  - assets/datasets/map_feature_collection.json
+    - PRIVACY_POLICY.md
+    - assets/images/
+    - assets/images/logos/
+    - assets/images/questions/
+    - assets/datasets/question_catalog.json
+    - assets/datasets/map_feature_collection.json
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
