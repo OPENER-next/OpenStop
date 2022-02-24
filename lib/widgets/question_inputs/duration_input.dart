@@ -97,7 +97,7 @@ class _DurationInputState extends State<DurationInput> {
     final answer = duration != Duration.zero
       ? DurationAnswer(
         questionValues: widget.questionInput.values,
-        answer: duration
+        value: duration
       )
       : null;
 

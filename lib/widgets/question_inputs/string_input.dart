@@ -91,7 +91,7 @@ class _StringInputState extends State<StringInput> {
     if (value.isNotEmpty && _isValidLength(value)) {
       answer = StringAnswer(
         questionValues: widget.questionInput.values,
-        answer: value
+        value: value
       );
     }
 

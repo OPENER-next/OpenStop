@@ -42,7 +42,7 @@ class _ListInputState extends State<ListInput> {
     final answer = _selectedKey != null
       ? ListAnswer(
         questionValues: widget.questionInput.values,
-        answer: _selectedKey!
+        value: _selectedKey!
       )
       : null;
 

@@ -138,7 +138,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
 
   void _update({bool goBack = false}) {
     final questionnaire = context.read<QuestionnaireProvider>();
-    debugPrint('Previous Answer: ${_answer?.answer}');
+    debugPrint('Previous Answer: ${_answer?.value}');
     questionnaire.update(_answer);
     // first update the questionnaire then check the new values
     final isLast = questionnaire.activeIndex! == questionnaire.length! - 1;
@@ -160,7 +160,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
     }
 
     _answer = questionnaire.activeEntry?.answer;
-    debugPrint('Current Answer: ${_answer?.answer}');
+    debugPrint('Current Answer: ${_answer?.value}');
     // always unfocus the current node to close all onscreen keyboards
     FocusManager.instance.primaryFocus?.unfocus();
   }

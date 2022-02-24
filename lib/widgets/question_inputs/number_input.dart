@@ -125,7 +125,7 @@ class _NumberInputState extends State<NumberInput> {
     if (numberValue != null && _isValidRange(numberValue)) {
       answer = NumberAnswer(
         questionValues: widget.questionInput.values,
-        answer: numberValue
+        value: numberValue
       );
     }
 

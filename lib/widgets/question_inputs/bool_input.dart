@@ -66,7 +66,7 @@ class _BoolInputState extends State<BoolInput> {
     final answer = _selectedBool != null
       ? BoolAnswer(
         questionValues: widget.questionInput.values,
-        answer: _selectedBool!
+        value: _selectedBool!
       )
       : null;
 
