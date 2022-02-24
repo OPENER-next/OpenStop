@@ -33,7 +33,7 @@ class _NumberInputState extends State<NumberInput> {
       onChanged: _handleChange,
       controller: _controller,
       decoration: InputDecoration(
-        hintText: 'Hier eintragen...',
+        hintText: questionInputValue.name ?? 'Hier eintragen...',
         suffixIcon: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,

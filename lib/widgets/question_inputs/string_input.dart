@@ -43,12 +43,14 @@ class _StringInputState extends State<StringInput> {
 
   @override
   Widget build(BuildContext context) {
+    final questionInputValue = widget.questionInput.values.values.first;
+
     return TextFormField(
       onChanged: _handleChange,
       controller: _controller,
       maxLength: _maxValue,
       decoration: InputDecoration(
-        hintText: 'Hier eintragen...',
+        hintText: questionInputValue.name ?? 'Hier eintragen...',
         counter: const Offstage(),
         suffixIcon: IconButton(
           onPressed: _handleClear,
