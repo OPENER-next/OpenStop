@@ -60,13 +60,13 @@ class _NumberInputState extends State<NumberInput> {
           }
           else if (!_isValidRange(value)) {
             if (questionInputValue.max != null && questionInputValue.min != null) {
-              return 'Wert muss zwischen $widget.questionInput.min und $widget.questionInput.max liegen';
+              return 'Wert muss zwischen ${questionInputValue.min} und ${questionInputValue.max} liegen';
             }
             else if (questionInputValue.max != null) {
-              return 'Wert darf höchstens $widget.questionInput.max sein';
+              return 'Wert darf höchstens ${questionInputValue.max} sein';
             }
             else {
-              return 'Wert muss mindestens $widget.questionInput.min sein';
+              return 'Wert muss mindestens ${questionInputValue.min} sein';
             }
           }
         }
@@ -76,11 +76,7 @@ class _NumberInputState extends State<NumberInput> {
         decimal: true,
         signed: false,
       ),
-      inputFormatters: <TextInputFormatter>[
-        /// First conditionally deny comma or point, then check allowed decimal places. Doesn't work vice versa.
-        FilteringTextInputFormatter.deny(_buildDenyRegex()),
-        FilteringTextInputFormatter.allow(_buildAllowRegex())
-      ],
+      inputFormatters: _buildInputFormatters()
     );
   }
 
@@ -97,24 +93,21 @@ class _NumberInputState extends State<NumberInput> {
   }
 
 
-  RegExp _buildDenyRegex() {
+  List<TextInputFormatter> _buildInputFormatters() {
     final questionInputValue = widget.questionInput.values.values.first;
-    if (questionInputValue.decimals != null && questionInputValue.decimals! == 0) {
-      return RegExp('');
-    }
-    else {
-      return RegExp('[,.]{1}');
-    }
-  }
 
+    final decimalsAllowed = questionInputValue.decimals != null && questionInputValue.decimals! > 0;
 
-  RegExp _buildAllowRegex() {
-    final questionInputValue = widget.questionInput.values.values.first;
-    var regexString = '^\\d+';
-    if (questionInputValue.decimals != null && questionInputValue.decimals! > 0) {
-      regexString += '[,.]?\\d{0,${questionInputValue.decimals}}';
+    var allowRegexString = '^\\d+';
+    if (decimalsAllowed) {
+      allowRegexString += '[,.]?\\d{0,${questionInputValue.decimals}}';
     }
-    return RegExp(regexString);
+
+    return [
+      /// First conditionally deny comma or point, then check allowed decimal places. Doesn't work vice versa.
+      if (!decimalsAllowed) FilteringTextInputFormatter.deny( RegExp('[,.]{1}') ),
+      FilteringTextInputFormatter.allow( RegExp(allowRegexString) )
+    ];
   }
 
 
