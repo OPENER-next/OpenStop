@@ -5,21 +5,9 @@ class QuestionInput {
 
   final Map<String, QuestionInputValue> values;
 
-  final String unit;
-  /// If decimals = null, there is no limit of decimal places.
-  final int? decimals;
-  /// If min = null, there is no lower bound for input number values.
-  final int? min;
-  /// If max = null, there is no upper bound for input number values.
-  final int? max;
-
   const QuestionInput({
     required this.type,
-    required this.values,
-    this.unit = '',
-    this.decimals,
-    this.min,
-    this.max
+    required this.values
   });
 
 
@@ -28,16 +16,12 @@ class QuestionInput {
       type: json['type'],
       values: json['values'].map<String, QuestionInputValue>((k, v) =>
         MapEntry<String, QuestionInputValue>(k, QuestionInputValue.fromJSON(v))),
-      unit: json['unit'] ?? '',
-      decimals: json['decimals'],
-      min: json['min'],
-      max: json['max']
     );
 
 
   @override
   String toString() =>
-    'QuestionInput(type: $type, values: $values, unit: $unit, decimals: $decimals, min: $min, max: $max)';
+    'QuestionInput(type: $type, values: $values)';
 }
 
 
@@ -54,11 +38,23 @@ class QuestionInputValue {
 
   final String? image;
 
+  final String? unit;
+  /// If decimals = null, there is no limit of decimal places.
+  final int? decimals;
+  /// If min = null, there is no lower bound for input number values.
+  final int? min;
+  /// If max = null, there is no upper bound for input number values.
+  final int? max;
+
   const QuestionInputValue({
     required this.osmTags,
     this.name,
     this.description,
-    this.image
+    this.image,
+    this.unit,
+    this.decimals,
+    this.min,
+    this.max
   });
 
 
@@ -67,11 +63,16 @@ class QuestionInputValue {
       osmTags: json['osm_tags']?.cast<String, String>() ?? {},
       name: json['name'],
       description: json['description'],
-      image: json['image']
+      image: json['image'],
+      unit: json['unit'],
+      decimals: json['decimals'],
+      min: json['min'],
+      max: json['max']
     );
 
 
   @override
-  String toString() =>
-    'QuestionInputValue(osmTags: $osmTags, name: $name, description: $description, image: $image)';
+  String toString() {
+    return 'QuestionInputValue(osmTags: $osmTags, name: $name, description: $description, image: $image, unit: $unit, decimals: $decimals, min: $min, max: $max)';
+  }
 }
