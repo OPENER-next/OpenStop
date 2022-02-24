@@ -18,7 +18,7 @@ class _DurationInputState extends State<DurationInput> {
 
   void _initUnits() {
     final Map<TimeUnit, int> newUnitValueMap = {};
-    final unitStrings = widget.questionInput.unit.split(',');
+    final unitStrings = widget.questionInput.values.values.first.unit?.split(',') ?? [];
 
     for (final unitString in unitStrings) {
       final key = TimeUnit.fromString(unitString);

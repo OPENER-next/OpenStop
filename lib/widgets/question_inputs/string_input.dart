@@ -68,8 +68,9 @@ class _StringInputState extends State<StringInput> {
 
 
   void _updateMinMax() {
-    _minValue = widget.questionInput.min ?? 0;
-    _maxValue = widget.questionInput.max ?? 255;
+    final questionInputValue = widget.questionInput.values.values.first;
+    _minValue = questionInputValue.min ?? 0;
+    _maxValue = questionInputValue.max ?? 255;
   }
 
 

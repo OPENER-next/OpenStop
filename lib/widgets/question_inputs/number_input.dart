@@ -27,6 +27,8 @@ class _NumberInputState extends State<NumberInput> {
 
   @override
   Widget build(BuildContext context) {
+    final questionInputValue = widget.questionInput.values.values.first;
+
     return TextFormField(
       onChanged: _handleChange,
       controller: _controller,
@@ -36,8 +38,8 @@ class _NumberInputState extends State<NumberInput> {
           mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              widget.questionInput.unit,
+            if (questionInputValue.unit != null) Text(
+              questionInputValue.unit!,
               style: Theme.of(context).textTheme.subtitle1
             ),
             IconButton(
@@ -57,10 +59,10 @@ class _NumberInputState extends State<NumberInput> {
             return 'Ungültige Zahl';
           }
           else if (!_isValidRange(value)) {
-            if (widget.questionInput.max != null && widget.questionInput.min != null) {
+            if (questionInputValue.max != null && questionInputValue.min != null) {
               return 'Wert muss zwischen $widget.questionInput.min und $widget.questionInput.max liegen';
             }
-            else if (widget.questionInput.max != null) {
+            else if (questionInputValue.max != null) {
               return 'Wert darf höchstens $widget.questionInput.max sein';
             }
             else {
@@ -84,10 +86,11 @@ class _NumberInputState extends State<NumberInput> {
 
 
   bool _isValidRange(double value) {
-    if (widget.questionInput.min != null && value < widget.questionInput.min!) {
+    final questionInputValue = widget.questionInput.values.values.first;
+    if (questionInputValue.min != null && value < questionInputValue.min!) {
       return false;
     }
-    if (widget.questionInput.max != null && widget.questionInput.max! < value) {
+    if (questionInputValue.max != null && questionInputValue.max! < value) {
       return false;
     }
     return true;
@@ -95,7 +98,8 @@ class _NumberInputState extends State<NumberInput> {
 
 
   RegExp _buildDenyRegex() {
-    if (widget.questionInput.decimals != null && widget.questionInput.decimals! == 0) {
+    final questionInputValue = widget.questionInput.values.values.first;
+    if (questionInputValue.decimals != null && questionInputValue.decimals! == 0) {
       return RegExp('');
     }
     else {
@@ -105,9 +109,10 @@ class _NumberInputState extends State<NumberInput> {
 
 
   RegExp _buildAllowRegex() {
+    final questionInputValue = widget.questionInput.values.values.first;
     var regexString = '^\\d+';
-    if (widget.questionInput.decimals != null && widget.questionInput.decimals! > 0) {
-      regexString += '[,.]?\\d{0,${widget.questionInput.decimals}}';
+    if (questionInputValue.decimals != null && questionInputValue.decimals! > 0) {
+      regexString += '[,.]?\\d{0,${questionInputValue.decimals}}';
     }
     return RegExp(regexString);
   }
