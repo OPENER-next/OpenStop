@@ -6,7 +6,8 @@
       "input": {
          "type": "String",
          "values": {
-            "_default_": {
+            "single": {
+               "name": "Betreiber",
                "osm_tags": {
                   "operator": "%s"
                }
@@ -31,7 +32,7 @@
       "input": {
          "type": "OpeningHours",
          "values": {
-            "_default_": {
+            "single": {
                "osm_tags": {
                   "opening_hours": "%s"
                }
@@ -92,7 +93,8 @@
       "input": {
          "type": "String",
          "values": {
-            "_default_": {
+            "single": {
+               "name": "Betreiber",
                "osm_tags": {
                   "operator": "%s"
                }
@@ -117,7 +119,7 @@
       "input": {
          "type": "OpeningHours",
          "values": {
-            "_default_": {
+            "single": {
                "osm_tags": {
                   "opening_hours": "%s"
                }
@@ -282,10 +284,11 @@
       "question": "Wie viele Parkplätze für beeinträchtigte Personen gibt es hier?",
       "input": {
          "type": "Number",
-         "decimals": 0,
-         "min": 1,
          "values": {
-            "_default_": {
+            "single": {
+               "name": "Parkplatzanzahl",
+               "decimals": 0,
+               "min": 1,
                "osm_tags": {
                   "capacity:disabled": "%s"
                }
@@ -313,7 +316,7 @@
       "input": {
          "type": "OpeningHours",
          "values": {
-            "_default_": {
+            "single": {
                "osm_tags": {
                   "opening_hours": "%s"
                }
@@ -382,9 +385,9 @@
       "question": "Wie lange darf hier maximal geparkt werden?",
       "input": {
          "type": "Duration",
-         "unit": "d:1,h:1,m:5",
          "values": {
-            "_default_": {
+            "single": {
+               "unit": "d:1,h:1,m:5",
                "osm_tags": {
                   "maxstay": "%s"
                }
@@ -559,7 +562,7 @@
       "input": {
          "type": "OpeningHours",
          "values": {
-            "_default_": {
+            "single": {
                "osm_tags": {
                   "opening_hours": "%s"
                }
@@ -936,10 +939,11 @@
       "description": "Wenn diese Höhe innerhalb eines Steiges variiert, ist der typische Wert für die übliche Einstiegsstelle von Rollstuhlfahrern zu bestimmen.",
       "input": {
          "type": "Number",
-         "decimals": 0,
-         "unit": "Centimeter",
          "values": {
-            "_default_": {
+            "single": {
+               "name": "Plattform Höhe",
+               "decimals": 0,
+               "unit": "Centimeter",
                "osm_tags": {
                   "height": "%s cm"
                }
@@ -974,10 +978,11 @@
       "description": "Die Breite einer Plattform ist die Abmessung quer zur Fahrtrichtung. Als Breite einer Plattform gilt die jeweils lichte Breite, welche über einen Großteil der Plattform feststellbar ist.",
       "input": {
          "type": "Number",
-         "decimals": 2,
-         "unit": "Meter",
          "values": {
-            "_default_": {
+            "single": {
+               "name": "Plattform Breite",
+               "decimals": 2,
+               "unit": "Meter",
                "osm_tags": {
                   "width": "%s"
                }
@@ -1105,10 +1110,11 @@
       "description": "Bahnsteiggebundene Rampen dienen als Einstiegshilfen. Sie sind bewegbar und dienen beim Ein- und Ausstieg von Rollstuhlfahrern zur Überwindung des Spalts und der Stufe.",
       "input": {
          "type": "Number",
-         "decimals": 2,
-         "unit": "Meter",
          "values": {
-            "_default_": {
+            "single": {
+               "name": "Rampenlänge",
+               "decimals": 2,
+               "unit": "Meter",
                "osm_tags": {
                   "wheelchair:portable_ramp:length": "%s"
                }
@@ -1132,10 +1138,11 @@
       "description": "Bahnsteiggebundene Rampen dienen als Einstiegshilfen. Sie sind bewegbar und dienen beim Ein- und Ausstieg von Rollstuhlfahrern zur Überwindung des Spalts und der Stufe.",
       "input": {
          "type": "Number",
-         "decimals": 0,
-         "unit": "Kilogramm",
          "values": {
-            "_default_": {
+            "single": {
+               "name": "Maximalgewicht",
+               "decimals": 0,
+               "unit": "Kilogramm",
                "osm_tags": {
                   "wheelchair:portable_ramp:maxweight": "%s kg"
                }
@@ -1192,10 +1199,11 @@
       "description": "Bahnsteiggebundene Hublifte dienen als Einstiegshilfen. Sie sind bewegbar und dienen beim Ein- und Ausstieg von Rollstuhlfahrern zur Überwindung des Spalts und der Stufe.",
       "input": {
          "type": "Number",
-         "decimals": 2,
-         "unit": "Meter",
          "values": {
-            "_default_": {
+            "single": {
+               "name": "Stellflächenlänge",
+               "decimals": 2,
+               "unit": "Meter",
                "osm_tags": {
                   "wheelchair:portable_lift:length": "%s"
                }
@@ -1219,10 +1227,11 @@
       "description": "Bahnsteiggebundene Hublift dienen als Einstiegshilfen. Sie sind bewegbar und dienen beim Ein- und Ausstieg von Rollstuhlfahrern zur Überwindung des Spalts und der Stufe.",
       "input": {
          "type": "Number",
-         "decimals": 0,
-         "unit": "Kilogramm",
          "values": {
-            "_default_": {
+            "single": {
+               "name": "Maximalgewicht",
+               "decimals": 0,
+               "unit": "Kilogramm",
                "osm_tags": {
                   "wheelchair:portable_lift:maxweight": "%s kg"
                }

@@ -41,20 +41,6 @@
             "description": "The value type of the answer. This is closely related to the widget that will be displayed to the end user.",
             "enum": ["Bool", "Number", "String", "List", "Duration", "OpeningHours"]
           },
-          "unit": {
-            "description": "An optional unit that will be displayed to the user.",
-            "type": "string"
-          },
-          "min": {
-            "type": "integer"
-          },
-          "max": {
-            "type": "integer"
-          },
-          "decimals": {
-            "description": "An optional property to specify how many decimals are allowed for type Number.",
-            "type": "integer"
-          },
           "values": {
             "description": "A map of values with additional information for the user and the corresponding OSM tags.",
             "type": "object",
@@ -76,6 +62,21 @@
                 "image": {
                   "type": "string",
                   "format": "uri-reference"
+                },
+                "unit": {
+                  "description": "An optional unit that will be displayed to the user.",
+                  "type": "string"
+                },
+                "min": {
+                  "type": "integer"
+                },
+                "max": {
+                  "type": "integer"
+                },
+                "decimals": {
+                  "description": "An optional property to specify how many decimals are allowed for type Number.",
+                  "type": "integer",
+                  "minimum": 0
                 }
               },
               "additionalProperties": false
