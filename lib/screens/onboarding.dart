@@ -112,7 +112,7 @@ class OnboardingPage extends StatelessWidget {
     required this.description,
     this.backgroundColor = Colors.transparent,
     this.buttonText,
-    this.buttonIcon = Icons.keyboard_arrow_right,
+    this.buttonIcon = Icons.chevron_right,
     this.onButtonTap,
     Key? key
   }) : super(key: key);
@@ -143,8 +143,7 @@ class OnboardingPage extends StatelessWidget {
           ),
           Flexible(
             flex: 5,
-            child: Flex(
-              direction: Axis.vertical,
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Flexible(
@@ -172,44 +171,43 @@ class OnboardingPage extends StatelessWidget {
                       ),
                     )
                 ),
-                const Spacer(
-                    flex: 1
+                Spacer(
+                    flex: buttonText != null ? 1 : 3
                 ),
                 if (buttonText != null)
                   Flexible(
                       flex: 2,
-                      child: IntrinsicWidth(
-                        child: RawMaterialButton (
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              side: const BorderSide(
-                                  color: Colors.white,
-                                  width: 1,
-                                  style: BorderStyle.solid
-                              )
-                          ),
-                          padding: EdgeInsets.symmetric(horizontal: 14.0),
-                          elevation: 0.0,
-                          highlightElevation: 0.0,
-                          onPressed: onButtonTap,
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          textStyle: const TextStyle(
-                            color: Colors.white,
-                          ),
-                          child:Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(buttonText!),
-                                  Icon(buttonIcon)
-                                ],
-                              )
+                      child: RawMaterialButton (
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            side: const BorderSide(
+                                color: Colors.white,
+                                width: 1,
+                                style: BorderStyle.solid
+                            )
                         ),
+                        constraints: const BoxConstraints(
+                          minWidth: 150,
+                          minHeight: 36
+                        ),
+                        padding: const EdgeInsets.only(left: 14.0, right: 8.0),
+                        elevation: 0.0,
+                        highlightElevation: 0.0,
+                        onPressed: onButtonTap,
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        textStyle: const TextStyle(
+                          color: Colors.white,
+                        ),
+                        child:Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(buttonText!),
+                                Icon(buttonIcon),
+                              ],
+                            )
                       )
-                  )
-                else
-                  const Spacer(
-                      flex: 2
                   )
               ],
             ),
