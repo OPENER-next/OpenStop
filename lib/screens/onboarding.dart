@@ -217,36 +217,47 @@ class OnboardingPage extends StatelessWidget {
                 if (buttonText != null)
                   Flexible(
                       flex: 2,
-                      child: RawMaterialButton (
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            side: const BorderSide(
-                                color: Colors.white,
-                                width: 1,
-                                style: BorderStyle.solid
-                            )
-                        ),
-                        constraints: const BoxConstraints(
-                          minWidth: 150,
-                          minHeight: 36
-                        ),
-                        padding: const EdgeInsets.only(left: 14.0, right: 8.0),
-                        elevation: 0.0,
-                        highlightElevation: 0.0,
-                        onPressed: onButtonTap,
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        textStyle: const TextStyle(
-                          color: Colors.white,
-                        ),
-                        child:Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(buttonText!),
-                                Icon(buttonIcon),
-                              ],
-                            )
+                      child: OutlinedButton(
+                          onPressed: onButtonTap,
+                          style: ButtonStyle(
+                              shape: MaterialStateProperty.all<OutlinedBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              side: MaterialStateProperty.all<BorderSide>(
+                                  const BorderSide(
+                                      color: Colors.white,
+                                      width: 1,
+                                      style: BorderStyle.solid
+                                  )
+                              ),
+                              padding: MaterialStateProperty.all<EdgeInsets>(
+                                  const EdgeInsets.only(
+                                      left: 14.0,
+                                      right: 8.0
+                                  )
+                              ),
+                              foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                              backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                              minimumSize: MaterialStateProperty.all<Size>(const Size(150, 36)),
+
+                              elevation: MaterialStateProperty.all<double>(0.0),
+                              textStyle: MaterialStateProperty.all<TextStyle>(
+                                  const TextStyle(
+                                      fontWeight: FontWeight.w400
+                                  )
+                              )
+                          ),
+                          child:Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(buttonText!),
+                              Icon(buttonIcon),
+                            ],
+                          )
                       )
                   )
               ],
