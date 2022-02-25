@@ -68,6 +68,7 @@ class MyApp extends StatelessWidget {
           navigatorObservers: [
             SystemUIAdaptor({
               Screen.home: SystemUIAdaptor.edgeToEdgeStyle,
+              Screen.onboarding: SystemUIAdaptor.edgeToEdgeTransparentStyle,
             })
           ],
           theme: lightTheme,
