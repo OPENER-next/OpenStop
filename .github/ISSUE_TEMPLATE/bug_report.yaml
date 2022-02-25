@@ -1,0 +1,47 @@
+name: Bug Report
+description: File a bug report
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: problem
+    validations:
+      required: true
+    attributes:
+      label: The problem
+      description: >-
+        Describe the issue you are experiencing here. Tell us what you were trying to do and what happened.
+
+        Provide a clear and reproducable description of the problem.
+  - type: markdown
+    attributes:
+      value: |
+        ## Environment
+  - type: input
+    id: version
+    attributes:
+      label: What version of the app has the issue?
+      description: Can be found in the sidebar under 'About' / 'Über'
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      description: What operating system do you use?
+      options:
+        - Android
+        - iOS
+    validations:
+      required: true
+  - type: input
+    id: os_version
+    attributes:
+      label: What operating system version do you use?
+  - type: textarea
+    attributes:
+      label: Additional information
+      description: >
+        If you have any additional information for us, use the field below.
