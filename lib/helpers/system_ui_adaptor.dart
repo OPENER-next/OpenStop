@@ -38,17 +38,41 @@ class SystemUIAdaptor extends RouteObserver<PageRoute<dynamic>> {
 
   /// Edge to edge system style is defined as follows:
   /// - Widgets can grow to the edge of the screen and lie behind the top and bottom bar
-  /// - transparent top and bottom bar
+  /// - semi transparent top and bottom bar
 
   static void edgeToEdgeStyle(BuildContext context) {
     // set system ui to fullscreen
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    SystemChrome.setEnabledSystemUIMode(
+        SystemUiMode.edgeToEdge,
+        overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
     // update native ui colors
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.black.withOpacity(0.25),
-      statusBarIconBrightness: Brightness.light,
-      systemNavigationBarColor: Colors.black.withOpacity(0.25),
-      systemNavigationBarIconBrightness: Brightness.light,
+        statusBarColor: Colors.black.withOpacity(0.25),
+        statusBarIconBrightness: Brightness.light,
+        systemNavigationBarColor: Colors.black.withOpacity(0.25),
+        systemNavigationBarIconBrightness: Brightness.light,
+        systemNavigationBarContrastEnforced: false
+    ));
+  }
+
+
+  /// Edge to edge system style is defined as follows:
+  /// - Widgets can grow to the edge of the screen and lie behind the top and bottom bar
+  /// - transparent top and bottom bar
+
+  static void edgeToEdgeTransparentStyle(BuildContext context) {
+    // set system ui to fullscreen
+    SystemChrome.setEnabledSystemUIMode(
+        SystemUiMode.edgeToEdge,
+        overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]
+    );
+    // update native ui colors
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarIconBrightness: Brightness.dark,
+        systemNavigationBarContrastEnforced: false
     ));
   }
 
