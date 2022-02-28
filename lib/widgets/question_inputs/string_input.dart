@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import '/models/answer.dart';
-import '/widgets/question_inputs/question_input_view.dart';
+import 'question_input_widget.dart';
 import '/models/question_input.dart';
 
 
-class StringInput extends QuestionInputView {
+class StringInput extends QuestionInputWidget {
   const StringInput(
     QuestionInput questionInput,
-    { void Function(Answer?)? onChange, Key? key }
-  ) : super(questionInput, onChange: onChange, key: key);
+    { AnswerController? controller, Key? key }
+  ) : super(questionInput, controller: controller, key: key);
 
   @override
   _StringInputState createState() => _StringInputState();
 }
 
 
-class _StringInputState extends State<StringInput> {
+class _StringInputState extends QuestionInputWidgetState {
   final _controller = TextEditingController();
 
   late int _minValue;
@@ -25,6 +25,7 @@ class _StringInputState extends State<StringInput> {
   void initState() {
     super.initState();
     _updateMinMax();
+    _controller.text = widget.controller?.answer?.value ?? '';
   }
 
 
@@ -95,6 +96,6 @@ class _StringInputState extends State<StringInput> {
       );
     }
 
-    widget.onChange?.call(answer);
+    widget.controller?.answer = answer;
   }
 }

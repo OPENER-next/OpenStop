@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '/models/answer.dart';
-import '/widgets/question_inputs/question_input_view.dart';
+import 'question_input_widget.dart';
 import '/models/question_input.dart';
 
-class NumberInput extends QuestionInputView {
+class NumberInput extends QuestionInputWidget{
   const NumberInput(
     QuestionInput questionInput,
-    { void Function(Answer?)? onChange, Key? key }
-  ) : super(questionInput, onChange: onChange, key: key) ;
+    { AnswerController? controller, Key? key }
+  ) : super(questionInput, controller: controller, key: key);
 
   @override
   _NumberInputState createState() => _NumberInputState();
 }
 
 
-class _NumberInputState extends State<NumberInput> {
+class _NumberInputState extends QuestionInputWidgetState {
   final _controller = TextEditingController();
 
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.text = widget.controller?.answer?.value.toString() ?? '';
+  }
 
   @override
   void dispose() {
@@ -129,6 +135,6 @@ class _NumberInputState extends State<NumberInput> {
       );
     }
 
-    widget.onChange?.call(answer);
+    widget.controller?.answer = answer;
   }
 }

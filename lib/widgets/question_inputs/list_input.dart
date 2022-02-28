@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 import '/models/answer.dart';
-import '/widgets/question_inputs/question_input_view.dart';
+import 'question_input_widget.dart';
 import '/models/question_input.dart';
 
-class ListInput extends QuestionInputView {
-  const ListInput(QuestionInput questionInput,
-      {void Function(Answer?)? onChange, Key? key})
-      : super(questionInput, onChange: onChange, key: key);
+class ListInput extends QuestionInputWidget {
+  const ListInput(
+    QuestionInput questionInput,
+    { AnswerController? controller, Key? key }
+  ) : super(questionInput, controller: controller, key: key);
 
   @override
   _ListInputState createState() => _ListInputState();
 }
 
-class _ListInputState extends State<ListInput> {
+class _ListInputState extends QuestionInputWidgetState {
   String? _selectedKey;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedKey = widget.controller?.answer?.value;
+  }
 
   void _toggleExpand(String entry) {
     setState(() {
@@ -39,14 +46,12 @@ class _ListInputState extends State<ListInput> {
   }
 
   void _handleChange() {
-    final answer = _selectedKey != null
+    widget.controller?.answer =  _selectedKey != null
       ? ListAnswer(
         questionValues: widget.questionInput.values,
         value: _selectedKey!
       )
       : null;
-
-    widget.onChange?.call(answer);
   }
 }
 
