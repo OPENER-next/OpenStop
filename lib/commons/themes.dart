@@ -54,6 +54,7 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
         smallSizeConstraints: BoxConstraints.tight(const Size.square(48)),
+        largeSizeConstraints: BoxConstraints.tight(const Size.square(70)),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
               Radius.circular(10)

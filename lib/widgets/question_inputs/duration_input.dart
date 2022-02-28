@@ -2,23 +2,24 @@ import 'package:flutter/material.dart';
 
 import '/models/answer.dart';
 import '/models/question_input.dart';
-import '/widgets/question_inputs/question_input_view.dart';
+import 'question_input_widget.dart';
 
-class DurationInput extends QuestionInputView {
-  const DurationInput(QuestionInput questionInput,
-      {void Function(Answer?)? onChange, Key? key})
-      : super(questionInput, onChange: onChange, key: key);
+class DurationInput extends QuestionInputWidget {
+  const DurationInput(
+    QuestionInput questionInput,
+    { AnswerController? controller, Key? key }
+  ) : super(questionInput, controller: controller, key: key);
 
   @override
   _DurationInputState createState() => _DurationInputState();
 }
 
-class _DurationInputState extends State<DurationInput> {
+class _DurationInputState extends QuestionInputWidgetState {
   Map<TimeUnit, int> _unitValueMap = const {};
 
   void _initUnits() {
     final Map<TimeUnit, int> newUnitValueMap = {};
-    final unitStrings = widget.questionInput.unit.split(',');
+    final unitStrings = widget.questionInput.values.values.first.unit?.split(',') ?? [];
 
     for (final unitString in unitStrings) {
       final key = TimeUnit.fromString(unitString);
@@ -94,14 +95,12 @@ class _DurationInputState extends State<DurationInput> {
     );
 
     // if all values are zero return null
-    final answer = duration != Duration.zero
+    widget.controller?.answer = duration != Duration.zero
       ? DurationAnswer(
         questionValues: widget.questionInput.values,
-        answer: duration
+        value: duration
       )
       : null;
-
-    widget.onChange?.call(answer);
   }
 
 

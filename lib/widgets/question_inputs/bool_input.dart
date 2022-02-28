@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 import '/models/answer.dart';
 import '/models/question_input.dart';
-import '/widgets/question_inputs/question_input_view.dart';
+import 'question_input_widget.dart';
 
 
-class BoolInput extends QuestionInputView {
+class BoolInput extends QuestionInputWidget {
   const BoolInput(
     QuestionInput questionInput,
-    { void Function(Answer?)? onChange, Key? key }
-  ) : super(questionInput, onChange: onChange, key: key);
+    { AnswerController? controller, Key? key }
+  ) : super(questionInput, controller: controller, key: key);
 
   @override
   _BoolInputState createState() => _BoolInputState();
 }
 
 
-class _BoolInputState extends State<BoolInput> {
+class _BoolInputState extends QuestionInputWidgetState {
   bool? _selectedBool;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedBool = widget.controller?.answer?.value;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,14 +69,12 @@ class _BoolInputState extends State<BoolInput> {
 
 
   void _handleChange() {
-    final answer = _selectedBool != null
+    widget.controller?.answer = _selectedBool != null
       ? BoolAnswer(
         questionValues: widget.questionInput.values,
-        answer: _selectedBool!
+        value: _selectedBool!
       )
       : null;
-
-    widget.onChange?.call(answer);
   }
 
 

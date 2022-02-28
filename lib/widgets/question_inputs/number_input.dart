@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '/models/answer.dart';
-import '/widgets/question_inputs/question_input_view.dart';
+import 'question_input_widget.dart';
 import '/models/question_input.dart';
 
-class NumberInput extends QuestionInputView {
+class NumberInput extends QuestionInputWidget{
   const NumberInput(
     QuestionInput questionInput,
-    { void Function(Answer?)? onChange, Key? key }
-  ) : super(questionInput, onChange: onChange, key: key) ;
+    { AnswerController? controller, Key? key }
+  ) : super(questionInput, controller: controller, key: key);
 
   @override
   _NumberInputState createState() => _NumberInputState();
 }
 
 
-class _NumberInputState extends State<NumberInput> {
+class _NumberInputState extends QuestionInputWidgetState {
   final _controller = TextEditingController();
 
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.text = widget.controller?.answer?.value.toString() ?? '';
+  }
 
   @override
   void dispose() {
@@ -27,17 +33,19 @@ class _NumberInputState extends State<NumberInput> {
 
   @override
   Widget build(BuildContext context) {
+    final questionInputValue = widget.questionInput.values.values.first;
+
     return TextFormField(
       onChanged: _handleChange,
       controller: _controller,
       decoration: InputDecoration(
-        hintText: 'Hier eintragen...',
+        hintText: questionInputValue.name ?? 'Hier eintragen...',
         suffixIcon: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              widget.questionInput.unit,
+            if (questionInputValue.unit != null) Text(
+              questionInputValue.unit!,
               style: Theme.of(context).textTheme.subtitle1
             ),
             IconButton(
@@ -57,14 +65,14 @@ class _NumberInputState extends State<NumberInput> {
             return 'Ungültige Zahl';
           }
           else if (!_isValidRange(value)) {
-            if (widget.questionInput.max != null && widget.questionInput.min != null) {
-              return 'Wert muss zwischen $widget.questionInput.min und $widget.questionInput.max liegen';
+            if (questionInputValue.max != null && questionInputValue.min != null) {
+              return 'Wert muss zwischen ${questionInputValue.min} und ${questionInputValue.max} liegen';
             }
-            else if (widget.questionInput.max != null) {
-              return 'Wert darf höchstens $widget.questionInput.max sein';
+            else if (questionInputValue.max != null) {
+              return 'Wert darf höchstens ${questionInputValue.max} sein';
             }
             else {
-              return 'Wert muss mindestens $widget.questionInput.min sein';
+              return 'Wert muss mindestens ${questionInputValue.min} sein';
             }
           }
         }
@@ -74,42 +82,38 @@ class _NumberInputState extends State<NumberInput> {
         decimal: true,
         signed: false,
       ),
-      inputFormatters: <TextInputFormatter>[
-        /// First conditionally deny comma or point, then check allowed decimal places. Doesn't work vice versa.
-        FilteringTextInputFormatter.deny(_buildDenyRegex()),
-        FilteringTextInputFormatter.allow(_buildAllowRegex())
-      ],
+      inputFormatters: _buildInputFormatters()
     );
   }
 
 
   bool _isValidRange(double value) {
-    if (widget.questionInput.min != null && value < widget.questionInput.min!) {
+    final questionInputValue = widget.questionInput.values.values.first;
+    if (questionInputValue.min != null && value < questionInputValue.min!) {
       return false;
     }
-    if (widget.questionInput.max != null && widget.questionInput.max! < value) {
+    if (questionInputValue.max != null && questionInputValue.max! < value) {
       return false;
     }
     return true;
   }
 
 
-  RegExp _buildDenyRegex() {
-    if (widget.questionInput.decimals != null && widget.questionInput.decimals! == 0) {
-      return RegExp('');
-    }
-    else {
-      return RegExp('[,.]{1}');
-    }
-  }
+  List<TextInputFormatter> _buildInputFormatters() {
+    final questionInputValue = widget.questionInput.values.values.first;
 
+    final decimalsAllowed = questionInputValue.decimals != null && questionInputValue.decimals! > 0;
 
-  RegExp _buildAllowRegex() {
-    var regexString = '^\\d+';
-    if (widget.questionInput.decimals != null && widget.questionInput.decimals! > 0) {
-      regexString += '[,.]?\\d{0,${widget.questionInput.decimals}}';
+    var allowRegexString = '^\\d+';
+    if (decimalsAllowed) {
+      allowRegexString += '[,.]?\\d{0,${questionInputValue.decimals}}';
     }
-    return RegExp(regexString);
+
+    return [
+      /// First conditionally deny comma or point, then check allowed decimal places. Doesn't work vice versa.
+      if (!decimalsAllowed) FilteringTextInputFormatter.deny( RegExp('[,.]{1}') ),
+      FilteringTextInputFormatter.allow( RegExp(allowRegexString) )
+    ];
   }
 
 
@@ -127,10 +131,10 @@ class _NumberInputState extends State<NumberInput> {
     if (numberValue != null && _isValidRange(numberValue)) {
       answer = NumberAnswer(
         questionValues: widget.questionInput.values,
-        answer: numberValue
+        value: numberValue
       );
     }
 
-    widget.onChange?.call(answer);
+    widget.controller?.answer = answer;
   }
 }

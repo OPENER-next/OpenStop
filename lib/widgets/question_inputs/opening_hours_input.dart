@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-import '/models/answer.dart';
-import '/widgets/question_inputs/question_input_view.dart';
+import 'question_input_widget.dart';
 import '/models/question_input.dart';
 
 
-class OpeningHoursInput extends QuestionInputView {
+class OpeningHoursInput extends QuestionInputWidget {
   const OpeningHoursInput(
     QuestionInput questionInput,
-    { void Function(Answer?)? onChange, Key? key }
-  ) : super(questionInput, onChange: onChange, key: key);
+    { AnswerController? controller, Key? key }
+  ) : super(questionInput, controller: controller, key: key);
 
   @override
   _OpeningHoursInputState createState() => _OpeningHoursInputState();
 }
 
 
-class _OpeningHoursInputState extends State<OpeningHoursInput> {
+class _OpeningHoursInputState extends QuestionInputWidgetState {
   @override
   Widget build(BuildContext context) {
     return const Text('Dummy');

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import '/models/answer.dart';
-import '/widgets/question_inputs/question_input_view.dart';
+import 'question_input_widget.dart';
 import '/models/question_input.dart';
 
 
-class StringInput extends QuestionInputView {
+class StringInput extends QuestionInputWidget {
   const StringInput(
     QuestionInput questionInput,
-    { void Function(Answer?)? onChange, Key? key }
-  ) : super(questionInput, onChange: onChange, key: key);
+    { AnswerController? controller, Key? key }
+  ) : super(questionInput, controller: controller, key: key);
 
   @override
   _StringInputState createState() => _StringInputState();
 }
 
 
-class _StringInputState extends State<StringInput> {
+class _StringInputState extends QuestionInputWidgetState {
   final _controller = TextEditingController();
 
   late int _minValue;
@@ -25,6 +25,7 @@ class _StringInputState extends State<StringInput> {
   void initState() {
     super.initState();
     _updateMinMax();
+    _controller.text = widget.controller?.answer?.value ?? '';
   }
 
 
@@ -43,12 +44,14 @@ class _StringInputState extends State<StringInput> {
 
   @override
   Widget build(BuildContext context) {
+    final questionInputValue = widget.questionInput.values.values.first;
+
     return TextFormField(
       onChanged: _handleChange,
       controller: _controller,
       maxLength: _maxValue,
       decoration: InputDecoration(
-        hintText: 'Hier eintragen...',
+        hintText: questionInputValue.name ?? 'Hier eintragen...',
         counter: const Offstage(),
         suffixIcon: IconButton(
           onPressed: _handleClear,
@@ -68,8 +71,9 @@ class _StringInputState extends State<StringInput> {
 
 
   void _updateMinMax() {
-    _minValue = widget.questionInput.min ?? 0;
-    _maxValue = widget.questionInput.max ?? 255;
+    final questionInputValue = widget.questionInput.values.values.first;
+    _minValue = questionInputValue.min ?? 0;
+    _maxValue = questionInputValue.max ?? 255;
   }
 
 
@@ -88,10 +92,10 @@ class _StringInputState extends State<StringInput> {
     if (value.isNotEmpty && _isValidLength(value)) {
       answer = StringAnswer(
         questionValues: widget.questionInput.values,
-        answer: value
+        value: value
       );
     }
 
-    widget.onChange?.call(answer);
+    widget.controller?.answer = answer;
   }
 }

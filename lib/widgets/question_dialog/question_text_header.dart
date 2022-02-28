@@ -108,7 +108,7 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                     widget.question,
                     style: const TextStyle(
                       height: 1.3,
-                      fontSize: 16,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold
                     ),
                   ),
