@@ -16,23 +16,25 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
 
   final _controller = PageController();
+  // Ideally has to match the number of pages
   final _colorArray = <Color>[
     Colors.deepOrangeAccent.shade100,
     Colors.redAccent.shade100,
     Colors.deepPurpleAccent.shade100,
+    Colors.deepOrangeAccent.shade400
   ];
   late final _background = _buildColorSequence(_colorArray);
 
   TweenSequence<Color?> _buildColorSequence(List<Color> colors) {
     return TweenSequence(
         List.generate(
-            colors.length,
+            colors.length - 1,
                 (index) =>
                 TweenSequenceItem(
                     weight: 1.0,
                     tween: ColorTween(
                         begin: colors[index],
-                        end: colors[(index + 1) % colors.length]
+                        end: colors[index + 1]
                     )
                 )
         )
@@ -87,7 +89,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         body: AnimatedBuilder(
           animation: _controller,
           builder: (context, child) {
-            final color = _controller.hasClients ? _controller.page! / pages.length : .0;
+            final color = _controller.hasClients ? _controller.page! / (pages.length -1) : .0;
 
             return ColoredBox(
               color: _background.evaluate(AlwaysStoppedAnimation(color))!,
