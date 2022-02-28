@@ -13,42 +13,31 @@ class OnboardingScreen extends StatefulWidget {
   _OnboardingScreenState createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen>
-    with SingleTickerProviderStateMixin {
+class _OnboardingScreenState extends State<OnboardingScreen> {
 
   final _controller = PageController();
-  final _background = TweenSequence(<TweenSequenceItem>[
-    TweenSequenceItem(
-      weight: 1.0,
-      tween: ColorTween(
-          begin: Colors.deepOrangeAccent.shade100,
-          end: Colors.redAccent.shade100,
-      ),
-    ),
-    TweenSequenceItem(
-      weight: 1.0,
-      tween: ColorTween(
-          begin: Colors.redAccent.shade100,
-          end: Colors.deepPurpleAccent.shade100,
-      ),
-    ),
-    TweenSequenceItem(
-      weight: 1.0,
-      tween: ColorTween(
-          begin: Colors.deepPurpleAccent.shade100,
-          end: Colors.blueAccent.shade100,
-      ),
-    ),
-    TweenSequenceItem(
-      weight: 1.0,
-      tween: ColorTween(
-          begin: Colors.blueAccent.shade100,
-          end: Colors.deepOrangeAccent.shade100,
-      ),
-    ),
-  ]
-  );
+  final _colorArray = <Color>[
+    Colors.deepOrangeAccent.shade100,
+    Colors.redAccent.shade100,
+    Colors.deepPurpleAccent.shade100,
+  ];
+  late final _background = _buildColorSequence(_colorArray);
 
+  TweenSequence<Color?> _buildColorSequence(List<Color> colors) {
+    return TweenSequence(
+        List.generate(
+            colors.length,
+                (index) =>
+                TweenSequenceItem(
+                    weight: 1.0,
+                    tween: ColorTween(
+                        begin: colors[index],
+                        end: colors[(index + 1) % colors.length]
+                    )
+                )
+        )
+    );
+  }
 
   _nextPage() {
     _controller.nextPage(
@@ -60,7 +49,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   @override
   Widget build(BuildContext context) {
 
-    final List<Widget> pages = [
+    final pages = [
       OnboardingPage(
           image: 'assets/images/placeholder_image.png',
           title: 'Hey!',
@@ -70,16 +59,16 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       ),
       OnboardingPage(
           image: 'assets/images/placeholder_image.png',
-          title: 'Schau\'s dir an!',
+          title: 'Schau\'s dir an',
           description: 'Begib dich zu einer Haltestelle in deiner Umgebung, um ihren aktuellen Zustand zu erfassen.',
-          buttonText: 'Okay, verstanden',
+          buttonText: 'Mach\' ich',
           onButtonTap: _nextPage
       ),
       OnboardingPage(
         image: 'assets/images/placeholder_image.png',
-        title: 'Jetzt bist du gefragt!',
-        description: 'Zur Erfassung wähle einen Marker in der App aus und beantworte die angezeigten Fragen.',
-        buttonText: 'Is\' klar',
+        title: 'Jetzt bist du gefragt',
+        description: 'Wähle zur Erfassung einen Marker in der App aus und beantworte die angezeigten Fragen.',
+        buttonText: 'Okay, verstanden',
         onButtonTap: _nextPage,
       ),
       OnboardingPage(
@@ -100,10 +89,8 @@ class _OnboardingScreenState extends State<OnboardingScreen>
           builder: (context, child) {
             final color = _controller.hasClients ? _controller.page! / pages.length : .0;
 
-            return DecoratedBox(
-              decoration: BoxDecoration(
-                color: _background.evaluate(AlwaysStoppedAnimation(color)),
-              ),
+            return ColoredBox(
+              color: _background.evaluate(AlwaysStoppedAnimation(color))!,
               child: child,
             );
           },
@@ -222,7 +209,7 @@ class OnboardingPage extends StatelessWidget {
                           style: ButtonStyle(
                               shape: MaterialStateProperty.all<OutlinedBorder>(
                                 RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
                               side: MaterialStateProperty.all<BorderSide>(
