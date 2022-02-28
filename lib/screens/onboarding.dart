@@ -21,20 +21,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     Colors.deepOrangeAccent.shade100,
     Colors.redAccent.shade100,
     Colors.deepPurpleAccent.shade100,
-    Colors.deepOrangeAccent.shade400
+    Colors.blueAccent.shade100,
   ];
   late final _background = _buildColorSequence(_colorArray);
 
   TweenSequence<Color?> _buildColorSequence(List<Color> colors) {
+    assert(colors.isNotEmpty, 'Colors must not be empty');
     return TweenSequence(
         List.generate(
-            colors.length - 1,
+            colors.length == 1 ? colors.length : colors.length - 1,
                 (index) =>
                 TweenSequenceItem(
                     weight: 1.0,
                     tween: ColorTween(
                         begin: colors[index],
-                        end: colors[index + 1]
+                        end: colors[colors.length == 1 ? index : index + 1]
                     )
                 )
         )
@@ -89,7 +90,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         body: AnimatedBuilder(
           animation: _controller,
           builder: (context, child) {
-            final color = _controller.hasClients ? _controller.page! / (pages.length -1) : .0;
+            final color = _controller.hasClients && pages.length > 1 ? _controller.page! / (pages.length - 1) : 0.0;
 
             return ColoredBox(
               color: _background.evaluate(AlwaysStoppedAnimation(color))!,
