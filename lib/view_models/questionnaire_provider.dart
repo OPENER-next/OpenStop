@@ -74,4 +74,13 @@ class QuestionnaireProvider extends ChangeNotifier {
     }
     return false;
   }
+
+
+  bool jumpTo(int index) {
+    if (_qaSelection?.jumpTo(index) == true) {
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
 }
