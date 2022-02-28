@@ -46,7 +46,7 @@ class QuestionNavigationBar extends StatelessWidget {
                 onPressed: onBack,
                 child: Row(
                   children: [
-                    const Icon(Icons.keyboard_arrow_left_rounded),
+                    const Icon(Icons.chevron_left_rounded),
                     Text(backText!),
                   ],
                 )
@@ -76,7 +76,7 @@ class QuestionNavigationBar extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(nextText!),
-                    const Icon(Icons.keyboard_arrow_right_rounded)
+                    const Icon(Icons.chevron_right_rounded)
                   ]
                 )
               )
