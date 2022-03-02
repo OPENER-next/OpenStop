@@ -38,13 +38,13 @@ class StopQueryAPI {
   /// This method will throw [Dio] connection errors.
 
   Future<Iterable<Stop>> queryByBBox(LatLng southWest, LatLng northEast) {
-    return _queryByBBox(southWest, northEast, 1);
+    return _queryByBBox(southWest, northEast);
   }
 
 
   /// Actual query method that calls itself recursively by incrementing its retry counter till [maxRetries] is reached.
 
-  Future<Iterable<Stop>> _queryByBBox(LatLng southWest, LatLng northEast, int retryCount) async {
+  Future<Iterable<Stop>> _queryByBBox(LatLng southWest, LatLng northEast, [ int retryCount = 1 ]) async {
     // get random url from server list
     final url = apiServers[_random.nextInt(apiServers.length)];
 
@@ -59,7 +59,10 @@ class StopQueryAPI {
     }
     catch(error) {
       if (retryCount < maxRetries) {
-        return Future.delayed(const Duration(seconds: 1), () => _queryByBBox(southWest, northEast, retryCount + 1));
+        return Future.delayed(
+          const Duration(seconds: 1),
+          () => _queryByBBox(southWest, northEast, retryCount + 1)
+        );
       }
       rethrow;
     }
