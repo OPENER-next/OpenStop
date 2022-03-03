@@ -14,7 +14,9 @@ import '/view_models/osm_elements_provider.dart';
 import '/view_models/preferences_provider.dart';
 import '/view_models/stop_areas_provider.dart';
 import '/helpers/camera_tracker.dart';
+import '/utils/network_tile_provider_with_headers.dart';
 import '/utils/stream_debouncer.dart';
+import '/commons/app_config.dart';
 import '/commons/tile_layers.dart';
 import '/utils/map_utils.dart';
 import '/widgets/map_layer/stop_area_layer.dart';
@@ -155,7 +157,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         TileLayerWidget(
                           options: TileLayerOptions(
                             overrideTilesWhenUrlChanges: true,
-                            tileProvider: NetworkTileProvider(),
+                            tileProvider: NetworkTileProviderWithHeaders(const {
+                              'User-Agent': appUserAgent
+                            }),
                             urlTemplate: isDarkMode && tileLayerDescription.darkVariantTemplateUrl != null
                               ? tileLayerDescription.darkVariantTemplateUrl
                               : tileLayerDescription.templateUrl,
