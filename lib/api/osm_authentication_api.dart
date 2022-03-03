@@ -20,13 +20,8 @@ class OSMAuthenticationAPI {
   final _appAuth = FlutterAppAuth();
 
 
-  OAuth2? _authentication;
-
-
   /// Get an instance of the [OSMAPI] which is either authorized or not.
   /// This depends depends on whether [login] was called successfully before or not.
-
-  OAuth2? get authentication => _authentication;
 
 
   /// This will start the login/authentication process by opening the openstreetmap website inside a browser/webview.
@@ -34,7 +29,7 @@ class OSMAuthenticationAPI {
   /// If the access token was gathered successfully [isAuthenticated] should now return true.
   /// Otherwise errors might be thrown.
 
-  Future<void> login() async {
+  Future<OAuth2?> login() async {
     // Important: do NOT pass the client secret
     // The function will then automatically use PKCE for authorization.
     // AppAuth will generate a code verifier + code challenge (hash) and handle the entire requests/responses.
@@ -54,36 +49,36 @@ class OSMAuthenticationAPI {
 
       await _secureStorage.write(key: 'accessToken', value: accessToken);
 
-      _authentication = OAuth2(
+      return OAuth2(
         accessToken: accessToken,
         tokenType: tokenResponse.tokenType!
       );
     }
+    return null;
   }
 
 
   /// Restore the previous session if one exists.
   /// This method looks for a previous access token in the storage and tries to reuse it.
 
-  Future<void> restore() async {
+  Future<OAuth2?> restore() async {
     final accessToken = await _secureStorage.read(key: 'accessToken');
     if (accessToken != null) {
-      _authentication = OAuth2(
+      final authentication = OAuth2(
         accessToken: accessToken,
       );
 
-      if (!await verifyAuthentication()) {
-        _authentication = null;
+      if (await verifyAuthentication(authentication)) {
+        return authentication;
       }
     }
+    return null;
   }
 
 
   /// Terminates the current session by deleting the current access token.
 
   Future<void> logout() async {
-    _authentication = null;
-
     await Future.wait([
       _secureStorage.delete(key: 'accessToken'),
       // OSM currently does not support token revocation (https://github.com/openstreetmap/openstreetmap-website/issues/3412)
@@ -99,7 +94,7 @@ class OSMAuthenticationAPI {
   /// Verify that the current api is (still) authenticated and grants the required permissions.
   /// This can throw OSM API connection exceptions
 
-  Future<bool> verifyAuthentication() async {
+  Future<bool> verifyAuthentication(OAuth2 authentication) async {
     final osmApi = OSMAPI(
       baseUrl: '${osm_config.osmServerUri}/api/0.6',
       authentication: authentication

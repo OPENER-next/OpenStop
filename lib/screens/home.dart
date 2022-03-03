@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 import '/view_models/incomplete_osm_elements_provider.dart';
 import '/view_models/questionnaire_provider.dart';
-import '/view_models/osm_authentication_provider.dart';
+import '/view_models/osm_authenticated_user_provider.dart';
 import '/view_models/osm_elements_provider.dart';
 import '/view_models/preferences_provider.dart';
 import '/view_models/stop_areas_provider.dart';
@@ -117,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ChangeNotifierProvider.value(value: _cameraTracker),
               ChangeNotifierProvider.value(value: _stopAreasProvider),
               ChangeNotifierProvider(
-                create: (_) => OSMAuthenticationProvider(),
+                create: (_) => OSMAuthenticatedUserProvider(),
                 // do this so the previous session is loaded on start in parallel
                 lazy: false,
               ),
