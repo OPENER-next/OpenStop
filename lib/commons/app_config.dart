@@ -2,6 +2,8 @@ import 'version.g.dart';
 
 const appName = 'OPENER next';
 
-const appUserAgent = '$appName $packageVersion';
+const appVersion = packageVersion;
+
+const appUserAgent = '$appName $appVersion';
 
 const appCallbackUrlScheme = 'openernext.de';
