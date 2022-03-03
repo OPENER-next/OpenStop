@@ -1,12 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:osm_api/osm_api.dart';
 
-import '/api/osm_authentication_manager.dart';
+import '/api/osm_user_api.dart';
+import '/api/osm_authentication_api.dart';
 
+
+/// Provides the OAuth2 authentication object and details about the currently authenticated user.
 
 class OSMAuthenticationProvider extends ChangeNotifier {
 
-  final _authenticationManager = OSMAuthenticationManager();
+  final _osmAuthenticationApi = OSMAuthenticationAPI();
+
 
   OSMUserPrivateDetails? _userDetails;
 
@@ -17,29 +21,46 @@ class OSMAuthenticationProvider extends ChangeNotifier {
 
 
   void _init() async {
-    await _authenticationManager.restore();
-    if (isLoggedIn) {
-      _userDetails = await _authenticationManager.osmApi.getCurrentUserDetails();
-      notifyListeners();
+    await _osmAuthenticationApi.restore();
+
+    if (_osmAuthenticationApi.authentication != null) {
+      final osmUserApi = OSMUserAPI(
+        authentication: _osmAuthenticationApi.authentication!
+      );
+      try {
+        _userDetails = await osmUserApi.getUserDetails();
+        notifyListeners();
+      }
+      finally {
+        osmUserApi.dispose();
+      }
     }
   }
 
 
-  bool get isLoggedIn => _authenticationManager.isAuthenticated;
+  bool get isLoggedIn => _userDetails != null;
 
 
-  bool get isLoggedOut => !isLoggedIn;
+  bool get isLoggedOut => _userDetails == null;
 
 
   OSMUserPrivateDetails? get userDetails => _userDetails;
 
 
+  OAuth2? get authentication => _osmAuthenticationApi.authentication;
+
+
   void login() async {
     if (isLoggedIn) return;
-    try {
-      await _authenticationManager.login();
 
-      _userDetails = await _authenticationManager.osmApi.getCurrentUserDetails();
+    OSMUserAPI? osmUserApi;
+    try {
+      await _osmAuthenticationApi.login();
+
+      osmUserApi = OSMUserAPI(
+        authentication: _osmAuthenticationApi.authentication!
+      );
+      _userDetails = await osmUserApi.getUserDetails();
 
       notifyListeners();
     }
@@ -47,13 +68,16 @@ class OSMAuthenticationProvider extends ChangeNotifier {
       // TODO: display or handle error
       debugPrint(error.toString());
     }
+    finally {
+      osmUserApi?.dispose();
+    }
   }
 
 
   void logout() async {
     if (isLoggedOut) return;
     try {
-      await _authenticationManager.logout();
+      await _osmAuthenticationApi.logout();
 
       _userDetails = null;
 
@@ -63,12 +87,5 @@ class OSMAuthenticationProvider extends ChangeNotifier {
       // TODO: display or handle error
       debugPrint(error.toString());
     }
-  }
-
-
-  @override
-  void dispose() {
-    super.dispose();
-    _authenticationManager.dispose();
   }
 }

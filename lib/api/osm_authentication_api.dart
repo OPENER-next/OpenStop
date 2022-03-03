@@ -4,10 +4,11 @@ import 'package:osm_api/osm_api.dart';
 
 import '/commons/osm_config.dart' as osm_config;
 
-  // OAuth 2 login
-  // A good introduction can be found here https://www.oauth.com/oauth2-servers/oauth-native-apps/
 
-class OSMAuthenticationManager {
+// OAuth 2 login
+// A good introduction can be found here https://www.oauth.com/oauth2-servers/oauth-native-apps/
+
+class OSMAuthenticationAPI {
   static const _config = AuthorizationServiceConfiguration(
     authorizationEndpoint: '${osm_config.osmServerUri}/oauth2/authorize',
     tokenEndpoint: '${osm_config.osmServerUri}/oauth2/token',
@@ -16,22 +17,16 @@ class OSMAuthenticationManager {
 
   static const _secureStorage = FlutterSecureStorage();
 
-
   final _appAuth = FlutterAppAuth();
 
 
-  final _osmApi = OSMAPI(
-    baseUrl: '${osm_config.osmServerUri}/api/0.6',
-  );
-
-
-  bool get isAuthenticated => _osmApi.authentication != null;
+  OAuth2? _authentication;
 
 
   /// Get an instance of the [OSMAPI] which is either authorized or not.
   /// This depends depends on whether [login] was called successfully before or not.
 
-  OSMAPI get osmApi => _osmApi;
+  OAuth2? get authentication => _authentication;
 
 
   /// This will start the login/authentication process by opening the openstreetmap website inside a browser/webview.
@@ -59,7 +54,7 @@ class OSMAuthenticationManager {
 
       await _secureStorage.write(key: 'accessToken', value: accessToken);
 
-      _osmApi.authentication = OAuth2(
+      _authentication = OAuth2(
         accessToken: accessToken,
         tokenType: tokenResponse.tokenType!
       );
@@ -73,12 +68,12 @@ class OSMAuthenticationManager {
   Future<void> restore() async {
     final accessToken = await _secureStorage.read(key: 'accessToken');
     if (accessToken != null) {
-      _osmApi.authentication = OAuth2(
+      _authentication = OAuth2(
         accessToken: accessToken,
       );
 
-      if (!await _verify()) {
-        _osmApi.authentication = null;
+      if (!await verifyAuthentication()) {
+        _authentication = null;
       }
     }
   }
@@ -87,7 +82,7 @@ class OSMAuthenticationManager {
   /// Terminates the current session by deleting the current access token.
 
   Future<void> logout() async {
-    _osmApi.authentication = null;
+    _authentication = null;
 
     await Future.wait([
       _secureStorage.delete(key: 'accessToken'),
@@ -102,19 +97,23 @@ class OSMAuthenticationManager {
 
 
   /// Verify that the current api is (still) authenticated and grants the required permissions.
+  /// This can throw OSM API connection exceptions
 
-  Future<bool> _verify() async {
+  Future<bool> verifyAuthentication() async {
+    final osmApi = OSMAPI(
+      baseUrl: '${osm_config.osmServerUri}/api/0.6',
+      authentication: authentication
+    );
+
     try {
-      final permissions = await _osmApi.getPermissions();
+      final permissions = await osmApi.getPermissions();
       return permissions.hasAll(const ['allow_read_prefs', 'allow_write_api']);
     }
-    catch (e) {
+    on OSMUnauthorizedException {
       return false;
     }
-  }
-
-
-  void dispose() {
-    _osmApi.dispose();
+    finally {
+      osmApi.dispose();
+    }
   }
 }
