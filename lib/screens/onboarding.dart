@@ -101,6 +101,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               children: [
                 Expanded(
                   child: PageView(
+                    scrollBehavior: const ScrollBehavior().copyWith(overscroll: false),
                     scrollDirection: Axis.horizontal,
                     controller: _controller,
                     children: pages
