@@ -3,13 +3,13 @@ import 'package:latlong2/latlong.dart';
 /// A basic representation of a public transport stop/halt.
 
 class Stop {
-  final String name;
-
   final LatLng location;
 
+  final String name;
+
   Stop({
-    required this.name,
-    required this.location
+    required this.location,
+    this.name = '',
   });
 
 
@@ -17,7 +17,7 @@ class Stop {
 
   factory Stop.fromOverpassJSON(Map<String, dynamic> element) {
     return Stop(
-      name: element['tags']?['name'] ?? element['tags']?['ref'] ?? 'Unknown Name',
+      name: element['tags']?['name'] ?? '',
       location: element.containsKey('center')
         ? LatLng(element['center']['lat'], element['center']['lon'])
         : LatLng(element['lat'], element['lon'])
