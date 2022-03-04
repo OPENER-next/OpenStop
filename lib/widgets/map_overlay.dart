@@ -164,6 +164,9 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                             Consumer<CameraTracker>(
                               builder: (context, value, child) => LocationButton(
                                 activeColor: Theme.of(context).colorScheme.primary,
+                                color: Theme.of(context).floatingActionButtonTheme.backgroundColor,
+                                iconColor: Theme.of(context).floatingActionButtonTheme.foregroundColor,
+                                activeIconColor: Theme.of(context).colorScheme.onPrimary,
                                 active: value.state == CameraTrackerState.active,
                                 onPressed: _toggleCameraTracker
                               )

@@ -23,7 +23,7 @@ class QuestionSummary extends StatelessWidget {
 
 
     return ColoredBox(
-      color: Colors.white,
+      color: Theme.of(context).colorScheme.surface,
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
           vertical: 25,

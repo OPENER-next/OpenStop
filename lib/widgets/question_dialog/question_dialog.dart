@@ -150,7 +150,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
 
     return ColoredBox(
       key: ValueKey(questionnaireEntry.question),
-      color: Colors.white,
+      color: Theme.of(context).colorScheme.surface,
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
