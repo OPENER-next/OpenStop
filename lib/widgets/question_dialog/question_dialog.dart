@@ -88,7 +88,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
                     color: Theme.of(context).colorScheme.primary,
                     value: activeIndex / questionCount,
                     // cannot use transparent color here otherwise the map widget behind will become slightly visible
-                    backgroundColor: const Color(0xFFEEEEEE)
+                    backgroundColor: Theme.of(context).colorScheme.onSurface,
                   ),
                   CompositedTransformTarget(
                     link: _layerLink,
