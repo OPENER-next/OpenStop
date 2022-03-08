@@ -68,7 +68,7 @@ class OSMAuthenticationProvider extends ChangeNotifier {
 
   @override
   void dispose() {
-    super.dispose();
     _authenticationManager.dispose();
+    super.dispose();
   }
 }

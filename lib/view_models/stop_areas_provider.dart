@@ -169,8 +169,8 @@ class StopAreasProvider extends ChangeNotifier {
 
   @override
   void dispose() {
-    super.dispose();
     _stopAPI.dispose();
     _isLoading.dispose();
+    super.dispose();
   }
 }
