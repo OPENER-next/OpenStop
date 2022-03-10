@@ -6,9 +6,9 @@ import 'question_input_widget.dart';
 
 class BoolInput extends QuestionInputWidget {
   const BoolInput(
-    QuestionInput questionInput,
-    { AnswerController? controller, Key? key }
-  ) : super(questionInput, controller: controller, key: key);
+      QuestionInput questionInput,
+      { AnswerController? controller, Key? key }
+      ) : super(questionInput, controller: controller, key: key);
 
   @override
   _BoolInputState createState() => _BoolInputState();
@@ -24,49 +24,38 @@ class _BoolInputState extends QuestionInputWidgetState {
     _selectedBool = widget.controller?.answer?.value;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Flexible(
-          fit: FlexFit.tight,
-          flex: 3,
-          child: OutlinedButton(
-            child: Text(
-              widget.questionInput.values['true']?.name ?? 'Ja'
-            ),
-            style: _toggleStyle(_selectedBool == true),
-            onPressed: () {
-              setState(() {
-                _selectedBool = _selectedBool != true ? true : null;
-                _handleChange();
-              });
-            }
-          )
-        ),
-        const Spacer(
-          flex: 1,
-        ),
-        Flexible(
-          fit: FlexFit.tight,
-          flex: 3,
-          child: OutlinedButton(
-            child: Text(
-              widget.questionInput.values['false']?.name ?? 'Nein'
-            ),
-            style: _toggleStyle(_selectedBool == false),
-            onPressed: () {
-              setState(() {
-                _selectedBool = _selectedBool != false ? false : null;
-                _handleChange();
-              });
-            }
-          )
-        )
-      ]
-    );
+  void _toggleState(bool state) {
+    setState(() {
+      _selectedBool = _selectedBool != state ? state : null;
+    });
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: Wrap(
+        alignment: WrapAlignment.spaceBetween,
+        children: widget.questionInput.values.entries.map<Widget>((entry) {
+          final state = entry.key == 'true';
+          final theme = Theme.of(context).colorScheme;
+
+          return BoolInputItem(
+            label:  Text(entry.value.name ?? (state ? 'Ja' : 'Nein')),
+            onTap: () {
+              _toggleState(state);
+              _handleChange();
+            },
+            active: _selectedBool == state,
+            color: theme.primary.withOpacity(0),
+            activeColor: theme.primary,
+            labelColor: theme.primary,
+            activeIconColor: theme.onPrimary,
+          );
+        }).toList(),
+        ),
+    );
+  }
 
   void _handleChange() {
     widget.controller?.answer = _selectedBool != null
@@ -76,14 +65,66 @@ class _BoolInputState extends QuestionInputWidgetState {
       )
       : null;
   }
+}
 
+class BoolInputItem extends ImplicitlyAnimatedWidget {
 
-  ButtonStyle? _toggleStyle(bool isSelected) {
-    return isSelected
-      ? OutlinedButton.styleFrom(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          primary: Theme.of(context).colorScheme.onPrimary,
-        )
-      : null;
+  final Widget label;
+  final bool active;
+  final double widthFactor;
+  final VoidCallback onTap;
+  final Color? color, activeColor, labelColor, activeIconColor;
+
+  const BoolInputItem({
+    required this.label,
+    required this.onTap,
+    this.active = false,
+    this.widthFactor = 0.45,
+    this.color = Colors.white,
+    this.activeColor = Colors.green,
+    this.labelColor = Colors.green,
+    this.activeIconColor = Colors.white,
+    Duration duration = const Duration(milliseconds: 300),
+    Curve curve = Curves.ease,
+    Key? key,
+  }) : super(key: key, duration: duration, curve: curve);
+
+  @override
+  AnimatedWidgetBaseState<BoolInputItem> createState() => _BoolInputItemState();
+}
+
+class _BoolInputItemState extends AnimatedWidgetBaseState<BoolInputItem> {
+  ColorTween? _colorTween;
+
+  ColorTween? _iconColorTween;
+
+  @override
+  void forEachTween(TweenVisitor<dynamic> visitor) {
+    _colorTween = visitor(
+        _colorTween,
+        widget.active ? widget.activeColor : widget.color,
+            (value) => ColorTween(begin: value)
+    ) as ColorTween?;
+
+    _iconColorTween = visitor(
+        _iconColorTween,
+        widget.active ? widget.activeIconColor : widget.labelColor,
+            (value) => ColorTween(begin: value)
+    ) as ColorTween?;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FractionallySizedBox(
+      widthFactor: widget.widthFactor,
+      child: OutlinedButton(
+          child: widget.label,
+          style: OutlinedButton.styleFrom(
+            primary: _iconColorTween?.evaluate(animation),
+            backgroundColor: _colorTween?.evaluate(animation),
+          ),
+          onPressed: widget.onTap
+      ),
+    );
   }
 }

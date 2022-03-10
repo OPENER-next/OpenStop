@@ -27,7 +27,6 @@ final ThemeData defaultTheme = ThemeData(
   outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
           primary: CustomColors.green,
-          onSurface: Colors.red,
           backgroundColor: Colors.transparent,
           minimumSize: const Size(double.infinity, 48),
           padding: EdgeInsets.zero,
@@ -46,16 +45,19 @@ final ThemeData defaultTheme = ThemeData(
           borderRadius: BorderRadius.all(Radius.circular(12.0))
       )
   ),
+  shadowColor: Colors.black12,
 );
 
 final ThemeData lightTheme = ThemeData.light().copyWith(
   colorScheme: ThemeData.light().colorScheme.copyWith(
-    primary: CustomColors.green,
-    onPrimary: Colors.white,
-    secondary: CustomColors.lightGreen,
-    onSecondary: CustomColors.darkGreen,
-    surface: Colors.grey[50],
-    onSurface: Colors.grey[200],
+      primary: CustomColors.green,
+      onPrimary: Colors.white,
+      secondary: CustomColors.lightGreen,
+      onSecondary: CustomColors.darkGreen,
+      surface: Colors.grey[50],
+      onSurface: Colors.grey[200],
+      tertiary: Colors.white,
+      onTertiary: Colors.black
   ),
   appBarTheme: AppBarTheme(
       elevation: 2.0,
@@ -69,16 +71,19 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
   elevatedButtonTheme: defaultTheme.elevatedButtonTheme,
   outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
   inputDecorationTheme: defaultTheme.inputDecorationTheme,
+  shadowColor: defaultTheme.shadowColor,
 );
 
 final ThemeData darkTheme = ThemeData.dark().copyWith(
   colorScheme: ThemeData.dark().colorScheme.copyWith(
-    primary: CustomColors.green,
-    onPrimary: Colors.black87,
-    secondary: CustomColors.lightGreen,
-    onSecondary: CustomColors.darkGreen,
-    surface: Colors.grey[850],
-    onSurface: Colors.grey[700]
+      primary: CustomColors.green,
+      onPrimary: Colors.black87,
+      secondary: CustomColors.lightGreen,
+      onSecondary: CustomColors.darkGreen,
+      surface: Colors.grey[850],
+      onSurface: Colors.grey[700],
+      tertiary: Colors.black,
+      onTertiary: Colors.white
   ),
   appBarTheme: AppBarTheme(
       elevation: 2.0,
@@ -92,6 +97,7 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
   elevatedButtonTheme: defaultTheme.elevatedButtonTheme,
   outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
   inputDecorationTheme: defaultTheme.inputDecorationTheme,
+  shadowColor: defaultTheme.shadowColor,
 );
 
 final ThemeData highContrastDarkTheme = ThemeData.dark().copyWith(

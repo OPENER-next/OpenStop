@@ -55,9 +55,9 @@ class QuestionSummary extends StatelessWidget {
               Material(
                 type: MaterialType.transparency,
                 child: Table(
-                  border: const TableBorder(
+                  border: TableBorder(
                     horizontalInside: BorderSide(
-                      color: Colors.black12
+                      color: Theme.of(context).colorScheme.onSurface
                     )
                   ),
                   defaultVerticalAlignment: TableCellVerticalAlignment.middle,

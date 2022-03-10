@@ -124,7 +124,7 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
               children: [
                 Padding(
                   padding:
-                      const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
+                      const EdgeInsets.only(left: 16.0, top: 8.0, right: 8.0, bottom: 8.0),
                   child: Text(
                     widget.item.name ?? 'Unknown label',
                     textAlign: TextAlign.left,

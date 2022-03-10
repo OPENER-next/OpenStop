@@ -33,7 +33,7 @@ class ZoomButton extends StatelessWidget {
           Container(
             height: 1,
             width: Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minWidth,
-            color: Colors.black12,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
           SizedBox(
             height: (Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minHeight ?? 40.0) * 1.25,

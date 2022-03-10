@@ -55,7 +55,6 @@ class _StringInputState extends QuestionInputWidgetState {
         counter: const Offstage(),
         suffixIcon: IconButton(
           onPressed: _handleClear,
-          color: Colors.black87,
           icon: const Icon(Icons.clear_rounded),
         )
       ),

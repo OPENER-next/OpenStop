@@ -87,7 +87,7 @@ class _CreditTextState extends State<CreditText> {
                   ..style = PaintingStyle.stroke
                   ..strokeWidth = 4
                   ..strokeJoin = StrokeJoin.round
-                  ..color = Colors.white,
+                  ..color = Theme.of(context).colorScheme.tertiary,
               ),
               children: creditTextParts
             ),
@@ -96,9 +96,9 @@ class _CreditTextState extends State<CreditText> {
           RichText(
             textAlign: widget.alignment,
             text: TextSpan(
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 10,
-                color: Colors.black,
+                color: Theme.of(context).colorScheme.onTertiary,
               ),
               children: creditTextParts
             ),

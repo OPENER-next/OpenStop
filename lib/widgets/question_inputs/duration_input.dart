@@ -221,10 +221,10 @@ class _TimeScrollerState extends State<TimeScroller> {
         foregroundDecoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.white,
-              Colors.white.withOpacity(0.0),
-              Colors.white.withOpacity(0.0),
-              Colors.white
+              Theme.of(context).colorScheme.surface,
+              Theme.of(context).colorScheme.surface.withOpacity(0.0),
+              Theme.of(context).colorScheme.surface.withOpacity(0.0),
+              Theme.of(context).colorScheme.surface
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -260,7 +260,7 @@ class _TimeScrollerState extends State<TimeScroller> {
       Positioned(
         left: 8,
         child: Container(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.surface,
             padding: const EdgeInsets.symmetric(horizontal: 4.0),
             child: Text(widget.timeUnitLabel,
                 style: Theme.of(context).textTheme.caption)),
