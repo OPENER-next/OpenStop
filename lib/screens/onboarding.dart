@@ -208,47 +208,39 @@ class OnboardingPage extends StatelessWidget {
                 if (buttonText != null)
                   Flexible(
                       flex: 2,
-                      child: OutlinedButton(
-                          onPressed: onButtonTap,
-                          style: ButtonStyle(
-                              shape: MaterialStateProperty.all<OutlinedBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              side: MaterialStateProperty.all<BorderSide>(
-                                  const BorderSide(
-                                      color: Colors.white,
-                                      width: 1,
-                                      style: BorderStyle.solid
-                                  )
-                              ),
-                              padding: MaterialStateProperty.all<EdgeInsets>(
-                                  const EdgeInsets.only(
-                                      left: 14.0,
-                                      right: 8.0
-                                  )
-                              ),
-                              foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                              backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                              overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                              minimumSize: MaterialStateProperty.all<Size>(const Size(150, 36)),
-
-                              elevation: MaterialStateProperty.all<double>(0.0),
-                              textStyle: MaterialStateProperty.all<TextStyle>(
-                                  const TextStyle(
+                      child: Theme(
+                        data: ThemeData(
+                            outlinedButtonTheme: OutlinedButtonThemeData(
+                              style: OutlinedButton.styleFrom(
+                                  backgroundColor: Colors.transparent,
+                                  primary: Colors.white,
+                                  minimumSize: const Size(150, 36),
+                                  elevation: 0.0,
+                                  padding: const EdgeInsets.only(left: 14.0, right: 8.0),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                  ),
+                                  side: const BorderSide(
+                                      style: BorderStyle.solid,
+                                      color: Colors.white
+                                  ),
+                                  textStyle: const TextStyle(
                                       fontWeight: FontWeight.w400
                                   )
                               )
-                          ),
-                          child:Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(buttonText!),
-                              Icon(buttonIcon),
-                            ],
-                          )
+                            )
+                        ),
+                        child: OutlinedButton(
+                            onPressed: onButtonTap,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(buttonText!),
+                                Icon(buttonIcon),
+                              ],
+                            )
+                        ),
                       )
                   )
               ],
