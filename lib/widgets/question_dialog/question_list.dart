@@ -90,10 +90,9 @@ class _QuestionListState extends State<QuestionList> with SingleTickerProviderSt
               decoration: BoxDecoration(
                 // only add shadow to active element
                 boxShadow: !isActive ? null : [
-                  BoxShadow(
-                    color: Theme.of(context).shadowColor,
-                    blurRadius: 2,
-                    offset: const Offset(0, -2)
+                  const BoxShadow(
+                    blurRadius: 8,
+                    offset: Offset(0, 6)
                   )
                 ]
               ),
