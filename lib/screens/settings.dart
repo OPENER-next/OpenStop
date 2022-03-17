@@ -11,9 +11,9 @@ class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
   static const themeModesMap = {
+    ThemeMode.system : 'Systemeinstellung',
     ThemeMode.light : 'Hell',
     ThemeMode.dark : 'Dunkel',
-    ThemeMode.system : 'Systemvorgabe',
   };
 
   static const difficultyMap = {
@@ -48,7 +48,7 @@ class SettingsScreen extends StatelessWidget {
                       return SelectDialog(
                         valueLabelMap: themeModesMap,
                         value: context.select<PreferencesProvider, ThemeMode>((preferences) => preferences.themeMode),
-                        title: const Text('Design'),
+                        title: const Text('Design auswählen'),
                       );
                     }
                   );
@@ -68,7 +68,7 @@ class SettingsScreen extends StatelessWidget {
                       return SelectDialog(
                         valueLabelMap: difficultyMap,
                         value: context.select<PreferencesProvider, DifficultyLevel>((preferences) => preferences.difficulty),
-                        title: const Text('Schwierigkeitsgrad'),
+                        title: const Text('Schwierigkeit auswählen'),
                       );
                     }
                   );
