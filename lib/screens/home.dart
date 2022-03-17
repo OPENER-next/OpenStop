@@ -156,6 +156,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           options: TileLayerOptions(
                             overrideTilesWhenUrlChanges: true,
                             tileProvider: NetworkTileProvider(),
+                            backgroundColor: Colors.transparent,
                             urlTemplate: isDarkMode && tileLayerDescription.darkVariantTemplateUrl != null
                               ? tileLayerDescription.darkVariantTemplateUrl
                               : tileLayerDescription.templateUrl,
