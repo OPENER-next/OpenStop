@@ -32,6 +32,8 @@ class _SelectDialogState<T> extends State<SelectDialog<T>> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      titlePadding: const EdgeInsets.fromLTRB(24, 16, 24, 4),
+      contentPadding: EdgeInsets.zero,
       scrollable: true,
       title: widget.title,
       // Use column instead of ListView. See: https://github.com/flutter/flutter/issues/18108
@@ -41,7 +43,6 @@ class _SelectDialogState<T> extends State<SelectDialog<T>> {
           return RadioListTile<T>(
             groupValue: _selectedValue,
             value: entry.key,
-            contentPadding: EdgeInsets.zero,
             onChanged: (T? value) {
               setState(() {
                 _selectedValue = value;
