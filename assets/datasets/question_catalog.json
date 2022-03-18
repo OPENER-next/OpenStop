@@ -2,7 +2,8 @@
    {
       "id": 1021,
       "name": "Betreiber",
-      "question": "Welches Verkehrsunternehmen betreibt die Verkaufsstelle?",
+      "question": "Welches Verkehrsunternehmen betreibt die Fahrkartenverkaufsstelle?",
+      "description": "Bei Verkaufsstellen handelt es sich um Einrichtungen, die Fahrkarten verkaufen (z.B. offizielle Vertriebsstellen der Verkehrsunternehmen oder des Verbundgebietes). Die Verkaufsstellen sind i.d.R. mit einem Erkennungszeichen (Tafel, Wimpel, Aufkleber, etc.) ausgestattet.",
       "input": {
          "type": "String",
          "values": {
@@ -28,18 +29,13 @@
    {
       "id": 1021,
       "name": "Öffnungszeiten",
-      "question": "Wann ist diese Fahrkartenverkaufsstelle geöffnet?",
+      "question": "Wann hat diese Fahrkartenverkaufsstelle geöffnet?",
       "input": {
          "type": "OpeningHours",
          "values": {
             "single": {
                "osm_tags": {
                   "opening_hours": "%s"
-               }
-            },
-            "false": {
-               "osm_tags": {
-                  "opening_hours": "24/7"
                }
             }
          }
@@ -57,9 +53,9 @@
    },
    {
       "id": 1022,
-      "name": "Für Rollstuhlfahrer zugänglich",
-      "question": "Ist die Verkaufsstelle stufenfrei erreichbar?",
-      "description": "Stufenfrei bedeutet, eine Schwelle ist weniger als 3cm hoch.",
+      "name": "Rollstuhlgerecht",
+      "question": "Ist die Fahrkartenverkaufsstelle rollstuhlgerecht?",
+      "description": "Rollstuhlgerecht bedeutet, die Fahrkartenverkaufsstelle ist stufenfrei erreichbar und die Zugänge haben eine ausreichende Breite (≥90cm).",
       "input": {
          "type": "Bool",
          "values": {
@@ -106,6 +102,7 @@
             "osm_tags": {
                "tourism": "information",
                "information": "office",
+               "information:public_transport": "yes",
                "operator": false
             }
          }
@@ -115,18 +112,13 @@
    {
       "id": 1031,
       "name": "Öffnungszeiten",
-      "question": "Wann ist diese Informationsstelle geöffnet?",
+      "question": "Wann hat diese Informationsstelle geöffnet?",
       "input": {
          "type": "OpeningHours",
          "values": {
             "single": {
                "osm_tags": {
                   "opening_hours": "%s"
-               }
-            },
-            "false": {
-               "osm_tags": {
-                  "opening_hours": "24/7"
                }
             }
          }
@@ -136,6 +128,7 @@
             "osm_tags": {
                "tourism": "information",
                "information": "office",
+               "information:public_transport": "yes",
                "opening_hours": false
             }
          }
@@ -144,9 +137,9 @@
    },
    {
       "id": 1032,
-      "name": "Für Rollstuhlfahrer zugänglich",
-      "question": "Ist die Informationsstelle stufenfrei erreichbar?",
-      "description": "Stufenfrei bedeutet, eine Schwelle ist weniger als 3cm hoch.",
+      "name": "Rollstuhlgerecht",
+      "question": "Ist die Informationsstelle rollstuhlgerecht?",
+      "description": "Rollstuhlgerecht bedeutet, die Informationsstelle ist stufenfrei erreichbar und die Zugänge haben eine ausreichende Breite (≥90cm).",
       "input": {
          "type": "Bool",
          "values": {
@@ -167,33 +160,12 @@
             "osm_tags": {
                "tourism": "information",
                "information": "office",
+               "information:public_transport": "yes",
                "wheelchair": false
             }
          }
       ],
       "difficulty": 0
-   },
-   {
-      "id": 1050,
-      "name": "Parkplatz",
-      "description": "Öffentliche Parkplätze, die von Reisenden in Anspruch genommen werden können und sich in direkter Zuordnung zur Station befinden. Einzelne Parkplätze am Straßenrand fallen nicht unter diese Definition.",
-      "image": [
-         "assets/questions/image/1050.png"
-      ],
-      "question": "Gibt es öffentliche Parkplätze für Reisende?",
-      "input": {
-         "type": "Bool",
-         "values": {
-            "true": {
-               "osm_tags": {
-                  "amenity": "parking",
-                  "access": "yes"
-               }
-            },
-            "false": {}
-         }
-      },
-      "difficulty": 1
    },
    {
       "id": 1051,
@@ -203,7 +175,7 @@
          "type": "List",
          "values": {
             "surface": {
-               "name": "Parkplatz",
+               "name": "Ebenerdiger Parkplatz",
                "image": "assets/questions/image/1051a.jpg",
                "osm_tags": {
                   "parking": "surface"
@@ -238,6 +210,7 @@
                "amenity": "parking",
                "access": [
                   "yes",
+                  "customers",
                   false
                ]
             }
@@ -248,7 +221,7 @@
    {
       "id": 1051,
       "name": "Behindertenparkplätze",
-      "question": "Gibt es hier gesonderte Parkplätze für beeinträchtigte Personen?",
+      "question": "Gibt es gesonderte Parkplätze für behinderte Personen?",
       "input": {
          "type": "Bool",
          "values": {
@@ -270,6 +243,7 @@
                "amenity": "parking",
                "access": [
                   "yes",
+                  "customers",
                   false
                ],
                "capacity:disabled": false
@@ -280,8 +254,9 @@
    },
    {
       "id": 1051,
-      "name": "Behindertenparkplätze",
-      "question": "Wie viele Parkplätze für beeinträchtigte Personen gibt es hier?",
+      "name": "Anzahl an Behindertenparkplätzen",
+      "question": "Wie viele Parkplätze für behinderte Personen gibt es?",
+      "description": "Behindertenparkplätze sind eigene Parkmöglichkeiten für behinderte Personen und weisen i.d.R. geräumigere Stellplatzmaße auf. Behindertenparkplätze sind durch ein Zusatzschild mit dem Piktogramm eines Rollstuhlfahrers gekennzeichnet. Zusätzlich sind meist Bodenmarkierungen angebracht.",
       "input": {
          "type": "Number",
          "values": {
@@ -289,6 +264,7 @@
                "name": "Parkplatzanzahl",
                "decimals": 0,
                "min": 1,
+               "max": 1000,
                "osm_tags": {
                   "capacity:disabled": "%s"
                }
@@ -301,6 +277,7 @@
                "amenity": "parking",
                "access": [
                   "yes",
+                  "customers",
                   false
                ],
                "capacity:disabled": "yes"
@@ -312,18 +289,13 @@
    {
       "id": 1052,
       "name": "Öffnungszeiten",
-      "question": "Wann darf hier geparkt werden?",
+      "question": "Welche Öffnungszeiten hat der Parkplatz?",
       "input": {
          "type": "OpeningHours",
          "values": {
             "single": {
                "osm_tags": {
                   "opening_hours": "%s"
-               }
-            },
-            "false": {
-               "osm_tags": {
-                  "opening_hours": "24/7"
                }
             }
          }
@@ -334,6 +306,7 @@
                "amenity": "parking",
                "access": [
                   "yes",
+                  "customers",
                   false
                ],
                "opening_hours": false
@@ -345,11 +318,11 @@
    {
       "id": 1052,
       "name": "Park+Ride",
-      "description": "Park & Ride-Anlagen sind Parkplätze mit Anbindung zu öffentlichen Verkehrsmitteln, die Personen, die in die Innenstädte fahren, ermöglichen, ihr Fahrzeug zu verlassen und für den Rest der Reise auf öffentliche Verkehrsmittel umzusteigen.",
+      "question": "Ist dies ein Park+Ride-Parkplatz?",
+      "description": "Park+Ride-Anlagen sind Parkplätze mit Anbindung an öffentliche Verkehrsmittel, die es Personen ermöglichen, ihr Fahrzeug zu verlassen und für den Rest der Reise auf öffentliche Verkehrsmittel umzusteigen.",
       "image": [
          "assets/questions/image/1052.png"
       ],
-      "question": "Ist dies ein Park+Ride-Parkplatz?",
       "input": {
          "type": "Bool",
          "values": {
@@ -371,6 +344,7 @@
                "amenity": "parking",
                "access": [
                   "yes",
+                  "customers",
                   false
                ],
                "park_ride": false
@@ -381,15 +355,17 @@
    },
    {
       "id": 1052,
-      "name": "Aufenthaltsdauer",
-      "question": "Wie lange darf hier maximal geparkt werden?",
+      "name": "Parkdauer begrenzt",
+      "question": "Ist die maxmiale Parkdauer begrenzt?",
+      "image": [
+         "assets/questions/image/1052.png"
+      ],
       "input": {
-         "type": "Duration",
+         "type": "Bool",
          "values": {
-            "single": {
-               "unit": "d:1,h:1,m:5",
+            "true": {
                "osm_tags": {
-                  "maxstay": "%s"
+                  "maxstay": "yes"
                }
             },
             "false": {
@@ -405,9 +381,40 @@
                "amenity": "parking",
                "access": [
                   "yes",
+                  "customers",
                   false
                ],
                "maxstay": false
+            }
+         }
+      ],
+      "difficulty": 0
+   },
+   {
+      "id": 1052,
+      "name": "Parkdauer",
+      "question": "Was ist die maximale Parkdauer?",
+      "input": {
+         "type": "Duration",
+         "values": {
+            "single": {
+               "unit": "d:1,h:1,m:5",
+               "osm_tags": {
+                  "maxstay": "%s"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "amenity": "parking",
+               "access": [
+                  "yes",
+                  "customers",
+                  false
+               ],
+               "maxstay": "yes"
             }
          }
       ],
@@ -416,7 +423,7 @@
    {
       "id": 1052,
       "name": "Parkplatzgebühren",
-      "question": "Fallen für das Parken Kosten an?",
+      "question": "Fallen für das Parken Gebühren an?",
       "input": {
          "type": "Bool",
          "values": {
@@ -438,6 +445,7 @@
                "amenity": "parking",
                "access": [
                   "yes",
+                  "customers",
                   false
                ],
                "fee": false
@@ -448,21 +456,28 @@
    },
    {
       "id": 1071,
-      "name": "Rollstuhlfahrer-Toilette",
-      "question": "Gibt es eine Toilette für Rollstuhlfahrer?",
-      "image": [
-         "assets/question/image/1071.png"
-      ],
-      "description": "Gemeint sind Toiletten, die explizit für Rollstuhlfahrer ausgelegt sind.",
+      "name": "Toiletten-Zugänglichkeit",
+      "question": "Für wen sind die Toiletten zugänglich?",
       "input": {
-         "type": "Bool",
+         "type": "List",
          "values": {
-            "true": {
+            "only": {
+               "name": "Ausschließlich für Rollstuhlfahrende",
+               "description": "Die Toiletten sind nur für Rollstuhlfahrende vorgesehen.",
+               "osm_tags": {
+                  "wheelchair": "designated"
+               }
+            },
+            "yes": {
+               "name": "Für Rollstuhlfahrende und andere",
+               "description": "Die Toiletten sind für Rollstuhlfahrende und andere Personen vorgesehen.",
                "osm_tags": {
                   "wheelchair": "yes"
                }
             },
-            "false": {
+            "no": {
+               "name": "Nicht für Rollstuhlfahrende",
+               "description": "Die Toiletten sind nicht rollstuhlgerecht. Rollstuhlfahrernde haben keine Zugangsmöglichkeiten.",
                "osm_tags": {
                   "wheelchair": "no"
                }
@@ -484,18 +499,15 @@
       "difficulty": 0
    },
    {
-      "id": 1072,
-      "name": "Euroschlüssel",
-      "question": "Ist der Zugang nur mit Euroschlüssel möglich?",
-      "image": [
-         "assets/question/image/1072.png"
-      ],
+      "id": 1073,
+      "name": "Toiletten nur mit Schlüssel zugänglich",
+      "question": "Ist für den Zugang zur Toilette ein Schlüssel nötig?",
       "input": {
          "type": "Bool",
          "values": {
             "true": {
                "osm_tags": {
-                  "centralkey": "eurokey"
+                  "centralkey": "yes"
                }
             },
             "false": {
@@ -513,7 +525,10 @@
                   "yes",
                   false
                ],
-               "wheelchair": "yes",
+               "wheelchair": [
+                  "yes",
+                  "designated"
+               ],
                "centralkey": false
             }
          }
@@ -521,21 +536,26 @@
       "difficulty": 1
    },
    {
-      "id": 1074,
-      "name": "Ausleihschlüssel",
-      "question": "Ist der Zugang nur mit Ausleihschlüssel möglich?",
-      "image": [
-         "assets/question/image/1074.png"
-      ],
+      "id": 1073,
+      "name": "Art des Toiletten-Schlüssels",
+      "question": "Welche Art von Schlüssel ist für den Toiletten-Zugang notwendig?",
       "input": {
-         "type": "Bool",
+         "type": "List",
          "values": {
-            "customers": {
+            "eurokey": {
+               "name": "Euroschlüssel",
+               "description": "Ein Schlüssel, den schwerbehinderte Menschen erwerben können, mit dessen Hilfe zahlreiche Toiletten und andere Einrichtungen in vielen europäischen Ländern geöffnet werden können.",
                "osm_tags": {
-                  "access": "customers"
+                  "centralkey": "eurokey"
                }
             },
-            "false": {}
+            "customer": {
+               "name": "Kundenschlüssel",
+               "description": "Ein Schlüssel, der im Einzelhandel zu den Öfnungszeiten ausgeliehen werden kann.",
+               "osm_tags": {
+                  "centralkey": "customer"
+               }
+            }
          }
       },
       "conditions": [
@@ -546,10 +566,37 @@
                   "yes",
                   false
                ],
-               "centralkey": [
-                  "no",
+               "centralkey": "yes"
+            }
+         }
+      ],
+      "difficulty": 1
+   },
+   {
+      "id": 1074,
+      "name": "Schlüssel-Ausleihmöglichkeit",
+      "question": "Wo kann der Toiletten-Schlüssel ausgeliehen werden?",
+      "input": {
+         "type": "String",
+         "values": {
+            "single": {
+               "name": "Beschreibung",
+               "osm_tags": {
+                  "centralkey:description": "%s"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "amenity": "toilets",
+               "access": [
+                  "yes",
                   false
-               ]
+               ],
+               "centralkey": "customer",
+               "centralkey:description": false
             }
          }
       ],
@@ -557,19 +604,14 @@
    },
    {
       "id": 1075,
-      "name": "Öffnungszeiten",
-      "question": "Wann ist die Toilette geöffnet?",
+      "name": "Toiletten-Öffnungszeiten",
+      "question": "Welche Öffnungszeiten hat die Toilette?",
       "input": {
          "type": "OpeningHours",
          "values": {
             "single": {
                "osm_tags": {
                   "opening_hours": "%s"
-               }
-            },
-            "false": {
-               "osm_tags": {
-                  "opening_hours": "24/7"
                }
             }
          }
@@ -590,8 +632,8 @@
    },
    {
       "id": 1075,
-      "name": "Toilettengebühren",
-      "question": "Fallen für die Nutzung Kosten an?",
+      "name": "Toiletten-Gebühren",
+      "question": "Ist die Nutzung der Toilette kostenpflichtig?",
       "input": {
          "type": "Bool",
          "values": {
@@ -623,8 +665,8 @@
    },
    {
       "id": 1120,
-      "name": "Wartegelegenheiten mit Sitzplatz",
-      "question": "Gibt es Wartegelegenheiten mit Sitzplatz?",
+      "name": "Sitzplätze vorhanden",
+      "question": "Gibt es an der Plattform Sitzplätze?",
       "image": [
          "assets/questions/images/1120.png"
       ],
@@ -654,32 +696,64 @@
       "difficulty": 0
    },
    {
+      "id": 1120,
+      "name": "Überdachter Wartebereich",
+      "question": "Gibt es an der Plattform einen überdachten Wartebereich?",
+      "image": [
+         "assets/questions/images/1120.png"
+      ],
+      "input": {
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "shelter": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "shelter": "no"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "shelter": false
+            }
+         }
+      ],
+      "difficulty": 0
+   },
+   {
       "id": 1130,
-      "name": "Fahrplananzeigetafel",
-      "question": "Gibt es eine Fahrplananzeige für die gesamte Haltestelle?",
-      "description": "Fahrplananzeigetafeln geben einen Überblick aktueller Fahrten an der gesamten Station. Echtzeit-Informationen helfen Reisende sich über aktuelle Fahrplanänderungen wie Verspätungen, Ausfälle oder Gleisänderungen zu informieren.",
+      "name": "Fahrplan-Anzeige",
+      "question": "Gibt es eine Fahrplan-Anzeige für die gesamte Station?",
+      "description": "Fahrplan-Anzeigen geben einen Überblick aller Fahrten an der gesamten Station. Dynamische Anzeigen informieren über aktuelle Fahrplanänderungen wie Verspätungen, Ausfälle oder Gleisänderungen. Statische Anzeigen sind gedruckte Fahrpläne.",
       "input": {
          "type": "List",
          "values": {
-           "realtime": {
-              "name": "Echtzeit",
-              "image": "assets/questions/image/1130a.jpg",
-              "osm_tags": {
-                 "departures_board": "realtime"
-              }
-           },
+            "realtime": {
+               "name": "Dynamische Fahrplan-Anzeige",
+               "image": "assets/questions/image/1130a.jpg",
+               "osm_tags": {
+                  "departures_board": "realtime"
+               }
+            },
             "timetable": {
-               "name": "Statisch",
+               "name": "Statische Fahrplan-Anzeige",
                "image": "assets/questions/image/1130b.jpg",
                "osm_tags": {
                   "departures_board": "timetable"
                }
             },
-            "no" : {
-              "name": "Nein",
-              "osm_tags": {
-                 "departures_board": "no"
-              }
+            "no": {
+               "name": "Keine Fahrplan-Anzeige",
+               "osm_tags": {
+                  "departures_board": "no"
+               }
             }
          }
       },
@@ -696,20 +770,23 @@
    },
    {
       "id": 1131,
-      "name": "Akustische Ausgabe",
-      "question": "Hat die Fahrplananzeige eine akustische Ausgabe?",
-      "description": "Einige Anzeigetafeln sind an eine akustische Ausgabe der Informationen gekoppelt, so kann z. B. zusätzlich eine Ansage angefordert werden.",
+      "name": "Akustische Ausgabe der Fahrplan-Anzeige",
+      "question": "Hat die Fahrplan-Anzeige für die gesamte Station eine akustische Ausgabe?",
+      "description": "Einige Fahrplan-Anzeigen bieten die Möglichkeit bei Bedarf akustisch Informationen auszugeben.",
+      "image": [
+         "assets/questions/images/1131.png"
+      ],
       "input": {
          "type": "Bool",
          "values": {
             "true": {
                "osm_tags": {
-                  "speech_output": "yes"
+                  "departures_board:speech_output": "yes"
                }
             },
             "false": {
                "osm_tags": {
-                  "speech_output": "no"
+                  "departures_board:speech_output": "no"
                }
             }
          }
@@ -721,7 +798,8 @@
                   "station",
                   "stop_area"
                ],
-               "departures_board": "realtime"
+               "departures_board": "realtime",
+               "departures_board:speech_output": false
             }
          }
       ],
@@ -729,9 +807,9 @@
    },
    {
       "id": 1140,
-      "name": "Fahrtzielanzeiger",
-      "question": "Gibt es einen Fahrtzielanzeiger an der Plattform?",
-      "description": "Fahrtzielanzeiger sind spezielle Anzeigen, die Informationen über das Ziel einfahrender oder abfahrender Züge/Busse an EINEM Gleis, Bus-/Bahnsteig anzeigen.",
+      "name": "Dynamischer Fahrtziel-Anzeiger",
+      "question": "Gibt es einen dynamischen Fahrtziel-Anzeiger an der Plattform?",
+      "description": "Dynamische Fahrtziel-Anzeiger zeigen Echtzeit-Informationen über das Ziel ein- bzw. abfahrender Züge/Busse an einem Bahn-/Bussteig an.",
       "image": [
          "assets/questions/images/1140.png"
       ],
@@ -762,20 +840,23 @@
    },
    {
       "id": 1141,
-      "name": "Akustische Ausgabe",
-      "question": "Hat der Fahrtzielanzeiger eine akustische Ausgabe?",
-      "description": "Einige Anzeigetafeln sind an eine akustische Ausgabe der Informationen gekoppelt, so kann z. B. zusätzlich eine Ansage angefordert werden.",
+      "name": "Akustische Ausgabe des Fahrtziel-Anzeigers",
+      "question": "Hat der dynamische Fahrtziel-Anzeiger an der Plattform eine akustische Ausgabe?",
+      "description": "Einige Fahrtziel-Anzeiger können bei Bedarf auf Knopfdruck die angezeigten Informationen akustisch ausgeben.",
+      "image": [
+         "assets/questions/images/1141.png"
+      ],
       "input": {
          "type": "Bool",
          "values": {
             "true": {
                "osm_tags": {
-                  "speech_output": "yes"
+                  "passenger_information_display:speech_output": "yes"
                }
             },
             "false": {
                "osm_tags": {
-                  "speech_output": "no"
+                  "passenger_information_display:speech_output": "no"
                }
             }
          }
@@ -783,7 +864,8 @@
       "conditions": [
          {
             "osm_tags": {
-               "passenger_information_display": "yes"
+               "passenger_information_display": "yes",
+               "passenger_information_display:speech_output": false
             }
          }
       ],
@@ -821,8 +903,8 @@
    },
    {
       "id": 1150,
-      "name": "Ansagentyp",
-      "question": "Von welcher Art sind die Ansagen?",
+      "name": "Ansagetyp",
+      "question": "Von welcher Art sind die Ansagen an der Plattform?",
       "description": "Unter Ansagen werden die akustischen Fahrgastinformationen an der Haltestelle verstanden.",
       "input": {
          "type": "List",
@@ -836,13 +918,14 @@
             },
             "manual": {
                "name": "Manuell",
-               "description": "Manuelle Ansagen erfolgen direkt und individuell zum relevanten Zeitpunkt. Sie werden von einem Mitarbeiter gesprochen. Neben der Ankündigung der nächsten Verbindung können diese insbesondere zur Durchsage von Verspätungen, Ausfällen oder Gleiswechseln genutzt werden.",
+               "description": "Manuelle Ansagen erfolgen direkt und individuell zum relevanten Zeitpunkt. Sie werden von einem Mitarbeiter gesprochen. Neben der Ankündigung der nächsten Verbindung können diese insbesondere zur Durchsage von Verspätungen, Ausfällen oder Gleiswechseln genutzt werden.",
                "osm_tags": {
                   "announcement": "manual"
                }
             },
             "mixed": {
                "name": "Automatisiert und manuell",
+               "description": "Ansagen erfolgen sowohl mit vorab aufgenommenen und automatisch abgespielten Aufnahmen als auch direkt und individuell durch Mitarbeiter.",
                "osm_tags": {
                   "announcement": "mixed"
                }
@@ -852,6 +935,7 @@
       "conditions": [
          {
             "osm_tags": {
+               "public_transport": "platform",
                "announcement": "yes"
             }
          }
@@ -860,8 +944,8 @@
    },
    {
       "id": 1170,
-      "name": "Bordstein-/Bussteig-/Bahnsteigart",
-      "question": "Hat die Plattform an der Seite, an der das Verkehrsmittel hält einen Bordstein?",
+      "name": "Plattform-Bordstein",
+      "question": "Hat die Plattform an der Fahrbahnseite einen Bordstein?",
       "input": {
          "type": "Bool",
          "values": {
@@ -893,25 +977,28 @@
    },
    {
       "id": 1170,
-      "name": "Bordstein-/Bussteig-/Bahnsteigart",
+      "name": "Bordsteinart",
       "question": "Welche Art von Bordstein hat die Plattform an der Seite, an der das Verkehrsmittel hält?",
       "input": {
          "type": "List",
          "values": {
             "raised": {
                "name": "Erhöht (>3cm)",
+               "image": "assets/questions/images/1170a.png",
                "osm_tags": {
                   "kerb": "raised"
                }
             },
             "lowered": {
                "name": "Abgesenkt (<3cm)",
+               "image": "assets/questions/images/1170b.png",
                "osm_tags": {
                   "kerb": "lowered"
                }
             },
             "flush": {
                "name": "Ebenerdig (≈0cm)",
+               "image": "assets/questions/images/1170c.png",
                "osm_tags": {
                   "kerb": "flush"
                }
@@ -934,14 +1021,14 @@
    },
    {
       "id": 1170,
-      "name": "Bordstein-/Bussteig-/Bahnsteighöhe",
+      "name": "Plattform-Höhe",
       "question": "Wie groß ist der Höhenunterschied zwischen Plattform und Straße bzw. Schienenoberkante?",
-      "description": "Wenn diese Höhe innerhalb eines Steiges variiert, ist der typische Wert für die übliche Einstiegsstelle von Rollstuhlfahrern zu bestimmen.",
+      "description": "Wenn diese Höhe innerhalb eines Steiges variiert, ist der typische Wert für die übliche Einstiegsstelle von Rollstuhlfahrenden zu bestimmen.",
       "input": {
          "type": "Number",
          "values": {
             "single": {
-               "name": "Plattform Höhe",
+               "name": "Plattform-Höhe",
                "decimals": 0,
                "unit": "Centimeter",
                "osm_tags": {
@@ -954,13 +1041,6 @@
          {
             "osm_tags": {
                "public_transport": "platform",
-               "kerb": [
-                  false,
-                  "yes",
-                  "raised",
-                  "lowered",
-                  "rolled"
-               ],
                "height": false
             },
             "osm_element": [
@@ -969,22 +1049,22 @@
             ]
          }
       ],
-      "difficulty": 1
+      "difficulty": 2
    },
    {
       "id": 1180,
-      "name": "Breite des Bahn-/Bussteigs",
+      "name": "Plattform-Breite",
       "question": "Wie breit ist die Plattform?",
-      "description": "Die Breite einer Plattform ist die Abmessung quer zur Fahrtrichtung. Als Breite einer Plattform gilt die jeweils lichte Breite, welche über einen Großteil der Plattform feststellbar ist.",
+      "description": "Die Breite einer Plattform ist die Abmessung quer zur Fahrtrichtung. Als Breite einer Plattform ist die Breite anzugeben, die den Großteil der Plattform umfasst.",
       "input": {
          "type": "Number",
          "values": {
             "single": {
-               "name": "Plattform Breite",
+               "name": "Plattform-Breite",
                "decimals": 2,
                "unit": "Meter",
                "osm_tags": {
-                  "width": "%s"
+                  "width": "%s m"
                }
             }
          }
@@ -1002,19 +1082,22 @@
    {
       "id": 1200,
       "name": "Spurführung",
-      "question": "Ist eine Spürführung für Busse vorhanden?",
-      "description": "Bordsteine, bei denen es sich um sogenannte Hochborde oder spezielle Formsteine handelt, die Bussen eine Spurführung und somit ein dichtes Heranfahren an die Bordsteinkante ermöglichen.",
+      "question": "Hat der Bordstein eine Spürführung für Busse?",
+      "description": "Bordsteine mit Spurführung sind speziell geformt, um Bussen ein dichtes Heranfahren an die Bordsteinkante zu ermöglichen.",
+      "image": [
+         "assets/questions/images/1201a.png",
+         "assets/questions/images/1201b.png",
+         "assets/questions/images/1201c.png"
+      ],
       "input": {
          "type": "Bool",
          "values": {
             "true": {
-               "image": "assets/questions/images/1200a.png",
                "osm_tags": {
                   "kerb:approach_aid": "yes"
                }
             },
             "false": {
-               "image": "assets/questions/images/1200b.png",
                "osm_tags": {
                   "kerb:approach_aid": "no"
                }
@@ -1037,25 +1120,33 @@
    },
    {
       "id": 1201,
-      "name": "Hochbord-Art",
-      "question": "Welche Hochbord-Art wurde verbaut?",
-      "description": "Bordsteine, bei denen es sich um sogenannte Hochborde oder spezielle Formsteine handelt, die Bussen eine Spurführung und somit ein dichtes Heranfahren an die Bordsteinkante ermöglichen.",
+      "name": "Spurführungs-Art",
+      "question": "Welche Art von Spurführung hat der Bordstein?",
+      "description": "Bordsteine mit Spurführung sind speziell geformt, um Bussen ein dichtes Heranfahren an die Bordsteinkante zu ermöglichen.",
       "input": {
          "type": "List",
          "values": {
-            "double": {
-               "name": "Hochbord mit Spurführung und doppelter Hohlkehle",
+            "kassel": {
+               "name": "Kasseler Sonderbord",
                "image": "assets/questions/images/1201a.png",
                "osm_tags": {
-                  "kerb:type": "Sonderbord Plus"
+                  "kerb:approach_aid": "Kassel Sonderbord"
+               }
+            },
+            "double": {
+               "name": "Kasseler Sonderbord Plus",
+               "description": "Hochbord mit doppelter Hohlkehle",
+               "image": "assets/questions/images/1201b.png",
+               "osm_tags": {
+                  "kerb:approach_aid": "Kassel Sonderbord Plus"
                }
             },
             "combi": {
-               "name": "Kombibord mit Spurführung",
-               "description": "Hochbord mit Spurführung für kombinierte Bus- und Straßenbahnhaltestellen",
-               "image": "assets/questions/images/1201b.png",
+               "name": "Dresdner Combibord",
+               "description": "Hochbord für kombinierte Bus- und Straßenbahnhaltestellen",
+               "image": "assets/questions/images/1201c.png",
                "osm_tags": {
-                  "kerb:type": "Combibord"
+                  "kerb:approach_aid": "Dresden Combibord"
                }
             }
          }
@@ -1072,12 +1163,12 @@
    },
    {
       "id": 1210,
-      "name": "Rampe",
-      "question": "Gibt es eine bewegliche Rampe für Rollstuhlfahrer?",
+      "name": "Bewegbare Rampe",
+      "question": "Gibt es eine bewegbare Rollstuhl-Rampe?",
+      "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
       "image": [
          "assets/questions/images/1210.png"
       ],
-      "description": "Bahnsteiggebundene Rampen dienen als Einstiegshilfen. Sie sind bewegbar und dienen beim Ein- und Ausstieg von Rollstuhlfahrern zur Überwindung des Spalts und der Stufe.",
       "input": {
          "type": "Bool",
          "values": {
@@ -1105,9 +1196,12 @@
    },
    {
       "id": 1211,
-      "name": "Rampenlänge",
-      "question": "Wie lang ist die bewegbare Rampe?",
-      "description": "Bahnsteiggebundene Rampen dienen als Einstiegshilfen. Sie sind bewegbar und dienen beim Ein- und Ausstieg von Rollstuhlfahrern zur Überwindung des Spalts und der Stufe.",
+      "name": "Länge der bewegbaren Rampe",
+      "question": "Wie lang ist die bewegbare Rollstuhl-Rampe?",
+      "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
+      "image": [
+         "assets/questions/images/1210.png"
+      ],
       "input": {
          "type": "Number",
          "values": {
@@ -1116,7 +1210,7 @@
                "decimals": 2,
                "unit": "Meter",
                "osm_tags": {
-                  "wheelchair:portable_ramp:length": "%s"
+                  "wheelchair:portable_ramp:length": "%s m"
                }
             }
          }
@@ -1125,7 +1219,8 @@
          {
             "osm_tags": {
                "public_transport": "platform",
-               "wheelchair:portable_ramp": "yes"
+               "wheelchair:portable_ramp": "yes",
+               "wheelchair:portable_ramp:length": false
             }
          }
       ],
@@ -1133,9 +1228,12 @@
    },
    {
       "id": 1212,
-      "name": "Rampentragfähigkeit",
-      "question": "Welches zulässige Maximalgewicht hat die bewegbare Rampe?",
-      "description": "Bahnsteiggebundene Rampen dienen als Einstiegshilfen. Sie sind bewegbar und dienen beim Ein- und Ausstieg von Rollstuhlfahrern zur Überwindung des Spalts und der Stufe.",
+      "name": "Tragfähigkeit der bewegbaren Rampe",
+      "question": "Was ist die maximale Tragfähigkeit der bewegbaren Rampe?",
+      "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
+      "image": [
+         "assets/questions/images/1210.png"
+      ],
       "input": {
          "type": "Number",
          "values": {
@@ -1153,7 +1251,8 @@
          {
             "osm_tags": {
                "public_transport": "platform",
-               "wheelchair:portable_ramp": "yes"
+               "wheelchair:portable_ramp": "yes",
+               "wheelchair:portable_ramp:maxweight": false
             }
          }
       ],
@@ -1161,12 +1260,12 @@
    },
    {
       "id": 1220,
-      "name": "Hublift",
-      "question": "Gibt es einen beweglichen Hublift für Rollstuhlfahrer?",
+      "name": "Bewegbarer Hublift",
+      "question": "Gibt es einen bewegbaren Hublift für Rollstuhlfahrende?",
+      "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
       "image": [
-         "assets/questions/images/1210.png"
+         "assets/questions/images/1220.png"
       ],
-      "description": "Bahnsteiggebundene Hublifte dienen als Einstiegshilfen. Sie sind bewegbar und dienen beim Ein- und Ausstieg von Rollstuhlfahrern zur Überwindung des Spalts und der Stufe.",
       "input": {
          "type": "Bool",
          "values": {
@@ -1194,9 +1293,12 @@
    },
    {
       "id": 1221,
-      "name": "Stellflächenlänge",
-      "question": "Wie lang ist der Hublift?",
-      "description": "Bahnsteiggebundene Hublifte dienen als Einstiegshilfen. Sie sind bewegbar und dienen beim Ein- und Ausstieg von Rollstuhlfahrern zur Überwindung des Spalts und der Stufe.",
+      "name": "Stellflächenlänge des bewegbaren Hublifts",
+      "question": "Wie lang ist die Stellfläche des bewegbaren Hublifts?",
+      "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
+      "image": [
+         "assets/questions/images/1220.png"
+      ],
       "input": {
          "type": "Number",
          "values": {
@@ -1214,7 +1316,8 @@
          {
             "osm_tags": {
                "public_transport": "platform",
-               "wheelchair:portable_lift": "yes"
+               "wheelchair:portable_lift": "yes",
+               "wheelchair:portable_lift:length": false
             }
          }
       ],
@@ -1222,9 +1325,9 @@
    },
    {
       "id": 1222,
-      "name": "Hublifttragfähigkeit",
-      "question": "Welches zulässige Maximalgewicht hat der Hublift?",
-      "description": "Bahnsteiggebundene Hublift dienen als Einstiegshilfen. Sie sind bewegbar und dienen beim Ein- und Ausstieg von Rollstuhlfahrern zur Überwindung des Spalts und der Stufe.",
+      "name": "Tragfähigkeit des bewegbaren Hublifts",
+      "question": "Was ist die maximale Tragfähigkeit der bewegbaren Hublifts?",
+      "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
       "input": {
          "type": "Number",
          "values": {
@@ -1242,7 +1345,8 @@
          {
             "osm_tags": {
                "public_transport": "platform",
-               "wheelchair:portable_lift": "yes"
+               "wheelchair:portable_lift": "yes",
+               "wheelchair:portable_lift:maxweight": false
             }
          }
       ],
