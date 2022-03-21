@@ -175,14 +175,16 @@ class _MapLayerSwitcherState<T> extends State<MapLayerSwitcher<T>> with SingleTi
             child: Container(
               margin: const EdgeInsets.only(left: 10),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: isActive ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
                 borderRadius: BorderRadius.circular(3),
                 boxShadow: kElevationToShadow[4]
               ),
               padding: const EdgeInsets.all(5),
               child: Text(
                 entry.label,
-                style: Theme.of(context).textTheme.bodyText2
+                style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                  color: isActive ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSecondary
+                )
               )
             )
           )

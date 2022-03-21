@@ -50,7 +50,6 @@ class _NumberInputState extends QuestionInputWidgetState {
             ),
             IconButton(
               onPressed: _handleClear,
-              color: Colors.black87,
               icon: const Icon(Icons.clear_rounded),
             )
           ]

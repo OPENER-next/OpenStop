@@ -56,7 +56,7 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
     super.didChangeDependencies();
 
     _fillColorAnimation = ColorTween(
-      begin: Theme.of(context).colorScheme.secondary,
+      begin: Theme.of(context).colorScheme.primary.withOpacity(0),
       end: Theme.of(context).colorScheme.primary
     ).animate(
       CurvedAnimation(
@@ -67,7 +67,7 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
     );
 
     _iconColorAnimation = ColorTween(
-      begin: Theme.of(context).colorScheme.onSecondary,
+      begin: Theme.of(context).colorScheme.primary,
       end: Theme.of(context).colorScheme.onPrimary
     ).animate(
       CurvedAnimation(
@@ -117,11 +117,14 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                   animation: _fillColorAnimation,
                   builder: (context, child) {
                     return Container(
-                      margin: const EdgeInsets.only(left: 5),
+                      margin: const EdgeInsets.only(left: 10),
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: _fillColorAnimation.value!,
-                        shape: BoxShape.circle
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Theme.of(context).colorScheme.primary,
+                        )
                       ),
                       child: Text(
                         'i',

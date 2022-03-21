@@ -23,7 +23,7 @@ class QuestionSummary extends StatelessWidget {
 
 
     return ColoredBox(
-      color: Colors.white,
+      color: Theme.of(context).colorScheme.background,
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
           vertical: 25,
@@ -55,9 +55,9 @@ class QuestionSummary extends StatelessWidget {
               Material(
                 type: MaterialType.transparency,
                 child: Table(
-                  border: const TableBorder(
+                  border: TableBorder(
                     horizontalInside: BorderSide(
-                      color: Colors.black12
+                      color: Theme.of(context).colorScheme.onBackground
                     )
                   ),
                   defaultVerticalAlignment: TableCellVerticalAlignment.middle,

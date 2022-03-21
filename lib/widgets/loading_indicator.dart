@@ -21,7 +21,7 @@ class LoadingIndicator extends StatelessWidget {
       child: !active ? null : Material(
         type: MaterialType.circle,
         elevation: Theme.of(context).floatingActionButtonTheme.elevation ?? 8.0,
-        color: Theme.of(context).floatingActionButtonTheme.backgroundColor,
+        color: Theme.of(context).colorScheme.secondary,
         // enforce no box constraints
         // see: https://flutter.dev/docs/development/ui/layout/constraints
         child: UnconstrainedBox(
