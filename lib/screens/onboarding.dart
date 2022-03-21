@@ -86,48 +86,71 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       ),
     ];
 
-    return Scaffold(
-        body: AnimatedBuilder(
-          animation: _controller,
-          builder: (context, child) {
-            final color = _controller.hasClients && pages.length > 1 ? _controller.page! / (pages.length - 1) : 0.0;
+    return Theme(
+      data: ThemeData(
+          outlinedButtonTheme: OutlinedButtonThemeData(
+              style: OutlinedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  primary: Colors.white,
+                  minimumSize: const Size(150, 36),
+                  elevation: 0.0,
+                  padding: const EdgeInsets.only(left: 14.0, right: 8.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  side: const BorderSide(
+                      style: BorderStyle.solid,
+                      color: Colors.white
+                  ),
+                  textStyle: const TextStyle(
+                      fontWeight: FontWeight.w400
+                  )
+              )
+          )
+      ),
+      child: Scaffold(
+          body: AnimatedBuilder(
+            animation: _controller,
+            builder: (context, child) {
+              final color = _controller.hasClients && pages.length > 1 ? _controller.page! / (pages.length - 1) : 0.0;
 
-            return ColoredBox(
-              color: _background.evaluate(AlwaysStoppedAnimation(color))!,
-              child: child,
-            );
-          },
-          child: Column(
-              children: [
-                Expanded(
-                  child: PageView(
-                    scrollBehavior: const ScrollBehavior().copyWith(overscroll: false),
-                    scrollDirection: Axis.horizontal,
-                    controller: _controller,
-                    children: pages
+              return ColoredBox(
+                color: _background.evaluate(AlwaysStoppedAnimation(color))!,
+                child: child,
+              );
+            },
+            child: Column(
+                children: [
+                  Expanded(
+                    child: PageView(
+                      scrollBehavior: const ScrollBehavior().copyWith(overscroll: false),
+                      scrollDirection: Axis.horizontal,
+                      controller: _controller,
+                      children: pages
+                    ),
                   ),
-                ),
-                Container(
-                  height: 70,
-                  margin: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).padding.bottom
+                  Container(
+                    height: 70,
+                    margin: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).padding.bottom
+                    ),
+                    child: DotsIndicator(
+                      controller: _controller,
+                      itemCount: pages.length,
+                      color: Colors.white,
+                      onPageSelected: (int page) {
+                        _controller.animateToPage(
+                          page,
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.ease,
+                        );
+                      },
+                    ),
                   ),
-                  child: DotsIndicator(
-                    controller: _controller,
-                    itemCount: pages.length,
-                    color: Colors.white,
-                    onPageSelected: (int page) {
-                      _controller.animateToPage(
-                        page,
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.ease,
-                      );
-                    },
-                  ),
-                ),
-              ]
-          ),
-        )
+                ]
+            ),
+          )
+      ),
     );
   }
 }
@@ -208,39 +231,16 @@ class OnboardingPage extends StatelessWidget {
                 if (buttonText != null)
                   Flexible(
                       flex: 2,
-                      child: Theme(
-                        data: ThemeData(
-                            outlinedButtonTheme: OutlinedButtonThemeData(
-                              style: OutlinedButton.styleFrom(
-                                  backgroundColor: Colors.transparent,
-                                  primary: Colors.white,
-                                  minimumSize: const Size(150, 36),
-                                  elevation: 0.0,
-                                  padding: const EdgeInsets.only(left: 14.0, right: 8.0),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                  side: const BorderSide(
-                                      style: BorderStyle.solid,
-                                      color: Colors.white
-                                  ),
-                                  textStyle: const TextStyle(
-                                      fontWeight: FontWeight.w400
-                                  )
-                              )
-                            )
-                        ),
-                        child: OutlinedButton(
-                            onPressed: onButtonTap,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(buttonText!),
-                                Icon(buttonIcon),
-                              ],
-                            )
-                        ),
+                      child: OutlinedButton(
+                          onPressed: onButtonTap,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(buttonText!),
+                              Icon(buttonIcon),
+                            ],
+                          )
                       )
                   )
               ],
