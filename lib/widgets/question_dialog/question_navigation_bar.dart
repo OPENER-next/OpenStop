@@ -18,7 +18,7 @@ class QuestionNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Theme.of(context).colorScheme.surface,
+      color: Theme.of(context).colorScheme.background,
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).padding.bottom
       ),

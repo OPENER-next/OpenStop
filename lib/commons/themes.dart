@@ -1,25 +1,38 @@
 import 'package:flutter/material.dart';
 
-class CustomColors {
-  static const Color darkGreen = Color(0xff407336);
-  static const Color green = Color(0xff6cc15a);
-}
-
 class Default {
-  static const Color primary = CustomColors.green;
+  static const Color primary = Color(0xff6cc15a);
   static Color onPrimaryLight = Colors.grey.shade100;
   static const Color onPrimaryDark = Color(0xFF002020);
 
-  static const Color secondary = CustomColors.darkGreen;
+  // Background FloatingActionButton / Overscroll Color
+  static Color secondaryLight = Colors.grey.shade100;
+  static const Color secondaryDark = Color(0xFF002020);
 
-  static Color surfaceLight = Colors.grey.shade100;
+  // Foreground FloatingActionButton
+  static Color onSecondaryLight = Colors.grey.shade900;
+  static Color onSecondaryDark = Colors.grey.shade50;
+
+  // Background Header Scaffold (darkTheme only, primary in lightTheme)
+  static Color surfaceLight = Colors.grey;
+  static const Color surfaceDark = Color(0xFF005050);
+
+  // Foreground Scaffold Header
   static Color onSurfaceLight = Colors.grey.shade300;
-  static const Color surfaceDark = Color(0xFF002020);
-  static const Color onSurfaceDark = Color(0xFF004C4C);
+  static Color onSurfaceDark = Colors.grey.shade300;
+
+  // Background QuestionDialog, Scaffold Body, Drawer
+  static const Color backgroundDark = Color(0xFF002020);
+  static Color backgroundLight = Colors.grey.shade100;
+
+  // Foreground QuestionDialog (Border, Lines)
+  static const Color onBackgroundDark = Color(0xFF003144);
+  static Color onBackgroundLight = Colors.grey.shade300;
+
+  static const shadow = Colors.black26;
 
   static const double borderRadius = 12.0;
-  static const double padding = 16.0;
-  static const double elevation = 2.0;
+  static const double padding = 12.0;
 }
 
 // Default theme for all common theme settings
@@ -35,9 +48,11 @@ final ThemeData defaultTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-          primary: Default.primary,
           minimumSize: const Size.square(48),
           padding: const EdgeInsets.all(Default.padding),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(Default.borderRadius),
+          ),
           textStyle:const TextStyle(fontSize: 24)
       )
   ),
@@ -78,62 +93,60 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
   colorScheme: ThemeData.light().colorScheme.copyWith(
       primary: Default.primary,
       onPrimary: Default.onPrimaryLight,
-      secondary: Default.secondary,
+      secondary: Default.secondaryLight,
+      onSecondary: Default.onSecondaryLight,
       surface: Default.surfaceLight,
       onSurface: Default.onSurfaceLight,
+      background: Default.backgroundLight,
+      onBackground: Default.onBackgroundLight,
       tertiary: Colors.white,
-      onTertiary: Colors.black
+      onTertiary: Colors.black,
+      shadow: Default.shadow,
   ),
-  appBarTheme: AppBarTheme(
-      elevation: Default.elevation,
-      backgroundColor: Colors.grey[200],
-      foregroundColor: Colors.black87
-  ),
-  floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme.copyWith(
-    foregroundColor: Colors.grey[900],
-    backgroundColor: Default.surfaceLight,
-  ),
+  floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
   elevatedButtonTheme: defaultTheme.elevatedButtonTheme,
   outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
   inputDecorationTheme: defaultTheme.inputDecorationTheme.copyWith(
       enabledBorder: defaultTheme.inputDecorationTheme.enabledBorder!.copyWith(
           borderSide: defaultTheme.inputDecorationTheme.enabledBorder!.borderSide.copyWith(
-              color: Default.onSurfaceLight
+              color: Default.onBackgroundLight
           )
       )
   ),
   toggleableActiveColor: defaultTheme.toggleableActiveColor,
+    cardColor: Default.backgroundLight,
+    scaffoldBackgroundColor: Default.backgroundLight,
+    canvasColor: Default.backgroundLight
 );
 
 final ThemeData darkTheme = ThemeData.dark().copyWith(
   colorScheme: ThemeData.dark().colorScheme.copyWith(
       primary: Default.primary,
       onPrimary: Default.onPrimaryDark,
-      secondary: Default.secondary,
+      secondary: Default.secondaryDark,
+      onSecondary: Default.onSecondaryDark,
       surface: Default.surfaceDark,
       onSurface: Default.onSurfaceDark,
+      background: Default.backgroundDark,
+      onBackground: Default.onBackgroundDark,
       tertiary: Colors.black,
-      onTertiary: Colors.white
+      onTertiary: Colors.white,
+      shadow: Default.shadow,
   ),
-  appBarTheme: AppBarTheme(
-      elevation: Default.elevation,
-      backgroundColor: Colors.grey[900],
-      foregroundColor: Colors.white
-  ),
-  floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme.copyWith(
-    foregroundColor: Colors.grey[50],
-    backgroundColor: Default.surfaceDark,
-  ),
+  floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
   elevatedButtonTheme: defaultTheme.elevatedButtonTheme,
   outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
   inputDecorationTheme: defaultTheme.inputDecorationTheme.copyWith(
       enabledBorder: defaultTheme.inputDecorationTheme.enabledBorder!.copyWith(
           borderSide: defaultTheme.inputDecorationTheme.enabledBorder!.borderSide.copyWith(
-              color: Default.onSurfaceDark
+              color: Default.onBackgroundDark
           )
       )
   ),
   toggleableActiveColor: defaultTheme.toggleableActiveColor,
+  cardColor: Default.backgroundDark,
+  scaffoldBackgroundColor: Default.backgroundDark,
+  canvasColor: Default.backgroundDark
 );
 
 final ThemeData highContrastDarkTheme = ThemeData.dark().copyWith(
