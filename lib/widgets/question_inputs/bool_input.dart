@@ -18,6 +18,8 @@ class BoolInput extends QuestionInputWidget {
 class _BoolInputState extends QuestionInputWidgetState {
   bool? _selectedBool;
 
+  late final ColorScheme theme = Theme.of(context).colorScheme;
+
   @override
   void initState() {
     super.initState();
@@ -38,7 +40,6 @@ class _BoolInputState extends QuestionInputWidgetState {
         alignment: WrapAlignment.spaceBetween,
         children: widget.questionInput.values.entries.map<Widget>((entry) {
           final state = entry.key == 'true';
-          final theme = Theme.of(context).colorScheme;
 
           return BoolInputItem(
             label:  Text(entry.value.name ?? (state ? 'Ja' : 'Nein')),
