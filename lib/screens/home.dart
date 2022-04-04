@@ -287,7 +287,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final osmElement = geometricOSMElement.osmElement;
 
     // show questions if a new marker is selected, else hide the current one
-    if (questionnaire.workingElement == null || !questionnaire.workingElement!.isSameElement(osmElement)) {
+    if (questionnaire.workingElement == null || !questionnaire.workingElement!.isProxiedElement(osmElement)) {
       final questionCatalog = context.read<QuestionCatalog>();
       questionnaire.create(osmElement, questionCatalog);
     }

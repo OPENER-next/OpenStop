@@ -147,13 +147,10 @@ class Questionnaire {
   /// Optionally specify a custom list of entries from which the working element is constructed.
 
   ProxyOSMElement _createWorkingElement(Iterable<QuestionnaireEntry> entries) {
-    final List<Map<String, String>> changes = [];
-
-    for (final entry in entries) {
-      if (entry.answer != null) {
-        changes.add(entry.answer!.toTagMap());
-      }
-    }
+    final changes = entries
+      .where((entry) => entry.answer != null)
+      .map((entry) => entry.answer!.toTagMap())
+      .toList();
 
     return ProxyOSMElement(
       _osmElement,

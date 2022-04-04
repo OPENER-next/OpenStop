@@ -19,7 +19,7 @@ class OSMUserAPI {
   OAuth2 get authentication => _osmApi.authentication as OAuth2;
 
 
-  set authentication(OAuth2 value) => _osmApi.authentication;
+  set authentication(OAuth2 value) => _osmApi.authentication = value;
 
 
   /// Method to get all user details of the currently authenticated user.
