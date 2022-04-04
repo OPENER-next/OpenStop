@@ -31,16 +31,18 @@ class QuestionCatalog extends ListBase<Question> {
 
 
   factory QuestionCatalog.fromJson(List<Map<String, dynamic>> json) {
-    final questionList = json.map<Question>(
-      (jsonQuestion) => Question.fromJSON(jsonQuestion)
-    ).toList();
+    final questionList = List<Question>.unmodifiable(
+      json.map<Question>((jsonQuestion) => Question.fromJSON(jsonQuestion))
+    );
     return QuestionCatalog(questionList);
   }
 
 
   QuestionCatalog filterBy({ DifficultyLevel difficulty = DifficultyLevel.hard }) {
-    return QuestionCatalog(where(
-      (question) => question.difficulty.isSubLevelOf(difficulty)
-    ).toList());
+    return QuestionCatalog(
+      List<Question>.unmodifiable(
+        where((question) => question.difficulty.isSubLevelOf(difficulty))
+      )
+    );
   }
 }

@@ -28,13 +28,14 @@ class MapFeatureCollection extends ListBase<MapFeature> {
   }
 
   factory MapFeatureCollection.fromJson(List<Map<String, dynamic>> json) {
-    final elementList = json.map<MapFeature>(
-            (jsonOSMObject) => MapFeature.fromJSON(jsonOSMObject)
-    ).toList();
+    final elementList = List<MapFeature>.unmodifiable(
+      json.map<MapFeature>((jsonOSMObject) => MapFeature.fromJSON(jsonOSMObject))
+    );
     return MapFeatureCollection(elementList);
   }
 
-  /// Compare the elements of this Map Feature Collection with given OSM element and return the best matching Map Feature Template.
+  /// Compare the elements of this Map Feature Collection with given OSM element
+  /// and return the best matching Map Feature Template.
 
   MapFeature? getMatchingFeature (OSMElement osmElement){
     MapFeature? bestMatch;
