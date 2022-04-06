@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '/models/questionnaire.dart';
+import '/view_models/osm_authenticated_user_provider.dart';
 import '/view_models/questionnaire_provider.dart';
 import '/widgets/animated_progress_bar.dart';
 import '/widgets/question_inputs/question_input_widget.dart';
 import '/widgets/question_dialog/question_summary.dart';
 import 'question_list.dart';
 import 'question_navigation_bar.dart';
+import 'question_sheet.dart';
 import 'question_text_header.dart';
 
 
@@ -71,14 +73,16 @@ class _QuestionDialogState extends State<QuestionDialog> {
                     child: QuestionList(
                       index: activeIndex,
                       children: [
-                        ...List<Widget>.generate(
+                        ...Iterable<Widget>.generate(
                           questionCount,
-                          _buildQuestion,
-                          growable: false
+                          _buildQuestion
                         ),
-                        QuestionSummary(
-                          questionEntries: widget.questionEntries,
-                          onJump: _handleJump
+                        QuestionSheet(
+                          elevate: _isFinished,
+                          child: QuestionSummary(
+                            questionEntries: widget.questionEntries,
+                            onJump: _handleJump
+                          )
                         )
                       ]
                     )
@@ -132,7 +136,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
                         CommunityMaterialIcons.check_bold,
                         color: Theme.of(context).colorScheme.onPrimary,
                       ),
-                      onPressed: () {},
+                      onPressed: _handleSubmit
                     )
                     : null
                 )
@@ -147,33 +151,31 @@ class _QuestionDialogState extends State<QuestionDialog> {
 
   Widget _buildQuestion(int index) {
     final questionnaireEntry = widget.questionEntries[index];
+    final isActive = widget.activeQuestionIndex == index;
 
-    return ColoredBox(
+    return QuestionSheet(
+      elevate: isActive,
       key: ValueKey(questionnaireEntry.question),
-      color: Colors.white,
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            QuestionTextHeader(
-              question: questionnaireEntry.question.question,
-              details: questionnaireEntry.question.description,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          QuestionTextHeader(
+            question: questionnaireEntry.question.question,
+            details: questionnaireEntry.question.description,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 20,
+              left: 20,
+              bottom: 30
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                right: 20,
-                left: 20,
-                bottom: 30
-              ),
-              child: QuestionInputWidget.fromQuestionInput(
-                questionnaireEntry.question.input,
-                controller: _answerController,
-              )
+            child: QuestionInputWidget.fromQuestionInput(
+              questionnaireEntry.question.input,
+              controller: _answerController,
             )
-          ],
-        )
-      )
+          )
+        ],
+      ),
     );
   }
 
@@ -224,6 +226,26 @@ class _QuestionDialogState extends State<QuestionDialog> {
     }
 
     questionnaire.jumpTo(index);
+  }
+
+
+  void _handleSubmit() async {
+    final authenticationProvider = context.watch<OSMAuthenticatedUserProvider>();
+
+    if (authenticationProvider.isLoggedOut) {
+      // wait till the user login process finishes
+      await authenticationProvider.login();
+    }
+
+    // check if the user is successfully logged in
+    if (authenticationProvider.isLoggedIn) {
+      final questionnaire = context.read<QuestionnaireProvider>();
+
+      questionnaire.upload(
+        context,
+        authenticationProvider.authenticatedUser!
+      );
+    }
   }
 
 

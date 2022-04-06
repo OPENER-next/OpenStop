@@ -45,7 +45,7 @@ class OSMAuthenticatedUserProvider extends ChangeNotifier {
   AuthenticatedUser? get authenticatedUser => _authenticatedUser;
 
 
-  void login() async {
+  Future<void> login() async {
     if (isLoggedIn) return;
     try {
       final authentication = await _osmAuthenticationApi.login();
@@ -62,7 +62,7 @@ class OSMAuthenticatedUserProvider extends ChangeNotifier {
   }
 
 
-  void logout() async {
+  Future<void> logout() async {
     if (isLoggedOut) return;
     try {
       await _osmAuthenticationApi.logout();
