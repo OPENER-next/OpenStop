@@ -83,9 +83,9 @@ class OSMAuthenticatedUserProvider extends ChangeNotifier {
       authentication: authentication
     );
 
-    final OSMUserPrivateDetails userDetails;
+    final AuthenticatedUser user;
     try {
-      userDetails = await osmUserApi.getUserDetails();
+      user = await osmUserApi.getAuthenticatedUser();
     }
     catch (error) {
       rethrow;
@@ -93,13 +93,6 @@ class OSMAuthenticatedUserProvider extends ChangeNotifier {
     finally {
       osmUserApi.dispose();
     }
-
-    return AuthenticatedUser(
-      authentication: authentication,
-      name: userDetails.name,
-      id: userDetails.id,
-      preferredLanguages: userDetails.preferredLanguages,
-      profileImageUrl: userDetails.profileImageUrl
-    );
+    return user;
   }
 }

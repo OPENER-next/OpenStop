@@ -5,11 +5,14 @@ import 'package:osm_api/osm_api.dart';
 /// This class exposes API calls for querying [OSMElement]s via the OSM API.
 
 class OSMElementQueryAPI {
-  final _osmApi = OSMAPI(
-    baseUrl: 'https://www.openstreetmap.org/api/0.6',
-  );
+  final OSMAPI _osmApi;
 
-  OSMElementQueryAPI();
+  OSMElementQueryAPI({
+    String endPoint = 'https://www.openstreetmap.org/api/0.6',
+  }) :
+    _osmApi = OSMAPI(
+      baseUrl: endPoint,
+    );
 
 
   /// Method to query all OSM elements from a specific bbox via OSM API.

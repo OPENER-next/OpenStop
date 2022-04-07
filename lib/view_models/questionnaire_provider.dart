@@ -1,7 +1,12 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
 import 'package:osm_api/osm_api.dart';
+import 'package:provider/provider.dart';
 
+import '/api/osm_element_upload_api.dart';
+import '/view_models/osm_elements_provider.dart';
+import '/models/authenticated_user.dart';
+import '/models/map_feature_collection.dart';
 import '/models/questionnaire.dart';
 import '/models/proxy_osm_element.dart';
 import '/models/answer.dart';
@@ -82,5 +87,38 @@ class QuestionnaireProvider extends ChangeNotifier {
       return true;
     }
     return false;
+  }
+
+
+  /// Upload the changes made by this questionnaire with the given authenticated user.
+
+  void upload(BuildContext context, AuthenticatedUser authenticatedUser) async {
+    if (_qaSelection == null) {
+      return;
+    }
+
+    final mapFeatureCollection = context.read<MapFeatureCollection>();
+    final localization = Localizations.localeOf(context);
+    final osmElementProvider = context.read<OSMElementProvider>();
+
+    // find the corresponding stop area
+    final relatedStopArea = osmElementProvider.loadedStopAreas.entries.firstWhere(
+      (entry) => entry.value.elements.any(
+        (element) => _qaSelection!.workingElement.isProxiedElement(element)
+      )).key;
+
+    final _uploadApi = OSMElementUploadAPI(
+      mapFeatureCollection: mapFeatureCollection,
+      authenticatedUser: authenticatedUser,
+      changesetLocale: localization.languageCode
+    );
+
+    await _uploadApi.updateOsmElement(
+      relatedStopArea, _qaSelection!.workingElement.apply()
+    );
+
+    // close the current questionnaire
+    _qaSelection = null;
+    notifyListeners();
   }
 }

@@ -230,7 +230,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
 
 
   void _handleSubmit() async {
-    final authenticationProvider = context.watch<OSMAuthenticatedUserProvider>();
+    final authenticationProvider = context.read<OSMAuthenticatedUserProvider>();
 
     if (authenticationProvider.isLoggedOut) {
       // wait till the user login process finishes
