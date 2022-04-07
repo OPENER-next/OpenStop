@@ -3,7 +3,7 @@ import 'package:osm_api/osm_api.dart';
 /// A class holding information about an authenticated OpenStreetMap user.
 
 class AuthenticatedUser {
-  final OAuth2 oAuth2Authentication;
+  final Auth authentication;
 
   final String name;
 
@@ -14,7 +14,7 @@ class AuthenticatedUser {
   final List<String> preferredLanguages;
 
   AuthenticatedUser({
-    required this.oAuth2Authentication,
+    required this.authentication,
     required this.name,
     required this.id,
     required this.preferredLanguages,

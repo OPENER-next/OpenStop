@@ -95,7 +95,7 @@ class OSMAuthenticatedUserProvider extends ChangeNotifier {
     }
 
     return AuthenticatedUser(
-      oAuth2Authentication: authentication,
+      authentication: authentication,
       name: userDetails.name,
       id: userDetails.id,
       preferredLanguages: userDetails.preferredLanguages,
