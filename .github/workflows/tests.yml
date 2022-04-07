@@ -1,0 +1,109 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+  # Allow running this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  tests:
+    name: App Tests
+    runs-on: ubuntu-latest
+    steps:
+
+    # Setup OSM website
+    # Some app tests rely on this test server
+    # derived from https://github.com/openstreetmap/openstreetmap-website/blob/master/.github/workflows/docker.yml
+    - name: Checkout OSM website source
+      uses: actions/checkout@v2.3.4
+      with:
+        repository: openstreetmap/openstreetmap-website
+        path: osm-website
+
+    - name: Poke OSM website config
+      run: |
+        cp config/example.storage.yml config/storage.yml
+        cp config/docker.database.yml config/database.yml
+        touch config/settings.local.yml
+      working-directory: ./osm-website
+
+    # Cache docker build
+    - name: Get cached Docker build
+      uses: satackey/action-docker-layer-caching@v0.0.11
+      continue-on-error: true
+
+    - name: Build OSM website Docker Image
+      run: |
+        docker-compose build
+      working-directory: ./osm-website
+
+    - name: Start OSM website Docker-Compose
+      run: |
+        docker-compose up -d
+        sleep 15 # let the DB warm up a little
+      working-directory: ./osm-website
+
+    - name: Prepare OSM website Database
+      run: |
+        docker-compose run --rm web rake db:migrate
+        docker-compose run web bundle exec rake i18n:js:export
+      # The command below populates the db with some test data
+      # However this somehow doesn't update the unique key counter, wherefore the creation of new elements will fail due to a duplicate key value violation
+      # docker-compose run --rm web osmosis --rx docker/null-island.osm.xml --wd host=db database=openstreetmap user=openstreetmap password=openstreetmap validateSchemaVersion=no
+      working-directory: ./osm-website
+
+    - name: Test basic OSM website
+      run: |
+        curl -siL http://127.0.0.1:3000 | egrep '^HTTP/1.1 200 OK'
+      working-directory: ./osm-website
+
+    # Create user account
+    # derived from https://github.com/openstreetmap/openstreetmap-website/issues/3136
+    - name: Create test OSM user account
+      run: |
+        docker-compose run --rm web bundle exec rails runner '
+        pass_crypt, pass_salt = PasswordHash.create("testpass");
+        user = User.find_or_create_by(
+        :email => "testuser@osm.org",
+        :email_valid => true,
+        :display_name => "testuser",
+        :terms_seen => true,
+        :terms_agreed => Time.now.getutc,
+        :data_public => true,
+        :languages => ["en-US"],
+        :pass_crypt => pass_crypt,
+        :pass_salt => pass_salt
+        );
+        user.save
+        user.activate!'
+      working-directory: ./osm-website
+
+    # Setup Flutter
+    - name: Install Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+
+    - name: Check Flutter version
+      run: flutter --version
+
+    # App checkout, setup and final tests
+    - name: Checkout App source
+      uses: actions/checkout@v2.3.4
+      with:
+        path: app
+
+    - name: Install App dependencies
+      run: flutter pub get
+      working-directory: ./app
+
+    - name: Run tests
+      run: flutter test --chain-stack-traces
+      working-directory: ./app
+
+    - name: Check OSM website logs
+      if: failure()
+      run: docker-compose logs -f web
+      working-directory: ./osm-website
