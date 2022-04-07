@@ -55,7 +55,7 @@ class OSMElementProvider extends ChangeNotifier {
 
   @override
   void dispose() {
-    super.dispose();
     _osmElementQueryHandler.dispose();
+    super.dispose();
   }
 }

@@ -7,7 +7,7 @@ import '/commons/tile_layers.dart';
 
 class PreferencesProvider extends ChangeNotifier {
   final SharedPreferences _preferences;
-  static const _defaultThemeMode = ThemeMode.light;
+  static const _defaultThemeMode = ThemeMode.system;
   static const _defaultDifficulty = DifficultyLevel.easy;
   static const _defaultOnboarding = false;
   static const _defaultTileLayerId = TileLayerId.publicTransport;

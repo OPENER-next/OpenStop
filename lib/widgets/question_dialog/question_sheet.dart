@@ -16,10 +16,9 @@ class QuestionSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.background,
         boxShadow: !elevate ? null : const [
           BoxShadow(
-            color: Colors.black12,
             blurRadius: 2,
             offset: Offset(0, -2)
           )

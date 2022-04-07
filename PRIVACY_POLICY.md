@@ -81,12 +81,140 @@ Mit folgenden Dritt-Servern kommuniziert die App:
     *	Main Overpass API Instance
     *	Overpass by Kumi Systems - https://overpass.kumi.systems
     
-### VIII. An wen werden Ihre Daten weitergegeben?
+## VIII. An wen werden Ihre Daten weitergegeben?
 Die von Ihnen gegebenen Antworten werden von der App in OpenStreetMap-konforme Daten umgewandelt und mit weiteren Informationen angereichert (siehe Nutzungsdaten) und anschließend an den OpenStreetMap-Server weitergeben und dort gespeichert.
 
-### IX. Wann werden Ihre Daten gelöscht?
+## IX. Wann werden Ihre Daten gelöscht?
 Jegliche Einstellungen der App und Nutzerprofil-Daten werden ausschließlich lokal gespeichert, wodurch Sie die volle Kontrolle über die Speicherdauer dieser Daten behalten. Sie können diese Daten durch die Deinstallation der App oder über die Systemeinstellungen Ihres Endgeräts löschen.
 
 Das Löschen der zu OpenStreetMap hochgeladen Daten (siehe Nutzungsdaten) liegt außerhalb unserer Zuständigkeit.
 
 Sämtliche durch die Nutzung von Dritt-Servern anfallenden Zugriffsdaten werden von uns nicht gespeichert. Auskunft über die Speicherung der Zugriffsdaten von erwähnten Dritt-Servern entnehmen Sie bitte der Datenschutzerklärung des jeweiligen Anbieters (siehe Zugriffsdaten).
+
+## X. Welche Rechte haben Sie zusätzlich?
+Werden personenbezogene Daten von Ihnen verarbeitet, sind Sie betroffene Person im Sinne der DSGVO, so dass Ihnen die nachfolgenden Rechte gegenüber der Technischen Universität Chemnitz (Verantwortlichen) zustehen. Zur Geltendmachung Ihrer Rechte gegenüber der Technischen Universität Chemnitz oder bei weiteren Rückfragen zum Datenschutz können Sie sich jederzeit an unseren Datenschutzbeauftragten wenden.
+
+Alle Mitteilungen und Maßnahmen gemäß den Art. 15 bis 22 (u.a. Auskunfts-, Berichtigungs-, Löschungs-, Verarbeitungseinschränkungs-, Mitteilungs-, Datenübertragbarkeits-, Widerspruchsrecht) und Art. 34 DSGVO (Benachrichtigungsrecht bei Datenschutzverletzungen) werden unentgeltlich zur Verfügung gestellt. Bei offenkundig unbegründeten oder – insbesondere im Fall von häufiger Wiederholung – exzessiven Anträgen einer betroffenen Person kann der Verantwortliche jedoch entweder ein angemessenes Entgelt verlangen, bei dem die Verwaltungskosten für die Unterrichtung oder die Mitteilung oder die Durchführung der beantragten Maßnahme berücksichtigt werden, oder sich weigern, aufgrund des Antrags tätig zu werden. Für diese Fälle hat allerdings die Technische Universität Chemnitz den Nachweis für den offenkundig unbegründeten oder exzessiven Charakter des Antrags zu erbringen.
+
+Ergänzend wird darauf hingewiesen, dass Beschränkungen der Rechte der betroffenen Person gemäß §§ 7–10 SächsDSDG existieren. Davon betroffen sind u.a. das Löschungs- und Auskunftsrecht sowie die Informationspflichten gegenüber den betroffenen Personen.
+
+### Auskunftsrecht
+
+Sie können von dem Verantwortlichen eine Bestätigung darüber verlangen, ob personenbezogene Daten, die Sie betreffen, von ihm verarbeitet werden. Liegt eine solche Verarbeitung vor, können Sie von dem Verantwortlichen über folgende Informationen Auskunft verlangen:
+
+* die Verarbeitungszwecke;
+* die Kategorien personenbezogener Daten, die verarbeitet werden;
+* die Empfänger oder Kategorien von Empfängern, gegenüber denen die personenbezogenen Daten offengelegt worden sind oder noch offengelegt werden, insbesondere bei Empfängern in Drittländern oder bei internationalen Organisationen;
+* falls möglich die geplante Dauer, für die die personenbezogenen Daten gespeichert werden, oder, falls dies nicht möglich ist, die Kriterien für die Festlegung dieser Dauer;
+* das Bestehen eines Rechts auf Berichtigung oder Löschung der Sie betreffenden personenbezogenen Daten oder auf Einschränkung der Verarbeitung durch den Verantwortlichen oder eines Widerspruchsrechts gegen diese Verarbeitung;
+* das Bestehen eines Beschwerderechts bei einer Aufsichtsbehörde;
+* wenn die personenbezogenen Daten nicht bei Ihnen, das heißt der betroffenen Person erhoben werden, alle verfügbaren Informationen über die Herkunft der Daten;
+* das Bestehen einer automatisierten Entscheidungsfindung einschließlich Profiling gemäß Art. 22 Abs. 1 und 4 DSGVO und – zumindest in diesen Fällen – aussagekräftige Informationen über die involvierte Logik sowie die Tragweite und die angestrebten Auswirkungen einer derartigen Verarbeitung für die betroffene Person.
+
+Die Technische Universität Chemnitz als Verantwortliche verarbeitet jedoch naturgemäß eine große Menge von Informationen über betroffene Personen, so dass von Ihnen verlangt wird, dass Sie als betroffene Person im Rahmen der Geltendmachung Ihres Auskunftsrechts präzisieren, auf welche Informationen oder welche Verarbeitungsvorgänge sich Ihr Auskunftsersuchen bezieht, bevor Ihnen Auskunft erteilt wird, vgl. S. 7 des 63. Erwägungsgrundes der DSGVO.
+
+Werden personenbezogene Daten an ein Drittland oder an eine internationale Organisation übermittelt, so haben Sie als betroffene Person zudem das Recht, über die geeigneten Garantien gemäß Art. 46 DSGVO im Zusammenhang mit der Übermittlung unterrichtet zu werden.
+
+### Recht auf Berichtigung
+
+Sie haben das Recht, von dem Verantwortlichen unverzüglich die Berichtigung Sie betreffender unrichtiger personenbezogener Daten zu verlangen. Unter Berücksichtigung der Zwecke der Verarbeitung haben Sie als betroffene Person zudem das Recht, die Vervollständigung unvollständiger personenbezogener Daten – auch mittels einer ergänzenden Erklärung – zu verlangen.
+
+### Recht auf Löschung
+#### a) Löschungspflicht, Art. 17 DSGVO („Recht auf Vergessenwerden“)
+
+Sie können von dem Verantwortlichen verlangen, dass die Sie betreffenden personenbezogenen Daten unverzüglich gelöscht werden. Der Verantwortliche ist außerdem verpflichtet, diese Daten unverzüglich zu löschen, sofern einer der folgenden Gründe zutrifft:
+
+* Die Sie betreffenden personenbezogenen Daten sind für die Zwecke, für die sie erhoben oder auf sonstige Weise verarbeitet wurden, nicht mehr notwendig.
+* Sie widerrufen Ihre Einwilligung, auf die sich die Verarbeitung gem. Art. 6 Abs. 1 S. 1 lit. a) DSGVO oder Art. 9 Abs. 2 lit. a) DSGVO stützte, und es fehlt an einer anderweitigen Rechtsgrundlage für die Verarbeitung.
+* Sie legen gem. Art. 21 Abs. 1 DSGVO Widerspruch gegen die Verarbeitung ein und es liegen keine vorrangigen berechtigten Gründe für die Verarbeitung vor, oder Sie legen gem. Art. 21 Abs. 2 DSGVO Widerspruch gegen die Verarbeitung ein.
+* Die Sie betreffenden personenbezogenen Daten wurden unrechtmäßig verarbeitet.
+* Die Löschung der Sie betreffenden personenbezogenen Daten ist zur Erfüllung einer rechtlichen Verpflichtung nach dem Unionsrecht oder dem Recht der Mitgliedstaaten erforderlich, dem der Verantwortliche unterliegt.
+* Die Sie betreffenden personenbezogenen Daten wurden in Bezug auf angebotene Dienste der Informationsgesellschaft gemäß Art. 8 Abs. 1 DSGVO erhoben.
+
+#### b) Information an Dritte
+
+Hat der Verantwortliche die Sie betreffenden personenbezogenen Daten öffentlich gemacht und ist er gem. Art. 17 Abs. 1 DSGVO zu deren Löschung verpflichtet, so trifft er unter Berücksichtigung der verfügbaren Technologie und der Implementierungskosten angemessene Maßnahmen, auch technischer Art, um für die Datenverarbeitung Verantwortliche, die die personenbezogenen Daten verarbeiten, darüber zu informieren, dass Sie als betroffene Person von ihnen – den weiteren Verantwortlichen – die Löschung aller Links zu diesen personenbezogenen Daten oder von Kopien oder Replikationen dieser personenbezogenen Daten verlangt haben.
+
+#### c) Ausnahmen vom Recht auf Löschung
+
+Das Recht auf Löschung besteht nicht, soweit die Verarbeitung erforderlich ist
+
+* zur Ausübung des Rechts auf freie Meinungsäußerung und Information;
+* zur Erfüllung einer rechtlichen Verpflichtung, die die Verarbeitung nach dem Recht der Union oder der Mitgliedstaaten, dem der Verantwortliche unterliegt, erfordert, oder zur Wahrnehmung einer Aufgabe, die im öffentlichen Interesse liegt oder in Ausübung öffentlicher Gewalt erfolgt, die dem Verantwortlichen übertragen wurde;
+* aus Gründen des öffentlichen Interesses im Bereich der öffentlichen Gesundheit gemäß Art. 9 Abs. 2 lit. h) und lit. i) sowie Art. 9 Abs. 3 DSGVO;
+* für im öffentlichen Interesse liegende Archivzwecke, wissenschaftliche oder historische Forschungszwecke oder für statistische Zwecke gem. Art. 89 Abs. 1 DSGVO, soweit das oben genannte „Recht auf Vergessenwerden“ voraussichtlich die Verwirklichung der Ziele dieser Verarbeitung unmöglich macht oder ernsthaft beeinträchtigt, oder
+* zur Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen.
+
+### Recht auf Einschränkung der Verarbeitung
+
+Unter den folgenden Voraussetzungen können Sie die Einschränkung der Verarbeitung der Sie betreffenden personenbezogenen Daten verlangen:
+
+* wenn Sie die Richtigkeit der Sie betreffenden personenbezogenen für eine Dauer bestreiten, die es dem Verantwortlichen ermöglicht, die Richtigkeit der personenbezogenen Daten zu überprüfen;
+* die Verarbeitung unrechtmäßig ist und Sie die Löschung der personenbezogenen Daten ablehnen und stattdessen die Einschränkung der Nutzung der personenbezogenen Daten verlangen;
+* der Verantwortliche die personenbezogenen Daten für die Zwecke der Verarbeitung nicht länger benötigt, Sie diese jedoch zur Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen benötigen, oder
+* wenn Sie Widerspruch gegen die Verarbeitung gemäß Art. 21 Abs. 1 DSGVO eingelegt haben und noch nicht feststeht, ob die berechtigten Gründe des Verantwortlichen gegenüber Ihren Gründen überwiegen.
+
+Wurde die Verarbeitung der Sie betreffenden personenbezogenen Daten in dem oben beschriebenen Sinne eingeschränkt, dürfen diese Daten – von ihrer Speicherung abgesehen – nur mit Ihrer Einwilligung oder zur Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen oder zum Schutz der Rechte einer anderen natürlichen oder juristischen Person oder aus Gründen eines wichtigen öffentlichen Interesses der Union oder eines Mitgliedstaats verarbeitet werden.
+
+Wurde die Verarbeitung nach den oben genannten Voraussetzungen eingeschränkt, werden Sie von dem Verantwortlichen unterrichtet, bevor die Einschränkung aufgehoben wird.
+
+### Recht auf Unterrichtung
+
+Der Verantwortliche ist Ihnen gegenüber verpflichtet allen Empfängern, denen Ihre personenbezogenen Daten offengelegt wurden, jede Berichtigung oder Löschung der personenbezogenen Daten oder eine Einschränkung der Verarbeitung nach Art. 16, 17 Abs. 1 und Art. 18 DSGVO mitzuteilen, es sei denn, dies erweist sich als unmöglich oder ist mit einem unverhältnismäßigen Aufwand verbunden. Der Verantwortliche unterrichtet die betroffene Person über diese Empfänger, wenn die betroffene Person dies verlangt.
+
+### Recht auf Datenübertragbarkeit
+
+Sie haben das Recht, die Sie betreffenden personenbezogenen Daten, die Sie dem Verantwortlichen bereitgestellt haben, in einem strukturierten, gängigen und maschinenlesbaren Format (u.a. pdf, csv) zu erhalten. Außerdem haben Sie das Recht, diese Daten einem anderen Verantwortlichen ohne Behinderung durch den Verantwortlichen, dem die personenbezogenen Daten bereitgestellt wurden, zu übermitteln, sofern
+* die Verarbeitung auf einer Einwilligung gem. Art. 6 Abs. 1 S. 1 lit. a) DSGVO oder Art. 9 Abs. 2 lit. a) DSGVO oder auf einem Vertrag gem. Art. 6 Abs. 1 S. 1 lit. b) DSGVO beruht und
+* die Verarbeitung mithilfe automatisierter Verfahren erfolgt.
+
+In Ausübung dieses Rechts haben Sie insbesondere das Recht, zu erwirken, dass die Sie betreffenden personenbezogenen Daten direkt von einem Verantwortlichen einem anderen Verantwortlichen übermittelt werden, soweit dies technisch machbar ist. Freiheiten und Rechte anderer Personen dürfen hierdurch nicht beeinträchtigt werden.
+
+Das Recht auf Datenübertragbarkeit lässt Art. 17 DSGVO („Recht auf Vergessenwerden“) unberührt. Es gilt im Übrigen nicht für eine Verarbeitung personenbezogener Daten, die für die Wahrnehmung einer Aufgabe erforderlich ist, die im öffentlichen Interesse liegt oder in Ausübung öffentlicher Gewalt erfolgt, die dem Verantwortlichen übertragen wurde.
+
+### Widerspruchsrecht
+
+Sie haben das Recht, aus Gründen, die sich aus Ihrer besonderen Situation ergeben, jederzeit gegen die Verarbeitung der Sie betreffenden personenbezogenen Daten, die aufgrund von Art. 6 Abs. 1 S. 1 lit. e) (öffentliches Interesse oder in Ausübung öffentlicher Gewalt) oder lit. f) DSGVO (berechtigter Interessen) erfolgt, Widerspruch einzulegen; dies gilt auch für ein auf diese Bestimmungen gestütztes Profiling.
+
+Der Verantwortliche verarbeitet die Sie betreffenden personenbezogenen Daten nicht mehr, es sei denn, er kann zwingende schutzwürdige Gründe für die Verarbeitung nachweisen, die Ihre Interessen, Rechte und Freiheiten überwiegen, oder die Verarbeitung dient der Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen.
+
+Werden die Sie betreffenden personenbezogenen Daten verarbeitet, um Direktwerbung zu betreiben, haben Sie das Recht, jederzeit Widerspruch gegen die Verarbeitung der Sie betreffenden personenbezogenen Daten zum Zwecke derartiger Werbung einzulegen; dies gilt auch für das Profiling, soweit es mit solcher Direktwerbung in Verbindung steht.
+
+Widersprechen Sie der Verarbeitung für Zwecke der Direktwerbung, so werden die Sie betreffenden personenbezogenen Daten nicht mehr für diese Zwecke verarbeitet.
+
+Sie haben die Möglichkeit, im Zusammenhang mit der Nutzung von Diensten der Informationsgesellschaft – ungeachtet der Richtlinie 2002/58/EG – Ihr Widerspruchsrecht mittels automatisierter Verfahren auszuüben, bei denen technische Spezifikationen verwendet werden.
+
+### Recht auf Widerruf der datenschutzrechtlichen Einwilligungserklärung
+
+Sie haben das Recht, Ihre datenschutzrechtliche Einwilligungserklärung jederzeit zu widerrufen. Der Widerruf der Einwilligung ist so einfach wie die Erteilung der Einwilligung möglich, insbesondere was Formanforderungen betrifft, so dass grundsätzlich eine formlose Mitteilung per E-Mail genügt. Durch den Widerruf der Einwilligung wird die Rechtmäßigkeit der aufgrund der Einwilligung bis zum Widerruf erfolgten Verarbeitung nicht berührt.
+
+### Automatisierte Entscheidung im Einzelfall einschließlich Profiling
+
+Sie haben das Recht, nicht einer ausschließlich auf einer automatisierten Verarbeitung – einschließlich Profiling – beruhenden Entscheidung unterworfen zu werden, die Ihnen gegenüber rechtliche Wirkung entfaltet oder Sie in ähnlicher Weise erheblich beeinträchtigt. Dies gilt nicht, wenn die Entscheidung für den Abschluss oder die Erfüllung eines Vertrags zwischen Ihnen und dem Verantwortlichen erforderlich ist, aufgrund von Rechtsvorschriften der Union oder der Mitgliedstaaten, denen der Verantwortliche unterliegt, zulässig ist und diese Rechtsvorschriften angemessene Maßnahmen zur Wahrung Ihrer Rechte und Freiheiten sowie Ihrer berechtigten Interessen enthalten oder mit Ihrer ausdrücklichen Einwilligung erfolgt.
+
+Allerdings dürfen diese Entscheidungen nicht auf besonderen Kategorien personenbezogener Daten nach Art. 9 Abs. 1 DSGVO beruhen, sofern nicht Art. 9 Abs. 2 lit. a) oder lit. g) DSGVO gilt und angemessene Maßnahmen zum Schutz der Rechte und Freiheiten sowie Ihrer berechtigten Interessen getroffen wurden.
+
+Hinsichtlich der zuvor in Pkt. 1 und Pkt. 3 genannten Fälle trifft der Verantwortliche angemessene Maßnahmen, um Ihre Rechte und Freiheiten sowie Ihre berechtigten Interessen zu wahren, wozu mindestens das Recht auf Erwirkung des Eingreifens einer Person seitens des Verantwortlichen, auf Darlegung des eigenen Standpunkts und auf Anfechtung der Entscheidung gehört.
+
+### Recht auf Beschwerde bei einer Aufsichtsbehörde
+
+Unbeschadet eines anderweitigen verwaltungsrechtlichen oder gerichtlichen Rechtsbehelfs steht Ihnen das Recht auf Beschwerde bei einer Aufsichtsbehörde, insbesondere in dem Mitgliedstaat Ihres Aufenthaltsorts, Ihres Arbeitsplatzes oder des Orts des mutmaßlichen Verstoßes, zu, wenn Sie der Ansicht sind, dass die Verarbeitung der Sie betreffenden personenbezogenen Daten gegen datenschutzrechtliche Bestimmungen verstößt.
+
+Zuständige Aufsichtsbehörde im Freistaat Sachsen ist gem. Art. 51 DSGVO i.V.m. §§ 14 ff. SächsDSDG:
+
+Sächsische Datenschutzbeauftragte \
+Dr. Juliane Hundert \
+Devrientstraße 5 \
+01067 Dresden \
+E-Mail: saechsdsb@slt.sachsen.de \
+Telefon: +49 351 85471-101 \
+Telefax: +49 351 85471-109 \
+Web: https://www.saechsdsb.de/
+
+Die Aufsichtsbehörde, bei der die Beschwerde eingereicht wurde, unterrichtet den Beschwerdeführer über den Stand und die Ergebnisse der Beschwerde einschließlich der Möglichkeit eines gerichtlichen Rechtsbehelfs nach Art. 78 DSGVO.
+
+## XI. Was geschieht, wenn diese Datenschutzerklärung geändert wird?
+
+Diese Datenschutzerklärung ist aktuell gültig und hat den Stand März 2022.
+
+Durch die Weiterentwicklung dieser Anwendung oder aufgrund geänderter gesetzlicher beziehungsweise behördlicher Vorgaben kann es notwendig werden, diese Datenschutzerklärung zu ändern/zu aktualisieren. Eine gesonderte Zustimmung/Einwilligung Ihrerseits ist hierfür gesetzlich grundsätzlich nicht vorgesehen.

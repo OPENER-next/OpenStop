@@ -160,6 +160,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             tileProvider: NetworkTileProviderWithHeaders(const {
                               'User-Agent': appUserAgent
                             }),
+                            backgroundColor: Colors.transparent,
                             urlTemplate: isDarkMode && tileLayerDescription.darkVariantTemplateUrl != null
                               ? tileLayerDescription.darkVariantTemplateUrl
                               : tileLayerDescription.templateUrl,

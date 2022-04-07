@@ -1,162 +1,156 @@
 import 'package:flutter/material.dart';
 
-class CustomColors {
-  static const Color darkGreen = Color(0xff407336);
-  static const Color green = Color(0xff6cc15a);
-  static const Color lightGreen = Color(0xffe9ffe4);
+class Default {
+  static const Color primary = Color(0xff6cc15a);
+  static Color onPrimaryLight = Colors.grey.shade100;
+  static const Color onPrimaryDark = Color(0xFF002020);
+
+  // Background FloatingActionButton / Overscroll Color
+  static Color secondaryLight = Colors.grey.shade100;
+  static const Color secondaryDark = Color(0xFF002020);
+
+  // Foreground FloatingActionButton
+  static Color onSecondaryLight = Colors.grey.shade900;
+  static Color onSecondaryDark = Colors.grey.shade50;
+
+  // Background Header Scaffold (darkTheme only, primary in lightTheme)
+  static Color surfaceLight = Colors.grey;
+  static const Color surfaceDark = Color(0xFF005050);
+
+  // Foreground Scaffold Header
+  static Color onSurfaceLight = Colors.grey.shade300;
+  static Color onSurfaceDark = Colors.grey.shade300;
+
+  // Background QuestionDialog, Scaffold Body, Drawer
+  static const Color backgroundDark = Color(0xFF002020);
+  static Color backgroundLight = Colors.grey.shade100;
+
+  // Foreground QuestionDialog (Border, Lines)
+  static const Color onBackgroundDark = Color(0xFF003144);
+  static Color onBackgroundLight = Colors.grey.shade300;
+
+  static const shadow = Colors.black26;
+
+  static const double borderRadius = 12.0;
+  static const double padding = 12.0;
 }
 
-final ThemeData lightTheme = ThemeData.light().copyWith(
-    colorScheme: ThemeData.light().colorScheme.copyWith(
-      primary: CustomColors.green,
-      secondary: CustomColors.lightGreen,
-      onPrimary: Colors.white,
-      onSecondary: CustomColors.darkGreen,
-      background: Colors.white,
-      surface: Colors.white
-    ),
-    appBarTheme: const AppBarTheme(
-        elevation: 2.0,
-        backgroundColor: Color(0xFFEFEFEF),
-        foregroundColor: Colors.black87
-    ),
-    textTheme: const TextTheme(
-        subtitle1: TextStyle(
-          color: Colors.black87
-        ),
-        headline6: TextStyle(
-          color: Colors.black87,
-        ),
-        headline5: TextStyle(
-            color: Colors.black87,
-        ),
-        bodyText2: TextStyle(
-            color: Colors.black87,
-        ),
-        bodyText1: TextStyle(
-            color: Colors.black87,
-        ),
-        caption: TextStyle(
-          color: Colors.black45,
-        ),
-        overline: TextStyle(
-          fontSize: 12,
-          color: Colors.black38,
-        ),
-    ),
-    buttonTheme: ButtonThemeData(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18.0)
-        ),
-        buttonColor: Colors.yellow,
-    ),
-    floatingActionButtonTheme: FloatingActionButtonThemeData(
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.white,
-        smallSizeConstraints: BoxConstraints.tight(const Size.square(48)),
-        largeSizeConstraints: BoxConstraints.tight(const Size.square(70)),
-        shape: const RoundedRectangleBorder(
+// Default theme for all common theme settings
+final ThemeData defaultTheme = ThemeData(
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+      smallSizeConstraints: BoxConstraints.tight(const Size.square(48)),
+      largeSizeConstraints: BoxConstraints.tight(const Size.square(70)),
+      shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
-              Radius.circular(10)
+              Radius.circular(Default.borderRadius)
           )
-        )
-    ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-            primary: CustomColors.green,
-            padding: const EdgeInsets.all(20.0),
-            textStyle:const TextStyle(fontSize: 24)
-        )
-    ),
-    outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-            primary: CustomColors.darkGreen,
-            backgroundColor: CustomColors.lightGreen,
-            minimumSize: const Size(double.infinity, 48),
-            padding: EdgeInsets.zero,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            side: const BorderSide(
-              style: BorderStyle.none,
-            )
-        )
-    ),
-    iconTheme: const IconThemeData(
-      color: Colors.black
-    ),
-    inputDecorationTheme: ThemeData.light().inputDecorationTheme.copyWith(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-      border: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(12.0))
       )
-    )
-  );
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+          minimumSize: const Size.square(48),
+          padding: const EdgeInsets.all(Default.padding),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(Default.borderRadius),
+          ),
+          textStyle:const TextStyle(fontSize: 24)
+      )
+  ),
+  outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          minimumSize: const Size.square(48),
+          padding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(Default.borderRadius),
+          ),
+          side: const BorderSide(
+              style: BorderStyle.solid,
+              color: Default.primary
+          )
+      )
+  ),
+  inputDecorationTheme: const InputDecorationTheme(
+      contentPadding: EdgeInsets.symmetric(horizontal: Default.padding),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(Default.borderRadius)),
+        borderSide: BorderSide(
+            width: 1.0,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(Default.borderRadius)),
+        borderSide: BorderSide(
+            width: 1.0,
+            color: Default.primary
+        ),
+      )
+  ),
+  toggleableActiveColor: Default.primary,
+);
+
+final ThemeData lightTheme = ThemeData.light().copyWith(
+  colorScheme: ThemeData.light().colorScheme.copyWith(
+      primary: Default.primary,
+      onPrimary: Default.onPrimaryLight,
+      secondary: Default.secondaryLight,
+      onSecondary: Default.onSecondaryLight,
+      surface: Default.surfaceLight,
+      onSurface: Default.onSurfaceLight,
+      background: Default.backgroundLight,
+      onBackground: Default.onBackgroundLight,
+      tertiary: Colors.white,
+      onTertiary: Colors.black,
+      shadow: Default.shadow,
+  ),
+  floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
+  elevatedButtonTheme: defaultTheme.elevatedButtonTheme,
+  outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
+  inputDecorationTheme: defaultTheme.inputDecorationTheme.copyWith(
+      enabledBorder: defaultTheme.inputDecorationTheme.enabledBorder!.copyWith(
+          borderSide: defaultTheme.inputDecorationTheme.enabledBorder!.borderSide.copyWith(
+              color: Default.onBackgroundLight
+          )
+      )
+  ),
+  toggleableActiveColor: defaultTheme.toggleableActiveColor,
+    cardColor: Default.backgroundLight,
+    scaffoldBackgroundColor: Default.backgroundLight,
+    canvasColor: Default.backgroundLight
+);
 
 final ThemeData darkTheme = ThemeData.dark().copyWith(
-    colorScheme: ThemeData.dark().colorScheme.copyWith(
-        primary: CustomColors.green,
-        secondary: CustomColors.lightGreen,
-        onPrimary: Colors.white,
-        onSecondary: CustomColors.darkGreen,
-        background: Colors.white,
-        surface: Colors.black
-    ),
-    appBarTheme: const AppBarTheme(
-        elevation: 2.0,
-        backgroundColor: Colors.black12,
-        foregroundColor: Colors.white70
-    ),
-    buttonTheme: ButtonThemeData(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18.0)
-      ),
-      buttonColor: Colors.yellow,
-    ),
-    floatingActionButtonTheme: FloatingActionButtonThemeData(
-        foregroundColor: Colors.white,
-        backgroundColor: Colors.black,
-        smallSizeConstraints: BoxConstraints.tight(const Size.square(48)),
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-                Radius.circular(10)
-            )
-        )
-    ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-            primary: CustomColors.green,
-            padding: const EdgeInsets.all(20.0),
-            textStyle:const TextStyle(fontSize: 24)
-        )
-    ),
-    outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-            primary: CustomColors.darkGreen,
-            backgroundColor: CustomColors.lightGreen,
-            minimumSize: const Size(double.infinity, 48),
-            padding: EdgeInsets.zero,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            side: const BorderSide(
-              style: BorderStyle.none,
-            )
-        )
-    ),
-    iconTheme: const IconThemeData(
-        color: Colors.white70
-    ),
-    inputDecorationTheme: ThemeData.dark().inputDecorationTheme.copyWith(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-        border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(12.0))
-        )
-    )
+  colorScheme: ThemeData.dark().colorScheme.copyWith(
+      primary: Default.primary,
+      onPrimary: Default.onPrimaryDark,
+      secondary: Default.secondaryDark,
+      onSecondary: Default.onSecondaryDark,
+      surface: Default.surfaceDark,
+      onSurface: Default.onSurfaceDark,
+      background: Default.backgroundDark,
+      onBackground: Default.onBackgroundDark,
+      tertiary: Colors.black,
+      onTertiary: Colors.white,
+      shadow: Default.shadow,
+  ),
+  floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
+  elevatedButtonTheme: defaultTheme.elevatedButtonTheme,
+  outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
+  inputDecorationTheme: defaultTheme.inputDecorationTheme.copyWith(
+      enabledBorder: defaultTheme.inputDecorationTheme.enabledBorder!.copyWith(
+          borderSide: defaultTheme.inputDecorationTheme.enabledBorder!.borderSide.copyWith(
+              color: Default.onBackgroundDark
+          )
+      )
+  ),
+  toggleableActiveColor: defaultTheme.toggleableActiveColor,
+  cardColor: Default.backgroundDark,
+  scaffoldBackgroundColor: Default.backgroundDark,
+  canvasColor: Default.backgroundDark
 );
 
 final ThemeData highContrastDarkTheme = ThemeData.dark().copyWith(
-    colorScheme: const ColorScheme.highContrastDark(),
+  colorScheme: const ColorScheme.highContrastDark(),
 );
 
 final ThemeData highContrastLightTheme = ThemeData.light().copyWith(

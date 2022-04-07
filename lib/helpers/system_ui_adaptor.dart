@@ -69,9 +69,9 @@ class SystemUIAdaptor extends RouteObserver<PageRoute<dynamic>> {
     // update native ui colors
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.light,
         systemNavigationBarColor: Colors.transparent,
-        systemNavigationBarIconBrightness: Brightness.dark,
+        systemNavigationBarIconBrightness: Brightness.light,
         systemNavigationBarContrastEnforced: false
     ));
   }

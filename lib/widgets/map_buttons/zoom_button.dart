@@ -15,7 +15,7 @@ class ZoomButton extends StatelessWidget {
     return Material(
       elevation: Theme.of(context).floatingActionButtonTheme.elevation ?? 8.0,
       shape: Theme.of(context).floatingActionButtonTheme.shape,
-      color: Theme.of(context).floatingActionButtonTheme.backgroundColor,
+      color: Theme.of(context).colorScheme.secondary,
       clipBehavior: Clip.antiAlias,
       child: Column(
         children: [
@@ -26,14 +26,14 @@ class ZoomButton extends StatelessWidget {
               onTap: onZoomInPressed,
               child: Icon(
                 Icons.add,
-                color: Theme.of(context).floatingActionButtonTheme.foregroundColor,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
             ),
           ),
           Container(
             height: 1,
             width: Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minWidth,
-            color: Colors.black12,
+            color: Theme.of(context).colorScheme.onSecondary.withOpacity(0.1),
           ),
           SizedBox(
             height: (Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minHeight ?? 40.0) * 1.25,
@@ -42,7 +42,7 @@ class ZoomButton extends StatelessWidget {
               onTap: onZoomOutPressed,
               child: Icon(
                 Icons.remove,
-                color: Theme.of(context).floatingActionButtonTheme.foregroundColor,
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
             ),
           ),

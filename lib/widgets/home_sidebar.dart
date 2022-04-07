@@ -254,27 +254,22 @@ class UserAccountActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            spreadRadius: 2,
-            blurRadius: 2,
-            color: Theme.of(context).shadowColor.withOpacity(0.12)
-          )
-        ]
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                spreadRadius: 3,
+                blurRadius: 4,
+                color: Theme.of(context).colorScheme.shadow
+              )
+            ]
+          ),
+      child: FloatingActionButton.small(
+        heroTag: null,
+        backgroundColor: Theme.of(context).colorScheme.onPrimary,
+        onPressed: onTap,
+        elevation: 0,
+        child: Icon(icon),
       ),
-      child: Material(
-        clipBehavior: Clip.antiAlias,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10)
-        ),
-        child: IconButton(
-          iconSize: 20,
-          visualDensity: VisualDensity.compact,
-          onPressed: onTap,
-          icon: Icon(icon),
-        ),
-      )
     );
   }
 }
@@ -342,7 +337,6 @@ class LoginInfoHeader extends StatelessWidget {
               textStyle: MaterialStateProperty.all<TextStyle>(
                 const TextStyle(fontSize: 14)
               ),
-              visualDensity: VisualDensity.compact,
             ),
             onPressed: onLoginTap,
             child: Text(
