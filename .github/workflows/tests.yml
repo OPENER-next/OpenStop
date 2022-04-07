@@ -100,7 +100,7 @@ jobs:
       working-directory: ./app
 
     - name: Run tests
-      run: flutter test --chain-stack-traces
+      run: flutter test
       working-directory: ./app
 
     - name: Check OSM website logs

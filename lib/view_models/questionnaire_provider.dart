@@ -107,13 +107,13 @@ class QuestionnaireProvider extends ChangeNotifier {
         (element) => _qaSelection!.workingElement.isProxiedElement(element)
       )).key;
 
-    final _uploadApi = OSMElementUploadAPI(
+    final uploadApi = OSMElementUploadAPI(
       mapFeatureCollection: mapFeatureCollection,
       authenticatedUser: authenticatedUser,
       changesetLocale: localization.languageCode
     );
 
-    await _uploadApi.updateOsmElement(
+    await uploadApi.updateOsmElement(
       relatedStopArea, _qaSelection!.workingElement.apply()
     );
 

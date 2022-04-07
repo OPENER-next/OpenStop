@@ -17,10 +17,11 @@ class QuestionSheet extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.background,
-        boxShadow: !elevate ? null : const [
+        boxShadow: !elevate ? null : [
           BoxShadow(
+            color: Theme.of(context).colorScheme.shadow.withOpacity(0.1),
             blurRadius: 2,
-            offset: Offset(0, -2)
+            offset: const Offset(0, -2)
           )
         ]
       ),
