@@ -32,7 +32,7 @@ class QuestionSummary extends StatelessWidget {
             bottom: 10
           ),
           child: Text(
-            'Endstation. Weitere Fragen gibt es nicht.\nBisher hast du noch keine Frage beantwortet.',
+            'Endstation. Bisher hast du noch keine Frage beantwortet.',
             style: textStyle
           )
         )
