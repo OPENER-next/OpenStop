@@ -20,5 +20,3 @@ jobs:
     - run: flutter pub get
     # Run static analysis and style guideline checks
     - run: flutter analyze
-    # Run all provided code tests
-    - run: flutter test

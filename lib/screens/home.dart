@@ -9,12 +9,14 @@ import 'package:provider/provider.dart';
 
 import '/view_models/incomplete_osm_elements_provider.dart';
 import '/view_models/questionnaire_provider.dart';
-import '/view_models/osm_authentication_provider.dart';
+import '/view_models/osm_authenticated_user_provider.dart';
 import '/view_models/osm_elements_provider.dart';
 import '/view_models/preferences_provider.dart';
 import '/view_models/stop_areas_provider.dart';
 import '/helpers/camera_tracker.dart';
+import '/utils/network_tile_provider_with_headers.dart';
 import '/utils/stream_debouncer.dart';
+import '/commons/app_config.dart';
 import '/commons/tile_layers.dart';
 import '/utils/map_utils.dart';
 import '/widgets/map_layer/stop_area_layer.dart';
@@ -115,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ChangeNotifierProvider.value(value: _cameraTracker),
               ChangeNotifierProvider.value(value: _stopAreasProvider),
               ChangeNotifierProvider(
-                create: (_) => OSMAuthenticationProvider(),
+                create: (_) => OSMAuthenticatedUserProvider(),
                 // do this so the previous session is loaded on start in parallel
                 lazy: false,
               ),
@@ -155,7 +157,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         TileLayerWidget(
                           options: TileLayerOptions(
                             overrideTilesWhenUrlChanges: true,
-                            tileProvider: NetworkTileProvider(),
+                            tileProvider: NetworkTileProviderWithHeaders(const {
+                              'User-Agent': appUserAgent
+                            }),
                             backgroundColor: Colors.transparent,
                             urlTemplate: isDarkMode && tileLayerDescription.darkVariantTemplateUrl != null
                               ? tileLayerDescription.darkVariantTemplateUrl
@@ -284,7 +288,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     final osmElement = geometricOSMElement.osmElement;
 
     // show questions if a new marker is selected, else hide the current one
-    if (questionnaire.workingElement == null || !questionnaire.workingElement!.isSameElement(osmElement)) {
+    if (questionnaire.workingElement == null || !questionnaire.workingElement!.isProxiedElement(osmElement)) {
       final questionCatalog = context.read<QuestionCatalog>();
       questionnaire.create(osmElement, questionCatalog);
     }

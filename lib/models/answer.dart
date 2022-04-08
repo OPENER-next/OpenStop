@@ -33,12 +33,10 @@ class StringAnswer extends Answer<String> {
   Map<String, String> toTagMap() {
     final tags = questionValues.values.first.osmTags;
 
-    return tags.map((key, value) {
-      return MapEntry(
-        key,
-        value.replaceAll('%s', value)
-      );
-    });
+    return tags.map((key, value) => MapEntry(
+      key,
+      value.replaceAll('%s', this.value)
+    ));
   }
 
 
@@ -58,12 +56,10 @@ class NumberAnswer extends Answer<double> {
   Map<String, String> toTagMap() {
     final tags = questionValues.values.first.osmTags;
 
-    return tags.map((key, value) {
-      return MapEntry(
-        key,
-        value.replaceAll('%s', value.toString())
-      );
-    });
+    return tags.map((key, value) => MapEntry(
+      key,
+      value.replaceAll('%s', this.value.toString())
+    ));
   }
 
 

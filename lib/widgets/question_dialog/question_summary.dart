@@ -21,58 +21,53 @@ class QuestionSummary extends StatelessWidget {
       fontWeight: FontWeight.bold
     );
 
-
-    return ColoredBox(
-      color: Theme.of(context).colorScheme.background,
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(
-          vertical: 25,
-          horizontal: 20
-        ),
-        physics: const BouncingScrollPhysics(),
-        child: !hasAnyAnswer
-         ? const Padding(
-            padding: EdgeInsets.only(
-              bottom: 10
-            ),
-            child: Text(
-              'Endstation. Weitere Fragen gibt es nicht.\nBisher hast du noch keine Frage beantwortet.',
-              style: textStyle
-            )
-         )
-         : Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(
-                  bottom: 10
-                ),
-                child: Text(
-                  'Vielen Dank für deine Antworten. Bitte überprüfe sie vor dem Hochladen noch einmal.',
-                  style: textStyle
-                )
-              ),
-              Material(
-                type: MaterialType.transparency,
-                child: Table(
-                  border: TableBorder(
-                    horizontalInside: BorderSide(
-                      color: Theme.of(context).colorScheme.onBackground
-                    )
-                  ),
-                  defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                  columnWidths: const <int, TableColumnWidth>{
-                    0: FractionColumnWidth(0.1),
-                    1: FractionColumnWidth(0.65),
-                    2: FractionColumnWidth(0.25)
-                  },
-                  children: _buildTableEntries()
-                )
-              ),
-            ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 25,
+        horizontal: 20
+      ),
+      child: !hasAnyAnswer
+        ? const Padding(
+          padding: EdgeInsets.only(
+            bottom: 10
           ),
-      )
-    );
+          child: Text(
+            'Endstation. Weitere Fragen gibt es nicht.\nBisher hast du noch keine Frage beantwortet.',
+            style: textStyle
+          )
+        )
+        : Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(
+                bottom: 10
+              ),
+              child: Text(
+                'Vielen Dank für deine Antworten. Bitte überprüfe sie vor dem Hochladen noch einmal.',
+                style: textStyle
+              )
+            ),
+            Material(
+              type: MaterialType.transparency,
+              child: Table(
+                border: TableBorder(
+                  horizontalInside: BorderSide(
+                    color: Theme.of(context).colorScheme.onBackground
+                  )
+                ),
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                columnWidths: const <int, TableColumnWidth>{
+                  0: FractionColumnWidth(0.1),
+                  1: FractionColumnWidth(0.65),
+                  2: FractionColumnWidth(0.25)
+                },
+                children: _buildTableEntries()
+              )
+            ),
+          ],
+        ),
+      );
   }
 
 

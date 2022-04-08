@@ -84,20 +84,9 @@ class _QuestionListState extends State<QuestionList> with SingleTickerProviderSt
           ignoring: !isActive,
           child: AnimatedOpacity(
             opacity: isActive || isFollowing ? 1 : 0,
-            duration: const Duration(milliseconds: 300),
-            // don't remove decorated box entirely to keep state
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                // only add shadow to active element
-                boxShadow: !isActive ? null : [
-                  const BoxShadow(
-                    blurRadius: 8,
-                    offset: Offset(0, 6)
-                  )
-                ]
-              ),
-              child: child,
-            )
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOutCubicEmphasized,
+            child: child,
           )
         );
       }, growable: false)

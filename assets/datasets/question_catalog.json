@@ -212,7 +212,8 @@
                   "yes",
                   "customers",
                   false
-               ]
+               ],
+               "parking": false
             }
          }
       ],
@@ -1072,7 +1073,8 @@
       "conditions": [
          {
             "osm_tags": {
-               "public_transport": "platform"
+               "public_transport": "platform",
+               "width": false
             },
             "osm_element": "OpenWay"
          }

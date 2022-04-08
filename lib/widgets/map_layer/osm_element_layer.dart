@@ -76,7 +76,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       child: Selector<QuestionnaireProvider, ProxyOSMElement?>(
         selector: (_, questionnaire) => questionnaire.workingElement,
         builder: (context, activeElement, child) {
-          final isActive = activeElement?.isSameElement(osmElement) ?? false;
+          final isActive = activeElement?.isProxiedElement(osmElement) ?? false;
           return OsmElementMarker(
             onTap: () => widget.onOsmElementTap?.call(geoElement),
             backgroundColor: isActive ? Colors.redAccent : null,

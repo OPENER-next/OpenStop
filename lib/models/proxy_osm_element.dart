@@ -37,23 +37,19 @@ class ProxyOSMElement<T extends osmapi.OSMElement> {
   }
 
 
-  /// This method compares the type and id of the given element with the underlying [OSMElement]
+  /// This method compares the given element with the underlying [OSMElement]
   /// and returns true if they are identical.
 
-  bool isSameElement(osmapi.OSMElement otherElement) =>
-    _osmElement.id == otherElement.id &&
-    _osmElement.type == otherElement.type;
+  bool isProxiedElement(osmapi.OSMElement otherElement) =>
+    _osmElement == otherElement;
 
 
-  /// Two proxy elements are considered equal if they have the same type and id.
+  /// Two proxy elements are considered equal if the underlying [OSMElement]s are equal.
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return
-      other is ProxyOSMElement<T> &&
-      id == other.id &&
-      type == other.type;
+    return other is ProxyOSMElement<T> && _osmElement == other._osmElement;
   }
 
   @override

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart' as url;
 
-import '/view_models/osm_authentication_provider.dart';
+import '/view_models/osm_authenticated_user_provider.dart';
 import '/commons/osm_config.dart' as osm_config;
 import '/commons/screens.dart';
 
@@ -31,14 +31,14 @@ class _HomeSidebarState extends State<HomeSidebar> {
               child: AnimatedSize(
                 curve: Curves.easeOutBack,
                 duration: const Duration(milliseconds: 300),
-                child: Consumer<OSMAuthenticationProvider>(
-                  builder: (context, authenticationProvider, child) {
+                child: Consumer<OSMAuthenticatedUserProvider>(
+                  builder: (context, authenticatedUserProvider, child) {
                     return AnimatedSwitcher(
                       duration: const Duration(milliseconds: 300),
-                      child: authenticationProvider.isLoggedIn
+                      child: authenticatedUserProvider.isLoggedIn
                         ? UserAccountHeader(
-                          name: authenticationProvider.userDetails?.name ?? 'Unknown',
-                          imageUrl: authenticationProvider.userDetails?.profileImageUrl,
+                          name: authenticatedUserProvider.authenticatedUser!.name,
+                          imageUrl: authenticatedUserProvider.authenticatedUser?.profileImageUrl,
                           onLogoutTap: _handleLogout,
                           onProfileTap: _handleShowProfile
                         )
@@ -78,7 +78,7 @@ class _HomeSidebarState extends State<HomeSidebar> {
 
 
   void _handleLogin() async {
-    final authenticationProvider = context.read<OSMAuthenticationProvider>();
+    final authenticationProvider = context.read<OSMAuthenticatedUserProvider>();
     authenticationProvider.login();
   }
 
@@ -105,15 +105,15 @@ class _HomeSidebarState extends State<HomeSidebar> {
     );
 
     if (confirmed == true) {
-      final authenticationProvider = context.read<OSMAuthenticationProvider>();
+      final authenticationProvider = context.read<OSMAuthenticatedUserProvider>();
       authenticationProvider.logout();
     }
   }
 
 
   void _handleShowProfile() {
-    final authenticationProvider = context.read<OSMAuthenticationProvider>();
-    final userName = authenticationProvider.userDetails?.name;
+    final authenticatedUserProvider = context.read<OSMAuthenticatedUserProvider>();
+    final userName = authenticatedUserProvider.authenticatedUser?.name;
     if (userName != null) {
       url.launch('${osm_config.osmServerUri}/user/$userName');
     }
