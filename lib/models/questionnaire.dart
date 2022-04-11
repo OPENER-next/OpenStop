@@ -160,6 +160,12 @@ class Questionnaire {
 }
 
 
+/// A [QuestionnaireEntry] delegates its equality to the underlying question.
+/// This means two [QuestionnaireEntry]s are equal if their underlying questions are equal,
+/// even though their answers might be different.
+/// Therefore instances of this class can be treated more or less as a unique key with an
+/// optional answer value.
+
 class QuestionnaireEntry<T extends Answer> {
   QuestionnaireEntry(this.question, [this.answer]);
 
@@ -169,8 +175,7 @@ class QuestionnaireEntry<T extends Answer> {
 
   @override
   int get hashCode =>
-    question.hashCode ^
-    answer.hashCode;
+    question.hashCode;
 
 
   @override
@@ -178,6 +183,5 @@ class QuestionnaireEntry<T extends Answer> {
     identical(this, other) ||
     other is QuestionnaireEntry<T> &&
     runtimeType == other.runtimeType &&
-    question == other.question &&
-    answer == other.answer;
+    question == other.question;
 }
