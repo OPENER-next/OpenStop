@@ -4,57 +4,84 @@ import 'question_input_widget.dart';
 import '/models/question_input.dart';
 
 
-class StringInput extends QuestionInputWidget {
-  const StringInput(
-    QuestionInput questionInput,
-    { AnswerController? controller, Key? key }
-  ) : super(questionInput, controller: controller, key: key);
+class StringInput extends QuestionInputWidget<StringAnswer> {
+  const StringInput({
+    required QuestionInput definition,
+    required AnswerController<StringAnswer> controller,
+    Key? key
+  }) : super(definition: definition, controller: controller, key: key);
 
   @override
-  _StringInputState createState() => _StringInputState();
+  Widget build(BuildContext context) {
+    return _StringInputDelegate(definition, controller, key: ValueKey(definition));
+  }
 }
 
 
-class _StringInputState extends QuestionInputWidgetState {
-  final _controller = TextEditingController();
+// This StatefulWidget is required because we are dealing with two controllers which need
+// to be linked together. This can only be achieved in a StatefulWidget.
+// For example when the AnswerController gets reset/changed from the outside it needs to
+// propagate the changes to the TextEditingController
 
-  late int _minValue;
-  late int _maxValue;
+class _StringInputDelegate extends StatefulWidget {
+    final QuestionInput definition;
+    final AnswerController<StringAnswer> controller;
+
+  const _StringInputDelegate(this.definition, this.controller, {
+    Key? key
+  }) : super(key: key);
+
+  @override
+  State<_StringInputDelegate> createState() => _StringInputDelegateState();
+}
+
+class _StringInputDelegateState extends State<_StringInputDelegate> {
+  final _textController = TextEditingController();
+
+  late int _minValue, _maxValue;
 
   @override
   void initState() {
     super.initState();
     _updateMinMax();
-    _controller.text = widget.controller?.answer?.value ?? '';
   }
 
-
   @override
-  void didUpdateWidget(covariant StringInput oldWidget) {
+  void didUpdateWidget(covariant _StringInputDelegate oldWidget) {
     super.didUpdateWidget(oldWidget);
+    // since the outer widget will always rebuild this widget on controller notifications
+    // we don't actually need to listen to the controller
+    final newValue = widget.controller.answer?.value ?? '';
+    if (_textController.text != newValue) {
+      _textController.value = TextEditingValue(
+        text: newValue,
+        // required, otherwise the input loses focus when clearing it
+        // even though the cursor is still displayed in the input and pressing a special character
+        // like a dot (.) will refocus the input field for whatever reason
+        selection: TextSelection.collapsed(offset: newValue.length)
+      );
+    }
     _updateMinMax();
   }
 
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+  void _updateMinMax() {
+    _minValue = widget.definition.values.values.first.min ?? 0;
+    _maxValue = widget.definition.values.values.first.max ?? 255;
   }
 
   @override
   Widget build(BuildContext context) {
-    final questionInputValue = widget.questionInput.values.values.first;
+    final questionInputValue = widget.definition.values.values.first;
 
     return TextFormField(
+      controller: _textController,
       onChanged: _handleChange,
-      controller: _controller,
       maxLength: _maxValue,
       decoration: InputDecoration(
         hintText: questionInputValue.name ?? 'Hier eintragen...',
         counter: const Offstage(),
         suffixIcon: IconButton(
-          onPressed: _handleClear,
+          onPressed: _handleChange,
           icon: const Icon(Icons.clear_rounded),
         )
       ),
@@ -69,32 +96,23 @@ class _StringInputState extends QuestionInputWidgetState {
   }
 
 
-  void _updateMinMax() {
-    final questionInputValue = widget.questionInput.values.values.first;
-    _minValue = questionInputValue.min ?? 0;
-    _maxValue = questionInputValue.max ?? 255;
-  }
-
-
-  bool _isValidLength(String value) => value.length >= _minValue && value.length <= _maxValue;
-
-
-  void _handleClear() {
-    _controller.clear();
-    _handleChange();
-  }
-
-
   void _handleChange([String value = '']) {
-    Answer? answer;
+    StringAnswer? answer;
 
-    if (value.isNotEmpty && _isValidLength(value)) {
+    if (value.isNotEmpty) {
       answer = StringAnswer(
-        questionValues: widget.questionInput.values,
+        questionValues: widget.definition.values,
         value: value
       );
     }
 
-    widget.controller?.answer = answer;
+    widget.controller.answer = answer;
+  }
+
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
   }
 }

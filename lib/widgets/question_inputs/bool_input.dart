@@ -4,65 +4,46 @@ import '/models/question_input.dart';
 import 'question_input_widget.dart';
 
 
-class BoolInput extends QuestionInputWidget {
-  const BoolInput(
-      QuestionInput questionInput,
-      { AnswerController? controller, Key? key }
-      ) : super(questionInput, controller: controller, key: key);
+class BoolInput extends QuestionInputWidget<BoolAnswer> {
+  const BoolInput({
+    required QuestionInput definition,
+    required AnswerController<BoolAnswer> controller,
+    Key? key
+  }) : super(definition: definition, controller: controller, key: key);
 
-  @override
-  _BoolInputState createState() => _BoolInputState();
-}
-
-
-class _BoolInputState extends QuestionInputWidgetState {
-  bool? _selectedBool;
-
-  late final ColorScheme theme = Theme.of(context).colorScheme;
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedBool = widget.controller?.answer?.value;
-  }
-
-  void _toggleState(bool state) {
-    setState(() {
-      _selectedBool = _selectedBool != state ? state : null;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return SizedBox(
       width: double.infinity,
       child: Wrap(
         alignment: WrapAlignment.spaceBetween,
-        children: widget.questionInput.values.entries.map<Widget>((entry) {
+        children: definition.values.entries.map<Widget>((entry) {
           final state = entry.key == 'true';
 
           return BoolInputItem(
             label:  Text(entry.value.name ?? (state ? 'Ja' : 'Nein')),
             onTap: () {
-              _toggleState(state);
-              _handleChange();
+              _handleChange(state);
             },
-            active: _selectedBool == state,
-            color: theme.primary.withOpacity(0),
-            activeColor: theme.primary,
-            labelColor: theme.primary,
-            activeIconColor: theme.onPrimary,
+            active: controller.answer?.value == state,
+            color: theme.colorScheme.primary.withOpacity(0),
+            activeColor: theme.colorScheme.primary,
+            labelColor: theme.colorScheme.primary,
+            activeIconColor: theme.colorScheme.onPrimary,
           );
         }).toList(),
         ),
     );
   }
 
-  void _handleChange() {
-    widget.controller?.answer = _selectedBool != null
+  void _handleChange(bool selectedState) {
+    controller.answer = controller.answer?.value != selectedState
       ? BoolAnswer(
-        questionValues: widget.questionInput.values,
-        value: _selectedBool!
+        questionValues: definition.values,
+        value: selectedState
       )
       : null;
   }

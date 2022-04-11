@@ -69,7 +69,7 @@ class Questionnaire {
   }
 
 
-  void update(Answer? answer) {
+  void update<T extends Answer>(T? answer) {
     if (_isValidIndex(_activeIndex)) {
       _entries[_activeIndex] = QuestionnaireEntry(
         _entries[_activeIndex].question,
@@ -160,9 +160,24 @@ class Questionnaire {
 }
 
 
-class QuestionnaireEntry {
+class QuestionnaireEntry<T extends Answer> {
   QuestionnaireEntry(this.question, [this.answer]);
 
   final Question question;
-  final Answer? answer;
+  final T? answer;
+
+
+  @override
+  int get hashCode =>
+    question.hashCode ^
+    answer.hashCode;
+
+
+  @override
+  bool operator == (other) =>
+    identical(this, other) ||
+    other is QuestionnaireEntry<T> &&
+    runtimeType == other.runtimeType &&
+    question == other.question &&
+    answer == other.answer;
 }

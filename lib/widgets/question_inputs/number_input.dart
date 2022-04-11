@@ -4,40 +4,65 @@ import '/models/answer.dart';
 import 'question_input_widget.dart';
 import '/models/question_input.dart';
 
-class NumberInput extends QuestionInputWidget{
-  const NumberInput(
-    QuestionInput questionInput,
-    { AnswerController? controller, Key? key }
-  ) : super(questionInput, controller: controller, key: key);
+class NumberInput extends QuestionInputWidget<NumberAnswer> {
+  const NumberInput({
+    required QuestionInput definition,
+    required AnswerController<NumberAnswer> controller,
+    Key? key
+  }) : super(definition: definition, controller: controller, key: key);
+
 
   @override
-  _NumberInputState createState() => _NumberInputState();
+  Widget build(BuildContext context) {
+    return _NumberInputDelegate(definition, controller, key: ValueKey(definition));
+  }
 }
 
 
-class _NumberInputState extends QuestionInputWidgetState {
-  final _controller = TextEditingController();
+// This StatefulWidget is required because we are dealing with two controllers which need
+// to be linked together. This can only be achieved in a StatefulWidget.
+// For example when the AnswerController gets reset/changed from the outside it needs to
+// propagate the changes to the TextEditingController
 
+class _NumberInputDelegate extends StatefulWidget {
+    final QuestionInput definition;
+    final AnswerController<NumberAnswer> controller;
+
+  const _NumberInputDelegate(this.definition, this.controller, {
+    Key? key
+  }) : super(key: key);
 
   @override
-  void initState() {
-    super.initState();
-    _controller.text = widget.controller?.answer?.value.toString() ?? '';
-  }
+  State<_NumberInputDelegate> createState() => _NumberInputDelegateState();
+}
+
+class _NumberInputDelegateState extends State<_NumberInputDelegate> {
+  final _textController = TextEditingController();
 
   @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+  void didUpdateWidget(covariant _NumberInputDelegate oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // since the outer widget will always rebuild this widget on controller notifications
+    // we don't actually need to listen to the controller
+    final newValue = widget.controller.answer?.value ?? '';
+    if (_textController.text != newValue) {
+      _textController.value = TextEditingValue(
+        text: newValue,
+        // required, otherwise the input loses focus when clearing it
+        // even though the cursor is still displayed in the input and pressing a special character
+        // like a dot (.) will refocus the input field for whatever reason
+        selection: TextSelection.collapsed(offset: newValue.length)
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final questionInputValue = widget.questionInput.values.values.first;
+    final questionInputValue = widget.definition.values.values.first;
 
     return TextFormField(
+      controller: _textController,
       onChanged: _handleChange,
-      controller: _controller,
       decoration: InputDecoration(
         hintText: questionInputValue.name ?? 'Hier eintragen...',
         suffixIcon: Row(
@@ -49,7 +74,7 @@ class _NumberInputState extends QuestionInputWidgetState {
               style: Theme.of(context).textTheme.subtitle1
             ),
             IconButton(
-              onPressed: _handleClear,
+              onPressed: _handleChange,
               icon: const Icon(Icons.clear_rounded),
             )
           ]
@@ -87,7 +112,7 @@ class _NumberInputState extends QuestionInputWidgetState {
 
 
   bool _isValidRange(double value) {
-    final questionInputValue = widget.questionInput.values.values.first;
+    final questionInputValue = widget.definition.values.values.first;
     if (questionInputValue.min != null && value < questionInputValue.min!) {
       return false;
     }
@@ -99,7 +124,7 @@ class _NumberInputState extends QuestionInputWidgetState {
 
 
   List<TextInputFormatter> _buildInputFormatters() {
-    final questionInputValue = widget.questionInput.values.values.first;
+    final questionInputValue = widget.definition.values.values.first;
 
     final decimalsAllowed = questionInputValue.decimals != null && questionInputValue.decimals! > 0;
 
@@ -116,24 +141,24 @@ class _NumberInputState extends QuestionInputWidgetState {
   }
 
 
-  void _handleClear() {
-    _controller.clear();
-    _handleChange();
-  }
-
-
   void _handleChange([String value = '']) {
     value = value.replaceAll(',', '.');
-    Answer? answer;
+    NumberAnswer? answer;
 
-    final numberValue = double.tryParse(value);
-    if (numberValue != null && _isValidRange(numberValue)) {
+    if (double.tryParse(value) != null) {
       answer = NumberAnswer(
-        questionValues: widget.questionInput.values,
-        value: numberValue
+        questionValues: widget.definition.values,
+        value: value
       );
     }
 
-    widget.controller?.answer = answer;
+    widget.controller.answer = answer;
+  }
+
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
   }
 }

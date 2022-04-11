@@ -38,22 +38,41 @@ class _QuestionDialogState extends State<QuestionDialog> {
 
   final _layerLink = LayerLink();
 
-  final _answerController = AnswerController();
+  final Map<QuestionnaireEntry, AnswerController> _answerControllerMapping = {};
 
   @override
   void initState() {
     super.initState();
-    _answerController.answer = widget.questionEntries[widget.activeQuestionIndex].answer;
+    _updateControllers();
   }
 
   @override
   void didUpdateWidget(covariant QuestionDialog oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _answerController.answer = widget.questionEntries[widget.activeQuestionIndex].answer;
+    _updateControllers();
   }
+
+  /// Maps all QuestionnaireEntries to typed AnswerControllers
+
+  void _updateControllers() {
+    // remove obsolete text controllers
+    _answerControllerMapping.removeWhere((key, value) => !widget.questionEntries.contains(key));
+    // add new text controllers for each entry if none already exists
+    for (final questionEntry in widget.questionEntries) {
+      _answerControllerMapping.putIfAbsent(
+        questionEntry,
+        () => AnswerController.fromType(
+          type: questionEntry.question.input.type,
+          initialAnswer: questionEntry.answer
+        )
+      );
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    final activeQuestionnaireEntry = widget.questionEntries[widget.activeQuestionIndex];
     final questionCount = widget.questionEntries.length;
     final activeIndex = widget.activeQuestionIndex + (_isFinished ? 1 : 0);
     final hasPrevious = activeIndex > 0;
@@ -97,10 +116,11 @@ class _QuestionDialogState extends State<QuestionDialog> {
                   CompositedTransformTarget(
                     link: _layerLink,
                     child: AnimatedBuilder(
-                      animation: _answerController,
+                      animation: _answerControllerMapping[activeQuestionnaireEntry]!,
                       builder: (context, child) {
+                        final answer = _answerControllerMapping[activeQuestionnaireEntry]?.answer;
                         return QuestionNavigationBar(
-                          nextText: _isFinished ? null : _answerController.answer != null ? 'Weiter' : 'Überspringen',
+                          nextText: _isFinished ? null : answer != null ? 'Weiter' : 'Überspringen',
                           backText: hasPrevious ? 'Zurück' : null,
                           onNext: _handleNext,
                           onBack: _handleBack,
@@ -170,8 +190,8 @@ class _QuestionDialogState extends State<QuestionDialog> {
               bottom: 30
             ),
             child: QuestionInputWidget.fromQuestionInput(
-              questionnaireEntry.question.input,
-              controller: _answerController,
+              definition: questionnaireEntry.question.input,
+              controller: _answerControllerMapping[questionnaireEntry]!,
             )
           )
         ],
@@ -251,9 +271,25 @@ class _QuestionDialogState extends State<QuestionDialog> {
 
   void _update() {
     final questionnaire = context.read<QuestionnaireProvider>();
-    questionnaire.update(_answerController.answer);
-    debugPrint('Previous Answer: ${_answerController.answer}');
+
+    final activeQuestionEntry = widget.questionEntries[widget.activeQuestionIndex];
+    final answerController = _answerControllerMapping[activeQuestionEntry]!;
+
+    if (answerController.answer?.isValid == false) {
+      questionnaire.update(null);
+    }
+    else {
+      questionnaire.update(answerController.answer);
+    }
+    debugPrint('Previous Answer: ${answerController.answer}');
     // always unfocus the current node to close all onscreen keyboards
     FocusManager.instance.primaryFocus?.unfocus();
+  }
+
+
+  @override
+  void dispose() {
+    _answerControllerMapping.forEach((_, controller) => controller.dispose());
+    super.dispose();
   }
 }

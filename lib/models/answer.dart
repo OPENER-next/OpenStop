@@ -15,7 +15,13 @@ abstract class Answer<T> {
 
   final T value;
 
+  /// Build OSM tags based on the given value.
+
   Map<String, String> toTagMap();
+
+  /// Whether the value of this answer is valid or not.
+
+  bool get isValid;
 
   @override
   String toString() => throw UnimplementedError('Sub-classes should implement toString');
@@ -41,14 +47,27 @@ class StringAnswer extends Answer<String> {
 
 
   @override
+  bool get isValid {
+    final questionInputValue = questionValues.values.first;
+
+    final min = (questionInputValue.min ?? 1).clamp(1, 255);
+    final max = (questionInputValue.max ?? 255).clamp(1, 255);
+
+    return value.length >= min && value.length <= max;
+  }
+
+
+  @override
   String toString() => value;
 }
 
 
-class NumberAnswer extends Answer<double> {
+/// Use string instead of double to avoid precision errors
+
+class NumberAnswer extends Answer<String> {
   NumberAnswer({
     required Map<String, QuestionInputValue> questionValues,
-    required double value
+    required String value
   }) : super(questionValues: questionValues, value: value);
 
 
@@ -58,21 +77,41 @@ class NumberAnswer extends Answer<double> {
 
     return tags.map((key, value) => MapEntry(
       key,
-      value.replaceAll('%s', this.value.toString())
+      value.replaceAll('%s', this.value)
     ));
+  }
+
+
+  @override
+  bool get isValid {
+    final questionInputValue = questionValues.values.first;
+
+    var allowRegexString = '^\\d+';
+    if (questionInputValue.decimals != null && questionInputValue.decimals! > 0) {
+      allowRegexString += '[,.]?\\d{0,${questionInputValue.decimals}}';
+    }
+    if (!RegExp(allowRegexString).hasMatch(value)) {
+      return false;
+    }
+
+    final numValue = double.tryParse(value);
+    if (numValue != null) {
+      if (questionInputValue.min != null && numValue < questionInputValue.min!) {
+        return false;
+      }
+      if (questionInputValue.max != null && questionInputValue.max! < numValue) {
+        return false;
+      }
+      return true;
+    }
+    return false;
   }
 
 
   @override
   String toString() {
     final unit = questionValues.values.first.unit;
-    // remove fractional part if value has no fractional part
-    var numberString = (value % 1 == 0) ? value.toStringAsFixed(0) : value.toString();
-
-    if (unit != null) {
-      numberString += ' $unit';
-    }
-    return numberString;
+    return (unit == null) ? value : '$value $unit';
   }
 }
 
@@ -94,6 +133,10 @@ class BoolAnswer extends Answer<bool> {
 
     return Map.of(tags);
   }
+
+
+  @override
+  bool get isValid => true;
 
 
   @override
@@ -121,6 +164,10 @@ class ListAnswer extends Answer<String> {
 
     return Map.of(tags);
   }
+
+
+  @override
+  bool get isValid => true;
 
 
   @override
@@ -152,6 +199,10 @@ class DurationAnswer extends Answer<Duration> {
       );
     });
   }
+
+
+  @override
+  bool get isValid => true;
 
 
   @override

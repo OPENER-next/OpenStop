@@ -3,53 +3,35 @@ import '/models/answer.dart';
 import 'question_input_widget.dart';
 import '/models/question_input.dart';
 
-class ListInput extends QuestionInputWidget {
-  const ListInput(
-    QuestionInput questionInput,
-    { AnswerController? controller, Key? key }
-  ) : super(questionInput, controller: controller, key: key);
+class ListInput extends QuestionInputWidget<ListAnswer> {
+  const ListInput({
+    required QuestionInput definition,
+    required AnswerController<ListAnswer> controller,
+    Key? key
+  }) : super(definition: definition, controller: controller, key: key);
 
-  @override
-  _ListInputState createState() => _ListInputState();
-}
-
-class _ListInputState extends QuestionInputWidgetState {
-  String? _selectedKey;
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedKey = widget.controller?.answer?.value;
-  }
-
-  void _toggleExpand(String entry) {
-    setState(() {
-      _selectedKey = _selectedKey == entry ? null : entry;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Wrap(
       runSpacing: 8.0,
-      children: widget.questionInput.values.entries.map<Widget>((entry) {
+      children: definition.values.entries.map<Widget>((entry) {
         return ListInputItem(
           item: entry.value,
           onTap: () {
-            _toggleExpand(entry.key);
-            _handleChange();
+            _handleChange(entry.key);
           },
-          active: _selectedKey == entry.key,
+          active: entry.key == controller.answer?.value,
         );
       }).toList(),
     );
   }
 
-  void _handleChange() {
-    widget.controller?.answer =  _selectedKey != null
+  void _handleChange(String selectedKey) {
+    controller.answer = selectedKey != controller.answer?.value
       ? ListAnswer(
-        questionValues: widget.questionInput.values,
-        value: _selectedKey!
+        questionValues: definition.values,
+        value: selectedKey
       )
       : null;
   }
