@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '/widgets/hero_viewer.dart';
 import '/models/answer.dart';
 import 'question_input_widget.dart';
 import '/models/question_input.dart';
@@ -95,6 +96,7 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
+      clipBehavior: Clip.antiAlias,
       style: _toggleStyle(widget.active),
       onPressed: widget.onTap,
       child: Row(
@@ -136,26 +138,27 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
           ),
           if (widget.item.image != null)
             Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(8.0),
-                        bottomRight: Radius.circular(8.0)),
-                    child: Image.asset(
-                      widget.item.image!,
-                      errorBuilder: (context, error, stackTrace){
-                        return Image.asset(
-                            'assets/images/placeholder_image.png',
-                            fit: BoxFit.cover,
-                            height: 90);
-                      },
-                      fit: BoxFit.cover,
-                      height: 90,
-                    ),
-                  ),
-                )
+              flex: 2,
+              // HeroViewer cannot be wrapped around since the returned error widget
+              // represents a different widget wherefore the hero transition would fail.
+              child: Image.asset(
+                widget.item.image!,
+                fit: BoxFit.cover,
+                height: 90,
+                frameBuilder: (context, child, _, __) {
+                  return HeroViewer(
+                    child: child
+                  );
+                },
+                errorBuilder: (context, _, __) {
+                  // do not add a hero viewer to the error widget since enlarging this makes no sense
+                  return Image.asset(
+                    'assets/images/placeholder_image.png',
+                    fit: BoxFit.cover,
+                    height: 90,
+                  );
+                },
+              )
             )
         ],
       ),
