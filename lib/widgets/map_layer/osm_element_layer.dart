@@ -76,10 +76,11 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       child: Selector<QuestionnaireProvider, ProxyOSMElement?>(
         selector: (_, questionnaire) => questionnaire.workingElement,
         builder: (context, activeElement, child) {
+          final hasNoActive = activeElement == null;
           final isActive = activeElement?.isProxiedElement(osmElement) ?? false;
           return OsmElementMarker(
             onTap: () => widget.onOsmElementTap?.call(geoElement),
-            backgroundColor: isActive ? Colors.redAccent : null,
+            backgroundColor: isActive || hasNoActive ? null : Colors.grey, // Color(0xffd39690), //Theme.of(context).colorScheme.primary.withOpacity(0.75),
             icon: mapFeature?.icon ?? CommunityMaterialIcons.help_rhombus_outline
           );
         },
