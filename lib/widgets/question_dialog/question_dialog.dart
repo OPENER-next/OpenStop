@@ -5,11 +5,11 @@ import 'package:provider/provider.dart';
 import '/models/questionnaire.dart';
 import '/view_models/osm_authenticated_user_provider.dart';
 import '/view_models/questionnaire_provider.dart';
-import '/widgets/animated_progress_bar.dart';
 import '/widgets/question_inputs/question_input_widget.dart';
 import '/widgets/question_dialog/question_summary.dart';
 import 'question_list.dart';
 import 'question_navigation_bar.dart';
+import 'question_progress_bar.dart';
 import 'question_sheet.dart';
 import 'question_text_header.dart';
 
@@ -106,7 +106,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
                       ]
                     )
                   ),
-                  AnimatedProgressBar(
+                  QuestionProgressBar(
                     minHeight: 1,
                     color: Theme.of(context).colorScheme.primary,
                     value: activeIndex / questionCount,
