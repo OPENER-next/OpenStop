@@ -44,7 +44,7 @@ class QuestionSummary extends StatelessWidget {
                 bottom: 10
               ),
               child: Text(
-                'Vielen Dank für deine Antworten. Bitte überprüfe sie vor dem Hochladen noch einmal.',
+                'Danke für deine Antworten. \nBitte prüfe sie vor dem Hochladen nochmal.',
                 style: textStyle
               )
             ),
