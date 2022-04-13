@@ -79,7 +79,7 @@ class _StopAreaIndicatorState extends State<StopAreaIndicator> with SingleTicker
       child: ClipOval(
         child: CustomPaint(
           painter: CirclePainter(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.25),
             strokeWidth: 0
           ),
           size: Size.square(widget.size),
