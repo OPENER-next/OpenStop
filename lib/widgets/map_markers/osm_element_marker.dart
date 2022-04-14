@@ -17,42 +17,46 @@ class OsmElementMarker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: FractionalTranslation(
-              translation: const Offset(0, 0.5),
-              child: FractionallySizedBox(
-                widthFactor: 0.5,
-                heightFactor: 0.175,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 4
-                      )
-                    ]
-                  )
+    // add repaint boundary for performance improvement
+    // this way a marker will only be redrawn if it self changes
+    return RepaintBoundary(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: FractionalTranslation(
+                translation: const Offset(0, 0.5),
+                child: FractionallySizedBox(
+                  widthFactor: 0.5,
+                  heightFactor: 0.175,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 4
+                        )
+                      ]
+                    )
+                  ),
                 ),
-              ),
-            )
-          ),
-          CustomPaint(
-            painter: MarkerPinPainter(
-              color: backgroundColor ?? Theme.of(context).colorScheme.primary,
-              strokeColor: Colors.white,
-              icon: icon
+              )
             ),
-            isComplex: true,
-            willChange: false,
-          ),
-        ],
+            CustomPaint(
+              painter: MarkerPinPainter(
+                color: backgroundColor ?? Theme.of(context).colorScheme.primary,
+                strokeColor: Colors.white,
+                icon: icon
+              ),
+              isComplex: true,
+              willChange: false,
+            ),
+          ],
+        )
       )
     );
   }
