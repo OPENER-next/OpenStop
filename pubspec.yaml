@@ -68,7 +68,10 @@ dev_dependencies:
   build_runner: ^2.1.7
   build_version: ^2.0.0
 
-
+# Use latest flutter map from github till a new version is released on pub.dev
+dependency_overrides:
+  flutter_map:
+    git: https://github.com/fleaflet/flutter_map.git
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
