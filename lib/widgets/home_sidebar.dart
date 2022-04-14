@@ -6,8 +6,10 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart' as url;
 
 import '/view_models/osm_authenticated_user_provider.dart';
+import '/commons/app_config.dart' as app_config;
 import '/commons/osm_config.dart' as osm_config;
 import '/commons/screens.dart';
+import '/widgets/custom_list_tile.dart';
 
 
 class HomeSidebar extends StatefulWidget {
@@ -27,7 +29,8 @@ class _HomeSidebarState extends State<HomeSidebar> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            ColoredBox(color: Theme.of(context).colorScheme.primary,
+            ColoredBox(
+              color: Theme.of(context).colorScheme.primary,
               child: AnimatedSize(
                 curve: Curves.easeOutBack,
                 duration: const Duration(milliseconds: 300),
@@ -50,25 +53,21 @@ class _HomeSidebarState extends State<HomeSidebar> {
                 )
               )
             ),
-            ListTile(
-              leading: const Icon(
-                Icons.settings,
-              ),
-              title: const Text('Einstellungen'),
+            CustomListTile(
+              leadingIcon: Icons.settings,
+              title: 'Einstellungen',
               onTap: () => Navigator.pushNamed(context, Screen.settings),
             ),
-            ListTile(
-              leading: const Icon(
-                Icons.info,
-              ),
-              title: const Text('Über'),
+            CustomListTile(
+              leadingIcon: Icons.info,
+              title: 'Über',
               onTap: () => Navigator.pushNamed(context, Screen.about),
             ),
-            ListTile(
-              leading: const Icon(Icons.feedback,
-              ),
-              title: const Text('Feedback'),
-              onTap: () {},
+            CustomListTile(
+              leadingIcon: Icons.feedback,
+              title: 'Feedback',
+              trailingIcon: Icons.open_in_new,
+              onTap: () => url.launch('${app_config.appProjectUrl}/issues'),
             ),
           ],
         ),
