@@ -48,78 +48,65 @@ class QuestionSummary extends StatelessWidget {
                 style: textStyle
               )
             ),
-            Material(
-              type: MaterialType.transparency,
-              child: Table(
-                border: TableBorder(
-                  horizontalInside: BorderSide(
-                    color: Theme.of(context).colorScheme.onBackground
-                  )
-                ),
-                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                columnWidths: const <int, TableColumnWidth>{
-                  0: FractionColumnWidth(0.1),
-                  1: FractionColumnWidth(0.65),
-                  2: FractionColumnWidth(0.25)
-                },
-                children: _buildTableEntries()
-              )
-            ),
+            ..._buildEntries(),
           ],
         ),
       );
   }
 
 
-  List<TableRow>_buildTableEntries() {
-    final rows = <TableRow>[];
-    for (int i = 0; i < questionEntries.length; i++) {
+  Iterable<Widget> _buildEntries() sync* {
+    for (int i = 0, j = 0; i < questionEntries.length; i++) {
       // filter unanswered questions
       // use this extra method instead of .where and .map to get access to the correct index
       if (questionEntries[i].answer != null) {
-        rows.add(_buildTableEntry(i));
+        if (j > 0) {
+          yield const Divider(
+            height: 1,
+            thickness: 1,
+          );
+        }
+        j++;
+        yield _buildEntry(i);
       }
     }
-    return rows;
   }
 
 
-  TableRow _buildTableEntry(int index) {
+  Widget _buildEntry(int index) {
     final entry = questionEntries[index];
-    void onTap() => onJump?.call(index);
 
-    return TableRow(
-      children: [
-        TableRowInkWell(
-          onTap: onTap,
-          child: const Align(
-            alignment: Alignment.centerLeft,
-            child: Icon(
-              Icons.chevron_left_rounded
-            )
+    return Material(
+      child: InkWell(
+        onTap: () => onJump?.call(index),
+        child: Padding(
+          padding: const EdgeInsets.only(
+            top: 15,
+            bottom: 15,
+            right: 10
+          ),
+          child: Row(
+            children: [
+              const Icon(
+                Icons.chevron_left_rounded
+              ),
+              ConstrainedBox(
+                constraints: const BoxConstraints(minWidth: 100, maxWidth: 200),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Text('${entry.question.name}:')
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  entry.answer.toString(),
+                  textAlign: TextAlign.right,
+                )
+              ),
+            ],
           )
         ),
-        TableRowInkWell(
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15),
-            child: Text('${entry.question.name}:'),
-          )
-        ),
-        TableRowInkWell(
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 15,
-              horizontal: 10
-            ),
-            child: Text(
-              entry.answer.toString(),
-              textAlign: TextAlign.right,
-            ),
-          )
-        ),
-      ],
+      ),
     );
   }
 }
