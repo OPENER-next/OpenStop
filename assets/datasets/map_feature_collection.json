@@ -1,6 +1,6 @@
 [
   {
-    "name": "Haltestelle ohne Plattform",
+    "name": "Haltestelle",
     "icon": "stop",
     "osm_tags": {
       "public_transport": "platform"
@@ -8,7 +8,7 @@
     "osm_element": "Node"
   },
   {
-    "name": "Haltestelle mit Plattform",
+    "name": "Haltestelle",
     "icon": "platform",
     "osm_tags": {
       "public_transport": "platform"
