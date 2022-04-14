@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 /// A unique identifier for a [_TileLayerDefinition] used in the [tileLayers] map.
 
 enum TileLayerId {
-  openStreetMap,
+  standard,
   publicTransport,
 }
 
@@ -12,8 +12,8 @@ const _thunderforestAPIKey = String.fromEnvironment('THUNDERFOREST_API_KEY', def
 /// A map of tile layers used in the app.
 
 const tileLayers = {
-  TileLayerId.openStreetMap: _TileLayerDefinition(
-    name: 'Base Map',
+  TileLayerId.standard: _TileLayerDefinition(
+    name: 'Standard',
     templateUrl: 'https://tile.thunderforest.com/atlas/{z}/{x}/{y}@2x.png?apikey=$_thunderforestAPIKey',
     creditsText: 'Maps © Thunderforest',
     creditsUrl: 'https://www.thunderforest.com',

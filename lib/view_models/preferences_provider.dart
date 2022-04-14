@@ -10,7 +10,7 @@ class PreferencesProvider extends ChangeNotifier {
   static const _defaultThemeMode = ThemeMode.system;
   static const _defaultDifficulty = DifficultyLevel.easy;
   static const _defaultOnboarding = false;
-  static const _defaultTileLayerId = TileLayerId.publicTransport;
+  static const _defaultTileLayerId = TileLayerId.standard;
 
   PreferencesProvider({
     required SharedPreferences preferences,
