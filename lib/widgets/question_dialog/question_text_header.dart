@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '/widgets/hero_viewer.dart';
+
 class QuestionTextHeader extends StatefulWidget {
   final String question;
 
   final String details;
 
+  final List<String> images;
+
   const QuestionTextHeader({
     required this.question,
     required this.details,
+    this.images = const [],
     Key? key
   }) : super(key: key);
 
@@ -81,6 +86,10 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
 
   @override
   Widget build(BuildContext context) {
+    const horizontalPadding = EdgeInsets.symmetric(horizontal: 20);
+
+    final hasAdditionalInfo = widget.details.isNotEmpty || widget.images.isNotEmpty;
+
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: widget.details.isEmpty ? null : () {
@@ -95,65 +104,123 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
       child: Padding(
         padding: const EdgeInsets.only(
           top: 25,
-          left: 20,
-          right: 20,
           bottom: 20
         ),
         child: Column(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    widget.question,
-                    style: const TextStyle(
-                      height: 1.3,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold
+            Padding(
+              padding: horizontalPadding,
+                child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      widget.question,
+                      style: const TextStyle(
+                        height: 1.3,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold
+                      ),
                     ),
                   ),
-                ),
-                if (widget.details.isNotEmpty) AnimatedBuilder(
-                  animation: _fillColorAnimation,
-                  builder: (context, child) {
-                    return Container(
-                      margin: const EdgeInsets.only(left: 10),
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: _fillColorAnimation.value!,
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Theme.of(context).colorScheme.primary,
+                  if (hasAdditionalInfo) AnimatedBuilder(
+                    animation: _fillColorAnimation,
+                    builder: (context, child) {
+                      return Container(
+                        margin: const EdgeInsets.only(left: 10),
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: _fillColorAnimation.value!,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.primary,
+                          )
+                        ),
+                        child: Text(
+                          'i',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: _iconColorAnimation.value!,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Times'
+                          )
                         )
-                      ),
-                      child: Text(
-                        'i',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: _iconColorAnimation.value!,
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Times'
-                        )
-                      )
-                    );
-                  },
-                )
-              ]
+                      );
+                    },
+                  )
+                ]
+              )
             ),
-            if (widget.details.isNotEmpty) SizeTransition(
+            if (hasAdditionalInfo) SizeTransition(
               axisAlignment: -1,
               sizeFactor: _sizeAnimation,
               child: FadeTransition(
                 opacity: _fadeAnimation,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 5),
-                  child: Text(
-                    widget.details,
-                    style: const TextStyle(
-                      fontSize: 12,
-                    )
-                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (widget.details.isNotEmpty) Padding(
+                        padding: widget.images.isNotEmpty
+                          ? horizontalPadding + const EdgeInsets.only(bottom: 10)
+                          : horizontalPadding,
+                        child: Text(
+                          widget.details,
+                          style: const TextStyle(
+                            fontSize: 12,
+                          )
+                        )
+                      ),
+                      if (widget.images.isNotEmpty) ConstrainedBox(
+                        constraints: const BoxConstraints(
+                          maxHeight: 90
+                        ),
+                        child: ShaderMask(
+                          blendMode: BlendMode.dstOut,
+                          shaderCallback: (Rect bounds) {
+                            final leftProportion = horizontalPadding.left / bounds.width;
+                            final rightProportion = horizontalPadding.right / bounds.width;
+                            return LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              stops: [0, leftProportion, 1 - rightProportion, 1],
+                              colors: const [
+                                Colors.white,
+                                Colors.transparent,
+                                Colors.transparent,
+                                Colors.white,
+                              ],
+                            ).createShader(bounds);
+                          },
+                          child: ListView.separated(
+                            padding: horizontalPadding,
+                            clipBehavior: Clip.none,
+                            physics: const BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: widget.images.length,
+                            separatorBuilder: (context, index) => const SizedBox(width: 10),
+                            itemBuilder: (context, index) {
+                              return Image.asset(
+                                widget.images[index],
+                                frameBuilder: (context, child, _, __) {
+                                  return HeroViewer(
+                                    child: child
+                                  );
+                                },
+                                errorBuilder: (context, _, __) {
+                                  // do not add a hero viewer to the error widget since enlarging this makes no sense
+                                  return Image.asset(
+                                    'assets/images/placeholder_image.png',
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        )
+                      )
+                    ],
+                  )
                 )
               )
             )

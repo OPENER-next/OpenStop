@@ -182,6 +182,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
           QuestionTextHeader(
             question: questionnaireEntry.question.question,
             details: questionnaireEntry.question.description,
+            images: questionnaireEntry.question.images,
           ),
           Padding(
             padding: const EdgeInsets.only(
