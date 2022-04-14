@@ -92,11 +92,6 @@ class _AboutScreenState extends State<AboutScreen> {
                 title: 'Datenschutzerklärung',
                 onTap: () => Navigator.pushNamed(context, Screen.privacyPolicy),
               ),
-              // CustomListTile(
-              //   leadingIcon: Icons.contact_page,
-              //   title: 'Nutzungsbedingungen',
-              //   onTap: () => Navigator.pushNamed(context, Screen.termsOfUse),
-              // ),
               CustomListTile(
                 leadingIcon: Icons.text_snippet,
                 trailingIcon: Icons.arrow_forward_ios_rounded,

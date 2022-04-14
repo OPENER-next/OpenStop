@@ -14,7 +14,6 @@ import '/screens/licenses.dart';
 import '/screens/onboarding.dart';
 import '/screens/privacy_policy.dart';
 import '/screens/settings.dart';
-import '/screens/terms_of_use.dart';
 import '/helpers/system_ui_adaptor.dart';
 
 
@@ -62,8 +61,7 @@ class MyApp extends StatelessWidget {
             Screen.licenses: (context) => const LicensesScreen(),
             Screen.onboarding: (context) => const OnboardingScreen(),
             Screen.privacyPolicy: (context) => const PrivacyPolicyScreen(),
-            Screen.settings: (context) => const SettingsScreen(),
-            Screen.termsOfUse: (context) => const TermsOfUseScreen(),
+            Screen.settings: (context) => const SettingsScreen()
           },
           navigatorObservers: [
             SystemUIAdaptor({

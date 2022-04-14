@@ -10,5 +10,4 @@ class Screen {
   static const String onboarding = 'onboarding';
   static const String privacyPolicy = 'privacyPolicy';
   static const String settings = 'settings';
-  static const String termsOfUse = 'termsOfUse';
 }
