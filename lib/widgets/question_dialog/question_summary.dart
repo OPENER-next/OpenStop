@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '/view_models/osm_authenticated_user_provider.dart';
 import '/models/questionnaire.dart';
 
 class QuestionSummary extends StatelessWidget {
@@ -21,6 +24,11 @@ class QuestionSummary extends StatelessWidget {
       fontWeight: FontWeight.bold
     );
 
+    final userProvider = context.watch<OSMAuthenticatedUserProvider>();
+    final userName = userProvider.isLoggedIn
+      ? '${userProvider.authenticatedUser!.name} '
+      : '';
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 25,
@@ -39,12 +47,12 @@ class QuestionSummary extends StatelessWidget {
         : Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(
+            Padding(
+              padding: const EdgeInsets.only(
                 bottom: 10
               ),
               child: Text(
-                'Danke für deine Antworten. \nBitte prüfe sie vor dem Hochladen nochmal.',
+                'Danke ${userName}für deine Antworten. \nBitte prüfe sie vor dem Hochladen nochmal.',
                 style: textStyle
               )
             ),
