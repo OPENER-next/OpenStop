@@ -23,8 +23,7 @@
                "operator": false
             }
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1021,
@@ -48,8 +47,7 @@
                "opening_hours": false
             }
          }
-      ],
-      "difficulty": 1
+      ]
    },
    {
       "id": 1022,
@@ -79,8 +77,7 @@
                "wheelchair": false
             }
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1031,
@@ -106,8 +103,7 @@
                "operator": false
             }
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1031,
@@ -132,8 +128,7 @@
                "opening_hours": false
             }
          }
-      ],
-      "difficulty": 1
+      ]
    },
    {
       "id": 1032,
@@ -164,8 +159,7 @@
                "wheelchair": false
             }
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1051,
@@ -216,8 +210,7 @@
                "parking": false
             }
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1051,
@@ -250,8 +243,7 @@
                "capacity:disabled": false
             }
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1051,
@@ -284,8 +276,7 @@
                "capacity:disabled": "yes"
             }
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1052,
@@ -313,8 +304,7 @@
                "opening_hours": false
             }
          }
-      ],
-      "difficulty": 1
+      ]
    },
    {
       "id": 1052,
@@ -351,8 +341,7 @@
                "park_ride": false
             }
          }
-      ],
-      "difficulty": 1
+      ]
    },
    {
       "id": 1052,
@@ -388,8 +377,7 @@
                "maxstay": false
             }
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1052,
@@ -418,8 +406,7 @@
                "maxstay": "yes"
             }
          }
-      ],
-      "difficulty": 1
+      ]
    },
    {
       "id": 1052,
@@ -452,8 +439,7 @@
                "fee": false
             }
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1071,
@@ -496,8 +482,7 @@
                "wheelchair": false
             }
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1073,
@@ -533,8 +518,7 @@
                "centralkey": false
             }
          }
-      ],
-      "difficulty": 1
+      ]
    },
    {
       "id": 1073,
@@ -570,8 +554,7 @@
                "centralkey": "yes"
             }
          }
-      ],
-      "difficulty": 1
+      ]
    },
    {
       "id": 1074,
@@ -600,8 +583,7 @@
                "centralkey:description": false
             }
          }
-      ],
-      "difficulty": 1
+      ]
    },
    {
       "id": 1075,
@@ -628,8 +610,7 @@
                "opening_hours": false
             }
          }
-      ],
-      "difficulty": 1
+      ]
    },
    {
       "id": 1075,
@@ -661,8 +642,7 @@
                "fee": false
             }
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1120,
@@ -693,8 +673,7 @@
                "bench": false
             }
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1120,
@@ -725,8 +704,7 @@
                "shelter": false
             }
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1130,
@@ -766,8 +744,7 @@
                "departures_board": false
             }
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1131,
@@ -803,8 +780,7 @@
                "departures_board:speech_output": false
             }
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1140,
@@ -836,8 +812,7 @@
                "passenger_information_display": false
             }
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1141,
@@ -869,8 +844,7 @@
                "passenger_information_display:speech_output": false
             }
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1150,
@@ -899,8 +873,7 @@
                "announcement": false
             }
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1150,
@@ -940,8 +913,7 @@
                "announcement": "yes"
             }
          }
-      ],
-      "difficulty": 1
+      ]
    },
    {
       "id": 1170,
@@ -973,8 +945,7 @@
                "ClosedWay"
             ]
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1170,
@@ -1017,8 +988,7 @@
                "ClosedWay"
             ]
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1170,
@@ -1046,11 +1016,12 @@
             },
             "osm_element": [
                "OpenWay",
-               "ClosedWay"
+               "ClosedWay",
+               "Relation"
             ]
          }
       ],
-      "difficulty": 2
+      "isProfessional": true
    },
    {
       "id": 1180,
@@ -1078,8 +1049,7 @@
             },
             "osm_element": "OpenWay"
          }
-      ],
-      "difficulty": 1
+      ]
    },
    {
       "id": 1200,
@@ -1117,8 +1087,7 @@
                "kerb:approach_aid": false
             }
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1201,
@@ -1160,8 +1129,7 @@
                "kerb:approach_aid": "yes"
             }
          }
-      ],
-      "difficulty": 1
+      ]
    },
    {
       "id": 1210,
@@ -1193,8 +1161,7 @@
                "wheelchair:portable_ramp": false
             }
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1211,
@@ -1225,8 +1192,7 @@
                "wheelchair:portable_ramp:length": false
             }
          }
-      ],
-      "difficulty": 1
+      ]
    },
    {
       "id": 1212,
@@ -1257,8 +1223,7 @@
                "wheelchair:portable_ramp:maxweight": false
             }
          }
-      ],
-      "difficulty": 1
+      ]
    },
    {
       "id": 1220,
@@ -1290,8 +1255,7 @@
                "wheelchair:portable_lift": false
             }
          }
-      ],
-      "difficulty": 0
+      ]
    },
    {
       "id": 1221,
@@ -1322,8 +1286,7 @@
                "wheelchair:portable_lift:length": false
             }
          }
-      ],
-      "difficulty": 1
+      ]
    },
    {
       "id": 1222,
@@ -1351,7 +1314,6 @@
                "wheelchair:portable_lift:maxweight": false
             }
          }
-      ],
-      "difficulty": 1
+      ]
    }
 ]

@@ -5,6 +5,7 @@ class CustomListTile extends StatelessWidget {
   final String? subtitle;
   final IconData? leadingIcon;
   final IconData? trailingIcon;
+  final Widget? trailingWidget;
   final void Function()? onTap;
   final bool isThreeLine;
 
@@ -13,9 +14,13 @@ class CustomListTile extends StatelessWidget {
     this.subtitle,
     this.leadingIcon,
     this.trailingIcon,
+    this.trailingWidget,
     this.onTap,
     this.isThreeLine = false,
-    Key? key}) : super(key: key);
+    Key? key
+  }) :
+    assert(trailingIcon == null || trailingWidget == null),
+    super(key: key);
 
 
   @override
@@ -29,14 +34,16 @@ class CustomListTile extends StatelessWidget {
         height: double.infinity,
         child: Icon(leadingIcon),
       ),
-      trailing: SizedBox(
-        height: double.infinity,
-        child: Icon(
-          trailingIcon,
-          size: 16,
-          color: Theme.of(context).iconTheme.color!.withOpacity(0.20)
+      trailing: trailingIcon == null
+        ? trailingWidget
+        : SizedBox(
+          height: double.infinity,
+          child: Icon(
+            trailingIcon,
+            size: 16,
+            color: Theme.of(context).iconTheme.color!.withOpacity(0.20)
+          ),
         ),
-      ),
       onTap: onTap,
 
     );

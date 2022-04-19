@@ -107,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ProxyProvider<PreferencesProvider, QuestionCatalog>(
                 update: (_, preferences, __) {
                   return questionCatalog.filterBy(
-                    difficulty: preferences.difficulty
+                    excludeProfessional: !preferences.isProfessional
                   );
                 },
               ),

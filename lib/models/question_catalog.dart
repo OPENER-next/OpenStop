@@ -1,6 +1,5 @@
 import 'dart:collection';
 
-import '/models/difficulty_level.dart';
 import '/models/question.dart';
 
 /// This class resembles a list of questions.
@@ -38,10 +37,10 @@ class QuestionCatalog extends ListBase<Question> {
   }
 
 
-  QuestionCatalog filterBy({ DifficultyLevel difficulty = DifficultyLevel.hard }) {
+  QuestionCatalog filterBy({ bool excludeProfessional = false }) {
     return QuestionCatalog(
       List<Question>.unmodifiable(
-        where((question) => question.difficulty.isSubLevelOf(difficulty))
+        where((question) => !excludeProfessional || !question.isProfessional)
       )
     );
   }

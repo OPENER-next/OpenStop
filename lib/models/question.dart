@@ -1,4 +1,3 @@
-import '/models/difficulty_level.dart';
 import '/models/osm_element_type.dart';
 import '/models/question_condition.dart';
 import '/models/question_input.dart';
@@ -17,7 +16,7 @@ class Question {
 
   final List<String> images;
 
-  final DifficultyLevel difficulty;
+  final bool isProfessional;
 
   final OSMElementType? osmElement;
 
@@ -29,7 +28,7 @@ class Question {
     required this.id,
     required this.name,
     required this.question,
-    required this.difficulty,
+    required this.isProfessional,
     required this.conditions,
     required this.input,
     this.description = '',
@@ -50,11 +49,11 @@ class Question {
         ?.toList(growable: false) ?? [],
       input: QuestionInput.fromJSON(json['input']) ,
       osmElement: (json['osm_element'] as String?)?.toOSMElementType(),
-      difficulty: DifficultyLevel.values[json['difficulty']]
+      isProfessional: json['isProfessional'] ?? false
     );
 
 
   @override
   String toString() =>
-    'Question(id: $id, name: $name, question: $question, description: $description, images: $images, difficulty: $difficulty, osmElement: $osmElement, conditions: $conditions, input: $input)';
+    'Question(id: $id, name: $name, question: $question, description: $description, images: $images, isProfessional: $isProfessional, osmElement: $osmElement, conditions: $conditions, input: $input)';
 }

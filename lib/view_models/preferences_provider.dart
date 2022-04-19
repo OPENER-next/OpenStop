@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '/models/difficulty_level.dart';
 import '/commons/tile_layers.dart';
 
 
 class PreferencesProvider extends ChangeNotifier {
   final SharedPreferences _preferences;
   static const _defaultThemeMode = ThemeMode.system;
-  static const _defaultDifficulty = DifficultyLevel.easy;
+  static const _defaultProfessional = false;
   static const _defaultOnboarding = false;
   static const _defaultTileLayerId = TileLayerId.standard;
 
@@ -42,16 +41,13 @@ class PreferencesProvider extends ChangeNotifier {
     }
   }
 
-  DifficultyLevel get difficulty{
-    final difficultyIndex = _preferences.getInt('difficulty');
-    return difficultyIndex != null && difficultyIndex < DifficultyLevel.values.length
-        ? DifficultyLevel.values[difficultyIndex]
-        : _defaultDifficulty;
+  bool get isProfessional {
+    return _preferences.getBool('isProfessional') ?? _defaultProfessional;
   }
 
-  set difficulty(DifficultyLevel newDifficulty){
-    if (newDifficulty != difficulty) {
-      _preferences.setInt('difficulty', newDifficulty.index);
+  set isProfessional(bool newValue) {
+    if (newValue != isProfessional) {
+      _preferences.setBool('isProfessional', newValue);
       notifyListeners();
     }
   }

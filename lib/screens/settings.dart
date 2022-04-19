@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:community_material_icon/community_material_icon.dart';
 
-import '/models/difficulty_level.dart';
 import '/view_models/preferences_provider.dart';
 import '/widgets/select_dialog.dart';
 import '/widgets/custom_list_tile.dart';
@@ -16,16 +14,10 @@ class SettingsScreen extends StatelessWidget {
     ThemeMode.dark : 'Dunkel',
   };
 
-  static const difficultyMap = {
-    DifficultyLevel.easy : 'Einfach',
-    DifficultyLevel.standard : 'Standard',
-    DifficultyLevel.hard : 'Schwer',
-  };
-
   @override
   Widget build(BuildContext context) {
     final themeMode = context.select<PreferencesProvider, ThemeMode>((preferences) => preferences.themeMode);
-    final difficulty = context.select<PreferencesProvider, DifficultyLevel>((preferences) => preferences.difficulty);
+    final isProfessional = context.select<PreferencesProvider, bool>((preferences) => preferences.isProfessional);
 
     return Scaffold(
       appBar: AppBar(
@@ -58,24 +50,16 @@ class SettingsScreen extends StatelessWidget {
                 },
               ),
               CustomListTile(
-                leadingIcon: CommunityMaterialIcons.gauge,
-                title: 'Schwierigkeitsgrad der Fragen',
-                subtitle: difficultyMap[difficulty] ?? 'Unbekannt',
-                onTap: () async {
-                  final selection = await showDialog<DifficultyLevel>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return SelectDialog(
-                        valueLabelMap: difficultyMap,
-                        value: context.select<PreferencesProvider, DifficultyLevel>((preferences) => preferences.difficulty),
-                        title: const Text('Schwierigkeit auswählen'),
-                      );
-                    }
-                  );
-                  if (selection != null) {
-                    context.read<PreferencesProvider>().difficulty = selection;
-                  }
-                },
+                leadingIcon: Icons.report_problem_rounded,
+                title: 'Profi-Fragen anzeigen',
+                subtitle: 'Fragen, die aus Sicherheitsgründen nur für Fachpersonal bestimmt sind.',
+                isThreeLine: true,
+                trailingWidget: Switch(
+                  value: isProfessional,
+                  onChanged: (bool value) {
+                    context.read<PreferencesProvider>().isProfessional = value;
+                  },
+                ),
               )
             ],
           ),

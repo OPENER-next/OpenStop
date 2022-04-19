@@ -126,15 +126,14 @@
         },
         "minItems": 1
       },
-      "difficulty": {
-        "description": "A number that indicates the difficulty of a question which can be used later to filter questions by different levels. Higher means more difficult.",
-        "type": "integer",
-        "minimum": 0,
-        "maximum": 2
+      "isProfessional": {
+        "description": "Certain questions seek for information that requires authorization or might be dangerous to collect. If omitted this will fallback to false.",
+        "type": "boolean",
+        "default": false
       }
     },
     "additionalProperties": false,
-    "required": [ "id", "name", "question", "input", "difficulty" ]
+    "required": [ "id", "name", "question", "input" ]
   },
   "definitions": {
     "osm_element_type": { "enum": ["Node", "OpenWay", "ClosedWay", "Relation"] }
