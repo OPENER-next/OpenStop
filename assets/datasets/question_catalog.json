@@ -870,6 +870,13 @@
          {
             "osm_tags": {
                "public_transport": "platform",
+               "train": "yes",
+               "announcement": false
+            }
+         },
+         {
+            "osm_tags": {
+               "railway": "platform",
                "announcement": false
             }
          }
@@ -938,6 +945,7 @@
          {
             "osm_tags": {
                "public_transport": "platform",
+               "railway": false,
                "kerb": false
             },
             "osm_element": [
@@ -1158,6 +1166,13 @@
          {
             "osm_tags": {
                "public_transport": "platform",
+               "train": "yes",
+               "wheelchair:portable_ramp": false
+            }
+         },
+         {
+            "osm_tags": {
+               "railway": "platform",
                "wheelchair:portable_ramp": false
             }
          }
@@ -1187,7 +1202,6 @@
       "conditions": [
          {
             "osm_tags": {
-               "public_transport": "platform",
                "wheelchair:portable_ramp": "yes",
                "wheelchair:portable_ramp:length": false
             }
@@ -1218,7 +1232,6 @@
       "conditions": [
          {
             "osm_tags": {
-               "public_transport": "platform",
                "wheelchair:portable_ramp": "yes",
                "wheelchair:portable_ramp:maxweight": false
             }
@@ -1252,6 +1265,13 @@
          {
             "osm_tags": {
                "public_transport": "platform",
+               "train": "yes",
+               "wheelchair:portable_lift": false
+            }
+         },
+         {
+            "osm_tags": {
+               "railway": "platform",
                "wheelchair:portable_lift": false
             }
          }
@@ -1281,7 +1301,6 @@
       "conditions": [
          {
             "osm_tags": {
-               "public_transport": "platform",
                "wheelchair:portable_lift": "yes",
                "wheelchair:portable_lift:length": false
             }
@@ -1309,7 +1328,6 @@
       "conditions": [
          {
             "osm_tags": {
-               "public_transport": "platform",
                "wheelchair:portable_lift": "yes",
                "wheelchair:portable_lift:maxweight": false
             }
