@@ -18,10 +18,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final _controller = PageController();
   // Ideally has to match the number of pages
   final _colorArray = <Color>[
-    Colors.deepOrangeAccent.shade100,
-    Colors.redAccent.shade100,
-    Colors.deepPurpleAccent.shade100,
     Colors.blueAccent.shade100,
+    Colors.deepPurpleAccent.shade100,
+    Colors.purpleAccent.shade100,
+    Colors.redAccent.shade100,
   ];
   late final _background = _buildColorSequence(_colorArray);
 
@@ -54,28 +54,28 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
     final pages = [
       OnboardingPage(
-          image: 'assets/images/placeholder_image.png',
+          image: 'assets/images/onboarding/onboarding_1.png',
           title: 'Hey!',
           description: 'Wir freuen uns, dass du hier bist und deinen Teil zu einem besseren Nahverkehr beitragen willst.',
           buttonText: 'So funktioniert\'s',
           onButtonTap: _nextPage
       ),
       OnboardingPage(
-          image: 'assets/images/placeholder_image.png',
+          image: 'assets/images/onboarding/onboarding_2.png',
           title: 'Schau\'s dir an',
           description: 'Begib dich zu einer Haltestelle in deiner Umgebung, um ihren aktuellen Zustand zu erfassen.',
           buttonText: 'Mach\' ich',
           onButtonTap: _nextPage
       ),
       OnboardingPage(
-        image: 'assets/images/placeholder_image.png',
+        image: 'assets/images/onboarding/onboarding_3.png',
         title: 'Jetzt bist du gefragt',
         description: 'Wähle zur Erfassung einen Marker in der App aus und beantworte die angezeigten Fragen.',
         buttonText: 'Okay, verstanden',
         onButtonTap: _nextPage,
       ),
       OnboardingPage(
-          image: 'assets/images/placeholder_image.png',
+          image: 'assets/images/onboarding/onboarding_4.png',
           title: 'Sharing is caring',
           description: 'Lade deine Antworten auf OpenStreetMap hoch und stelle sie so der ganzen Welt zur Verfügung.',
           buttonText: 'Los geht\'s',
@@ -119,35 +119,41 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: child,
               );
             },
-            child: Column(
-                children: [
-                  Expanded(
-                    child: PageView(
-                      scrollBehavior: const ScrollBehavior().copyWith(overscroll: false),
-                      scrollDirection: Axis.horizontal,
-                      controller: _controller,
-                      children: pages
+            child: Padding(
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).padding.top,
+              ),
+              child: Column(
+                  children: [
+                    Expanded(
+                      child: PageView(
+                        scrollBehavior: const ScrollBehavior().copyWith(overscroll: false),
+                        scrollDirection: Axis.horizontal,
+                        controller: _controller,
+                        children: pages,
+                        allowImplicitScrolling: true,
+                      ),
                     ),
-                  ),
-                  Container(
-                    height: 70,
-                    margin: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).padding.bottom
+                    Container(
+                      height: 70,
+                      margin: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).padding.bottom
+                      ),
+                      child: DotsIndicator(
+                        controller: _controller,
+                        itemCount: pages.length,
+                        color: Colors.white,
+                        onPageSelected: (int page) {
+                          _controller.animateToPage(
+                            page,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.ease,
+                          );
+                        },
+                      ),
                     ),
-                    child: DotsIndicator(
-                      controller: _controller,
-                      itemCount: pages.length,
-                      color: Colors.white,
-                      onPageSelected: (int page) {
-                        _controller.animateToPage(
-                          page,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.ease,
-                        );
-                      },
-                    ),
-                  ),
-                ]
+                  ]
+              ),
             ),
           )
       ),
@@ -177,26 +183,22 @@ class OnboardingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
 
-    return Container(
-      color: Colors.transparent,
-      padding: EdgeInsets.only(
-          left: 40.0,
-          top: MediaQuery.of(context).padding.top + 25,
-          right: 40.0,
-      ),
-      child: Flex(
-        direction: isPortrait ? Axis.vertical : Axis.horizontal,
-        children: [
-          Expanded(
-            flex: 5,
-            child: Image.asset(image,
-            fit: BoxFit.contain),
-          ),
+    return Flex(
+      direction: isPortrait ? Axis.vertical : Axis.horizontal,
+      children: [
+        if (!isPortrait)
           const Spacer(
-            flex: 1
+              flex: 1
           ),
-          Flexible(
-            flex: 5,
+        Image.asset(image,
+            fit: BoxFit.fitWidth),
+        Flexible(
+          flex: 12,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 40.0,
+              right: 40.0,
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -246,12 +248,12 @@ class OnboardingPage extends StatelessWidget {
               ],
             ),
           ),
-          if (!isPortrait)
-            const Spacer(
-              flex: 1
-          )
-        ],
-      ),
+        ),
+        if (!isPortrait)
+          const Spacer(
+            flex: 1
+        )
+      ],
     );
   }
 }

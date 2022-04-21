@@ -89,6 +89,7 @@ flutter:
   assets:
     - PRIVACY_POLICY.md
     - assets/images/
+    - assets/images/onboarding/
     - assets/images/logos/
     - assets/images/questions/
     - assets/datasets/question_catalog.json
