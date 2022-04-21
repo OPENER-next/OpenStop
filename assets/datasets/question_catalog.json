@@ -170,28 +170,28 @@
          "values": {
             "surface": {
                "name": "Ebenerdiger Parkplatz",
-               "image": "assets/questions/image/1051a.jpg",
+               "image": "packages/nvbw_open_data/photos/1051a.jpg",
                "osm_tags": {
                   "parking": "surface"
                }
             },
             "underground": {
                "name": "Tiefgarage",
-               "image": "assets/questions/image/1051b.jpg",
+               "image": "packages/nvbw_open_data/photos/1051b.jpg",
                "osm_tags": {
                   "parking": "underground"
                }
             },
             "street_side": {
                "name": "Parkbucht",
-               "image": "assets/questions/image/1051c.jpg",
+               "image": "packages/nvbw_open_data/photos/1051c.jpg",
                "osm_tags": {
                   "parking": "street_side"
                }
             },
             "multi-storey": {
                "name": "Parkhaus",
-               "image": "assets/questions/image/1051d.jpg",
+               "image": "packages/nvbw_open_data/photos/1051d.jpg",
                "osm_tags": {
                   "parking": "multi-storey"
                }
@@ -216,6 +216,11 @@
       "id": 1051,
       "name": "Behindertenparkplätze",
       "question": "Gibt es gesonderte Parkplätze für behinderte Personen?",
+      "image": [
+         "packages/nvbw_open_data/photos/1051e.jpg",
+         "packages/nvbw_open_data/photos/1051f.jpg",
+         "packages/nvbw_open_data/photos/1051g.jpg"
+      ],
       "input": {
          "type": "Bool",
          "values": {
@@ -312,7 +317,9 @@
       "question": "Ist dies ein Park+Ride-Parkplatz?",
       "description": "Park+Ride-Anlagen sind Parkplätze mit Anbindung an öffentliche Verkehrsmittel, die es Personen ermöglichen, ihr Fahrzeug zu verlassen und für den Rest der Reise auf öffentliche Verkehrsmittel umzusteigen.",
       "image": [
-         "assets/questions/image/1052.png"
+         "packages/nvbw_open_data/photos/1052a.jpg",
+         "packages/nvbw_open_data/photos/1052b.jpg",
+         "packages/nvbw_open_data/photos/1052c.jpg"
       ],
       "input": {
          "type": "Bool",
@@ -348,7 +355,8 @@
       "name": "Parkdauer begrenzt",
       "question": "Ist die maxmiale Parkdauer begrenzt?",
       "image": [
-         "assets/questions/image/1052.png"
+         "packages/nvbw_open_data/photos/1052d.jpg",
+         "packages/nvbw_open_data/photos/1052e.jpg"
       ],
       "input": {
          "type": "Bool",
@@ -649,7 +657,10 @@
       "name": "Sitzplätze vorhanden",
       "question": "Gibt es an der Plattform Sitzplätze?",
       "image": [
-         "assets/questions/images/1120.png"
+         "packages/nvbw_open_data/photos/1120a.jpg",
+         "packages/nvbw_open_data/photos/1120b.jpg",
+         "packages/nvbw_open_data/photos/1120c.jpg",
+         "packages/nvbw_open_data/photos/1120d.jpg"
       ],
       "input": {
          "type": "Bool",
@@ -680,7 +691,10 @@
       "name": "Überdachter Wartebereich",
       "question": "Gibt es an der Plattform einen überdachten Wartebereich?",
       "image": [
-         "assets/questions/images/1120.png"
+         "packages/nvbw_open_data/photos/1120a.jpg",
+         "packages/nvbw_open_data/photos/1120b.jpg",
+         "packages/nvbw_open_data/photos/1120c.jpg",
+         "packages/nvbw_open_data/photos/1120d.jpg"
       ],
       "input": {
          "type": "Bool",
@@ -716,14 +730,14 @@
          "values": {
             "realtime": {
                "name": "Dynamische Fahrplan-Anzeige",
-               "image": "assets/questions/image/1130a.jpg",
+               "image": "packages/nvbw_open_data/photos/1130a.jpg",
                "osm_tags": {
                   "departures_board": "realtime"
                }
             },
             "timetable": {
                "name": "Statische Fahrplan-Anzeige",
-               "image": "assets/questions/image/1130b.jpg",
+               "image": "packages/nvbw_open_data/photos/1130b.jpg",
                "osm_tags": {
                   "departures_board": "timetable"
                }
@@ -752,7 +766,7 @@
       "question": "Hat die Fahrplan-Anzeige für die gesamte Station eine akustische Ausgabe?",
       "description": "Einige Fahrplan-Anzeigen bieten die Möglichkeit bei Bedarf akustisch Informationen auszugeben.",
       "image": [
-         "assets/questions/images/1131.png"
+         "assets/images/questions/1131a.jpg"
       ],
       "input": {
          "type": "Bool",
@@ -788,7 +802,8 @@
       "question": "Gibt es einen dynamischen Fahrtziel-Anzeiger an der Plattform?",
       "description": "Dynamische Fahrtziel-Anzeiger zeigen Echtzeit-Informationen über das Ziel ein- bzw. abfahrender Züge/Busse an einem Bahn-/Bussteig an.",
       "image": [
-         "assets/questions/images/1140.png"
+         "packages/nvbw_open_data/photos/1140a.jpg",
+         "packages/nvbw_open_data/photos/1140b.jpg"
       ],
       "input": {
          "type": "Bool",
@@ -820,7 +835,7 @@
       "question": "Hat der dynamische Fahrtziel-Anzeiger an der Plattform eine akustische Ausgabe?",
       "description": "Einige Fahrtziel-Anzeiger können bei Bedarf auf Knopfdruck die angezeigten Informationen akustisch ausgeben.",
       "image": [
-         "assets/questions/images/1141.png"
+         "assets/images/questions/1141.jpg"
       ],
       "input": {
          "type": "Bool",
@@ -964,21 +979,21 @@
          "values": {
             "raised": {
                "name": "Erhöht (>3cm)",
-               "image": "assets/questions/images/1170a.png",
+               "image": "assets/images/questions/1170a.jpg",
                "osm_tags": {
                   "kerb": "raised"
                }
             },
             "lowered": {
                "name": "Abgesenkt (<3cm)",
-               "image": "assets/questions/images/1170b.png",
+               "image": "assets/images/questions/1170b.jpg",
                "osm_tags": {
                   "kerb": "lowered"
                }
             },
             "flush": {
                "name": "Ebenerdig (≈0cm)",
-               "image": "assets/questions/images/1170c.png",
+               "image": "assets/images/questions/1170c.jpg",
                "osm_tags": {
                   "kerb": "flush"
                }
@@ -1065,9 +1080,9 @@
       "question": "Hat der Bordstein eine Spürführung für Busse?",
       "description": "Bordsteine mit Spurführung sind speziell geformt, um Bussen ein dichtes Heranfahren an die Bordsteinkante zu ermöglichen.",
       "image": [
-         "assets/questions/images/1201a.png",
-         "assets/questions/images/1201b.png",
-         "assets/questions/images/1201c.png"
+         "assets/images/questions/1201a.jpg",
+         "assets/images/questions/1201b.jpg",
+         "assets/images/questions/1201c.jpg"
       ],
       "input": {
          "type": "Bool",
@@ -1107,7 +1122,7 @@
          "values": {
             "kassel": {
                "name": "Kasseler Sonderbord",
-               "image": "assets/questions/images/1201a.png",
+               "image": "assets/images/questions/1201a.jpg",
                "osm_tags": {
                   "kerb:approach_aid": "Kassel Sonderbord"
                }
@@ -1115,7 +1130,7 @@
             "double": {
                "name": "Kasseler Sonderbord Plus",
                "description": "Hochbord mit doppelter Hohlkehle",
-               "image": "assets/questions/images/1201b.png",
+               "image": "assets/images/questions/1201b.jpg",
                "osm_tags": {
                   "kerb:approach_aid": "Kassel Sonderbord Plus"
                }
@@ -1123,7 +1138,7 @@
             "combi": {
                "name": "Dresdner Combibord",
                "description": "Hochbord für kombinierte Bus- und Straßenbahnhaltestellen",
-               "image": "assets/questions/images/1201c.png",
+               "image": "assets/images/questions/1201c.jpg",
                "osm_tags": {
                   "kerb:approach_aid": "Dresden Combibord"
                }
@@ -1145,7 +1160,7 @@
       "question": "Gibt es eine bewegbare Rollstuhl-Rampe?",
       "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
       "image": [
-         "assets/questions/images/1210.png"
+         "assets/images/questions/1210.jpg"
       ],
       "input": {
          "type": "Bool",
@@ -1184,7 +1199,7 @@
       "question": "Wie lang ist die bewegbare Rollstuhl-Rampe?",
       "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
       "image": [
-         "assets/questions/images/1210.png"
+         "assets/images/questions/1210.jpg"
       ],
       "input": {
          "type": "Number",
@@ -1214,7 +1229,7 @@
       "question": "Was ist die maximale Tragfähigkeit der bewegbaren Rampe?",
       "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
       "image": [
-         "assets/questions/images/1210.png"
+         "assets/images/questions/1210.jpg"
       ],
       "input": {
          "type": "Number",
@@ -1244,7 +1259,7 @@
       "question": "Gibt es einen bewegbaren Hublift für Rollstuhlfahrende?",
       "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
       "image": [
-         "assets/questions/images/1220.png"
+         "packages/nvbw_open_data/photos/1220a.jpg"
       ],
       "input": {
          "type": "Bool",
@@ -1283,7 +1298,7 @@
       "question": "Wie lang ist die Stellfläche des bewegbaren Hublifts?",
       "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
       "image": [
-         "assets/questions/images/1220.png"
+         "packages/nvbw_open_data/photos/1220a.jpg"
       ],
       "input": {
          "type": "Number",
@@ -1312,6 +1327,9 @@
       "name": "Tragfähigkeit des bewegbaren Hublifts",
       "question": "Was ist die maximale Tragfähigkeit der bewegbaren Hublifts?",
       "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
+      "image": [
+         "packages/nvbw_open_data/photos/1220a.jpg"
+      ],
       "input": {
          "type": "Number",
          "values": {

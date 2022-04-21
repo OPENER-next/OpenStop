@@ -92,7 +92,7 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: widget.details.isEmpty ? null : () {
+      onTap: !hasAdditionalInfo ? null : () {
         _selected = !_selected;
         if (_selected) {
           _animationController.forward();

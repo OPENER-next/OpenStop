@@ -58,6 +58,9 @@ dependencies:
 
   flutter_markdown: ^0.6.9
 
+  nvbw_open_data:
+    path: ./dependencies/nvbw_open_data
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

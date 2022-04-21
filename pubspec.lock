@@ -573,6 +573,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  nvbw_open_data:
+    dependency: "direct main"
+    description:
+      path: "dependencies/nvbw_open_data"
+      relative: true
+    source: path
+    version: "0.0.0"
   osm_api:
     dependency: "direct main"
     description:
