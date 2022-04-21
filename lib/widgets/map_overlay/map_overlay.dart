@@ -5,14 +5,14 @@ import 'package:provider/provider.dart';
 import '/helpers/camera_tracker.dart';
 import '/view_models/preferences_provider.dart';
 import '/view_models/stop_areas_provider.dart';
-import '/widgets/map_buttons/location_button.dart';
-import '/widgets/map_buttons/map_layer_switcher.dart';
-import '/widgets/map_buttons/compass_button.dart';
-import '/widgets/map_buttons/zoom_button.dart';
-import '/widgets/loading_indicator.dart';
-import '/widgets/credit_text.dart';
 import '/commons/tile_layers.dart';
 import '/utils/map_utils.dart';
+import 'location_button.dart';
+import 'map_layer_switcher.dart';
+import 'compass_button.dart';
+import 'zoom_button.dart';
+import 'loading_indicator.dart';
+import 'credit_text.dart';
 
 
 /// Builds the action/control buttons and attribution text which overlay the map.
