@@ -49,17 +49,15 @@ class SettingsScreen extends StatelessWidget {
                   }
                 },
               ),
-              CustomListTile(
+              CustomSwitchListTile(
+                value: isProfessional,
                 leadingIcon: Icons.report_problem_rounded,
                 title: 'Profi-Fragen anzeigen',
                 subtitle: 'Fragen, die aus Sicherheitsgründen nur für Fachpersonal bestimmt sind.',
                 isThreeLine: true,
-                trailingWidget: Switch(
-                  value: isProfessional,
-                  onChanged: (bool value) {
-                    context.read<PreferencesProvider>().isProfessional = value;
-                  },
-                ),
+                onChanged: (value) {
+                  context.read<PreferencesProvider>().isProfessional = value;
+                },
               )
             ],
           ),

@@ -5,7 +5,6 @@ class CustomListTile extends StatelessWidget {
   final String? subtitle;
   final IconData? leadingIcon;
   final IconData? trailingIcon;
-  final Widget? trailingWidget;
   final void Function()? onTap;
   final bool isThreeLine;
 
@@ -14,38 +13,69 @@ class CustomListTile extends StatelessWidget {
     this.subtitle,
     this.leadingIcon,
     this.trailingIcon,
-    this.trailingWidget,
     this.onTap,
     this.isThreeLine = false,
     Key? key
-  }) :
-    assert(trailingIcon == null || trailingWidget == null),
-    super(key: key);
+  }) : super(key: key);
 
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(title),
-      subtitle: subtitle != null ? Text(subtitle!) : null,
+      subtitle: subtitle == null ? null : Text(subtitle!),
       isThreeLine: isThreeLine,
       // used to vertically center the icon
-      leading: SizedBox(
+      leading: leadingIcon == null ? null : SizedBox(
         height: double.infinity,
         child: Icon(leadingIcon),
       ),
-      trailing: trailingIcon == null
-        ? trailingWidget
-        : SizedBox(
-          height: double.infinity,
-          child: Icon(
-            trailingIcon,
-            size: 16,
-            color: Theme.of(context).iconTheme.color!.withOpacity(0.20)
-          ),
+      trailing: trailingIcon == null ? null : SizedBox(
+        height: double.infinity,
+        child: Icon(
+          trailingIcon,
+          size: 16,
+          color: Theme.of(context).iconTheme.color?.withOpacity(0.20)
         ),
+      ),
       onTap: onTap,
+    );
+  }
+}
 
+
+class CustomSwitchListTile extends StatelessWidget {
+  final bool value;
+  final String title;
+  final String? subtitle;
+  final IconData? leadingIcon;
+  final void Function(bool)? onChanged;
+  final bool isThreeLine;
+
+  const CustomSwitchListTile({
+    required this.value,
+    required this.title,
+    this.subtitle,
+    this.leadingIcon,
+    this.onChanged,
+    this.isThreeLine = false,
+    Key? key
+  }) : super(key: key);
+
+
+  @override
+  Widget build(BuildContext context) {
+    return SwitchListTile.adaptive(
+      value: value,
+      title: Text(title),
+      subtitle: subtitle == null ? null : Text(subtitle!),
+      isThreeLine: isThreeLine,
+      // used to vertically center the icon
+      secondary: leadingIcon == null ? null : SizedBox(
+        height: double.infinity,
+        child: Icon(leadingIcon),
+      ),
+      onChanged: onChanged,
     );
   }
 }
