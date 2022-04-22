@@ -4,8 +4,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '/commons/themes.dart';
-import '/view_models/preferences_provider.dart';
+import '/commons/app_config.dart' as app_config;
 import '/commons/screens.dart';
+import '/view_models/preferences_provider.dart';
 
 // Screens
 import '/screens/about.dart';
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
 
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'OPENER next',
+          title: app_config.appName,
           localizationsDelegates: GlobalMaterialLocalizations.delegates,
           supportedLocales: const [
             Locale('de','DE')
