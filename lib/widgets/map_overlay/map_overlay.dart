@@ -6,6 +6,7 @@ import '/helpers/camera_tracker.dart';
 import '/view_models/preferences_provider.dart';
 import '/view_models/stop_areas_provider.dart';
 import '/commons/tile_layers.dart';
+import '/commons/osm_config.dart' as osm_config;
 import '/utils/map_utils.dart';
 import 'location_button.dart';
 import 'map_layer_switcher.dart';
@@ -38,10 +39,6 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
   final ValueNotifier<double> _rotationNotifier = ValueNotifier<double>(0);
 
   late final mapController = context.read<MapController>();
-
-  static const String _osmCreditsText = 'Data © OpenStreetMap-Mitwirkende';
-
-  static const String _osmCreditsURL= 'https://www.openstreetmap.org/copyright';
 
   @override
   void initState() {
@@ -146,8 +143,8 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                                 ),
                                 children: [
                                   const CreditTextPart(
-                                    _osmCreditsText,
-                                    url: _osmCreditsURL
+                                    osm_config.osmCreditsText,
+                                    url: osm_config.osmCreditsURL
                                   ),
                                   CreditTextPart(
                                     tileLayers[tileLayerId]?.creditsText ?? 'Unknown',

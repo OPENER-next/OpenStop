@@ -6,3 +6,7 @@ const oAuth2RedirectUri = '$appCallbackUrlScheme:/oauth2';
 const osmServerUri = bool.fromEnvironment('IS_RELEASE', defaultValue: false)
   ? 'https://www.openstreetmap.org'
   : 'https://master.apis.dev.openstreetmap.org';
+
+const osmCreditsText = 'Data © OpenStreetMap-Mitwirkende';
+
+const osmCreditsURL= 'https://www.openstreetmap.org/copyright';
