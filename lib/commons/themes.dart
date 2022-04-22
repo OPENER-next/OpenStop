@@ -114,9 +114,9 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
       )
   ),
   toggleableActiveColor: defaultTheme.toggleableActiveColor,
-    cardColor: Default.backgroundLight,
-    scaffoldBackgroundColor: Default.backgroundLight,
-    canvasColor: Default.backgroundLight
+  cardColor: Default.backgroundLight,
+  scaffoldBackgroundColor: Default.backgroundLight,
+  canvasColor: Default.backgroundLight
 );
 
 final ThemeData darkTheme = ThemeData.dark().copyWith(
@@ -151,8 +151,16 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
 
 final ThemeData highContrastDarkTheme = ThemeData.dark().copyWith(
   colorScheme: const ColorScheme.highContrastDark(),
+  floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
+  elevatedButtonTheme: defaultTheme.elevatedButtonTheme,
+  outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
+  inputDecorationTheme: defaultTheme.inputDecorationTheme
 );
 
 final ThemeData highContrastLightTheme = ThemeData.light().copyWith(
   colorScheme: const ColorScheme.highContrastLight(),
+  floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
+  elevatedButtonTheme: defaultTheme.elevatedButtonTheme,
+  outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
+  inputDecorationTheme: defaultTheme.inputDecorationTheme
 );
