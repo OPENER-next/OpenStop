@@ -7,13 +7,13 @@ import 'package:animated_location_indicator/animated_location_indicator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 
+import '/view_models/user_location_provider.dart';
 import '/view_models/incomplete_osm_elements_provider.dart';
 import '/view_models/questionnaire_provider.dart';
 import '/view_models/osm_authenticated_user_provider.dart';
 import '/view_models/osm_elements_provider.dart';
 import '/view_models/preferences_provider.dart';
 import '/view_models/stop_areas_provider.dart';
-import '/helpers/camera_tracker.dart';
 import '/utils/network_tile_provider_with_headers.dart';
 import '/utils/stream_debouncer.dart';
 import '/commons/app_config.dart';
@@ -42,15 +42,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   static const questionDialogMaxHeightFactor = 2/3;
 
-  final MapController _mapController = MapController();
+  final _mapController = MapController();
 
   final _stopAreasProvider = StopAreasProvider(
     stopAreaRadius: 50
   );
 
-  late final _cameraTracker = CameraTracker(
-    mapController: _mapController
-  );
+  final _userLocationProvider = UserLocationProvider();
 
   late final _questionCatalog = _parseQuestionCatalog();
   late final _mapFeatureCollection = _parseOSMObjects();
@@ -66,19 +64,42 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       }
     });
 
+    // cancel tracking on user interaction or any map move not caused by the camera tracker
+    _mapController.mapEventStream.listen((mapEvent) {
+      if (
+        (mapEvent is MapEventDoubleTapZoomStart) ||
+        (mapEvent is MapEventMove && mapEvent.id != 'CameraTracker' && mapEvent.targetCenter != mapEvent.center)
+      ) {
+        _userLocationProvider.shouldFollowLocation = false;
+      }
+    });
+
     _mapController.onReady.then((_) {
       // use post frame callback because initial bounds are not applied in onReady yet
       WidgetsBinding.instance?.addPostFrameCallback((duration) {
-        // move to user location and start camera tracking on app start
-        _cameraTracker.startTacking(initialZoom: 15);
-
-        void handleInitialCameraStateChange() {
-         if (_cameraTracker.state != CameraTrackerState.pending) {
-            _cameraTracker.removeListener(handleInitialCameraStateChange);
+        void handleInitialLocationTrackingChange() {
+          if (_userLocationProvider.state != LocationTrackingState.pending) {
+            // if location tracking is enabled
+            // jump to user position and enable camera tracking
+            if (_userLocationProvider.state == LocationTrackingState.enabled) {
+              final position = _userLocationProvider.position!;
+              _mapController.move(
+                LatLng(position.latitude, position.longitude),
+                _mapController.zoom,
+                id: 'CameraTracker'
+              );
+              _userLocationProvider.shouldFollowLocation = true;
+            }
+            _userLocationProvider.removeListener(handleInitialLocationTrackingChange);
+            // load stop areas of current viewport location
             _stopAreasProvider.loadStopAreas(_mapController.bounds!);
+            // add on position change handler after initial location code is finished
+            _userLocationProvider.addListener(_onPositionChange);
           }
         }
-        _cameraTracker.addListener(handleInitialCameraStateChange);
+        _userLocationProvider.addListener(handleInitialLocationTrackingChange);
+        // request user position tracking
+        _userLocationProvider.startLocationTracking();
       });
     });
   }
@@ -114,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ChangeNotifierProvider(
                 create: (_) => QuestionnaireProvider()
               ),
-              ChangeNotifierProvider.value(value: _cameraTracker),
+              ChangeNotifierProvider.value(value: _userLocationProvider),
               ChangeNotifierProvider.value(value: _stopAreasProvider),
               ChangeNotifierProvider(
                 create: (_) => OSMAuthenticatedUserProvider(),
@@ -177,9 +198,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             );
                           }
                         ),
-                        Selector<CameraTracker, bool>(
-                          selector: (_, cameraTracker) => cameraTracker.hasLocationAccess,
-                          builder: (context, cameraTracker, child) {
+                        // rebuild location indicator when location access is granted
+                        Selector<UserLocationProvider, LocationTrackingState>(
+                          selector: (_, userLocationProvider) => userLocationProvider.state,
+                          builder: (context, state, child) {
                             return AnimatedLocationLayerWidget(
                               options: AnimatedLocationOptions()
                             );
@@ -315,6 +337,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
 
+  void _onPositionChange() {
+    final position = _userLocationProvider.position;
+    if (position != null) {
+      if (_userLocationProvider.isFollowingLocation) {
+        _mapController.animateTo(
+          ticker: this,
+          location: LatLng(position.latitude, position.longitude),
+          duration: const Duration(milliseconds: 200),
+          id: 'CameraTracker'
+        );
+      }
+    }
+  }
+
+
   Future<QuestionCatalog> _parseQuestionCatalog() async {
     final jsonData = await rootBundle.loadStructuredData<List<Map<String, dynamic>>>(
       'assets/datasets/question_catalog.json',
@@ -339,7 +376,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    _cameraTracker.dispose();
     super.dispose();
   }
 }

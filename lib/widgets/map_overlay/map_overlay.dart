@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:provider/provider.dart';
 
-import '/helpers/camera_tracker.dart';
+import '/view_models/user_location_provider.dart';
 import '/view_models/preferences_provider.dart';
 import '/view_models/stop_areas_provider.dart';
 import '/commons/tile_layers.dart';
@@ -158,14 +158,15 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Consumer<CameraTracker>(
-                              builder: (context, value, child) => LocationButton(
+                            Selector<UserLocationProvider, bool>(
+                              selector: (_, p1) => p1.isFollowingLocation,
+                              builder: (context, isFollowingLocation, child) => LocationButton(
                                 activeColor: Theme.of(context).colorScheme.primary,
                                 activeIconColor: Theme.of(context).colorScheme.onPrimary,
                                 color: Theme.of(context).colorScheme.secondary,
                                 iconColor: Theme.of(context).colorScheme.onSecondary,
-                                active: value.state == CameraTrackerState.active,
-                                onPressed: _toggleCameraTracker
+                                active: isFollowingLocation,
+                                onPressed: _toggleLocationFollowing
                               )
                             ),
                             SizedBox (
@@ -213,15 +214,17 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
   }
 
 
-  /// Activate or deactivate camera tracker depending on its current state.
+  /// Activate or deactivate location following depending on its current state.
 
-  void _toggleCameraTracker() {
-    final cameraTracker = context.read<CameraTracker>();
-    if (cameraTracker.state == CameraTrackerState.inactive) {
-      cameraTracker.startTacking();
+  void _toggleLocationFollowing() {
+    final userLocationProvider = context.read<UserLocationProvider>();
+    // if location tracking is disabled always enable tracking and following
+    if (userLocationProvider.state == LocationTrackingState.disabled) {
+      userLocationProvider.shouldFollowLocation = true;
+      userLocationProvider.startLocationTracking();
     }
-    else if (cameraTracker.state == CameraTrackerState.active) {
-      cameraTracker.stopTracking();
+    else if (userLocationProvider.state == LocationTrackingState.enabled) {
+      userLocationProvider.shouldFollowLocation = !userLocationProvider.shouldFollowLocation;
     }
   }
 
