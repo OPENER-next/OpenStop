@@ -30,6 +30,13 @@ class HeroViewer extends StatefulWidget {
     );
   }
 
+  static Widget defaultPageRouteTransitionsBuilder(_, Animation<double> animation, __, Widget child) {
+    return FadeTransition(
+      opacity: animation,
+      child: child,
+    );
+  }
+
 
   final Widget child;
 
@@ -37,7 +44,7 @@ class HeroViewer extends StatefulWidget {
   /// The child given in this function will already be wrapped inside the respective hero widget.
   /// Note: the returned widget tree needs to contain the given child widget at some point in the hierarchy.
 
-  final HeroViewerBuilder builder;
+  final HeroViewerBuilder pageBuilder;
 
   /// Specify on which interaction the viewer should be shown.
 
@@ -47,11 +54,22 @@ class HeroViewer extends StatefulWidget {
 
   final InteractionTrigger closeOn;
 
+  /// An optional page route transition builder, to customize the page transition.
+
+  final RouteTransitionsBuilder pageRouteTransitionsBuilder;
+
+  final Duration pageRouteTransitionDuration;
+
+  final Duration pageRouteReverseTransitionDuration;
+
   const HeroViewer({
     required this.child,
-    this.builder = HeroViewer.imageViewerBuilder,
+    this.pageBuilder = HeroViewer.imageViewerBuilder,
     this.openOn = InteractionTrigger.tap,
     this.closeOn = InteractionTrigger.tap,
+    this.pageRouteTransitionsBuilder = HeroViewer.defaultPageRouteTransitionsBuilder,
+    this.pageRouteTransitionDuration = const Duration(milliseconds: 300),
+    this.pageRouteReverseTransitionDuration = const Duration(milliseconds: 300),
     Key? key,
   }) : super(key: key);
 
@@ -83,14 +101,19 @@ class _HeroViewerState extends State<HeroViewer> {
   void showViewer() {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => _HeroViewerPage(
-          child: widget.child,
-          builder: widget.builder,
-          tag: _uniqueTag,
-          trigger: widget.closeOn
-        )
-      ),
+      PageRouteBuilder(
+        pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+          return _HeroViewerPage(
+            child: widget.child,
+            builder: widget.pageBuilder,
+            tag: _uniqueTag,
+            trigger: widget.closeOn
+          );
+        },
+        transitionsBuilder: widget.pageRouteTransitionsBuilder,
+        transitionDuration: widget.pageRouteTransitionDuration,
+        reverseTransitionDuration: widget.pageRouteReverseTransitionDuration
+      )
     );
   }
 }
