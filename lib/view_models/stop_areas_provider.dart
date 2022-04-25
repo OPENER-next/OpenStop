@@ -104,6 +104,29 @@ class StopAreasProvider extends ChangeNotifier {
   }
 
 
+  /// Find a stop area that encloses the given location.
+
+  StopArea? getStopAreaByPosition(LatLng position) {
+    const distance = Distance();
+    // construct a bounding box of arbitrary size to get close neighboring cells
+    final bbox = LatLngBounds(
+      distance.offset(position, stopAreaRadius * 2, 45),
+      distance.offset(position, stopAreaRadius * 2, 225)
+    );
+    final closeCellIndexes = _bboxToCellIndexes(bbox);
+
+    for (final cellIndex in closeCellIndexes) {
+      for (final stopArea in _stopAreaCache.get(cellIndex) ?? {}) {
+        if (stopArea.isPointInside(position)) {
+          return stopArea;
+        }
+      }
+    }
+
+    return null;
+  }
+
+
   /// This method calculates the absolute box extend and applies it to the given camera view box
 
   LatLngBounds _applyExtend(LatLngBounds cameraViewBox) {

@@ -46,11 +46,9 @@ class UserLocationProvider extends ChangeNotifier {
 
   UserLocationProvider({
     Duration updateInterval = const Duration(milliseconds: 300),
-    Duration timeout = const Duration(seconds: 4),
     int distanceThreshold = 1,
   }) : _locationSettings = AndroidSettings(
     intervalDuration: updateInterval,
-    timeLimit: timeout,
     distanceFilter: distanceThreshold
   ), super();
 
@@ -74,7 +72,7 @@ class UserLocationProvider extends ChangeNotifier {
 
       _positionNotifierStreamSub = Geolocator.getPositionStream(
         locationSettings: _locationSettings
-      ).listen(_updatePosition, onError: (e) => stopLocationTracking);
+      ).listen(_updatePosition, onError: (e) => stopLocationTracking());
 
       _serviceStatusStreamSub = Geolocator.getServiceStatusStream().listen(_handleServiceStatus);
 

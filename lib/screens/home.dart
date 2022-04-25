@@ -48,6 +48,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     stopAreaRadius: 50
   );
 
+  final _osmElementProvider = OSMElementProvider();
+
   final _userLocationProvider = UserLocationProvider();
 
   late final _questionCatalog = _parseQuestionCatalog();
@@ -75,32 +77,29 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
 
     _mapController.onReady.then((_) {
-      // use post frame callback because initial bounds are not applied in onReady yet
-      WidgetsBinding.instance?.addPostFrameCallback((duration) {
-        void handleInitialLocationTrackingChange() {
-          if (_userLocationProvider.state != LocationTrackingState.pending) {
-            // if location tracking is enabled
-            // jump to user position and enable camera tracking
-            if (_userLocationProvider.state == LocationTrackingState.enabled) {
-              final position = _userLocationProvider.position!;
-              _mapController.move(
-                LatLng(position.latitude, position.longitude),
-                _mapController.zoom,
-                id: 'CameraTracker'
-              );
-              _userLocationProvider.shouldFollowLocation = true;
-            }
-            _userLocationProvider.removeListener(handleInitialLocationTrackingChange);
-            // load stop areas of current viewport location
-            _stopAreasProvider.loadStopAreas(_mapController.bounds!);
-            // add on position change handler after initial location code is finished
-            _userLocationProvider.addListener(_onPositionChange);
+      void handleInitialLocationTrackingChange() {
+        if (_userLocationProvider.state != LocationTrackingState.pending) {
+          // if location tracking is enabled
+          // jump to user position and enable camera tracking
+          if (_userLocationProvider.state == LocationTrackingState.enabled) {
+            final position = _userLocationProvider.position!;
+            _mapController.move(
+              LatLng(position.latitude, position.longitude),
+              _mapController.zoom,
+              id: 'CameraTracker'
+            );
+            _userLocationProvider.shouldFollowLocation = true;
           }
+          _userLocationProvider.removeListener(handleInitialLocationTrackingChange);
+          // load stop areas of current viewport location
+          _stopAreasProvider.loadStopAreas(_mapController.bounds!);
+          // add on position change handler after initial location code is finished
+          _userLocationProvider.addListener(_onPositionChange);
         }
-        _userLocationProvider.addListener(handleInitialLocationTrackingChange);
-        // request user position tracking
-        _userLocationProvider.startLocationTracking();
-      });
+      }
+      _userLocationProvider.addListener(handleInitialLocationTrackingChange);
+      // request user position tracking
+      _userLocationProvider.startLocationTracking();
     });
   }
 
@@ -132,18 +131,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   );
                 },
               ),
+              ChangeNotifierProvider.value(value: _userLocationProvider),
+              ChangeNotifierProvider.value(value: _stopAreasProvider),
+              ChangeNotifierProvider.value(value: _osmElementProvider),
               ChangeNotifierProvider(
                 create: (_) => QuestionnaireProvider()
               ),
-              ChangeNotifierProvider.value(value: _userLocationProvider),
-              ChangeNotifierProvider.value(value: _stopAreasProvider),
               ChangeNotifierProvider(
                 create: (_) => OSMAuthenticatedUserProvider(),
                 // do this so the previous session is loaded on start in parallel
                 lazy: false,
-              ),
-              ChangeNotifierProvider(
-                create: (_) => OSMElementProvider()
               ),
               ChangeNotifierProxyProvider2<OSMElementProvider, QuestionCatalog, IncompleteOSMElementProvider>(
                 create: (_) => IncompleteOSMElementProvider(),
@@ -340,6 +337,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void _onPositionChange() {
     final position = _userLocationProvider.position;
     if (position != null) {
+      // automatically load elements from stop area if the user enters a stop area
+      final enclosingStopArea = _stopAreasProvider.getStopAreaByPosition(
+        LatLng(position.latitude, position.longitude)
+      );
+      if (enclosingStopArea != null) {
+        _osmElementProvider.loadStopAreaElements(enclosingStopArea);
+      }
+      // move camera to current user location
       if (_userLocationProvider.isFollowingLocation) {
         _mapController.animateTo(
           ticker: this,
