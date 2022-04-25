@@ -105,5 +105,5 @@ jobs:
 
     - name: Check OSM website logs
       if: failure()
-      run: docker-compose logs -f web
+      run: docker-compose logs web
       working-directory: ./osm-website
