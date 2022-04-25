@@ -8,7 +8,6 @@ import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 
 import '/view_models/user_location_provider.dart';
-import '/view_models/incomplete_osm_elements_provider.dart';
 import '/view_models/questionnaire_provider.dart';
 import '/view_models/osm_authenticated_user_provider.dart';
 import '/view_models/osm_elements_provider.dart';
@@ -54,6 +53,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   late final _questionCatalog = _parseQuestionCatalog();
   late final _mapFeatureCollection = _parseOSMObjects();
+  // required because _onPositionChange has no access to the correct context
+  QuestionCatalog? _filteredQuestionCatalog;
 
   @override
   void initState() {
@@ -126,10 +127,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             providers: [
               ProxyProvider<PreferencesProvider, QuestionCatalog>(
                 update: (_, preferences, __) {
-                  return questionCatalog.filterBy(
+                  return _filteredQuestionCatalog = questionCatalog.filterBy(
                     excludeProfessional: !preferences.isProfessional
                   );
                 },
+                // required to update the _filteredQuestionCatalog variable
+                lazy: false,
               ),
               ChangeNotifierProvider.value(value: _userLocationProvider),
               ChangeNotifierProvider.value(value: _stopAreasProvider),
@@ -141,12 +144,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 create: (_) => OSMAuthenticatedUserProvider(),
                 // do this so the previous session is loaded on start in parallel
                 lazy: false,
-              ),
-              ChangeNotifierProxyProvider2<OSMElementProvider, QuestionCatalog, IncompleteOSMElementProvider>(
-                create: (_) => IncompleteOSMElementProvider(),
-                update: (_, osmElementProvider, questionCatalog, incompleteOSMElementProvider) {
-                  return incompleteOSMElementProvider!..update(osmElementProvider.loadedStopAreas, questionCatalog);
-                }
               ),
               Provider.value(value: _mapController),
               Provider.value(value: mapFeatureCollection),
@@ -204,11 +201,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             );
                           }
                         ),
-                        Consumer<IncompleteOSMElementProvider>(
-                          builder: (context, incompleteOsmElementProvider, child) {
+                        Consumer<OSMElementProvider>(
+                          builder: (context, osmElementProvider, child) {
                             return OsmElementLayer(
                               onOsmElementTap: (osmElement) => _onOsmElementTap(osmElement, context),
-                              geoElements: incompleteOsmElementProvider.loadedOsmElements
+                              geoElements: osmElementProvider.extractedOsmElements
                             );
                           }
                         ),
@@ -286,14 +283,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
 
-  void _onStopAreaTap(StopArea stopArea, BuildContext context) async {
+  void _onStopAreaTap(StopArea stopArea, BuildContext context) {
     // hide questionnaire sheet
     final questionnaire = context.read<QuestionnaireProvider>();
     if (questionnaire.workingElement != null ) {
       questionnaire.discard();
     }
 
-    context.read<OSMElementProvider>().loadStopAreaElements(stopArea);
+    final questionCatalog = context.read<QuestionCatalog>();
+    _osmElementProvider.loadAndExtractElements(
+      stopArea, questionCatalog
+    );
 
     _mapController.animateToBounds(
       ticker: this,
@@ -337,12 +337,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void _onPositionChange() {
     final position = _userLocationProvider.position;
     if (position != null) {
-      // automatically load elements from stop area if the user enters a stop area
-      final enclosingStopArea = _stopAreasProvider.getStopAreaByPosition(
-        LatLng(position.latitude, position.longitude)
-      );
-      if (enclosingStopArea != null) {
-        _osmElementProvider.loadStopAreaElements(enclosingStopArea);
+      if (_filteredQuestionCatalog != null) {
+        // automatically load elements from stop area if the user enters a stop area
+        final enclosingStopArea = _stopAreasProvider.getStopAreaByPosition(
+          LatLng(position.latitude, position.longitude)
+        );
+        if (enclosingStopArea != null) {
+          _osmElementProvider.loadAndExtractElements(
+            enclosingStopArea, _filteredQuestionCatalog!
+          );
+        }
       }
       // move camera to current user location
       if (_userLocationProvider.isFollowingLocation) {

@@ -102,7 +102,7 @@ class QuestionnaireProvider extends ChangeNotifier {
     final osmElementProvider = context.read<OSMElementProvider>();
 
     // find the corresponding stop area
-    final relatedStopArea = osmElementProvider.loadedStopAreas.entries.firstWhere(
+    final relatedStopArea = osmElementProvider.osmElementsMap.entries.firstWhere(
       (entry) => entry.value.elements.any(
         (element) => _qaSelection!.workingElement.isProxiedElement(element)
       )).key;
