@@ -3,7 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '/widgets/custom_list_tile.dart';
 import '/commons/app_config.dart' as app_config;
-import '/commons/screens.dart';
+import '/commons/routes.dart';
 
 class AboutScreen extends StatefulWidget {
   const AboutScreen({Key? key}) : super(key: key);
@@ -90,13 +90,13 @@ class _AboutScreenState extends State<AboutScreen> {
                 leadingIcon: Icons.privacy_tip,
                 trailingIcon: Icons.arrow_forward_ios_rounded,
                 title: 'Datenschutzerklärung',
-                onTap: () => Navigator.pushNamed(context, Screen.privacyPolicy),
+                onTap: () => Navigator.push(context, Routes.privacyPolicy),
               ),
               CustomListTile(
                 leadingIcon: Icons.text_snippet,
                 trailingIcon: Icons.arrow_forward_ios_rounded,
                 title: 'Lizenzen verwendeter Pakete',
-                onTap: () => Navigator.pushNamed(context, Screen.licenses),
+                onTap: () => Navigator.push(context, Routes.licenses),
               ),
               Container(
                 color: Colors.white,

@@ -30,7 +30,7 @@ class HeroViewer extends StatefulWidget {
     );
   }
 
-  static Widget defaultPageRouteTransitionsBuilder(_, Animation<double> animation, __, Widget child) {
+  static Widget defaultRouteTransitionsBuilder(_, Animation<double> animation, __, Widget child) {
     return FadeTransition(
       opacity: animation,
       child: child,
@@ -56,20 +56,17 @@ class HeroViewer extends StatefulWidget {
 
   /// An optional page route transition builder, to customize the page transition.
 
-  final RouteTransitionsBuilder pageRouteTransitionsBuilder;
+  final RouteTransitionsBuilder routeTransitionsBuilder;
 
-  final Duration pageRouteTransitionDuration;
-
-  final Duration pageRouteReverseTransitionDuration;
+  final Duration routeTransitionDuration;
 
   const HeroViewer({
     required this.child,
     this.pageBuilder = HeroViewer.imageViewerBuilder,
     this.openOn = InteractionTrigger.tap,
     this.closeOn = InteractionTrigger.tap,
-    this.pageRouteTransitionsBuilder = HeroViewer.defaultPageRouteTransitionsBuilder,
-    this.pageRouteTransitionDuration = const Duration(milliseconds: 300),
-    this.pageRouteReverseTransitionDuration = const Duration(milliseconds: 300),
+    this.routeTransitionsBuilder = HeroViewer.defaultRouteTransitionsBuilder,
+    this.routeTransitionDuration = const Duration(milliseconds: 300),
     Key? key,
   }) : super(key: key);
 
@@ -101,20 +98,61 @@ class _HeroViewerState extends State<HeroViewer> {
   void showViewer() {
     Navigator.push(
       context,
-      PageRouteBuilder(
-        pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-          return _HeroViewerPage(
-            child: widget.child,
-            builder: widget.pageBuilder,
-            tag: _uniqueTag,
-            trigger: widget.closeOn
-          );
-        },
-        transitionsBuilder: widget.pageRouteTransitionsBuilder,
-        transitionDuration: widget.pageRouteTransitionDuration,
-        reverseTransitionDuration: widget.pageRouteReverseTransitionDuration
+      HeroViewerRoute(
+        child: _HeroViewerPage(
+          child: widget.child,
+          builder: widget.pageBuilder,
+          tag: _uniqueTag,
+          trigger: widget.closeOn
+        ),
+        transitionBuilder: widget.routeTransitionsBuilder,
+        transitionDuration: widget.routeTransitionDuration,
       )
     );
+  }
+}
+
+
+// Hero animations only work between different PageRoutes
+// therefore we cannot use a ModalRoute here
+
+class HeroViewerRoute<T> extends PageRoute<T> {
+  final Widget child;
+
+  final RouteTransitionsBuilder transitionBuilder;
+
+  @override
+  final Duration transitionDuration;
+
+  @override
+  final bool maintainState;
+
+  @override
+  final bool opaque;
+
+  @override
+  final Color? barrierColor;
+
+  @override
+  final bool barrierDismissible;
+
+  @override
+  final String? barrierLabel;
+
+  HeroViewerRoute({
+    required this.child,
+    required this.transitionBuilder,
+    this.transitionDuration = const Duration(milliseconds: 300),
+    this.maintainState = true,
+    this.opaque = true,
+    this.barrierColor,
+    this.barrierDismissible = true,
+    this.barrierLabel
+  });
+
+  @override
+  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+    return transitionBuilder(context, animation, secondaryAnimation, child);
   }
 }
 

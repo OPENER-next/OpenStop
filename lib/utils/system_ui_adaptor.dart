@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '/commons/routes.dart';
+
 
 /// A flutter route observer used to adjust the system ui style based on the active page.
 /// This class provides the predefined callbacks [topAndBottomBarStyle] and [edgeToEdgeStyle].
 
 class SystemUIAdaptor extends RouteObserver<PageRoute<dynamic>> {
 
-  /// A map of route names with a corresponding callback function each, which can be used to change the system ui style.
+  /// A map of route widgets with a corresponding callback function each, which can be used to change the system ui style.
 
-  final Map<String, void Function(BuildContext)> systemStyleMap;
+  final Map<Type, void Function(BuildContext)> systemStyleMap;
 
   /// The default system style callback that is used if none was specified in the [systemStyleMap].
 
@@ -80,30 +82,30 @@ class SystemUIAdaptor extends RouteObserver<PageRoute<dynamic>> {
 
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    if (route is PageRoute) {
+    if (route is WidgetPageRoute) {
       _callStyleCallback(route);
     }
   }
 
   @override
   void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
-    if (newRoute is PageRoute) {
+    if (newRoute is WidgetPageRoute) {
       _callStyleCallback(newRoute);
     }
   }
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    if (previousRoute is PageRoute && route is PageRoute) {
+    if (previousRoute is WidgetPageRoute && route is WidgetPageRoute) {
       _callStyleCallback(previousRoute);
     }
   }
 
 
-  void _callStyleCallback(PageRoute<dynamic> route) {
+  void _callStyleCallback(WidgetPageRoute<dynamic> route) {
     final context = route.navigator?.context;
     if (context != null) {
-      final systemStyleCallback = systemStyleMap[route.settings.name];
+      final systemStyleCallback = systemStyleMap[route.page.runtimeType];
       if (systemStyleCallback != null) {
         systemStyleCallback.call(context);
       }

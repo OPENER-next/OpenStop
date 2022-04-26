@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '/widgets/dots_indicator.dart';
 import '/view_models/preferences_provider.dart';
-import '/commons/screens.dart';
+import '/commons/routes.dart';
 
 
 class OnboardingScreen extends StatefulWidget {
@@ -81,7 +81,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           buttonText: 'Los geht\'s',
           onButtonTap: () {
             context.read<PreferencesProvider>().hasSeenOnboarding = true;
-            Navigator.pushReplacementNamed(context, Screen.home);
+            Navigator.pushReplacement(context, Routes.home);
           }
       ),
     ];

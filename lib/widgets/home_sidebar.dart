@@ -8,7 +8,7 @@ import 'package:url_launcher/url_launcher.dart' as url;
 import '/view_models/osm_authenticated_user_provider.dart';
 import '/commons/app_config.dart' as app_config;
 import '/commons/osm_config.dart' as osm_config;
-import '/commons/screens.dart';
+import '/commons/routes.dart';
 import '/widgets/custom_list_tile.dart';
 
 
@@ -56,12 +56,12 @@ class _HomeSidebarState extends State<HomeSidebar> {
             CustomListTile(
               leadingIcon: Icons.settings,
               title: 'Einstellungen',
-              onTap: () => Navigator.pushNamed(context, Screen.settings),
+              onTap: () => Navigator.push(context, Routes.settings),
             ),
             CustomListTile(
               leadingIcon: Icons.info,
               title: 'Über',
-              onTap: () => Navigator.pushNamed(context, Screen.about),
+              onTap: () => Navigator.push(context, Routes.about),
             ),
             CustomListTile(
               leadingIcon: Icons.feedback,

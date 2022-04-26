@@ -5,17 +5,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '/commons/themes.dart';
 import '/commons/app_config.dart' as app_config;
-import '/commons/screens.dart';
 import '/view_models/preferences_provider.dart';
 
 // Screens
-import '/screens/about.dart';
-import '/screens/home.dart';
-import '/screens/licenses.dart';
-import '/screens/onboarding.dart';
-import '/screens/privacy_policy.dart';
-import '/screens/settings.dart';
 import '/utils/system_ui_adaptor.dart';
+import '/commons/routes.dart';
+import '/screens/home.dart';
+import '/screens/onboarding.dart';
 
 
 Future <void> main() async {
@@ -55,19 +51,13 @@ class MyApp extends StatelessWidget {
           supportedLocales: const [
             Locale('de','DE')
           ],
-          initialRoute: hasSeenOnboarding ? Screen.home : Screen.onboarding,
-          routes: {
-            Screen.home: (context) => const HomeScreen(),
-            Screen.about: (context) => const AboutScreen(),
-            Screen.licenses: (context) => const LicensesScreen(),
-            Screen.onboarding: (context) => const OnboardingScreen(),
-            Screen.privacyPolicy: (context) => const PrivacyPolicyScreen(),
-            Screen.settings: (context) => const SettingsScreen()
-          },
+          // used instead of home: because otherwise the navigatorObservers won't get called
+          // also otherwise no pop page transition to the first screen will be applied
+          onGenerateRoute: (settings) => hasSeenOnboarding ? Routes.home : Routes.onboarding,
           navigatorObservers: [
             SystemUIAdaptor({
-              Screen.home: SystemUIAdaptor.edgeToEdgeStyle,
-              Screen.onboarding: SystemUIAdaptor.edgeToEdgeTransparentStyle,
+              HomeScreen: SystemUIAdaptor.edgeToEdgeStyle,
+              OnboardingScreen: SystemUIAdaptor.edgeToEdgeTransparentStyle,
             })
           ],
           theme: lightTheme,
