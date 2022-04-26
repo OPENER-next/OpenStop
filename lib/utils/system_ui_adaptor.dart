@@ -27,14 +27,17 @@ class SystemUIAdaptor extends RouteObserver<PageRoute<dynamic>> {
   /// - bottom navigation bar takes theme scaffold background color
 
   static void topAndBottomBarStyle(BuildContext context) {
+    final inverseBrightness = Brightness.values[
+      (Theme.of(context).colorScheme.brightness.index + 1) % Brightness.values.length
+    ];
     // show top and bottom bar
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
     // update native ui colors
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.light,
         systemNavigationBarColor: Colors.transparent,
-        systemNavigationBarIconBrightness: Brightness.dark,
+        systemNavigationBarIconBrightness: inverseBrightness,
         systemNavigationBarContrastEnforced: false
     ));
   }
