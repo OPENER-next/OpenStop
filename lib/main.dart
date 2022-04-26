@@ -15,7 +15,7 @@ import '/screens/licenses.dart';
 import '/screens/onboarding.dart';
 import '/screens/privacy_policy.dart';
 import '/screens/settings.dart';
-import '/helpers/system_ui_adaptor.dart';
+import '/utils/system_ui_adaptor.dart';
 
 
 Future <void> main() async {

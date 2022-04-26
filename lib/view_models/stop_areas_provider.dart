@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import '/helpers/cell_cache.dart';
+import '/utils/cell_cache.dart';
 import '/utils/stop_unifier.dart';
 import '/models/stop_area.dart';
 import '/api/stop_query_api.dart';
