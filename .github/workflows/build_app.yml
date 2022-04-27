@@ -35,7 +35,7 @@ jobs:
       run: flutter pub run build_runner build --delete-conflicting-outputs
 
     - name: Create Android keystore file
-      run: echo -n ${{ secrets.ANDROID_KEYSTORE_BASE64 }} | base64 --decode > key.jks
+      run: echo -n "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > key.jks
 
     # See: https://docs.flutter.dev/deployment/android#reference-the-keystore-from-the-app
     # The key store and key password should be identical according to
