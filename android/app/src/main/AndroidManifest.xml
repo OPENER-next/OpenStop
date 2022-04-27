@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.opener_next">
+    package="tuc.etit.sse.openstop">
    <queries>
       <intent>
          <action android:name="android.intent.action.VIEW" />
@@ -17,7 +17,7 @@
    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
    <application
-        android:label="OPENER next"
+        android:label="OpenStop"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

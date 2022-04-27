@@ -40,8 +40,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "de.openernext"
+        applicationId "tuc.etit.sse.openstop"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()

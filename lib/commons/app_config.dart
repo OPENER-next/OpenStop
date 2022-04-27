@@ -1,6 +1,6 @@
 import 'version.g.dart';
 
-const appName = 'OPENER next';
+const appName = 'OpenStop';
 
 const appVersion = packageVersion;
 
