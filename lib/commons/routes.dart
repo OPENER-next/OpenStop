@@ -66,12 +66,12 @@ class SlideInOutPageRoute<T> extends WidgetPageRoute<T> {
       position: Tween<Offset>(
         begin: const Offset(1, 0),
         end: Offset.zero,
-      ).animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut)),
+      ).animate(CurvedAnimation(parent: animation, curve: Curves.easeInOutQuart)),
       child: SlideTransition(
         position: Tween<Offset>(
           begin: Offset.zero,
           end: const Offset(-1, 0),
-        ).animate(CurvedAnimation(parent: secondaryAnimation, curve: Curves.easeInOut)),
+        ).animate(CurvedAnimation(parent: secondaryAnimation, curve: Curves.easeInOutQuart)),
         child: child,
       ),
     );
