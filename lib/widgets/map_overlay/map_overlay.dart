@@ -63,12 +63,7 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
         OverlayEntry(
           builder: (context) {
             return Padding(
-              padding: EdgeInsets.fromLTRB(
-                widget.buttonSpacing + MediaQuery.of(context).padding.left,
-                widget.buttonSpacing + MediaQuery.of(context).padding.top,
-                widget.buttonSpacing + MediaQuery.of(context).padding.right,
-                widget.buttonSpacing + MediaQuery.of(context).padding.bottom,
-              ),
+              padding: MediaQuery.of(context).padding + EdgeInsets.all(widget.buttonSpacing),
               child: Stack(
                 children: [
                   Align(
