@@ -8,4 +8,4 @@ const appUserAgent = '$appName $appVersion';
 
 const appCallbackUrlScheme = 'openstop.app';
 
-const appProjectUrl = 'https://github.com/OPENER-next/OPENER-next';
+const appProjectUrl = 'https://github.com/OPENER-next/OpenStop';
