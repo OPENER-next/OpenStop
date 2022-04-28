@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tuc.etit.sse.openstop">
+    package="de.tu_chemnitz.etit.sse.openstop">
    <queries>
       <intent>
          <action android:name="android.intent.action.VIEW" />

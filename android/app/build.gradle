@@ -40,7 +40,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "tuc.etit.sse.openstop"
+        applicationId "de.tu_chemnitz.etit.sse.openstop"
         minSdkVersion 23
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()

@@ -1,4 +1,4 @@
-package tuc.etit.sse.openstop
+package de.tu_chemnitz.etit.sse.openstop
 
 import io.flutter.embedding.android.FlutterActivity
 
