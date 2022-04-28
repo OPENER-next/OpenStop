@@ -65,6 +65,16 @@ android {
             signingConfig keystorePropertiesFile.exists() ? signingConfigs.release : signingConfigs.debug
         }
     }
+
+    flavorDimensions "deploy"
+
+    productFlavors {
+        // define a special fdroid flavor to pass an empty signing config
+        fdroid {
+            dimension "deploy"
+            signingConfig null
+        }
+    }
 }
 
 flutter {
