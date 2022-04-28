@@ -46,7 +46,7 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         manifestPlaceholders = [
-            'appAuthRedirectScheme': 'openernext.de'
+            'appAuthRedirectScheme': 'openstop.app'
         ]
     }
 

@@ -6,6 +6,6 @@ const appVersion = packageVersion;
 
 const appUserAgent = '$appName $appVersion';
 
-const appCallbackUrlScheme = 'openernext.de';
+const appCallbackUrlScheme = 'openstop.app';
 
 const appProjectUrl = 'https://github.com/OPENER-next/OPENER-next';
