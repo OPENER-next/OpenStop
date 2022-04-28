@@ -45,7 +45,7 @@ class _AboutScreenState extends State<AboutScreen> {
               const Padding(
                 padding: EdgeInsets.only(bottom: 20.0),
                 child: Text(
-                  '"DIE Erfassungs-App für Barrieredaten im ÖPV"',
+                  '"Nächster Halt: Barrierefreiheit"',
                   style: TextStyle(fontStyle: FontStyle.italic),
                 ),
               ),
