@@ -14,8 +14,6 @@ PODS:
     - Flutter
   - motion_sensors (0.0.1):
     - Flutter
-  - package_info_plus (0.4.5):
-    - Flutter
   - shared_preferences_ios (0.0.1):
     - Flutter
   - url_launcher_ios (0.0.1):
@@ -27,7 +25,6 @@ DEPENDENCIES:
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - motion_sensors (from `.symlinks/plugins/motion_sensors/ios`)
-  - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
@@ -46,8 +43,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/geolocator_apple/ios"
   motion_sensors:
     :path: ".symlinks/plugins/motion_sensors/ios"
-  package_info_plus:
-    :path: ".symlinks/plugins/package_info_plus/ios"
   shared_preferences_ios:
     :path: ".symlinks/plugins/shared_preferences_ios/ios"
   url_launcher_ios:
@@ -60,9 +55,8 @@ SPEC CHECKSUMS:
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
   motion_sensors: 03f55b7c637a7e365a0b5f9697a449f9059d5d91
-  package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
-  shared_preferences_ios: aef470a42dc4675a1cdd50e3158b42e3d1232b32
-  url_launcher_ios: 02f1989d4e14e998335b02b67a7590fa34f971af
+  shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
+  url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
 
 PODFILE CHECKSUM: 2a1f2e5b7336e559c71ebfb62f508c6e066d199b
 

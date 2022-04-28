@@ -127,7 +127,9 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 
 flutter_icons:
-  image_path_android: "assets/images/app_icon_android.png"
-  image_path_ios: "assets/images/app_icon_ios.png"
+  image_path_android: 'assets/images/app_icon_android.png'
+  image_path_ios: 'assets/images/app_icon_ios.png'
+  adaptive_icon_foreground: 'assets/images/app_icon_adaptive_foreground.png'
+  adaptive_icon_background: '#ffcd40'
   android: true
   ios: true
