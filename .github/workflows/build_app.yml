@@ -2,7 +2,7 @@ name: Build app for target platforms
 
 on:
   # Run this automatically whenever a new release-tag is created.
-  push:
+  create:
     tags:
       - 'v*'
     branches: [master, main]
