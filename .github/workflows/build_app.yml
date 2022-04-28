@@ -1,9 +1,12 @@
 name: Build app for target platforms
 
 on:
+  # Run this automatically whenever a new release-tag is created.
   push:
-  # Allow running this workflow manually from the Actions tab
-  # Later maybe run this automatically on new releases
+    tags:
+      - 'v*'
+    branches: [master, main]
+  # Allow running this workflow manually from the Actions tab.
   workflow_dispatch:
 
 jobs:
