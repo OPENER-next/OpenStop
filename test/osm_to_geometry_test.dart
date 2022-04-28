@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:opener_next/models/geographic_geometries.dart';
-import 'package:opener_next/models/geometric_osm_element.dart';
+import 'package:open_stop/models/geographic_geometries.dart';
+import 'package:open_stop/models/geometric_osm_element.dart';
 import 'package:osm_api/osm_api.dart';
 
 void main() async {

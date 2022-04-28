@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nock/nock.dart';
-import 'package:opener_next/screens/home.dart';
+import 'package:open_stop/screens/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:opener_next/main.dart';
+import 'package:open_stop/main.dart';
 
 const overpassReply = '''
   {
