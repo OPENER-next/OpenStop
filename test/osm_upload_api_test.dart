@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:opener_next/api/osm_element_upload_api.dart';
-import 'package:opener_next/models/authenticated_user.dart';
-import 'package:opener_next/models/map_feature.dart';
-import 'package:opener_next/models/map_feature_collection.dart';
-import 'package:opener_next/models/osm_element_type.dart' as app;
-import 'package:opener_next/models/stop.dart';
-import 'package:opener_next/models/stop_area.dart';
+import 'package:open_stop/api/osm_element_upload_api.dart';
+import 'package:open_stop/models/authenticated_user.dart';
+import 'package:open_stop/models/map_feature.dart';
+import 'package:open_stop/models/map_feature_collection.dart';
+import 'package:open_stop/models/osm_element_type.dart' as app;
+import 'package:open_stop/models/stop.dart';
+import 'package:open_stop/models/stop_area.dart';
 import 'package:osm_api/osm_api.dart';
 
 void main() async {
