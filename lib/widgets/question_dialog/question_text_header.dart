@@ -1,5 +1,6 @@
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
-
+import '/commons/themes.dart';
 import '/widgets/hero_viewer.dart';
 
 class QuestionTextHeader extends StatefulWidget {
@@ -127,7 +128,7 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                     builder: (context, child) {
                       return Container(
                         margin: const EdgeInsets.only(left: 10),
-                        padding: const EdgeInsets.all(12),
+                        padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
                           color: _fillColorAnimation.value!,
                           shape: BoxShape.circle,
@@ -135,15 +136,9 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                             color: Theme.of(context).colorScheme.primary,
                           )
                         ),
-                        child: Text(
-                          'i',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: _iconColorAnimation.value!,
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Times'
-                          )
+                        child: Icon(
+                          CommunityMaterialIcons.information_variant,
+                          color: _iconColorAnimation.value!,
                         )
                       );
                     },
@@ -157,7 +152,7 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
               child: FadeTransition(
                 opacity: _fadeAnimation,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 5),
+                  padding: const EdgeInsets.only(top: 15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -201,19 +196,22 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                             itemCount: widget.images.length,
                             separatorBuilder: (context, index) => const SizedBox(width: 10),
                             itemBuilder: (context, index) {
-                              return Image.asset(
-                                widget.images[index],
-                                frameBuilder: (context, child, _, __) {
-                                  return HeroViewer(
-                                    child: child
-                                  );
-                                },
-                                errorBuilder: (context, _, __) {
-                                  // do not add a hero viewer to the error widget since enlarging this makes no sense
-                                  return Image.asset(
-                                    'assets/images/placeholder_image.png',
-                                  );
-                                },
+                              return ClipRRect(
+                                borderRadius: BorderRadius.circular(Default.borderRadius),
+                                child: Image.asset(
+                                  widget.images[index],
+                                  frameBuilder: (context, child, _, __) {
+                                    return HeroViewer(
+                                      child: child
+                                    );
+                                  },
+                                  errorBuilder: (context, _, __) {
+                                    // do not add a hero viewer to the error widget since enlarging this makes no sense
+                                    return Image.asset(
+                                      'assets/images/placeholder_image.png',
+                                    );
+                                  },
+                                ),
                               );
                             },
                           ),
