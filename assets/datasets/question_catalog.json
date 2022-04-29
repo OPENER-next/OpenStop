@@ -26,30 +26,6 @@
       ]
    },
    {
-      "id": 1021,
-      "name": "Öffnungszeiten",
-      "question": "Wann hat diese Fahrkartenverkaufsstelle geöffnet?",
-      "input": {
-         "type": "OpeningHours",
-         "values": {
-            "single": {
-               "osm_tags": {
-                  "opening_hours": "%s"
-               }
-            }
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "shop": "ticket",
-               "tickets:public_transport": "yes",
-               "opening_hours": false
-            }
-         }
-      ]
-   },
-   {
       "id": 1022,
       "name": "Rollstuhlgerecht",
       "question": "Ist die Fahrkartenverkaufsstelle rollstuhlgerecht?",
@@ -101,31 +77,6 @@
                "information": "office",
                "information:public_transport": "yes",
                "operator": false
-            }
-         }
-      ]
-   },
-   {
-      "id": 1031,
-      "name": "Öffnungszeiten",
-      "question": "Wann hat diese Informationsstelle geöffnet?",
-      "input": {
-         "type": "OpeningHours",
-         "values": {
-            "single": {
-               "osm_tags": {
-                  "opening_hours": "%s"
-               }
-            }
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "tourism": "information",
-               "information": "office",
-               "information:public_transport": "yes",
-               "opening_hours": false
             }
          }
       ]
@@ -285,34 +236,6 @@
    },
    {
       "id": 1052,
-      "name": "Öffnungszeiten",
-      "question": "Welche Öffnungszeiten hat der Parkplatz?",
-      "input": {
-         "type": "OpeningHours",
-         "values": {
-            "single": {
-               "osm_tags": {
-                  "opening_hours": "%s"
-               }
-            }
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "amenity": "parking",
-               "access": [
-                  "yes",
-                  "customers",
-                  false
-               ],
-               "opening_hours": false
-            }
-         }
-      ]
-   },
-   {
-      "id": 1052,
       "name": "Park+Ride",
       "question": "Ist dies ein Park+Ride-Parkplatz?",
       "description": "Park+Ride-Anlagen sind Parkplätze mit Anbindung an öffentliche Verkehrsmittel, die es Personen ermöglichen, ihr Fahrzeug zu verlassen und für den Rest der Reise auf öffentliche Verkehrsmittel umzusteigen.",
@@ -346,72 +269,6 @@
                   false
                ],
                "park_ride": false
-            }
-         }
-      ]
-   },
-   {
-      "id": 1052,
-      "name": "Parkdauer begrenzt",
-      "question": "Ist die maxmiale Parkdauer begrenzt?",
-      "image": [
-         "packages/nvbw_open_data/photos/1052d.jpg",
-         "packages/nvbw_open_data/photos/1052e.jpg"
-      ],
-      "input": {
-         "type": "Bool",
-         "values": {
-            "true": {
-               "osm_tags": {
-                  "maxstay": "yes"
-               }
-            },
-            "false": {
-               "osm_tags": {
-                  "maxstay": "no"
-               }
-            }
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "amenity": "parking",
-               "access": [
-                  "yes",
-                  "customers",
-                  false
-               ],
-               "maxstay": false
-            }
-         }
-      ]
-   },
-   {
-      "id": 1052,
-      "name": "Parkdauer",
-      "question": "Was ist die maximale Parkdauer?",
-      "input": {
-         "type": "Duration",
-         "values": {
-            "single": {
-               "unit": "d:1,h:1,m:5",
-               "osm_tags": {
-                  "maxstay": "%s"
-               }
-            }
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "amenity": "parking",
-               "access": [
-                  "yes",
-                  "customers",
-                  false
-               ],
-               "maxstay": "yes"
             }
          }
       ]
@@ -589,33 +446,6 @@
                ],
                "centralkey": "customer",
                "centralkey:description": false
-            }
-         }
-      ]
-   },
-   {
-      "id": 1075,
-      "name": "Toiletten-Öffnungszeiten",
-      "question": "Welche Öffnungszeiten hat die Toilette?",
-      "input": {
-         "type": "OpeningHours",
-         "values": {
-            "single": {
-               "osm_tags": {
-                  "opening_hours": "%s"
-               }
-            }
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "amenity": "toilets",
-               "access": [
-                  "yes",
-                  false
-               ],
-               "opening_hours": false
             }
          }
       ]
@@ -803,7 +633,8 @@
       "description": "Dynamische Fahrtziel-Anzeiger zeigen Echtzeit-Informationen über das Ziel ein- bzw. abfahrender Züge/Busse an einem Bahn-/Bussteig an.",
       "image": [
          "packages/nvbw_open_data/photos/1140a.jpg",
-         "packages/nvbw_open_data/photos/1140b.jpg"
+         "packages/nvbw_open_data/photos/1140b.jpg",
+         "assets/images/questions/1140c.jpg"
       ],
       "input": {
          "type": "Bool",
@@ -835,7 +666,7 @@
       "question": "Hat der dynamische Fahrtziel-Anzeiger an der Plattform eine akustische Ausgabe?",
       "description": "Einige Fahrtziel-Anzeiger können bei Bedarf auf Knopfdruck die angezeigten Informationen akustisch ausgeben.",
       "image": [
-         "assets/images/questions/1141.jpg"
+         "assets/images/questions/1141a.jpg"
       ],
       "input": {
          "type": "Bool",
