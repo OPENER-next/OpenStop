@@ -70,9 +70,9 @@ class _StopAreaLayerState extends State<StopAreaLayer> {
       animateOutCurve: Curves.ease,
       animateInDelay: _getRandomDelay(),
       animateOutDelay: _getRandomDelay(),
-      // create unique key based on location
+      // create unique key
       // this needs to be done so flutter can re-identify the correct element
-      key: ValueKey(stopArea.center),
+      key: ValueKey(stopArea),
       size: Size.square(stopArea.diameter),
       sizeUnit: SizeUnit.meters,
       point: stopArea.center,

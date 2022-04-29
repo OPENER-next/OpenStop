@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -48,8 +48,6 @@ class StopArea extends Circle {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    final setEquals = const DeepCollectionEquality().equals;
-
     return other is StopArea &&
       setEquals(other.stops, stops) &&
       other.center == center &&
@@ -57,5 +55,5 @@ class StopArea extends Circle {
   }
 
   @override
-  int get hashCode => stops.hashCode ^ center.hashCode ^ radius.hashCode;
+  int get hashCode => Object.hashAll(stops) ^ Object.hash(center, radius);
 }

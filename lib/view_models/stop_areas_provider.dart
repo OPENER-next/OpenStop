@@ -55,8 +55,11 @@ class StopAreasProvider extends ChangeNotifier {
   /// All currently queried [StopArea]s.
   /// Listeners will be notified whenever this property changes.
 
-  Iterable<StopArea> get stopAreas {
-    return _stopAreaCache.items.expand((stopAreas) => stopAreas);
+  Set<StopArea> get stopAreas {
+    // use set to remove duplicates that may be caused by overlapping cell boundaries
+    return Set.of(_stopAreaCache.items.expand(
+      (stopAreas) => stopAreas
+    ));
   }
 
 
