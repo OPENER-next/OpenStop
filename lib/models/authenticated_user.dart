@@ -13,7 +13,7 @@ class AuthenticatedUser {
 
   final List<String> preferredLanguages;
 
-  AuthenticatedUser({
+  const AuthenticatedUser({
     required this.authentication,
     required this.name,
     required this.id,

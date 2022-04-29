@@ -7,7 +7,7 @@ class Stop {
 
   final String name;
 
-  Stop({
+  const Stop({
     required this.location,
     this.name = '',
   });

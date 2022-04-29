@@ -6,7 +6,7 @@ import '/models/question_input.dart';
 /// Each question input should create and return an appropriate Answer object.
 
 abstract class Answer<T> {
-  Answer({
+  const Answer({
     required this.questionValues,
     required this.value
   });
@@ -29,7 +29,7 @@ abstract class Answer<T> {
 
 
 class StringAnswer extends Answer<String> {
-  StringAnswer({
+  const StringAnswer({
     required Map<String, QuestionInputValue> questionValues,
     required String value
   }) : super(questionValues: questionValues, value: value);
@@ -65,7 +65,7 @@ class StringAnswer extends Answer<String> {
 /// Use string instead of double to avoid precision errors
 
 class NumberAnswer extends Answer<String> {
-  NumberAnswer({
+  const NumberAnswer({
     required Map<String, QuestionInputValue> questionValues,
     required String value
   }) : super(questionValues: questionValues, value: value);
@@ -117,7 +117,7 @@ class NumberAnswer extends Answer<String> {
 
 
 class BoolAnswer extends Answer<bool> {
-  BoolAnswer({
+  const BoolAnswer({
     required Map<String, QuestionInputValue> questionValues,
     required bool value
   }) : super(questionValues: questionValues, value: value);
@@ -148,7 +148,7 @@ class BoolAnswer extends Answer<bool> {
 
 
 class ListAnswer extends Answer<String> {
-  ListAnswer({
+  const ListAnswer({
     required Map<String, QuestionInputValue> questionValues,
     required String value
   }) : super(questionValues: questionValues, value: value);
@@ -176,7 +176,7 @@ class ListAnswer extends Answer<String> {
 
 
 class DurationAnswer extends Answer<Duration> {
-  DurationAnswer({
+  const DurationAnswer({
     required Map<String, QuestionInputValue> questionValues,
     required Duration value
   }) : super(questionValues: questionValues, value: value);
