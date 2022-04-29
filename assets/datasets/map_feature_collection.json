@@ -16,6 +16,40 @@
     "osm_element": "OpenWay"
   },
   {
+    "name": "Haltestelle",
+    "icon": "platform",
+    "osm_tags": {
+      "public_transport": "platform"
+    },
+    "osm_element": "ClosedWay"
+  },
+  {
+    "name": "Haltestelle",
+    "icon": "platform",
+    "osm_tags": {
+      "public_transport": "platform"
+    },
+    "osm_element": "Relation"
+  },
+  {
+    "name": "Bahnsteig",
+    "icon": "train_platform",
+    "osm_tags": {
+      "public_transport": "platform",
+      "railway": "platform"
+    },
+    "osm_element": "ClosedWay"
+  },
+  {
+    "name": "Bahnsteig",
+    "icon": "train_platform",
+    "osm_tags": {
+      "public_transport": "platform",
+      "railway": "platform"
+    },
+    "osm_element": "Relation"
+  },
+  {
     "name": "Fahrtkartenverkaufsstelle",
     "icon": "ticket_shop",
     "osm_tags": {

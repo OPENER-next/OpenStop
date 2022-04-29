@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 const Map<String, IconData> customIcons = {
   'stop': CommunityMaterialIcons.bus_stop,
   'platform': CommunityMaterialIcons.bus_stop_covered,
+  'train_platform': CommunityMaterialIcons.train,
   'ticket_shop': CommunityMaterialIcons.ticket_confirmation,
   'information': CommunityMaterialIcons.information_variant,
   'ticket_machine': CommunityMaterialIcons.fridge_bottom,
