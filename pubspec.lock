@@ -292,8 +292,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: HEAD
-      resolved-ref: bfc1f574e0f8133ff86dd7dbedf5eaec29478fcf
+      ref: b2437973d7cab12febb5f6c434c8a1612550cea3
+      resolved-ref: b2437973d7cab12febb5f6c434c8a1612550cea3
       url: "https://github.com/fleaflet/flutter_map.git"
     source: git
     version: "0.14.0"

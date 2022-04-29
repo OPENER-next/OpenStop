@@ -74,7 +74,9 @@ dev_dependencies:
 # Use latest flutter map from github till a new version is released on pub.dev
 dependency_overrides:
   flutter_map:
-    git: https://github.com/fleaflet/flutter_map.git
+    git:
+      url: https://github.com/fleaflet/flutter_map.git
+      ref: b2437973d7cab12febb5f6c434c8a1612550cea3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
