@@ -1,6 +1,9 @@
 name: open_stop
 description: 'Next Stop: Accessibility'
 
+# Required in order to use git and path dependencies
+publish_to: 'none'
+
 version: 0.1.1+1
 
 environment:
