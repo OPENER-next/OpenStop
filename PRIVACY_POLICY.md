@@ -24,10 +24,10 @@ Straße der Nationen 62 \
 E-Mail: datenschutzbeauftragter@tu-chemnitz.de \
 Telefon: +49 371 531-12030 \
 Telefax: +49 371 531-12039 \
-Web: https://www.tu-chemnitz.de/rektorat/dsb 
+Web: https://www.tu-chemnitz.de/rektorat/dsb
 
 ## III. Technische Umsetzung der App
-Die technische Umsetzung der App erfolgt quell-offen auf GitHub und ist über den folgenden Link zu erreichen: https://github.com/OPENER-next/OPENER-next. Die Betreuung und Entwicklung findet maßgeblich durch Mitwirkende im Forschungsprojekt OPENER next statt. Alle derzeitigen oder ehemaligen Mitwirkenden finden Sie hier: https://github.com/OPENER-next/OPENER-next/graphs/contributors.
+Die technische Umsetzung der App erfolgt quell-offen auf GitHub und ist über den folgenden Link zu erreichen: https://github.com/OPENER-next/OpenStop. Die Betreuung und Entwicklung findet maßgeblich durch Mitwirkende im Forschungsprojekt OPENER next statt. Alle derzeitigen oder ehemaligen Mitwirkenden finden Sie hier: https://github.com/OPENER-next/OpenStop/graphs/contributors.
 
 ## IV. Auf welcher Rechtsgrundlage werden Ihre Daten verarbeitet?
 Ihre Daten werden im Zusammenhang mit den Funktionen der App grundsätzlich nur auf Grundlage Ihres Einverständnisses verarbeitet. Dies umfasst z. B. die Anmeldung bei OpenStreetMap sowie die Weitergabe Ihres Standortes zwecks Herunterladens der in der Nähe befindlichen Haltestellen. Die Rechtsgrundlage ist Art. 6 Abs. 1 S. 1 lit. a DSGVO.
@@ -57,7 +57,7 @@ Um Ihren aktuellen Standort auf der Karte anzuzeigen zwecks besserer Orientierun
 Änderungen, die Sie als Nutzer durch das Beantworten von Fragen zu OpenStreetMap beitragen, werden in sogenannten Änderungssätzen (Changesets) an die OpenStreetMap-Server übermittelt und dort gespeichert. Änderungssätze, die durch die App übertragen werden, beinhalten folgende zusätzliche Informationen:
 *	Ihr OpenStreetMap-Nutzername
 *	Datum der Änderungen
-*	Name der App („OPENER next + Versionsnummer“)
+*	Name der App („OpenStop + Versionsnummer“)
 *	Sprache der App
 *	Beschreibung der gemachten Änderungen
 *	Art der Datenerfassung
@@ -80,7 +80,7 @@ Mit folgenden Dritt-Servern kommuniziert die App:
 *	**Overpass-API-Server** dienen zum effizienten Abfragen von Geodaten. Im Folgenden finden Sie eine Liste aller genutzten Overpass-API-Server mit ihrer entsprechenden Datenschutzerklärung soweit vorhanden:
     *	Main Overpass API Instance
     *	Overpass by Kumi Systems - https://overpass.kumi.systems
-    
+
 ## VIII. An wen werden Ihre Daten weitergegeben?
 Die von Ihnen gegebenen Antworten werden von der App in OpenStreetMap-konforme Daten umgewandelt und mit weiteren Informationen angereichert (siehe Nutzungsdaten) und anschließend an den OpenStreetMap-Server weitergeben und dort gespeichert.
 
