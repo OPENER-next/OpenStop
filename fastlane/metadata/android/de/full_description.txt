@@ -1,7 +1,7 @@
-Das Ziel der App ist es, mit Ihrer Hilfe Barrieredaten im Öffentlichen Nahverkehr zu sammeln und auf OpenStreetMap zur Verfügung zu stellen, so dass JEDER davon profieren kann.
+Das Ziel der App ist es, mit Ihrer Hilfe Barrieredaten im öffentlichen Nahverkehr zu sammeln und auf OpenStreetMap zur Verfügung zu stellen, so dass JEDER davon profitieren kann.
 
 Durch das Stellen einfacher Fragen zu Haltestellen soll es Bürgerinnen und Bürgern ermöglicht werden, auf eine zugängliche Art und Weise Daten in Ihrer Umgebung zu erfassen.
 
-Die durch Sie gesammelten Daten bilden unter anderem die Grundlage für eine bessere Reisebeauskunftung vor allem für körperlich beinträchtige Menschen und dem weiteren Ausbau von Haltestellen.
+Die durch Sie gesammelten Daten bilden unter anderem die Grundlage für eine bessere Reisebeauskunftung vor allem für körperlich beeinträchtigte Menschen und den weiteren Ausbau von Haltestellen.
 
 Danke für Ihren Beitrag zu einem besseren Nahverkehr.

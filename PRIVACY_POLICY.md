@@ -33,7 +33,7 @@ Die technische Umsetzung der App erfolgt quell-offen auf GitHub und ist über de
 Ihre Daten werden im Zusammenhang mit den Funktionen der App grundsätzlich nur auf Grundlage Ihres Einverständnisses verarbeitet. Dies umfasst z. B. die Anmeldung bei OpenStreetMap sowie die Weitergabe Ihres Standortes zwecks Herunterladens der in der Nähe befindlichen Haltestellen. Die Rechtsgrundlage ist Art. 6 Abs. 1 S. 1 lit. a DSGVO.
 
 ## V. An wen richtet sich die App?
-Die App richtet sich an alle, die dabei helfen wollen, Barrieren im Öffentlichen Nahverkehr zu erfassen, um so die Welt ein kleines bisschen besser machen.
+Die App richtet sich an alle, die dabei helfen wollen, Barrieren im öffentlichen Nahverkehr zu erfassen, um so die Welt ein kleines bisschen besser machen.
 
 ## VI. Welche Berechtigungen benötigt die App?
 Die App benötigt Zugriff auf den Standardort Ihres Smartphones. Dazu ist es erforderlich, dass Sie der App diese Berechtigung erteilen. Das Berechtigungssystem richtet sich nach den Vorgaben Ihres Betriebssystems. Sie können auf Ihrem Smartphone beispielsweise Einzelberechtigungen zu Berechtigungskategorien zusammengefasst sein, wobei Sie der Berechtigungskategorie nur insgesamt zustimmen können.

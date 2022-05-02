@@ -1,1 +1,1 @@
-Die Erfassungs-App für Barriedaten im Öffentlichen Nahverkehr.
+Die Erfassungs-App für Barrieredaten im öffentlichen Nahverkehr.
