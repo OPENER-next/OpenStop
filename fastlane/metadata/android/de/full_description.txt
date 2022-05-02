@@ -1,0 +1,7 @@
+The goal of the app is, with your help, to collect public transport barrier data and make it available on OpenStreetMap so that EVERYONE can benefit from it.
+
+By asking simple questions about stops, citizens shall be put in a position to collect data in their vicinity in an accessible manner.
+
+The data you collect will build the foundation for better travel information, especially for physically impaired people, and guide the upgrading process of bus stops.
+
+Thank you for your contribution to a better local public transport.
