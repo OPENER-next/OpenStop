@@ -1,7 +1,7 @@
-The goal of the app is, with your help, to collect public transport barrier data and make it available on OpenStreetMap so that EVERYONE can benefit from it.
+Das Ziel der App ist es, mit Ihrer Hilfe Barrieredaten im Öffentlichen Nahverkehr zu sammeln und auf OpenStreetMap zur Verfügung zu stellen, so dass JEDER davon profieren kann.
 
-By asking simple questions about stops, citizens shall be put in a position to collect data in their vicinity in an accessible manner.
+Durch das Stellen einfacher Fragen zu Haltestellen soll es Bürgerinnen und Bürgern ermöglicht werden, auf eine zugängliche Art und Weise Daten in Ihrer Umgebung zu erfassen.
 
-The data you collect will build the foundation for better travel information, especially for physically impaired people, and guide the upgrading process of bus stops.
+Die durch Sie gesammelten Daten bilden unter anderem die Grundlage für eine bessere Reisebeauskunftung vor allem für körperlich beinträchtige Menschen und dem weiteren Ausbau von Haltestellen.
 
-Thank you for your contribution to a better local public transport.
+Danke für Ihren Beitrag zu einem besseren Nahverkehr.
