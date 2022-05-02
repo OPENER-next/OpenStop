@@ -4,7 +4,7 @@ description: 'Next Stop: Accessibility'
 # Required in order to use git and path dependencies
 publish_to: 'none'
 
-version: 0.1.1+1
+version: 0.1.1+2
 
 environment:
   sdk: ">=2.13.0 <3.0.0"
