@@ -1,6 +1,4 @@
-# OPENER next
-
-[<img align="right" src="https://www.openernext.de/img/opener_next-logo-text.svg" alt="OPENER next Logo" width="250">](https://www.openernext.de)
+![OpenStop](fastlane/metadata/android/en-US/images/featureGraphic.png)
 
 The goal of this app is to collect accessibility data for public transport stops in [OpenStreetMap](https://www.openstreetmap.org) so that everyone can benefit from it.
 Due to the huge amount of public transport stops out there we want to encourage all citizen (experienced OSM users and newcomers) to help gathering this data. That's why we are developing this app that allows collecting the data in an easy, accessible and safe manner by asking simple questions. For deeper insight read  the [working principle](./WORKING_PRINCIPLE.md) of the app.
@@ -10,10 +8,17 @@ The data shall be the foundation for better routing especially for impaired peop
 Thanks and happy mapping!
 
 ## Download
-Soon available on Google Play, F-Droid and App Store.
+[<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+    alt="Get it on Google Play"
+    height="80">](https://play.google.com/store/apps/details?id=de.tu_chemnitz.etit.sse.openstop)
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+    alt="Get it on F-Droid"
+    height="80">](https://f-droid.org/packages/de.tu_chemnitz.etit.sse.openstop/)
+
+Soon available in App Store, too.
 
 ## Screenshots
-<img src="https://www.openernext.de/resources/screenshots/Stop_Areas.png" alt="Screenshot with visualized stop areas" width=150> <img src="https://www.openernext.de/resources/screenshots/Bool.png" alt="Screenshot with Bool question dialog" width=150> <img src="https://www.openernext.de/resources/screenshots/List_Description.png" alt="Screenshot with List question dialog" width=150> <img src="https://www.openernext.de/resources/screenshots/Number.png" alt="Screenshot with Number question dialog" width=150>
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot01.png" alt="Screenshot with visualized stop areas" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot02.png" alt="Screenshot with bool question dialog" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot03.png" alt="Screenshot with list question dialog" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot04.png" alt="Screenshot with upload dialog" width=150>
 
 ## Contributing
 We are always happy, if you not only want to help us mapping, but also want to directly participate in the project. You can either open issues for enhancement suggestions and bug reports or help us developing the app further.
@@ -22,9 +27,9 @@ We are always happy, if you not only want to help us mapping, but also want to d
 This app is released under the terms of the [GNU General Public License](https://github.com/OPENER-next/OPENER-next/blob/master/LICENSE).
 
 ## Funding
-<img src="https://www.openernext.de/resources/BMDV_Fz_2021_Office_Farbe_de.png" alt="Logo of the German Federal Ministry of Digital Affairs and Transport" width=150> <img src="https://www.openernext.de/resources/mFUND_Logo_sRGB.PNG" alt="Logo of the mFUND innovation initiative" width=150>
+<img src="assets/images/logos/BMDV_Fz_2021_Office_Farbe_de.png" alt="Logo of the German Federal Ministry of Digital Affairs and Transport" width=150> <img src="assets/images/logos/mFUND_Logo_sRGB.png" alt="Logo of the mFUND innovation initiative" width=150>
 
-The project OPENER next is funded by the German Federal Ministry for Digital and Transport as part of the mFUND innovation initiative.
+OpenStop is developed in the project [OPENER next](https://openernext.de), which is funded by the German Federal Ministry for Digital and Transport as part of the mFUND innovation initiative.
 
 ## Acknowledgement
 Special thanks to Andy Allan ([@gravitystorm](https://github.com/gravitystorm/)) for granting us free access to the beautiful [Thunderforest](https://www.thunderforest.com/) map tiles.
