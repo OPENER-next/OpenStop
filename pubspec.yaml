@@ -15,7 +15,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_map: ^0.14.0
-  geolocator: ^8.2.0
+  geolocator: ^8.2.1
   latlong2: ^0.8.0
   vector_math: ^2.1.1
   animated_location_indicator:

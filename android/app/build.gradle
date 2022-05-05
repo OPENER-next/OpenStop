@@ -82,6 +82,11 @@ android {
         fdroid {
             dimension "deploy"
             signingConfig null
+            // exclude propriatery Google Mobile Services (geolocator includes GMS)
+            // more details: https://github.com/Baseflow/flutter-geolocator/pull/1050
+            configurations.implementation {
+                exclude group: 'com.google.android.gms'
+            }
         }
     }
 }
