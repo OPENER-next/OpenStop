@@ -719,12 +719,6 @@
                "train": "yes",
                "announcement": false
             }
-         },
-         {
-            "osm_tags": {
-               "railway": "platform",
-               "announcement": false
-            }
          }
       ]
    },
@@ -791,7 +785,8 @@
          {
             "osm_tags": {
                "public_transport": "platform",
-               "railway": false,
+               "train": [false, "no"],
+               "bus": [false, "yes"],
                "kerb": false
             },
             "osm_element": [
@@ -1015,12 +1010,6 @@
                "train": "yes",
                "wheelchair:portable_ramp": false
             }
-         },
-         {
-            "osm_tags": {
-               "railway": "platform",
-               "wheelchair:portable_ramp": false
-            }
          }
       ]
    },
@@ -1112,12 +1101,6 @@
             "osm_tags": {
                "public_transport": "platform",
                "train": "yes",
-               "wheelchair:portable_lift": false
-            }
-         },
-         {
-            "osm_tags": {
-               "railway": "platform",
                "wheelchair:portable_lift": false
             }
          }
