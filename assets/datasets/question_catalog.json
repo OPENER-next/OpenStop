@@ -352,7 +352,7 @@
    {
       "id": 1073,
       "name": "Toiletten nur mit Schlüssel zugänglich",
-      "question": "Ist für den Zugang zur Toilette ein Schlüssel nötig?",
+      "question": "Ist für den Zugang zur Toilette für Rollstuhlfahrende ein Schlüssel nötig?",
       "input": {
          "type": "Bool",
          "values": {
@@ -401,7 +401,7 @@
             },
             "customer": {
                "name": "Kundenschlüssel",
-               "description": "Ein Schlüssel, der im Einzelhandel zu den Öfnungszeiten ausgeliehen werden kann.",
+               "description": "Ein Schlüssel, der im Einzelhandel zu den Öffnungszeiten ausgeliehen werden kann.",
                "osm_tags": {
                   "centralkey": "customer"
                }
