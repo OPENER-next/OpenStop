@@ -83,10 +83,10 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                     alignment: Alignment.topLeft,
                     child: FloatingActionButton.small(
                       heroTag: null,
+                      onPressed: Scaffold.of(context).openDrawer,
                       child: const Icon(
                         Icons.menu,
                       ),
-                      onPressed: Scaffold.of(context).openDrawer,
                     ),
                   ),
                   Align(

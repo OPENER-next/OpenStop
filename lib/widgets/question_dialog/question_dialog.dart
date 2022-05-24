@@ -152,11 +152,11 @@ class _QuestionDialogState extends State<QuestionDialog> {
                       highlightElevation: 2,
                       shape: const CircleBorder(),
                       backgroundColor: Theme.of(context).colorScheme.primary,
+                      onPressed: _handleSubmit,
                       child: Icon(
                         CommunityMaterialIcons.cloud_upload,
                         color: Theme.of(context).colorScheme.onPrimary,
-                      ),
-                      onPressed: _handleSubmit
+                      )
                     )
                     : null
                 )

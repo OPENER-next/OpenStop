@@ -29,7 +29,7 @@ class MapFeatureCollection extends ListBase<MapFeature> {
 
   factory MapFeatureCollection.fromJson(List<Map<String, dynamic>> json) {
     final elementList = List<MapFeature>.unmodifiable(
-      json.map<MapFeature>((jsonOSMObject) => MapFeature.fromJSON(jsonOSMObject))
+      json.map<MapFeature>(MapFeature.fromJSON)
     );
     return MapFeatureCollection(elementList);
   }

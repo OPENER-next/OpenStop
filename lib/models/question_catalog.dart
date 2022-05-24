@@ -31,7 +31,7 @@ class QuestionCatalog extends ListBase<Question> {
 
   factory QuestionCatalog.fromJson(List<Map<String, dynamic>> json) {
     final questionList = List<Question>.unmodifiable(
-      json.map<Question>((jsonQuestion) => Question.fromJSON(jsonQuestion))
+      json.map<Question>(Question.fromJSON)
     );
     return QuestionCatalog(questionList);
   }

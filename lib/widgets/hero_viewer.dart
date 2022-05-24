@@ -100,10 +100,10 @@ class _HeroViewerState extends State<HeroViewer> {
       context,
       HeroViewerRoute(
         child: _HeroViewerPage(
-          child: widget.child,
           builder: widget.pageBuilder,
           tag: _uniqueTag,
-          trigger: widget.closeOn
+          trigger: widget.closeOn,
+          child: widget.child
         ),
         transitionBuilder: widget.routeTransitionsBuilder,
         transitionDuration: widget.routeTransitionDuration,

@@ -51,11 +51,11 @@ class _LocationButtonState extends AnimatedWidgetBaseState<LocationButton> {
     return FloatingActionButton.small(
       heroTag: null,
       backgroundColor: _colorTween?.evaluate(animation),
+      onPressed: widget.onPressed,
       child: Icon(
         Icons.my_location,
         color: _iconColorTween?.evaluate(animation),
-      ),
-      onPressed: widget.onPressed
+      )
     );
   }
 }
