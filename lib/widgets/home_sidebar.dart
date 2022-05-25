@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart' as url;
+import 'package:url_launcher/url_launcher.dart';
 
 import '/view_models/osm_authenticated_user_provider.dart';
 import '/commons/app_config.dart' as app_config;
@@ -17,7 +17,7 @@ class HomeSidebar extends StatefulWidget {
   const HomeSidebar({Key? key}) : super(key: key);
 
   @override
-  _HomeSidebarState createState() => _HomeSidebarState();
+  State<HomeSidebar> createState() => _HomeSidebarState();
 }
 
 class _HomeSidebarState extends State<HomeSidebar> {
@@ -67,7 +67,7 @@ class _HomeSidebarState extends State<HomeSidebar> {
               leadingIcon: Icons.feedback,
               title: 'Feedback',
               trailingIcon: Icons.open_in_new,
-              onTap: () => url.launch('${app_config.appProjectUrl}/issues'),
+              onTap: () => _launchUrl(Uri.parse('${app_config.appProjectUrl}/issues')),
             ),
           ],
         ),
@@ -109,12 +109,18 @@ class _HomeSidebarState extends State<HomeSidebar> {
     }
   }
 
+  Future<void> _launchUrl(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) throw '$url kann nicht aufgerufen werden';
+  }
 
   void _handleShowProfile() {
     final authenticatedUserProvider = context.read<OSMAuthenticatedUserProvider>();
     final userName = authenticatedUserProvider.authenticatedUser?.name;
     if (userName != null) {
-      url.launch('${osm_config.osmServerUri}/user/$userName');
+      _launchUrl(Uri.parse('${osm_config.osmServerUri}/user/$userName'),);
     }
   }
 }

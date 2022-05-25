@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class PrivacyPolicyScreen extends StatefulWidget {
   const PrivacyPolicyScreen({Key? key}) : super(key: key);
@@ -13,9 +13,12 @@ class PrivacyPolicyScreen extends StatefulWidget {
 class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
   final _privacyPolicyText = rootBundle.loadString('PRIVACY_POLICY.md');
 
-  void _launchUrl(String text, String? url, String? title) async {
+  Future<void> _launchUrl(String text, String? url, String? title) async {
     if (url != null) {
-      if (!await launch(url)) throw '$url kann nicht aufgerufen werden';
+      if (!await launchUrlString(
+        url,
+        mode: LaunchMode.externalApplication,
+      )) throw '$url kann nicht aufgerufen werden';
     }
   }
 

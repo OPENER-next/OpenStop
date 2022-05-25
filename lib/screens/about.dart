@@ -13,14 +13,17 @@ class AboutScreen extends StatefulWidget {
 }
 
 class _AboutScreenState extends State<AboutScreen> {
-  static const String _urlCode = 'https://github.com/OPENER-next';
-  static const String _urlContributors = 'https://github.com/OPENER-next/OpenStop/graphs/contributors';
-  static const String _urlIdea = 'https://www.tu-chemnitz.de/etit/sse';
-  static const String _urlLicense = 'https://github.com/OPENER-next/OpenStop/blob/master/LICENSE';
-  static const String _urlVersion = 'https://github.com/OPENER-next/OpenStop/releases';
+  final Uri _urlCode = Uri.parse('https://github.com/OPENER-next');
+  final Uri _urlContributors = Uri.parse('https://github.com/OPENER-next/OpenStop/graphs/contributors');
+  final Uri _urlIdea = Uri.parse('https://www.tu-chemnitz.de/etit/sse');
+  final Uri _urlLicense = Uri.parse('https://github.com/OPENER-next/OpenStop/blob/master/LICENSE');
+  final Uri _urlVersion = Uri.parse('https://github.com/OPENER-next/OpenStop/releases');
 
-  void _launchUrl(String url) async {
-    if (!await launch(url)) throw '$url kann nicht aufgerufen werden';
+  Future<void> _launchUrl(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) throw '$url kann nicht aufgerufen werden';
   }
 
   @override

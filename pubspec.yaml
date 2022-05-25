@@ -33,7 +33,7 @@ dependencies:
   shared_preferences: ^2.0.7
   flutter_secure_storage: ^5.0.2
   url_launcher: ^6.0.17
-  flutter_appauth: ^2.2.0
+  flutter_appauth: ^4.0.0
   community_material_icon: ^5.9.55
   flutter_markdown: ^0.6.9
   nvbw_open_data:

@@ -52,7 +52,7 @@ class ListInputItem extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ListInputItemState createState() => _ListInputItemState();
+  State<ListInputItem> createState() => _ListInputItemState();
 }
 
 class _ListInputItemState extends State<ListInputItem> with SingleTickerProviderStateMixin {

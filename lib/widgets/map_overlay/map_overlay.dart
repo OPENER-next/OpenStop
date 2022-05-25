@@ -28,7 +28,7 @@ class MapOverlay extends StatefulWidget {
 
 
   @override
-  _MapOverlayState createState() => _MapOverlayState();
+  State<MapOverlay> createState() => _MapOverlayState();
 }
 
 

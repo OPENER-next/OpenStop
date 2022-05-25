@@ -45,7 +45,7 @@ class Question {
       images: json['image']?.cast<String>() ?? [],
       question: json['question'],
       conditions: json['conditions']
-        ?.map<QuestionCondition>(QuestionCondition.fromJSON)
+        ?.map<QuestionCondition>((e) =>QuestionCondition.fromJSON(e))
         ?.toList(growable: false) ?? [],
       input: QuestionInput.fromJSON(json['input']) ,
       osmElement: (json['osm_element'] as String?)?.toOSMElementType(),

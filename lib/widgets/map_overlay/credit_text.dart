@@ -48,7 +48,7 @@ class _CreditTextState extends State<CreditText> {
     _gestureRecognizers.addAll(
       widget.children.map((creditTextLink) {
         return creditTextLink.url != null
-        ? (TapGestureRecognizer()..onTap = () => openUrl(creditTextLink.url!))
+        ? (TapGestureRecognizer()..onTap = () => openUrl(Uri.parse(creditTextLink.url!)))
         : null;
       })
     );
@@ -134,8 +134,11 @@ class _CreditTextState extends State<CreditText> {
 
   /// Open the given credits URL in the default browser.
 
-  void openUrl(String url) async {
-    if (!await launch(url)) throw '$url kann nicht aufgerufen werden';
+  Future<void> openUrl(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) throw '$url kann nicht aufgerufen werden';
   }
 
 
