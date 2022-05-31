@@ -105,8 +105,7 @@ class _HomeSidebarState extends State<HomeSidebar> {
     );
 
     if (confirmed == true) {
-      final authenticationProvider = osmAuthenticatedUserProvider;
-      authenticationProvider.logout();
+      osmAuthenticatedUserProvider.logout();
     }
   }
 
