@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '/commons/tile_layers.dart';
@@ -10,6 +11,9 @@ class PreferencesProvider extends ChangeNotifier {
   static const _defaultProfessional = false;
   static const _defaultOnboarding = false;
   static const _defaultTileLayerId = TileLayerId.standard;
+  static final _defaultMapLocation = LatLng(50.8144951, 12.9295576);
+  static const _defaultMapZoom = 15.0;
+  static const _defaultMapRotation = 0.0;
 
   PreferencesProvider({
     required SharedPreferences preferences,
@@ -62,6 +66,42 @@ class PreferencesProvider extends ChangeNotifier {
   set tileLayerId(TileLayerId newTileLayerId) {
     if (newTileLayerId != tileLayerId) {
       _preferences.setInt('tileLayerId', newTileLayerId.index);
+      notifyListeners();
+    }
+  }
+
+  LatLng get mapLocation {
+    final lat = _preferences.getDouble('mapLocationLat');
+    final lon = _preferences.getDouble('mapLocationLon');
+    return lat != null && lon != null ? LatLng(lat, lon) : _defaultMapLocation;
+  }
+
+  set mapLocation(LatLng newValue) {
+    if (newValue != mapLocation) {
+      _preferences.setDouble('mapLocationLat', newValue.latitude);
+      _preferences.setDouble('mapLocationLon', newValue.longitude);
+      notifyListeners();
+    }
+  }
+
+  double get mapZoom {
+    return _preferences.getDouble('mapZoom') ?? _defaultMapZoom;
+  }
+
+  set mapZoom(double newValue) {
+    if (newValue != mapZoom) {
+      _preferences.setDouble('mapZoom', newValue);
+      notifyListeners();
+    }
+  }
+
+  double get mapRotation {
+    return _preferences.getDouble('mapRotation') ?? _defaultMapRotation;
+  }
+
+  set mapRotation(double newValue) {
+    if (newValue != mapRotation) {
+      _preferences.setDouble('mapRotation', newValue);
       notifyListeners();
     }
   }
