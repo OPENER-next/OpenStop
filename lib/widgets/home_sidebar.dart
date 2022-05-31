@@ -103,7 +103,7 @@ class _HomeSidebarState extends State<HomeSidebar> {
       )
     );
 
-    if (confirmed == true) {
+    if (confirmed == true && mounted) {
       final authenticationProvider = context.read<OSMAuthenticatedUserProvider>();
       authenticationProvider.logout();
     }

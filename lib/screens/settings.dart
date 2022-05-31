@@ -5,7 +5,7 @@ import '/view_models/preferences_provider.dart';
 import '/widgets/select_dialog.dart';
 import '/widgets/custom_list_tile.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
   static const themeModesMap = {
@@ -14,6 +14,11 @@ class SettingsScreen extends StatelessWidget {
     ThemeMode.dark : 'Dunkel',
   };
 
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final themeMode = context.select<PreferencesProvider, ThemeMode>((preferences) => preferences.themeMode);
@@ -32,19 +37,19 @@ class SettingsScreen extends StatelessWidget {
               CustomListTile(
                 leadingIcon: Icons.palette,
                 title: 'Farbliche Darstellung der App',
-                subtitle: themeModesMap[themeMode] ?? 'Unbekannt',
+                subtitle: SettingsScreen.themeModesMap[themeMode] ?? 'Unbekannt',
                 onTap: () async {
                   final selection = await showDialog<ThemeMode>(
                     context: context,
                     builder: (BuildContext context) {
                       return SelectDialog(
-                        valueLabelMap: themeModesMap,
+                        valueLabelMap: SettingsScreen.themeModesMap,
                         value: context.select<PreferencesProvider, ThemeMode>((preferences) => preferences.themeMode),
                         title: const Text('Design auswählen'),
                       );
                     }
                   );
-                  if (selection != null) {
+                  if (selection != null && mounted) {
                     context.read<PreferencesProvider>().themeMode = selection;
                   }
                 },
