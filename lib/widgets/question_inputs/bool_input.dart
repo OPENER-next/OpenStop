@@ -100,12 +100,12 @@ class _BoolInputItemState extends AnimatedWidgetBaseState<BoolInputItem> {
     return FractionallySizedBox(
       widthFactor: widget.widthFactor,
       child: OutlinedButton(
-          child: widget.label,
           style: OutlinedButton.styleFrom(
             primary: _iconColorTween?.evaluate(animation),
             backgroundColor: _colorTween?.evaluate(animation),
           ),
-          onPressed: widget.onTap
+          onPressed: widget.onTap,
+          child: widget.label
       ),
     );
   }

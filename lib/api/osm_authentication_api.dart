@@ -17,7 +17,7 @@ class OSMAuthenticationAPI {
 
   static const _secureStorage = FlutterSecureStorage();
 
-  final _appAuth = FlutterAppAuth();
+  final _appAuth = const FlutterAppAuth();
 
 
   /// Get an instance of the [OSMAPI] which is either authorized or not.

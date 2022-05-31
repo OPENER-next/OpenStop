@@ -152,11 +152,11 @@ class _QuestionDialogState extends State<QuestionDialog> {
                       highlightElevation: 2,
                       shape: const CircleBorder(),
                       backgroundColor: Theme.of(context).colorScheme.primary,
+                      onPressed: _handleSubmit,
                       child: Icon(
                         CommunityMaterialIcons.cloud_upload,
                         color: Theme.of(context).colorScheme.onPrimary,
-                      ),
-                      onPressed: _handleSubmit
+                      )
                     )
                     : null
                 )
@@ -259,7 +259,8 @@ class _QuestionDialogState extends State<QuestionDialog> {
     }
 
     // check if the user is successfully logged in
-    if (authenticationProvider.isLoggedIn) {
+    // check if mounted to verify a context exists
+    if (authenticationProvider.isLoggedIn && mounted) {
       final questionnaire = context.read<QuestionnaireProvider>();
 
       questionnaire.upload(

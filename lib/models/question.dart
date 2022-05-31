@@ -45,6 +45,8 @@ class Question {
       images: json['image']?.cast<String>() ?? [],
       question: json['question'],
       conditions: json['conditions']
+        // https://github.com/dart-lang/linter/issues/3226
+        // ignore: unnecessary_lambdas
         ?.map<QuestionCondition>((e) =>QuestionCondition.fromJSON(e))
         ?.toList(growable: false) ?? [],
       input: QuestionInput.fromJSON(json['input']) ,

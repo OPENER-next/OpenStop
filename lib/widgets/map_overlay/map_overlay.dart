@@ -28,7 +28,7 @@ class MapOverlay extends StatefulWidget {
 
 
   @override
-  _MapOverlayState createState() => _MapOverlayState();
+  State<MapOverlay> createState() => _MapOverlayState();
 }
 
 
@@ -83,10 +83,10 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                     alignment: Alignment.topLeft,
                     child: FloatingActionButton.small(
                       heroTag: null,
+                      onPressed: Scaffold.of(context).openDrawer,
                       child: const Icon(
                         Icons.menu,
                       ),
-                      onPressed: Scaffold.of(context).openDrawer,
                     ),
                   ),
                   Align(

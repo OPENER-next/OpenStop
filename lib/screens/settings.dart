@@ -34,6 +34,7 @@ class SettingsScreen extends StatelessWidget {
                 title: 'Farbliche Darstellung der App',
                 subtitle: themeModesMap[themeMode] ?? 'Unbekannt',
                 onTap: () async {
+                  final preferencesProvider = context.read<PreferencesProvider>();
                   final selection = await showDialog<ThemeMode>(
                     context: context,
                     builder: (BuildContext context) {
@@ -45,7 +46,7 @@ class SettingsScreen extends StatelessWidget {
                     }
                   );
                   if (selection != null) {
-                    context.read<PreferencesProvider>().themeMode = selection;
+                    preferencesProvider.themeMode = selection;
                   }
                 },
               ),

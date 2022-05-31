@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '/widgets/custom_list_tile.dart';
 import '/commons/app_config.dart' as app_config;
@@ -19,8 +19,11 @@ class _AboutScreenState extends State<AboutScreen> {
   static const String _urlLicense = 'https://github.com/OPENER-next/OpenStop/blob/master/LICENSE';
   static const String _urlVersion = 'https://github.com/OPENER-next/OpenStop/releases';
 
-  void _launchUrl(String url) async {
-    if (!await launch(url)) throw '$url kann nicht aufgerufen werden';
+  Future<void> _launchUrl(String url) async {
+    if (!await launchUrlString(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) throw '$url kann nicht aufgerufen werden';
   }
 
   @override

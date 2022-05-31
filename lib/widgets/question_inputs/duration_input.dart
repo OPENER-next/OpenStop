@@ -17,7 +17,7 @@ class DurationInput extends QuestionInputWidget<DurationAnswer> {
   List<TimeUnit> _initUnits() {
     final unitStrings = definition.values.values.first.unit?.split(',') ?? [];
     return unitStrings
-      .map((unitString) => TimeUnit.fromString(unitString))
+      .map(TimeUnit.fromString)
       .toList();
   }
 

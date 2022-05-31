@@ -34,7 +34,7 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 
@@ -168,6 +168,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         minZoom: tileLayerDescription.minZoom.toDouble(),
                         maxZoom: tileLayerDescription.maxZoom.toDouble()
                       ),
+                      nonRotatedChildren: [
+                        RepaintBoundary(
+                          child: FutureBuilder(
+                            future: _mapController.onReady,
+                            builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                              final mapIsLoaded = snapshot.connectionState == ConnectionState.done;
+                              // only show overlay when question history has no active entry
+                              return !mapIsLoaded
+                              ? const ModalBarrier(
+                                dismissible: false,
+                              )
+                              : Consumer<QuestionnaireProvider>(
+                                builder: (context, questionnaire,child) {
+                                  final noActiveEntry = !questionnaire.hasEntries;
+
+                                  return AnimatedSwitcher(
+                                    switchInCurve: Curves.ease,
+                                    switchOutCurve: Curves.ease,
+                                    duration: const Duration(milliseconds: 300),
+                                    child: noActiveEntry
+                                      ? const MapOverlay()
+                                      : null
+                                  );
+                                }
+                              );
+                            }
+                          )
+                        )
+                      ],
                       children: [
                         TileLayerWidget(
                           options: TileLayerOptions(
@@ -209,35 +238,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             );
                           }
                         ),
-                      ],
-                      nonRotatedChildren: [
-                        RepaintBoundary(
-                          child: FutureBuilder(
-                            future: _mapController.onReady,
-                            builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                              final mapIsLoaded = snapshot.connectionState == ConnectionState.done;
-                              // only show overlay when question history has no active entry
-                              return !mapIsLoaded
-                              ? const ModalBarrier(
-                                dismissible: false,
-                              )
-                              : Consumer<QuestionnaireProvider>(
-                                builder: (context, questionnaire,child) {
-                                  final noActiveEntry = !questionnaire.hasEntries;
-
-                                  return AnimatedSwitcher(
-                                    switchInCurve: Curves.ease,
-                                    switchOutCurve: Curves.ease,
-                                    duration: const Duration(milliseconds: 300),
-                                    child: noActiveEntry
-                                      ? const MapOverlay()
-                                      : null
-                                  );
-                                }
-                              );
-                            }
-                          )
-                        )
                       ],
                     ),
                     // place sheet on extra stack above map so map pan events won't pass through

@@ -17,7 +17,8 @@ const tileLayers = {
     templateUrl: 'https://tile.thunderforest.com/atlas/{z}/{x}/{y}@2x.png?apikey=$_thunderforestAPIKey',
     creditsText: 'Maps © Thunderforest',
     creditsUrl: 'https://www.thunderforest.com',
-    maxZoom: 22
+    maxZoom: 22,
+    minZoom: 3
   ),
   TileLayerId.publicTransport: _TileLayerDefinition(
     name: 'ÖPNV',
@@ -26,7 +27,8 @@ const tileLayers = {
     darkVariantTemplateUrl: 'https://tile.thunderforest.com/transport-dark/{z}/{x}/{y}@2x.png?apikey=$_thunderforestAPIKey',
     creditsText: 'Maps © Thunderforest',
     creditsUrl: 'https://www.thunderforest.com',
-    maxZoom: 22
+    maxZoom: 22,
+    minZoom: 3
   ),
 };
 

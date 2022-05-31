@@ -29,7 +29,7 @@ extension Debouncer on Stream {
         // otherwise set a timer that will fire with the most up to date event after the remaining time
         else {
           timer = Timer(duration - timeDifference, () {
-            if (lastEvent != null) streamController.add(lastEvent!);
+            if (lastEvent is T) streamController.add(lastEvent as T);
           });
         }
       }

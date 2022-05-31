@@ -40,6 +40,6 @@ class LoadingIndicator extends StatelessWidget {
 
 
   Widget _transition(Widget child, Animation<double> animation) {
-    return ScaleTransition(child: child, scale: animation);
+    return ScaleTransition(scale: animation, child: child);
   }
 }

@@ -10,7 +10,7 @@ class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
 
   @override
-  _OnboardingScreenState createState() => _OnboardingScreenState();
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
@@ -130,8 +130,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         scrollBehavior: const ScrollBehavior().copyWith(overscroll: false),
                         scrollDirection: Axis.horizontal,
                         controller: _controller,
-                        children: pages,
                         allowImplicitScrolling: true,
+                        children: pages,
                       ),
                     ),
                     Container(
