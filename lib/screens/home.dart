@@ -60,11 +60,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    // query stops on map interactions
-    _mapController.mapEventStream.debounce<MapEvent>(const Duration(milliseconds: 500)).listen((event) {
+    _mapController.mapEventStream.debounce<MapEvent>(const Duration(milliseconds: 500)).listen((mapEvent) {
+      // query stops on map interactions
       if (_mapController.bounds != null && _mapController.zoom > 12) {
         _stopAreasProvider.loadStopAreas(_mapController.bounds!);
       }
+
+      // store map location on map move events
+      context.read<PreferencesProvider>()
+        ..mapLocation = mapEvent.center
+        ..mapZoom = mapEvent.zoom
+        ..mapRotation = _mapController.rotation;
     });
 
     // cancel tracking on user interaction or any map move not caused by the camera tracker
@@ -163,8 +169,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       options: MapOptions(
                         onTap: (position, location) => _closeQuestionDialog(context),
                         enableMultiFingerGestureRace: true,
-                        center: LatLng(50.8144951, 12.9295576),
-                        zoom: 15.0,
+                        // intentionally use read() here because changes to these properties
+                        // do not need to trigger rebuilds
+                        center: context.read<PreferencesProvider>().mapLocation,
+                        zoom: context.read<PreferencesProvider>().mapZoom,
+                        rotation: context.read<PreferencesProvider>().mapRotation,
                         minZoom: tileLayerDescription.minZoom.toDouble(),
                         maxZoom: tileLayerDescription.maxZoom.toDouble()
                       ),

@@ -34,19 +34,21 @@ class MapOverlay extends StatefulWidget {
 
 class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
 
-  final ValueNotifier<bool> _isRotatedNotifier = ValueNotifier<bool>(false);
-
+  // used to filter notifications that do not alter the rotation
   final ValueNotifier<double> _rotationNotifier = ValueNotifier<double>(0);
-
-  late final mapController = context.read<MapController>();
 
   @override
   void initState() {
     super.initState();
 
+    final mapController = context.read<MapController>();
+
     mapController.mapEventStream.listen((event) {
       _rotationNotifier.value = mapController.rotation;
-      _isRotatedNotifier.value = mapController.rotation != 0;
+    });
+
+    mapController.onReady.then((event) {
+      _rotationNotifier.value = mapController.rotation;
     });
   }
 
@@ -92,16 +94,16 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                   Align(
                     alignment: Alignment.topRight,
                     child: ValueListenableBuilder(
-                      valueListenable: _isRotatedNotifier,
-                      builder: (BuildContext context, bool isRotated, Widget? compass) {
+                      valueListenable: _rotationNotifier,
+                      builder: (BuildContext context, double rotation, Widget? compass) {
                         return AnimatedSwitcher(
                           duration: const Duration(milliseconds: 300),
-                          child: isRotated ? compass : const SizedBox.shrink()
+                          child: rotation % 360 != 0 ? compass : const SizedBox.shrink()
                         );
                       } ,
                       child: CompassButton(
                         listenable: _rotationNotifier,
-                        getRotation: () => mapController.rotation,
+                        getRotation: () => _rotationNotifier.value,
                         isDegree: true,
                         onPressed: _resetRotation,
                       ),
@@ -189,6 +191,7 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
   /// Zoom the map view.
 
   void _zoomIn() {
+    final mapController = context.read<MapController>();
     // round zoom level so zoom will always stick to integer levels
     mapController.animateTo(ticker: this, zoom: mapController.zoom.roundToDouble() + 1);
   }
@@ -197,6 +200,7 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
   /// Zoom out of the map view.
 
   void _zoomOut() {
+    final mapController = context.read<MapController>();
     // round zoom level so zoom will always stick to integer levels
     mapController.animateTo(ticker: this, zoom: mapController.zoom.roundToDouble() - 1);
   }
@@ -205,6 +209,7 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
   /// Reset the map rotation.
 
   void _resetRotation() {
+    final mapController = context.read<MapController>();
     mapController.animateTo(ticker: this, rotation: 0);
   }
 
