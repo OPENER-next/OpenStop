@@ -259,6 +259,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
     }
 
     // check if the user is successfully logged in
+    // check if mounted to verify a context exists
     if (authenticationProvider.isLoggedIn && mounted) {
       final questionnaire = context.read<QuestionnaireProvider>();
 

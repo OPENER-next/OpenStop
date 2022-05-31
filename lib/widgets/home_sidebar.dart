@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '/view_models/osm_authenticated_user_provider.dart';
 import '/commons/app_config.dart' as app_config;
@@ -67,7 +67,7 @@ class _HomeSidebarState extends State<HomeSidebar> {
               leadingIcon: Icons.feedback,
               title: 'Feedback',
               trailingIcon: Icons.open_in_new,
-              onTap: () => _launchUrl(Uri.parse('${app_config.appProjectUrl}/issues')),
+              onTap: () => _launchUrl('${app_config.appProjectUrl}/issues'),
             ),
           ],
         ),
@@ -83,6 +83,7 @@ class _HomeSidebarState extends State<HomeSidebar> {
 
 
   void _handleLogout() async {
+    final osmAuthenticatedUserProvider = context.read<OSMAuthenticatedUserProvider>();
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -103,14 +104,14 @@ class _HomeSidebarState extends State<HomeSidebar> {
       )
     );
 
-    if (confirmed == true && mounted) {
-      final authenticationProvider = context.read<OSMAuthenticatedUserProvider>();
+    if (confirmed == true) {
+      final authenticationProvider = osmAuthenticatedUserProvider;
       authenticationProvider.logout();
     }
   }
 
-  Future<void> _launchUrl(Uri url) async {
-    if (!await launchUrl(
+  Future<void> _launchUrl(String url) async {
+    if (!await launchUrlString(
       url,
       mode: LaunchMode.externalApplication,
     )) throw '$url kann nicht aufgerufen werden';
@@ -120,7 +121,7 @@ class _HomeSidebarState extends State<HomeSidebar> {
     final authenticatedUserProvider = context.read<OSMAuthenticatedUserProvider>();
     final userName = authenticatedUserProvider.authenticatedUser?.name;
     if (userName != null) {
-      _launchUrl(Uri.parse('${osm_config.osmServerUri}/user/$userName'),);
+      _launchUrl('${osm_config.osmServerUri}/user/$userName');
     }
   }
 }
