@@ -155,16 +155,13 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Selector<UserLocationProvider, bool>(
-                              selector: (_, p1) => p1.isFollowingLocation,
-                              builder: (context, isFollowingLocation, child) => LocationButton(
+                            LocationButton(
                                 activeColor: Theme.of(context).colorScheme.primary,
                                 activeIconColor: Theme.of(context).colorScheme.onPrimary,
                                 color: Theme.of(context).colorScheme.secondary,
                                 iconColor: Theme.of(context).colorScheme.onSecondary,
-                                active: isFollowingLocation,
+                                active: context.select<UserLocationProvider, bool>((provider) => provider.isFollowingLocation),
                                 onPressed: _toggleLocationFollowing
-                              )
                             ),
                             SizedBox (
                               height: widget.buttonSpacing
