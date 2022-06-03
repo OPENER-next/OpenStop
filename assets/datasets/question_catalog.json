@@ -1165,5 +1165,512 @@
             }
          }
       ]
+   },
+   {
+      "id": 2010,
+      "name": "Stations-/Haltestellenplan",
+      "question": "Gibt es einen Stations-/Haltestellenplan?",
+      "image": [
+         "assets/images/questions/2010.jpg"
+      ],
+      "description": "Ein schematischer Stations- oder Haltestellenplan gibt einen Überblick der Zugänge, Wege, Masten und Infrastrukturelemente.",
+      "input": {
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "tourism": "information",
+                  "information": "map"
+               }
+            },
+            "false": {}
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": [
+                  "station",
+                  "stop_area"
+               ],
+               "information": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "id": 2021,
+      "name": "Wegbreite",
+      "question": "Wie breit ist der Weg?",
+      "image": [
+         "assets/images/questions/2021.jpg"
+      ],
+      "description": "Die Wegbreite wird erfasst, um sicherzustellen das Rollstühle, Kinderwagen etc. genug Platz haben.",
+      "input": {
+         "type": "Number",
+         "values": {
+            "single": {
+               "name": "Wegbreite",
+               "decimals": 2,
+               "unit": "Meter",
+               "osm_tags": {
+                  "width": "%s m"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": [
+                  "footway",
+                  "path"
+               ],
+               "width": false,
+               "incline": false
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay"
+            ]
+         },
+         {
+            "osm_tags": {
+               "highway": "path",
+               "foot": [
+                  "yes",
+                  "designated"
+               ],
+               "width": false,
+               "incline": false
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay"
+            ]
+         }
+      ]
+   },
+   {
+      "id": 2021,
+      "name": "Wegbreite",
+      "question": "Wie breit ist der linke Bürgersteig?",
+      "image": [
+         "assets/images/questions/2021.jpg"
+      ],
+      "input": {
+         "type": "Number",
+         "values": {
+            "single": {
+               "name": "Linke Wegbreite",
+               "decimals": 2,
+               "unit": "Meter",
+               "osm_tags": {
+                  "sidewalk:left:width": "%s m"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "sidewalk": [
+                  "left",
+                  "both"
+               ],
+               "sidewalk:both:width": false,
+               "sidewalk:left:width": false
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay"
+            ]
+         }
+      ]
+   },
+   {
+      "id": 2021,
+      "name": "Wegbreite",
+      "question": "Wie breit ist der rechte Bürgersteig?",
+      "image": [
+         "assets/images/questions/2021.jpg"
+      ],
+      "input": {
+         "type": "Number",
+         "values": {
+            "single": {
+               "name": "Rechte Wegbreite",
+               "decimals": 2,
+               "unit": "Meter",
+               "osm_tags": {
+                  "sidewalk:right:width": "%s m"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "sidewalk": [
+                  "right",
+                  "both"
+               ],
+               "sidewalk:both:width": false,
+               "sidewalk:right:width": false
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay"
+            ]
+         }
+      ]
+   },
+   {
+      "id": 2032,
+      "name": "Tür-Art",
+      "question": "Welche Art von Tür ist verbaut?",
+      "description": "Es ist 'Keine Tür', wenn die Tür selbst entfernt wurde und es quasi nur ein durchbewegbares Loch in der Wand ist",
+      "input": {
+         "type": "List",
+         "values": {
+            "hinged": {
+               "name": "Anschlagtür",
+               "image": "assets/images/questions/2032a.jpg",
+               "osm_tags": {
+                  "door": "hinged"
+               }
+            },
+            "revolving": {
+               "name": "Drehtür",
+               "image": "assets/images/questions/2032b.jpg",
+               "osm_tags": {
+                  "door": "revolving"
+               }
+            },
+            "sliding": {
+               "name": "Schiebetür",
+               "image": "assets/images/questions/2032c.jpg",
+               "osm_tags": {
+                  "door": "sliding"
+               }
+            },
+            "swing": {
+               "name": "Pendeltür",
+               "image": "assets/images/questions/2032d.jpg",
+               "osm_tags": {
+                  "door": "swing"
+               }
+            },
+            "folding": {
+               "name": "Falttür",
+               "image": "assets/images/questions/2032e.jpg",
+               "osm_tags": {
+                  "door": "folding"
+               }
+            },
+            "no": {
+               "name": "Keine Tür",
+               "image": "assets/images/questions/2032f.jpg",
+               "osm_tags": {
+                  "door": "no"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "entrance": true,
+               "door": [
+                  false,
+                  "yes"
+               ]
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "id": 2033,
+      "name": "Tür-Automatik",
+      "question": "Öffnet die Tür automatisch?",
+      "description": "Bei der automatischen Öffnung wird die Tür von einer Mechanik geöffnet. Der Benutzer muss die Tür nicht selbstständig drücken oder ziehen. Dagegen muss bei einer manuellen Öffnung die Tür von Hand geöffnet werden.",
+      "input": {
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "automatic_door": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "automatic_door": "no"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "entrance": true,
+               "door": [
+                  "hinged",
+                  "revolving",
+                  "sliding",
+                  "swing",
+                  "folding",
+                  "yes"
+               ]
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "id": 2033,
+      "name": "Tür-Automatik-Art",
+      "question": "Wodurch öffnet sich die Automatik-Tür?",
+      "description": "Automatik-Türen können sich bei Annäherung einer Person öffnen, durch das Betätigen eines Tasters oder durch Bodendrucksensoren",
+      "input": {
+         "type": "List",
+         "values": {
+            "motion": {
+               "name": "Bewegungsmelder",
+               "image": "assets/images/questions/2033a.jpg",
+               "osm_tags": {
+                  "automatic_door": "motion"
+               }
+            },
+            "button": {
+               "name": "Knopfdruck",
+               "image": "assets/images/questions/2033b.jpg",
+               "osm_tags": {
+                  "automatic_door": "button"
+               }
+            },
+            "floor": {
+               "name": "Bodendrucksensor",
+               "image": "assets/images/questions/2033c.jpg",
+               "osm_tags": {
+                  "automatic_door": "floor"
+               }
+            },
+            "continuous": {
+               "name": "Automatik-Drehtür",
+               "image": "assets/images/questions/2033d.jpg",
+               "osm_tags": {
+                  "automatic_door": "continuous"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "automatic_door": "yes"
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "id": 2034,
+      "name": "Türbreite",
+      "question": "Wie breit ist die Türöffnung?",
+      "image": [
+         "assets/images/questions/2034.jpg"
+      ],
+      "description": "Die Türbreite wird erfasst, um sicherzustellen das Rollstühle, Kinderwagen etc. genug Platz haben.",
+      "input": {
+         "type": "Number",
+         "values": {
+            "single": {
+               "name": "Türbreite",
+               "decimals": 2,
+               "unit": "Meter",
+               "osm_tags": {
+                  "width": "%s m"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "entrance": true,
+               "width": false
+            },
+            "osm_element": [
+               "Node"
+            ]
+         }
+      ]
+   },
+   {
+      "id": 2050,
+      "name": "Bodenbeschaffenheit",
+      "question": "Wie ist die Oberfläche beschaffen?",
+      "description": "Automatik-Türen können sich bei Annäherung einer Person öffnen, durch das Betätigen eines Tasters oder durch Bodendrucksensoren",
+      "input": {
+         "type": "List",
+         "values": {
+            "paved": {
+               "name": "Befestigt",
+               "image": "assets/images/questions/2050a.jpg",
+               "osm_tags": {
+                  "surface": "paved"
+               }
+            },
+            "unpaved": {
+               "name": "Unbefestigt",
+               "image": "assets/images/questions/2050b.jpg",
+               "osm_tags": {
+                  "surface": "unpaved"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "path",
+               "foot": [
+                  "yes",
+                  "designated"
+               ],
+               "surface": false
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay"
+            ]
+         },
+         {
+            "osm_tags": {
+               "sidewalk": true,
+               "surface": false
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay"
+            ]
+         },
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "surface": false
+            }
+         }
+      ]
+   },
+   {
+      "id": 2071,
+      "name": "Bodenindikatoren-Art",
+      "question": "Um welche Art von Bodenindikatoren handelt es sich?",
+      "description": "Bodenindikatoren sind Bodenelemente im öffentlichen Raum zur Information, Orientierung, Leitung und Warnung blinder und sehbehinderter Menschen. Sie stehen in einem hohen taktilen, visuellen und gegebenenfalls akustischen Kontakt zum angrenzenden Bodenbelag. ",
+      "input": {
+         "type": "List",
+         "values": {
+            "entrance": {
+               "name": "Einstiegsbereich",
+               "image": "assets/images/questions/2071a.jpg",
+               "osm_tags": {
+                  "tactile_paving:entrance": "yes"
+               }
+            },
+            "locate": {
+               "name": "Auffindestreifen",
+               "image": "assets/images/questions/2071b.jpg",
+               "osm_tags": {
+                  "tactile_paving:locate": "yes"
+               }
+            },
+            "guide": {
+               "name": "Leitstreifen",
+               "image": "assets/images/questions/2072.jpg",
+               "osm_tags": {
+                  "tactile_paving:guide": "yes"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "tactile_paving": [
+                  "yes",
+                  "contrasted"
+               ]
+            }
+         }
+      ]
+   },
+   {
+      "id": 2093,
+      "name": "Fahrstuhl-Länge",
+      "question": "Wie lang ist die Grundfläche des Fahrstuhls?",
+      "image": [
+         "assets/images/questions/2093.jpg"
+      ],
+      "description": "Als Länge wird Distanz senkrecht zur Tür erfasst. Dieser Wert ist u.a. dafür wichtig, damit Rollstuhlfahrende wissen, ob ihr Rollstuhl in den Fahrstuhl passt.",
+      "input": {
+         "type": "Number",
+         "values": {
+            "single": {
+               "name": "Fahrstuhl-Länge",
+               "decimals": 2,
+               "unit": "Meter",
+               "osm_tags": {
+                  "width": "%s m"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "elevator",
+               "length": false
+            },
+            "osm_element": [
+               "Node"
+            ]
+         }
+      ]
+   },
+   {
+      "id": 2094,
+      "name": "Fahrstuhl-Breite",
+      "question": "Wie breit ist die Grundfläche des Fahrstuhls?",
+      "image": [
+         "assets/images/questions/2094.jpg"
+      ],
+      "description": "Als Breite wird Entfernung zwischen den beiden Seiten gemessen, die keine Tür enthalten. Dieser Wert ist u.a. dafür wichtig, damit Rollstuhlfahrende wissen, ob ihr Rollstuhl in den Fahrstuhl passt.",
+      "input": {
+         "type": "Number",
+         "values": {
+            "single": {
+               "name": "Fahrstuhl-Breite",
+               "decimals": 2,
+               "unit": "Meter",
+               "osm_tags": {
+                  "width": "%s m"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "elevator",
+               "width": false
+            },
+            "osm_element": [
+               "Node"
+            ]
+         }
+      ]
    }
 ]
