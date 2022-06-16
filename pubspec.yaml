@@ -14,7 +14,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  flutter_map: ^0.14.0
+  flutter_map: ^1.0.0
   geolocator: ^8.2.1
   latlong2: ^0.8.0
   vector_math: ^2.1.1
@@ -47,13 +47,6 @@ dev_dependencies:
   nock: ^1.2.0
   build_runner: ^2.1.7
   build_version: ^2.0.0
-
-# Use latest flutter map from github till a new version is released on pub.dev
-dependency_overrides:
-  flutter_map:
-    git:
-      url: https://github.com/fleaflet/flutter_map.git
-      ref: b2437973d7cab12febb5f6c434c8a1612550cea3
 
 flutter:
   fonts:
