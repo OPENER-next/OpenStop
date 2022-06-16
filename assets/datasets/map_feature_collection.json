@@ -68,6 +68,17 @@
     "osm_element": "Node"
   },
   {
+    "name": "Stations-/Haltestellenplan",
+    "icon": "map",
+    "osm_tags": {
+      "tourism": "information",
+      "information": "map",
+      "map_type": "public_transport",
+      "map_size": "site"
+    },
+    "osm_element": "Node"
+  },
+  {
     "name": "Fahrkartenautomat",
     "icon": "ticket_machine",
     "osm_tags": {
@@ -150,5 +161,29 @@
       "emergency": "phone"
     },
     "osm_element": "Node"
+  },
+  {
+    "name": "Tür",
+    "icon": "door",
+    "osm_tags": {
+      "entrance": "yes"
+    },
+    "osm_element": "Node"
+  },
+  {
+    "name": "Weg",
+    "icon": "path",
+    "osm_tags": {
+      "highway": "footway"
+    },
+    "osm_element": "OpenWay"
+  },
+  {
+    "name": "Weg",
+    "icon": "path",
+    "osm_tags": {
+      "highway": "path"
+    },
+    "osm_element": "OpenWay"
   }
 ]

@@ -16,4 +16,7 @@ const Map<String, IconData> customIcons = {
   'terminal_info': CommunityMaterialIcons.phone_message,
   'terminal': CommunityMaterialIcons.phone_in_talk,
   'terminal_emergency': CommunityMaterialIcons.phone_alert,
+  'door': CommunityMaterialIcons.door,
+  'map': CommunityMaterialIcons.map,
+  'path': Icons.moving
 };

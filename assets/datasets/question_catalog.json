@@ -1167,39 +1167,6 @@
       ]
    },
    {
-      "id": 2010,
-      "name": "Stations-/Haltestellenplan",
-      "question": "Gibt es einen Stations-/Haltestellenplan?",
-      "image": [
-         "assets/images/questions/2010.jpg"
-      ],
-      "description": "Ein schematischer Stations- oder Haltestellenplan gibt einen Überblick der Zugänge, Wege, Masten und Infrastrukturelemente.",
-      "input": {
-         "type": "Bool",
-         "values": {
-            "true": {
-               "osm_tags": {
-                  "tourism": "information",
-                  "information": "map"
-               }
-            },
-            "false": {}
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "public_transport": [
-                  "station",
-                  "stop_area"
-               ],
-               "information": false
-            },
-            "osm_element": "Node"
-         }
-      ]
-   },
-   {
       "id": 2021,
       "name": "Wegbreite",
       "question": "Wie breit ist der Weg?",
@@ -1213,6 +1180,7 @@
             "single": {
                "name": "Wegbreite",
                "decimals": 2,
+               "max": 10,
                "unit": "Meter",
                "osm_tags": {
                   "width": "%s m"
@@ -1223,12 +1191,9 @@
       "conditions": [
          {
             "osm_tags": {
-               "highway": [
-                  "footway",
-                  "path"
-               ],
-               "width": false,
-               "incline": false
+               "highway": "footway",
+               "footway": [false, "sidewalk"],
+               "width": false
             },
             "osm_element": [
                "OpenWay",
@@ -1242,8 +1207,7 @@
                   "yes",
                   "designated"
                ],
-               "width": false,
-               "incline": false
+               "width": false
             },
             "osm_element": [
                "OpenWay",
@@ -1254,8 +1218,8 @@
    },
    {
       "id": 2021,
-      "name": "Wegbreite",
-      "question": "Wie breit ist der linke Bürgersteig?",
+      "name": "Linke Wegbreite",
+      "question": "Wie breit ist in Pfeilrichtung der linke Gehweg?",
       "image": [
          "assets/images/questions/2021.jpg"
       ],
@@ -1265,6 +1229,7 @@
             "single": {
                "name": "Linke Wegbreite",
                "decimals": 2,
+               "max": 10,
                "unit": "Meter",
                "osm_tags": {
                   "sidewalk:left:width": "%s m"
@@ -1275,10 +1240,7 @@
       "conditions": [
          {
             "osm_tags": {
-               "sidewalk": [
-                  "left",
-                  "both"
-               ],
+               "sidewalk": ["left", "both"],
                "sidewalk:both:width": false,
                "sidewalk:left:width": false
             },
@@ -1291,8 +1253,8 @@
    },
    {
       "id": 2021,
-      "name": "Wegbreite",
-      "question": "Wie breit ist der rechte Bürgersteig?",
+      "name": "Rechte Wegbreite",
+      "question": "Wie breit ist in Pfeilrichtung der rechte Gehweg?",
       "image": [
          "assets/images/questions/2021.jpg"
       ],
@@ -1302,6 +1264,7 @@
             "single": {
                "name": "Rechte Wegbreite",
                "decimals": 2,
+               "max": 10,
                "unit": "Meter",
                "osm_tags": {
                   "sidewalk:right:width": "%s m"
@@ -1312,10 +1275,7 @@
       "conditions": [
          {
             "osm_tags": {
-               "sidewalk": [
-                  "right",
-                  "both"
-               ],
+               "sidewalk": ["right", "both"],
                "sidewalk:both:width": false,
                "sidewalk:right:width": false
             },
@@ -1328,9 +1288,44 @@
    },
    {
       "id": 2032,
+      "name": "Tür vorhanden",
+      "question": "Hat dieser Durchgang eine Tür?",
+      "input": {
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "door": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "door": "no"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "entrance": ["yes", "main", "secondary", "exit", "entrance", "emergency", "staircase", "shop"],
+               "door": false
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "indoor": "door",
+               "door": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "id": 2032,
       "name": "Tür-Art",
       "question": "Welche Art von Tür ist verbaut?",
-      "description": "Es ist 'Keine Tür', wenn die Tür selbst entfernt wurde und es quasi nur ein durchbewegbares Loch in der Wand ist",
       "input": {
          "type": "List",
          "values": {
@@ -1355,11 +1350,11 @@
                   "door": "sliding"
                }
             },
-            "swing": {
+            "swinging": {
                "name": "Pendeltür",
                "image": "assets/images/questions/2032d.jpg",
                "osm_tags": {
-                  "door": "swing"
+                  "door": "swinging"
                }
             },
             "folding": {
@@ -1368,24 +1363,13 @@
                "osm_tags": {
                   "door": "folding"
                }
-            },
-            "no": {
-               "name": "Keine Tür",
-               "image": "assets/images/questions/2032f.jpg",
-               "osm_tags": {
-                  "door": "no"
-               }
             }
          }
       },
       "conditions": [
          {
             "osm_tags": {
-               "entrance": true,
-               "door": [
-                  false,
-                  "yes"
-               ]
+               "door": "yes"
             },
             "osm_element": "Node"
          }
@@ -1414,15 +1398,8 @@
       "conditions": [
          {
             "osm_tags": {
-               "entrance": true,
-               "door": [
-                  "hinged",
-                  "revolving",
-                  "sliding",
-                  "swing",
-                  "folding",
-                  "yes"
-               ]
+               "door": ["yes", "hinged", "revolving", "sliding", "folding"],
+               "automatic_door": false
             },
             "osm_element": "Node"
          }
@@ -1450,13 +1427,6 @@
                   "automatic_door": "button"
                }
             },
-            "floor": {
-               "name": "Bodendrucksensor",
-               "image": "assets/images/questions/2033c.jpg",
-               "osm_tags": {
-                  "automatic_door": "floor"
-               }
-            },
             "continuous": {
                "name": "Automatik-Drehtür",
                "image": "assets/images/questions/2033d.jpg",
@@ -1477,21 +1447,23 @@
    },
    {
       "id": 2034,
-      "name": "Türbreite",
-      "question": "Wie breit ist die Türöffnung?",
+      "name": "Durchgangsbreite",
+      "question": "Wie breit ist der Durchgang?",
       "image": [
          "assets/images/questions/2034.jpg"
       ],
-      "description": "Die Türbreite wird erfasst, um sicherzustellen das Rollstühle, Kinderwagen etc. genug Platz haben.",
+      "description": "Die Durchgangsbreite wird erfasst, um sicherzustellen das Rollstühle, Kinderwagen etc. genug Platz haben. Es ist lediglich die nutzbare Türöffnung (Innenmaße der geöffneten Tür) zu vermessen.",
       "input": {
          "type": "Number",
          "values": {
             "single": {
-               "name": "Türbreite",
-               "decimals": 2,
-               "unit": "Meter",
+               "name": "Breite",
+               "decimals": 0,
+               "min": 50,
+               "max": 1000,
+               "unit": "Centimeter",
                "osm_tags": {
-                  "width": "%s m"
+                  "width": "%s cm"
                }
             }
          }
@@ -1499,20 +1471,18 @@
       "conditions": [
          {
             "osm_tags": {
-               "entrance": true,
+               "entrance": ["yes", "main", "secondary", "exit", "entrance", "emergency", "staircase", "shop"],
                "width": false
             },
-            "osm_element": [
-               "Node"
-            ]
+            "osm_element": "Node"
          }
       ]
    },
    {
       "id": 2050,
       "name": "Bodenbeschaffenheit",
-      "question": "Wie ist die Oberfläche beschaffen?",
-      "description": "Automatik-Türen können sich bei Annäherung einer Person öffnen, durch das Betätigen eines Tasters oder durch Bodendrucksensoren",
+      "question": "Wie ist der Boden beschaffen?",
+      "description": "Besteht die Oberfläche aus Schotter, Sand oder einem vergleichbaren Belag, so handelt es sich um einen unbefestigten Bodenbelag.",
       "input": {
          "type": "List",
          "values": {
@@ -1535,11 +1505,8 @@
       "conditions": [
          {
             "osm_tags": {
-               "highway": "path",
-               "foot": [
-                  "yes",
-                  "designated"
-               ],
+               "highway": "footway",
+               "footway": [false, "sidewalk"],
                "surface": false
             },
             "osm_element": [
@@ -1549,7 +1516,8 @@
          },
          {
             "osm_tags": {
-               "sidewalk": true,
+               "highway": "path",
+               "foot": ["yes", "designated"],
                "surface": false
             },
             "osm_element": [
@@ -1561,37 +1529,35 @@
             "osm_tags": {
                "public_transport": "platform",
                "surface": false
-            }
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay",
+               "Relation"
+            ]
          }
       ]
    },
    {
-      "id": 2071,
-      "name": "Bodenindikatoren-Art",
-      "question": "Um welche Art von Bodenindikatoren handelt es sich?",
-      "description": "Bodenindikatoren sind Bodenelemente im öffentlichen Raum zur Information, Orientierung, Leitung und Warnung blinder und sehbehinderter Menschen. Sie stehen in einem hohen taktilen, visuellen und gegebenenfalls akustischen Kontakt zum angrenzenden Bodenbelag. ",
+      "id": 2050,
+      "name": "Linke Gehweg-Beschaffenheit",
+      "question": "Wie ist die Oberfläche des in Pfeilrichtung linken Weges beschaffen?",
+      "description": "Besteht die Oberfläche aus Schotter, Sand oder einem vergleichbaren Belag, so handelt es sich um einen unbefestigten Bodenbelag.",
       "input": {
          "type": "List",
          "values": {
-            "entrance": {
-               "name": "Einstiegsbereich",
-               "image": "assets/images/questions/2071a.jpg",
+            "paved": {
+               "name": "Befestigt",
+               "image": "assets/images/questions/2050a.jpg",
                "osm_tags": {
-                  "tactile_paving:entrance": "yes"
+                  "sidewalk:left:surface": "paved"
                }
             },
-            "locate": {
-               "name": "Auffindestreifen",
-               "image": "assets/images/questions/2071b.jpg",
+            "unpaved": {
+               "name": "Unbefestigt",
+               "image": "assets/images/questions/2050b.jpg",
                "osm_tags": {
-                  "tactile_paving:locate": "yes"
-               }
-            },
-            "guide": {
-               "name": "Leitstreifen",
-               "image": "assets/images/questions/2072.jpg",
-               "osm_tags": {
-                  "tactile_paving:guide": "yes"
+                  "sidewalk:left:surface": "unpaved"
                }
             }
          }
@@ -1599,31 +1565,107 @@
       "conditions": [
          {
             "osm_tags": {
-               "tactile_paving": [
-                  "yes",
-                  "contrasted"
-               ]
+               "sidewalk": ["left", "both"],
+               "sidewalk:both:surface": false,
+               "sidewalk:left:surface": false
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay"
+            ]
+         }
+      ]
+   },
+   {
+      "id": 2050,
+      "name": "Rechte Gehweg-Beschaffenheit",
+      "question": "Wie ist die Oberfläche des in Pfeilrichtung rechten Weges beschaffen?",
+      "description": "Besteht die Oberfläche aus Schotter, Sand oder einem vergleichbaren Belag, so handelt es sich um einen unbefestigten Bodenbelag.",
+      "input": {
+         "type": "List",
+         "values": {
+            "paved": {
+               "name": "Befestigt",
+               "image": "assets/images/questions/2050a.jpg",
+               "osm_tags": {
+                  "sidewalk:right:surface": "paved"
+               }
+            },
+            "unpaved": {
+               "name": "Unbefestigt",
+               "image": "assets/images/questions/2050b.jpg",
+               "osm_tags": {
+                  "sidewalk:right:surface": "unpaved"
+               }
             }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "sidewalk": ["right", "both"],
+               "sidewalk:both:surface": false,
+               "sidewalk:right:surface": false
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay"
+            ]
+         }
+      ]
+   },
+   {
+      "id": 2070,
+      "name": "Bodenindikatoren",
+      "question": "Gibt es Bodenindikatoren auf der Plattform?",
+      "description": "Bodenindikatoren sind Bodenelemente im öffentlichen Raum zur Information, Orientierung, Leitung und Warnung sehbehinderter Menschen. Sie stehen in einem hohen taktilen, visuellen und gegebenenfalls akustischen Kontakt zum angrenzenden Bodenbelag.",
+      "input": {
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "tactile_paving": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "tactile_paving": "no"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "tactile_paving": false
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay",
+               "Relation"
+            ]
          }
       ]
    },
    {
       "id": 2093,
-      "name": "Fahrstuhl-Länge",
-      "question": "Wie lang ist die Grundfläche des Fahrstuhls?",
+      "name": "Fahrstuhl-Tiefe",
+      "question": "Wie tief ist die Grundfläche des Fahrstuhls?",
       "image": [
          "assets/images/questions/2093.jpg"
       ],
-      "description": "Als Länge wird Distanz senkrecht zur Tür erfasst. Dieser Wert ist u.a. dafür wichtig, damit Rollstuhlfahrende wissen, ob ihr Rollstuhl in den Fahrstuhl passt.",
+      "description": "Als Tiefe wird Distanz senkrecht zur Tür erfasst. Dieser Wert ist u.a. dafür wichtig, damit Rollstuhlfahrende wissen, ob ihr Rollstuhl in den Fahrstuhl passt.",
       "input": {
          "type": "Number",
          "values": {
             "single": {
-               "name": "Fahrstuhl-Länge",
+               "name": "Fahrstuhl-Tiefe",
                "decimals": 2,
+               "max": 10,
                "unit": "Meter",
                "osm_tags": {
-                  "width": "%s m"
+                  "length": "%s m"
                }
             }
          }
@@ -1634,9 +1676,7 @@
                "highway": "elevator",
                "length": false
             },
-            "osm_element": [
-               "Node"
-            ]
+            "osm_element": "Node"
          }
       ]
    },
@@ -1647,13 +1687,14 @@
       "image": [
          "assets/images/questions/2094.jpg"
       ],
-      "description": "Als Breite wird Entfernung zwischen den beiden Seiten gemessen, die keine Tür enthalten. Dieser Wert ist u.a. dafür wichtig, damit Rollstuhlfahrende wissen, ob ihr Rollstuhl in den Fahrstuhl passt.",
+      "description": "Als Breite wird Distanz parallel zur Tür erfasst. Dieser Wert ist u.a. dafür wichtig, damit Rollstuhlfahrende wissen, ob ihr Rollstuhl in den Fahrstuhl passt.",
       "input": {
          "type": "Number",
          "values": {
             "single": {
                "name": "Fahrstuhl-Breite",
                "decimals": 2,
+               "max": 10,
                "unit": "Meter",
                "osm_tags": {
                   "width": "%s m"
@@ -1667,9 +1708,229 @@
                "highway": "elevator",
                "width": false
             },
-            "osm_element": [
-               "Node"
-            ]
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "id": 2111,
+      "name": "Treppen-Steigung",
+      "question": "In welche Richtung steigt die Treppe?",
+      "input": {
+         "type": "List",
+         "values": {
+            "up": {
+               "name": "In Pfeilrichtung",
+               "osm_tags": {
+                  "incline": "up"
+               }
+            },
+            "down": {
+               "name": "Entgegen der Pfeilrichtung",
+               "osm_tags": {
+                  "incline": "down"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "steps",
+               "conveying": [false, "no"],
+               "incline": false
+            },
+            "osm_element": "OpenWay"
+         }
+      ]
+   },
+   {
+      "id": 2112,
+      "name": "Stufen-Höhe",
+      "question": "Wie hoch ist eine einzelne Stufe?",
+      "input": {
+         "type": "Number",
+         "values": {
+            "single": {
+               "name": "Höhe",
+               "decimals": 0,
+               "max": 30,
+               "unit": "Centimeter",
+               "osm_tags": {
+                  "step:height": "%s cm"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "steps",
+               "conveying": [false, "no"],
+               "step:height": false
+            },
+            "osm_element": "OpenWay"
+         }
+      ]
+   },
+   {
+      "id": 2113,
+      "name": "Stufen-Anzahl",
+      "question": "Wie viele Stufen hat die Treppe?",
+      "input": {
+         "type": "Number",
+         "values": {
+            "single": {
+               "name": "Anzahl",
+               "decimals": 0,
+               "max": 2000,
+               "osm_tags": {
+                  "step_count": "%s"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "steps",
+               "conveying": [false, "no"],
+               "step_count": false
+            },
+            "osm_element": "OpenWay"
+         }
+      ]
+   },
+   {
+      "id": 2132,
+      "name": "Rolltreppen-Richtung",
+      "question": "In welche Richtung bewegt sich die Rolltreppe bzw. das Laufband?",
+      "input": {
+         "type": "List",
+         "values": {
+            "forward": {
+               "name": "In Pfeilrichtung",
+               "osm_tags": {
+                  "conveying": "forward"
+               }
+            },
+            "backward": {
+               "name": "Entgegen der Pfeilrichtung",
+               "osm_tags": {
+                  "conveying": "backward"
+               }
+            },
+            "reversible": {
+               "name": "Wechselnd",
+               "description": "Die Bewegungsrichtung kann sich ändern.",
+               "osm_tags": {
+                  "conveying": "reversible"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "conveying": "yes"
+            },
+            "osm_element": "OpenWay"
+         }
+      ]
+   },
+   {
+      "id": 2132,
+      "name": "Laufband-Steigung",
+      "question": "In welche Richtung steigt das Laufband?",
+      "input": {
+         "type": "List",
+         "values": {
+            "up": {
+               "name": "In Pfeilrichtung",
+               "osm_tags": {
+                  "incline": "up"
+               }
+            },
+            "down": {
+               "name": "Entgegen der Pfeilrichtung",
+               "osm_tags": {
+                  "incline": "down"
+               }
+            },
+            "flat": {
+               "name": "Keine Steigung",
+               "osm_tags": {
+                  "incline": "0%"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "footway",
+               "conveying": ["yes", "forward", "backward", "reversible"],
+               "incline": false
+            },
+            "osm_element": "OpenWay"
+         }
+      ]
+   },
+   {
+      "id": 2132,
+      "name": "Rolltreppen-Steigung",
+      "question": "In welche Richtung steigt die Rolltreppe?",
+      "input": {
+         "type": "List",
+         "values": {
+            "up": {
+               "name": "In Pfeilrichtung",
+               "osm_tags": {
+                  "incline": "up"
+               }
+            },
+            "down": {
+               "name": "Entgegen der Pfeilrichtung",
+               "osm_tags": {
+                  "incline": "down"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "steps",
+               "conveying": ["yes", "forward", "backward", "reversible"],
+               "incline": false
+            },
+            "osm_element": "OpenWay"
+         }
+      ]
+   },
+   {
+      "id": 2134,
+      "name": "Rolltreppen-Fahrtdauer",
+      "question": "Wie lange dauert die Fahrt mit der Rolltreppe bzw. das Laufband?",
+      "description": "Ein Laufband (auch Rollsteig, Fahrsteig, bewegter oder rollender Bürgersteig genannt) ist ein sich bewegendes Fortbewegungsmittel, welches Personen auf einer horizontalen oder schrägen Ebene transportiert. Eine Rolltreppe ist eine sich bewegende Treppe, um Personen zwischen Stockwerken eines Gebäudes zu transportieren. Die Dauer der Rollentreppen-Fahrt ist relevant für die Berechnung von Umstiegszeiten.",
+      "input": {
+         "type": "Duration",
+         "values": {
+            "single": {
+               "unit": "m:1,s:1",
+               "osm_tags": {
+                  "duration": "%s"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "conveying": ["yes", "forward", "backward", "reversible"],
+               "duration": false
+            },
+            "osm_element": "OpenWay"
          }
       ]
    }
