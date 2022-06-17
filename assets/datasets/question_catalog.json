@@ -1324,6 +1324,7 @@
          {
             "osm_tags": {
                "entrance": ["yes", "main", "secondary", "exit", "entrance", "emergency", "staircase", "shop"],
+               "access": ["yes", "customers", false],
                "door": false
             },
             "osm_element": "Node"
@@ -1331,6 +1332,7 @@
          {
             "osm_tags": {
                "indoor": "door",
+               "access": ["yes", "customers", false],
                "door": false
             },
             "osm_element": "Node"
@@ -1384,7 +1386,8 @@
       "conditions": [
          {
             "osm_tags": {
-               "door": "yes"
+               "door": "yes",
+               "access": ["yes", "customers", false]
             },
             "osm_element": "Node"
          }
@@ -1414,6 +1417,7 @@
          {
             "osm_tags": {
                "door": ["yes", "hinged", "revolving", "sliding", "folding"],
+               "access": ["yes", "customers", false],
                "automatic_door": false
             },
             "osm_element": "Node"
@@ -1454,7 +1458,8 @@
       "conditions": [
          {
             "osm_tags": {
-               "automatic_door": "yes"
+               "automatic_door": "yes",
+               "access": ["yes", "customers", false]
             },
             "osm_element": "Node"
          }
@@ -1487,6 +1492,7 @@
          {
             "osm_tags": {
                "entrance": ["yes", "main", "secondary", "exit", "entrance", "emergency", "staircase", "shop"],
+               "access": ["yes", "customers", false],
                "width": false
             },
             "osm_element": "Node"
