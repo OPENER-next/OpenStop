@@ -18,5 +18,6 @@ const Map<String, IconData> customIcons = {
   'terminal_emergency': CommunityMaterialIcons.phone_alert,
   'door': CommunityMaterialIcons.door,
   'map': CommunityMaterialIcons.map,
-  'path': Icons.moving
+  'path': Icons.directions_walk,
+  'stairs': CommunityMaterialIcons.stairs
 };

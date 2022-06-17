@@ -850,6 +850,8 @@
             "single": {
                "name": "Plattform-Höhe",
                "decimals": 0,
+               "min": 0,
+               "max": 150,
                "unit": "Centimeter",
                "osm_tags": {
                   "height": "%s cm"
@@ -882,10 +884,12 @@
          "values": {
             "single": {
                "name": "Plattform-Breite",
-               "decimals": 2,
-               "unit": "Meter",
+               "decimals": 0,
+               "min": 30,
+               "max": 1500,
+               "unit": "Centimeter",
                "osm_tags": {
-                  "width": "%s m"
+                  "width": "%s cm"
                }
             }
          }
@@ -1026,10 +1030,12 @@
          "values": {
             "single": {
                "name": "Rampenlänge",
-               "decimals": 2,
-               "unit": "Meter",
+               "decimals": 0,
+               "min": 20,
+               "max": 500,
+               "unit": "Centimeter",
                "osm_tags": {
-                  "wheelchair:portable_ramp:length": "%s m"
+                  "wheelchair:portable_ramp:length": "%s cm"
                }
             }
          }
@@ -1057,6 +1063,8 @@
             "single": {
                "name": "Maximalgewicht",
                "decimals": 0,
+               "min": 70,
+               "max": 1000,
                "unit": "Kilogramm",
                "osm_tags": {
                   "wheelchair:portable_ramp:maxweight": "%s kg"
@@ -1119,10 +1127,12 @@
          "values": {
             "single": {
                "name": "Stellflächenlänge",
-               "decimals": 2,
-               "unit": "Meter",
+               "decimals": 0,
+               "min": 100,
+               "max": 300,
+               "unit": "Centimeter",
                "osm_tags": {
-                  "wheelchair:portable_lift:length": "%s"
+                  "wheelchair:portable_lift:length": "%s cm"
                }
             }
          }
@@ -1150,6 +1160,8 @@
             "single": {
                "name": "Maximalgewicht",
                "decimals": 0,
+               "min": 70,
+               "max": 1000,
                "unit": "Kilogramm",
                "osm_tags": {
                   "wheelchair:portable_lift:maxweight": "%s kg"
@@ -1180,10 +1192,11 @@
             "single": {
                "name": "Wegbreite",
                "decimals": 2,
-               "max": 10,
-               "unit": "Meter",
+               "min": 50,
+               "max": 1000,
+               "unit": "Centimeter",
                "osm_tags": {
-                  "width": "%s m"
+                  "width": "%s cm"
                }
             }
          }
@@ -1229,10 +1242,11 @@
             "single": {
                "name": "Linke Wegbreite",
                "decimals": 2,
-               "max": 10,
-               "unit": "Meter",
+               "min": 50,
+               "max": 1000,
+               "unit": "Centimeter",
                "osm_tags": {
-                  "sidewalk:left:width": "%s m"
+                  "sidewalk:left:width": "%s cm"
                }
             }
          }
@@ -1263,11 +1277,12 @@
          "values": {
             "single": {
                "name": "Rechte Wegbreite",
-               "decimals": 2,
-               "max": 10,
-               "unit": "Meter",
+               "decimals": 0,
+               "min": 50,
+               "max": 1000,
+               "unit": "Centimeter",
                "osm_tags": {
-                  "sidewalk:right:width": "%s m"
+                  "sidewalk:right:width": "%s cm"
                }
             }
          }
@@ -1649,20 +1664,86 @@
       ]
    },
    {
+      "id": 2090,
+      "name": "Treppenlift",
+      "question": "Gibt es an der Treppen einen Treppenlift für Rollstuhlfahrende?",
+      "image": [
+         "assets/images/questions/2090.jpg"
+      ],
+      "input": {
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "wheelchair:lift": "yes",
+                  "wheelchair": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "wheelchair:lift": "no"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "steps",
+               "wheelchair:lift": false
+            },
+            "osm_element": "OpenWay"
+         }
+      ]
+   },
+   {
+      "id": 2093,
+      "name": "Treppenlift-Länge",
+      "question": "Wie lang ist die Stellfläche des Treppenlifts?",
+      "image": [
+         "assets/images/questions/2093a.jpg"
+      ],
+      "description": "Als Länge wird die Distanz in Fahrtrichtung erfasst.",
+      "input": {
+         "type": "Number",
+         "values": {
+            "single": {
+               "name": "Treppenlift-Länge",
+               "decimals": 0,
+               "min": 50,
+               "max": 200,
+               "unit": "Centimeter",
+               "osm_tags": {
+                  "wheelchair:lift:length": "%s cm"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "wheelchair:lift": "yes",
+               "wheelchair:lift:length": false
+            }
+         }
+      ]
+   },
+   {
       "id": 2093,
       "name": "Fahrstuhl-Tiefe",
       "question": "Wie tief ist die Grundfläche des Fahrstuhls?",
       "image": [
-         "assets/images/questions/2093.jpg"
+         "assets/images/questions/2093b.jpg"
       ],
-      "description": "Als Tiefe wird Distanz senkrecht zur Tür erfasst. Dieser Wert ist u.a. dafür wichtig, damit Rollstuhlfahrende wissen, ob ihr Rollstuhl in den Fahrstuhl passt.",
+      "description": "Als Tiefe wird die Distanz senkrecht zur Tür erfasst. Dieser Wert ist u.a. dafür wichtig, damit Rollstuhlfahrende wissen, ob ihr Rollstuhl in den Fahrstuhl passt.",
       "input": {
          "type": "Number",
          "values": {
             "single": {
                "name": "Fahrstuhl-Tiefe",
                "decimals": 2,
-               "max": 10,
+               "min": 1,
+               "max": 5,
                "unit": "Meter",
                "osm_tags": {
                   "length": "%s m"
@@ -1682,19 +1763,52 @@
    },
    {
       "id": 2094,
+      "name": "Treppenlift-Breite",
+      "question": "Wie breit ist die Stellfläche des Treppenlifts?",
+      "image": [
+         "assets/images/questions/2094a.jpg"
+      ],
+      "description": "Als Breite wird die Distanz quer zur Fahrtrichtung erfasst.",
+      "input": {
+         "type": "Number",
+         "values": {
+            "single": {
+               "name": "Treppenlift-Breite",
+               "decimals": 0,
+               "min": 50,
+               "max": 200,
+               "unit": "Centimeter",
+               "osm_tags": {
+                  "wheelchair:lift:width": "%s cm"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "wheelchair:lift": "yes",
+               "wheelchair:lift:width": false
+            }
+         }
+      ]
+   },
+   {
+      "id": 2094,
       "name": "Fahrstuhl-Breite",
       "question": "Wie breit ist die Grundfläche des Fahrstuhls?",
       "image": [
-         "assets/images/questions/2094.jpg"
+         "assets/images/questions/2094b.jpg"
       ],
-      "description": "Als Breite wird Distanz parallel zur Tür erfasst. Dieser Wert ist u.a. dafür wichtig, damit Rollstuhlfahrende wissen, ob ihr Rollstuhl in den Fahrstuhl passt.",
+      "description": "Als Breite wird die Distanz parallel zur Tür erfasst. Dieser Wert ist u.a. dafür wichtig, damit Rollstuhlfahrende wissen, ob ihr Rollstuhl in den Fahrstuhl passt.",
       "input": {
          "type": "Number",
          "values": {
             "single": {
                "name": "Fahrstuhl-Breite",
                "decimals": 2,
-               "max": 10,
+               "min": 1,
+               "max": 5,
                "unit": "Meter",
                "osm_tags": {
                   "width": "%s m"
@@ -1709,6 +1823,38 @@
                "width": false
             },
             "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "id": 2096,
+      "name": "Fahrstuhl-Blindenschrift",
+      "question": "Ist auf den Bedienelementen Blindenschrift vorhanden?",
+      "image": [
+         "assets/images/questions/2096jpg"
+      ],
+      "description": "Blindenschrift sind Zeichen, die mit den Fingern gelesen werden können.",
+      "input": {
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "tactile_writing": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "tactile_writing": "no"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "elevator",
+               "tactile_writing": false
+            }
          }
       ]
    },
@@ -1754,6 +1900,7 @@
             "single": {
                "name": "Höhe",
                "decimals": 0,
+               "min": 0,
                "max": 30,
                "unit": "Centimeter",
                "osm_tags": {
@@ -1783,6 +1930,7 @@
             "single": {
                "name": "Anzahl",
                "decimals": 0,
+               "min": 1,
                "max": 2000,
                "osm_tags": {
                   "step_count": "%s"
@@ -1798,6 +1946,70 @@
                "step_count": false
             },
             "osm_element": "OpenWay"
+         }
+      ]
+   },
+   {
+      "id": 2115,
+      "name": "Handlauf-Blindenschrift",
+      "question": "Ist auf bzw. an dem Handlauf Blindenschrift vorhanden?",
+      "image": [
+         "assets/images/questions/2115jpg"
+      ],
+      "description": "Blinde können durch Blindenschrift am Handlauf Informationen erhalten, z.B. wohin die Treppe führt.",
+      "input": {
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "tactile_writing": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "tactile_writing": "no"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "steps",
+               "handrail": "yes",
+               "tactile_writing": false
+            }
+         }
+      ]
+   },
+   {
+      "id": 2114,
+      "name": "Treppen-Handlauf",
+      "question": "Hat die Treppe einen Handlauf?",
+      "image": [
+         "assets/images/questions/2114jpg"
+      ],
+      "input": {
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "handrail": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "handrail": "no"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "steps",
+               "handrail": false
+            }
          }
       ]
    },
