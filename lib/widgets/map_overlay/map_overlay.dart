@@ -160,6 +160,7 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                                 activeIconColor: Theme.of(context).colorScheme.onPrimary,
                                 color: Theme.of(context).colorScheme.secondary,
                                 iconColor: Theme.of(context).colorScheme.onSecondary,
+                                // Used context.select instead of Selector widget because of: https://github.com/rrousselGit/provider/issues/339
                                 active: context.select<UserLocationProvider, bool>((provider) => provider.isFollowingLocation),
                                 onPressed: _toggleLocationFollowing
                             ),
