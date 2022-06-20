@@ -103,10 +103,15 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
         return null;
       },
       keyboardType: const TextInputType.numberWithOptions(
-        decimal: true,
-        signed: false,
+        decimal: true
       ),
-      inputFormatters: _buildInputFormatters()
+      //inputFormatters: _buildInputFormatters()
+      inputFormatters: [
+        NumberTextInputFormatter(
+          decimals:  questionInputValue.decimals,
+          min: questionInputValue.min
+        ),
+      ],
     );
   }
 
@@ -122,30 +127,11 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
     return true;
   }
 
-
-  List<TextInputFormatter> _buildInputFormatters() {
-    final questionInputValue = widget.definition.values.values.first;
-
-    final decimalsAllowed = questionInputValue.decimals != null && questionInputValue.decimals! > 0;
-
-    var allowRegexString = '^\\d+';
-    if (decimalsAllowed) {
-      allowRegexString += '[,.]?\\d{0,${questionInputValue.decimals}}';
-    }
-
-    return [
-      /// First conditionally deny comma or point, then check allowed decimal places. Doesn't work vice versa.
-      if (!decimalsAllowed) FilteringTextInputFormatter.deny( RegExp('[,.]{1}') ),
-      FilteringTextInputFormatter.allow( RegExp(allowRegexString) )
-    ];
-  }
-
-
   void _handleChange([String value = '']) {
-    value = value.replaceAll(',', '.');
+    final tmpValue = value.replaceAll(',', '.');
     NumberAnswer? answer;
 
-    if (double.tryParse(value) != null) {
+    if (double.tryParse(tmpValue) != null) {
       answer = NumberAnswer(
         questionValues: widget.definition.values,
         value: value
@@ -160,5 +146,35 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
   void dispose() {
     _textController.dispose();
     super.dispose();
+  }
+}
+
+class NumberTextInputFormatter extends TextInputFormatter {
+  NumberTextInputFormatter({
+    this.decimals,
+    this.min
+  });
+
+  final int? min;
+  final int? decimals;
+
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    final negativeAllowed = min != null && min! < 0;
+    final decimalsAllowed = decimals != null && decimals! > 0;
+
+    var allowRegexString = '([1-9]\\d*|0?)';
+    if (negativeAllowed) {
+      allowRegexString = '-?([1-9]\\d*|0?)';
+    }
+    if (decimalsAllowed) {
+      allowRegexString += '([,.]\\d{0,$decimals})?';
+    }
+    final allowRegex = RegExp(allowRegexString);
+
+    if (allowRegex.stringMatch(newValue.text) == newValue.text) {
+      return newValue;
+    }
+    return oldValue;
   }
 }
