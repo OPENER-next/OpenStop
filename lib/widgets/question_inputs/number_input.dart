@@ -60,8 +60,8 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
   Widget build(BuildContext context) {
     final questionInputValue = widget.definition.values.values.first;
 
-    final decimalsAllowed = questionInputValue.decimals != null && questionInputValue.decimals! > 0;
-    final negativeAllowed = questionInputValue.min != null && questionInputValue.min! < 0;
+    final decimalsAllowed = questionInputValue.decimals == null || questionInputValue.decimals! > 0;
+    final negativeAllowed = questionInputValue.min == null || questionInputValue.min! < 0;
 
     return TextFormField(
       controller: _textController,
@@ -111,8 +111,8 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
       ),
       inputFormatters: [
         NumberTextInputFormatter(
-          decimals: questionInputValue.decimals,
-          signed: negativeAllowed
+            decimals: questionInputValue.decimals,
+            negativeAllowed: negativeAllowed
         ),
       ],
     );
@@ -154,24 +154,26 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
 
 class NumberTextInputFormatter extends TextInputFormatter {
   NumberTextInputFormatter({
-    this.signed = true,
+    this.negativeAllowed = true,
     this.decimals,
   });
 
   final int? decimals;
-  final bool signed;
+  final bool negativeAllowed;
 
 
   @override
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-    final negativeAllowed = signed;
-    final decimalsAllowed = decimals != null && decimals! > 0;
+    var allowRegexString = '';
 
-    var allowRegexString = '([1-9]\\d*|0?)';
     if (negativeAllowed) {
-      allowRegexString = '-?([1-9]\\d*|0?)';
+      allowRegexString += '-?';
     }
-    if (decimalsAllowed) {
+    allowRegexString += '([1-9]\\d*|0?)';
+    if (decimals == null) {
+      allowRegexString += '([,.]\\d*)?';
+    }
+    else if (decimals! > 0) {
       allowRegexString += '([,.]\\d{0,$decimals})?';
     }
     final allowRegex = RegExp(allowRegexString);
