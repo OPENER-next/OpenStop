@@ -86,9 +86,9 @@ class NumberAnswer extends Answer<String> {
   bool get isValid {
     final questionInputValue = questionValues.values.first;
 
-    var allowRegexString = '^\\d+';
+    var allowRegexString = '([1-9]\\d*|0?)';
     if (questionInputValue.decimals != null && questionInputValue.decimals! > 0) {
-      allowRegexString += '[,.]?\\d{0,${questionInputValue.decimals}}';
+      allowRegexString += '([,.]\\d{0,${questionInputValue.decimals}})?';
     }
     if (!RegExp(allowRegexString).hasMatch(value)) {
       return false;

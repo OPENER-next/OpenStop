@@ -60,6 +60,9 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
   Widget build(BuildContext context) {
     final questionInputValue = widget.definition.values.values.first;
 
+    final decimalsAllowed = questionInputValue.decimals != null && questionInputValue.decimals! > 0;
+    final negativeAllowed = questionInputValue.min != null && questionInputValue.min! < 0;
+
     return TextFormField(
       controller: _textController,
       onChanged: _handleChange,
@@ -102,14 +105,14 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
         }
         return null;
       },
-      keyboardType: const TextInputType.numberWithOptions(
-        decimal: true
+      keyboardType: TextInputType.numberWithOptions(
+        decimal: decimalsAllowed,
+        signed: negativeAllowed
       ),
-      //inputFormatters: _buildInputFormatters()
       inputFormatters: [
         NumberTextInputFormatter(
-          decimals:  questionInputValue.decimals,
-          min: questionInputValue.min
+          decimals: questionInputValue.decimals,
+          signed: negativeAllowed
         ),
       ],
     );
@@ -151,16 +154,17 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
 
 class NumberTextInputFormatter extends TextInputFormatter {
   NumberTextInputFormatter({
+    this.signed = true,
     this.decimals,
-    this.min
   });
 
-  final int? min;
   final int? decimals;
+  final bool signed;
+
 
   @override
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-    final negativeAllowed = min != null && min! < 0;
+    final negativeAllowed = signed;
     final decimalsAllowed = decimals != null && decimals! > 0;
 
     var allowRegexString = '([1-9]\\d*|0?)';
