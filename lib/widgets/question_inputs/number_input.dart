@@ -164,19 +164,24 @@ class NumberTextInputFormatter extends TextInputFormatter {
 
   @override
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-    var allowRegexString = '';
-
+    final allowRegexStringBuilder = StringBuffer(r'^');
+    // match negative numbers
     if (negativeAllowed) {
-      allowRegexString += '-?';
+      allowRegexStringBuilder.write(r'-?');
     }
-    allowRegexString += '([1-9]\\d*|0?)';
+    // match either a single 0, a number not starting with 0, or nothing
+    allowRegexStringBuilder.write(r'(0|[1-9]\d*)?');
+    // match an unlimited amount of decimal places
     if (decimals == null) {
-      allowRegexString += '([,.]\\d*)?';
+      allowRegexStringBuilder.write(r'([,.]\d*)?');
     }
+    // match a specific amount of decimal places
     else if (decimals! > 0) {
-      allowRegexString += '([,.]\\d{0,$decimals})?';
+      allowRegexStringBuilder..write(r'([,.]\d{0,')..write(decimals)..write(r'})?');
     }
-    final allowRegex = RegExp(allowRegexString);
+    allowRegexStringBuilder.write(r'$');
+
+    final allowRegex = RegExp(allowRegexStringBuilder.toString());
 
     if (allowRegex.stringMatch(newValue.text) == newValue.text) {
       return newValue;
