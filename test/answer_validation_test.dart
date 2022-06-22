@@ -61,6 +61,34 @@ void main() async {
       const NumberAnswer(questionValues: testInputValues, value: '1.12345').isValid,
       isFalse
     );
+    expect(
+      const NumberAnswer(questionValues: testInputValues, value: '-0.5').isValid,
+      isTrue
+    );
+    expect(
+      const NumberAnswer(questionValues: testInputValues, value: '0.5').isValid,
+      isTrue
+    );
+    expect(
+      const NumberAnswer(questionValues: testInputValues, value: '.5').isValid,
+      isFalse
+    );
+    expect(
+      const NumberAnswer(questionValues: testInputValues, value: '-.5').isValid,
+      isFalse
+    );
+    expect(
+      const NumberAnswer(questionValues: testInputValues, value: '-').isValid,
+      isFalse
+    );
+    expect(
+      const NumberAnswer(questionValues: testInputValues, value: '.').isValid,
+      isFalse
+    );
+    expect(
+      const NumberAnswer(questionValues: testInputValues, value: 'abc').isValid,
+      isFalse
+    );
   });
 
 
@@ -116,6 +144,34 @@ void main() async {
     expect(
       const NumberAnswer(questionValues: testInputValues, value: '1.12345').isValid,
       isTrue
+    );
+    expect(
+      const NumberAnswer(questionValues: testInputValues, value: '-0.5').isValid,
+      isTrue
+    );
+    expect(
+      const NumberAnswer(questionValues: testInputValues, value: '0.5').isValid,
+      isTrue
+    );
+    expect(
+      const NumberAnswer(questionValues: testInputValues, value: '.5').isValid,
+      isFalse
+    );
+    expect(
+      const NumberAnswer(questionValues: testInputValues, value: '-.5').isValid,
+      isFalse
+    );
+    expect(
+      const NumberAnswer(questionValues: testInputValues, value: '-').isValid,
+      isFalse
+    );
+    expect(
+      const NumberAnswer(questionValues: testInputValues, value: '.').isValid,
+      isFalse
+    );
+    expect(
+      const NumberAnswer(questionValues: testInputValues, value: 'abc').isValid,
+      isFalse
     );
   });
 }

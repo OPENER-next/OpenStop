@@ -91,18 +91,17 @@ class NumberAnswer extends Answer<String> {
     final number = value.replaceAll(',', '.');
 
     // match either a single 0 or negative/positive numbers not starting with 0
-    final allowRegexStringBuilder = StringBuffer(r'^(0|-?[1-9]\d*)');
+    final allowRegexStringBuilder = StringBuffer(r'^(0|-?[1-9]\d*');
     // match an unlimited amount of decimal places
     if (questionInputValue.decimals == null) {
-      allowRegexStringBuilder.write(r'(\.\d+)?');
+      allowRegexStringBuilder.write(r'|-?\d+\.\d+');
     }
     // match a specific amount of decimal places
     else if (questionInputValue.decimals! > 0) {
       allowRegexStringBuilder
-      ..write(r'(\.\d{1,')..write(questionInputValue.decimals)..write(r'})?');
+      ..write(r'|-?\d+\.\d{1,')..write(questionInputValue.decimals)..write(r'}');
     }
-    allowRegexStringBuilder.write(r'$');
-
+    allowRegexStringBuilder.write(r')$');
     if (!RegExp(allowRegexStringBuilder.toString()).hasMatch(number)) {
       return false;
     }

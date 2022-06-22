@@ -86,21 +86,24 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
       autovalidateMode: AutovalidateMode.always,
       validator: (text) {
         if (text != null && text.isNotEmpty) {
-          text = text.replaceAll(',', '.');
-          final value = double.tryParse(text);
-          if (value == null) {
+
+          final answer = NumberAnswer(
+              questionValues: widget.definition.values,
+              value: text
+          );
+
+          if (!answer.isValid) {
+            final number = double.tryParse( text.replaceAll(',', '.') );
+
+            if (number != null) {
+              if (questionInputValue.max != null && number > questionInputValue.max!) {
+                return 'Wert darf höchstens ${questionInputValue.max} sein';
+              }
+              else if (questionInputValue.min != null && number < questionInputValue.min!) {
+                return 'Wert muss mindestens ${questionInputValue.min} sein';
+              }
+            }
             return 'Ungültige Zahl';
-          }
-          else if (!_isValidRange(value)) {
-            if (questionInputValue.max != null && questionInputValue.min != null) {
-              return 'Wert muss zwischen ${questionInputValue.min} und ${questionInputValue.max} liegen';
-            }
-            else if (questionInputValue.max != null) {
-              return 'Wert darf höchstens ${questionInputValue.max} sein';
-            }
-            else {
-              return 'Wert muss mindestens ${questionInputValue.min} sein';
-            }
           }
         }
         return null;
@@ -118,23 +121,10 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
     );
   }
 
-
-  bool _isValidRange(double value) {
-    final questionInputValue = widget.definition.values.values.first;
-    if (questionInputValue.min != null && value < questionInputValue.min!) {
-      return false;
-    }
-    if (questionInputValue.max != null && questionInputValue.max! < value) {
-      return false;
-    }
-    return true;
-  }
-
   void _handleChange([String value = '']) {
-    final tmpValue = value.replaceAll(',', '.');
     NumberAnswer? answer;
 
-    if (double.tryParse(tmpValue) != null) {
+    if (value.isNotEmpty) {
       answer = NumberAnswer(
         questionValues: widget.definition.values,
         value: value
