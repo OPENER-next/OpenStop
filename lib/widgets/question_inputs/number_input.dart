@@ -60,6 +60,9 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
   Widget build(BuildContext context) {
     final questionInputValue = widget.definition.values.values.first;
 
+    final decimalsAllowed = questionInputValue.decimals == null || questionInputValue.decimals! > 0;
+    final negativeAllowed = questionInputValue.min == null || questionInputValue.min! < 0;
+
     return TextFormField(
       controller: _textController,
       onChanged: _handleChange,
@@ -83,69 +86,45 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
       autovalidateMode: AutovalidateMode.always,
       validator: (text) {
         if (text != null && text.isNotEmpty) {
-          text = text.replaceAll(',', '.');
-          final value = double.tryParse(text);
-          if (value == null) {
+
+          final answer = NumberAnswer(
+              questionValues: widget.definition.values,
+              value: text
+          );
+
+          if (!answer.isValid) {
+            final number = double.tryParse( text.replaceAll(',', '.') );
+
+            if (number != null) {
+              if (questionInputValue.max != null && number > questionInputValue.max!) {
+                return 'Wert darf höchstens ${questionInputValue.max} sein';
+              }
+              else if (questionInputValue.min != null && number < questionInputValue.min!) {
+                return 'Wert muss mindestens ${questionInputValue.min} sein';
+              }
+            }
             return 'Ungültige Zahl';
-          }
-          else if (!_isValidRange(value)) {
-            if (questionInputValue.max != null && questionInputValue.min != null) {
-              return 'Wert muss zwischen ${questionInputValue.min} und ${questionInputValue.max} liegen';
-            }
-            else if (questionInputValue.max != null) {
-              return 'Wert darf höchstens ${questionInputValue.max} sein';
-            }
-            else {
-              return 'Wert muss mindestens ${questionInputValue.min} sein';
-            }
           }
         }
         return null;
       },
-      keyboardType: const TextInputType.numberWithOptions(
-        decimal: true,
-        signed: false,
+      keyboardType: TextInputType.numberWithOptions(
+        decimal: decimalsAllowed,
+        signed: negativeAllowed
       ),
-      inputFormatters: _buildInputFormatters()
+      inputFormatters: [
+        NumberTextInputFormatter(
+            decimals: questionInputValue.decimals,
+            negativeAllowed: negativeAllowed
+        ),
+      ],
     );
   }
 
-
-  bool _isValidRange(double value) {
-    final questionInputValue = widget.definition.values.values.first;
-    if (questionInputValue.min != null && value < questionInputValue.min!) {
-      return false;
-    }
-    if (questionInputValue.max != null && questionInputValue.max! < value) {
-      return false;
-    }
-    return true;
-  }
-
-
-  List<TextInputFormatter> _buildInputFormatters() {
-    final questionInputValue = widget.definition.values.values.first;
-
-    final decimalsAllowed = questionInputValue.decimals != null && questionInputValue.decimals! > 0;
-
-    var allowRegexString = '^\\d+';
-    if (decimalsAllowed) {
-      allowRegexString += '[,.]?\\d{0,${questionInputValue.decimals}}';
-    }
-
-    return [
-      /// First conditionally deny comma or point, then check allowed decimal places. Doesn't work vice versa.
-      if (!decimalsAllowed) FilteringTextInputFormatter.deny( RegExp('[,.]{1}') ),
-      FilteringTextInputFormatter.allow( RegExp(allowRegexString) )
-    ];
-  }
-
-
   void _handleChange([String value = '']) {
-    value = value.replaceAll(',', '.');
     NumberAnswer? answer;
 
-    if (double.tryParse(value) != null) {
+    if (value.isNotEmpty) {
       answer = NumberAnswer(
         questionValues: widget.definition.values,
         value: value
@@ -160,5 +139,43 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
   void dispose() {
     _textController.dispose();
     super.dispose();
+  }
+}
+
+class NumberTextInputFormatter extends TextInputFormatter {
+  NumberTextInputFormatter({
+    this.negativeAllowed = true,
+    this.decimals,
+  });
+
+  final int? decimals;
+  final bool negativeAllowed;
+
+
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    final allowRegexStringBuilder = StringBuffer(r'^');
+    // match negative numbers
+    if (negativeAllowed) {
+      allowRegexStringBuilder.write(r'-?');
+    }
+    // match either a single 0, a number not starting with 0, or nothing
+    allowRegexStringBuilder.write(r'(0|[1-9]\d*)?');
+    // match an unlimited amount of decimal places
+    if (decimals == null) {
+      allowRegexStringBuilder.write(r'([,.]\d*)?');
+    }
+    // match a specific amount of decimal places
+    else if (decimals! > 0) {
+      allowRegexStringBuilder..write(r'([,.]\d{0,')..write(decimals)..write(r'})?');
+    }
+    allowRegexStringBuilder.write(r'$');
+
+    final allowRegex = RegExp(allowRegexStringBuilder.toString());
+
+    if (allowRegex.stringMatch(newValue.text) == newValue.text) {
+      return newValue;
+    }
+    return oldValue;
   }
 }

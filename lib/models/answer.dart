@@ -74,10 +74,12 @@ class NumberAnswer extends Answer<String> {
   @override
   Map<String, String> toTagMap() {
     final tags = questionValues.values.first.osmTags;
+    // replace decimal comma with period
+    final number = value.replaceAll(',', '.');
 
     return tags.map((key, value) => MapEntry(
       key,
-      value.replaceAll('%s', this.value)
+      value.replaceAll('%s', number)
     ));
   }
 
@@ -85,16 +87,26 @@ class NumberAnswer extends Answer<String> {
   @override
   bool get isValid {
     final questionInputValue = questionValues.values.first;
+    // replace decimal comma with period
+    final number = value.replaceAll(',', '.');
 
-    var allowRegexString = '^\\d+';
-    if (questionInputValue.decimals != null && questionInputValue.decimals! > 0) {
-      allowRegexString += '[,.]?\\d{0,${questionInputValue.decimals}}';
+    // match either a single 0 or negative/positive numbers not starting with 0
+    final allowRegexStringBuilder = StringBuffer(r'^(0|-?[1-9]\d*');
+    // match an unlimited amount of decimal places
+    if (questionInputValue.decimals == null) {
+      allowRegexStringBuilder.write(r'|-?\d+\.\d+');
     }
-    if (!RegExp(allowRegexString).hasMatch(value)) {
+    // match a specific amount of decimal places
+    else if (questionInputValue.decimals! > 0) {
+      allowRegexStringBuilder
+      ..write(r'|-?\d+\.\d{1,')..write(questionInputValue.decimals)..write(r'}');
+    }
+    allowRegexStringBuilder.write(r')$');
+    if (!RegExp(allowRegexStringBuilder.toString()).hasMatch(number)) {
       return false;
     }
 
-    final numValue = double.tryParse(value);
+    final numValue = double.tryParse(number);
     if (numValue != null) {
       if (questionInputValue.min != null && numValue < questionInputValue.min!) {
         return false;
