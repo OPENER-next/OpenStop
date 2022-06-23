@@ -44,7 +44,11 @@ dev_dependencies:
     sdk: flutter
   flutter_launcher_icons: ^0.9.2
   flutter_lints: ^2.0.0
-  nock: ^1.2.0
+  # Required since the latest release is not compatible with dart v2.17
+  nock:
+    git:
+      url: https://github.com/cah4a/dart_nock.git
+      ref: 7643ccb71b1340e81d6291028d0a7eae9da45bb3
   build_runner: ^2.1.7
   build_version: ^2.0.0
 
