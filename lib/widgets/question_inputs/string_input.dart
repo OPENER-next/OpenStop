@@ -76,6 +76,7 @@ class _StringInputDelegateState extends State<_StringInputDelegate> {
     return TextFormField(
       controller: _textController,
       onChanged: _handleChange,
+      textAlignVertical: TextAlignVertical.center,
       maxLength: _maxValue,
       decoration: InputDecoration(
         hintText: questionInputValue.name ?? 'Hier eintragen...',

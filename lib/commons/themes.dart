@@ -72,18 +72,14 @@ final ThemeData defaultTheme = ThemeData(
   ),
   inputDecorationTheme: const InputDecorationTheme(
       contentPadding: EdgeInsets.symmetric(horizontal: Default.padding),
-      enabledBorder: OutlineInputBorder(
+      border: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(Default.borderRadius)),
-        borderSide: BorderSide(
-            width: 1.0,
-        ),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(Default.borderRadius)),
         borderSide: BorderSide(
-            width: 1.0,
             color: Default.primary
-        ),
+        )
       )
   ),
   toggleableActiveColor: Default.primary,
@@ -107,10 +103,11 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
   elevatedButtonTheme: defaultTheme.elevatedButtonTheme,
   outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
   inputDecorationTheme: defaultTheme.inputDecorationTheme.copyWith(
-      enabledBorder: defaultTheme.inputDecorationTheme.enabledBorder!.copyWith(
-          borderSide: defaultTheme.inputDecorationTheme.enabledBorder!.borderSide.copyWith(
-              color: Default.onBackgroundLight
-          )
+      border: defaultTheme.inputDecorationTheme.border!,
+      enabledBorder: defaultTheme.inputDecorationTheme.border!.copyWith(
+        borderSide: defaultTheme.inputDecorationTheme.border!.borderSide.copyWith(
+            color: Default.onBackgroundLight
+        )
       )
   ),
   toggleableActiveColor: defaultTheme.toggleableActiveColor,
@@ -137,8 +134,9 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
   elevatedButtonTheme: defaultTheme.elevatedButtonTheme,
   outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
   inputDecorationTheme: defaultTheme.inputDecorationTheme.copyWith(
-      enabledBorder: defaultTheme.inputDecorationTheme.enabledBorder!.copyWith(
-          borderSide: defaultTheme.inputDecorationTheme.enabledBorder!.borderSide.copyWith(
+      border: defaultTheme.inputDecorationTheme.border!,
+      enabledBorder: defaultTheme.inputDecorationTheme.border!.copyWith(
+          borderSide: defaultTheme.inputDecorationTheme.border!.borderSide.copyWith(
               color: Default.onBackgroundDark
           )
       )

@@ -66,22 +66,14 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
     return TextFormField(
       controller: _textController,
       onChanged: _handleChange,
+      textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
         hintText: questionInputValue.name ?? 'Hier eintragen...',
-        suffixIcon: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (questionInputValue.unit != null) Text(
-              questionInputValue.unit!,
-              style: Theme.of(context).textTheme.subtitle1
-            ),
-            IconButton(
-              onPressed: _handleChange,
-              icon: const Icon(Icons.clear_rounded),
-            )
-          ]
-        )
+        suffixText: questionInputValue.unit,
+        suffixIcon: IconButton(
+          onPressed: _handleChange,
+          icon: const Icon(Icons.clear_rounded),
+        ),
       ),
       autovalidateMode: AutovalidateMode.always,
       validator: (text) {
