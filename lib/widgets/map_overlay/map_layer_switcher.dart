@@ -42,6 +42,8 @@ class _MapLayerSwitcherState<T> extends State<MapLayerSwitcher<T>> with SingleTi
 
   var _isActive = false;
 
+  final _layerLink = LayerLink();
+
   late final AnimationController _controller = AnimationController(vsync: this);
 
   late final OverlayEntry _overlayEntry = _buildOverlayEntry();
@@ -103,26 +105,30 @@ class _MapLayerSwitcherState<T> extends State<MapLayerSwitcher<T>> with SingleTi
   OverlayEntry _buildOverlayEntry() {
     return OverlayEntry(
       builder: (overlayContext) {
-        final renderBox = context.findRenderObject() as RenderBox;
-        final offset = renderBox.localToGlobal(Offset.zero);
-        // calculate the horizontal offset that centers the speed dial buttons alongside the toggle button
-        final centerOffsetX = (renderBox.size.width - widget.subButtonSize.width) / 2;
-
-        return Positioned(
-          left: offset.dx + centerOffsetX,
-          bottom: MediaQuery.of(context).size.height - offset.dy,
+        return CompositedTransformFollower(
+          link: _layerLink,
+          followerAnchor: Alignment.bottomLeft,
+          targetAnchor: Alignment.topCenter,
+          // shift column so the buttons are perfectly centered
+          offset: Offset(-widget.subButtonSize.width / 2, 0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
-            children: List.generate(widget.entries.length, _buildItem),
-          )
+            // pass the overlay context so the OverlayEntry automatically rebuilds
+            // when any inherit widget changes to which a widget in the builder may have subscribed to
+            children: List.generate(
+              widget.entries.length,
+              (i) => _buildItem(i, overlayContext)
+            )
+          ),
         );
       }
     );
   }
 
 
-  Widget _buildItem(int index) {
+  Widget _buildItem(int index, BuildContext context) {
     final entry = widget.entries[index];
     final start = (widget.entries.length - (index + 1)) * _intervalOffset;
     final end = start + _intervalLength;
@@ -196,24 +202,27 @@ class _MapLayerSwitcherState<T> extends State<MapLayerSwitcher<T>> with SingleTi
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton.small(
-      heroTag: null,
-      child: _isActive
-        ? const Icon(
-          Icons.layers_clear_rounded,
-        )
-        : const Icon(
-          Icons.layers_rounded,
-        ),
-      onPressed: () {
-        if (_controller.isDismissed) {
-          Overlay.of(context)!.insert(_overlayEntry);
-          _controller.forward();
-        }
-        else {
-          _controller.reverse();
-        }
-      },
+    return CompositedTransformTarget(
+      link: _layerLink,
+      child: FloatingActionButton.small(
+        heroTag: null,
+        child: _isActive
+          ? const Icon(
+            Icons.layers_clear_rounded,
+          )
+          : const Icon(
+            Icons.layers_rounded,
+          ),
+        onPressed: () {
+          if (_controller.isDismissed) {
+            Overlay.of(context)?.insert(_overlayEntry);
+            _controller.forward();
+          }
+          else {
+            _controller.reverse();
+          }
+        },
+      ),
     );
   }
 
