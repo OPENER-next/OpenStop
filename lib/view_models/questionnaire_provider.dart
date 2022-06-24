@@ -92,7 +92,7 @@ class QuestionnaireProvider extends ChangeNotifier {
 
   /// Upload the changes made by this questionnaire with the given authenticated user.
 
-  void upload(BuildContext context, AuthenticatedUser authenticatedUser) async {
+  Future<void> upload(BuildContext context, AuthenticatedUser authenticatedUser) async {
     if (_qaSelection == null) {
       return;
     }
@@ -113,12 +113,12 @@ class QuestionnaireProvider extends ChangeNotifier {
       changesetLocale: localization.languageCode
     );
 
-    await uploadApi.updateOsmElement(
-      relatedStopArea, _qaSelection!.workingElement.apply()
-    );
-
+    final Questionnaire tmpQaSelection = _qaSelection!;
     // close the current questionnaire
-    _qaSelection = null;
-    notifyListeners();
+    discard();
+
+    await uploadApi.updateOsmElement(
+      relatedStopArea, tmpQaSelection.workingElement.apply()
+    );
   }
 }
