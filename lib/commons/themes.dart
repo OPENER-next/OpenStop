@@ -16,11 +16,9 @@ class Default {
   static Color onSecondaryDark = Colors.grey.shade50;
 
   // Background Header Scaffold (darkTheme only, primary for lightTheme)
-  //static Color surfaceLight = Colors.grey.shade300;
   static const Color surfaceDark = Color(0xFF005050);
 
   // Foreground Header Scaffold (darkTheme only, onPrimary for lightTheme) / Background Snackbar
-  //static Color onSurfaceLight = Colors.grey.shade300;
   static Color onSurfaceDark = Colors.grey.shade300;
 
   // Background QuestionDialog, Scaffold Body, Drawer
@@ -100,8 +98,6 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
       onPrimary: Default.onPrimaryLight,
       secondary: Default.secondaryLight,
       onSecondary: Default.onSecondaryLight,
-      //surface: Default.surfaceLight,
-      //onSurface: Default.onSurfaceLight,
       background: Default.backgroundLight,
       onBackground: Default.onBackgroundLight,
       tertiary: Colors.white,

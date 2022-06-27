@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '/models/questionnaire.dart';
 import '/view_models/osm_authenticated_user_provider.dart';
 import '/view_models/questionnaire_provider.dart';
-import '/utils/snackbar.dart';
+import '/widgets/snackbar.dart';
 import '/widgets/question_inputs/question_input_widget.dart';
 import '/widgets/question_dialog/question_summary.dart';
 import 'question_list.dart';
@@ -278,7 +278,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
       }
       catch(e) {
         scaffold.showSnackBar(CustomSnackBar(
-            text:'Ups... Irgendwas lief schief bei der Übertragung.'
+            text:'Fehler bei der Übertragung.'
         ));
       }
 
