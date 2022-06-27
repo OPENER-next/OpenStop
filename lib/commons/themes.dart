@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 class Default {
   static const Color primary = Color(0xFFEC7C72);
+
+  // Foreground Header Scaffold (lightTheme only)
   static Color onPrimaryLight = Colors.grey.shade100;
   static const Color onPrimaryDark = Color(0xFF002020);
 
@@ -13,13 +15,13 @@ class Default {
   static Color onSecondaryLight = Colors.grey.shade900;
   static Color onSecondaryDark = Colors.grey.shade50;
 
-  // Background Header Scaffold (darkTheme only, primary in lightTheme)
-  static Color surfaceLight = Colors.grey.shade300;
+  // Background Header Scaffold (darkTheme only, primary for lightTheme)
+  //static Color surfaceLight = Colors.grey.shade300;
   static const Color surfaceDark = Color(0xFF005050);
 
-  // Foreground Scaffold Header / Background Snackbar
+  // Foreground Header Scaffold (darkTheme only, onPrimary for lightTheme) / Background Snackbar
   //static Color onSurfaceLight = Colors.grey.shade300;
-  //static Color onSurfaceDark = Colors.grey.shade300;
+  static Color onSurfaceDark = Colors.grey.shade300;
 
   // Background QuestionDialog, Scaffold Body, Drawer
   static const Color backgroundDark = Color(0xFF002020);
@@ -98,7 +100,7 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
       onPrimary: Default.onPrimaryLight,
       secondary: Default.secondaryLight,
       onSecondary: Default.onSecondaryLight,
-      surface: Default.surfaceLight,
+      //surface: Default.surfaceLight,
       //onSurface: Default.onSurfaceLight,
       background: Default.backgroundLight,
       onBackground: Default.onBackgroundLight,
@@ -131,7 +133,7 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
       secondary: Default.secondaryDark,
       onSecondary: Default.onSecondaryDark,
       surface: Default.surfaceDark,
-      //onSurface: Default.onSurfaceDark,
+      onSurface: Default.onSurfaceDark,
       background: Default.backgroundDark,
       onBackground: Default.onBackgroundDark,
       tertiary: Colors.black,

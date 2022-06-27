@@ -113,12 +113,11 @@ class QuestionnaireProvider extends ChangeNotifier {
       changesetLocale: localization.languageCode
     );
 
-    final Questionnaire tmpQaSelection = _qaSelection!;
+    final uploading = uploadApi.updateOsmElement(
+        relatedStopArea, _qaSelection!.workingElement.apply()
+    );
     // close the current questionnaire
     discard();
-
-    await uploadApi.updateOsmElement(
-      relatedStopArea, tmpQaSelection.workingElement.apply()
-    );
+    await uploading;
   }
 }

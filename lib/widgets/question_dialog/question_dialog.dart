@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '/models/questionnaire.dart';
 import '/view_models/osm_authenticated_user_provider.dart';
 import '/view_models/questionnaire_provider.dart';
+import '/utils/snackbar.dart';
 import '/widgets/question_inputs/question_input_widget.dart';
 import '/widgets/question_dialog/question_summary.dart';
 import 'question_list.dart';
@@ -263,7 +264,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
     if (authenticationProvider.isLoggedIn && mounted) {
       final questionnaire = context.read<QuestionnaireProvider>();
 
-      // save context for later use even if widget is unmounted
+      // save state object for later use even if widget is unmounted
       final scaffold = ScaffoldMessenger.of(context);
 
       try {
@@ -271,30 +272,18 @@ class _QuestionDialogState extends State<QuestionDialog> {
             context,
             authenticationProvider.authenticatedUser!
         );
-        _createSnackBar('Änderungen erfolgreich übertragen.', scaffold);
+        scaffold.showSnackBar(CustomSnackBar(
+            text:'Änderungen erfolgreich übertragen.'
+        ));
       }
       catch(e) {
-        _createSnackBar('Ups... Irgendwas lief schief bei der Übertragung.', scaffold);
+        scaffold.showSnackBar(CustomSnackBar(
+            text:'Ups... Irgendwas lief schief bei der Übertragung.'
+        ));
       }
 
     }
   }
-
-  void _createSnackBar(String message, [context]) {
-    final snackBar = SnackBar(
-      content: Text(message),
-      behavior: SnackBarBehavior.floating,
-      margin: const EdgeInsetsDirectional.all(16),
-    );
-    // find the Scaffold in the Widget tree and use it to show a SnackBar!
-    if (context != null) {
-      context.showSnackBar(snackBar);
-    }
-    else {
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
-  }
-
 
   void _update() {
     final questionnaire = context.read<QuestionnaireProvider>();
