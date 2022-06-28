@@ -6,14 +6,8 @@ import '/widgets/custom_list_tile.dart';
 import '/commons/app_config.dart' as app_config;
 import '/commons/routes.dart';
 
-class HelpScreen extends StatefulWidget {
+class HelpScreen extends StatelessWidget {
   const HelpScreen({Key? key}) : super(key: key);
-
-  @override
-  State<HelpScreen> createState() => _HelpScreenState();
-}
-
-class _HelpScreenState extends State<HelpScreen> {
 
   Future<void> _launchUrl(String url) async {
     if (!await launchUrlString(

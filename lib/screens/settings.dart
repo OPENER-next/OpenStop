@@ -8,7 +8,7 @@ import '/widgets/custom_list_tile.dart';
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
-  static const themeModesMap = {
+  static const _themeModesMap = {
     ThemeMode.system : 'Systemeinstellung',
     ThemeMode.light : 'Hell',
     ThemeMode.dark : 'Dunkel',
@@ -32,14 +32,14 @@ class SettingsScreen extends StatelessWidget {
               CustomListTile(
                 leadingIcon: Icons.palette,
                 title: 'Farbliche Darstellung der App',
-                subtitle: themeModesMap[themeMode] ?? 'Unbekannt',
+                subtitle: _themeModesMap[themeMode] ?? 'Unbekannt',
                 onTap: () async {
                   final preferencesProvider = context.read<PreferencesProvider>();
                   final selection = await showDialog<ThemeMode>(
                     context: context,
                     builder: (BuildContext context) {
                       return SelectDialog(
-                        valueLabelMap: themeModesMap,
+                        valueLabelMap: _themeModesMap,
                         value: context.select<PreferencesProvider, ThemeMode>((preferences) => preferences.themeMode),
                         title: const Text('Design auswählen'),
                       );

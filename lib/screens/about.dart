@@ -5,14 +5,9 @@ import '/widgets/custom_list_tile.dart';
 import '/commons/app_config.dart' as app_config;
 import '/commons/routes.dart';
 
-class AboutScreen extends StatefulWidget {
+class AboutScreen extends StatelessWidget {
   const AboutScreen({Key? key}) : super(key: key);
 
-  @override
-  State<AboutScreen> createState() => _AboutScreenState();
-}
-
-class _AboutScreenState extends State<AboutScreen> {
   static const String _urlCode = 'https://github.com/OPENER-next';
   static const String _urlContributors = 'https://github.com/OPENER-next/OpenStop/graphs/contributors';
   static const String _urlIdea = 'https://www.tu-chemnitz.de/etit/sse';
