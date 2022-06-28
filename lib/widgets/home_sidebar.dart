@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '/view_models/osm_authenticated_user_provider.dart';
-import '/commons/app_config.dart' as app_config;
 import '/commons/osm_config.dart' as osm_config;
 import '/commons/routes.dart';
 import '/widgets/custom_list_tile.dart';
@@ -64,10 +63,9 @@ class _HomeSidebarState extends State<HomeSidebar> {
               onTap: () => Navigator.push(context, Routes.about),
             ),
             CustomListTile(
-              leadingIcon: Icons.feedback,
-              title: 'Feedback',
-              trailingIcon: Icons.open_in_new,
-              onTap: () => _launchUrl('${app_config.appProjectUrl}/issues'),
+              leadingIcon: Icons.help,
+              title: 'Hilfe',
+              onTap: () => Navigator.push(context, Routes.help),
             ),
           ],
         ),

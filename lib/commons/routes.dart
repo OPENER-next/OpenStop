@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 
 import '/widgets/hero_viewer.dart';
 import '/screens/about.dart';
+import '/screens/help.dart';
 import '/screens/home.dart';
 import '/screens/licenses.dart';
 import '/screens/onboarding.dart';
@@ -10,11 +11,14 @@ import '/screens/privacy_policy.dart';
 import '/screens/settings.dart';
 
 class Routes {
+  static SlideInOutPageRoute get about => SlideInOutPageRoute(
+      const AboutScreen()
+  );
+  static SlideInOutPageRoute get help => SlideInOutPageRoute(
+      const HelpScreen()
+  );
   static SlideInOutPageRoute get home => SlideInOutPageRoute(
     const HomeScreen()
-  );
-  static SlideInOutPageRoute get about => SlideInOutPageRoute(
-    const AboutScreen()
   );
   static SlideInOutPageRoute get licenses => SlideInOutPageRoute(
     const LicensesScreen()
