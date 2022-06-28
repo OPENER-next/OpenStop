@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 class Default {
   static const Color primary = Color(0xFFEC7C72);
+
+  // Foreground Header Scaffold (lightTheme only)
   static Color onPrimaryLight = Colors.grey.shade100;
   static const Color onPrimaryDark = Color(0xFF002020);
 
@@ -13,12 +15,10 @@ class Default {
   static Color onSecondaryLight = Colors.grey.shade900;
   static Color onSecondaryDark = Colors.grey.shade50;
 
-  // Background Header Scaffold (darkTheme only, primary in lightTheme)
-  static Color surfaceLight = Colors.grey;
+  // Background Header Scaffold (darkTheme only, primary for lightTheme)
   static const Color surfaceDark = Color(0xFF005050);
 
-  // Foreground Scaffold Header
-  static Color onSurfaceLight = Colors.grey.shade300;
+  // Foreground Header Scaffold (darkTheme only, onPrimary for lightTheme) / Background Snackbar
   static Color onSurfaceDark = Colors.grey.shade300;
 
   // Background QuestionDialog, Scaffold Body, Drawer
@@ -83,6 +83,13 @@ final ThemeData defaultTheme = ThemeData(
       )
   ),
   toggleableActiveColor: Default.primary,
+  snackBarTheme: const SnackBarThemeData(
+      elevation: 8.0,
+      actionTextColor: Default.primary,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(Default.borderRadius))
+      )
+  )
 );
 
 final ThemeData lightTheme = ThemeData.light().copyWith(
@@ -91,8 +98,6 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
       onPrimary: Default.onPrimaryLight,
       secondary: Default.secondaryLight,
       onSecondary: Default.onSecondaryLight,
-      surface: Default.surfaceLight,
-      onSurface: Default.onSurfaceLight,
       background: Default.backgroundLight,
       onBackground: Default.onBackgroundLight,
       tertiary: Colors.white,
@@ -111,6 +116,7 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
       )
   ),
   toggleableActiveColor: defaultTheme.toggleableActiveColor,
+  snackBarTheme: defaultTheme.snackBarTheme,
   cardColor: Default.backgroundLight,
   scaffoldBackgroundColor: Default.backgroundLight,
   canvasColor: Default.backgroundLight
@@ -142,6 +148,7 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
       )
   ),
   toggleableActiveColor: defaultTheme.toggleableActiveColor,
+  snackBarTheme: defaultTheme.snackBarTheme,
   cardColor: Default.backgroundDark,
   scaffoldBackgroundColor: Default.backgroundDark,
   canvasColor: Default.backgroundDark

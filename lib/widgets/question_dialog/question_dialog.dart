@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '/models/questionnaire.dart';
 import '/view_models/osm_authenticated_user_provider.dart';
 import '/view_models/questionnaire_provider.dart';
+import '/widgets/snackbar.dart';
 import '/widgets/question_inputs/question_input_widget.dart';
 import '/widgets/question_dialog/question_summary.dart';
 import 'question_list.dart';
@@ -263,13 +264,26 @@ class _QuestionDialogState extends State<QuestionDialog> {
     if (authenticationProvider.isLoggedIn && mounted) {
       final questionnaire = context.read<QuestionnaireProvider>();
 
-      questionnaire.upload(
-        context,
-        authenticationProvider.authenticatedUser!
-      );
+      // save state object for later use even if widget is unmounted
+      final scaffold = ScaffoldMessenger.of(context);
+
+      try {
+        await questionnaire.upload(
+            context,
+            authenticationProvider.authenticatedUser!
+        );
+        scaffold.showSnackBar(CustomSnackBar(
+            text:'Änderungen erfolgreich übertragen.'
+        ));
+      }
+      catch(e) {
+        scaffold.showSnackBar(CustomSnackBar(
+            text:'Fehler bei der Übertragung.'
+        ));
+      }
+
     }
   }
-
 
   void _update() {
     final questionnaire = context.read<QuestionnaireProvider>();
