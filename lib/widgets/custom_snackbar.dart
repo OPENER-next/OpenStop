@@ -8,7 +8,8 @@ class CustomSnackBar extends SnackBar{
   }) : super(
       content: Text(text),
       behavior: SnackBarBehavior.floating,
-      margin: const EdgeInsetsDirectional.all(32),
+      margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+      dismissDirection: DismissDirection.none,
       key: key
   );
 }
