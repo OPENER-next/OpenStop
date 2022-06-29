@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import '/models/map_feature_collection.dart';
 import '/models/geometric_osm_element.dart';
 import '/models/proxy_osm_element.dart';
-import '/widgets/map_markers/osm_element_marker.dart';
+import '/widgets/osm_element_layer/osm_element_marker.dart';
 import '/view_models/questionnaire_provider.dart';
 
 class OsmElementLayer extends StatefulWidget {

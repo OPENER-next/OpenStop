@@ -4,7 +4,7 @@ import 'package:animated_marker_layer/animated_marker_layer.dart';
 import 'package:flutter/material.dart';
 
 import '/models/stop_area.dart';
-import '/widgets/map_markers/stop_area_indicator.dart';
+import '/widgets/stop_area_layer/stop_area_indicator.dart';
 
 class StopAreaLayer extends StatefulWidget {
   final Iterable<StopArea> stopAreas;
