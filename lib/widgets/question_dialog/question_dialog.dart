@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '/models/questionnaire.dart';
 import '/view_models/osm_authenticated_user_provider.dart';
 import '/view_models/questionnaire_provider.dart';
-import '/widgets/snackbar.dart';
+import '/widgets/custom_snackbar.dart';
 import '/widgets/question_inputs/question_input_widget.dart';
 import '/widgets/question_dialog/question_summary.dart';
 import 'question_list.dart';
@@ -79,12 +79,16 @@ class _QuestionDialogState extends State<QuestionDialog> {
     final hasPrevious = activeIndex > 0;
     final hasAnyAnswer = widget.questionEntries.any((entry) => entry.answer != null);
 
-    return Padding(
-      padding: MediaQuery.of(context).viewInsets,
+    return SafeArea(
+      minimum: MediaQuery.of(context).viewInsets,
+      bottom: false,
       child: Align(
-      alignment: Alignment.bottomCenter,
-      child: FractionallySizedBox(
-        heightFactor: widget.maxHeightFactor,
+        alignment: Alignment.bottomCenter,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: 500,
+            maxHeight: MediaQuery.of(context).size.height * widget.maxHeightFactor,
+          ),
           child: Stack(
             children: [
               Column(
