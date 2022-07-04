@@ -24,7 +24,7 @@ class StopArea extends Circle {
   /// Returns the bounding box enclosing the stop area circle.
 
   LatLngBounds get bounds {
-    // the offset is the hypotenuse of the triangle where the other sides are equal to the circle radius
+    // the offset is the hypotenuse of the triangle where the other sides are equal to the circle radius, also known as chord
     final offset = sqrt(2 * pow(radius, 2));
 
     final corner1 = _distance.offset(center, offset, 315);

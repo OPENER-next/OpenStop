@@ -8,6 +8,7 @@ import '/view_models/questionnaire_provider.dart';
 import '/widgets/custom_snackbar.dart';
 import '/widgets/question_inputs/question_input_widget.dart';
 import '/widgets/question_dialog/question_summary.dart';
+import '/utils/ui_utils.dart';
 import 'question_list.dart';
 import 'question_navigation_bar.dart';
 import 'question_progress_bar.dart';
@@ -111,27 +112,41 @@ class _QuestionDialogState extends State<QuestionDialog> {
                       ]
                     )
                   ),
-                  QuestionProgressBar(
-                    minHeight: 1,
-                    color: Theme.of(context).colorScheme.primary,
-                    value: activeIndex / questionCount,
-                    // cannot use transparent color here otherwise the map widget behind will become slightly visible
-                    backgroundColor: Theme.of(context).colorScheme.onBackground,
-                  ),
-                  CompositedTransformTarget(
-                    link: _layerLink,
-                    child: AnimatedBuilder(
-                      animation: _answerControllerMapping[activeQuestionnaireEntry]!,
-                      builder: (context, child) {
-                        final answer = _answerControllerMapping[activeQuestionnaireEntry]?.answer;
-                        return QuestionNavigationBar(
-                          nextText: _isFinished ? null : answer != null ? 'Weiter' : 'Überspringen',
-                          backText: hasPrevious ? 'Zurück' : null,
-                          onNext: _handleNext,
-                          onBack: _handleBack,
-                        );
-                      }
-                    )
+                  ClipRect(
+                    clipper: ClipVertical(
+                      screenSpace: context,
+                    ),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.background,
+                        boxShadow: kElevationToShadow[4],
+                      ),
+                      child: Column(
+                        children: [
+                          QuestionProgressBar(
+                            minHeight: 1,
+                            color: Theme.of(context).colorScheme.primary,
+                            value: activeIndex / questionCount,
+                            backgroundColor: Theme.of(context).colorScheme.onBackground,
+                          ),
+                          CompositedTransformTarget(
+                              link: _layerLink,
+                              child: AnimatedBuilder(
+                                  animation: _answerControllerMapping[activeQuestionnaireEntry]!,
+                                  builder: (context, child) {
+                                    final answer = _answerControllerMapping[activeQuestionnaireEntry]?.answer;
+                                    return QuestionNavigationBar(
+                                      nextText: _isFinished ? null : answer != null ? 'Weiter' : 'Überspringen',
+                                      backText: hasPrevious ? 'Zurück' : null,
+                                      onNext: _handleNext,
+                                      onBack: _handleBack,
+                                    );
+                                  }
+                              )
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),

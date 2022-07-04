@@ -41,7 +41,12 @@ class QuestionNavigationBar extends StatelessWidget {
                   padding: MaterialStateProperty.all<EdgeInsets>(
                     const EdgeInsets.all(20),
                   ),
-                  alignment: Alignment.centerLeft
+                  alignment: Alignment.centerLeft,
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero
+                      )
+                  )
                 ),
                 onPressed: onBack,
                 child: Row(
@@ -69,7 +74,12 @@ class QuestionNavigationBar extends StatelessWidget {
                   padding: MaterialStateProperty.all<EdgeInsets>(
                     const EdgeInsets.all(20),
                   ),
-                  alignment: Alignment.centerRight
+                  alignment: Alignment.centerRight,
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero
+                      )
+                  )
                 ),
                 onPressed: onNext,
                 child: Row(
