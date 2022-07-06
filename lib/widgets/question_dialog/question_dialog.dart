@@ -80,35 +80,42 @@ class _QuestionDialogState extends State<QuestionDialog> {
     final hasPrevious = activeIndex > 0;
     final hasAnyAnswer = widget.questionEntries.any((entry) => entry.answer != null);
 
-    return SafeArea(
-      minimum: MediaQuery.of(context).viewInsets,
-      bottom: false,
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxWidth: 500,
-            maxHeight: MediaQuery.of(context).size.height * widget.maxHeightFactor,
-          ),
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  Flexible(
-                    child: QuestionList(
-                      index: activeIndex,
-                      children: [
-                        ...Iterable<Widget>.generate(
-                          questionCount,
-                          _buildQuestion
-                        ),
-                        QuestionSheet(
-                          elevate: _isFinished,
-                          child: QuestionSummary(
-                            questionEntries: widget.questionEntries,
-                            onJump: _handleJump
+    // Use WillPopScope with "false" to prevent that back button closes app instead of Question Dialog
+    return WillPopScope(
+      onWillPop: () async {
+        final questionnaire = context.read<QuestionnaireProvider>();
+        questionnaire.discard();
+        return false;
+      },
+      child: SafeArea(
+        minimum: MediaQuery.of(context).viewInsets,
+        bottom: false,
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: 500,
+              maxHeight: MediaQuery.of(context).size.height * widget.maxHeightFactor,
+            ),
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    Flexible(
+                      child: QuestionList(
+                        index: activeIndex,
+                        children: [
+                          ...Iterable<Widget>.generate(
+                            questionCount,
+                            _buildQuestion
+                          ),
+                          QuestionSheet(
+                            elevate: _isFinished,
+                            child: QuestionSummary(
+                              questionEntries: widget.questionEntries,
+                              onJump: _handleJump
+                            )
                           )
-                        )
                       ]
                     )
                   ),
@@ -119,70 +126,71 @@ class _QuestionDialogState extends State<QuestionDialog> {
                       decoration: BoxDecoration(
                         boxShadow: kElevationToShadow[4],
                       ),
-                      child: Column(
-                        children: [
-                          QuestionProgressBar(
-                            minHeight: 1,
-                            color: Theme.of(context).colorScheme.primary,
-                            value: activeIndex / questionCount,
-                            backgroundColor: Theme.of(context).colorScheme.onBackground,
-                          ),
-                          CompositedTransformTarget(
-                              link: _layerLink,
-                              child: AnimatedBuilder(
-                                  animation: _answerControllerMapping[activeQuestionnaireEntry]!,
-                                  builder: (context, child) {
-                                    final answer = _answerControllerMapping[activeQuestionnaireEntry]?.answer;
-                                    return QuestionNavigationBar(
-                                      nextText: _isFinished ? null : answer != null ? 'Weiter' : 'Überspringen',
-                                      backText: hasPrevious ? 'Zurück' : null,
-                                      onNext: _handleNext,
-                                      onBack: _handleBack,
-                                    );
-                                  }
-                              )
-                          ),
-                        ],
+                        child: Column(
+                          children: [
+                            QuestionProgressBar(
+                              minHeight: 1,
+                              color: Theme.of(context).colorScheme.primary,
+                              value: activeIndex / questionCount,
+                              backgroundColor: Theme.of(context).colorScheme.onBackground,
+                            ),
+                            CompositedTransformTarget(
+                                link: _layerLink,
+                                child: AnimatedBuilder(
+                                    animation: _answerControllerMapping[activeQuestionnaireEntry]!,
+                                    builder: (context, child) {
+                                      final answer = _answerControllerMapping[activeQuestionnaireEntry]?.answer;
+                                      return QuestionNavigationBar(
+                                        nextText: _isFinished ? null : answer != null ? 'Weiter' : 'Überspringen',
+                                        backText: hasPrevious ? 'Zurück' : null,
+                                        onNext: _handleNext,
+                                        onBack: _handleBack,
+                                      );
+                                    }
+                                )
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              // extra stack is necessary because the CompositedTransformFollower widget
-              // will take up the space where it was originally placed
-              CompositedTransformFollower(
-                link: _layerLink,
-                targetAnchor: Alignment.topCenter,
-                followerAnchor: Alignment.center,
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
-                  switchInCurve: Curves.easeOutBack,
-                  switchOutCurve: Curves.easeOutBack,
-                  transitionBuilder: (child, animation) {
-                    return ScaleTransition(
-                      scale: animation,
-                      child: child,
-                    );
-                  },
-                  child: _isFinished && hasAnyAnswer
-                    ? FloatingActionButton.large(
-                      elevation: 0,
-                      highlightElevation: 2,
-                      shape: const CircleBorder(),
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      onPressed: _handleSubmit,
-                      child: Icon(
-                        CommunityMaterialIcons.cloud_upload,
-                        color: Theme.of(context).colorScheme.onPrimary,
+                  ],
+                ),
+                // extra stack is necessary because the CompositedTransformFollower widget
+                // will take up the space where it was originally placed
+                CompositedTransformFollower(
+                  link: _layerLink,
+                  targetAnchor: Alignment.topCenter,
+                  followerAnchor: Alignment.center,
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    switchInCurve: Curves.easeOutBack,
+                    switchOutCurve: Curves.easeOutBack,
+                    transitionBuilder: (child, animation) {
+                      return ScaleTransition(
+                        scale: animation,
+                        child: child,
+                      );
+                    },
+                    child: _isFinished && hasAnyAnswer
+                      ? FloatingActionButton.large(
+                        elevation: 0,
+                        highlightElevation: 2,
+                        shape: const CircleBorder(),
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        onPressed: _handleSubmit,
+                        child: Icon(
+                          CommunityMaterialIcons.cloud_upload,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        )
                       )
-                    )
-                    : null
+                      : null
+                  )
                 )
-              )
-            ],
+              ],
+            )
           )
         )
-      )
+      ),
     );
   }
 
