@@ -57,7 +57,7 @@ void main() async {
       osmTags: {
         'map_feature_1': 'map_feature_1_value'
       },
-      osmElement: app.OSMElementType.node
+      osmElements: [app.OSMElementType.node, app.OSMElementType.openWay]
     ),
     MapFeature(
       name: 'MapFeature2',
@@ -65,7 +65,7 @@ void main() async {
       osmTags: {
         'map_feature_2': 'map_feature_2_value'
       },
-      osmElement: app.OSMElementType.node
+      osmElements: [app.OSMElementType.node]
     ),
     MapFeature(
       name: 'MapFeature3',
@@ -73,7 +73,7 @@ void main() async {
       osmTags: {
         'map_feature_3': 'map_feature_3_value'
       },
-      osmElement: app.OSMElementType.openWay
+      osmElements: [app.OSMElementType.openWay]
     )
   ]);
 
@@ -97,11 +97,11 @@ void main() async {
 
     nodes = await Future.wait([
       osmapi.createElement(
-        OSMNode(10, 20, tags: Map.of(mapFeatureCollection[0].osmTags)),
+        OSMNode(10, 20, tags: Map.of(mapFeatureCollection[0].osmTags[0])),
         changesetId
       ),
       osmapi.createElement(
-        OSMNode(10.00001, 20.00001, tags: Map.of(mapFeatureCollection[1].osmTags)),
+        OSMNode(10.00001, 20.00001, tags: Map.of(mapFeatureCollection[1].osmTags[0])),
         changesetId
       ),
       osmapi.createElement(
@@ -116,7 +116,7 @@ void main() async {
 
     ways = await Future.wait([
       osmapi.createElement(
-        OSMWay([nodes[2].id, nodes[3].id], tags: Map.of(mapFeatureCollection[2].osmTags)),
+        OSMWay([nodes[2].id, nodes[3].id], tags: Map.of(mapFeatureCollection[2].osmTags[0])),
         changesetId
       ),
     ]);

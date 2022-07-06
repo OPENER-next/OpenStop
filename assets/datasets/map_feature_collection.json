@@ -13,23 +13,7 @@
     "osm_tags": {
       "public_transport": "platform"
     },
-    "osm_element": "OpenWay"
-  },
-  {
-    "name": "Haltestelle",
-    "icon": "platform",
-    "osm_tags": {
-      "public_transport": "platform"
-    },
-    "osm_element": "ClosedWay"
-  },
-  {
-    "name": "Haltestelle",
-    "icon": "platform",
-    "osm_tags": {
-      "public_transport": "platform"
-    },
-    "osm_element": "Relation"
+    "osm_element": ["OpenWay", "ClosedWay", "Relation"]
   },
   {
     "name": "Bahnsteig",
@@ -38,16 +22,7 @@
       "public_transport": "platform",
       "railway": "platform"
     },
-    "osm_element": "ClosedWay"
-  },
-  {
-    "name": "Bahnsteig",
-    "icon": "train_platform",
-    "osm_tags": {
-      "public_transport": "platform",
-      "railway": "platform"
-    },
-    "osm_element": "Relation"
+    "osm_element": ["ClosedWay", "Relation"]
   },
   {
     "name": "Fahrtkartenverkaufsstelle",
@@ -93,15 +68,7 @@
     "osm_tags": {
       "amenity": "parking"
     },
-    "osm_element": "Node"
-  },
-  {
-    "name": "Parkplatz",
-    "icon": "parking",
-    "osm_tags": {
-      "amenity": "parking"
-    },
-    "osm_element": "ClosedWay"
+    "osm_element": ["Node", "ClosedWay"]
   },
   {
     "name": "Taxi-Stand",
@@ -171,18 +138,34 @@
     "osm_element": "Node"
   },
   {
-    "name": "Weg",
-    "icon": "path",
+    "name": "Tür",
+    "icon": "door",
     "osm_tags": {
-      "highway": "footway"
+      "entrance": true
     },
-    "osm_element": "OpenWay"
+    "osm_element": "Node"
   },
   {
     "name": "Weg",
     "icon": "path",
     "osm_tags": {
-      "highway": "path"
+      "highway": ["footway", "path"]
+    },
+    "osm_element": ["OpenWay", "ClosedWay"]
+  },
+  {
+    "name": "Weg",
+    "icon": "path",
+    "osm_tags": {
+      "sidewalk": true
+    },
+    "osm_element": ["OpenWay", "ClosedWay"]
+  },
+  {
+    "name": "Treppe",
+    "icon": "stairs",
+    "osm_tags": {
+      "highway": "steps"
     },
     "osm_element": "OpenWay"
   }
