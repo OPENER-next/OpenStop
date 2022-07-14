@@ -125,6 +125,7 @@ class MarkerPinPainter extends CustomPainter {
       ..text = TextSpan(
         text: String.fromCharCode(icon.codePoint),
         style: TextStyle(
+          color: strokeColor,
           fontSize: availableHeight * iconScale,
           fontFamily: icon.fontFamily,
           shadows: [
