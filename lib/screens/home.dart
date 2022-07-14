@@ -14,7 +14,7 @@ import '/view_models/osm_elements_provider.dart';
 import '/view_models/preferences_provider.dart';
 import '/view_models/stop_areas_provider.dart';
 import '/utils/network_tile_provider_with_headers.dart';
-import '/utils/stream_debouncer.dart';
+import '/utils/stream_utils.dart';
 import '/commons/app_config.dart';
 import '/commons/tile_layers.dart';
 import '/utils/map_utils.dart';
@@ -60,7 +60,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    _mapController.mapEventStream.debounce<MapEvent>(const Duration(milliseconds: 500)).listen((mapEvent) {
+    _mapController.mapEventStream.transform(
+      DebounceTransformer(const Duration(seconds: 1))
+    ).listen((mapEvent) {
       // query stops on map interactions
       if (_mapController.bounds != null && _mapController.zoom > 12) {
         _stopAreasProvider.loadStopAreas(_mapController.bounds!);
