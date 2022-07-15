@@ -29,7 +29,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "7df8755e8b33aacd04d8b6d065e2c6d1c2535a84"
+      resolved-ref: "4de66d79986ceefa99590c2d9f9cac6e9552430d"
       url: "https://github.com/OPENER-next/animated_marker_layer.git"
     source: git
     version: "0.0.1"

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import '/models/stop_area.dart';
 import '/widgets/stop_area_layer/stop_area_indicator.dart';
 
-class StopAreaLayer extends StatefulWidget {
+class StopAreaLayer extends StatelessWidget {
   final Iterable<StopArea> stopAreas;
 
   final Iterable<StopArea> loadingStopAreas;
@@ -25,75 +25,52 @@ class StopAreaLayer extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<StopAreaLayer> createState() => _StopAreaLayerState();
+  Widget build(BuildContext context) {
+    return AnimatedMarkerLayer(
+      markers: stopAreas.map((stopArea) => _StopAreaMarker(
+        stopArea: stopArea,
+        isLoading: loadingStopAreas.contains(stopArea),
+        builder: _markerBuilder,
+      )).toList()
+    );
+  }
+
+  Widget _markerBuilder(BuildContext context, Animation<double> animation, AnimatedMarker marker) {
+    marker as _StopAreaMarker;
+
+    return FadeTransition(
+      opacity: animation,
+      child: StopAreaIndicator(
+        isLoading: marker.isLoading,
+        onTap: () => onStopAreaTap?.call(marker.stopArea),
+      ),
+    );
+  }
 }
 
 
-class _StopAreaLayerState extends State<StopAreaLayer> {
-  final _random = Random();
+class _StopAreaMarker extends AnimatedMarker {
+  final bool isLoading;
+  final StopArea stopArea;
 
-  late List<AnimatedMarker> _markers = _buildMarkers();
+  _StopAreaMarker({
+    required this.stopArea,
+    required this.isLoading,
+    required super.builder
+  }) : super(
+    key: ValueKey(stopArea),
+    point: stopArea.center,
+    size: Size.square(stopArea.diameter),
+    sizeUnit: SizeUnit.meters,
+    animateInCurve: Curves.ease,
+    animateOutCurve: Curves.ease,
+    animateInDelay: _getRandomDelay,
+    animateOutDelay: _getRandomDelay
+  );
 
+  static final _random = Random();
 
-  @override
-  void didUpdateWidget(covariant StopAreaLayer oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _markers = _buildMarkers();
-  }
-
-
-  List<AnimatedMarker> _buildMarkers() {
-    final markers = <AnimatedMarker>[];
-    for (final stopArea in widget.stopAreas) {
-      markers.add(_createMarker(
-        stopArea,
-        isLoading: widget.loadingStopAreas.contains(stopArea)
-      ));
-    }
-    return markers;
-  }
-
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedMarkerLayer(
-      markers: _markers,
-    );
-  }
-
-
-  AnimatedMarker _createMarker(StopArea stopArea, { required bool isLoading }) {
-    return AnimatedMarker(
-      animateInBuilder: _animateInOutBuilder,
-      animateOutBuilder: _animateInOutBuilder,
-      animateInCurve: Curves.ease,
-      animateOutCurve: Curves.ease,
-      animateInDelay: _getRandomDelay(),
-      animateOutDelay: _getRandomDelay(),
-      // create unique key
-      // this needs to be done so flutter can re-identify the correct element
-      key: ValueKey(stopArea),
-      size: Size.square(stopArea.diameter),
-      sizeUnit: SizeUnit.meters,
-      point: stopArea.center,
-      child: StopAreaIndicator(
-        isLoading: isLoading,
-        onTap: () => widget.onStopAreaTap?.call(stopArea),
-      )
-    );
-  }
-
-
-  Widget _animateInOutBuilder(BuildContext context, Animation<double> animation, Widget child) {
-    return FadeTransition(
-      opacity: animation,
-      child: child,
-    );
-  }
-
-
-  Duration _getRandomDelay() {
-    final randomTimeOffset = _random.nextInt(300);
-    return Duration(milliseconds: randomTimeOffset);
-  }
+  static Duration get _getRandomDelay => Duration(
+    milliseconds: _random.nextInt(300)
+  );
 }

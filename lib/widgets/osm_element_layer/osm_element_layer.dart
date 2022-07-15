@@ -42,21 +42,6 @@ class OsmElementLayer extends StatefulWidget {
 }
 
 class _OsmElementLayerState extends State<OsmElementLayer> {
-  static Widget _animateInOutBuilder(BuildContext context, Animation<double> animation, Widget child) {
-    return ScaleTransition(
-      scale: animation,
-      alignment: Alignment.bottomCenter,
-      child: child
-    );
-  }
-
-  static Widget _animateInOutBuilderCluster(BuildContext context, Animation<double> animation, Widget child) {
-    return FadeTransition(
-      opacity: animation,
-      child: child
-    );
-  }
-
   Supercluster<GeometricOSMElement>? _supercluster;
 
   Stream<int>? _zoomLevelStream;
@@ -142,16 +127,16 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
               final points = (cluster.clusterData as _ClusterLeafs).elements;
               // always show the first element from yield as a marker and not placeholder
               visibleMarkers.add(
-                _buildMarker(points.first)
+                _createMarker(points.first)
               );
               // skip first point since it is build as a marker
               suppressedMarkers.addAll(
-                points.skip(1).map(_buildMinimizedMarker)
+                points.skip(1).map(_createMinimizedMarker)
               );
             }
             else if (cluster is MapPoint<GeometricOSMElement>) {
               visibleMarkers.add(
-                _buildMarker(cluster.originalPoint)
+                _createMarker(cluster.originalPoint)
               );
             }
           }
@@ -159,7 +144,9 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 
         // hide layer when zooming out passing the lower zoom limit
         return AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
+          // instantly show the animated marker layer since the markers themselves will be animated in
+          duration: Duration.zero,
+          reverseDuration: const Duration(milliseconds: 300),
           child: zoomLevel >= widget.zoomLowerLimit
             ? Stack(
               children: [
@@ -187,41 +174,39 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
   }
 
 
-  AnimatedMarker _buildMarker(GeometricOSMElement geoElement) {
-    final osmElement = geoElement.osmElement;
+  AnimatedMarker _createMarker(GeometricOSMElement geoElement) {
+    // supply id as seed so we get the same delay for both marker types
+    final seed = geoElement.osmElement.id;
+    return _OsmElementMarker(
+      geoElement: geoElement,
+      animateInDelay: _getRandomDelay(seed),
+      animateOutDelay: _getRandomDelay(seed),
+      builder: _markerBuilder
+    );
+  }
+
+
+  Widget _markerBuilder(BuildContext context, Animation<double> animation, AnimatedMarker marker) {
+    marker as _OsmElementMarker;
+    final osmElement = marker.geoElement.osmElement;
     final mapFeature = context.watch<MapFeatureCollection>().getMatchingFeature(osmElement);
+    final activeElement = context.watch<QuestionnaireProvider>().workingElement;
+    final hasNoActive = activeElement == null;
+    final isActive = activeElement?.isProxiedElement(osmElement) ?? false;
 
-    return AnimatedMarker(
-      key: ValueKey(osmElement),
-      point: geoElement.geometry.center,
-      size: const Size.square(60),
-      anchor: Alignment.bottomCenter,
-      animateInBuilder: _animateInOutBuilder,
-      animateOutBuilder: _animateInOutBuilder,
-      animateOutCurve: Curves.easeOutBack,
-      animateOutDuration: const Duration(milliseconds: 300),
-      // supply id as seed so we get the same delay for both marker types
-      animateInDelay: _getRandomDelay(osmElement.id),
-      animateOutDelay: _getRandomDelay(osmElement.id),
-      // only rebuild when working element changes
-      child: Consumer<QuestionnaireProvider>(
-        builder: (context, activeElement, child) {
-          final activeElement = context.read<QuestionnaireProvider>().workingElement;
-          final hasNoActive = activeElement == null;
-          final isActive = activeElement?.isProxiedElement(osmElement) ?? false;
-
-          return OsmElementMarker(
-            onTap: () => widget.onOsmElementTap?.call(geoElement),
-            backgroundColor: isActive || hasNoActive ? null : Colors.grey,
-            icon: mapFeature?.icon ?? CommunityMaterialIcons.help_rhombus_outline
-          );
-        },
+    return ScaleTransition(
+      scale: animation,
+      alignment: Alignment.bottomCenter,
+      child: OsmElementMarker(
+        onTap: () => widget.onOsmElementTap?.call(marker.geoElement),
+        backgroundColor: isActive || hasNoActive ? null : Colors.grey,
+        icon: mapFeature?.icon ?? CommunityMaterialIcons.help_rhombus_outline
       )
     );
   }
 
 
-  AnimatedMarker _buildMinimizedMarker(GeometricOSMElement geoElement) {
+  AnimatedMarker _createMinimizedMarker(GeometricOSMElement geoElement) {
     final osmElement = geoElement.osmElement;
 
     return AnimatedMarker(
@@ -232,11 +217,17 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       animateOutCurve: Curves.easeOut,
       animateInDuration: const Duration(milliseconds: 300),
       animateOutDuration: const Duration(milliseconds: 300),
-      animateInBuilder: _animateInOutBuilderCluster,
-      animateOutBuilder: _animateInOutBuilderCluster,
       // supply id as seed so we get the same delay for both marker types
       animateInDelay: _getRandomDelay(osmElement.id),
       animateOutDelay: _getRandomDelay(osmElement.id),
+      builder: _minimizedMarkerBuilder
+    );
+  }
+
+
+  Widget _minimizedMarkerBuilder(BuildContext context, Animation<double> animation, _) {
+    return FadeTransition(
+      opacity: animation,
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -244,11 +235,31 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
           border: Border.all(
             width: 1,
             color: Colors.black26
-          ),
-        ),
+          )
+        )
       )
     );
   }
+}
+
+
+class _OsmElementMarker extends AnimatedMarker {
+  final GeometricOSMElement geoElement;
+
+  _OsmElementMarker({
+    required this.geoElement,
+    required super.builder,
+    required super.animateInDelay,
+    required super.animateOutDelay,
+  }) : super(
+    key: ValueKey(geoElement.osmElement),
+    point: geoElement.geometry.center,
+    size: const Size.square(60),
+    anchor: Alignment.bottomCenter,
+    animateInCurve: Curves.elasticOut,
+    animateOutCurve: Curves.easeOutBack,
+    animateOutDuration: const Duration(milliseconds: 300),
+  );
 }
 
 
