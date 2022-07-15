@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -340,7 +341,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         top: mediaQuery.padding.top + 60,
         bottom: mediaQuery.size.height * questionDialogMaxHeightFactor
       ),
-      maxZoom: 20
+      // zoom in on 20 or more if the current zoom level is above 20
+      // required due to clustering, because not all markers may be visible on zoom level 20
+      maxZoom: max(20, _mapController.zoom)
     );
   }
 
