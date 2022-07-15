@@ -347,6 +347,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  freezed_annotation:
+    dependency: transitive
+    description:
+      name: freezed_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.3"
   frontend_server_client:
     dependency: transitive
     description:
@@ -466,6 +473,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.5.0"
+  kdbush:
+    dependency: transitive
+    description:
+      name: kdbush
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4"
   latlong2:
     dependency: "direct main"
     description:
@@ -839,6 +853,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  supercluster:
+    dependency: "direct main"
+    description:
+      name: supercluster
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   term_glyph:
     dependency: transitive
     description:
