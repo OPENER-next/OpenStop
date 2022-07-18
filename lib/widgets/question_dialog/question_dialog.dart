@@ -112,13 +112,11 @@ class _QuestionDialogState extends State<QuestionDialog> {
                       ]
                     )
                   ),
+                  // Clip widget shadow vertically to prevent overlapping
                   ClipRect(
-                    clipper: ClipVertical(
-                      screenSpace: context,
-                    ),
+                    clipper: const ClipSymmetric(),
                     child: DecoratedBox(
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.background,
                         boxShadow: kElevationToShadow[4],
                       ),
                       child: Column(
