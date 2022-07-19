@@ -587,6 +587,13 @@
                "railway": "station",
                "departures_board": false
             }
+         },
+         {
+            "osm_tags": {
+               "public_transport": "station",
+               "amenity": "bus_station",
+               "departures_board": false
+            }
          }
       ]
    },
