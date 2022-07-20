@@ -35,9 +35,9 @@ class OsmElementMarker extends StatelessWidget {
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
-                          color: Colors.black26,
+                          color: Theme.of(context).colorScheme.shadow,
                           blurRadius: 4
                         )
                       ]
@@ -125,6 +125,7 @@ class MarkerPinPainter extends CustomPainter {
       ..text = TextSpan(
         text: String.fromCharCode(icon.codePoint),
         style: TextStyle(
+          color: strokeColor,
           fontSize: availableHeight * iconScale,
           fontFamily: icon.fontFamily,
           shadows: [
