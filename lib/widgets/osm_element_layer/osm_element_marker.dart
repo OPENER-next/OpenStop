@@ -35,9 +35,9 @@ class OsmElementMarker extends StatelessWidget {
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
-                          color: Colors.black26,
+                          color: Theme.of(context).colorScheme.shadow,
                           blurRadius: 4
                         )
                       ]
