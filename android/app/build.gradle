@@ -82,11 +82,15 @@ android {
         fdroid {
             dimension "deploy"
             signingConfig null
+        }
+    }
+
+    applicationVariants.all { variant ->
+        if (variant.getFlavorName() == "fdroid") {
             // exclude propriatery Google Mobile Services (geolocator includes GMS)
             // more details: https://github.com/Baseflow/flutter-geolocator/pull/1050
-            configurations.implementation {
-                exclude group: 'com.google.android.gms'
-            }
+            variant.getCompileConfiguration().exclude group: 'com.google.android.gms'
+            variant.getRuntimeConfiguration().exclude group: 'com.google.android.gms'
         }
     }
 }
