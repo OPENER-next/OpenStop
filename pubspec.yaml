@@ -14,8 +14,8 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  flutter_map: ^1.0.0
-  geolocator: ^8.2.1
+  flutter_map: ^2.1.1
+  geolocator: ^9.0.1
   latlong2: ^0.8.0
   vector_math: ^2.1.1
   supercluster: ^0.1.0

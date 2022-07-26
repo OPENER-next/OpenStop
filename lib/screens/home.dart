@@ -14,7 +14,6 @@ import '/view_models/osm_authenticated_user_provider.dart';
 import '/view_models/osm_elements_provider.dart';
 import '/view_models/preferences_provider.dart';
 import '/view_models/stop_areas_provider.dart';
-import '/utils/network_tile_provider_with_headers.dart';
 import '/utils/stream_utils.dart';
 import '/commons/app_config.dart';
 import '/commons/tile_layers.dart';
@@ -213,9 +212,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         TileLayerWidget(
                           options: TileLayerOptions(
                             overrideTilesWhenUrlChanges: true,
-                            tileProvider: NetworkTileProviderWithHeaders(const {
-                              'User-Agent': appUserAgent
-                            }),
+                            tileProvider: NetworkTileProvider(
+                              headers: const {
+                                'User-Agent': appUserAgent
+                              }
+                            ),
                             backgroundColor: Colors.transparent,
                             urlTemplate: isDarkMode && tileLayerDescription.darkVariantTemplateUrl != null
                               ? tileLayerDescription.darkVariantTemplateUrl
