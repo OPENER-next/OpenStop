@@ -297,16 +297,16 @@ class _QuestionDialogState extends State<QuestionDialog> {
             context,
             authenticationProvider.authenticatedUser!
         );
-        scaffold.showSnackBar(CustomSnackBar(
-            text:'Änderungen erfolgreich übertragen.'
-        ));
+        scaffold.showSnackBar(
+          CustomSnackBar('Änderungen erfolgreich übertragen.')
+        );
       }
       catch(e) {
-        scaffold.showSnackBar(CustomSnackBar(
-            text:'Fehler bei der Übertragung.'
-        ));
+        debugPrint(e.toString());
+        scaffold.showSnackBar(
+          CustomSnackBar('Fehler bei der Übertragung.')
+        );
       }
-
     }
   }
 
