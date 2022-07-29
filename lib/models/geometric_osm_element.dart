@@ -7,7 +7,8 @@ import 'package:osm_api/osm_api.dart';
 import '/utils/osm_tag_area_resolver.dart';
 import 'geographic_geometries.dart';
 
-/// This delegates its equality function to the underlying osm element.
+/// A class for creating a geographic element from a given osm element.
+/// The equality of a [GeometricOSMElement] is solely determined by the OSM element id and type.
 
 class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
   final T osmElement;
@@ -265,11 +266,12 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
     if (identical(this, other)) return true;
 
     return other is GeometricOSMElement<T, G> &&
-      other.osmElement == osmElement;
+      other.osmElement.id == osmElement.id &&
+      other.osmElement.type == osmElement.type;
   }
 
   @override
-  int get hashCode => osmElement.hashCode;
+  int get hashCode => osmElement.id.hashCode ^ osmElement.type.hashCode;
 }
 
 
