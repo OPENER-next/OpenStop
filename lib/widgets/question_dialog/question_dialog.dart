@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '/models/questionnaire.dart';
+import '/view_models/osm_elements_provider.dart';
 import '/view_models/osm_authenticated_user_provider.dart';
 import '/view_models/questionnaire_provider.dart';
 import '/widgets/custom_snackbar.dart';
@@ -84,7 +85,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
     return WillPopScope(
       onWillPop: () async {
         final questionnaire = context.read<QuestionnaireProvider>();
-        questionnaire.discard();
+        questionnaire.close();
         return false;
       },
       child: SafeArea(
@@ -287,15 +288,19 @@ class _QuestionDialogState extends State<QuestionDialog> {
     // check if the user is successfully logged in
     // check if mounted to verify a context exists
     if (authenticationProvider.isLoggedIn && mounted) {
+      final osmElementProvider = context.read<OSMElementProvider>();
       final questionnaire = context.read<QuestionnaireProvider>();
 
       // save state object for later use even if widget is unmounted
       final scaffold = ScaffoldMessenger.of(context);
 
       try {
-        await questionnaire.upload(
-            context,
-            authenticationProvider.authenticatedUser!
+        final osmElement = questionnaire.workingElement!;
+        questionnaire.close();
+        await osmElementProvider.upload(
+          osmProxyElement: osmElement,
+          authenticatedUser: authenticationProvider.authenticatedUser!,
+          locale: Localizations.localeOf(context)
         );
         scaffold.showSnackBar(
           CustomSnackBar('Änderungen erfolgreich übertragen.')

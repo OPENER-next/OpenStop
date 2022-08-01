@@ -192,7 +192,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
     final mapFeature = context.watch<MapFeatureCollection>().getMatchingFeature(osmElement);
     final activeElement = context.watch<QuestionnaireProvider>().workingElement;
     final hasNoActive = activeElement == null;
-    final isActive = activeElement?.isProxiedElement(osmElement) ?? false;
+    final isActive = activeElement?.isOther(osmElement) ?? false;
 
     return ScaleTransition(
       scale: animation,
@@ -210,7 +210,9 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
     final osmElement = geoElement.osmElement;
 
     return AnimatedMarker(
-      key: ValueKey(osmElement),
+      // use geo element as key, because osm element equality changes whenever its tags or version change
+      // while geo elements only compare the OSM element type and id
+      key: ValueKey(geoElement),
       point: geoElement.geometry.center,
       size: const Size.fromRadius(4),
       animateInCurve: Curves.easeIn,
@@ -252,7 +254,9 @@ class _OsmElementMarker extends AnimatedMarker {
     required super.animateInDelay,
     required super.animateOutDelay,
   }) : super(
-    key: ValueKey(geoElement.osmElement),
+    // use geo element as key, because osm element equality changes whenever its tags or version change
+    // while geo elements only compare the OSM element type and id
+    key: ValueKey(geoElement),
     point: geoElement.geometry.center,
     size: const Size.square(60),
     anchor: Alignment.bottomCenter,
