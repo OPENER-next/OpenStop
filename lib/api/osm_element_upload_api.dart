@@ -49,7 +49,7 @@ class OSMElementUploadAPI {
   AuthenticatedUser get authenticatedUser => _authenticatedUser;
 
 
-  Future<void> updateOsmElement(StopArea stopArea, OSMElement updatedElement) async {
+  Future<T> updateOsmElement<T extends OSMElement>(StopArea stopArea, T updatedElement) async {
     final changesetData = {
       'created_by': changesetCreatedBy,
       'source': changesetSource,
@@ -74,7 +74,7 @@ class OSMElementUploadAPI {
       changesetId = await _osmApi.createChangeset(changesetData);
     }
 
-    await _osmApi.updateElement(updatedElement, changesetId);
+    return await _osmApi.updateElement(updatedElement, changesetId);
   }
 
 

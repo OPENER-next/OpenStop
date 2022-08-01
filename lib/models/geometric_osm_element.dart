@@ -7,7 +7,8 @@ import 'package:osm_api/osm_api.dart';
 import '/utils/osm_tag_area_resolver.dart';
 import 'geographic_geometries.dart';
 
-/// This delegates its equality function to the underlying osm element.
+/// A class for creating a geographic element from a given osm element.
+/// The equality of a [GeometricOSMElement] is solely determined by the OSM element id and type.
 
 class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
   final T osmElement;
@@ -18,6 +19,28 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
     required this.geometry
   });
 
+
+  /// Create a [GeometricOSMElement] from an osm element and a given bundle of sub osm elements.
+
+  static GeometricOSMElement generateFromOSMElement(OSMElement osmElement, OSMElementBundle elementBundle) {
+    switch(osmElement.type) {
+      case OSMElementType.node:
+        return GeometricOSMElement.generateFromOSMNode(
+          osmNode: osmElement as OSMNode
+        );
+      case OSMElementType.way:
+        return GeometricOSMElement.generateFromOSMWay(
+          osmWay: osmElement as OSMWay,
+          osmNodes: elementBundle.nodes
+        );
+      case OSMElementType.relation:
+        return GeometricOSMElement.generateFromOSMRelation(
+          osmRelation: osmElement as OSMRelation,
+          osmWays: elementBundle.ways,
+          osmNodes: elementBundle.nodes
+        );
+    }
+  }
 
   /// Creates a [GeometricOSMElement] from a single [OSMNode].
 
@@ -265,11 +288,12 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
     if (identical(this, other)) return true;
 
     return other is GeometricOSMElement<T, G> &&
-      other.osmElement == osmElement;
+      other.osmElement.id == osmElement.id &&
+      other.osmElement.type == osmElement.type;
   }
 
   @override
-  int get hashCode => osmElement.hashCode;
+  int get hashCode => osmElement.id.hashCode ^ osmElement.type.hashCode;
 }
 
 

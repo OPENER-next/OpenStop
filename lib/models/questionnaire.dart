@@ -88,7 +88,7 @@ class Questionnaire {
 
 
   void _updateWorkingElement() {
-    _workingElement = _createWorkingElement(_entries);
+    _workingElement = _createWorkingElement();
   }
 
 
@@ -101,7 +101,7 @@ class Questionnaire {
       final questionIsMatching = question.conditions.any((condition) {
         return condition.matches(
           _workingElement.tags,
-          _workingElement.type
+          _workingElement.specialType
         );
       });
 
@@ -131,7 +131,7 @@ class Questionnaire {
       final questionIsMatching = entry.question.conditions.any((condition) {
         return condition.matches(
           subWorkingElement.tags,
-          subWorkingElement.type
+          subWorkingElement.specialType
         );
       });
 
@@ -146,15 +146,16 @@ class Questionnaire {
 
   /// Optionally specify a custom list of entries from which the working element is constructed.
 
-  ProxyOSMElement _createWorkingElement(Iterable<QuestionnaireEntry> entries) {
-    final changes = entries
+  ProxyOSMElement _createWorkingElement([Iterable<QuestionnaireEntry>? entries]) {
+    final changes = (entries ?? _entries)
       .where((entry) => entry.answer != null)
-      .map((entry) => entry.answer!.toTagMap())
-      .toList();
+      .map((entry) => entry.answer!.toTagMap());
 
-    return ProxyOSMElement(
-      _osmElement,
-      changes: changes
+    return ProxyOSMElement(_osmElement,
+      additionalTags: changes.fold<Map<String, String>>(
+        {},
+        (tags, newTags) => tags..addAll(newTags)
+      )
     );
   }
 }

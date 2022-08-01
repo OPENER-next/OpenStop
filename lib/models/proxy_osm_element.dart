@@ -1,55 +1,58 @@
+import 'package:collection/collection.dart';
 import 'package:osm_api/osm_api.dart' as osmapi;
 
 import '/models/osm_element_type.dart';
 
-/// A wrapper class to modify [OSMElement]s without changing them.
+/// A wrapper class to modify [OSMElement]s without changing or exposing them.
+/// Two proxy elements are considered equal if they have the same [id] and [type].
 
 class ProxyOSMElement<T extends osmapi.OSMElement> {
-
-  ProxyOSMElement(T osmElement,
-    { List<Map<String, String>>? changes }
-  ) :
-    _osmElement = osmElement
-  {
-    tags = Map.of(_osmElement.tags);
-    changes?.forEach(tags.addAll);
-  }
-
   final T _osmElement;
+
+  ProxyOSMElement(T osmElement, {
+    Map<String, String> additionalTags = const {},
+  }) :
+    _osmElement = osmElement,
+    tags = CombinedMapView([
+      // on duplicates the first value will be returned
+      // therefore move _additionalTags to the start
+      additionalTags, osmElement.tags
+    ]);
 
   /// Contains all original tags and those added by changes.
 
-  late final Map<String, String> tags;
+  final CombinedMapView<String, String> tags;
 
   int get id => _osmElement.id;
 
   int get version => _osmElement.version;
 
-  OSMElementType get type => typeFromOSMElement(_osmElement);
+  osmapi.OSMElementType get type => _osmElement.type;
+
+  OSMElementType get specialType =>  typeFromOSMElement(_osmElement);
 
 
-  /// Applies all changes to the underlying osm element and returns it.
+  /// Applies all changes to a copy of the underlying osm element and returns it.
 
-  T apply() {
-    _osmElement.tags.addAll(tags);
+  T apply() => _osmElement.copyWith(tags: tags) as T;
 
-    return _osmElement;
+
+  /// This method checks whether the given element is the underlying [OSMElement].
+  /// This means the type and id must be equal.
+
+  bool isOther(osmapi.OSMElement other) {
+    return other.id == id && other.type == type;
   }
 
 
-  /// This method compares the given element with the underlying [OSMElement]
-  /// and returns true if they are identical.
-
-  bool isProxiedElement(osmapi.OSMElement otherElement) =>
-    _osmElement == otherElement;
-
-
-  /// Two proxy elements are considered equal if the underlying [OSMElement]s are equal.
+  /// Two proxy elements are considered equal if they have the same [id] and [type].
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is ProxyOSMElement<T> && _osmElement == other._osmElement;
+    return other is ProxyOSMElement<T> &&
+      id == other.id &&
+      type == other.type;
   }
 
   @override

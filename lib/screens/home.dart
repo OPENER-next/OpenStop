@@ -30,88 +30,15 @@ import '/models/geometric_osm_element.dart';
 
 
 class HomeScreen extends StatefulWidget {
-
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  static const questionDialogMaxHeightFactor = 2/3;
-
-  final _mapController = MapController();
-
-  final _stopAreasProvider = StopAreasProvider(
-    stopAreaRadius: 50
-  );
-
-  final _osmElementProvider = OSMElementProvider();
-
-  final _userLocationProvider = UserLocationProvider();
-
+class _HomeScreenState extends State<HomeScreen> {
   late final _questionCatalog = _parseQuestionCatalog();
   late final _mapFeatureCollection = _parseOSMObjects();
-  // required because _onPositionChange has no access to the correct context
-  QuestionCatalog? _filteredQuestionCatalog;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _mapController.mapEventStream.transform(
-      DebounceTransformer(const Duration(seconds: 1))
-    ).listen((mapEvent) {
-      // query stops on map interactions
-      if (_mapController.bounds != null && _mapController.zoom > 12) {
-        _stopAreasProvider.loadStopAreas(_mapController.bounds!);
-      }
-
-      // store map location on map move events
-      context.read<PreferencesProvider>()
-        ..mapLocation = mapEvent.center
-        ..mapZoom = mapEvent.zoom
-        ..mapRotation = _mapController.rotation;
-    });
-
-    // cancel tracking on user interaction or any map move not caused by the camera tracker
-    _mapController.mapEventStream.listen((mapEvent) {
-      if (
-        (mapEvent is MapEventDoubleTapZoomStart) ||
-        (mapEvent is MapEventMove && mapEvent.id != 'CameraTracker' && mapEvent.targetCenter != mapEvent.center)
-      ) {
-        _userLocationProvider.shouldFollowLocation = false;
-      }
-    });
-
-    _mapController.onReady.then((_) {
-      void handleInitialLocationTrackingChange() {
-        if (_userLocationProvider.state != LocationTrackingState.pending) {
-          // if location tracking is enabled
-          // jump to user position and enable camera tracking
-          if (_userLocationProvider.state == LocationTrackingState.enabled) {
-            final position = _userLocationProvider.position!;
-            _mapController.move(
-              LatLng(position.latitude, position.longitude),
-              _mapController.zoom,
-              id: 'CameraTracker'
-            );
-            _userLocationProvider.shouldFollowLocation = true;
-          }
-          _userLocationProvider.removeListener(handleInitialLocationTrackingChange);
-          // load stop areas of current viewport location
-          _stopAreasProvider.loadStopAreas(_mapController.bounds!);
-          // add on position change handler after initial location code is finished
-          _userLocationProvider.addListener(_onPositionChange);
-        }
-      }
-      _userLocationProvider.addListener(handleInitialLocationTrackingChange);
-      // request user position tracking
-      _userLocationProvider.startLocationTracking();
-    });
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -134,17 +61,38 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           return MultiProvider(
             providers: [
               ProxyProvider<PreferencesProvider, QuestionCatalog>(
-                update: (_, preferences, __) {
-                  return _filteredQuestionCatalog = questionCatalog.filterBy(
-                    excludeProfessional: !preferences.isProfessional
-                  );
+                create: (_) => questionCatalog,
+                update: (_, preferences, questionCatalog) {
+                  // only update if is professional setting differs from current question catalog
+                  if (!preferences.isProfessional != questionCatalog!.excludeProfessional) {
+                    return questionCatalog.copyWith(
+                      excludeProfessional: !preferences.isProfessional
+                    );
+                  }
+                  return questionCatalog;
                 },
-                // required to update the _filteredQuestionCatalog variable
-                lazy: false,
               ),
-              ChangeNotifierProvider.value(value: _userLocationProvider),
-              ChangeNotifierProvider.value(value: _stopAreasProvider),
-              ChangeNotifierProvider.value(value: _osmElementProvider),
+              Provider.value(value: mapFeatureCollection),
+              ChangeNotifierProxyProvider2<QuestionCatalog, MapFeatureCollection, OSMElementProvider>(
+                create: (context) => OSMElementProvider(
+                  questionCatalog: context.read<QuestionCatalog>(),
+                  mapFeatureCollection: context.read<MapFeatureCollection>()
+                ),
+                update: (_, questionCatalog, mapFeatureCollection, osmElementProvider) {
+                  return osmElementProvider!..update(
+                    questionCatalog: questionCatalog,
+                    mapFeatureCollection: mapFeatureCollection
+                  );
+                }
+              ),
+              ChangeNotifierProvider(
+                create: (_) => UserLocationProvider()
+              ),
+              ChangeNotifierProvider(
+                create: (_) => StopAreasProvider(
+                  stopAreaRadius: 50
+                )
+              ),
               ChangeNotifierProvider(
                 create: (_) => QuestionnaireProvider()
               ),
@@ -153,228 +101,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 // do this so the previous session is loaded on start in parallel
                 lazy: false,
               ),
-              Provider.value(value: _mapController),
-              Provider.value(value: mapFeatureCollection),
+              Provider<MapController>(
+                create: (_) => MapController(),
+                dispose: (_, mapController) => mapController.dispose(),
+              ),
             ],
-            builder: (context, child) {
-              final tileLayerId = context.select<PreferencesProvider, TileLayerId>((pref) => pref.tileLayerId);
-              final tileLayerDescription = tileLayers[tileLayerId]!;
-              final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
-              return Scaffold(
-                resizeToAvoidBottomInset: false,
-                drawer: const HomeSidebar(),
-                body: Stack(
-                  children: [
-                    FlutterMap(
-                      mapController: _mapController,
-                      options: MapOptions(
-                        onTap: (position, location) => _closeQuestionDialog(context),
-                        enableMultiFingerGestureRace: true,
-                        // intentionally use read() here because changes to these properties
-                        // do not need to trigger rebuilds
-                        center: context.read<PreferencesProvider>().mapLocation,
-                        zoom: context.read<PreferencesProvider>().mapZoom,
-                        rotation: context.read<PreferencesProvider>().mapRotation,
-                        minZoom: tileLayerDescription.minZoom.toDouble(),
-                        maxZoom: tileLayerDescription.maxZoom.toDouble()
-                      ),
-                      nonRotatedChildren: [
-                        RepaintBoundary(
-                          child: FutureBuilder(
-                            future: _mapController.onReady,
-                            builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                              final mapIsLoaded = snapshot.connectionState == ConnectionState.done;
-                              // only show overlay when question history has no active entry
-                              return !mapIsLoaded
-                              ? const ModalBarrier(
-                                dismissible: false,
-                              )
-                              : Consumer<QuestionnaireProvider>(
-                                builder: (context, questionnaire,child) {
-                                  final noActiveEntry = !questionnaire.hasEntries;
-
-                                  return AnimatedSwitcher(
-                                    switchInCurve: Curves.ease,
-                                    switchOutCurve: Curves.ease,
-                                    duration: const Duration(milliseconds: 300),
-                                    child: noActiveEntry
-                                      ? const MapOverlay()
-                                      : null
-                                  );
-                                }
-                              );
-                            }
-                          )
-                        )
-                      ],
-                      children: [
-                        TileLayerWidget(
-                          options: TileLayerOptions(
-                            overrideTilesWhenUrlChanges: true,
-                            tileProvider: NetworkTileProvider(
-                              headers: const {
-                                'User-Agent': appUserAgent
-                              }
-                            ),
-                            backgroundColor: Colors.transparent,
-                            urlTemplate: isDarkMode && tileLayerDescription.darkVariantTemplateUrl != null
-                              ? tileLayerDescription.darkVariantTemplateUrl
-                              : tileLayerDescription.templateUrl,
-                            minZoom: tileLayerDescription.minZoom.toDouble(),
-                            maxZoom: tileLayerDescription.maxZoom.toDouble()
-                          ),
-                        ),
-                        Consumer2<StopAreasProvider, OSMElementProvider>(
-                          builder: (context, stopAreaProvider, osmElementProvider, child) {
-                            return StopAreaLayer(
-                              stopAreas: stopAreaProvider.stopAreas,
-                              loadingStopAreas: osmElementProvider.loadingStopAreas,
-                              onStopAreaTap: (stopArea) => _onStopAreaTap(stopArea, context),
-                            );
-                          }
-                        ),
-                        // rebuild location indicator when location access is granted
-                        Selector<UserLocationProvider, LocationTrackingState>(
-                          selector: (_, userLocationProvider) => userLocationProvider.state,
-                          builder: (context, state, child) {
-                            return AnimatedLocationLayerWidget(
-                              options: AnimatedLocationOptions()
-                            );
-                          }
-                        ),
-                        Consumer<OSMElementProvider>(
-                          builder: (context, osmElementProvider, child) {
-                            return OsmElementLayer(
-                              onOsmElementTap: (osmElement) => _onOsmElementTap(osmElement, context),
-                              geoElements: osmElementProvider.extractedOsmElements
-                            );
-                          }
-                        ),
-                      ],
-                    ),
-                    // place sheet on extra stack above map so map pan events won't pass through
-                    Consumer<QuestionnaireProvider>(
-                      builder: (context, questionnaireProvider, child) {
-                        return AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 500),
-                          reverseDuration: const Duration(milliseconds: 300),
-                          switchInCurve: Curves.easeInOutCubicEmphasized,
-                          switchOutCurve: Curves.ease,
-                          transitionBuilder: (child, animation) {
-                            final offsetAnimation = Tween<Offset>(
-                              begin: const Offset(0, 1),
-                              end: Offset.zero,
-                            ).animate(animation);
-                            return SlideTransition(
-                              position: offsetAnimation,
-                              child: FadeTransition(
-                                opacity: animation,
-                                child: child,
-                              )
-                            );
-                          },
-                          child: questionnaireProvider.hasEntries
-                            ? QuestionDialog(
-                              activeQuestionIndex: questionnaireProvider.activeIndex!,
-                              questionEntries: questionnaireProvider.entries!,
-                              maxHeightFactor: questionDialogMaxHeightFactor,
-                              key: questionnaireProvider.key,
-                            )
-                            : null
-                        );
-                      }
-                    ),
-                  ],
-                )
-              );
-            }
+            child: const _HomeScreenContent()
           );
         }
       }
     );
   }
-
-
-  void _onStopAreaTap(StopArea stopArea, BuildContext context) {
-    // hide questionnaire sheet
-    final questionnaire = context.read<QuestionnaireProvider>();
-    if (questionnaire.workingElement != null ) {
-      questionnaire.discard();
-    }
-
-    final questionCatalog = context.read<QuestionCatalog>();
-    _osmElementProvider.loadAndExtractElements(
-      stopArea, questionCatalog
-    );
-
-    _mapController.animateToBounds(
-      ticker: this,
-      bounds: stopArea.bounds,
-    );
-  }
-
-
-  void _onOsmElementTap(GeometricOSMElement geometricOSMElement, BuildContext context) async {
-    final questionnaire = context.read<QuestionnaireProvider>();
-    final osmElement = geometricOSMElement.osmElement;
-
-    // show questions if a new marker is selected, else hide the current one
-    if (questionnaire.workingElement == null || !questionnaire.workingElement!.isProxiedElement(osmElement)) {
-      final questionCatalog = context.read<QuestionCatalog>();
-      questionnaire.create(osmElement, questionCatalog);
-    }
-    else {
-      return questionnaire.discard();
-    }
-
-    final mediaQuery = MediaQuery.of(context);
-
-    // move camera to element and include default sheet size as bottom padding
-    _mapController.animateToBounds(
-      ticker: this,
-      // use bounds method because the normal move to doesn't support padding
-      // the benefit of this approach is, that it will always try to zoom in on the marker as much as possible
-      bounds: LatLngBounds.fromPoints([geometricOSMElement.geometry.center]),
-      // calculate padding based on question dialog max height
-      padding: EdgeInsets.only(
-        // add hardcoded marker height for now so it is centered between the top and bottom of the marker
-        top: mediaQuery.padding.top + 60,
-        bottom: mediaQuery.size.height * questionDialogMaxHeightFactor
-      ),
-      // zoom in on 20 or more if the current zoom level is above 20
-      // required due to clustering, because not all markers may be visible on zoom level 20
-      maxZoom: max(20, _mapController.zoom)
-    );
-  }
-
-
-  void _onPositionChange() {
-    final position = _userLocationProvider.position;
-    if (position != null) {
-      if (_filteredQuestionCatalog != null) {
-        // automatically load elements from stop area if the user enters a stop area
-        final enclosingStopArea = _stopAreasProvider.getStopAreaByPosition(
-          LatLng(position.latitude, position.longitude)
-        );
-        if (enclosingStopArea != null) {
-          _osmElementProvider.loadAndExtractElements(
-            enclosingStopArea, _filteredQuestionCatalog!
-          );
-        }
-      }
-      // move camera to current user location
-      if (_userLocationProvider.isFollowingLocation) {
-        _mapController.animateTo(
-          ticker: this,
-          location: LatLng(position.latitude, position.longitude),
-          duration: const Duration(milliseconds: 200),
-          id: 'CameraTracker'
-        );
-      }
-    }
-  }
-
 
   Future<QuestionCatalog> _parseQuestionCatalog() async {
     final jsonData = await rootBundle.loadStructuredData<List<Map<String, dynamic>>>(
@@ -391,15 +128,332 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
     return MapFeatureCollection.fromJson(jsonData);
   }
+}
 
 
-  _closeQuestionDialog(BuildContext context) {
-    context.read<QuestionnaireProvider>().discard();
+// Holds all UI widgets and logic of the home screen.
+// The main purpose of this widget separation is to get the context with all view models.
+
+class _HomeScreenContent extends StatefulWidget {
+  static const questionDialogMaxHeightFactor = 2/3;
+
+  const _HomeScreenContent({Key? key}) : super(key: key);
+
+  @override
+  State<_HomeScreenContent> createState() => _HomeScreenContentState();
+}
+
+class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProviderStateMixin {
+  StreamSubscription<MapEvent>? _debouncedMapStreamSubscription;
+  StreamSubscription<MapEvent>? _mapStreamSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    // wait till context is available
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final mapController = context.read<MapController>();
+      final userLocationProvider = context.read<UserLocationProvider>();
+      // wait till map controller is ready
+      await mapController.onReady;
+
+      void handleInitialLocationTrackingChange() {
+        if (userLocationProvider.state != LocationTrackingState.pending) {
+          // if location tracking is enabled
+          // jump to user position and enable camera tracking
+          if (userLocationProvider.state == LocationTrackingState.enabled) {
+            final position = userLocationProvider.position!;
+            mapController.move(
+              LatLng(position.latitude, position.longitude),
+              mapController.zoom,
+              id: 'CameraTracker'
+            );
+            userLocationProvider.shouldFollowLocation = true;
+          }
+          userLocationProvider.removeListener(handleInitialLocationTrackingChange);
+          // load stop areas of current viewport location
+          final stopAreasProvider = context.read<StopAreasProvider>();
+          stopAreasProvider.loadStopAreas(mapController.bounds!);
+          // add on position change handler after initial location code is finished
+          userLocationProvider.addListener(_onPositionChange);
+        }
+      }
+      userLocationProvider.addListener(handleInitialLocationTrackingChange);
+      // request user position tracking
+      userLocationProvider.startLocationTracking();
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final mapController = context.read<MapController>();
+
+    _debouncedMapStreamSubscription?.cancel();
+    _debouncedMapStreamSubscription = mapController.mapEventStream
+      .transform( DebounceTransformer(const Duration(seconds: 1)) )
+      .listen(_onDebouncedMapEvent);
+
+    _mapStreamSubscription?.cancel();
+    _mapStreamSubscription = mapController.mapEventStream.listen(_onMapEvent);
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    final tileLayerId = context.select<PreferencesProvider, TileLayerId>((pref) => pref.tileLayerId);
+    final tileLayerDescription = tileLayers[tileLayerId]!;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      drawer: const HomeSidebar(),
+      body: Stack(
+        children: [
+          FlutterMap(
+            mapController: context.watch<MapController>(),
+            options: MapOptions(
+              onTap: _onMapTap,
+              enableMultiFingerGestureRace: true,
+              // intentionally use read() here because changes to these properties
+              // do not need to trigger rebuilds
+              center: context.read<PreferencesProvider>().mapLocation,
+              zoom: context.read<PreferencesProvider>().mapZoom,
+              rotation: context.read<PreferencesProvider>().mapRotation,
+              minZoom: tileLayerDescription.minZoom.toDouble(),
+              maxZoom: tileLayerDescription.maxZoom.toDouble()
+            ),
+            nonRotatedChildren: [
+              RepaintBoundary(
+                child: FutureBuilder(
+                  future: context.watch<MapController>().onReady,
+                  builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+                    final mapIsLoaded = snapshot.connectionState == ConnectionState.done;
+                    // only show overlay when question history has no active entry
+                    return !mapIsLoaded
+                    ? const ModalBarrier(
+                      dismissible: false,
+                    )
+                    : Consumer<QuestionnaireProvider>(
+                      builder: (context, questionnaire,child) {
+                        final noActiveEntry = !questionnaire.hasEntries;
+
+                        return AnimatedSwitcher(
+                          switchInCurve: Curves.ease,
+                          switchOutCurve: Curves.ease,
+                          duration: const Duration(milliseconds: 300),
+                          child: noActiveEntry
+                            ? const MapOverlay()
+                            : null
+                        );
+                      }
+                    );
+                  }
+                )
+              )
+            ],
+            children: [
+              TileLayerWidget(
+                options: TileLayerOptions(
+                  overrideTilesWhenUrlChanges: true,
+                  tileProvider: NetworkTileProvider(
+                    headers: const {
+                      'User-Agent': appUserAgent
+                    }
+                  ),
+                  backgroundColor: Colors.transparent,
+                  urlTemplate: isDarkMode && tileLayerDescription.darkVariantTemplateUrl != null
+                    ? tileLayerDescription.darkVariantTemplateUrl
+                    : tileLayerDescription.templateUrl,
+                  minZoom: tileLayerDescription.minZoom.toDouble(),
+                  maxZoom: tileLayerDescription.maxZoom.toDouble()
+                ),
+              ),
+              Consumer2<StopAreasProvider, OSMElementProvider>(
+                builder: (context, stopAreaProvider, osmElementProvider, child) {
+                  return StopAreaLayer(
+                    stopAreas: stopAreaProvider.stopAreas,
+                    loadingStopAreas: osmElementProvider.loadingStopAreas,
+                    onStopAreaTap: _onStopAreaTap,
+                  );
+                }
+              ),
+              // rebuild location indicator when location access is granted
+              Selector<UserLocationProvider, LocationTrackingState>(
+                selector: (_, userLocationProvider) => userLocationProvider.state,
+                builder: (context, state, child) {
+                  return AnimatedLocationLayerWidget(
+                    options: AnimatedLocationOptions()
+                  );
+                }
+              ),
+              Consumer<OSMElementProvider>(
+                builder: (context, osmElementProvider, child) {
+                  return OsmElementLayer(
+                    onOsmElementTap: _onOsmElementTap,
+                    geoElements: osmElementProvider.extractedOsmElements
+                  );
+                }
+              ),
+            ],
+          ),
+          // place sheet on extra stack above map so map pan events won't pass through
+          Consumer<QuestionnaireProvider>(
+            builder: (context, questionnaireProvider, child) {
+              return AnimatedSwitcher(
+                duration: const Duration(milliseconds: 500),
+                reverseDuration: const Duration(milliseconds: 300),
+                switchInCurve: Curves.easeInOutCubicEmphasized,
+                switchOutCurve: Curves.ease,
+                transitionBuilder: (child, animation) {
+                  final offsetAnimation = Tween<Offset>(
+                    begin: const Offset(0, 1),
+                    end: Offset.zero,
+                  ).animate(animation);
+                  return SlideTransition(
+                    position: offsetAnimation,
+                    child: FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    )
+                  );
+                },
+                child: questionnaireProvider.hasEntries
+                  ? QuestionDialog(
+                    activeQuestionIndex: questionnaireProvider.activeIndex!,
+                    questionEntries: questionnaireProvider.entries!,
+                    maxHeightFactor: _HomeScreenContent.questionDialogMaxHeightFactor,
+                    key: questionnaireProvider.key,
+                  )
+                  : null
+              );
+            }
+          ),
+        ],
+      )
+    );
+  }
+
+
+  void _onStopAreaTap(StopArea stopArea) {
+    // hide questionnaire sheet
+    final questionnaire = context.read<QuestionnaireProvider>();
+    if (questionnaire.workingElement != null ) {
+      questionnaire.close();
+    }
+
+    final osmElementProvider = context.read<OSMElementProvider>();
+    osmElementProvider.loadElementsFromStopArea(stopArea);
+
+    final mapController = context.read<MapController>();
+    mapController.animateToBounds(
+      ticker: this,
+      bounds: stopArea.bounds,
+    );
+  }
+
+
+  void _onOsmElementTap(GeometricOSMElement geometricOSMElement) async {
+    final questionnaire = context.read<QuestionnaireProvider>();
+    final osmElement = geometricOSMElement.osmElement;
+
+    // show questions if a new marker is selected, else hide the current one
+    if (questionnaire.workingElement == null || !questionnaire.workingElement!.isOther(osmElement)) {
+      final questionCatalog = context.read<QuestionCatalog>();
+      questionnaire.create(osmElement, questionCatalog);
+    }
+    else {
+      return questionnaire.close();
+    }
+
+    final mediaQuery = MediaQuery.of(context);
+    final mapController = context.read<MapController>();
+
+    // move camera to element and include default sheet size as bottom padding
+    mapController.animateToBounds(
+      ticker: this,
+      // use bounds method because the normal move to doesn't support padding
+      // the benefit of this approach is, that it will always try to zoom in on the marker as much as possible
+      bounds: LatLngBounds.fromPoints([geometricOSMElement.geometry.center]),
+      // calculate padding based on question dialog max height
+      padding: EdgeInsets.only(
+        // add hardcoded marker height for now so it is centered between the top and bottom of the marker
+        top: mediaQuery.padding.top + 60,
+        bottom: mediaQuery.size.height * _HomeScreenContent.questionDialogMaxHeightFactor
+      ),
+      // zoom in on 20 or more if the current zoom level is above 20
+      // required due to clustering, because not all markers may be visible on zoom level 20
+      maxZoom: max(20, mapController.zoom)
+    );
+  }
+
+
+  void _onMapTap(position, LatLng location) {
+    context.read<QuestionnaireProvider>().close();
+  }
+
+
+  void _onPositionChange() {
+    final userLocationProvider = context.read<UserLocationProvider>();
+    final position = userLocationProvider.position;
+    if (position != null) {
+      final stopAreasProvider = context.read<StopAreasProvider>();
+      // automatically load elements from stop area if the user enters a stop area
+      final enclosingStopArea = stopAreasProvider.getStopAreaByPosition(
+        LatLng(position.latitude, position.longitude)
+      );
+      if (enclosingStopArea != null) {
+        final osmElementProvider = context.read<OSMElementProvider>();
+        osmElementProvider.loadElementsFromStopArea(enclosingStopArea);
+      }
+      // move camera to current user location
+      if (userLocationProvider.isFollowingLocation) {
+        final mapController = context.read<MapController>();
+        mapController.animateTo(
+          ticker: this,
+          location: LatLng(position.latitude, position.longitude),
+          duration: const Duration(milliseconds: 200),
+          id: 'CameraTracker'
+        );
+      }
+    }
+  }
+
+
+  void _onMapEvent(MapEvent event) {
+    // cancel tracking on user interaction or any map move not caused by the camera tracker
+    if (
+      (event is MapEventDoubleTapZoomStart) ||
+      (event is MapEventMove && event.id != 'CameraTracker' && event.targetCenter != event.center)
+    ) {
+      final userLocationProvider = context.read<UserLocationProvider>();
+      userLocationProvider.shouldFollowLocation = false;
+    }
+  }
+
+
+  void _onDebouncedMapEvent(MapEvent event) {
+    final mapController = context.read<MapController>();
+
+    // query stops on map interactions
+    if (mapController.bounds != null && mapController.zoom > 12) {
+      final stopAreasProvider = context.read<StopAreasProvider>();
+      stopAreasProvider.loadStopAreas(mapController.bounds!);
+    }
+
+    // store map location on map move events
+    context.read<PreferencesProvider>()
+      ..mapLocation = event.center
+      ..mapZoom = event.zoom
+      ..mapRotation = mapController.rotation;
   }
 
 
   @override
   void dispose() {
+    _debouncedMapStreamSubscription?.cancel();
+    _mapStreamSubscription?.cancel();
     super.dispose();
   }
 }

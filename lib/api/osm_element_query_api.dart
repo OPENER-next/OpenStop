@@ -12,6 +12,7 @@ class OSMElementQueryAPI {
   }) :
     _osmApi = OSMAPI(
       baseUrl: endPoint,
+      receiveTimeout: 10000
     );
 
 
