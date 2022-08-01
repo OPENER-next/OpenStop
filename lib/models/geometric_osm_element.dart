@@ -20,6 +20,28 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
   });
 
 
+  /// Create a [GeometricOSMElement] from an osm element and a given bundle of sub osm elements.
+
+  static GeometricOSMElement generateFromOSMElement(OSMElement osmElement, OSMElementBundle elementBundle) {
+    switch(osmElement.type) {
+      case OSMElementType.node:
+        return GeometricOSMElement.generateFromOSMNode(
+          osmNode: osmElement as OSMNode
+        );
+      case OSMElementType.way:
+        return GeometricOSMElement.generateFromOSMWay(
+          osmWay: osmElement as OSMWay,
+          osmNodes: elementBundle.nodes
+        );
+      case OSMElementType.relation:
+        return GeometricOSMElement.generateFromOSMRelation(
+          osmRelation: osmElement as OSMRelation,
+          osmWays: elementBundle.ways,
+          osmNodes: elementBundle.nodes
+        );
+    }
+  }
+
   /// Creates a [GeometricOSMElement] from a single [OSMNode].
 
   static GeometricOSMElement<OSMNode, GeographicPoint> generateFromOSMNode({
