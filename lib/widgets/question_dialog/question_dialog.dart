@@ -1,6 +1,7 @@
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:osm_api/osm_api.dart';
 
 import '/models/questionnaire.dart';
 import '/view_models/osm_elements_provider.dart';
@@ -306,10 +307,15 @@ class _QuestionDialogState extends State<QuestionDialog> {
           CustomSnackBar('Änderungen erfolgreich übertragen.')
         );
       }
+      on OSMConnectionException {
+        scaffold.showSnackBar(
+          CustomSnackBar('Fehler: Kein Verbindung zum OSM-Server.')
+        );
+      }
       catch(e) {
         debugPrint(e.toString());
         scaffold.showSnackBar(
-          CustomSnackBar('Fehler bei der Übertragung.')
+          CustomSnackBar('Unbekannter Fehler bei der Übertragung.')
         );
       }
     }
