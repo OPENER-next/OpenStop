@@ -237,7 +237,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
                     )
                     : Consumer<QuestionnaireProvider>(
                       builder: (context, questionnaire,child) {
-                        final noActiveEntry = !questionnaire.hasEntries;
+                        final noActiveEntry = !questionnaire.hasQuestions;
 
                         return AnimatedSwitcher(
                           switchInCurve: Curves.ease,
@@ -319,10 +319,10 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
                     )
                   );
                 },
-                child: questionnaireProvider.hasEntries
+                child: questionnaireProvider.hasQuestions
                   ? QuestionDialog(
-                    activeQuestionIndex: questionnaireProvider.activeIndex!,
-                    questionEntries: questionnaireProvider.entries!,
+                    activeQuestionIndex: questionnaireProvider.activeQuestionIndex!,
+                    questionEntries: questionnaireProvider.currentQuestions,
                     maxHeightFactor: _HomeScreenContent.questionDialogMaxHeightFactor,
                     key: questionnaireProvider.key,
                   )
@@ -361,7 +361,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
     // show questions if a new marker is selected, else hide the current one
     if (questionnaire.workingElement == null || !questionnaire.workingElement!.isOther(osmElement)) {
       final questionCatalog = context.read<QuestionCatalog>();
-      questionnaire.create(osmElement, questionCatalog);
+      questionnaire.open(osmElement, questionCatalog);
     }
     else {
       return questionnaire.close();

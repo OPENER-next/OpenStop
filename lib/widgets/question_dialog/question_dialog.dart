@@ -59,9 +59,9 @@ class _QuestionDialogState extends State<QuestionDialog> {
   /// Maps all QuestionnaireEntries to typed AnswerControllers
 
   void _updateControllers() {
-    // remove obsolete text controllers
+    // remove obsolete answer controllers
     _answerControllerMapping.removeWhere((key, value) => !widget.questionEntries.contains(key));
-    // add new text controllers for each entry if none already exists
+    // add new answer controllers for each entry if none already exists
     for (final questionEntry in widget.questionEntries) {
       _answerControllerMapping.putIfAbsent(
         questionEntry,
@@ -137,19 +137,19 @@ class _QuestionDialogState extends State<QuestionDialog> {
                               backgroundColor: Theme.of(context).colorScheme.onBackground,
                             ),
                             CompositedTransformTarget(
-                                link: _layerLink,
-                                child: AnimatedBuilder(
-                                    animation: _answerControllerMapping[activeQuestionnaireEntry]!,
-                                    builder: (context, child) {
-                                      final answer = _answerControllerMapping[activeQuestionnaireEntry]?.answer;
-                                      return QuestionNavigationBar(
-                                        nextText: _isFinished ? null : answer != null ? 'Weiter' : 'Überspringen',
-                                        backText: hasPrevious ? 'Zurück' : null,
-                                        onNext: _handleNext,
-                                        onBack: _handleBack,
-                                      );
-                                    }
-                                )
+                              link: _layerLink,
+                              child: AnimatedBuilder(
+                                animation: _answerControllerMapping[activeQuestionnaireEntry]!,
+                                builder: (context, child) {
+                                  final answer = _answerControllerMapping[activeQuestionnaireEntry]?.answer;
+                                  return QuestionNavigationBar(
+                                    nextText: _isFinished ? null : answer != null ? 'Weiter' : 'Überspringen',
+                                    backText: hasPrevious ? 'Zurück' : null,
+                                    onNext: _handleNext,
+                                    onBack: _handleBack,
+                                  );
+                                }
+                              )
                             ),
                           ],
                         ),
@@ -240,7 +240,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
       });
     }
     else {
-      questionnaire.previous();
+      questionnaire.previousQuestion();
     }
   }
 
@@ -250,7 +250,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
     // first update the questionnaire then check the new values
     _update();
 
-    final isLast = questionnaire.activeIndex! == questionnaire.length! - 1;
+    final isLast = questionnaire.activeQuestionIndex! == questionnaire.questionCount - 1;
 
     if (isLast) {
       if (!_isFinished) {
@@ -260,7 +260,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
       }
     }
     else {
-      questionnaire.next();
+      questionnaire.nextQuestion();
     }
   }
 
@@ -274,7 +274,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
       });
     }
 
-    questionnaire.jumpTo(index);
+    questionnaire.jumpToQuestion(index);
   }
 
 
@@ -303,13 +303,15 @@ class _QuestionDialogState extends State<QuestionDialog> {
           authenticatedUser: authenticationProvider.authenticatedUser!,
           locale: Localizations.localeOf(context)
         );
+        // on success remove stored questionnaire
+        questionnaire.discard(osmElement);
         scaffold.showSnackBar(
           CustomSnackBar('Änderungen erfolgreich übertragen.')
         );
       }
       on OSMConnectionException {
         scaffold.showSnackBar(
-          CustomSnackBar('Fehler: Kein Verbindung zum OSM-Server.')
+          CustomSnackBar('Fehler: Keine Verbindung zum OSM-Server.')
         );
       }
       catch(e) {
@@ -328,10 +330,10 @@ class _QuestionDialogState extends State<QuestionDialog> {
     final answerController = _answerControllerMapping[activeQuestionEntry]!;
 
     if (answerController.answer?.isValid == false) {
-      questionnaire.update(null);
+      questionnaire.answerQuestion(null);
     }
     else {
-      questionnaire.update(answerController.answer);
+      questionnaire.answerQuestion(answerController.answer);
     }
     debugPrint('Previous Answer: ${answerController.answer}');
     // always unfocus the current node to close all onscreen keyboards

@@ -10,56 +10,93 @@ import '/models/question_catalog.dart';
 
 class QuestionnaireProvider extends ChangeNotifier {
 
-  Questionnaire? _qaSelection;
+  final _questionnaires = <Questionnaire>[];
+
+  var _currentQuestionnaireIndex = -1;
+
+  Questionnaire? get _currentQuestionnaire {
+    if (_currentQuestionnaireIndex > -1 && _currentQuestionnaireIndex < _questionnaires.length) {
+      return _questionnaires[_currentQuestionnaireIndex];
+    }
+    return null;
+  }
 
 
-  bool get hasEntries => _qaSelection != null && _qaSelection!.length > 0;
+  bool get hasQuestions => questionCount > 0;
 
 
-  ProxyOSMElement? get workingElement => _qaSelection?.workingElement;
+  ProxyOSMElement? get workingElement => _currentQuestionnaire?.workingElement;
 
 
-  int? get length => _qaSelection?.length;
+  int get questionCount => _currentQuestionnaire?.length ?? 0;
 
 
-  UnmodifiableListView<QuestionnaireEntry>? get entries => _qaSelection?.entries;
+  UnmodifiableListView<QuestionnaireEntry> get currentQuestions => _currentQuestionnaire?.entries ?? UnmodifiableListView([]);
 
 
-  int? get activeIndex => _qaSelection?.activeIndex;
+  int? get activeQuestionIndex => _currentQuestionnaire?.activeIndex;
 
-  QuestionnaireEntry? get activeEntry => _qaSelection?.activeEntry;
+  QuestionnaireEntry? get activeQuestionEntry => _currentQuestionnaire?.activeEntry;
 
 
   /// An unique identifier for the current questionnaire
 
-  Key get key => ValueKey(_qaSelection);
+  Key get key => ValueKey(_currentQuestionnaire);
 
+  /// This either reopens an existing questionnaire or creates a new one.
 
-  void create(OSMElement osmElement, QuestionCatalog questionCatalog) {
-    _qaSelection = Questionnaire(
-      osmElement: osmElement,
-      questionCatalog: questionCatalog
+  void open(OSMElement osmElement, QuestionCatalog questionCatalog) {
+    _currentQuestionnaireIndex = _questionnaires.indexWhere(
+      (questionnaire) => questionnaire.workingElement.isOther(osmElement),
     );
+
+    if (_currentQuestionnaireIndex == -1) {
+      _questionnaires.add(Questionnaire(
+        osmElement: osmElement,
+        questionCatalog: questionCatalog
+      ));
+      _currentQuestionnaireIndex = _questionnaires.length - 1;
+    }
+
     notifyListeners();
   }
 
+  /// Close the currently active questionnaire if any.
 
   void close() {
-    _qaSelection = null;
+    _currentQuestionnaireIndex = -1;
     notifyListeners();
   }
 
+  /// Remove a previously stored questionnaire.
 
-  void update(Answer? answer) {
-    if (_qaSelection != null) {
-      _qaSelection!.update(answer);
+  void discard(ProxyOSMElement osmElement) {
+    final index = _questionnaires.indexWhere(
+      (questionnaire) => questionnaire.workingElement == osmElement,
+    );
+
+    if (index > -1) {
+      _questionnaires.removeAt(index);
+      // in case a questionnaire is currently active and its index is greater
+      // then the removed index we need to update the index
+      if (_currentQuestionnaireIndex > index) {
+        _currentQuestionnaireIndex = _currentQuestionnaireIndex - 1;
+      }
       notifyListeners();
     }
   }
 
 
-  bool previous() {
-    if (_qaSelection?.previous() == true) {
+  void answerQuestion(Answer? answer) {
+    if (_currentQuestionnaire != null) {
+      _currentQuestionnaire!.update(answer);
+      notifyListeners();
+    }
+  }
+
+
+  bool previousQuestion() {
+    if (_currentQuestionnaire?.previous() == true) {
       notifyListeners();
       return true;
     }
@@ -67,8 +104,8 @@ class QuestionnaireProvider extends ChangeNotifier {
   }
 
 
-  bool next() {
-    if (_qaSelection?.next() == true) {
+  bool nextQuestion() {
+    if (_currentQuestionnaire?.next() == true) {
       notifyListeners();
       return true;
     }
@@ -76,8 +113,8 @@ class QuestionnaireProvider extends ChangeNotifier {
   }
 
 
-  bool jumpTo(int index) {
-    if (_qaSelection?.jumpTo(index) == true) {
+  bool jumpToQuestion(int index) {
+    if (_currentQuestionnaire?.jumpTo(index) == true) {
       notifyListeners();
       return true;
     }
