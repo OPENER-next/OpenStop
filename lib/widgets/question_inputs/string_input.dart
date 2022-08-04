@@ -36,15 +36,9 @@ class _StringInputDelegate extends StatefulWidget {
 }
 
 class _StringInputDelegateState extends State<_StringInputDelegate> {
-  final _textController = TextEditingController();
-
-  late int _minValue, _maxValue;
-
-  @override
-  void initState() {
-    super.initState();
-    _updateMinMax();
-  }
+  late final _textController = TextEditingController(
+    text: widget.controller.answer?.value
+  );
 
   @override
   void didUpdateWidget(covariant _StringInputDelegate oldWidget) {
@@ -61,12 +55,6 @@ class _StringInputDelegateState extends State<_StringInputDelegate> {
         selection: TextSelection.collapsed(offset: newValue.length)
       );
     }
-    _updateMinMax();
-  }
-
-  void _updateMinMax() {
-    _minValue = widget.definition.values.values.first.min ?? 0;
-    _maxValue = widget.definition.values.values.first.max ?? 255;
   }
 
   @override
@@ -95,6 +83,10 @@ class _StringInputDelegateState extends State<_StringInputDelegate> {
       },
     );
   }
+
+  int get _minValue => widget.definition.values.values.first.min ?? 0;
+
+  int get _maxValue => widget.definition.values.values.first.max ?? 255;
 
 
   void _handleChange([String value = '']) {

@@ -37,7 +37,9 @@ class _NumberInputDelegate extends StatefulWidget {
 }
 
 class _NumberInputDelegateState extends State<_NumberInputDelegate> {
-  final _textController = TextEditingController();
+  late final _textController = TextEditingController(
+    text: widget.controller.answer?.value
+  );
 
   @override
   void didUpdateWidget(covariant _NumberInputDelegate oldWidget) {
