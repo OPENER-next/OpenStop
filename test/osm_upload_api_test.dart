@@ -97,11 +97,11 @@ void main() async {
 
     nodes = await Future.wait([
       osmapi.createElement(
-        OSMNode(10, 20, tags: Map.of(mapFeatureCollection[0].osmTags[0])),
+        OSMNode(10, 20, tags: Map.of(mapFeatureCollection[0].osmTags.cast<String, String>())),
         changesetId
       ),
       osmapi.createElement(
-        OSMNode(10.00001, 20.00001, tags: Map.of(mapFeatureCollection[1].osmTags[0])),
+        OSMNode(10.00001, 20.00001, tags: Map.of(mapFeatureCollection[1].osmTags.cast<String, String>())),
         changesetId
       ),
       osmapi.createElement(
