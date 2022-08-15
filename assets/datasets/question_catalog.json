@@ -1384,6 +1384,44 @@
       ]
    },
    {
+      "id": 2050,
+      "name": "Bodenbeschaffenheit",
+      "question": "Wie ist der Boden beschaffen?",
+      "description": "Besteht die Oberfläche aus Schotter, Sand oder einem vergleichbaren Belag, so handelt es sich um einen unbefestigten Bodenbelag.",
+      "input": {
+         "type": "List",
+         "values": {
+            "paved": {
+               "name": "Befestigt",
+               "image": "assets/images/questions/2050a.jpg",
+               "osm_tags": {
+                  "surface": "paved"
+               }
+            },
+            "unpaved": {
+               "name": "Unbefestigt",
+               "image": "assets/images/questions/2050b.jpg",
+               "osm_tags": {
+                  "surface": "unpaved"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "surface": false
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay",
+               "Relation"
+            ]
+         }
+      ]
+   },
+   {
       "id": 2070,
       "name": "Bodenindikatoren",
       "question": "Gibt es Bodenindikatoren auf der Plattform?",
@@ -1672,6 +1710,37 @@
       ]
    },
    {
+      "id": 2114,
+      "name": "Treppen-Handlauf",
+      "question": "Hat die Treppe einen Handlauf?",
+      "image": [
+         "assets/images/questions/2114jpg"
+      ],
+      "input": {
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "handrail": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "handrail": "no"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "steps",
+               "handrail": false
+            }
+         }
+      ]
+   },
+   {
       "id": 2115,
       "name": "Handlauf-Blindenschrift",
       "question": "Ist auf bzw. an dem Handlauf Blindenschrift vorhanden?",
@@ -1705,23 +1774,17 @@
       ]
    },
    {
-      "id": 2114,
-      "name": "Treppen-Handlauf",
-      "question": "Hat die Treppe einen Handlauf?",
-      "image": [
-         "assets/images/questions/2114jpg"
-      ],
+      "id": 2134,
+      "name": "Rolltreppen-Fahrtdauer",
+      "question": "Wie lange dauert die Fahrt mit der Rolltreppe bzw. das Laufband?",
+      "description": "Ein Laufband (auch Rollsteig, Fahrsteig, bewegter oder rollender Bürgersteig genannt) ist ein sich bewegendes Fortbewegungsmittel, welches Personen auf einer horizontalen oder schrägen Ebene transportiert. Eine Rolltreppe ist eine sich bewegende Treppe, um Personen zwischen Stockwerken eines Gebäudes zu transportieren. Die Dauer der Rollentreppen-Fahrt ist relevant für die Berechnung von Umstiegszeiten.",
       "input": {
-         "type": "Bool",
+         "type": "Duration",
          "values": {
-            "true": {
+            "single": {
+               "unit": "m:1,s:1",
                "osm_tags": {
-                  "handrail": "yes"
-               }
-            },
-            "false": {
-               "osm_tags": {
-                  "handrail": "no"
+                  "duration": "%s"
                }
             }
          }
@@ -1729,9 +1792,15 @@
       "conditions": [
          {
             "osm_tags": {
-               "highway": "steps",
-               "handrail": false
-            }
+               "conveying": [
+                  "yes",
+                  "forward",
+                  "backward",
+                  "reversible"
+               ],
+               "duration": false
+            },
+            "osm_element": "OpenWay"
          }
       ]
    }
