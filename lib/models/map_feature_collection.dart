@@ -42,19 +42,23 @@ class MapFeatureCollection extends ListBase<MapFeature> {
     int score = 0;
 
     for (final MapFeature mapFeature in mapFeatureCollection) {
-      final mapFeatureIsMatching = mapFeature.conditions.any((condition) {
-        return condition.matches(
+      try {
+        final matchingCondition = mapFeature.conditions.firstWhere((condition) {
+          return condition.matches(
             osmElement.tags,
             typeFromOSMElement(osmElement)
-        );
-      });
-      if (mapFeatureIsMatching) {
-        // check if there already exists an answer with the same question
-        final newScore = mapFeature.conditions.length;
+          );
+        });
+        // check if there already exists a matched map feature
+        final newScore = matchingCondition.osmTags.length;
         if (newScore > score) {
           score = newScore;
           bestMatch = mapFeature;
         }
+      }
+      on StateError {
+        // Continue when no matching condition is found.
+        continue;
       }
     }
     return bestMatch;

@@ -5,6 +5,7 @@ const Map<String, IconData> customIcons = {
   'stop': CommunityMaterialIcons.bus_stop,
   'platform': CommunityMaterialIcons.bus_stop_covered,
   'train_platform': CommunityMaterialIcons.train,
+  'station': CommunityMaterialIcons.home,
   'ticket_shop': CommunityMaterialIcons.ticket_confirmation,
   'information': CommunityMaterialIcons.information_variant,
   'ticket_machine': CommunityMaterialIcons.fridge_bottom,
@@ -19,5 +20,7 @@ const Map<String, IconData> customIcons = {
   'door': CommunityMaterialIcons.door,
   'map': CommunityMaterialIcons.map,
   'path': Icons.directions_walk,
-  'stairs': CommunityMaterialIcons.stairs
+  'stairs': CommunityMaterialIcons.stairs,
+  'elevator': CommunityMaterialIcons.elevator_passenger,
+  'escalator': CommunityMaterialIcons.escalator
 };

@@ -104,11 +104,11 @@ void main() async {
 
     nodes = await Future.wait([
       osmapi.createElement(
-        OSMNode(10, 20, tags: Map.of(mapFeatureCollection[0].conditions[0].osmTags.cast<String, String>())),
+        OSMNode(10, 20, tags: Map.of(mapFeatureCollection[0].conditions.first.osmTags.cast<String, String>())),
         changesetId
       ),
       osmapi.createElement(
-        OSMNode(10.00001, 20.00001, tags: Map.of(mapFeatureCollection[1].conditions[1].osmTags.cast<String, String>())),
+        OSMNode(10.00001, 20.00001, tags: Map.of(mapFeatureCollection[1].conditions.first.osmTags.cast<String, String>())),
         changesetId
       ),
       osmapi.createElement(
@@ -123,7 +123,7 @@ void main() async {
 
     ways = await Future.wait([
       osmapi.createElement(
-        OSMWay([nodes[2].id, nodes[3].id], tags: Map.of(mapFeatureCollection[2].conditions[2].osmTags[0])),
+        OSMWay([nodes[2].id, nodes[3].id], tags: Map.of(mapFeatureCollection[2].conditions.first.osmTags.cast<String, String>())),
         changesetId
       ),
     ]);
