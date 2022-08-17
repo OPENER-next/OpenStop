@@ -37,6 +37,24 @@
     ]
   },
   {
+    "name": "Station",
+    "icon": "station",
+    "conditions": [
+      {
+        "osm_tags": {
+          "public_transport": "station",
+          "railway": "station"
+        }
+      },
+      {
+        "osm_tags": {
+          "public_transport": "station",
+          "amenity": "bus_station"
+        }
+      }
+    ]
+  },
+  {
     "name": "Fahrtkartenverkaufsstelle",
     "icon": "ticket_shop",
     "conditions": [
@@ -213,25 +231,25 @@
       },
       {
         "osm_tags": {
-          "sidewalk": true
+          "sidewalk": ["yes", "right", "left", "both"]
         },
         "osm_element": ["OpenWay", "ClosedWay"]
       },
       {
         "osm_tags": {
-          "sidewalk:left": true
+          "sidewalk:left": "yes"
         },
         "osm_element": ["OpenWay", "ClosedWay"]
       },
       {
         "osm_tags": {
-          "sidewalk:right": true
+          "sidewalk:right": "yes"
         },
         "osm_element": ["OpenWay", "ClosedWay"]
       },
       {
         "osm_tags": {
-          "sidewalk:both": true
+          "sidewalk:both": "yes"
         },
         "osm_element": ["OpenWay", "ClosedWay"]
       }
@@ -244,6 +262,31 @@
       {
         "osm_tags": {
           "highway": "steps"
+        },
+        "osm_element": "OpenWay"
+      }
+    ]
+  },
+  {
+    "name": "Fahrstuhl",
+    "icon": "elevator",
+    "conditions": [
+      {
+        "osm_tags": {
+          "highway": "elevator"
+        },
+        "osm_element": "Node"
+      }
+    ]
+  },
+  {
+    "name": "Rolltreppe",
+    "icon": "escalator",
+    "conditions": [
+      {
+        "osm_tags": {
+          "highway": "steps",
+          "conveying": ["yes", "forward", "backward", "reversible"]
         },
         "osm_element": "OpenWay"
       }
