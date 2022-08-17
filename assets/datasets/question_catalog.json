@@ -1482,7 +1482,8 @@
          {
             "osm_tags": {
                "highway": "steps",
-               "wheelchair:lift": false
+               "wheelchair:lift": false,
+               "conveying": [false, "no"]
             },
             "osm_element": "OpenWay"
          }
@@ -1710,37 +1711,6 @@
       ]
    },
    {
-      "id": 2114,
-      "name": "Treppen-Handlauf",
-      "question": "Hat die Treppe einen Handlauf?",
-      "image": [
-         "assets/images/questions/2114jpg"
-      ],
-      "input": {
-         "type": "Bool",
-         "values": {
-            "true": {
-               "osm_tags": {
-                  "handrail": "yes"
-               }
-            },
-            "false": {
-               "osm_tags": {
-                  "handrail": "no"
-               }
-            }
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "highway": "steps",
-               "handrail": false
-            }
-         }
-      ]
-   },
-   {
       "id": 2115,
       "name": "Handlauf-Blindenschrift",
       "question": "Ist auf bzw. an dem Handlauf Blindenschrift vorhanden?",
@@ -1767,8 +1737,41 @@
          {
             "osm_tags": {
                "highway": "steps",
+               "conveying": [false, "no"],
                "handrail": "yes",
                "tactile_writing": false
+            }
+         }
+      ]
+   },
+   {
+      "id": 2114,
+      "name": "Treppen-Handlauf",
+      "question": "Hat die Treppe einen Handlauf?",
+      "image": [
+         "assets/images/questions/2114jpg"
+      ],
+      "input": {
+         "type": "Bool",
+         "values": {
+            "true": {
+               "osm_tags": {
+                  "handrail": "yes"
+               }
+            },
+            "false": {
+               "osm_tags": {
+                  "handrail": "no"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "steps",
+               "conveying": [false, "no"],
+               "handrail": false
             }
          }
       ]
