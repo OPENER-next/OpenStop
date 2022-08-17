@@ -42,8 +42,15 @@ class MapFeatureCollection extends ListBase<MapFeature> {
     int score = 0;
 
     for (final MapFeature mapFeature in mapFeatureCollection) {
-      if (mapFeature.matches(osmElement.tags, typeFromOSMElement(osmElement))) {
-        final newScore = mapFeature.osmTags.length;
+      final mapFeatureIsMatching = mapFeature.conditions.any((condition) {
+        return condition.matches(
+            osmElement.tags,
+            typeFromOSMElement(osmElement)
+        );
+      });
+      if (mapFeatureIsMatching) {
+        // check if there already exists an answer with the same question
+        final newScore = mapFeature.conditions.length;
         if (newScore > score) {
           score = newScore;
           bestMatch = mapFeature;

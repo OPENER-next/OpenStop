@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 
+import '/models/osm_condition.dart';
 import '/models/osm_element_type.dart';
-import '/models/osm_matcher.dart';
 import '/commons/custom_icons.dart';
 
+/// A map feature defines how certain elements will be represented and descriped.
 
-class MapFeature with OsmMatcher {
+class MapFeature {
   final String name;
 
   final IconData icon;
 
-  @override
-  final Map<String, dynamic> osmTags;
-
-  @override
-  final List<OSMElementType> osmElements;
+  final List<OsmCondition> conditions;
 
   const MapFeature({
     required this.name,
     required this.icon,
-    required this.osmTags,
-    required this.osmElements,
+    required this.conditions,
   });
 
   factory MapFeature.fromJSON(Map<String, dynamic> json) {
@@ -38,11 +34,14 @@ class MapFeature with OsmMatcher {
     return MapFeature(
       name: json['name'],
       icon: customIcons[json['icon']] ?? CommunityMaterialIcons.cancel,
-      osmTags: json['osm_tags']?.cast<String, dynamic>() ?? <String, dynamic>{},
-      osmElements: osmElement,
+      conditions: json['conditions']
+      // https://github.com/dart-lang/linter/issues/3226
+      // ignore: unnecessary_lambdas
+          ?.map<OsmCondition>((e) =>OsmCondition.fromJSON(e))
+          ?.toList(growable: false) ?? [],
     );
   }
   @override
   String toString() =>
-      'MapFeature(name: $name, icon: $icon, osm_tags: $osmTags, osm_element: $osmElements)';
+      'MapFeature(name: $name, icon: $icon, conditions: $conditions)';
 }

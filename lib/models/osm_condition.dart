@@ -1,9 +1,31 @@
 import '/models/osm_element_type.dart';
 
-mixin OsmMatcher {
-  List<OSMElementType> get osmElements;
-  Map<String, dynamic> get osmTags;
+/// This class holds the conditions that specify if a [Question] should be asked.
 
+class OsmCondition {
+
+  final Map<String, dynamic> osmTags;
+
+  final List<OSMElementType> osmElements;
+
+  const OsmCondition(this.osmTags, this.osmElements);
+
+  factory OsmCondition.fromJSON(Map<String, dynamic> json) {
+    final List<OSMElementType> osmElement = [];
+    if (json['osm_element'] is List) {
+      osmElement.addAll(json['osm_element']
+      .cast<String>()
+      .map<OSMElementType>((String e) => e.toOSMElementType()));
+    }
+    else if (json['osm_element'] is String) {
+      osmElement.add((json['osm_element'] as String).toOSMElementType());
+    }
+
+    return OsmCondition(
+      json['osm_tags'] ?? <String, dynamic>{},
+      osmElement
+    );
+  }
 
   /// Check whether this map feature matches the given data.
 
@@ -44,4 +66,7 @@ mixin OsmMatcher {
     }
     return actualValue == conditionValue;
   }
+
+  @override
+  String toString() => 'QuestionCondition(osmTags: $osmTags, osmElements: $osmElements)';
 }

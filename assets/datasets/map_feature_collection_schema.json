@@ -6,7 +6,7 @@
   "items": {
     "type": "object",
     "description": "A map feature template.",
-    "required": [ "name", "icon", "osm_tags", "osm_element" ],
+    "required": [ "name", "icon", "conditions"],
     "additionalProperties": false,
     "properties": {
       "name": {
@@ -17,32 +17,45 @@
         "description": "The icon name/identifier from the custom icons map.",
         "type": "string"
       },
-      "osm_tags": {
-        "type": "object",
-        "description": "A key value map of OSM tags that define that osm feature.",
-        "additionalProperties": {
-          "description": "If this is set to a boolean the corresponding osm tag either needs to exist or not independent of its value. An array means one of the given values must match the tag value.",
-          "type": ["string", "boolean", "array"],
-          "items": {
-            "type": ["string", "boolean"]
-          },
-          "minItems": 1
-        }
-      },
-      "osm_element": {
-        "description": "A single OSM element or list of elements. An array means one of the given elements must match.",
-        "anyOf": [
-          {
-            "$ref": "#/definitions/osm_element_type"
-          },
-          {
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/osm_element_type"
+      "conditions": {
+        "description": "A list of conditions where one must be met in order to ask this question. (Logical OR)",
+        "type": "array",
+        "items": {
+          "description": "All specified properties must be met in order to evaluate the entire condition as true. (Logical AND)",
+          "type": "object",
+          "properties": {
+            "osm_tags": {
+              "type": "object",
+              "description": "A key value map of OSM tags that define that osm feature.",
+              "additionalProperties": {
+                "description": "If this is set to a boolean the corresponding osm tag either needs to exist or not independent of its value. An array means one of the given values must match the tag value.",
+                "type": ["string", "boolean", "array"],
+                "items": {
+                  "type": ["string", "boolean"]
+                },
+                "minItems": 1
+              }
             },
-            "minItems": 1
-          }
-        ]
+            "osm_element": {
+              "description": "A single OSM element or list of elements. An array means one of the given elements must match.",
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/osm_element_type"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/osm_element_type"
+                  },
+                  "minItems": 1
+                }
+              ]
+            }
+          },
+          "minProperties": 1,
+          "additionalProperties": false
+        },
+        "minItems": 1
       }
     }
   },
