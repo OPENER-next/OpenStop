@@ -5,7 +5,7 @@ import '/models/osm_condition.dart';
 import '/models/osm_element_type.dart';
 import '/commons/custom_icons.dart';
 
-/// A map feature defines how certain elements will be represented and descriped.
+/// A map feature defines how certain elements will be represented and described.
 
 class MapFeature {
   final String name;

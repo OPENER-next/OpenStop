@@ -195,18 +195,6 @@
     "conditions": [
       {
         "osm_tags": {
-          "entrance": "yes"
-        },
-        "osm_element": "Node"
-      }
-    ]
-  },
-  {
-    "name": "Tür",
-    "icon": "door",
-    "conditions": [
-      {
-        "osm_tags": {
           "entrance": true
         },
         "osm_element": "Node"
@@ -222,16 +210,28 @@
           "highway": ["footway", "path"]
         },
         "osm_element": ["OpenWay", "ClosedWay"]
-      }
-    ]
-  },
-  {
-    "name": "Weg",
-    "icon": "path",
-    "conditions": [
+      },
       {
         "osm_tags": {
           "sidewalk": true
+        },
+        "osm_element": ["OpenWay", "ClosedWay"]
+      },
+      {
+        "osm_tags": {
+          "sidewalk:left": true
+        },
+        "osm_element": ["OpenWay", "ClosedWay"]
+      },
+      {
+        "osm_tags": {
+          "sidewalk:right": true
+        },
+        "osm_element": ["OpenWay", "ClosedWay"]
+      },
+      {
+        "osm_tags": {
+          "sidewalk:both": true
         },
         "osm_element": ["OpenWay", "ClosedWay"]
       }
