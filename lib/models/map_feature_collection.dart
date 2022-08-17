@@ -58,7 +58,6 @@ class MapFeatureCollection extends ListBase<MapFeature> {
       }
       on StateError {
         // Continue when no matching condition is found.
-        continue;
       }
     }
     return bestMatch;
