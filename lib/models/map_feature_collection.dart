@@ -49,7 +49,7 @@ class MapFeatureCollection extends ListBase<MapFeature> {
             typeFromOSMElement(osmElement)
           );
         });
-        // check if there already exists a matched map feature
+        // Check if the newly matched map feature has more matching tags than the previously matched map feature
         final newScore = matchingCondition.osmTags.length;
         if (newScore > score) {
           score = newScore;
