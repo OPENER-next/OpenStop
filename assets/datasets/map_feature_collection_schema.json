@@ -1,6 +1,5 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "/assets/datasets/map_feature_collection_schema.json#",
   "title": "OSM map feature collection",
   "description": "A list of OSM map feature templates, each with an additional visual and textual representation.",
   "type": "array",
@@ -18,7 +17,7 @@
         "description": "The icon name/identifier from the custom icons map.",
         "type": "string"
       },
-      "conditions": { "$ref": "osm_condition_schema.json#/conditions" }
+      "conditions": { "$ref": "/assets/datasets/osm_condition_schema.json" }
     }
   }
 }

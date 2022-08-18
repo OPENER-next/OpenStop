@@ -1,6 +1,5 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "/assets/datasets/question_catalog_schema.json#",
   "title": "Question Catalog",
   "description": "A list of questions.",
   "type": "array",
@@ -87,7 +86,7 @@
         "additionalProperties": false,
         "required": [ "type", "values" ]
       },
-      "conditions": { "$ref": "osm_condition_schema.json#/conditions" },
+      "conditions": { "$ref": "/assets/datasets/osm_condition_schema.json" },
       "isProfessional": {
         "description": "Certain questions seek for information that requires authorization or might be dangerous to collect. If omitted this will fallback to false.",
         "type": "boolean",
