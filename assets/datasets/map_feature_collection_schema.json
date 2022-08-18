@@ -6,7 +6,7 @@
   "items": {
     "type": "object",
     "description": "A map feature template.",
-    "required": [ "name", "icon", "osm_tags", "osm_element" ],
+    "required": [ "name", "icon", "conditions"],
     "additionalProperties": false,
     "properties": {
       "name": {
@@ -17,20 +17,7 @@
         "description": "The icon name/identifier from the custom icons map.",
         "type": "string"
       },
-      "osm_tags": {
-        "description": "A map of OSM tags that define this map feature.",
-        "type": "object",
-        "additionalProperties": {
-          "type": "string"
-        }
-      },
-      "osm_element": {
-        "description": "The type of OSM element that builds the foundation of this map feature.",
-        "$ref": "#/definitions/osm_element_type"
-      }
+      "conditions": { "$ref": "/assets/datasets/osm_condition_schema.json" }
     }
-  },
-  "definitions": {
-    "osm_element_type": { "enum": ["Node", "OpenWay", "ClosedWay", "Relation"] }
   }
 }

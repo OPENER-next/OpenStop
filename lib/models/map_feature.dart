@@ -1,52 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 
-import '/models/osm_element_type.dart';
+import '/models/osm_condition.dart';
 import '/commons/custom_icons.dart';
 
+/// A map feature defines how certain elements will be represented and described.
 
 class MapFeature {
   final String name;
 
   final IconData icon;
 
-  final Map<String, String> osmTags;
-
-  final OSMElementType osmElement;
+  final List<OsmCondition> conditions;
 
   const MapFeature({
     required this.name,
     required this.icon,
-    required this.osmTags,
-    required this.osmElement,
+    required this.conditions,
   });
 
-  factory MapFeature.fromJSON(Map<String, dynamic> json) =>
-      MapFeature(
-        name: json['name'],
-        icon: customIcons[json['icon']] ?? CommunityMaterialIcons.cancel,
-        osmTags: json['osm_tags']?.cast<String, String>() ?? <String, String>{},
-        osmElement: (json['osm_element'] as String).toOSMElementType(),
-      );
-
+  factory MapFeature.fromJSON(Map<String, dynamic> json) {
+    return MapFeature(
+      name: json['name'],
+      icon: customIcons[json['icon']] ?? CommunityMaterialIcons.cancel,
+      conditions: json['conditions']
+      // https://github.com/dart-lang/linter/issues/3226
+      // ignore: unnecessary_lambdas
+          ?.map<OsmCondition>((e) =>OsmCondition.fromJSON(e))
+          ?.toList(growable: false) ?? [],
+    );
+  }
   @override
   String toString() =>
-      'MapFeature(name: $name, icon: $icon, osm_tags: $osmTags, osm_element: $osmElement)';
-
-  /// Check whether this map feature matches the given data.
-
-  bool matches(Map<String, String> tags, OSMElementType type) =>
-      matchesElement(type) && matchesTags(tags);
-
-
-  /// Check whether the tags of this map feature matches the given tags.
-
-  bool matchesTags(Map<String, String> tags) =>
-      osmTags.entries.every((entry) => tags[entry.key] == entry.value);
-
-
-  /// Check whether the element types of this map feature matches the given element type.
-
-  bool matchesElement(OSMElementType type) =>
-      osmElement == type;
+      'MapFeature(name: $name, icon: $icon, conditions: $conditions)';
 }

@@ -2,15 +2,15 @@ import '/models/osm_element_type.dart';
 
 /// This class holds the conditions that specify if a [Question] should be asked.
 
-class QuestionCondition {
+class OsmCondition {
 
   final Map<String, dynamic> osmTags;
 
   final List<OSMElementType> osmElements;
 
-  const QuestionCondition(this.osmTags, this.osmElements);
+  const OsmCondition(this.osmTags, this.osmElements);
 
-  factory QuestionCondition.fromJSON(Map<String, dynamic> json) {
+  factory OsmCondition.fromJSON(Map<String, dynamic> json) {
     final List<OSMElementType> osmElement = [];
     if (json['osm_element'] is List) {
       osmElement.addAll(json['osm_element']
@@ -21,12 +21,11 @@ class QuestionCondition {
       osmElement.add((json['osm_element'] as String).toOSMElementType());
     }
 
-    return QuestionCondition(
+    return OsmCondition(
       json['osm_tags'] ?? <String, dynamic>{},
       osmElement
     );
   }
-
 
   /// Check whether this condition matches the given data.
 
@@ -67,7 +66,6 @@ class QuestionCondition {
     }
     return actualValue == conditionValue;
   }
-
 
   @override
   String toString() => 'QuestionCondition(osmTags: $osmTags, osmElements: $osmElements)';

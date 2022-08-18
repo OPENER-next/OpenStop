@@ -2,188 +2,294 @@
   {
     "name": "Haltestelle",
     "icon": "stop",
-    "osm_tags": {
-      "public_transport": "platform"
-    },
-    "osm_element": "Node"
+    "conditions": [
+      {
+        "osm_tags": {
+          "public_transport": "platform"
+        },
+        "osm_element": "Node"
+      }
+    ]
   },
   {
     "name": "Haltestelle",
     "icon": "platform",
-    "osm_tags": {
-      "public_transport": "platform"
-    },
-    "osm_element": "OpenWay"
-  },
-  {
-    "name": "Haltestelle",
-    "icon": "platform",
-    "osm_tags": {
-      "public_transport": "platform"
-    },
-    "osm_element": "ClosedWay"
-  },
-  {
-    "name": "Haltestelle",
-    "icon": "platform",
-    "osm_tags": {
-      "public_transport": "platform"
-    },
-    "osm_element": "Relation"
+    "conditions": [
+      {
+        "osm_tags": {
+          "public_transport": "platform"
+        },
+        "osm_element": ["OpenWay", "ClosedWay", "Relation"]
+      }
+    ]
   },
   {
     "name": "Bahnsteig",
     "icon": "train_platform",
-    "osm_tags": {
-      "public_transport": "platform",
-      "railway": "platform"
-    },
-    "osm_element": "ClosedWay"
+    "conditions": [
+      {
+        "osm_tags": {
+          "public_transport": "platform",
+          "railway": "platform"
+        },
+        "osm_element": ["ClosedWay", "Relation"]
+      }
+    ]
   },
   {
-    "name": "Bahnsteig",
-    "icon": "train_platform",
-    "osm_tags": {
-      "public_transport": "platform",
-      "railway": "platform"
-    },
-    "osm_element": "Relation"
+    "name": "Station",
+    "icon": "station",
+    "conditions": [
+      {
+        "osm_tags": {
+          "public_transport": "station",
+          "railway": "station"
+        }
+      },
+      {
+        "osm_tags": {
+          "public_transport": "station",
+          "amenity": "bus_station"
+        }
+      }
+    ]
   },
   {
     "name": "Fahrtkartenverkaufsstelle",
     "icon": "ticket_shop",
-    "osm_tags": {
-      "shop": "ticket",
-      "tickets:public_transport": "yes"
-    },
-    "osm_element": "Node"
+    "conditions": [
+      {
+        "osm_tags": {
+          "shop": "ticket",
+          "tickets:public_transport": "yes"
+        },
+        "osm_element": "Node"
+      }
+    ]
   },
   {
     "name": "Informationsstelle",
     "icon": "information",
-    "osm_tags": {
-      "tourism": "information",
-      "information": "office"
-    },
-    "osm_element": "Node"
+    "conditions": [
+      {
+        "osm_tags": {
+          "tourism": "information",
+          "information": "office"
+        },
+        "osm_element": "Node"
+      }
+    ]
   },
   {
     "name": "Stations-/Haltestellenplan",
     "icon": "map",
-    "osm_tags": {
-      "tourism": "information",
-      "information": "map",
-      "map_type": "public_transport",
-      "map_size": "site"
-    },
-    "osm_element": "Node"
+    "conditions": [
+      {
+        "osm_tags": {
+          "tourism": "information",
+          "information": "map",
+          "map_type": "public_transport",
+          "map_size": "site"
+        },
+        "osm_element": "Node"
+      }
+    ]
   },
   {
     "name": "Fahrkartenautomat",
     "icon": "ticket_machine",
-    "osm_tags": {
-      "amenity": "vending_machine",
-      "vending": "public_transport_tickets"
-    },
-    "osm_element": "Node"
+    "conditions": [
+      {
+        "osm_tags": {
+          "amenity": "vending_machine",
+          "vending": "public_transport_tickets"
+        },
+        "osm_element": "Node"
+      }
+    ]
   },
   {
     "name": "Parkplatz",
     "icon": "parking",
-    "osm_tags": {
-      "amenity": "parking"
-    },
-    "osm_element": "Node"
-  },
-  {
-    "name": "Parkplatz",
-    "icon": "parking",
-    "osm_tags": {
-      "amenity": "parking"
-    },
-    "osm_element": "ClosedWay"
+    "conditions": [
+      {
+        "osm_tags": {
+          "amenity": "parking"
+        },
+        "osm_element": ["Node", "ClosedWay"]
+      }
+    ]
   },
   {
     "name": "Taxi-Stand",
     "icon": "taxi",
-    "osm_tags": {
-      "amenity": "taxi"
-    },
-    "osm_element": "Node"
+    "conditions": [
+      {
+        "osm_tags": {
+          "amenity": "taxi"
+        },
+        "osm_element": "Node"
+      }
+    ]
   },
   {
     "name": "Toiletten",
     "icon": "toilet",
-    "osm_tags": {
-      "amenity": "toilets"
-    },
-    "osm_element": "Node"
+    "conditions": [
+      {
+        "osm_tags": {
+          "amenity": "toilets"
+        },
+        "osm_element": "Node"
+      }
+    ]
   },
   {
     "name": "Gepäckschließfächer",
     "icon": "locker",
-    "osm_tags": {
-      "amenity": "luggage_locker"
-    },
-    "osm_element": "Node"
+    "conditions": [
+      {
+        "osm_tags": {
+          "amenity": "luggage_locker"
+        },
+        "osm_element": "Node"
+      }
+    ]
   },
   {
     "name": "Gepäcktransport",
     "icon": "trolley",
-    "osm_tags": {
-      "amenity": "trolley_bay"
-    },
-    "osm_element": "Node"
+    "conditions": [
+      {
+        "osm_tags": {
+          "amenity": "trolley_bay"
+        },
+        "osm_element": "Node"
+      }
+    ]
   },
   {
     "name": "Informationssäule",
     "icon": "terminal_info",
-    "osm_tags": {
-      "tourism": "information",
-      "information": "terminal"
-    },
-    "osm_element": "Node"
+    "conditions": [
+      {
+        "osm_tags": {
+          "tourism": "information",
+          "information": "terminal"
+        },
+        "osm_element": "Node"
+      }
+    ]
   },
   {
     "name": "Kombinierte Informations- und Notrufsäule",
     "icon": "terminal",
-    "osm_tags": {
-      "emergency": "phone",
-      "tourism": "information",
-      "information": "terminal"
-    },
-    "osm_element": "Node"
+    "conditions": [
+      {
+        "osm_tags": {
+          "emergency": "phone",
+          "tourism": "information",
+          "information": "terminal"
+        },
+        "osm_element": "Node"
+      }
+    ]
   },
   {
     "name": "Notrufsäule",
     "icon": "terminal_emergency",
-    "osm_tags": {
-      "emergency": "phone"
-    },
-    "osm_element": "Node"
+    "conditions": [
+      {
+        "osm_tags": {
+          "emergency": "phone"
+        },
+        "osm_element": "Node"
+      }
+    ]
   },
   {
     "name": "Tür",
     "icon": "door",
-    "osm_tags": {
-      "entrance": "yes"
-    },
-    "osm_element": "Node"
+    "conditions": [
+      {
+        "osm_tags": {
+          "entrance": true
+        },
+        "osm_element": "Node"
+      }
+    ]
   },
   {
     "name": "Weg",
     "icon": "path",
-    "osm_tags": {
-      "highway": "footway"
-    },
-    "osm_element": "OpenWay"
+    "conditions": [
+      {
+        "osm_tags": {
+          "highway": ["footway", "path"]
+        },
+        "osm_element": ["OpenWay", "ClosedWay"]
+      },
+      {
+        "osm_tags": {
+          "sidewalk": ["yes", "right", "left", "both"]
+        },
+        "osm_element": ["OpenWay", "ClosedWay"]
+      },
+      {
+        "osm_tags": {
+          "sidewalk:left": "yes"
+        },
+        "osm_element": ["OpenWay", "ClosedWay"]
+      },
+      {
+        "osm_tags": {
+          "sidewalk:right": "yes"
+        },
+        "osm_element": ["OpenWay", "ClosedWay"]
+      },
+      {
+        "osm_tags": {
+          "sidewalk:both": "yes"
+        },
+        "osm_element": ["OpenWay", "ClosedWay"]
+      }
+    ]
   },
   {
-    "name": "Weg",
-    "icon": "path",
-    "osm_tags": {
-      "highway": "path"
-    },
-    "osm_element": "OpenWay"
+    "name": "Treppe",
+    "icon": "stairs",
+    "conditions": [
+      {
+        "osm_tags": {
+          "highway": "steps"
+        },
+        "osm_element": "OpenWay"
+      }
+    ]
+  },
+  {
+    "name": "Fahrstuhl",
+    "icon": "elevator",
+    "conditions": [
+      {
+        "osm_tags": {
+          "highway": "elevator"
+        },
+        "osm_element": "Node"
+      }
+    ]
+  },
+  {
+    "name": "Rolltreppe",
+    "icon": "escalator",
+    "conditions": [
+      {
+        "osm_tags": {
+          "highway": "steps",
+          "conveying": ["yes", "forward", "backward", "reversible"]
+        },
+        "osm_element": "OpenWay"
+      }
+    ]
   }
 ]

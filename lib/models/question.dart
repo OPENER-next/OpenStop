@@ -1,4 +1,4 @@
-import '/models/question_condition.dart';
+import '/models/osm_condition.dart';
 import '/models/question_input.dart';
 
 /// A question is a bundle of data that describes what will be shown, when it will be shown
@@ -17,7 +17,7 @@ class Question {
 
   final bool isProfessional;
 
-  final List<QuestionCondition> conditions;
+  final List<OsmCondition> conditions;
 
   final QuestionInput input;
 
@@ -43,7 +43,7 @@ class Question {
       conditions: json['conditions']
         // https://github.com/dart-lang/linter/issues/3226
         // ignore: unnecessary_lambdas
-        ?.map<QuestionCondition>((e) =>QuestionCondition.fromJSON(e))
+        ?.map<OsmCondition>((e) =>OsmCondition.fromJSON(e))
         ?.toList(growable: false) ?? [],
       input: QuestionInput.fromJSON(json['input']) ,
       isProfessional: json['isProfessional'] ?? false

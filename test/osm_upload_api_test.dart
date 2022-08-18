@@ -5,6 +5,7 @@ import 'package:open_stop/api/osm_element_upload_api.dart';
 import 'package:open_stop/models/authenticated_user.dart';
 import 'package:open_stop/models/map_feature.dart';
 import 'package:open_stop/models/map_feature_collection.dart';
+import 'package:open_stop/models/osm_condition.dart';
 import 'package:open_stop/models/osm_element_type.dart' as app;
 import 'package:open_stop/models/stop.dart';
 import 'package:open_stop/models/stop_area.dart';
@@ -50,30 +51,36 @@ void main() async {
   ], LatLng(10.00001, 20.00001), 200);
 
 
-  final mapFeatureCollection = MapFeatureCollection(const [
+  final mapFeatureCollection = MapFeatureCollection( const [
     MapFeature(
       name: 'MapFeature1',
       icon: Icons.close,
-      osmTags: {
-        'map_feature_1': 'map_feature_1_value'
-      },
-      osmElement: app.OSMElementType.node
+      conditions: [
+        OsmCondition(
+            {'map_feature_1': 'map_feature_1_value'},
+            [app.OSMElementType.node, app.OSMElementType.openWay]
+        )
+      ]
     ),
     MapFeature(
       name: 'MapFeature2',
       icon: Icons.close,
-      osmTags: {
-        'map_feature_2': 'map_feature_2_value'
-      },
-      osmElement: app.OSMElementType.node
+      conditions: [
+        OsmCondition(
+          {'map_feature_2': 'map_feature_2_value'},
+          [app.OSMElementType.node]
+        )
+      ]
     ),
     MapFeature(
       name: 'MapFeature3',
       icon: Icons.close,
-      osmTags: {
-        'map_feature_3': 'map_feature_3_value'
-      },
-      osmElement: app.OSMElementType.openWay
+      conditions: [
+        OsmCondition(
+          {'map_feature_3': 'map_feature_3_value'},
+          [app.OSMElementType.openWay]
+        )
+      ]
     )
   ]);
 
@@ -97,11 +104,11 @@ void main() async {
 
     nodes = await Future.wait([
       osmapi.createElement(
-        OSMNode(10, 20, tags: Map.of(mapFeatureCollection[0].osmTags)),
+        OSMNode(10, 20, tags: Map.of(mapFeatureCollection[0].conditions.first.osmTags.cast<String, String>())),
         changesetId
       ),
       osmapi.createElement(
-        OSMNode(10.00001, 20.00001, tags: Map.of(mapFeatureCollection[1].osmTags)),
+        OSMNode(10.00001, 20.00001, tags: Map.of(mapFeatureCollection[1].conditions.first.osmTags.cast<String, String>())),
         changesetId
       ),
       osmapi.createElement(
@@ -116,7 +123,7 @@ void main() async {
 
     ways = await Future.wait([
       osmapi.createElement(
-        OSMWay([nodes[2].id, nodes[3].id], tags: Map.of(mapFeatureCollection[2].osmTags)),
+        OSMWay([nodes[2].id, nodes[3].id], tags: Map.of(mapFeatureCollection[2].conditions.first.osmTags.cast<String, String>())),
         changesetId
       ),
     ]);
