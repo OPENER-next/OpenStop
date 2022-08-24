@@ -48,7 +48,7 @@ jobs:
     - name: Prepare OSM website Database
       run: |
         docker-compose run --rm web rake db:migrate
-        docker-compose run web bundle install --no-deployment
+        docker-compose run web bundle config set path 'vendor/cache'
         docker-compose run web bundle exec rake i18n:js:export
       # The command below populates the db with some test data
       # However this somehow doesn't update the unique key counter, wherefore the creation of new elements will fail due to a duplicate key value violation
