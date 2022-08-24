@@ -1457,7 +1457,7 @@
    },
    {
       "id": 2080,
-      "name": "Art der Umlaufsperre",
+      "name": "Umlaufsperren-Art",
       "question": "Wie ist der Aufbau der Umlaufsperre?",
       "input": {
          "type": "List",
@@ -1504,7 +1504,7 @@
    },
    {
       "id": 2081,
-      "name": "Durchgangsbreite der Umlaufsperre",
+      "name": "Umlaufsperren-Durchgangsbreite",
       "question": "Was ist die Durchgangsbreite der Umlaufsperre?",
       "image": [
          "assets/images/questions/2081a.jpg"
@@ -1540,7 +1540,7 @@
    },
    {
       "id": 2081,
-      "name": "Zugangsbreite der Umlaufsperre",
+      "name": "Umlaufsperren-Zugangsbreite",
       "question": "Wie breit ist die schmalste Öffnung der Umlaufsperre?",
       "image": [
          "assets/images/questions/2081b.jpg"
@@ -1576,7 +1576,7 @@
    },
    {
       "id": 2081,
-      "name": "Abstand der Umlaufsperren",
+      "name": "Umlaufsperren-Abstand",
       "question": "Was ist der kleinste Abstand zwischen den Elementen der Umlaufsperre?",
       "image": [
          "assets/images/questions/2081c.jpg"
