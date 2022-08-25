@@ -1470,7 +1470,7 @@
                }
             },
             "double": {
-               "name": "Doppelt",
+               "name": "Zweifach",
                "image": "assets/images/questions/2080b.jpg",
                "osm_tags": {
                   "cycle_barrier": "double"
@@ -1509,7 +1509,7 @@
       "image": [
          "assets/images/questions/2081a.jpg"
       ],
-      "description": "Die Durchngangsbreite, auch lichte Breite genannt, beschreibt die maximal zulässige Breite um eine Sperre passieren zu können.",
+      "description": "Die Durchngangsbreite, auch lichte Breite genannt, beschreibt die maximal zulässige Breite, um eine Sperre passieren zu können.",
       "input": {
          "type": "Number",
          "values": {
