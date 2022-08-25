@@ -291,5 +291,17 @@
         "osm_element": "OpenWay"
       }
     ]
+  },
+  {
+    "name": "Umlaufsperre",
+    "icon": "cycle_barrier",
+    "conditions": [
+      {
+        "osm_tags": {
+          "barrier": "cycle_barrier"
+        },
+        "osm_element": "Node"
+      }
+    ]
   }
 ]
