@@ -114,8 +114,8 @@
    },
    {
       "id": 1051,
-      "name": "Parkplatzart",
-      "question": "Um welche Parkplatzart handelt es sich?",
+      "name": "Parkplatz-Art",
+      "question": "Um welche Art von Parkplatz handelt es sich?",
       "input": {
          "type": "List",
          "values": {
@@ -310,6 +310,9 @@
       "id": 1071,
       "name": "Toiletten-Zugänglichkeit",
       "question": "Für wen sind die Toiletten zugänglich?",
+      "image": [
+         "packages/nvbw_open_data/photos/1071a.jpg"
+      ],
       "input": {
          "type": "List",
          "values": {
@@ -387,7 +390,7 @@
    },
    {
       "id": 1073,
-      "name": "Art des Toiletten-Schlüssels",
+      "name": "Toilettenschlüssel-Art",
       "question": "Welche Art von Schlüssel ist für den Toiletten-Zugang notwendig?",
       "input": {
          "type": "List",
@@ -704,6 +707,10 @@
       "name": "Ansagen",
       "question": "Gibt es Ansagen über Lautsprecher an der Plattform?",
       "description": "Unter Ansagen werden die akustischen Fahrgastinformationen an der Haltestelle verstanden.",
+      "image": [
+         "packages/nvbw_open_data/photos/1150a.jpg",
+         "packages/nvbw_open_data/photos/1150b.jpg"
+      ],
       "input": {
          "type": "Bool",
          "values": {
@@ -731,7 +738,7 @@
    },
    {
       "id": 1150,
-      "name": "Ansagetyp",
+      "name": "Ansage-Art",
       "question": "Von welcher Art sind die Ansagen an der Plattform?",
       "description": "Unter Ansagen werden die akustischen Fahrgastinformationen an der Haltestelle verstanden.",
       "input": {
@@ -805,7 +812,7 @@
    },
    {
       "id": 1170,
-      "name": "Bordsteinart",
+      "name": "Bordstein-Art",
       "question": "Welche Art von Bordstein hat die Plattform an der Seite, an der das Verkehrsmittel hält?",
       "input": {
          "type": "List",
@@ -945,48 +952,6 @@
                   "yes"
                ],
                "kerb:approach_aid": false
-            }
-         }
-      ]
-   },
-   {
-      "id": 1201,
-      "name": "Spurführungs-Art",
-      "question": "Welche Art von Spurführung hat der Bordstein?",
-      "description": "Bordsteine mit Spurführung sind speziell geformt, um Bussen ein dichtes Heranfahren an die Bordsteinkante zu ermöglichen.",
-      "input": {
-         "type": "List",
-         "values": {
-            "kassel": {
-               "name": "Kasseler Sonderbord",
-               "image": "assets/images/questions/1201a.jpg",
-               "osm_tags": {
-                  "kerb:approach_aid": "Kassel Sonderbord"
-               }
-            },
-            "double": {
-               "name": "Kasseler Sonderbord Plus",
-               "description": "Hochbord mit doppelter Hohlkehle",
-               "image": "assets/images/questions/1201b.jpg",
-               "osm_tags": {
-                  "kerb:approach_aid": "Kassel Sonderbord Plus"
-               }
-            },
-            "combi": {
-               "name": "Dresdner Combibord",
-               "description": "Hochbord für kombinierte Bus- und Straßenbahnhaltestellen",
-               "image": "assets/images/questions/1201c.jpg",
-               "osm_tags": {
-                  "kerb:approach_aid": "Dresden Combibord"
-               }
-            }
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "public_transport": "platform",
-               "kerb:approach_aid": "yes"
             }
          }
       ]
@@ -1232,7 +1197,7 @@
          "values": {
             "hinged": {
                "name": "Anschlagtür",
-               "image": "assets/images/questions/2032a.jpg",
+               "image": "packages/nvbw_open_data/photos/2032a.jpg",
                "osm_tags": {
                   "door": "hinged"
                }
@@ -1253,7 +1218,7 @@
             },
             "swinging": {
                "name": "Pendeltür",
-               "image": "assets/images/questions/2032d.jpg",
+               "image": "packages/nvbw_open_data/photos/2032d.jpg",
                "osm_tags": {
                   "door": "swinging"
                }
@@ -1426,6 +1391,10 @@
       "name": "Bodenindikatoren",
       "question": "Gibt es Bodenindikatoren auf der Plattform?",
       "description": "Bodenindikatoren sind Bodenelemente im öffentlichen Raum zur Information, Orientierung, Leitung und Warnung sehbehinderter Menschen. Sie stehen in einem hohen taktilen, visuellen und gegebenenfalls akustischen Kontakt zum angrenzenden Bodenbelag.",
+      "image": [
+         "packages/nvbw_open_data/photos/2070a.jpg",
+         "packages/nvbw_open_data/photos/2070b.jpg"
+      ],
       "input": {
          "type": "Bool",
          "values": {
@@ -1615,7 +1584,7 @@
       "name": "Treppenlift",
       "question": "Gibt es an der Treppen einen Treppenlift für Rollstuhlfahrende?",
       "image": [
-         "assets/images/questions/2090.jpg"
+         "assets/images/questions/2090a.jpg"
       ],
       "input": {
          "type": "Bool",
@@ -1779,7 +1748,7 @@
       "name": "Fahrstuhl-Blindenschrift",
       "question": "Ist auf den Bedienelementen Blindenschrift vorhanden?",
       "image": [
-         "assets/images/questions/2096jpg"
+         "assets/images/questions/2096a.jpg"
       ],
       "description": "Blindenschrift sind Zeichen, die mit den Fingern gelesen werden können.",
       "input": {
@@ -1868,11 +1837,11 @@
    {
       "id": 2115,
       "name": "Handlauf-Blindenschrift",
-      "question": "Ist auf bzw. an dem Handlauf Blindenschrift vorhanden?",
+      "question": "Ist auf dem Handlauf Blindenschrift vorhanden?",
       "image": [
-         "assets/images/questions/2115jpg"
+         "assets/images/questions/2115.jpg"
       ],
-      "description": "Blinde können durch Blindenschrift am Handlauf Informationen erhalten, z.B. wohin die Treppe führt.",
+      "description": "Blindenschrift sind Zeichen, die mit den Fingern gelesen werden können. Diese können u.a. geprägte gewöhnliche Buchstaben oder besondere Symbole sein, wie z.B. bei der Brailleschrift. Blinde können durch Blindenschrift am Handlauf Informationen erhalten, z.B. wohin die Treppe führt.",
       "input": {
          "type": "Bool",
          "values": {
@@ -1904,7 +1873,8 @@
       "name": "Treppen-Handlauf",
       "question": "Hat die Treppe einen Handlauf?",
       "image": [
-         "assets/images/questions/2114jpg"
+         "packages/nvbw_open_data/photos/2114a.jpg",
+         "packages/nvbw_open_data/photos/2114b.jpg"
       ],
       "input": {
          "type": "Bool",
