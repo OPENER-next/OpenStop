@@ -1456,6 +1456,161 @@
       ]
    },
    {
+      "id": 2080,
+      "name": "Umlaufsperren-Art",
+      "question": "Wie ist der Aufbau der Umlaufsperre?",
+      "input": {
+         "type": "List",
+         "values": {
+            "single": {
+               "name": "Einfach",
+               "image": "assets/images/questions/2080a.jpg",
+               "osm_tags": {
+                  "cycle_barrier": "single"
+               }
+            },
+            "double": {
+               "name": "Zweifach",
+               "image": "assets/images/questions/2080b.jpg",
+               "osm_tags": {
+                  "cycle_barrier": "double"
+               }
+            },
+            "triple": {
+               "name": "Dreifach",
+               "image": "assets/images/questions/2080c.jpg",
+               "osm_tags": {
+                  "cycle_barrier": "triple"
+               }
+            },
+            "diagonal": {
+               "name": "Diagonal",
+               "image": "assets/images/questions/2080d.jpg",
+               "osm_tags": {
+                  "cycle_barrier": "diagonal"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "barrier": "cycle_barrier",
+               "cycle_barrier": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "id": 2081,
+      "name": "Umlaufsperren-Durchgangsbreite",
+      "question": "Was ist die Durchgangsbreite der Umlaufsperre?",
+      "image": [
+         "assets/images/questions/2081a.jpg"
+      ],
+      "description": "Die Durchngangsbreite, auch lichte Breite genannt, beschreibt die maximal zulässige Breite, um eine Sperre passieren zu können.",
+      "input": {
+         "type": "Number",
+         "values": {
+            "single": {
+               "name": "Breite",
+               "decimals": 0,
+               "min": 30,
+               "max": 1000,
+               "unit": "Centimeter",
+               "osm_tags": {
+                  "maxwidth:physical": "%s cm"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "barrier": "cycle_barrier",
+               "cycle_barrier": [
+                  "single", "diagonal"
+               ],
+               "maxwidth:physical": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "id": 2081,
+      "name": "Umlaufsperren-Zugangsbreite",
+      "question": "Wie breit ist die schmalste Öffnung der Umlaufsperre?",
+      "image": [
+         "assets/images/questions/2081b.jpg"
+      ],
+      "description": "Die Zugangsbreite beschreibt die Durchgangsbreite an der Öffnung der Umlaufsperre. Bei unterschiedlichen Zugangsbreiten ist die kleinste Breite zu erfassen.",
+      "input": {
+         "type": "Number",
+         "values": {
+            "single": {
+               "name": "Breite",
+               "decimals": 0,
+               "min": 30,
+               "max": 1000,
+               "unit": "Centimeter",
+               "osm_tags": {
+                  "opening": "%s cm"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "barrier": "cycle_barrier",
+               "cycle_barrier": [
+                  "double", "triple"
+               ],
+               "opening": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "id": 2081,
+      "name": "Umlaufsperren-Abstand",
+      "question": "Was ist der kleinste Abstand zwischen den Elementen der Umlaufsperre?",
+      "image": [
+         "assets/images/questions/2081c.jpg"
+      ],
+      "description": "Der Abstand beschreibt die Durchgangsbreite zwischen den Sperrelementen. Bei unterschiedlichen Abständen ist der kleinste Abstand zu erfassen.",
+      "input": {
+         "type": "Number",
+         "values": {
+            "single": {
+               "name": "Abstand",
+               "decimals": 0,
+               "min": 30,
+               "max": 1000,
+               "unit": "Centimeter",
+               "osm_tags": {
+                  "spacing": "%s cm"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "barrier": "cycle_barrier",
+               "cycle_barrier": [
+                  "double", "triple"
+               ],
+               "spacing": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
       "id": 2090,
       "name": "Treppenlift",
       "question": "Gibt es an der Treppen einen Treppenlift für Rollstuhlfahrende?",
@@ -1491,17 +1646,17 @@
    },
    {
       "id": 2093,
-      "name": "Treppenlift-Länge",
-      "question": "Wie lang ist die Stellfläche des Treppenlifts?",
+      "name": "Treppenlift-Tiefe",
+      "question": "Wie tief ist die Stellfläche des Treppenlifts?",
       "image": [
          "assets/images/questions/2093a.jpg"
       ],
-      "description": "Als Länge wird die Distanz in Fahrtrichtung erfasst.",
+      "description": "Als Tiefe wird die Distanz in Fahrtrichtung erfasst.",
       "input": {
          "type": "Number",
          "values": {
             "single": {
-               "name": "Treppenlift-Länge",
+               "name": "Treppenlift-Tiefe",
                "decimals": 0,
                "min": 50,
                "max": 200,
