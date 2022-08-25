@@ -708,7 +708,7 @@
       "question": "Gibt es Ansagen über Lautsprecher an der Plattform?",
       "description": "Unter Ansagen werden die akustischen Fahrgastinformationen an der Haltestelle verstanden.",
       "image": [
-         "packages/nvbw_open_data/photos/1150a.jpg",
+         "assets/images/questions/1150a.jpg",
          "packages/nvbw_open_data/photos/1150b.jpg"
       ],
       "input": {
@@ -1352,7 +1352,7 @@
       "id": 2050,
       "name": "Bodenbeschaffenheit",
       "question": "Wie ist der Boden beschaffen?",
-      "description": "Besteht die Oberfläche aus Schotter, Sand oder einem vergleichbaren Belag, so handelt es sich um einen unbefestigten Bodenbelag.",
+      "description": "Besteht die Oberfläche aus Schotter, Sand, Gras oder einem vergleichbaren Belag, so handelt es sich um einen unbefestigten Bodenbelag.",
       "input": {
          "type": "List",
          "values": {
