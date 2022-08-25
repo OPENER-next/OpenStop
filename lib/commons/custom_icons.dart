@@ -22,5 +22,6 @@ const Map<String, IconData> customIcons = {
   'path': Icons.directions_walk,
   'stairs': CommunityMaterialIcons.stairs,
   'elevator': CommunityMaterialIcons.elevator_passenger,
-  'escalator': CommunityMaterialIcons.escalator
+  'escalator': CommunityMaterialIcons.escalator,
+  'cycle_barrier': CommunityMaterialIcons.sign_caution
 };

@@ -693,6 +693,7 @@
       "conditions": [
          {
             "osm_tags": {
+               "public_transport": "platform",
                "passenger_information_display": "yes",
                "passenger_information_display:speech_output": false
             }
