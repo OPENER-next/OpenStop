@@ -311,7 +311,7 @@
       "name": "Toiletten-Zugänglichkeit",
       "question": "Für wen sind die Toiletten zugänglich?",
       "image": [
-         "packages/nvbw_open_data/photos/1071a.jpg"
+         "assets/images/questions/1071a.jpg"
       ],
       "input": {
          "type": "List",
@@ -800,8 +800,21 @@
          {
             "osm_tags": {
                "public_transport": "platform",
+               "railway": false,
                "train": [false, "no"],
                "bus": [false, "yes"],
+               "kerb": false
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay"
+            ]
+         },
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "railway": "platform",
+               "bus": "yes",
                "kerb": false
             },
             "osm_element": [
