@@ -2,9 +2,11 @@ import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 
 const Map<String, IconData> customIcons = {
-  'stop': CommunityMaterialIcons.bus_stop,
+  'bus': CommunityMaterialIcons.bus,
+  'tram': CommunityMaterialIcons.tram,
+  'train': CommunityMaterialIcons.train,
   'platform': CommunityMaterialIcons.bus_stop_covered,
-  'train_platform': CommunityMaterialIcons.train,
+  'pole': CommunityMaterialIcons.bus_stop,
   'station': CommunityMaterialIcons.home,
   'ticket_shop': CommunityMaterialIcons.ticket_confirmation,
   'information': CommunityMaterialIcons.information_variant,
