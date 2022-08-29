@@ -148,7 +148,7 @@ class Questionnaire {
 
   ProxyOSMElement _createWorkingElement([Iterable<QuestionnaireEntry>? entries]) {
     final changes = (entries ?? _entries)
-      .where((entry) => entry.answer != null)
+      .where((entry) => entry.hasValidAnswer)
       .map((entry) => entry.answer!.toTagMap());
 
     return ProxyOSMElement(_osmElement,
@@ -173,11 +173,11 @@ class QuestionnaireEntry<T extends Answer> {
   final Question question;
   final T? answer;
 
+  bool get hasValidAnswer => answer?.isValid == true;
 
   @override
   int get hashCode =>
     question.hashCode;
-
 
   @override
   bool operator == (other) =>

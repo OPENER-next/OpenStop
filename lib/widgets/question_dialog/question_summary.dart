@@ -2,22 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '/view_models/osm_authenticated_user_provider.dart';
-import '/models/questionnaire.dart';
 
 class QuestionSummary extends StatelessWidget {
-  final List<QuestionnaireEntry> questionEntries;
+  final List<String> questions;
+
+  final List<String?> answers;
 
   final void Function(int index)? onJump;
 
   const QuestionSummary({
-    required this.questionEntries,
+    required this.questions,
+    required this.answers,
     this.onJump,
     Key? key
-  }) : super(key: key);
+  })  :
+    assert(questions.length == answers.length, 'Every question should have a corresponding answer.'),
+    super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final hasAnyAnswer = questionEntries.any((entry) => entry.answer != null);
+    final hasAnyAnswer = answers.any((answer) => answer != null);
     const textStyle = TextStyle(
       height: 1.3,
       fontSize: 20,
@@ -64,10 +68,10 @@ class QuestionSummary extends StatelessWidget {
 
 
   Iterable<Widget> _buildEntries() sync* {
-    for (int i = 0, j = 0; i < questionEntries.length; i++) {
+    for (int i = 0, j = 0; i < questions.length; i++) {
       // filter unanswered questions
       // use this extra method instead of .where and .map to get access to the correct index
-      if (questionEntries[i].answer != null) {
+      if (answers[i] != null) {
         if (j > 0) {
           yield const Divider(
             height: 1,
@@ -82,7 +86,8 @@ class QuestionSummary extends StatelessWidget {
 
 
   Widget _buildEntry(int index) {
-    final entry = questionEntries[index];
+    final question = questions[index];
+    final answer = answers[index];
 
     return Material(
       child: InkWell(
@@ -102,12 +107,12 @@ class QuestionSummary extends StatelessWidget {
                 constraints: const BoxConstraints(minWidth: 100, maxWidth: 200),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Text('${entry.question.name}:')
+                  child: Text('$question:')
                 ),
               ),
               Expanded(
                 child: Text(
-                  entry.answer.toString(),
+                  answer!,
                   textAlign: TextAlign.right,
                 )
               ),

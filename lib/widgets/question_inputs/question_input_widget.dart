@@ -85,9 +85,11 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
     }
   }
 
-  get isEmpty => _answer == null;
+  bool get isEmpty => _answer == null;
 
-  get isNotEmpty => !isEmpty;
+  bool get isNotEmpty => !isEmpty;
+
+  bool get hasValidAnswer => _answer?.isValid == true;
 
 
   static AnswerController fromType<T extends Answer>({

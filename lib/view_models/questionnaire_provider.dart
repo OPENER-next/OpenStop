@@ -2,61 +2,81 @@ import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
 import 'package:osm_api/osm_api.dart';
 
+import '/models/questionnaire_store.dart';
+import '/models/question.dart';
 import '/models/questionnaire.dart';
 import '/models/proxy_osm_element.dart';
-import '/models/answer.dart';
 import '/models/question_catalog.dart';
+import '/widgets/question_inputs/question_input_widget.dart';
 
 
 class QuestionnaireProvider extends ChangeNotifier {
 
-  final _questionnaires = <Questionnaire>[];
+  final _questionnaireStore = QuestionnaireStore();
 
-  var _currentQuestionnaireIndex = -1;
+  Questionnaire? _activeQuestionnaire;
 
-  Questionnaire? get _currentQuestionnaire {
-    if (_currentQuestionnaireIndex > -1 && _currentQuestionnaireIndex < _questionnaires.length) {
-      return _questionnaires[_currentQuestionnaireIndex];
-    }
-    return null;
-  }
+  final Map<QuestionnaireEntry, AnswerController> _answerControllerMapping = {};
 
+
+  ProxyOSMElement? get workingElement => _activeQuestionnaire?.workingElement;
+
+  int get questionCount => _activeQuestionnaire?.length ?? 0;
 
   bool get hasQuestions => questionCount > 0;
 
+  /// Whether all questions of the current questionnaire have been visited.
 
-  ProxyOSMElement? get workingElement => _currentQuestionnaire?.workingElement;
+  bool get isFinished {
+    if (_activeQuestionnaire != null) {
+      return _questionnaireStore.isFinished(_activeQuestionnaire!);
+    }
+    return false;
+  }
 
+  UnmodifiableListView<Question> get questions {
+    return UnmodifiableListView(
+      _activeQuestionnaire?.entries.map(
+        (entry) => entry.question
+      ) ?? const Iterable.empty()
+    );
+  }
 
-  int get questionCount => _currentQuestionnaire?.length ?? 0;
+  UnmodifiableListView<AnswerController> get answers {
+    return UnmodifiableListView(
+      _activeQuestionnaire?.entries.map(
+        (entry) => _answerControllerMapping[entry]!
+      ) ?? const Iterable.empty()
+    );
+  }
 
-
-  UnmodifiableListView<QuestionnaireEntry> get currentQuestions => _currentQuestionnaire?.entries ?? UnmodifiableListView([]);
-
-
-  int? get activeQuestionIndex => _currentQuestionnaire?.activeIndex;
-
-  QuestionnaireEntry? get activeQuestionEntry => _currentQuestionnaire?.activeEntry;
-
+  int? get currentQuestionnaireIndex => _activeQuestionnaire?.activeIndex;
 
   /// An unique identifier for the current questionnaire
 
-  Key get key => ValueKey(_currentQuestionnaire);
+  Key get key => ValueKey(_activeQuestionnaire);
 
   /// This either reopens an existing questionnaire or creates a new one.
 
   void open(OSMElement osmElement, QuestionCatalog questionCatalog) {
-    _currentQuestionnaireIndex = _questionnaires.indexWhere(
+    if (_activeQuestionnaire != null) {
+      // store latest answer from previous questionnaire
+      _updateQuestionnaireAnswer();
+    }
+
+    _activeQuestionnaire = _questionnaireStore.find(
       (questionnaire) => questionnaire.workingElement.isOther(osmElement),
     );
 
-    if (_currentQuestionnaireIndex == -1) {
-      _questionnaires.add(Questionnaire(
+    if (_activeQuestionnaire == null) {
+      _activeQuestionnaire = Questionnaire(
         osmElement: osmElement,
         questionCatalog: questionCatalog
-      ));
-      _currentQuestionnaireIndex = _questionnaires.length - 1;
+      );
+      _questionnaireStore.add(_activeQuestionnaire!);
     }
+
+    _updateAnswerControllers();
 
     notifyListeners();
   }
@@ -64,60 +84,116 @@ class QuestionnaireProvider extends ChangeNotifier {
   /// Close the currently active questionnaire if any.
 
   void close() {
-    _currentQuestionnaireIndex = -1;
+    // store latest answer from questionnaire
+    _updateQuestionnaireAnswer();
+    // unset current questionnaire
+    _activeQuestionnaire = null;
+    _updateAnswerControllers();
+
     notifyListeners();
   }
 
   /// Remove a previously stored questionnaire.
 
   void discard(ProxyOSMElement osmElement) {
-    final index = _questionnaires.indexWhere(
+    final questionnaire = _questionnaireStore.find(
       (questionnaire) => questionnaire.workingElement == osmElement,
     );
 
-    if (index > -1) {
-      _questionnaires.removeAt(index);
-      // in case a questionnaire is currently active and its index is greater
-      // then the removed index we need to update the index
-      if (_currentQuestionnaireIndex > index) {
-        _currentQuestionnaireIndex = _currentQuestionnaireIndex - 1;
+    if (questionnaire != null) {
+      _questionnaireStore.remove(questionnaire);
+
+      if (questionnaire == _activeQuestionnaire) {
+        // unset current questionnaire
+        _activeQuestionnaire = null;
+        _updateAnswerControllers();
       }
       notifyListeners();
     }
   }
 
 
-  void answerQuestion(Answer? answer) {
-    if (_currentQuestionnaire != null) {
-      _currentQuestionnaire!.update(answer);
+  void previousQuestion() {
+    if (_activeQuestionnaire != null) {
+      if (_questionnaireStore.isFinished(_activeQuestionnaire!)) {
+        _questionnaireStore.markAsUnfinished(_activeQuestionnaire!);
+      }
+      else {
+        _updateQuestionnaireAnswer();
+        _updateAnswerControllers();
+        _activeQuestionnaire!.previous();
+      }
       notifyListeners();
     }
   }
 
 
-  bool previousQuestion() {
-    if (_currentQuestionnaire?.previous() == true) {
+  void nextQuestion() {
+    if (_activeQuestionnaire != null) {
+      _updateQuestionnaireAnswer();
+      _updateAnswerControllers();
+      final hasNext = _activeQuestionnaire!.next();
+
+      if (!hasNext && _questionnaireStore.isUnfinished(_activeQuestionnaire!)) {
+        _questionnaireStore.markAsFinished(_activeQuestionnaire!);
+      }
       notifyListeners();
-      return true;
     }
-    return false;
   }
 
 
-  bool nextQuestion() {
-    if (_currentQuestionnaire?.next() == true) {
+  void jumpToQuestion(int index) {
+    if (_activeQuestionnaire != null) {
+      _updateQuestionnaireAnswer();
+      _updateAnswerControllers();
+
+      _activeQuestionnaire!.jumpTo(index);
+      _questionnaireStore.markAsUnfinished(_activeQuestionnaire!);
+
       notifyListeners();
-      return true;
     }
-    return false;
+  }
+
+  /// Stores the answer of the current question in the questionnaire.
+  /// This refreshes the questionnaire and may add new or remove obsolete questions.
+
+  void _updateQuestionnaireAnswer() {
+    final answerController = _answerControllerMapping[_activeQuestionnaire!.activeEntry];
+    _activeQuestionnaire!.update(answerController!.answer);
+  }
+
+  /// Maps all [QuestionnaireEntry]s to typed [AnswerController]s.
+  /// Should be called on every questionnaire "update".
+  /// If no questionnaire is selected this will remove and dispose all left over answer controllers.
+
+  void _updateAnswerControllers() {
+    final questionEntries = _activeQuestionnaire?.entries ?? const <QuestionnaireEntry>[];
+    // remove obsolete answer controllers
+    _answerControllerMapping.removeWhere((questionEntry, controller) {
+      if (!questionEntries.contains(questionEntry)) {
+        controller.dispose();
+        return true;
+      }
+      return false;
+    });
+    // add new answer controllers for each entry if none already exists
+    for (final questionEntry in questionEntries) {
+      _answerControllerMapping.putIfAbsent(
+        questionEntry,
+        () => AnswerController.fromType(
+          type: questionEntry.question.input.type,
+          initialAnswer: questionEntry.answer
+        )
+      );
+    }
   }
 
 
-  bool jumpToQuestion(int index) {
-    if (_currentQuestionnaire?.jumpTo(index) == true) {
-      notifyListeners();
-      return true;
-    }
-    return false;
+  @override
+  void dispose() {
+    // dispose all answer controllers
+    _activeQuestionnaire = null;
+    _updateAnswerControllers();
+    super.dispose();
   }
 }

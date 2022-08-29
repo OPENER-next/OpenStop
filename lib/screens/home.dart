@@ -321,8 +321,10 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
                 },
                 child: questionnaireProvider.hasQuestions
                   ? QuestionDialog(
-                    activeQuestionIndex: questionnaireProvider.activeQuestionIndex!,
-                    questionEntries: questionnaireProvider.currentQuestions,
+                    activeQuestionIndex: questionnaireProvider.currentQuestionnaireIndex!,
+                    questions: questionnaireProvider.questions,
+                    answers: questionnaireProvider.answers,
+                    showSummary: questionnaireProvider.isFinished,
                     maxHeightFactor: _HomeScreenContent.questionDialogMaxHeightFactor,
                     key: questionnaireProvider.key,
                   )
