@@ -95,10 +95,10 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
 
             if (number != null) {
               if (questionInputValue.max != null && number > questionInputValue.max!) {
-                return '$nameString darf ${questionInputValue.max}$unitString nicht überschreiten.';
+                return 'Zu hoch! $nameString darf ${questionInputValue.max}$unitString nicht überschreiten.';
               }
               else if (questionInputValue.min != null && number < questionInputValue.min!) {
-                return '$nameString darf ${questionInputValue.min}$unitString nicht unterschreiten.';
+                return 'Zu niedrig! $nameString darf ${questionInputValue.min}$unitString nicht unterschreiten.';
               }
             }
             return 'Ungültige Zahl';
