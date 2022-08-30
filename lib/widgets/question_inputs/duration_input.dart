@@ -60,26 +60,46 @@ class DurationInput extends QuestionInputWidget<DurationAnswer> {
 }
 
 
-class TimeScroller extends AnimatedWidget {
+class TimeScroller extends StatefulWidget {
   final QuestionInput definition;
 
   final TimeUnit timeUnit;
 
+  final AnswerController<DurationAnswer> controller;
+
   const TimeScroller({
     required this.definition,
-    required AnswerController<DurationAnswer> controller,
+    required this.controller,
     required this.timeUnit,
     Key? key,
-  }) : super(listenable: controller, key: key);
+  }) : super(key: key);
 
-  AnswerController<DurationAnswer> get controller
-    => listenable as AnswerController<DurationAnswer>;
+  @override
+  State<TimeScroller> createState() => _TimeScrollerState();
+}
+
+class _TimeScrollerState extends State<TimeScroller> {
+  late final _scrollController = FixedExtentScrollController(
+    initialItem: _clampIndex(_valueToIndex(_currentValue))
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.addListener(_answerControllerChange);
+  }
+
+  @override
+  void didUpdateWidget(covariant TimeScroller oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.controller != oldWidget.controller) {
+      widget.controller.addListener(_answerControllerChange);
+      oldWidget.controller.removeListener(_answerControllerChange);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final currentDuration = controller.answer?.value ?? Duration.zero;
-    final currentValue = _extractFromDuration(timeUnit.key, currentDuration);
-
     return Stack(
       children: [
         Container(
@@ -101,19 +121,18 @@ class TimeScroller extends AnimatedWidget {
           ),
           child: ListWheelScrollView.useDelegate(
             itemExtent: 30,
-            controller: FixedExtentScrollController(),
+            controller: _scrollController,
             physics: const FixedExtentScrollPhysics(),
             onSelectedItemChanged: _handleChange,
             childDelegate: ListWheelChildBuilderDelegate(
               builder: (BuildContext context, int index) {
-                index = _clampIndex(index);
-                final value = _calcValueOfIndex(index);
+                final value = _indexToValue(index);
                 return Center(
                   child: AnimatedOpacity(
-                    opacity: value == currentValue ? 1 : 0.3,
+                    opacity: value == _currentValue ? 1 : 0.3,
                     duration: const Duration(milliseconds: 200),
                     child: AnimatedScale(
-                      scale: value == currentValue ? 1 : 0.7,
+                      scale: value == _currentValue ? 1 : 0.7,
                       duration: const Duration(milliseconds: 200),
                       child: Text(
                         value.toString().padLeft(2, '0'),
@@ -131,7 +150,7 @@ class TimeScroller extends AnimatedWidget {
           child: Container(
             color: Theme.of(context).colorScheme.background,
             padding: const EdgeInsets.symmetric(horizontal: 4.0),
-            child: Text(timeUnit.label,
+            child: Text(widget.timeUnit.label,
               style: Theme.of(context).textTheme.caption
             )
           ),
@@ -140,9 +159,16 @@ class TimeScroller extends AnimatedWidget {
     );
   }
 
-  int _clampIndex(int index) => (-index) % (timeUnit.max ~/ timeUnit.steps);
+  Duration get _currentDuration => widget.controller.answer?.value ?? Duration.zero;
 
-  int _calcValueOfIndex(int index) => index * timeUnit.steps;
+  int get _currentValue => _extractFromDuration(widget.timeUnit.key, _currentDuration);
+
+  int _clampIndex(int index) => (-index) % (widget.timeUnit.max ~/ widget.timeUnit.steps);
+
+  int _indexToValue(int index) => _clampIndex(index) * widget.timeUnit.steps;
+
+  int _valueToIndex(int value) => value ~/ widget.timeUnit.steps;
+
 
   /// Returns the value of this unit of a given [Duration]
 
@@ -156,25 +182,39 @@ class TimeScroller extends AnimatedWidget {
     }
   }
 
-  void _handleChange(int index) {
-    index = _clampIndex(index);
-    final value = _calcValueOfIndex(index);
-    final currentDuration = controller.answer?.value ?? Duration.zero;
+  /// Update scroll controller on answer controller changes.
 
+  void _answerControllerChange() {
+    final newIndex = _valueToIndex(_currentValue);
+    // only update scroll controller if index differs to avoid endless regressions
+    if (_clampIndex(_scrollController.selectedItem) != newIndex) {
+      _scrollController.jumpToItem(newIndex);
+    }
+  }
+
+  void _handleChange(int index) {
+    final value = _indexToValue(index);
     final newDuration = Duration(
-      days: timeUnit.key == 'd' ? value : _extractFromDuration('d', currentDuration),
-      hours: timeUnit.key == 'h' ? value : _extractFromDuration('h', currentDuration),
-      minutes: timeUnit.key == 'm' ? value : _extractFromDuration('m', currentDuration),
-      seconds: timeUnit.key == 's' ? value : _extractFromDuration('s', currentDuration),
+      days: widget.timeUnit.key == 'd' ? value : _extractFromDuration('d', _currentDuration),
+      hours: widget.timeUnit.key == 'h' ? value : _extractFromDuration('h', _currentDuration),
+      minutes: widget.timeUnit.key == 'm' ? value : _extractFromDuration('m', _currentDuration),
+      seconds: widget.timeUnit.key == 's' ? value : _extractFromDuration('s', _currentDuration),
     );
 
     // if all values are zero return null
-    controller.answer = newDuration != Duration.zero
+    widget.controller.answer = newDuration != Duration.zero
       ? DurationAnswer(
-        questionValues: definition.values,
+        questionValues: widget.definition.values,
         value: newDuration
       )
       : null;
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    widget.controller.removeListener(_answerControllerChange);
+    super.dispose();
   }
 }
 
