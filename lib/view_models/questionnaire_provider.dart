@@ -62,6 +62,11 @@ class QuestionnaireProvider extends ChangeNotifier {
     if (_activeQuestionnaire != null) {
       // store latest answer from previous questionnaire
       _updateQuestionnaireAnswer();
+      // if a previous questionnaire exists, remove all answer controllers
+      // this is necessary since the QuestionnaireEntry -> AnswerController mapping is only unique per questionnaire
+      // other questionnaires might have the exact same QuestionnaireEntry and would therefore otherwise reuse previous AnswerControllers
+      _activeQuestionnaire = null;
+      _updateAnswerControllers();
     }
 
     _activeQuestionnaire = _questionnaireStore.find(
