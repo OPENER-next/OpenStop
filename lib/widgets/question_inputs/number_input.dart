@@ -76,6 +76,7 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
           onPressed: _handleChange,
           icon: const Icon(Icons.clear_rounded),
         ),
+        errorMaxLines: 2,
       ),
       autovalidateMode: AutovalidateMode.always,
       validator: (text) {
@@ -89,12 +90,17 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
           if (!answer.isValid) {
             final number = double.tryParse( text.replaceAll(',', '.') );
 
+            final nameString = questionInputValue.name ?? 'Wert';
+            final unitString = questionInputValue.unit != null
+              ? ' ${questionInputValue.unit}'
+              : '';
+
             if (number != null) {
               if (questionInputValue.max != null && number > questionInputValue.max!) {
-                return 'Wert darf höchstens ${questionInputValue.max} sein';
+                return 'Zu hoch! $nameString darf ${questionInputValue.max}$unitString nicht überschreiten.';
               }
               else if (questionInputValue.min != null && number < questionInputValue.min!) {
-                return 'Wert muss mindestens ${questionInputValue.min} sein';
+                return 'Zu niedrig! $nameString darf ${questionInputValue.min}$unitString nicht unterschreiten.';
               }
             }
             return 'Ungültige Zahl';
