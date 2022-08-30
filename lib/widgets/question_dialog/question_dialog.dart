@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:osm_api/osm_api.dart';
 
-import '/models/questionnaire.dart';
+import '/models/question.dart';
 import '/view_models/osm_elements_provider.dart';
 import '/view_models/osm_authenticated_user_provider.dart';
 import '/view_models/questionnaire_provider.dart';
@@ -21,16 +21,23 @@ import 'question_text_header.dart';
 class QuestionDialog extends StatefulWidget {
   final int activeQuestionIndex;
 
-  final List<QuestionnaireEntry> questionEntries;
+  final List<Question> questions;
+  final List<AnswerController> answers;
+
+  final bool showSummary;
 
   final double maxHeightFactor;
 
   const QuestionDialog({
     required this.activeQuestionIndex,
-    required this.questionEntries,
-    required this.maxHeightFactor,
+    required this.questions,
+    required this.answers,
+    this.showSummary = false,
+    this.maxHeightFactor = 0.75,
     Key? key
-  }) : super(key: key);
+  }) :
+    assert(questions.length == answers.length, 'Every question should have a corresponding answer controller.'),
+    super(key: key);
 
   @override
   State<QuestionDialog> createState() => _QuestionDialogState();
@@ -38,49 +45,14 @@ class QuestionDialog extends StatefulWidget {
 
 
 class _QuestionDialogState extends State<QuestionDialog> {
-  var _isFinished = false;
-
   final _layerLink = LayerLink();
-
-  final Map<QuestionnaireEntry, AnswerController> _answerControllerMapping = {};
-
-  @override
-  void initState() {
-    super.initState();
-    _updateControllers();
-  }
-
-  @override
-  void didUpdateWidget(covariant QuestionDialog oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _updateControllers();
-  }
-
-  /// Maps all QuestionnaireEntries to typed AnswerControllers
-
-  void _updateControllers() {
-    // remove obsolete text controllers
-    _answerControllerMapping.removeWhere((key, value) => !widget.questionEntries.contains(key));
-    // add new text controllers for each entry if none already exists
-    for (final questionEntry in widget.questionEntries) {
-      _answerControllerMapping.putIfAbsent(
-        questionEntry,
-        () => AnswerController.fromType(
-          type: questionEntry.question.input.type,
-          initialAnswer: questionEntry.answer
-        )
-      );
-    }
-  }
-
 
   @override
   Widget build(BuildContext context) {
-    final activeQuestionnaireEntry = widget.questionEntries[widget.activeQuestionIndex];
-    final questionCount = widget.questionEntries.length;
-    final activeIndex = widget.activeQuestionIndex + (_isFinished ? 1 : 0);
+    final questionCount = widget.questions.length;
+    final activeIndex = widget.showSummary ? questionCount : widget.activeQuestionIndex;
     final hasPrevious = activeIndex > 0;
-    final hasAnyAnswer = widget.questionEntries.any((entry) => entry.answer != null);
+    final hasAnyValidAnswer = widget.answers.any((controller) => controller.hasValidAnswer);
 
     // Use WillPopScope with "false" to prevent that back button closes app instead of Question Dialog
     return WillPopScope(
@@ -112,9 +84,15 @@ class _QuestionDialogState extends State<QuestionDialog> {
                             _buildQuestion
                           ),
                           QuestionSheet(
-                            elevate: _isFinished,
+                            elevate: widget.showSummary,
                             child: QuestionSummary(
-                              questionEntries: widget.questionEntries,
+                              questions: widget.questions.map(
+                                (question) => question.name
+                              ).toList(),
+                              answers: widget.answers.map((controller) => controller.hasValidAnswer
+                                ? controller.answer.toString()
+                                : null
+                              ).toList(),
                               onJump: _handleJump
                             )
                           )
@@ -137,19 +115,23 @@ class _QuestionDialogState extends State<QuestionDialog> {
                               backgroundColor: Theme.of(context).colorScheme.onBackground,
                             ),
                             CompositedTransformTarget(
-                                link: _layerLink,
-                                child: AnimatedBuilder(
-                                    animation: _answerControllerMapping[activeQuestionnaireEntry]!,
-                                    builder: (context, child) {
-                                      final answer = _answerControllerMapping[activeQuestionnaireEntry]?.answer;
-                                      return QuestionNavigationBar(
-                                        nextText: _isFinished ? null : answer != null ? 'Weiter' : 'Überspringen',
-                                        backText: hasPrevious ? 'Zurück' : null,
-                                        onNext: _handleNext,
-                                        onBack: _handleBack,
-                                      );
-                                    }
-                                )
+                              link: _layerLink,
+                              child: AnimatedBuilder(
+                                animation: widget.answers[widget.activeQuestionIndex],
+                                builder: (context, child) {
+                                  final answerController = widget.answers[widget.activeQuestionIndex];
+                                  return QuestionNavigationBar(
+                                    nextText: widget.showSummary
+                                      ? null
+                                      : answerController.hasValidAnswer ? 'Weiter' : 'Überspringen',
+                                    backText: hasPrevious
+                                      ? 'Zurück'
+                                      : null,
+                                    onNext: _handleNext,
+                                    onBack: _handleBack,
+                                  );
+                                }
+                              )
                             ),
                           ],
                         ),
@@ -173,7 +155,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
                         child: child,
                       );
                     },
-                    child: _isFinished && hasAnyAnswer
+                    child: widget.showSummary && hasAnyValidAnswer
                       ? FloatingActionButton.large(
                         elevation: 0,
                         highlightElevation: 2,
@@ -198,19 +180,19 @@ class _QuestionDialogState extends State<QuestionDialog> {
 
 
   Widget _buildQuestion(int index) {
-    final questionnaireEntry = widget.questionEntries[index];
+    final question = widget.questions[index];
     final isActive = widget.activeQuestionIndex == index;
 
     return QuestionSheet(
       elevate: isActive,
-      key: ValueKey(questionnaireEntry.question),
+      key: ValueKey(question),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           QuestionTextHeader(
-            question: questionnaireEntry.question.question,
-            details: questionnaireEntry.question.description,
-            images: questionnaireEntry.question.images,
+            question: question.question,
+            details: question.description,
+            images: question.images,
           ),
           Padding(
             padding: const EdgeInsets.only(
@@ -219,8 +201,8 @@ class _QuestionDialogState extends State<QuestionDialog> {
               bottom: 30
             ),
             child: QuestionInputWidget.fromQuestionInput(
-              definition: questionnaireEntry.question.input,
-              controller: _answerControllerMapping[questionnaireEntry]!,
+              definition: question.input,
+              controller: widget.answers[index],
             )
           )
         ],
@@ -230,51 +212,24 @@ class _QuestionDialogState extends State<QuestionDialog> {
 
 
   void _handleBack() {
+    // always unfocus the current node to close all onscreen keyboards
+    FocusManager.instance.primaryFocus?.unfocus();
     final questionnaire = context.read<QuestionnaireProvider>();
-
-    _update();
-
-    if (_isFinished) {
-      setState(() {
-        _isFinished = false;
-      });
-    }
-    else {
-      questionnaire.previous();
-    }
+    questionnaire.previousQuestion();
   }
 
 
   void _handleNext() {
+    // always unfocus the current node to close all onscreen keyboards
+    FocusManager.instance.primaryFocus?.unfocus();
     final questionnaire = context.read<QuestionnaireProvider>();
-    // first update the questionnaire then check the new values
-    _update();
-
-    final isLast = questionnaire.activeIndex! == questionnaire.length! - 1;
-
-    if (isLast) {
-      if (!_isFinished) {
-        setState(() {
-          _isFinished = true;
-        });
-      }
-    }
-    else {
-      questionnaire.next();
-    }
+    questionnaire.nextQuestion();
   }
 
 
   void _handleJump(int index) {
     final questionnaire = context.read<QuestionnaireProvider>();
-
-    if (_isFinished) {
-      setState(() {
-        _isFinished = false;
-      });
-    }
-
-    questionnaire.jumpTo(index);
+    questionnaire.jumpToQuestion(index);
   }
 
 
@@ -303,13 +258,15 @@ class _QuestionDialogState extends State<QuestionDialog> {
           authenticatedUser: authenticationProvider.authenticatedUser!,
           locale: Localizations.localeOf(context)
         );
+        // on success remove stored questionnaire
+        questionnaire.discard(osmElement);
         scaffold.showSnackBar(
           CustomSnackBar('Änderungen erfolgreich übertragen.')
         );
       }
       on OSMConnectionException {
         scaffold.showSnackBar(
-          CustomSnackBar('Fehler: Kein Verbindung zum OSM-Server.')
+          CustomSnackBar('Fehler: Keine Verbindung zum OSM-Server.')
         );
       }
       catch(e) {
@@ -319,29 +276,5 @@ class _QuestionDialogState extends State<QuestionDialog> {
         );
       }
     }
-  }
-
-  void _update() {
-    final questionnaire = context.read<QuestionnaireProvider>();
-
-    final activeQuestionEntry = widget.questionEntries[widget.activeQuestionIndex];
-    final answerController = _answerControllerMapping[activeQuestionEntry]!;
-
-    if (answerController.answer?.isValid == false) {
-      questionnaire.update(null);
-    }
-    else {
-      questionnaire.update(answerController.answer);
-    }
-    debugPrint('Previous Answer: ${answerController.answer}');
-    // always unfocus the current node to close all onscreen keyboards
-    FocusManager.instance.primaryFocus?.unfocus();
-  }
-
-
-  @override
-  void dispose() {
-    _answerControllerMapping.forEach((_, controller) => controller.dispose());
-    super.dispose();
   }
 }

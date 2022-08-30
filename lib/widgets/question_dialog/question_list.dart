@@ -41,27 +41,32 @@ class _QuestionListState extends State<QuestionList> with SingleTickerProviderSt
     );
 
     _delegate = _QuestionListDelegate(_proxyAnimation);
-
-    _updateTweenAnimation();
+    // set initial index as start
+    _updateTweenAnimation(
+      start: widget.index
+    );
   }
 
 
   @override
   void didUpdateWidget(covariant QuestionList oldWidget) {
     super.didUpdateWidget(oldWidget);
-
-    _updateTweenAnimation();
+    // set previous index/value as start
+    _updateTweenAnimation(
+      start: _proxyAnimation.value
+    );
     // rerun animation
     _controller.value = 0;
     _controller.forward();
   }
 
 
-  void _updateTweenAnimation() {
+  void _updateTweenAnimation({
+    required num start
+  }) {
     _proxyAnimation.parent = _animation.drive(
       Tween<double>(
-        // this will be 0 the first time
-        begin: _proxyAnimation.value,
+        begin: start.toDouble(),
         end: widget.index.toDouble()
       )
     );
