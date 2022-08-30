@@ -83,6 +83,10 @@ class QuestionnaireProvider extends ChangeNotifier {
 
     _updateAnswerControllers();
 
+    // instead of restoring the last questionnaire index always restart from the beginning
+    _activeQuestionnaire!.jumpTo(0);
+    _questionnaireStore.markAsUnfinished(_activeQuestionnaire!);
+
     notifyListeners();
   }
 
