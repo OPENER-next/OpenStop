@@ -88,10 +88,7 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
           if (!answer.isValid) {
             final number = double.tryParse( text.replaceAll(',', '.') );
 
-            final nameString = questionInputValue.name != null
-              ? questionInputValue.name!
-              : 'Wert';
-
+            final nameString = questionInputValue.name ?? 'Wert';
             final unitString = questionInputValue.unit != null
               ? ' ${questionInputValue.unit}'
               : '';
