@@ -72,14 +72,14 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
   T? get answer => _answer;
 
   set answer(T? value) {
-    if (value != _answer) {
+    if (value != _answer && !isDisposed) {
       _answer = value;
       notifyListeners();
     }
   }
 
   void clear() {
-    if (_answer != null) {
+    if (_answer != null && !isDisposed) {
       _answer = null;
       notifyListeners();
     }
@@ -111,5 +111,16 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
         return AnswerController(initialAnswer: initialAnswer);
       default: throw TypeError();
     }
+  }
+
+
+  bool _isDisposed = false;
+
+  bool get isDisposed => _isDisposed;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _isDisposed = true;
   }
 }
