@@ -1491,9 +1491,9 @@
       "name": "Umlaufsperren-Durchgangsbreite",
       "question": "Was ist die Durchgangsbreite der Umlaufsperre?",
       "image": [
-         "assets/images/questions/2081a.jpg"
+         "assets/images/questions/2081a.png"
       ],
-      "description": "Die Durchngangsbreite, auch lichte Breite genannt, beschreibt die maximal zulässige Breite, um eine Sperre passieren zu können.",
+      "description": "Die Durchgangsbreite, auch lichte Breite genannt, beschreibt die maximal zulässige Breite, um eine Sperre passieren zu können.",
       "input": {
          "type": "Number",
          "values": {
@@ -1501,7 +1501,7 @@
                "name": "Breite",
                "decimals": 0,
                "min": 30,
-               "max": 1000,
+               "max": 200,
                "unit": "Centimeter",
                "osm_tags": {
                   "maxwidth:physical": "%s cm"
@@ -1525,11 +1525,12 @@
    {
       "id": 2081,
       "name": "Umlaufsperren-Zugangsbreite",
-      "question": "Wie breit ist die schmalste Öffnung der Umlaufsperre?",
+      "question": "Wie breit ist der (schmalste) Zugang der Umlaufsperre?",
       "image": [
-         "assets/images/questions/2081b.jpg"
+         "assets/images/questions/2081b.png",
+         "assets/images/questions/2081c.png"
       ],
-      "description": "Die Zugangsbreite beschreibt die Durchgangsbreite an der Öffnung der Umlaufsperre. Bei unterschiedlichen Zugangsbreiten ist die kleinste Breite zu erfassen.",
+      "description": "Die Zugangsbreite beschreibt die Breite an der Öffnung der Umlaufsperre. Bei unterschiedlichen Zugangsbreiten ist die kleinste Breite zu erfassen.",
       "input": {
          "type": "Number",
          "values": {
@@ -1537,7 +1538,7 @@
                "name": "Breite",
                "decimals": 0,
                "min": 30,
-               "max": 1000,
+               "max": 200,
                "unit": "Centimeter",
                "osm_tags": {
                   "opening": "%s cm"
@@ -1561,9 +1562,10 @@
    {
       "id": 2081,
       "name": "Umlaufsperren-Abstand",
-      "question": "Was ist der kleinste Abstand zwischen den Elementen der Umlaufsperre?",
+      "question": "Wie breit ist der (kleinste) Abstand zwischen den Elementen der Umlaufsperre?",
       "image": [
-         "assets/images/questions/2081c.jpg"
+         "assets/images/questions/2081d.png",
+         "assets/images/questions/2081e.png"
       ],
       "description": "Der Abstand beschreibt die Durchgangsbreite zwischen den Sperrelementen. Bei unterschiedlichen Abständen ist der kleinste Abstand zu erfassen.",
       "input": {
@@ -1573,7 +1575,7 @@
                "name": "Abstand",
                "decimals": 0,
                "min": 30,
-               "max": 1000,
+               "max": 200,
                "unit": "Centimeter",
                "osm_tags": {
                   "spacing": "%s cm"
