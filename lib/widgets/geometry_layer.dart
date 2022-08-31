@@ -1,0 +1,73 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_map/plugin_api.dart';
+
+import '/models/geographic_geometries.dart';
+
+/// Displays a given geographic geometry on the map.
+
+class GeometryLayer extends StatelessWidget {
+  final GeographicGeometry geometry;
+
+  const GeometryLayer({
+    required this.geometry,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final color = Theme.of(context).colorScheme.primary.withOpacity(0.75);
+    final Widget layer;
+
+    if (geometry is GeographicPolyline) {
+      final polyline = geometry as GeographicPolyline;
+      layer = PolylineLayerWidget(
+        options: PolylineLayerOptions(
+          polylines: [
+            Polyline(
+              points: polyline.path,
+              color: color,
+              strokeWidth: 8,
+            ),
+          ],
+        ),
+      );
+    }
+    else if (geometry is GeographicPolygon || geometry is GeographicMultipolygon) {
+      final polygons = geometry is GeographicPolygon
+        ? [ (geometry as GeographicPolygon) ]
+        : (geometry as GeographicMultipolygon).polygons;
+
+      layer = PolygonLayerWidget(
+        options: PolygonLayerOptions(
+          polygons: polygons.map(
+            (polygon) => Polygon(
+              points: polygon.outerShape.path,
+              holePointsList: polygon.innerShapes.map((item) => item.path).toList(),
+              color: color,
+              isFilled: true,
+              borderStrokeWidth: 8,
+              borderColor: color,
+            ),
+          ).toList(),
+        ),
+      );
+    }
+    else {
+      layer = CircleLayerWidget(
+        options: CircleLayerOptions(
+          circles: [
+            CircleMarker(
+              point: geometry.center,
+              radius: 8,
+              color: color,
+            )
+          ]
+        )
+      );
+    }
+
+    return IgnorePointer(
+      child: layer,
+    );
+  }
+}

@@ -8,6 +8,7 @@ import 'package:animated_location_indicator/animated_location_indicator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 
+import '/widgets/geometry_layer.dart';
 import '/view_models/user_location_provider.dart';
 import '/view_models/questionnaire_provider.dart';
 import '/view_models/osm_authenticated_user_provider.dart';
@@ -276,6 +277,22 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
                     stopAreas: stopAreaProvider.stopAreas,
                     loadingStopAreas: osmElementProvider.loadingStopAreas,
                     onStopAreaTap: _onStopAreaTap,
+                  );
+                }
+              ),
+              Consumer2<QuestionnaireProvider, OSMElementProvider>(
+                builder: (context, questionnaireProvider, osmElementProvider, child) {
+                  final selectedElement = questionnaireProvider.workingElement;
+                  return AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    child: (selectedElement != null)
+                      ? GeometryLayer(
+                        geometry: osmElementProvider.extractedOsmElements.firstWhere(
+                          (element) => selectedElement.isOther(element.osmElement)
+                        ).geometry,
+                        key: ValueKey(selectedElement),
+                      )
+                      : null,
                   );
                 }
               ),
