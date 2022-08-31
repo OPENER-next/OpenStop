@@ -257,6 +257,12 @@
           "entrance": true
         },
         "osm_element": "Node"
+      },
+      {
+        "osm_tags": {
+          "door": ["yes", "hinged", "revolving", "sliding", "folding"]
+        },
+        "osm_element": "Node"
       }
     ]
   },
