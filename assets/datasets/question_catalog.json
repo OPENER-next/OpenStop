@@ -1,7 +1,7 @@
 [
    {
       "id": 1021,
-      "name": "Betreiber",
+      "name": "Verkaufsstellen-Betreiber",
       "question": "Welches Verkehrsunternehmen betreibt die Fahrkartenverkaufsstelle?",
       "description": "Bei Verkaufsstellen handelt es sich um Einrichtungen, die Fahrkarten verkaufen (z.B. offizielle Vertriebsstellen der Verkehrsunternehmen oder des Verbundgebietes). Die Verkaufsstellen sind i.d.R. mit einem Erkennungszeichen (Tafel, Wimpel, Aufkleber, etc.) ausgestattet.",
       "input": {
@@ -57,7 +57,7 @@
    },
    {
       "id": 1031,
-      "name": "Betreiber",
+      "name": "Informationsstellen-Betreiber",
       "question": "Welches Verkehrsunternehmen betreibt die Informationsstelle?",
       "input": {
          "type": "String",
@@ -165,7 +165,7 @@
    },
    {
       "id": 1051,
-      "name": "Behindertenparkplätze",
+      "name": "Behindertenp-Parkplätze",
       "question": "Gibt es gesonderte Parkplätze für behinderte Personen?",
       "image": [
          "packages/nvbw_open_data/photos/1051e.jpg",
@@ -203,7 +203,7 @@
    },
    {
       "id": 1051,
-      "name": "Anzahl an Behindertenparkplätzen",
+      "name": "Behindertenparkplatz-Anzahl",
       "question": "Wie viele Parkplätze für behinderte Personen gibt es?",
       "description": "Behindertenparkplätze sind eigene Parkmöglichkeiten für behinderte Personen und weisen i.d.R. geräumigere Stellplatzmaße auf. Behindertenparkplätze sind durch ein Zusatzschild mit dem Piktogramm eines Rollstuhlfahrers gekennzeichnet. Zusätzlich sind meist Bodenmarkierungen angebracht.",
       "input": {
@@ -275,7 +275,7 @@
    },
    {
       "id": 1052,
-      "name": "Parkplatzgebühren",
+      "name": "Parkplatz-Gebühren",
       "question": "Fallen für das Parken Gebühren an?",
       "input": {
          "type": "Bool",
@@ -487,7 +487,7 @@
    },
    {
       "id": 1120,
-      "name": "Sitzplätze vorhanden",
+      "name": "Sitzplätze",
       "question": "Gibt es an der Plattform Sitzplätze?",
       "image": [
          "packages/nvbw_open_data/photos/1120a.jpg",
@@ -1005,7 +1005,7 @@
    },
    {
       "id": 1211,
-      "name": "Länge der bewegbaren Rampe",
+      "name": "Rampen-Länge",
       "question": "Wie lang ist die bewegbare Rollstuhl-Rampe?",
       "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
       "image": [
@@ -1037,7 +1037,7 @@
    },
    {
       "id": 1212,
-      "name": "Tragfähigkeit der bewegbaren Rampe",
+      "name": "Rampen-Tragfähigkeit",
       "question": "Was ist die maximale Tragfähigkeit der bewegbaren Rampe?",
       "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
       "image": [
@@ -1103,7 +1103,7 @@
    },
    {
       "id": 1221,
-      "name": "Stellflächenlänge des bewegbaren Hublifts",
+      "name": "Hublift-Stellflächenlänge",
       "question": "Wie lang ist die Stellfläche des bewegbaren Hublifts?",
       "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
       "image": [
@@ -1135,7 +1135,7 @@
    },
    {
       "id": 1222,
-      "name": "Tragfähigkeit des bewegbaren Hublifts",
+      "name": "Hublift-Tragfähigkeit",
       "question": "Was ist die maximale Tragfähigkeit der bewegbaren Hublifts?",
       "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
       "image": [
@@ -1167,7 +1167,7 @@
    },
    {
       "id": 2032,
-      "name": "Tür vorhanden",
+      "name": "Tür",
       "question": "Hat dieser Durchgang eine Tür?",
       "input": {
          "type": "Bool",
@@ -1448,28 +1448,28 @@
          "values": {
             "single": {
                "name": "Einfach",
-               "image": "assets/images/questions/2080a.jpg",
+               "image": "assets/images/questions/2080a.png",
                "osm_tags": {
                   "cycle_barrier": "single"
                }
             },
             "double": {
                "name": "Zweifach",
-               "image": "assets/images/questions/2080b.jpg",
+               "image": "assets/images/questions/2080b.png",
                "osm_tags": {
                   "cycle_barrier": "double"
                }
             },
             "triple": {
                "name": "Dreifach",
-               "image": "assets/images/questions/2080c.jpg",
+               "image": "assets/images/questions/2080c.png",
                "osm_tags": {
                   "cycle_barrier": "triple"
                }
             },
             "diagonal": {
                "name": "Diagonal",
-               "image": "assets/images/questions/2080d.jpg",
+               "image": "assets/images/questions/2080d.png",
                "osm_tags": {
                   "cycle_barrier": "diagonal"
                }
