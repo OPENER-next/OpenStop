@@ -343,6 +343,8 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
     final questionnaire = context.read<QuestionnaireProvider>();
     if (questionnaire.workingElement != null ) {
       questionnaire.close();
+      // if a questionnaire was open then do not load or zoom fit the stop area
+      return;
     }
 
     final osmElementProvider = context.read<OSMElementProvider>();
