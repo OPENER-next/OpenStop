@@ -353,107 +353,6 @@
       ]
    },
    {
-      "id": 1073,
-      "name": "Toiletten nur mit Schlüssel zugänglich",
-      "question": "Ist für den Zugang zur Toilette für Rollstuhlfahrende ein Schlüssel nötig?",
-      "input": {
-         "type": "Bool",
-         "values": {
-            "true": {
-               "osm_tags": {
-                  "centralkey": "yes"
-               }
-            },
-            "false": {
-               "osm_tags": {
-                  "centralkey": "no"
-               }
-            }
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "amenity": "toilets",
-               "access": [
-                  "yes",
-                  false
-               ],
-               "wheelchair": [
-                  "yes",
-                  "designated"
-               ],
-               "centralkey": false
-            }
-         }
-      ]
-   },
-   {
-      "id": 1073,
-      "name": "Toilettenschlüssel-Art",
-      "question": "Welche Art von Schlüssel ist für den Toiletten-Zugang notwendig?",
-      "input": {
-         "type": "List",
-         "values": {
-            "eurokey": {
-               "name": "Euroschlüssel",
-               "description": "Ein Schlüssel, den schwerbehinderte Menschen erwerben können, mit dessen Hilfe zahlreiche Toiletten und andere Einrichtungen in vielen europäischen Ländern geöffnet werden können.",
-               "osm_tags": {
-                  "centralkey": "eurokey"
-               }
-            },
-            "customer": {
-               "name": "Kundenschlüssel",
-               "description": "Ein Schlüssel, der im Einzelhandel zu den Öffnungszeiten ausgeliehen werden kann.",
-               "osm_tags": {
-                  "centralkey": "customer"
-               }
-            }
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "amenity": "toilets",
-               "access": [
-                  "yes",
-                  false
-               ],
-               "centralkey": "yes"
-            }
-         }
-      ]
-   },
-   {
-      "id": 1074,
-      "name": "Schlüssel-Ausleihmöglichkeit",
-      "question": "Wo kann der Toiletten-Schlüssel ausgeliehen werden?",
-      "input": {
-         "type": "String",
-         "values": {
-            "single": {
-               "name": "Beschreibung",
-               "osm_tags": {
-                  "centralkey:description": "%s"
-               }
-            }
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "amenity": "toilets",
-               "access": [
-                  "yes",
-                  false
-               ],
-               "centralkey": "customer",
-               "centralkey:description": false
-            }
-         }
-      ]
-   },
-   {
       "id": 1075,
       "name": "Toiletten-Gebühren",
       "question": "Ist die Nutzung der Toilette kostenpflichtig?",
@@ -1139,7 +1038,7 @@
       "question": "Was ist die maximale Tragfähigkeit der bewegbaren Hublifts?",
       "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
       "image": [
-         "packages/nvbw_open_data/photos/1220a.jpg"
+         "packages/nvbw_open_data/photos/1220b.jpg"
       ],
       "input": {
          "type": "Number",
@@ -1336,7 +1235,7 @@
       "image": [
          "assets/images/questions/2034.jpg"
       ],
-      "description": "Die Durchgangsbreite wird erfasst, um sicherzustellen das Rollstühle, Kinderwagen etc. genug Platz haben. Es ist lediglich die nutzbare Türöffnung (Innenmaße der geöffneten Tür) zu vermessen.",
+      "description": "Die Durchgangsbreite wird erfasst, um sicherzustellen das Rollstühle, Kinderwagen etc. genug Platz haben. Es ist lediglich die nutzbare Türöffnung (Innenmaße der geöffneten Tür) zu messen.",
       "input": {
          "type": "Number",
          "values": {
@@ -1397,6 +1296,28 @@
                "OpenWay",
                "ClosedWay",
                "Relation"
+            ]
+         },
+         {
+            "osm_tags": {
+               "highway": "footway",
+               "footway": [false, "sidewalk"],
+               "surface": false
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay"
+            ]
+         },
+         {
+            "osm_tags": {
+               "highway": "path",
+               "foot": ["yes", "designated"],
+               "surface": false
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay"
             ]
          }
       ]
