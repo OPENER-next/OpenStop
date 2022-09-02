@@ -147,7 +147,7 @@
    },
    {
       "id": 1051,
-      "name": "Behinderten-Parkplätze",
+      "name": "Behindertenparkplätze",
       "question": "Gibt es gesonderte Parkplätze für behinderte Personen?",
       "image": [
          "packages/nvbw_open_data/photos/1051e.jpg",
