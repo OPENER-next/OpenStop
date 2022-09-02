@@ -231,12 +231,10 @@ class _MapLayerSwitcherState<T> extends State<MapLayerSwitcher<T>> with SingleTi
   void dispose() {
     _controller.dispose();
 
-    // this is required since the widget might be unmounted in a later frame
-    _overlayEntry.addListener(() {
-      if (!_overlayEntry.mounted) {
-        _overlayEntry.dispose();
-      }
-    });
+    if (_overlayEntry.mounted) {
+      _overlayEntry.remove();
+    }
+    _overlayEntry.dispose();
 
     super.dispose();
   }
