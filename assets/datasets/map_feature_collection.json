@@ -54,7 +54,7 @@
     ]
   },
   {
-    "name": "Generelle Plattform",
+    "name": "Plattform",
     "icon": "platform",
     "conditions": [
       {
@@ -66,7 +66,7 @@
     ]
   },
   {
-    "name": "Genereller Haltestellenmast",
+    "name": "Haltestellenmast",
     "icon": "pole",
     "conditions": [
       {

@@ -1,9 +1,9 @@
 [
    {
       "id": 1021,
-      "name": "Verkaufsstellen-Betreiber",
-      "question": "Welches Verkehrsunternehmen betreibt die Fahrkartenverkaufsstelle?",
-      "description": "Bei Verkaufsstellen handelt es sich um Einrichtungen, die Fahrkarten verkaufen (z.B. offizielle Vertriebsstellen der Verkehrsunternehmen oder des Verbundgebietes). Die Verkaufsstellen sind i.d.R. mit einem Erkennungszeichen (Tafel, Wimpel, Aufkleber, etc.) ausgestattet.",
+      "name": "Betreiber",
+      "question": "Welches Verkehrsunternehmen betreibt diese Einrichtung?",
+      "description": "Bei Verkaufsstellen handelt es sich um Einrichtungen, die Fahrkarten verkaufen (z.B. offizielle Vertriebsstellen der Verkehrsunternehmen oder des Verbundgebietes). Die Verkaufsstellen sind i.d.R. mit einem Erkennungszeichen (Tafel, Wimpel, Aufkleber, etc.) ausgestattet. Informationsstellen dienen dazu, sich über Reiserouten etc. zu informieren.",
       "input": {
          "type": "String",
          "values": {
@@ -20,6 +20,14 @@
             "osm_tags": {
                "shop": "ticket",
                "tickets:public_transport": "yes",
+               "operator": false
+            }
+         },
+         {
+            "osm_tags": {
+               "tourism": "information",
+               "information": "office",
+               "information:public_transport": "yes",
                "operator": false
             }
          }
@@ -51,32 +59,6 @@
                "shop": "ticket",
                "tickets:public_transport": "yes",
                "wheelchair": false
-            }
-         }
-      ]
-   },
-   {
-      "id": 1031,
-      "name": "Informationsstellen-Betreiber",
-      "question": "Welches Verkehrsunternehmen betreibt die Informationsstelle?",
-      "input": {
-         "type": "String",
-         "values": {
-            "single": {
-               "name": "Betreiber",
-               "osm_tags": {
-                  "operator": "%s"
-               }
-            }
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "tourism": "information",
-               "information": "office",
-               "information:public_transport": "yes",
-               "operator": false
             }
          }
       ]
@@ -165,7 +147,7 @@
    },
    {
       "id": 1051,
-      "name": "Behindertenp-Parkplätze",
+      "name": "Behinderten-Parkplätze",
       "question": "Gibt es gesonderte Parkplätze für behinderte Personen?",
       "image": [
          "packages/nvbw_open_data/photos/1051e.jpg",
@@ -1389,7 +1371,7 @@
    {
       "id": 2081,
       "name": "Umlaufsperren-Durchgangsbreite",
-      "question": "Was ist die Durchgangsbreite der Umlaufsperre?",
+      "question": "Wie groß ist die Durchgangsbreite der Umlaufsperre?",
       "image": [
          "assets/images/questions/2081a.png"
       ],
@@ -1430,7 +1412,7 @@
          "assets/images/questions/2081b.png",
          "assets/images/questions/2081c.png"
       ],
-      "description": "Die Zugangsbreite beschreibt die Breite an der Öffnung der Umlaufsperre. Bei unterschiedlichen Zugangsbreiten ist die kleinste Breite zu erfassen.",
+      "description": "Die Zugangsbreite beschreibt die Durchgangsbreite an der Öffnung der Umlaufsperre. Bei unterschiedlichen Zugangsbreiten ist die kleinste Breite zu erfassen.",
       "input": {
          "type": "Number",
          "values": {
@@ -1462,7 +1444,7 @@
    {
       "id": 2081,
       "name": "Umlaufsperren-Abstand",
-      "question": "Wie breit ist der (kleinste) Abstand zwischen den Elementen der Umlaufsperre?",
+      "question": "Was ist der (kleinste) Abstand zwischen den Elementen der Umlaufsperre?",
       "image": [
          "assets/images/questions/2081d.png",
          "assets/images/questions/2081e.png"
