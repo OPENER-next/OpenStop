@@ -41,16 +41,13 @@ class OSMElementQueryAPI {
   /// Query all elements of the supplied relations and merge them to a single [OSMElementBundle].
 
   Future<OSMElementBundle> _getElementsFromRelations(Iterable<OSMRelation> relations) {
-    // return an empty bundle if an empty set of relations is passed
-    if (relations.isEmpty) {
-      return Future.value(OSMElementBundle());
-    }
     // query all direct relation elements (nodes, ways and relations) + nodes of ways
     final queries = relations.map(
       (relation) => _osmApi.getFullRelation(relation.id),
     );
     // merge all relation element bundles
-    return Stream.fromFutures(queries).reduce(
+    return Stream.fromFutures(queries).fold(
+      OSMElementBundle(),
       (previous, elementBundle) => previous.merge(elementBundle),
     );
   }
