@@ -69,13 +69,24 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
       'OSM way references nodes that cannot be found in the provided node data set.'
     );
     assert(
-      osmWay.nodeIds.length == osmNodes.length,
+      // remove duplicate references for closed ways
+      Set.of(osmWay.nodeIds).length == osmNodes.length,
       'OSM way has node references that differ from the provided node data set.'
     );
 
-    final geometry = GeographicPolyline(
-      osmNodes.map((node) => LatLng(node.lat, node.lon)).toList()
-    );
+    final accumulatedCoordinates = osmWay.nodeIds.map((id) {
+      try {
+        // find node object by id
+        final node = osmNodes.firstWhere((node) => node.id == id);
+        // convert node object to LatLng
+        return LatLng(node.lat, node.lon);
+      }
+      on StateError {
+        throw StateError('OSM node with id $id not found in the provided node data set.');
+      }
+    }).toList();
+
+    final geometry = GeographicPolyline(accumulatedCoordinates);
 
     if (osmWay.isClosed && isArea(osmWay.tags)) {
       return GeometricOSMElement<OSMWay, GeographicPolygon>(
@@ -171,7 +182,7 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
           return LatLng(node.lat, node.lon);
         }
         on StateError {
-          throw StateError('OSM relation member of type node with id $id not found in the provided node data set.');
+          throw StateError('OSM node with id $id not found in the provided node data set.');
         }
       }).toList();
 
