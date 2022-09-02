@@ -1560,9 +1560,9 @@
                "decimals": 2,
                "min": 1,
                "max": 5,
-               "unit": "Meter",
+               "unit": "Centimeter",
                "osm_tags": {
-                  "length": "%s m"
+                  "length": "%s cm"
                }
             }
          }
@@ -1625,9 +1625,9 @@
                "decimals": 2,
                "min": 1,
                "max": 5,
-               "unit": "Meter",
+               "unit": "Centimeter",
                "osm_tags": {
-                  "width": "%s m"
+                  "width": "%s cm"
                }
             }
          }
