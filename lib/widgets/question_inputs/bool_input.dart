@@ -101,7 +101,7 @@ class _BoolInputItemState extends AnimatedWidgetBaseState<BoolInputItem> {
       widthFactor: widget.widthFactor,
       child: OutlinedButton(
           style: OutlinedButton.styleFrom(
-            foregroundColor: _iconColorTween?.evaluate(animation),
+            primary: _iconColorTween?.evaluate(animation),
             backgroundColor: _colorTween?.evaluate(animation),
           ),
           onPressed: widget.onTap,

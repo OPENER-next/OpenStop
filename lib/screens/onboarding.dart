@@ -91,7 +91,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           outlinedButtonTheme: OutlinedButtonThemeData(
               style: OutlinedButton.styleFrom(
                   backgroundColor: Colors.transparent,
-                  foregroundColor: Colors.white,
+                  primary: Colors.white,
                   minimumSize: const Size(150, 36),
                   elevation: 0.0,
                   padding: const EdgeInsets.only(left: 14.0, right: 8.0),
