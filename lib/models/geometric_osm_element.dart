@@ -1,4 +1,3 @@
-
 import 'dart:collection';
 
 import 'package:latlong2/latlong.dart';

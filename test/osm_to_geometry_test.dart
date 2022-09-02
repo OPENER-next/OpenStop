@@ -234,7 +234,7 @@ OSMElementBundle _parse(String jsonString) {
   // get all elements
   final List<Map<String, dynamic>> jsonObjects = jsonData['elements'].cast<Map<String, dynamic>>();
 
-  return OSMElementBundle(_lazyJSONtoOSMElements(jsonObjects));
+  return OSMElementBundle.fromElements(_lazyJSONtoOSMElements(jsonObjects));
 }
 
 
