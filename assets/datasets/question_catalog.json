@@ -504,9 +504,6 @@
       "name": "Akustische Ausgabe der Fahrplan-Anzeige",
       "question": "Hat die Fahrplan-Anzeige für die gesamte Station eine akustische Ausgabe?",
       "description": "Einige Fahrplan-Anzeigen bieten die Möglichkeit bei Bedarf akustisch Informationen auszugeben.",
-      "image": [
-         "assets/images/questions/1131a.jpg"
-      ],
       "input": {
          "type": "Bool",
          "values": {
@@ -837,9 +834,7 @@
       "question": "Hat der Bordstein eine Spürführung für Busse?",
       "description": "Bordsteine mit Spurführung sind speziell geformt, um Bussen ein dichtes Heranfahren an die Bordsteinkante zu ermöglichen.",
       "image": [
-         "assets/images/questions/1201a.jpg",
-         "assets/images/questions/1201b.jpg",
-         "assets/images/questions/1201c.jpg"
+         "assets/images/questions/1201a.jpg"
       ],
       "input": {
          "type": "Bool",
@@ -874,9 +869,6 @@
       "name": "Bewegbare Rampe",
       "question": "Gibt es eine bewegbare Rollstuhl-Rampe?",
       "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
-      "image": [
-         "assets/images/questions/1210.jpg"
-      ],
       "input": {
          "type": "Bool",
          "values": {
@@ -907,9 +899,6 @@
       "name": "Rampen-Länge",
       "question": "Wie lang ist die bewegbare Rollstuhl-Rampe?",
       "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
-      "image": [
-         "assets/images/questions/1210.jpg"
-      ],
       "input": {
          "type": "Number",
          "values": {
@@ -939,9 +928,6 @@
       "name": "Rampen-Tragfähigkeit",
       "question": "Was ist die maximale Tragfähigkeit der bewegbaren Rampe?",
       "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
-      "image": [
-         "assets/images/questions/1210.jpg"
-      ],
       "input": {
          "type": "Number",
          "values": {
@@ -1111,7 +1097,7 @@
          "values": {
             "hinged": {
                "name": "Anschlagtür",
-               "image": "packages/nvbw_open_data/photos/2032a.jpg",
+               "image": "assets/images/questions/2032a.jpg",
                "osm_tags": {
                   "door": "hinged"
                }
@@ -1135,13 +1121,6 @@
                "image": "packages/nvbw_open_data/photos/2032d.jpg",
                "osm_tags": {
                   "door": "swinging"
-               }
-            },
-            "folding": {
-               "name": "Falttür",
-               "image": "assets/images/questions/2032e.jpg",
-               "osm_tags": {
-                  "door": "folding"
                }
             }
          }
@@ -1191,7 +1170,7 @@
       "id": 2033,
       "name": "Tür-Automatik-Art",
       "question": "Wodurch öffnet sich die Automatik-Tür?",
-      "description": "Automatik-Türen können sich bei Annäherung einer Person öffnen, durch das Betätigen eines Tasters oder durch Bodendrucksensoren",
+      "description": "Automatik-Türen können sich bei Annäherung einer Person öffnen oder durch das Betätigen eines Tasters",
       "input": {
          "type": "List",
          "values": {
@@ -1211,7 +1190,7 @@
             },
             "continuous": {
                "name": "Automatik-Drehtür",
-               "image": "assets/images/questions/2033d.jpg",
+               "image": "assets/images/questions/2032b.jpg",
                "osm_tags": {
                   "automatic_door": "continuous"
                }
