@@ -1,4 +1,3 @@
-
 import 'dart:collection';
 
 import 'package:latlong2/latlong.dart';
@@ -31,12 +30,12 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
       case OSMElementType.way:
         return GeometricOSMElement.generateFromOSMWay(
           osmWay: osmElement as OSMWay,
-          osmNodes: elementBundle.nodes
+          osmNodes: elementBundle.getNodesFromWay(osmElement),
         );
       case OSMElementType.relation:
         return GeometricOSMElement.generateFromOSMRelation(
           osmRelation: osmElement as OSMRelation,
-          osmWays: elementBundle.ways,
+          osmWays: elementBundle.getWaysFromRelation(osmElement),
           osmNodes: elementBundle.nodes
         );
     }
@@ -58,19 +57,24 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
   }
 
   /// Creates a [GeometricOSMElement] from a single [OSMWay].
-  /// The [osmNodes] parameter should contain all node elements that this way references.
+  /// The [osmNodes] parameter should contain exactly the node elements that this way references.
 
   static GeometricOSMElement<OSMWay, GeographicGeometry> generateFromOSMWay({
     required OSMWay osmWay,
     required Iterable<OSMNode> osmNodes
   }) {
-    final nodeList = osmNodes.toList();
+    // assert that the provided nodes are exactly the ones referenced by the way.
+    assert(
+      osmWay.nodeIds.every((nodeId) => osmNodes.any((node) => node.id == nodeId)),
+      'OSM way references nodes that cannot be found in the provided node data set.'
+    );
+    assert(
+      osmWay.nodeIds.length == osmNodes.length,
+      'OSM way has node references that differ from the provided node data set.'
+    );
 
     final geometry = GeographicPolyline(
-      osmWay.nodeIds.map((nodeId) {
-        final node = nodeList.firstWhere((node) => node.id == nodeId);
-        return LatLng(node.lat, node.lon);
-      }).toList()
+      osmNodes.map((node) => LatLng(node.lat, node.lon)).toList()
     );
 
     if (osmWay.isClosed && isArea(osmWay.tags)) {
@@ -138,12 +142,21 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
     // first step: ring grouping
 
     final nodeList = osmNodes.toList();
-    // filter all ways that are part of this relation
-    var wayList = osmWays.where(
-      (way) => osmRelation.members.any(
-        (member) => member.ref == way.id && member.type == OSMElementType.way
-      )
-    ).toList();
+
+    // assert that the provided ways are exactly the ones referenced by the relation.
+    assert(
+      osmRelation.members
+        .where((member) => member.type == OSMElementType.way)
+        .every((member) => osmWays.any((way) => way.id == member.ref)),
+      'OSM relation references ways that cannot be found in the provided way data set.'
+    );
+    assert(
+      osmRelation.members
+        .where((member) => member.type == OSMElementType.way)
+        .length == osmWays.length,
+      'OSM relation has way references that differ from the provided way data set.'
+    );
+    var wayList = osmWays.toList();
 
     while (wayList.isNotEmpty) {
       final workingWay = wayList.removeLast();
@@ -151,10 +164,15 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
       final wayNodePool = _extractRingFromWays(wayList, workingWay);
 
       final accumulatedCoordinates = wayNodePool.nodeIds.map((id) {
-        // find node object by id
-        final node = nodeList.firstWhere((node) => node.id == id);
-        // convert node object to LatLng
-        return LatLng(node.lat, node.lon);
+        try {
+          // find node object by id
+          final node = nodeList.firstWhere((node) => node.id == id);
+          // convert node object to LatLng
+          return LatLng(node.lat, node.lon);
+        }
+        on StateError {
+          throw StateError('OSM relation member of type node with id $id not found in the provided node data set.');
+        }
       }).toList();
 
       final closedPolyline = GeographicPolyline(accumulatedCoordinates);
@@ -214,9 +232,12 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
   }
 
 
-  /// This automatically backtracks ...
-  /// On success this wil automatically remove all ways that got extracted to the ring
-  /// Throws an error if no ring could be built from the given way and ways
+  /// Extracts a ring (polygon) from the given ways starting with the initial way.
+  /// This function connects ways that share an equal end/start point till a ring is formed.
+  /// For cases where multiple ways connect at the same node this algorithm traverses all possible way-concatenations till a valid ring is found.
+  /// It does this by creating a history of possible concatenations and backtracks if it couldn't find a valid ring.
+  /// This is basically recursive but implemented in a non recursive way to mitigate any stack overflow.
+  /// Throws an error if no ring could be built from the given ways
 
   static _WayNodeIdPool _extractRingFromWays(List<OSMWay> wayList, OSMWay initialWay) {
     // this is used to keep a history which is required for backtracking the algorithm
@@ -250,7 +271,7 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
       workingWayHistory.removeLast();
     }
 
-    throw 'Ring extraction failed.';
+    throw StateError('Ring extraction failed for OSM multipolygon relation.');
   }
 
 
@@ -269,7 +290,7 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
         final subWayList = List.of(wayList)..removeAt(i);
         yield _WayNodeIdPool(
           subWayList,
-          way.nodeIds.reversed.skip(1).toList()
+          way.nodeIds.reversed.skip(1)
         );
       }
       else if (way.nodeIds.first == nodeId) {
@@ -277,7 +298,7 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
         final subWayList = List.of(wayList)..removeAt(i);
         yield _WayNodeIdPool(
           subWayList,
-          way.nodeIds.skip(1).toList()
+          way.nodeIds.skip(1)
         );
       }
     }
