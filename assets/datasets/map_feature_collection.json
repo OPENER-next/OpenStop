@@ -1,18 +1,60 @@
 [
   {
-    "name": "Haltestelle",
-    "icon": "stop",
+    "name": "Bus-Haltestelle",
+    "icon": "bus",
     "conditions": [
       {
         "osm_tags": {
-          "public_transport": "platform"
-        },
-        "osm_element": "Node"
+          "public_transport": "platform",
+          "bus": "yes"
+        }
+      },
+      {
+        "osm_tags": {
+          "public_transport": "platform",
+          "highway": "bus_stop"
+        }
+      },
+      {
+        "osm_tags": {
+          "highway": "platform"
+        }
       }
     ]
   },
   {
-    "name": "Haltestelle",
+    "name": "Tram-Haltestelle",
+    "icon": "tram",
+    "conditions": [
+      {
+        "osm_tags": {
+          "public_transport": "platform",
+          "railway": "platform"
+        }
+      },
+      {
+        "osm_tags": {
+          "public_transport": "platform",
+          "tram": "yes"
+        }
+      }
+    ]
+  },
+  {
+    "name": "Bahnsteig",
+    "icon": "train",
+    "conditions": [
+      {
+        "osm_tags": {
+          "public_transport": "platform",
+          "railway": "platform",
+          "train": "yes"
+        }
+      }
+    ]
+  },
+  {
+    "name": "Plattform",
     "icon": "platform",
     "conditions": [
       {
@@ -24,15 +66,14 @@
     ]
   },
   {
-    "name": "Bahnsteig",
-    "icon": "train_platform",
+    "name": "Haltestellenmast",
+    "icon": "pole",
     "conditions": [
       {
         "osm_tags": {
-          "public_transport": "platform",
-          "railway": "platform"
+          "public_transport": "platform"
         },
-        "osm_element": ["ClosedWay", "Relation"]
+        "osm_element": "Node"
       }
     ]
   },
@@ -214,6 +255,12 @@
       {
         "osm_tags": {
           "entrance": true
+        },
+        "osm_element": "Node"
+      },
+      {
+        "osm_tags": {
+          "door": ["yes", "hinged", "revolving", "sliding", "folding"]
         },
         "osm_element": "Node"
       }

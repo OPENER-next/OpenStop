@@ -2,8 +2,8 @@
    {
       "id": 1021,
       "name": "Betreiber",
-      "question": "Welches Verkehrsunternehmen betreibt die Fahrkartenverkaufsstelle?",
-      "description": "Bei Verkaufsstellen handelt es sich um Einrichtungen, die Fahrkarten verkaufen (z.B. offizielle Vertriebsstellen der Verkehrsunternehmen oder des Verbundgebietes). Die Verkaufsstellen sind i.d.R. mit einem Erkennungszeichen (Tafel, Wimpel, Aufkleber, etc.) ausgestattet.",
+      "question": "Welches Verkehrsunternehmen betreibt diese Einrichtung?",
+      "description": "Bei Verkaufsstellen handelt es sich um Einrichtungen, die Fahrkarten verkaufen (z.B. offizielle Vertriebsstellen der Verkehrsunternehmen oder des Verbundgebietes). Die Verkaufsstellen sind i.d.R. mit einem Erkennungszeichen (Tafel, Wimpel, Aufkleber, etc.) ausgestattet. Informationsstellen dienen dazu, sich über Reiserouten etc. zu informieren.",
       "input": {
          "type": "String",
          "values": {
@@ -20,6 +20,14 @@
             "osm_tags": {
                "shop": "ticket",
                "tickets:public_transport": "yes",
+               "operator": false
+            }
+         },
+         {
+            "osm_tags": {
+               "tourism": "information",
+               "information": "office",
+               "information:public_transport": "yes",
                "operator": false
             }
          }
@@ -51,32 +59,6 @@
                "shop": "ticket",
                "tickets:public_transport": "yes",
                "wheelchair": false
-            }
-         }
-      ]
-   },
-   {
-      "id": 1031,
-      "name": "Betreiber",
-      "question": "Welches Verkehrsunternehmen betreibt die Informationsstelle?",
-      "input": {
-         "type": "String",
-         "values": {
-            "single": {
-               "name": "Betreiber",
-               "osm_tags": {
-                  "operator": "%s"
-               }
-            }
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "tourism": "information",
-               "information": "office",
-               "information:public_transport": "yes",
-               "operator": false
             }
          }
       ]
@@ -114,8 +96,8 @@
    },
    {
       "id": 1051,
-      "name": "Parkplatzart",
-      "question": "Um welche Parkplatzart handelt es sich?",
+      "name": "Parkplatz-Art",
+      "question": "Um welche Art von Parkplatz handelt es sich?",
       "input": {
          "type": "List",
          "values": {
@@ -203,7 +185,7 @@
    },
    {
       "id": 1051,
-      "name": "Anzahl an Behindertenparkplätzen",
+      "name": "Behindertenparkplatz-Anzahl",
       "question": "Wie viele Parkplätze für behinderte Personen gibt es?",
       "description": "Behindertenparkplätze sind eigene Parkmöglichkeiten für behinderte Personen und weisen i.d.R. geräumigere Stellplatzmaße auf. Behindertenparkplätze sind durch ein Zusatzschild mit dem Piktogramm eines Rollstuhlfahrers gekennzeichnet. Zusätzlich sind meist Bodenmarkierungen angebracht.",
       "input": {
@@ -275,7 +257,7 @@
    },
    {
       "id": 1052,
-      "name": "Parkplatzgebühren",
+      "name": "Parkplatz-Gebühren",
       "question": "Fallen für das Parken Gebühren an?",
       "input": {
          "type": "Bool",
@@ -310,6 +292,9 @@
       "id": 1071,
       "name": "Toiletten-Zugänglichkeit",
       "question": "Für wen sind die Toiletten zugänglich?",
+      "image": [
+         "assets/images/questions/1071a.jpg"
+      ],
       "input": {
          "type": "List",
          "values": {
@@ -350,107 +335,6 @@
       ]
    },
    {
-      "id": 1073,
-      "name": "Toiletten nur mit Schlüssel zugänglich",
-      "question": "Ist für den Zugang zur Toilette für Rollstuhlfahrende ein Schlüssel nötig?",
-      "input": {
-         "type": "Bool",
-         "values": {
-            "true": {
-               "osm_tags": {
-                  "centralkey": "yes"
-               }
-            },
-            "false": {
-               "osm_tags": {
-                  "centralkey": "no"
-               }
-            }
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "amenity": "toilets",
-               "access": [
-                  "yes",
-                  false
-               ],
-               "wheelchair": [
-                  "yes",
-                  "designated"
-               ],
-               "centralkey": false
-            }
-         }
-      ]
-   },
-   {
-      "id": 1073,
-      "name": "Art des Toiletten-Schlüssels",
-      "question": "Welche Art von Schlüssel ist für den Toiletten-Zugang notwendig?",
-      "input": {
-         "type": "List",
-         "values": {
-            "eurokey": {
-               "name": "Euroschlüssel",
-               "description": "Ein Schlüssel, den schwerbehinderte Menschen erwerben können, mit dessen Hilfe zahlreiche Toiletten und andere Einrichtungen in vielen europäischen Ländern geöffnet werden können.",
-               "osm_tags": {
-                  "centralkey": "eurokey"
-               }
-            },
-            "customer": {
-               "name": "Kundenschlüssel",
-               "description": "Ein Schlüssel, der im Einzelhandel zu den Öffnungszeiten ausgeliehen werden kann.",
-               "osm_tags": {
-                  "centralkey": "customer"
-               }
-            }
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "amenity": "toilets",
-               "access": [
-                  "yes",
-                  false
-               ],
-               "centralkey": "yes"
-            }
-         }
-      ]
-   },
-   {
-      "id": 1074,
-      "name": "Schlüssel-Ausleihmöglichkeit",
-      "question": "Wo kann der Toiletten-Schlüssel ausgeliehen werden?",
-      "input": {
-         "type": "String",
-         "values": {
-            "single": {
-               "name": "Beschreibung",
-               "osm_tags": {
-                  "centralkey:description": "%s"
-               }
-            }
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "amenity": "toilets",
-               "access": [
-                  "yes",
-                  false
-               ],
-               "centralkey": "customer",
-               "centralkey:description": false
-            }
-         }
-      ]
-   },
-   {
       "id": 1075,
       "name": "Toiletten-Gebühren",
       "question": "Ist die Nutzung der Toilette kostenpflichtig?",
@@ -484,7 +368,7 @@
    },
    {
       "id": 1120,
-      "name": "Sitzplätze vorhanden",
+      "name": "Sitzplätze",
       "question": "Gibt es an der Plattform Sitzplätze?",
       "image": [
          "packages/nvbw_open_data/photos/1120a.jpg",
@@ -602,9 +486,6 @@
       "name": "Akustische Ausgabe der Fahrplan-Anzeige",
       "question": "Hat die Fahrplan-Anzeige für die gesamte Station eine akustische Ausgabe?",
       "description": "Einige Fahrplan-Anzeigen bieten die Möglichkeit bei Bedarf akustisch Informationen auszugeben.",
-      "image": [
-         "assets/images/questions/1131a.jpg"
-      ],
       "input": {
          "type": "Bool",
          "values": {
@@ -705,6 +586,10 @@
       "name": "Ansagen",
       "question": "Gibt es Ansagen über Lautsprecher an der Plattform?",
       "description": "Unter Ansagen werden die akustischen Fahrgastinformationen an der Haltestelle verstanden.",
+      "image": [
+         "assets/images/questions/1150a.jpg",
+         "assets/images/questions/1150b.jpg"
+      ],
       "input": {
          "type": "Bool",
          "values": {
@@ -732,7 +617,7 @@
    },
    {
       "id": 1150,
-      "name": "Ansagetyp",
+      "name": "Ansage-Art",
       "question": "Von welcher Art sind die Ansagen an der Plattform?",
       "description": "Unter Ansagen werden die akustischen Fahrgastinformationen an der Haltestelle verstanden.",
       "input": {
@@ -793,8 +678,21 @@
          {
             "osm_tags": {
                "public_transport": "platform",
+               "railway": false,
                "train": [false, "no"],
                "bus": [false, "yes"],
+               "kerb": false
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay"
+            ]
+         },
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "railway": "platform",
+               "bus": "yes",
                "kerb": false
             },
             "osm_element": [
@@ -806,7 +704,7 @@
    },
    {
       "id": 1170,
-      "name": "Bordsteinart",
+      "name": "Bordstein-Art",
       "question": "Welche Art von Bordstein hat die Plattform an der Seite, an der das Verkehrsmittel hält?",
       "input": {
          "type": "List",
@@ -918,9 +816,7 @@
       "question": "Hat der Bordstein eine Spürführung für Busse?",
       "description": "Bordsteine mit Spurführung sind speziell geformt, um Bussen ein dichtes Heranfahren an die Bordsteinkante zu ermöglichen.",
       "image": [
-         "assets/images/questions/1201a.jpg",
-         "assets/images/questions/1201b.jpg",
-         "assets/images/questions/1201c.jpg"
+         "assets/images/questions/1201a.jpg"
       ],
       "input": {
          "type": "Bool",
@@ -951,55 +847,10 @@
       ]
    },
    {
-      "id": 1201,
-      "name": "Spurführungs-Art",
-      "question": "Welche Art von Spurführung hat der Bordstein?",
-      "description": "Bordsteine mit Spurführung sind speziell geformt, um Bussen ein dichtes Heranfahren an die Bordsteinkante zu ermöglichen.",
-      "input": {
-         "type": "List",
-         "values": {
-            "kassel": {
-               "name": "Kasseler Sonderbord",
-               "image": "assets/images/questions/1201a.jpg",
-               "osm_tags": {
-                  "kerb:approach_aid": "Kassel Sonderbord"
-               }
-            },
-            "double": {
-               "name": "Kasseler Sonderbord Plus",
-               "description": "Hochbord mit doppelter Hohlkehle",
-               "image": "assets/images/questions/1201b.jpg",
-               "osm_tags": {
-                  "kerb:approach_aid": "Kassel Sonderbord Plus"
-               }
-            },
-            "combi": {
-               "name": "Dresdner Combibord",
-               "description": "Hochbord für kombinierte Bus- und Straßenbahnhaltestellen",
-               "image": "assets/images/questions/1201c.jpg",
-               "osm_tags": {
-                  "kerb:approach_aid": "Dresden Combibord"
-               }
-            }
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "public_transport": "platform",
-               "kerb:approach_aid": "yes"
-            }
-         }
-      ]
-   },
-   {
       "id": 1210,
       "name": "Bewegbare Rampe",
       "question": "Gibt es eine bewegbare Rollstuhl-Rampe?",
       "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
-      "image": [
-         "assets/images/questions/1210.jpg"
-      ],
       "input": {
          "type": "Bool",
          "values": {
@@ -1027,12 +878,9 @@
    },
    {
       "id": 1211,
-      "name": "Länge der bewegbaren Rampe",
+      "name": "Rampen-Länge",
       "question": "Wie lang ist die bewegbare Rollstuhl-Rampe?",
       "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
-      "image": [
-         "assets/images/questions/1210.jpg"
-      ],
       "input": {
          "type": "Number",
          "values": {
@@ -1059,12 +907,9 @@
    },
    {
       "id": 1212,
-      "name": "Tragfähigkeit der bewegbaren Rampe",
+      "name": "Rampen-Tragfähigkeit",
       "question": "Was ist die maximale Tragfähigkeit der bewegbaren Rampe?",
       "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
-      "image": [
-         "assets/images/questions/1210.jpg"
-      ],
       "input": {
          "type": "Number",
          "values": {
@@ -1095,7 +940,8 @@
       "question": "Gibt es einen bewegbaren Hublift für Rollstuhlfahrende?",
       "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
       "image": [
-         "packages/nvbw_open_data/photos/1220a.jpg"
+         "assets/images/questions/1220a.jpg",
+         "assets/images/questions/1220b.jpg"
       ],
       "input": {
          "type": "Bool",
@@ -1124,7 +970,7 @@
    },
    {
       "id": 1221,
-      "name": "Stellflächenlänge des bewegbaren Hublifts",
+      "name": "Hublift-Stellflächenlänge",
       "question": "Wie lang ist die Stellfläche des bewegbaren Hublifts?",
       "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
       "image": [
@@ -1156,11 +1002,11 @@
    },
    {
       "id": 1222,
-      "name": "Tragfähigkeit des bewegbaren Hublifts",
+      "name": "Hublift-Tragfähigkeit",
       "question": "Was ist die maximale Tragfähigkeit der bewegbaren Hublifts?",
       "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
       "image": [
-         "packages/nvbw_open_data/photos/1220a.jpg"
+         "packages/nvbw_open_data/photos/1220b.jpg"
       ],
       "input": {
          "type": "Number",
@@ -1188,7 +1034,7 @@
    },
    {
       "id": 2032,
-      "name": "Tür vorhanden",
+      "name": "Tür",
       "question": "Hat dieser Durchgang eine Tür?",
       "input": {
          "type": "Bool",
@@ -1254,16 +1100,9 @@
             },
             "swinging": {
                "name": "Pendeltür",
-               "image": "assets/images/questions/2032d.jpg",
+               "image": "packages/nvbw_open_data/photos/2032d.jpg",
                "osm_tags": {
                   "door": "swinging"
-               }
-            },
-            "folding": {
-               "name": "Falttür",
-               "image": "assets/images/questions/2032e.jpg",
-               "osm_tags": {
-                  "door": "folding"
                }
             }
          }
@@ -1313,7 +1152,7 @@
       "id": 2033,
       "name": "Tür-Automatik-Art",
       "question": "Wodurch öffnet sich die Automatik-Tür?",
-      "description": "Automatik-Türen können sich bei Annäherung einer Person öffnen, durch das Betätigen eines Tasters oder durch Bodendrucksensoren",
+      "description": "Automatik-Türen können sich bei Annäherung einer Person öffnen oder durch das Betätigen eines Tasters",
       "input": {
          "type": "List",
          "values": {
@@ -1333,7 +1172,7 @@
             },
             "continuous": {
                "name": "Automatik-Drehtür",
-               "image": "assets/images/questions/2033d.jpg",
+               "image": "assets/images/questions/2032b.jpg",
                "osm_tags": {
                   "automatic_door": "continuous"
                }
@@ -1357,7 +1196,7 @@
       "image": [
          "assets/images/questions/2034.jpg"
       ],
-      "description": "Die Durchgangsbreite wird erfasst, um sicherzustellen das Rollstühle, Kinderwagen etc. genug Platz haben. Es ist lediglich die nutzbare Türöffnung (Innenmaße der geöffneten Tür) zu vermessen.",
+      "description": "Die Durchgangsbreite wird erfasst, um sicherzustellen das Rollstühle, Kinderwagen etc. genug Platz haben. Es ist lediglich die nutzbare Türöffnung (Innenmaße der geöffneten Tür) zu messen.",
       "input": {
          "type": "Number",
          "values": {
@@ -1388,7 +1227,7 @@
       "id": 2050,
       "name": "Bodenbeschaffenheit",
       "question": "Wie ist der Boden beschaffen?",
-      "description": "Besteht die Oberfläche aus Schotter, Sand oder einem vergleichbaren Belag, so handelt es sich um einen unbefestigten Bodenbelag.",
+      "description": "Besteht die Oberfläche aus Schotter, Sand, Gras oder einem vergleichbaren Belag, so handelt es sich um einen unbefestigten Bodenbelag.",
       "input": {
          "type": "List",
          "values": {
@@ -1419,6 +1258,28 @@
                "ClosedWay",
                "Relation"
             ]
+         },
+         {
+            "osm_tags": {
+               "highway": "footway",
+               "footway": [false, "sidewalk"],
+               "surface": false
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay"
+            ]
+         },
+         {
+            "osm_tags": {
+               "highway": "path",
+               "foot": ["yes", "designated"],
+               "surface": false
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay"
+            ]
          }
       ]
    },
@@ -1427,6 +1288,10 @@
       "name": "Bodenindikatoren",
       "question": "Gibt es Bodenindikatoren auf der Plattform?",
       "description": "Bodenindikatoren sind Bodenelemente im öffentlichen Raum zur Information, Orientierung, Leitung und Warnung sehbehinderter Menschen. Sie stehen in einem hohen taktilen, visuellen und gegebenenfalls akustischen Kontakt zum angrenzenden Bodenbelag.",
+      "image": [
+         "packages/nvbw_open_data/photos/2070a.jpg",
+         "packages/nvbw_open_data/photos/2070b.jpg"
+      ],
       "input": {
          "type": "Bool",
          "values": {
@@ -1465,28 +1330,28 @@
          "values": {
             "single": {
                "name": "Einfach",
-               "image": "assets/images/questions/2080a.jpg",
+               "image": "assets/images/questions/2080a.png",
                "osm_tags": {
                   "cycle_barrier": "single"
                }
             },
             "double": {
                "name": "Zweifach",
-               "image": "assets/images/questions/2080b.jpg",
+               "image": "assets/images/questions/2080b.png",
                "osm_tags": {
                   "cycle_barrier": "double"
                }
             },
             "triple": {
                "name": "Dreifach",
-               "image": "assets/images/questions/2080c.jpg",
+               "image": "assets/images/questions/2080c.png",
                "osm_tags": {
                   "cycle_barrier": "triple"
                }
             },
             "diagonal": {
                "name": "Diagonal",
-               "image": "assets/images/questions/2080d.jpg",
+               "image": "assets/images/questions/2080d.png",
                "osm_tags": {
                   "cycle_barrier": "diagonal"
                }
@@ -1506,11 +1371,11 @@
    {
       "id": 2081,
       "name": "Umlaufsperren-Durchgangsbreite",
-      "question": "Was ist die Durchgangsbreite der Umlaufsperre?",
+      "question": "Wie groß ist die Durchgangsbreite der Umlaufsperre?",
       "image": [
-         "assets/images/questions/2081a.jpg"
+         "assets/images/questions/2081a.png"
       ],
-      "description": "Die Durchngangsbreite, auch lichte Breite genannt, beschreibt die maximal zulässige Breite, um eine Sperre passieren zu können.",
+      "description": "Die Durchgangsbreite, auch lichte Breite genannt, beschreibt die maximal zulässige Breite, um eine Sperre passieren zu können.",
       "input": {
          "type": "Number",
          "values": {
@@ -1518,7 +1383,7 @@
                "name": "Breite",
                "decimals": 0,
                "min": 30,
-               "max": 1000,
+               "max": 200,
                "unit": "Centimeter",
                "osm_tags": {
                   "maxwidth:physical": "%s cm"
@@ -1542,9 +1407,10 @@
    {
       "id": 2081,
       "name": "Umlaufsperren-Zugangsbreite",
-      "question": "Wie breit ist die schmalste Öffnung der Umlaufsperre?",
+      "question": "Wie breit ist der (schmalste) Zugang der Umlaufsperre?",
       "image": [
-         "assets/images/questions/2081b.jpg"
+         "assets/images/questions/2081b.png",
+         "assets/images/questions/2081c.png"
       ],
       "description": "Die Zugangsbreite beschreibt die Durchgangsbreite an der Öffnung der Umlaufsperre. Bei unterschiedlichen Zugangsbreiten ist die kleinste Breite zu erfassen.",
       "input": {
@@ -1554,7 +1420,7 @@
                "name": "Breite",
                "decimals": 0,
                "min": 30,
-               "max": 1000,
+               "max": 200,
                "unit": "Centimeter",
                "osm_tags": {
                   "opening": "%s cm"
@@ -1578,9 +1444,10 @@
    {
       "id": 2081,
       "name": "Umlaufsperren-Abstand",
-      "question": "Was ist der kleinste Abstand zwischen den Elementen der Umlaufsperre?",
+      "question": "Was ist der (kleinste) Abstand zwischen den Elementen der Umlaufsperre?",
       "image": [
-         "assets/images/questions/2081c.jpg"
+         "assets/images/questions/2081d.png",
+         "assets/images/questions/2081e.png"
       ],
       "description": "Der Abstand beschreibt die Durchgangsbreite zwischen den Sperrelementen. Bei unterschiedlichen Abständen ist der kleinste Abstand zu erfassen.",
       "input": {
@@ -1590,7 +1457,7 @@
                "name": "Abstand",
                "decimals": 0,
                "min": 30,
-               "max": 1000,
+               "max": 200,
                "unit": "Centimeter",
                "osm_tags": {
                   "spacing": "%s cm"
@@ -1616,7 +1483,7 @@
       "name": "Treppenlift",
       "question": "Gibt es an der Treppen einen Treppenlift für Rollstuhlfahrende?",
       "image": [
-         "assets/images/questions/2090.jpg"
+         "assets/images/questions/2090a.jpg"
       ],
       "input": {
          "type": "Bool",
@@ -1780,7 +1647,7 @@
       "name": "Fahrstuhl-Blindenschrift",
       "question": "Ist auf den Bedienelementen Blindenschrift vorhanden?",
       "image": [
-         "assets/images/questions/2096jpg"
+         "assets/images/questions/2096a.jpg"
       ],
       "description": "Blindenschrift sind Zeichen, die mit den Fingern gelesen werden können.",
       "input": {
@@ -1869,11 +1736,12 @@
    {
       "id": 2115,
       "name": "Handlauf-Blindenschrift",
-      "question": "Ist auf bzw. an dem Handlauf Blindenschrift vorhanden?",
+      "question": "Ist auf dem Handlauf Blindenschrift vorhanden?",
       "image": [
-         "assets/images/questions/2115jpg"
+         "assets/images/questions/2115a.jpg",
+         "assets/images/questions/2115b.jpg"
       ],
-      "description": "Blinde können durch Blindenschrift am Handlauf Informationen erhalten, z.B. wohin die Treppe führt.",
+      "description": "Blindenschrift sind Zeichen, die mit den Fingern gelesen werden können. Diese können u.a. geprägte gewöhnliche Buchstaben oder besondere Symbole sein, wie z.B. bei der Brailleschrift. Blinde können durch Blindenschrift am Handlauf Informationen erhalten, z.B. wohin die Treppe führt.",
       "input": {
          "type": "Bool",
          "values": {
@@ -1905,7 +1773,8 @@
       "name": "Treppen-Handlauf",
       "question": "Hat die Treppe einen Handlauf?",
       "image": [
-         "assets/images/questions/2114jpg"
+         "packages/nvbw_open_data/photos/2114a.jpg",
+         "packages/nvbw_open_data/photos/2114b.jpg"
       ],
       "input": {
          "type": "Bool",
