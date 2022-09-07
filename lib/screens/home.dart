@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -19,6 +20,7 @@ import '/utils/stream_utils.dart';
 import '/commons/app_config.dart';
 import '/commons/tile_layers.dart';
 import '/utils/map_utils.dart';
+import '/widgets/custom_snackbar.dart';
 import '/widgets/stop_area_layer/stop_area_layer.dart';
 import '/widgets/osm_element_layer/osm_element_layer.dart';
 import '/widgets/question_dialog/question_dialog.dart';
@@ -334,7 +336,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
   }
 
 
-  void _onStopAreaTap(StopArea stopArea) {
+  void _onStopAreaTap(StopArea stopArea) async {
     // hide questionnaire sheet
     final questionnaire = context.read<QuestionnaireProvider>();
     if (questionnaire.workingElement != null ) {
@@ -343,14 +345,39 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
       return;
     }
 
-    final osmElementProvider = context.read<OSMElementProvider>();
-    osmElementProvider.loadElementsFromStopArea(stopArea);
-
     final mapController = context.read<MapController>();
     mapController.animateToBounds(
       ticker: this,
       bounds: stopArea.bounds,
     );
+
+    final osmElementProvider = context.read<OSMElementProvider>();
+    // save state object for later use even if widget is unmounted
+    final scaffold = ScaffoldMessenger.of(context);
+
+    try {
+      await osmElementProvider.loadElementsFromStopArea(stopArea);
+    }
+    on DioError catch (e) {
+      if (e.type == DioErrorType.connectTimeout) {
+        scaffold.showSnackBar(
+            CustomSnackBar('Fehler: Zeitüberschreitung bei der Server-Abfrage.')
+        );
+      }
+    }
+    catch(e) {
+      debugPrint(e.toString());
+      scaffold.showSnackBar(
+          CustomSnackBar('Unbekannter Fehler bei der Server-Abfrage.')
+      );
+    }
+    finally{
+      if (osmElementProvider.extractedOsmElementsMap[stopArea]!.isEmpty) {
+        scaffold.showSnackBar(
+            CustomSnackBar('Alle Fragen bereits beantwortet.')
+        );
+      }
+    }
   }
 
 
