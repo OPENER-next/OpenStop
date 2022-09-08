@@ -1,11 +1,13 @@
 name: Build app for target platforms
 
 on:
-  # Run this automatically whenever a new release-tag is created.
-  create:
+  # Trigger workflow when new tag is pushed.
+  push:
     tags:
       - 'v*'
-    branches: [master, main]
+  # Trigger workflow when new release will published
+  release:
+    types: [ "published" ]
   # Allow running this workflow manually from the Actions tab.
   workflow_dispatch:
 
