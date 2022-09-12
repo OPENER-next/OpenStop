@@ -35,7 +35,7 @@ class MapOverlay extends StatefulWidget {
 class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
 
   // used to filter notifications that do not alter the rotation
-  final ValueNotifier<double> _rotationNotifier = ValueNotifier<double>(0);
+  late final ValueNotifier<double> _rotationNotifier;
 
   @override
   void initState() {
@@ -43,11 +43,9 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
 
     final mapController = context.read<MapController>();
 
-    mapController.mapEventStream.listen((event) {
-      _rotationNotifier.value = mapController.rotation;
-    });
+    _rotationNotifier = ValueNotifier<double>(mapController.rotation);
 
-    mapController.onReady.then((event) {
+    mapController.mapEventStream.listen((event) {
       _rotationNotifier.value = mapController.rotation;
     });
   }
@@ -102,8 +100,7 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                         );
                       } ,
                       child: CompassButton(
-                        listenable: _rotationNotifier,
-                        getRotation: () => _rotationNotifier.value,
+                        rotation: _rotationNotifier,
                         isDegree: true,
                         onPressed: _resetRotation,
                       ),
@@ -232,5 +229,12 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
   // ignore: use_setters_to_change_properties
   void _updateTileProvider(TileLayerId newTileLayerId) {
     context.read<PreferencesProvider>().tileLayerId = newTileLayerId;
+  }
+
+
+  @override
+  void dispose() {
+    _rotationNotifier.dispose();
+    super.dispose();
   }
 }
