@@ -1557,9 +1557,9 @@
          "values": {
             "single": {
                "name": "Fahrstuhl-Tiefe",
-               "decimals": 2,
-               "min": 1,
-               "max": 5,
+               "decimals": 0,
+               "min": 50,
+               "max": 500,
                "unit": "Centimeter",
                "osm_tags": {
                   "length": "%s cm"
@@ -1622,9 +1622,9 @@
          "values": {
             "single": {
                "name": "Fahrstuhl-Breite",
-               "decimals": 2,
-               "min": 1,
-               "max": 5,
+               "decimals": 0,
+               "min": 50,
+               "max": 500,
                "unit": "Centimeter",
                "osm_tags": {
                   "width": "%s cm"
