@@ -11,6 +11,8 @@ import 'package:vector_math/vector_math_64.dart';
 
 abstract class GeographicGeometry {
   LatLng get center;
+
+  LatLngBounds get bounds;
 }
 
 /// A simple node with latitude and longitude coordinates.
@@ -21,6 +23,9 @@ class GeographicPoint implements GeographicGeometry {
   final LatLng center;
 
   const GeographicPoint(this.center);
+
+  @override
+  LatLngBounds get bounds => LatLngBounds.fromPoints([center]);
 }
 
 /// A list of coordinates that build a connection of multiple lines.
@@ -60,6 +65,9 @@ class GeographicPolyline implements GeographicGeometry {
     return _distance.offset(lowerPoint, offset, bearing);
   }
 
+  @override
+  LatLngBounds get bounds => LatLngBounds.fromPoints(path);
+
   bool get isClosed => path.length > 2 && path.first == path.last;
 }
 
@@ -80,7 +88,8 @@ class GeographicPolygon implements GeographicGeometry {
     );
   }
 
-  LatLngBounds get boundingBox => LatLngBounds.fromPoints(outerShape.path);
+  @override
+  LatLngBounds get bounds => outerShape.bounds;
 
   @override
   LatLng get center => boundingBox.center;
@@ -259,12 +268,13 @@ class GeographicMultipolygon implements GeographicGeometry {
 
   const GeographicMultipolygon(this.polygons);
 
-  LatLngBounds get boundingBox {
+  @override
+  LatLngBounds get bounds {
     return LatLngBounds.fromPoints(
       polygons.expand((polygon) => polygon.outerShape.path).toList()
     );
   }
 
   @override
-  LatLng get center => boundingBox.center;
+  LatLng get center => bounds.center;
 }
