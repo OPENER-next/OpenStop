@@ -179,7 +179,7 @@ class ListAnswer extends Answer<String> {
 
 
   @override
-  bool get isValid => true;
+  bool get isValid => questionValues.containsKey(value);
 
 
   @override
