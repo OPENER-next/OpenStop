@@ -126,9 +126,7 @@ const _areaTags = <String, Set<String>>{
     'line',
     'minor_line'
   },
-  'public_transport': {
-    'platform'
-  },
+  'public_transport': {},
   'residential': {},
   'seamark:type': {},
   'shop': {},
