@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:polylabel/polylabel.dart';
 import 'package:vector_math/vector_math_64.dart';
 
 
@@ -83,7 +84,20 @@ class GeographicPolygon implements GeographicGeometry {
   LatLngBounds get boundingBox => LatLngBounds.fromPoints(outerShape.path);
 
   @override
-  LatLng get center => boundingBox.center;
+  LatLng get center {
+    const projection = SphericalMercator();
+
+    final polygon = [
+      outerShape.path.map(projection.project).toList(),
+      ...innerShapes.map(
+        (polyline) => polyline.path.map(projection.project).toList()
+      ),
+    ];
+
+    final result = polylabel(polygon, precision: 7);
+    final point = CustomPoint(result.point.x, result.point.y);
+    return projection.unproject(point);
+  }
 
   /// Returns true when this polygon has any holes.
 

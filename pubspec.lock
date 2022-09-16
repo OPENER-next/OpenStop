@@ -653,7 +653,7 @@ packages:
     source: hosted
     version: "2.1.2"
   polylabel:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: polylabel
       url: "https://pub.dartlang.org"
