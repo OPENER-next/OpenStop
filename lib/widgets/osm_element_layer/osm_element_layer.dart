@@ -118,6 +118,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
         final zoomLevel = snapshot.requireData;
         final visibleMarkers = <AnimatedMarker>[];
         final suppressedMarkers = <AnimatedMarker>[];
+        final questionnaireProvider = context.watch<QuestionnaireProvider>();
 
         if (_supercluster != null) {
           final clusters =_supercluster!.getClustersAndPoints(-180, -85, 180, 85, zoomLevel);
@@ -125,14 +126,34 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
           for (final cluster in clusters) {
             if (cluster is Cluster<GeometricOSMElement>) {
               final points = (cluster.clusterData as _ClusterLeafs).elements;
-              // always show the first element from yield as a marker and not placeholder
-              visibleMarkers.add(
-                _createMarker(points.first)
-              );
-              // skip first point since it is build as a marker
-              suppressedMarkers.addAll(
-                points.skip(1).map(_createMinimizedMarker)
-              );
+
+              var hasMarker = false;
+              // skip first point since it might be build as a marker
+              for (final point in points.skip(1)) {
+                // if this cluster contains the currently selected marker use this as the marker for this cluster
+                if (!hasMarker && questionnaireProvider.workingElement?.isOther(point.osmElement) == true) {
+                  visibleMarkers.add(
+                    _createMarker(point)
+                  );
+                  hasMarker = true;
+                }
+                else {
+                  suppressedMarkers.add(_createMinimizedMarker(point));
+                }
+              }
+              // if this cluster is represented by the currently selected element
+              // create minimized marker for the first cluster marker
+              if (hasMarker) {
+                suppressedMarkers.add(
+                  _createMinimizedMarker(points.first)
+                );
+              }
+              // else always show the first element as a marker and not placeholder
+              else {
+                visibleMarkers.add(
+                  _createMarker(points.first)
+                );
+              }
             }
             else if (cluster is MapPoint<GeometricOSMElement>) {
               visibleMarkers.add(
@@ -155,7 +176,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
                 ),
                 AnimatedMarkerLayer(
                   markers: visibleMarkers,
-                )
+                ),
               ],
             )
             : null

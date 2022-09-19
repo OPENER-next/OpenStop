@@ -375,7 +375,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
       ticker: this,
       // use bounds method because the normal move to doesn't support padding
       // the benefit of this approach is, that it will always try to zoom in on the marker as much as possible
-      bounds: LatLngBounds.fromPoints([geometricOSMElement.geometry.center]),
+      bounds: geometricOSMElement.geometry.bounds,
       // calculate padding based on question dialog max height
       padding: EdgeInsets.only(
         // add hardcoded marker height for now so it is centered between the top and bottom of the marker
