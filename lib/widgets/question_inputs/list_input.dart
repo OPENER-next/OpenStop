@@ -169,7 +169,7 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
     return isSelected
         ? OutlinedButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.primary,
-            primary: Theme.of(context).colorScheme.onPrimary)
+            foregroundColor: Theme.of(context).colorScheme.onPrimary)
         : null;
   }
 }
