@@ -151,12 +151,10 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
   @override
   void initState() {
     super.initState();
-    // wait till context is available
+    // wait till context is available and flutter map (map controller) is initialized
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final mapController = context.read<MapController>();
       final userLocationProvider = context.read<UserLocationProvider>();
-      // wait till map controller is ready
-      await mapController.onReady;
 
       void handleInitialLocationTrackingChange() {
         if (userLocationProvider.state != LocationTrackingState.pending) {
@@ -227,49 +225,34 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
             ),
             nonRotatedChildren: [
               RepaintBoundary(
-                child: FutureBuilder(
-                  future: context.watch<MapController>().onReady,
-                  builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                    final mapIsLoaded = snapshot.connectionState == ConnectionState.done;
-                    // only show overlay when question history has no active entry
-                    return !mapIsLoaded
-                    ? const ModalBarrier(
-                      dismissible: false,
-                    )
-                    : Consumer<QuestionnaireProvider>(
-                      builder: (context, questionnaire,child) {
-                        final noActiveEntry = !questionnaire.hasQuestions;
-
-                        return AnimatedSwitcher(
-                          switchInCurve: Curves.ease,
-                          switchOutCurve: Curves.ease,
-                          duration: const Duration(milliseconds: 300),
-                          child: noActiveEntry
-                            ? const MapOverlay()
-                            : null
-                        );
-                      }
+                child: Consumer<QuestionnaireProvider>(
+                  builder: (context, questionnaire,child) {
+                    return AnimatedSwitcher(
+                      switchInCurve: Curves.ease,
+                      switchOutCurve: Curves.ease,
+                      duration: const Duration(milliseconds: 300),
+                      child: !questionnaire.hasQuestions
+                        ? const MapOverlay()
+                        : null
                     );
                   }
-                )
-              )
+                ),
+              ),
             ],
             children: [
-              TileLayerWidget(
-                options: TileLayerOptions(
-                  overrideTilesWhenUrlChanges: true,
-                  tileProvider: NetworkTileProvider(
-                    headers: const {
-                      'User-Agent': appUserAgent
-                    }
-                  ),
-                  backgroundColor: Colors.transparent,
-                  urlTemplate: isDarkMode && tileLayerDescription.darkVariantTemplateUrl != null
-                    ? tileLayerDescription.darkVariantTemplateUrl
-                    : tileLayerDescription.templateUrl,
-                  minZoom: tileLayerDescription.minZoom.toDouble(),
-                  maxZoom: tileLayerDescription.maxZoom.toDouble()
+              TileLayer(
+                overrideTilesWhenUrlChanges: true,
+                tileProvider: NetworkTileProvider(
+                  headers: const {
+                    'User-Agent': appUserAgent
+                  }
                 ),
+                backgroundColor: Colors.transparent,
+                urlTemplate: isDarkMode && tileLayerDescription.darkVariantTemplateUrl != null
+                  ? tileLayerDescription.darkVariantTemplateUrl
+                  : tileLayerDescription.templateUrl,
+                minZoom: tileLayerDescription.minZoom.toDouble(),
+                maxZoom: tileLayerDescription.maxZoom.toDouble()
               ),
               Consumer2<StopAreasProvider, OSMElementProvider>(
                 builder: (context, stopAreaProvider, osmElementProvider, child) {
@@ -299,11 +282,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
               // rebuild location indicator when location access is granted
               Selector<UserLocationProvider, LocationTrackingState>(
                 selector: (_, userLocationProvider) => userLocationProvider.state,
-                builder: (context, state, child) {
-                  return AnimatedLocationLayerWidget(
-                    options: AnimatedLocationOptions()
-                  );
-                }
+                builder: (context, state, child) => const AnimatedLocationLayer(),
               ),
               Consumer<OSMElementProvider>(
                 builder: (context, osmElementProvider, child) {
