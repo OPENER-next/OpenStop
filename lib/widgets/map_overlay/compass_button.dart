@@ -44,6 +44,7 @@ class CompassButton extends AnimatedWidget {
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).colorScheme.onSecondary,
+                letterSpacing: 0
               ),
               textAlign: TextAlign.center,
             ),
