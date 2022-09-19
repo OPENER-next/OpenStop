@@ -93,13 +93,15 @@ class QuestionnaireProvider extends ChangeNotifier {
   /// Close the currently active questionnaire if any.
 
   void close() {
-    // store latest answer from questionnaire
-    _updateQuestionnaireAnswer();
-    // unset current questionnaire
-    _activeQuestionnaire = null;
-    _updateAnswerControllers();
+    if (_activeQuestionnaire != null) {
+      // store latest answer from questionnaire
+      _updateQuestionnaireAnswer();
+      // unset current questionnaire
+      _activeQuestionnaire = null;
+      _updateAnswerControllers();
 
-    notifyListeners();
+      notifyListeners();
+    }
   }
 
   /// Remove a previously stored questionnaire.
