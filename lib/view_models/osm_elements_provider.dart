@@ -95,10 +95,6 @@ class OSMElementProvider extends ChangeNotifier {
         _cachedOsmElementsMap[stopArea] = osmElements;
         _extractedOsmElementsMap[stopArea] = await _extract(stopArea, osmElements);
       }
-      catch(error) {
-        debugPrint(error.toString());
-        rethrow;
-      }
       finally {
         _loadingStopAreas.remove(stopArea);
         notifyListeners();
