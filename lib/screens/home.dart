@@ -357,6 +357,12 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
 
     try {
       await osmElementProvider.loadElementsFromStopArea(stopArea);
+
+      if (osmElementProvider.extractedOsmElementsMap[stopArea]!.isEmpty) {
+        scaffold.showSnackBar(
+            CustomSnackBar('Alle Fragen bereits beantwortet.')
+        );
+      }
     }
     on DioError catch (e) {
       if (e.type == DioErrorType.connectTimeout) {
@@ -364,19 +370,22 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
             CustomSnackBar('Fehler: Zeitüberschreitung bei der Server-Abfrage.')
         );
       }
+      else if (e.type == DioErrorType.receiveTimeout) {
+        scaffold.showSnackBar(
+            CustomSnackBar('Fehler: Zeitüberschreitung beim Datenempfang.')
+        );
+      }
+      else {
+        scaffold.showSnackBar(
+            CustomSnackBar('Unbekannter Fehler bei der Server-Kommunikation.')
+        );
+      }
     }
     catch(e) {
       debugPrint(e.toString());
       scaffold.showSnackBar(
-          CustomSnackBar('Unbekannter Fehler bei der Server-Abfrage.')
+          CustomSnackBar('Unbekannter Fehler.')
       );
-    }
-    finally{
-      if (osmElementProvider.extractedOsmElementsMap[stopArea]!.isEmpty) {
-        scaffold.showSnackBar(
-            CustomSnackBar('Alle Fragen bereits beantwortet.')
-        );
-      }
     }
   }
 
