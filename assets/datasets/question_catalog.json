@@ -1490,8 +1490,7 @@
          "values": {
             "true": {
                "osm_tags": {
-                  "wheelchair:lift": "yes",
-                  "wheelchair": "yes"
+                  "wheelchair:lift": "yes"
                }
             },
             "false": {
