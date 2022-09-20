@@ -85,7 +85,7 @@ class OSMElementProvider extends ChangeNotifier {
 
   /// Load and extract elements from a given stop area and question catalog.
 
-  void loadElementsFromStopArea(StopArea stopArea) async {
+  Future<void> loadElementsFromStopArea(StopArea stopArea) async {
     if (!_loadingStopAreas.contains(stopArea) && !_cachedOsmElementsMap.containsKey(stopArea)) {
       _loadingStopAreas.add(stopArea);
       notifyListeners();
@@ -94,10 +94,6 @@ class OSMElementProvider extends ChangeNotifier {
 
         _cachedOsmElementsMap[stopArea] = osmElements;
         _extractedOsmElementsMap[stopArea] = await _extract(stopArea, osmElements);
-      }
-      catch(error) {
-        // TODO: display error.
-        debugPrint(error.toString());
       }
       finally {
         _loadingStopAreas.remove(stopArea);
