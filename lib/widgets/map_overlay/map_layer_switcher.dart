@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class MapLayerSwitcher<T> extends StatefulWidget {
   /// A callback function that gets
   final void Function(T id) onSelection;
@@ -181,7 +180,7 @@ class _MapLayerSwitcherState<T> extends State<MapLayerSwitcher<T>> with SingleTi
             child: Container(
               margin: const EdgeInsets.only(left: 10),
               decoration: BoxDecoration(
-                color: isActive ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
+                color: isActive ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.primaryContainer,
                 borderRadius: BorderRadius.circular(3),
                 boxShadow: kElevationToShadow[4]
               ),
@@ -189,7 +188,7 @@ class _MapLayerSwitcherState<T> extends State<MapLayerSwitcher<T>> with SingleTi
               child: Text(
                 entry.label,
                 style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                  color: isActive ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSecondary
+                  color: isActive ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onPrimaryContainer
                 )
               )
             )
@@ -205,13 +204,16 @@ class _MapLayerSwitcherState<T> extends State<MapLayerSwitcher<T>> with SingleTi
     return CompositedTransformTarget(
       link: _layerLink,
       child: FloatingActionButton.small(
+        backgroundColor: _isActive ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.primaryContainer,
         heroTag: null,
         child: _isActive
-          ? const Icon(
+          ? Icon(
             Icons.layers_clear_rounded,
+            color: Theme.of(context).colorScheme.onPrimary,
           )
-          : const Icon(
+          : Icon(
             Icons.layers_rounded,
+            color: Theme.of(context).colorScheme.onPrimaryContainer,
           ),
         onPressed: () {
           if (_controller.isDismissed) {

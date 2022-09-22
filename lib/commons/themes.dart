@@ -1,33 +1,37 @@
 import 'package:flutter/material.dart';
 
+/// TODO: Wait for upstream fix for wrong AppBar Icon Color and TextInputField Suffix Icon Color
+
 class Default {
   static const Color primary = Color(0xFFEC7C72);
 
-  // Foreground Header Scaffold (lightTheme only)
+  // Foreground Selected (FloatingAction)Button / Background Account Image
   static Color onPrimaryLight = Colors.grey.shade100;
   static const Color onPrimaryDark = Color(0xFF002020);
 
-  // Background FloatingActionButton / Overscroll Color
-  static Color secondaryLight = Colors.grey.shade100;
-  static const Color secondaryDark = Color(0xFF002020);
+  // Background Unselected FloatingActionButton
+  static Color primaryContainerLight = Colors.grey.shade100;
+  static const Color primaryContainerDark = Color(0xFF002020);
 
-  // Foreground FloatingActionButton
-  static Color onSecondaryLight = Colors.grey.shade900;
-  static Color onSecondaryDark = Colors.grey.shade50;
+  // Foreground Unselected (FloatingAction)Button
+  static Color onPrimaryContainerLight = Colors.grey.shade900;
+  static Color onPrimaryContainerDark = Colors.grey.shade50;
 
-  // Background Header Scaffold (darkTheme only, primary for lightTheme)
+  // Background Header Scaffold
+  static const Color surfaceLight = Color(0xFFEC7C72);
   static const Color surfaceDark = Color(0xFF005050);
 
-  // Foreground Header Scaffold (darkTheme only, onPrimary for lightTheme) / Background Snackbar
+  // Foreground Header Scaffold
+  static Color onSurfaceLight = Colors.grey.shade100;
   static Color onSurfaceDark = Colors.grey.shade300;
 
-  // Background QuestionDialog, Scaffold Body, Drawer
-  static const Color backgroundDark = Color(0xFF002020);
+  // Background QuestionDialog
   static Color backgroundLight = Colors.grey.shade100;
+  static const Color backgroundDark = Color(0xFF002020);
 
   // Foreground QuestionDialog (Border, Lines)
-  static const Color onBackgroundDark = Color(0xFF003144);
   static Color onBackgroundLight = Colors.grey.shade300;
+  static const Color onBackgroundDark = Color(0xFF003144);
 
   static const shadow = Colors.black26;
 
@@ -37,24 +41,10 @@ class Default {
 
 // Default theme for all common theme settings
 final ThemeData defaultTheme = ThemeData(
+  useMaterial3: true,
   floatingActionButtonTheme: FloatingActionButtonThemeData(
       smallSizeConstraints: BoxConstraints.tight(const Size.square(48)),
       largeSizeConstraints: BoxConstraints.tight(const Size.square(70)),
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-              Radius.circular(Default.borderRadius)
-          )
-      )
-  ),
-  elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-          minimumSize: const Size.square(48),
-          padding: const EdgeInsets.all(Default.padding),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(Default.borderRadius),
-          ),
-          textStyle:const TextStyle(fontSize: 24)
-      )
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
@@ -83,21 +73,23 @@ final ThemeData defaultTheme = ThemeData(
       )
   ),
   toggleableActiveColor: Default.primary,
-  snackBarTheme: const SnackBarThemeData(
-      elevation: 8.0,
+  snackBarTheme: SnackBarThemeData(
       actionTextColor: Default.primary,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(Default.borderRadius))
+        borderRadius: BorderRadius.circular(Default.borderRadius)
       )
   )
 );
 
 final ThemeData lightTheme = ThemeData.light().copyWith(
+  useMaterial3: true,
   colorScheme: ThemeData.light().colorScheme.copyWith(
       primary: Default.primary,
       onPrimary: Default.onPrimaryLight,
-      secondary: Default.secondaryLight,
-      onSecondary: Default.onSecondaryLight,
+      primaryContainer: Default.primaryContainerLight,
+      onPrimaryContainer: Default.onPrimaryContainerLight,
+      surface: Default.surfaceLight,
+      onSurface: Default.onSurfaceLight,
       background: Default.backgroundLight,
       onBackground: Default.onBackgroundLight,
       tertiary: Colors.white,
@@ -115,19 +107,23 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
         )
       )
   ),
+  snackBarTheme: defaultTheme.snackBarTheme.copyWith(
+    backgroundColor: Colors.grey.shade900,
+  ),
   toggleableActiveColor: defaultTheme.toggleableActiveColor,
-  snackBarTheme: defaultTheme.snackBarTheme,
+  // To have the same background color for licenses as for every other scaffold
   cardColor: Default.backgroundLight,
-  scaffoldBackgroundColor: Default.backgroundLight,
+  // Background Body Drawer, Background Table
   canvasColor: Default.backgroundLight
 );
 
 final ThemeData darkTheme = ThemeData.dark().copyWith(
+  useMaterial3: true,
   colorScheme: ThemeData.dark().colorScheme.copyWith(
       primary: Default.primary,
       onPrimary: Default.onPrimaryDark,
-      secondary: Default.secondaryDark,
-      onSecondary: Default.onSecondaryDark,
+      primaryContainer: Default.primaryContainerDark,
+      onPrimaryContainer: Default.onPrimaryContainerDark,
       surface: Default.surfaceDark,
       onSurface: Default.onSurfaceDark,
       background: Default.backgroundDark,
@@ -147,10 +143,11 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
           )
       )
   ),
-  toggleableActiveColor: defaultTheme.toggleableActiveColor,
   snackBarTheme: defaultTheme.snackBarTheme,
+  toggleableActiveColor: defaultTheme.toggleableActiveColor,
+  // To have the same background color for licenses as for every other scaffold
   cardColor: Default.backgroundDark,
-  scaffoldBackgroundColor: Default.backgroundDark,
+  // Background Body Drawer, Background Table
   canvasColor: Default.backgroundDark
 );
 
