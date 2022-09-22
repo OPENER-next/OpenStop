@@ -85,18 +85,18 @@ class _HomeSidebarState extends State<HomeSidebar> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Abmelden'),
+        title: const Text('Von OSM abmelden?'),
         content: const Text(
           'Wenn du dich abmeldest, kannst du keine Änderungen mehr zu OpenStreetMap hochladen.'
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('ZURÜCK'),
+            child: const Text('Abbrechen'),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('ABMELDEN'),
+            child: const Text('Abmelden'),
           ),
         ],
       )
@@ -255,25 +255,11 @@ class UserAccountActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                spreadRadius: 3,
-                blurRadius: 4,
-                color: Theme.of(context).colorScheme.shadow
-              )
-            ]
-          ),
-      child: FloatingActionButton.small(
+    return FloatingActionButton.small(
         heroTag: null,
-        backgroundColor: Theme.of(context).colorScheme.onPrimary,
         onPressed: onTap,
-        elevation: 0,
         child: Icon(icon),
-      ),
-    );
+      );
   }
 }
 
@@ -334,20 +320,10 @@ class LoginInfoHeader extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(theme.colorScheme.onPrimary),
-              textStyle: MaterialStateProperty.all<TextStyle>(
-                const TextStyle(fontSize: 14)
-              ),
-            ),
+          FloatingActionButton.extended(
             onPressed: onLoginTap,
-            child: Text(
-              'ANMELDEN',
-              style: TextStyle(
-                color: theme.textTheme.bodyText1?.color
-              ),
-            )
+            label: const Text('Anmelden'),
+            icon: const Icon(Icons.login_rounded)
           ),
         ],
       )
