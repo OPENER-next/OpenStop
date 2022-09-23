@@ -15,13 +15,15 @@ class Default {
   static Color onPrimaryContainerLight = Colors.grey.shade900;
   static Color onPrimaryContainerDark = Colors.grey.shade50;
 
+  // toggleableActiveColor
+  static const Color secondary = Color(0xFFEC7C72);
+
   // Background Header Scaffold
-  static const Color surfaceLight = Color(0xFFEC7C72);
-  static const Color surfaceDark = Color(0xFF005050);
+  static const Color surface = Color(0xFFEC7C72);
 
   // Foreground Header Scaffold
   static Color onSurfaceLight = Colors.grey.shade100;
-  static Color onSurfaceDark = Colors.grey.shade300;
+  static const Color onSurfaceDark = Color(0xFF002020);
 
   // Background QuestionDialog
   static Color backgroundLight = Colors.grey.shade100;
@@ -85,15 +87,14 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
       onPrimary: Default.onPrimaryLight,
       primaryContainer: Default.primaryContainerLight,
       onPrimaryContainer: Default.onPrimaryContainerLight,
-      surface: Default.surfaceLight,
+      surface: Default.surface,
       onSurface: Default.onSurfaceLight,
       background: Default.backgroundLight,
       onBackground: Default.onBackgroundLight,
       tertiary: Colors.white,
       onTertiary: Colors.black,
       shadow: Default.shadow,
-      // toggleableActiveColor
-      secondary: Default.primary
+      secondary: Default.secondary
   ),
   floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
   elevatedButtonTheme: defaultTheme.elevatedButtonTheme,
@@ -122,15 +123,14 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
       onPrimary: Default.onPrimaryDark,
       primaryContainer: Default.primaryContainerDark,
       onPrimaryContainer: Default.onPrimaryContainerDark,
-      surface: Default.surfaceDark,
+      surface: Default.surface,
       onSurface: Default.onSurfaceDark,
       background: Default.backgroundDark,
       onBackground: Default.onBackgroundDark,
       tertiary: Colors.black,
       onTertiary: Colors.white,
       shadow: Default.shadow,
-      // toggleableActiveColor
-      secondary: Default.primary
+      secondary: Default.secondary
   ),
   floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
   elevatedButtonTheme: defaultTheme.elevatedButtonTheme,
