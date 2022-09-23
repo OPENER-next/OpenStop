@@ -229,7 +229,7 @@ class _TimeScrollerState extends State<TimeScroller> {
                       duration: const Duration(milliseconds: 200),
                       child: Text(
                         value.toString().padLeft(2, '0'),
-                        style: Theme.of(context).textTheme.headline5
+                        style: Theme.of(context).textTheme.headlineSmall
                       ),
                     ),
                   ),
@@ -244,7 +244,7 @@ class _TimeScrollerState extends State<TimeScroller> {
             color: Theme.of(context).colorScheme.background,
             padding: const EdgeInsets.symmetric(horizontal: 4.0),
             child: Text(widget.name,
-              style: Theme.of(context).textTheme.caption
+              style: Theme.of(context).textTheme.bodySmall
             )
           ),
         )

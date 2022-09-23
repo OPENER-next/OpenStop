@@ -187,7 +187,7 @@ class _MapLayerSwitcherState<T> extends State<MapLayerSwitcher<T>> with SingleTi
               padding: const EdgeInsets.all(5),
               child: Text(
                 entry.label,
-                style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: isActive ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onPrimaryContainer
                 )
               )

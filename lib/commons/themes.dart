@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// TODO: Wait for upstream fix for wrong AppBar Icon Color and TextInputField Suffix Icon Color
-
 class Default {
   static const Color primary = Color(0xFFEC7C72);
 
@@ -72,7 +70,6 @@ final ThemeData defaultTheme = ThemeData(
         )
       )
   ),
-  toggleableActiveColor: Default.primary,
   snackBarTheme: SnackBarThemeData(
       actionTextColor: Default.primary,
       shape: RoundedRectangleBorder(
@@ -95,6 +92,8 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
       tertiary: Colors.white,
       onTertiary: Colors.black,
       shadow: Default.shadow,
+      // toggleableActiveColor
+      secondary: Default.primary
   ),
   floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
   elevatedButtonTheme: defaultTheme.elevatedButtonTheme,
@@ -110,7 +109,6 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
   snackBarTheme: defaultTheme.snackBarTheme.copyWith(
     backgroundColor: Colors.grey.shade900,
   ),
-  toggleableActiveColor: defaultTheme.toggleableActiveColor,
   // To have the same background color for licenses as for every other scaffold
   cardColor: Default.backgroundLight,
   // Background Body Drawer, Background Table
@@ -131,6 +129,8 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
       tertiary: Colors.black,
       onTertiary: Colors.white,
       shadow: Default.shadow,
+      // toggleableActiveColor
+      secondary: Default.primary
   ),
   floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
   elevatedButtonTheme: defaultTheme.elevatedButtonTheme,
@@ -144,7 +144,6 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
       )
   ),
   snackBarTheme: defaultTheme.snackBarTheme,
-  toggleableActiveColor: defaultTheme.toggleableActiveColor,
   // To have the same background color for licenses as for every other scaffold
   cardColor: Default.backgroundDark,
   // Background Body Drawer, Background Table
