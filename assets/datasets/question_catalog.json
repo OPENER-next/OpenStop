@@ -851,6 +851,9 @@
       "name": "Bewegbare Rampe",
       "question": "Gibt es eine bewegbare Rollstuhl-Rampe?",
       "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
+      "image": [
+         "assets/images/questions/1210a.jpg"
+      ],
       "input": {
          "type": "Bool",
          "values": {
