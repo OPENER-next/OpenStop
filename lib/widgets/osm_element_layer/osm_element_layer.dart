@@ -95,7 +95,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 
 
   static Supercluster<GeometricOSMElement> _cluster(List<GeometricOSMElement> elements) {
-    return Supercluster<GeometricOSMElement>(
+    return SuperclusterImmutable<GeometricOSMElement>(
       points: elements,
       getX: (p) => p.geometry.center.longitude,
       getY: (p) => p.geometry.center.latitude,
@@ -123,7 +123,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
           final clusters =_supercluster!.getClustersAndPoints(-180, -85, 180, 85, zoomLevel);
 
           for (final cluster in clusters) {
-            if (cluster is Cluster<GeometricOSMElement>) {
+            if (cluster is LayerCluster<GeometricOSMElement>) {
               final points = (cluster.clusterData as _ClusterLeafs).elements;
               // always show the first element from yield as a marker and not placeholder
               visibleMarkers.add(
@@ -134,7 +134,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
                 points.skip(1).map(_createMinimizedMarker)
               );
             }
-            else if (cluster is MapPoint<GeometricOSMElement>) {
+            else if (cluster is LayerPoint<GeometricOSMElement>) {
               visibleMarkers.add(
                 _createMarker(cluster.originalPoint)
               );
