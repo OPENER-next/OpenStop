@@ -204,17 +204,14 @@ class _MapLayerSwitcherState<T> extends State<MapLayerSwitcher<T>> with SingleTi
     return CompositedTransformTarget(
       link: _layerLink,
       child: FloatingActionButton.small(
-        backgroundColor: _isActive ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.primaryContainer,
         heroTag: null,
         child: _isActive
-          ? Icon(
-            Icons.layers_clear_rounded,
-            color: Theme.of(context).colorScheme.onPrimary,
-          )
-          : Icon(
-            Icons.layers_rounded,
-            color: Theme.of(context).colorScheme.onPrimaryContainer,
-          ),
+            ? const Icon(
+          Icons.layers_clear_rounded,
+        )
+            : const Icon(
+          Icons.layers_rounded,
+        ),
         onPressed: () {
           if (_controller.isDismissed) {
             Overlay.of(context)?.insert(_overlayEntry);

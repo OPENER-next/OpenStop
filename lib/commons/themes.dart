@@ -18,6 +18,9 @@ class Default {
   // toggleableActiveColor
   static const Color secondary = Color(0xFFEC7C72);
 
+  // Mixed with Background Header Scaffold when scrolled / Same as primary so no color change is visible
+  static const Color surfaceTint = Color(0xFFEC7C72);
+
   // Background Header Scaffold
   static const Color surface = Color(0xFFEC7C72);
 
@@ -33,7 +36,8 @@ class Default {
   static Color onBackgroundLight = Colors.grey.shade300;
   static const Color onBackgroundDark = Color(0xFF003144);
 
-  static const shadow = Colors.black26;
+  // Shadow for Material Widgets (Zoom button, Loading indicator)
+  static const shadow = Colors.black;
 
   static const double borderRadius = 12.0;
   static const double padding = 12.0;
@@ -42,6 +46,10 @@ class Default {
 // Default theme for all common theme settings
 final ThemeData defaultTheme = ThemeData(
   useMaterial3: true,
+  appBarTheme: const AppBarTheme(
+    elevation: 4,
+    shadowColor: Default.shadow,
+  ),
   floatingActionButtonTheme: FloatingActionButtonThemeData(
       smallSizeConstraints: BoxConstraints.tight(const Size.square(48)),
       largeSizeConstraints: BoxConstraints.tight(const Size.square(70)),
@@ -94,8 +102,10 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
       tertiary: Colors.white,
       onTertiary: Colors.black,
       shadow: Default.shadow,
-      secondary: Default.secondary
+      secondary: Default.secondary,
+      surfaceTint: Default.surfaceTint,
   ),
+  appBarTheme: defaultTheme.appBarTheme,
   floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
   elevatedButtonTheme: defaultTheme.elevatedButtonTheme,
   outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
@@ -130,8 +140,10 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
       tertiary: Colors.black,
       onTertiary: Colors.white,
       shadow: Default.shadow,
-      secondary: Default.secondary
+      secondary: Default.secondary,
+      surfaceTint: Default.surfaceTint,
   ),
+  appBarTheme: defaultTheme.appBarTheme,
   floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
   elevatedButtonTheme: defaultTheme.elevatedButtonTheme,
   outlinedButtonTheme: defaultTheme.outlinedButtonTheme,

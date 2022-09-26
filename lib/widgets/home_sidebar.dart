@@ -233,11 +233,19 @@ class UserAccountActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton.small(
+    return DecoratedBox(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: kElevationToShadow[4]
+      ),
+      child: FloatingActionButton.small(
         heroTag: null,
+        backgroundColor: Theme.of(context).colorScheme.onPrimary,
         onPressed: onTap,
+        elevation: 0,
         child: Icon(icon),
-      );
+      ),
+    );
   }
 }
 
@@ -298,10 +306,14 @@ class LoginInfoHeader extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          FloatingActionButton.extended(
-            onPressed: onLoginTap,
-            label: const Text('Anmelden'),
-            icon: const Icon(Icons.login_rounded)
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.primary,
+              backgroundColor: Theme.of(context).colorScheme.onPrimary,
+            ).copyWith(
+                elevation: ButtonStyleButton.allOrNull(0.0)),
+                onPressed: onLoginTap,
+                child: const Text('Anmelden'),
           ),
         ],
       )
