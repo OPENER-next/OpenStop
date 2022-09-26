@@ -124,7 +124,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
           final clusters =_supercluster!.getClustersAndPoints(-180, -85, 180, 85, zoomLevel);
 
           for (final cluster in clusters) {
-            if (cluster is Cluster<GeometricOSMElement>) {
+            if (cluster is LayerCluster<GeometricOSMElement>) {
               final points = (cluster.clusterData as _ClusterLeafs).elements;
 
               var hasMarker = false;
@@ -155,7 +155,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
                 );
               }
             }
-            else if (cluster is MapPoint<GeometricOSMElement>) {
+            else if (cluster is LayerPoint<GeometricOSMElement>) {
               visibleMarkers.add(
                 _createMarker(cluster.originalPoint)
               );
