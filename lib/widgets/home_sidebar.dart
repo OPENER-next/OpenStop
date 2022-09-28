@@ -233,18 +233,13 @@ class UserAccountActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: kElevationToShadow[4]
-      ),
-      child: FloatingActionButton.small(
-        heroTag: null,
+    return IconButton(
+      style: IconButton.styleFrom(
+        foregroundColor: Theme.of(context).colorScheme.primary,
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
-        onPressed: onTap,
-        elevation: 0,
-        child: Icon(icon),
       ),
+      icon: Icon(icon),
+      onPressed: onTap,
     );
   }
 }
@@ -294,7 +289,7 @@ class LoginInfoHeader extends StatelessWidget {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             'Melde dich mit deinem OpenStreetMap-Konto an, um deine Änderungen hochzuladen.',
@@ -306,14 +301,13 @@ class LoginInfoHeader extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          ElevatedButton(
+          ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
-              foregroundColor: Theme.of(context).colorScheme.primary,
               backgroundColor: Theme.of(context).colorScheme.onPrimary,
-            ).copyWith(
-                elevation: ButtonStyleButton.allOrNull(0.0)),
-                onPressed: onLoginTap,
-                child: const Text('Anmelden'),
+            ),
+            onPressed: onLoginTap,
+            label: const Text('Anmelden'),
+            icon: const Icon(Icons.login_rounded)
           ),
         ],
       )

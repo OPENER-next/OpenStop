@@ -21,7 +21,7 @@ class Default {
   // Mixed with Background Header Scaffold when scrolled / Same as primary so no color change is visible
   static const Color surfaceTint = Color(0xFFEC7C72);
 
-  // Background Header Scaffold
+  // Background Header Scaffold // Background Elevated Button
   static const Color surface = Color(0xFFEC7C72);
 
   // Foreground Header Scaffold
@@ -41,18 +41,25 @@ class Default {
 
   static const double borderRadius = 12.0;
   static const double padding = 12.0;
+  static const double elevation = 4.0;
 }
 
 // Default theme for all common theme settings
 final ThemeData defaultTheme = ThemeData(
   useMaterial3: true,
   appBarTheme: const AppBarTheme(
-    elevation: 4,
-    shadowColor: Default.shadow,
+      elevation: Default.elevation,
+      shadowColor: Default.shadow,
   ),
   floatingActionButtonTheme: FloatingActionButtonThemeData(
       smallSizeConstraints: BoxConstraints.tight(const Size.square(48)),
       largeSizeConstraints: BoxConstraints.tight(const Size.square(70)),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+              Radius.circular(Default.borderRadius)
+          )
+        ),
+      elevation: Default.elevation
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(

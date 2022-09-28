@@ -20,15 +20,15 @@ class LoadingIndicator extends StatelessWidget {
       duration: duration,
       child: !active ? null : Material(
         type: MaterialType.circle,
-        elevation: Theme.of(context).floatingActionButtonTheme.elevation ?? 8.0,
+        elevation: Theme.of(context).floatingActionButtonTheme.elevation ?? 4.0,
         color: Theme.of(context).colorScheme.primaryContainer,
         shadowColor: Theme.of(context).colorScheme.shadow,
         // enforce no box constraints
         // see: https://flutter.dev/docs/development/ui/layout/constraints
         child: UnconstrainedBox(
           child: Container(
-            height: 40.0,
-            width: 40.0,
+            height: Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minHeight ?? 48.0,
+            width: Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minWidth ?? 48.0,
             padding: const EdgeInsets.all(10),
             child: CircularProgressIndicator(
               color: Theme.of(context).colorScheme.primary,
