@@ -850,7 +850,7 @@
       "id": 1201,
       "name": "Anfahrtshilfen-Art",
       "question": "Wie sieht die Anfahrtshilfe für Busse aus?",
-      "description": "Bordsteine mit Spurführung sind speziell geformt, um Bussen ein dichtes Heranfahren an die Bordsteinkante zu ermöglichen.",
+      "description": "Bordsteine mit Anfahrtshilfe sind speziell geformt, um Bussen ein dichtes Heranfahren an die Bordsteinkante zu ermöglichen.",
       "input": {
          "type": "List",
          "values": {
@@ -863,7 +863,7 @@
             },
             "lane_guidance": {
                "name": "Spurführung",
-               "image": "assets/images/questions/1201b.jpg",
+               "image": "assets/images/questions/1200a.jpg",
                "osm_tags": {
                   "kerb:approach_aid": "lane_guidance"
                }
