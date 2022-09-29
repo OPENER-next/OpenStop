@@ -42,7 +42,7 @@ class OsmElementLayer extends StatefulWidget {
 }
 
 class _OsmElementLayerState extends State<OsmElementLayer> {
-  Supercluster<GeometricOSMElement>? _supercluster;
+  SuperclusterImmutable<GeometricOSMElement>? _supercluster;
 
   Stream<int>? _zoomLevelStream;
 
@@ -94,9 +94,8 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
   }
 
 
-  static Supercluster<GeometricOSMElement> _cluster(List<GeometricOSMElement> elements) {
-    return Supercluster<GeometricOSMElement>(
-      points: elements,
+  static SuperclusterImmutable<GeometricOSMElement> _cluster(List<GeometricOSMElement> elements) {
+    return SuperclusterImmutable<GeometricOSMElement>(
       getX: (p) => p.geometry.center.longitude,
       getY: (p) => p.geometry.center.latitude,
       minZoom: 0,
@@ -105,7 +104,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       extent: 512,
       nodeSize: 64,
       extractClusterData: (customMapPoint) => _ClusterLeafs([customMapPoint])
-    );
+    )..load(elements);
   }
 
 
@@ -121,10 +120,10 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
         final questionnaireProvider = context.watch<QuestionnaireProvider>();
 
         if (_supercluster != null) {
-          final clusters =_supercluster!.getClustersAndPoints(-180, -85, 180, 85, zoomLevel);
+          final clusters =_supercluster!.search(-180, -85, 180, 85, zoomLevel);
 
           for (final cluster in clusters) {
-            if (cluster is Cluster<GeometricOSMElement>) {
+            if (cluster is ImmutableLayerCluster<GeometricOSMElement>) {
               final points = (cluster.clusterData as _ClusterLeafs).elements;
 
               var hasMarker = false;
@@ -155,7 +154,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
                 );
               }
             }
-            else if (cluster is MapPoint<GeometricOSMElement>) {
+            else if (cluster is ImmutableLayerPoint<GeometricOSMElement>) {
               visibleMarkers.add(
                 _createMarker(cluster.originalPoint)
               );
