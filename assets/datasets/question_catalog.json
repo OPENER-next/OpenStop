@@ -812,11 +812,11 @@
    },
    {
       "id": 1200,
-      "name": "Spurführung",
-      "question": "Hat der Bordstein eine Spürführung für Busse?",
-      "description": "Bordsteine mit Spurführung sind speziell geformt, um Bussen ein dichtes Heranfahren an die Bordsteinkante zu ermöglichen.",
+      "name": "Anfahrtshilfe",
+      "question": "Hat der Bordstein eine Anfahrtshilfe für Busse?",
+      "description": "Bordsteine mit Anfahrtshilfe sind speziell geformt, um Bussen ein dichtes Heranfahren an die Bordsteinkante zu ermöglichen.",
       "image": [
-         "assets/images/questions/1201a.jpg"
+         "assets/images/questions/1200a.jpg"
       ],
       "input": {
          "type": "Bool",
@@ -842,6 +842,46 @@
                   "yes"
                ],
                "kerb:approach_aid": false
+            }
+         }
+      ]
+   },
+   {
+      "id": 1201,
+      "name": "Anfahrtshilfen-Art",
+      "question": "Wie sieht die Anfahrtshilfe für Busse aus?",
+      "description": "Bordsteine mit Anfahrtshilfe sind speziell geformt, um Bussen ein dichtes Heranfahren an die Bordsteinkante zu ermöglichen.",
+      "input": {
+         "type": "List",
+         "values": {
+            "edge_recess": {
+               "name": "Aussparung",
+               "image": "assets/images/questions/1201a.jpg",
+               "osm_tags": {
+                  "kerb:approach_aid": "edge_recess"
+               }
+            },
+            "lane_guidance": {
+               "name": "Spurführung",
+               "image": "assets/images/questions/1200a.jpg",
+               "osm_tags": {
+                  "kerb:approach_aid": "lane_guidance"
+               }
+            },
+            "guidance_with_recess": {
+               "name": "Spurführung mit Aussparung",
+               "image": "assets/images/questions/1201c.jpg",
+               "osm_tags": {
+                  "kerb:approach_aid": "guidance_with_recess"
+               }
+            }
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "kerb:approach_aid": "yes"
             }
          }
       ]
