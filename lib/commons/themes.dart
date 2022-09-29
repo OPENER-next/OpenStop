@@ -95,7 +95,7 @@ final ThemeData defaultTheme = ThemeData(
   )
 );
 
-final ThemeData lightTheme = ThemeData.light().copyWith(
+final ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   colorScheme: ThemeData.light().colorScheme.copyWith(
       primary: Default.primary,
@@ -129,11 +129,11 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
   ),
   // To have the same background color for licenses as for every other scaffold
   cardColor: Default.backgroundLight,
-  // Background Body Drawer, Background Table
+  // Background Body Drawer, Background Body Scaffold, Background Map
   canvasColor: Default.backgroundLight
 );
 
-final ThemeData darkTheme = ThemeData.dark().copyWith(
+final ThemeData darkTheme = ThemeData(
   useMaterial3: true,
   colorScheme: ThemeData.dark().colorScheme.copyWith(
       primary: Default.primary,
@@ -165,7 +165,7 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
   snackBarTheme: defaultTheme.snackBarTheme,
   // To have the same background color for licenses as for every other scaffold
   cardColor: Default.backgroundDark,
-  // Background Body Drawer, Background Table
+  // Background Body Drawer, Background Body Scaffold, Background Map
   canvasColor: Default.backgroundDark
 );
 
