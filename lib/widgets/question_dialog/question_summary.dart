@@ -79,6 +79,7 @@ class QuestionSummary extends StatelessWidget {
     final answer = answers[index];
 
     return Material(
+      type: MaterialType.transparency,
       child: InkWell(
         onTap: () => onJump?.call(index),
         child: Padding(

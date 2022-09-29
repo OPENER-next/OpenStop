@@ -20,7 +20,7 @@ class HomeSidebar extends StatefulWidget {
 class _HomeSidebarState extends State<HomeSidebar> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Drawer(
       width: min(MediaQuery.of(context).size.width * 0.65, 300),
       child: Drawer(
         child: ListView(
