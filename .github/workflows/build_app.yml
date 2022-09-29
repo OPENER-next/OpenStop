@@ -28,7 +28,7 @@ jobs:
         # Use a fixed Flutter version (instead of latest) to ensure a more deterministic building process
         # When changing the Flutter version make sure to also update it in the F-Droid repository
         # https://gitlab.com/fdroid/fdroiddata/-/blob/master/metadata/de.tu_chemnitz.etit.sse.openstop.yml
-        flutter-version: '3.3.0'
+        flutter-version: '3.3.3'
         channel: 'stable'
 
     - name: Check Flutter version
@@ -89,7 +89,7 @@ jobs:
         # Use a fixed Flutter version (instead of latest) to ensure a more deterministic building process
         # When changing the Flutter version make sure to also update it in the F-Droid repository
         # https://gitlab.com/fdroid/fdroiddata/-/blob/master/metadata/de.tu_chemnitz.etit.sse.openstop.yml
-        flutter-version: '3.3.0'
+        flutter-version: '3.3.3'
         channel: 'stable'
 
     - run: flutter pub get
