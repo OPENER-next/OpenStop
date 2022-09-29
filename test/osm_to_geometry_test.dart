@@ -26,7 +26,10 @@ void main() async {
   test('test if a geometric osm element is successfully created from a given way', () {
     final bundle =_parse(way01);
 
-    final geoEle = GeometricOSMElement.generateFromOSMWay(osmWay: bundle.ways.first, osmNodes: bundle.nodes);
+    final geoEle = GeometricOSMElement.generateFromOSMWay(
+      osmWay: bundle.ways.first,
+      osmNodes: bundle.getNodesFromWay(bundle.ways.first),
+    );
 
     expect(
       geoEle,
