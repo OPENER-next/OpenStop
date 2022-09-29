@@ -63,28 +63,18 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
     required OSMWay osmWay,
     required Iterable<OSMNode> osmNodes
   }) {
-    // assert that the provided nodes are exactly the ones referenced by the way.
-    assert(
-      osmWay.nodeIds.every((nodeId) => osmNodes.any((node) => node.id == nodeId)),
-      'OSM way references nodes that cannot be found in the provided node data set.'
-    );
-    assert(
-      // remove duplicate references for closed ways
-      Set.of(osmWay.nodeIds).length == osmNodes.length,
-      'OSM way has node references that differ from the provided node data set.'
-    );
+    // assert that the provided nodes are exactly the ones referenced by the way and in the same order
+    assert(() {
+      var i = -1;
+      return osmNodes.every((node) {
+        i++;
+        return node.id == osmWay.nodeIds[i];
+      });
+    }(), 'OSM way ${osmWay.id} references nodes that cannot be found in the provided node data set.');
 
-    final accumulatedCoordinates = osmWay.nodeIds.map((id) {
-      try {
-        // find node object by id
-        final node = osmNodes.firstWhere((node) => node.id == id);
-        // convert node object to LatLng
-        return LatLng(node.lat, node.lon);
-      }
-      on StateError {
-        throw StateError('OSM node with id $id not found in the provided node data set.');
-      }
-    }).toList();
+    final accumulatedCoordinates = osmNodes
+      .map((node) => LatLng(node.lat, node.lon))
+      .toList();
 
     final geometry = GeographicPolyline(accumulatedCoordinates);
 
