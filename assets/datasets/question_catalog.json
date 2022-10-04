@@ -850,27 +850,27 @@
       "id": 1201,
       "name": "Anfahrtshilfen-Art",
       "question": "Wie sieht die Anfahrtshilfe für Busse aus?",
-      "description": "Bordsteine mit Anfahrtshilfe sind speziell geformt, um Bussen ein dichtes Heranfahren an die Bordsteinkante zu ermöglichen.",
+      "description": "Bordsteine mit Anfahrtshilfe sind speziell geformt, um Bussen ein dichtes Heranfahren an die Bordsteinkante zu ermöglichen. Die Bilder der Antwortmöglichkeiten zeigen vereinfachte Querschnitte.",
       "input": {
          "type": "List",
          "values": {
             "edge_recess": {
                "name": "Aussparung",
-               "image": "assets/images/questions/1201a.jpg",
+               "image": "assets/images/questions/1201a.png",
                "osm_tags": {
                   "kerb:approach_aid": "edge_recess"
                }
             },
             "lane_guidance": {
                "name": "Spurführung",
-               "image": "assets/images/questions/1200a.jpg",
+               "image": "assets/images/questions/1201b.png",
                "osm_tags": {
                   "kerb:approach_aid": "lane_guidance"
                }
             },
             "guidance_with_recess": {
                "name": "Spurführung mit Aussparung",
-               "image": "assets/images/questions/1201c.jpg",
+               "image": "assets/images/questions/1201c.png",
                "osm_tags": {
                   "kerb:approach_aid": "guidance_with_recess"
                }
