@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:provider/provider.dart';
 
+import '/utils/stream_utils.dart';
 import '/view_models/user_location_provider.dart';
 import '/view_models/preferences_provider.dart';
 import '/view_models/stop_areas_provider.dart';
@@ -34,8 +35,7 @@ class MapOverlay extends StatefulWidget {
 
 class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
 
-  // used to filter notifications that do not alter the rotation
-  late final ValueNotifier<double> _rotationNotifier;
+  late final Stream<double> _rotationStream;
 
   @override
   void initState() {
@@ -43,11 +43,12 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
 
     final mapController = context.read<MapController>();
 
-    _rotationNotifier = ValueNotifier<double>(mapController.rotation);
-
-    mapController.mapEventStream.listen((event) {
-      _rotationNotifier.value = mapController.rotation;
-    });
+    _rotationStream = mapController.mapEventStream
+      .map((event) => mapController.rotation)
+      // used to filter notifications that do not alter the rotation
+      .transform(ComparePreviousTransformer(
+        (previous, current) => previous != current),
+      );
   }
 
 
@@ -91,19 +92,22 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
                   ),
                   Align(
                     alignment: Alignment.topRight,
-                    child: ValueListenableBuilder(
-                      valueListenable: _rotationNotifier,
-                      builder: (BuildContext context, double rotation, Widget? compass) {
+                    child: StreamBuilder<double>(
+                      stream: _rotationStream,
+                      initialData: context.read<MapController>().rotation,
+                      builder: (BuildContext context, snapshot) {
+                        final rotation = snapshot.requireData;
                         return AnimatedSwitcher(
                           duration: const Duration(milliseconds: 300),
-                          child: rotation % 360 != 0 ? compass : const SizedBox.shrink()
+                          child: rotation % 360 != 0
+                            ? CompassButton(
+                              rotation: rotation,
+                              isDegree: true,
+                              onPressed: _resetRotation,
+                            )
+                            : null
                         );
-                      } ,
-                      child: CompassButton(
-                        rotation: _rotationNotifier,
-                        isDegree: true,
-                        onPressed: _resetRotation,
-                      ),
+                      },
                     ),
                   ),
                   Align(
@@ -229,12 +233,5 @@ class _MapOverlayState extends State<MapOverlay> with TickerProviderStateMixin {
   // ignore: use_setters_to_change_properties
   void _updateTileProvider(TileLayerId newTileLayerId) {
     context.read<PreferencesProvider>().tileLayerId = newTileLayerId;
-  }
-
-
-  @override
-  void dispose() {
-    _rotationNotifier.dispose();
-    super.dispose();
   }
 }
