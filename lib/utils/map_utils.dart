@@ -62,16 +62,16 @@ extension AnimationUtils on MapController {
       bounds,
       options: FitBoundsOptions(
         maxZoom: maxZoom,
-        padding: padding
+        padding: padding,
+        // round zoom level so zoom will always stick to integer levels
+        forceIntegerZoomLevel: true,
       )
     );
 
     animateTo(
       ticker: ticker,
       location: centerZoom.center,
-      // round zoom level so zoom will always stick to integer levels
-      // floor so the bounds are always visible
-      zoom: centerZoom.zoom.floorToDouble()
+      zoom: centerZoom.zoom,
     );
   }
 }

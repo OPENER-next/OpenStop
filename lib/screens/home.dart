@@ -414,8 +414,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
       bounds: geometricOSMElement.geometry.bounds,
       // calculate padding based on question dialog max height
       padding: EdgeInsets.only(
-        // add hardcoded marker height for now so it is centered between the top and bottom of the marker
-        top: mediaQuery.padding.top + 60,
+        top: mediaQuery.padding.top,
         bottom: mediaQuery.size.height * _HomeScreenContent.questionDialogMaxHeightFactor
       ),
       // zoom in on 20 or more if the current zoom level is above 20

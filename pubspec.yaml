@@ -41,16 +41,18 @@ dependencies:
   nvbw_open_data:
     path: ./dependencies/nvbw_open_data
 
+dependency_overrides:
+  flutter_map:
+    git:
+      url: https://github.com/fleaflet/flutter_map.git
+      ref: fb3f27066be4900f291adaef39fcf665c9c0090d
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.10.0
   flutter_lints: ^2.0.0
-  # Required since the latest release is not compatible with dart v2.17
   nock: ^1.2.1
-  #  git:
-  #    url: https://github.com/cah4a/dart_nock.git
-  #    ref: 7643ccb71b1340e81d6291028d0a7eae9da45bb3
   build_runner: ^2.1.7
   build_version: ^2.0.0
 
