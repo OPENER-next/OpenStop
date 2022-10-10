@@ -1,0 +1,44 @@
+name: Feature request
+description: Suggest an idea
+labels: ["feature request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting an idea to make OpenStop better.
+        Make sure that there isn't already a [request](https://github.com/OPENER-next/OpenStop/issues?q=label%3A%22feature+request%22+) for your feature.
+  - type: textarea
+    id: idea
+    attributes:
+      label: Idea
+      description: |
+        Please describe the desired behavior, pitch your idea or suggest improvements.
+    validations:
+      required: true
+  - type: input
+    id: bugrelation
+    attributes:
+      label: Bug Relation
+      description: |
+        Is your feature related to a bug?
+        Refer to a an existing bug, you can use `#bugid`
+    validations:
+      required: false
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Implementation
+      description: |
+        Do you have an idea on how this should be implemented?
+    validations:
+      required: false
+  - type: textarea
+    id: info
+    attributes:
+      label: Additional Info
+      description: |
+        Links? References? Anything that will give us more context about the feature you are suggesting!
+  
+        *Tip:* You can attach images or files by clicking this area to highlight it and then dragging files in.
+    validations:
+      required: false
