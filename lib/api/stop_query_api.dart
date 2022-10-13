@@ -18,6 +18,10 @@ class StopQueryAPI {
 
   final Duration retryDelay;
 
+  final Duration sendTimeout;
+
+  final Duration receiveTimeout;
+
   final List<String> apiServers;
 
   final _dio = Dio();
@@ -27,10 +31,12 @@ class StopQueryAPI {
   StopQueryAPI({
     this.maxRetries = 3,
     this.retryDelay = const Duration(seconds: 1),
+    this.sendTimeout = const Duration(seconds: 10),
+    this.receiveTimeout = const Duration(seconds: 15),
     this.apiServers = const [
       'https://overpass.kumi.systems/api/interpreter',
       'https://overpass-api.de/api/interpreter',
-    ]
+    ],
   });
 
 
@@ -53,14 +59,18 @@ class StopQueryAPI {
         queryParameters: {
           'data': _query,
           'bbox': '${southWest.longitude},${southWest.latitude},${northEast.longitude},${northEast.latitude}'
-        }
+        },
+        options: Options(
+          sendTimeout: sendTimeout.inSeconds,
+          receiveTimeout: receiveTimeout.inSeconds,
+        ),
       );
       return _queryResponseToStops(response);
     }
     catch(error) {
       if (retryCount < maxRetries) {
         return Future.delayed(
-          const Duration(seconds: 1),
+          retryDelay,
           () => _queryByBBox(southWest, northEast, retryCount + 1)
         );
       }

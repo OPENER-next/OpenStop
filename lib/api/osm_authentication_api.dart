@@ -26,7 +26,7 @@ class OSMAuthenticationAPI {
 
   /// This will start the login/authentication process by opening the openstreetmap website inside a browser/webview.
   /// The future will resolve when this process has finished.
-  /// If the access token was gathered successfully [isAuthenticated] should now return true.
+  /// If the access token was gathered successfully an [OAuth2] authentication object will be returned.
   /// Otherwise errors might be thrown.
 
   Future<OAuth2?> login() async {
@@ -97,7 +97,9 @@ class OSMAuthenticationAPI {
   Future<bool> verifyAuthentication(OAuth2 authentication) async {
     final osmApi = OSMAPI(
       baseUrl: '${osm_config.osmServerUri}/api/0.6',
-      authentication: authentication
+      authentication: authentication,
+      connectTimeout: 10000,
+      receiveTimeout: 15000,
     );
 
     try {

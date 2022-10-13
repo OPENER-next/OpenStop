@@ -38,6 +38,8 @@ class OSMElementUploadAPI {
     _osmApi = OSMAPI(
       authentication: authenticatedUser.authentication,
       baseUrl: endPoint,
+      connectTimeout: 10000,
+      receiveTimeout: 15000,
     );
 
 
