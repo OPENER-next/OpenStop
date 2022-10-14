@@ -29,19 +29,9 @@ jobs:
         touch config/settings.local.yml
       working-directory: ./osm-website
 
-    # Cache docker build
-    - name: Get cached Docker build
-      uses: satackey/action-docker-layer-caching@v0.0.11
-      continue-on-error: true
-
-    - name: Build OSM website Docker Image
+    - name: Build and start OSM website docker
       run: |
-        docker-compose build
-      working-directory: ./osm-website
-
-    - name: Start OSM website Docker-Compose
-      run: |
-        docker-compose up -d
+        docker-compose up -d --build
         sleep 15 # let the DB warm up a little
       working-directory: ./osm-website
 
