@@ -1919,7 +1919,13 @@
       "answer": {
          "type": "Duration",
          "input": {
-            "unit": "m:1,s:1"
+            "minutes": {
+               "step": 1,
+               "max": 10
+            },
+            "seconds": {
+               "step": 1
+            }
          },
          "constructor": {
             "duration": ["$input"]
