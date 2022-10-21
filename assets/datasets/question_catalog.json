@@ -1000,7 +1000,7 @@
       "answer": {
          "type": "Number",
          "input": {
-            "placeholder": "Maximalgewicht",
+            "placeholder": "Tragfähigkeit",
             "decimals": 0,
             "min": 70,
             "max": 1000,
@@ -1100,7 +1100,7 @@
       "answer": {
          "type": "Number",
          "input": {
-            "placeholder": "Maximalgewicht",
+            "placeholder": "Tragfähigkeit",
             "decimals": 0,
             "min": 70,
             "max": 1000,
