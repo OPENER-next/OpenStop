@@ -1,99 +1,329 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Question Catalog",
-  "description": "A list of questions.",
+  "description": "A list of questions to choose from.",
   "type": "array",
   "items": {
     "type": "object",
-    "description": "A question derived from the DELFI catalog.",
+    "description": "A question entry is defined of three main parts:\n- A basic question phrase later displayed to the user\n- An input type, which defines the UI element in the frontend as well as the written OSM tags\n-A set of conditions that define under which circumstances the question should be asked",
+    "required": [ "question", "answer", "conditions" ],
+    "additionalProperties": false,
     "properties": {
-      "id": {
-        "description": "The DELFI id this question is derived from.",
-        "type": "integer",
-        "exclusiveMinimum": 0
-      },
-      "name": {
-        "description": "A short title providing additional context to this question.",
-        "type": "string"
-      },
-      "description": {
-        "description": "Details or further information describing this question.",
-        "type": "string"
-      },
-      "image": {
-        "description": "A list of image urls that may help to clarify this question.",
-        "type": "array",
-        "items": {
-          "type": "string",
-          "format": "uri-reference"
-        },
-        "minItems": 1
-      },
+
       "question": {
-        "description": "The actual question. It should be kept as short as possible while still being comprehensible and independent of the context in which it is asked.",
-        "type": "string"
-      },
-      "input": {
         "type": "object",
-        "description": "This holds properties specifying the UI input element and its constraints.",
+        "description": "This holds any to the question related information including the question itself.",
+        "required": [ "name", "text" ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "description": "The DELFI id this question is derived from.",
+            "type": "integer",
+            "exclusiveMinimum": 0
+          },
+          "name": {
+            "description": "A short term describing the content of the answer.",
+            "type": "string"
+          },
+          "text": {
+            "description": "The actual question. It should be kept as short as possible while still being comprehensible and independent of the context in which it is asked.",
+            "type": "string"
+          },
+          "description": {
+            "description": "Details or further information describing this question.",
+            "type": "string"
+          },
+          "image": {
+            "description": "A list of image urls that may help to clarify this question.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri-reference"
+            },
+            "minItems": 1
+          }
+        }
+      },
+
+      "answer": {
+        "type": "object",
+        "description": "Holds properties to specify the UI input element and its constraints by which the question can be answered.",
+        "required": [ "type", "input" ],
+        "additionalProperties": false,
         "properties": {
           "type": {
-            "description": "The value type of the answer. This is closely related to the widget that will be displayed to the end user.",
-            "enum": ["Bool", "Number", "String", "List", "Duration", "OpeningHours"]
+            "description": "Defines the UI input element used to answer the question.",
+            "enum": ["String", "Number", "Duration", "Bool", "List", "MultiList"]
           },
-          "values": {
-            "description": "A map of values with additional information for the user and the corresponding OSM tags.",
+          "input": {
+            "type": ["array", "object"],
+            "description": "Holds any properties to configure the UI input element and its constraints. The contents of this property **vary in its structure and properties** depending on the input `type`.",
+            "items": {
+              "type": "object"
+            },
+            "minItems": 2
+          },
+          "constructor": {
             "type": "object",
+            "description": "The constructor ultimately creates the OSM tags to be written based on the given input value(s). Input types without predefined values like `String`, `Number` and `Duration` require a constructor, while all other types with predefined values have a default constructor that coalesces the selected values.\n The OSM tags to be written are defined by a key of type String and either a value of type String or an expression that evaluates to a String. Expressions are defined by an array [] containing the expression identifier as the first element followed by a number of Strings as arguments. The input values can be accessed using the `$input` variable. If the expression starts with the `$input` variable the coalesce expression is assumed.",
             "additionalProperties": {
-              "type": "object",
-              "properties": {
-                "osm_tags": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "string"
-                  }
-                },
-                "name": {
-                  "type": "string"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "image": {
-                  "type": "string",
-                  "format": "uri-reference"
-                },
-                "unit": {
-                  "description": "An optional unit that will be displayed to the user.",
-                  "type": "string"
-                },
-                "min": {
-                  "type": "integer"
-                },
-                "max": {
-                  "type": "integer"
-                },
-                "decimals": {
-                  "description": "An optional property to specify how many decimals are allowed for type Number.",
-                  "type": "integer",
-                  "minimum": 0
-                }
-              },
-              "additionalProperties": false
+              "type": ["string", "array"],
+              "items": {
+                "type": "string"
+              }
             }
           }
         },
-        "additionalProperties": false,
-        "required": [ "type", "values" ]
+        "anyOf": [
+          {
+            "type": "object",
+            "description": "Describes a text input field that allows any character.",
+            "required": [ "constructor"],
+            "properties": {
+              "type": {
+                "const": "String"
+              },
+              "input": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "placeholder": {
+                    "type": "string",
+                    "description": "An optional placeholder for the input field."
+                  },
+                  "min": {
+                    "type": "integer",
+                    "description": "Restricts the minimum number of characters allowed by this input field.",
+                    "minimum": 0,
+                    "maximum": 255,
+                    "default": 0
+                  },
+                  "max": {
+                    "type": "integer",
+                    "description": "Restricts the maximum number of characters allowed by this input field.",
+                    "minimum": 0,
+                    "maximum": 255,
+                    "default": 255
+                  }
+                }
+              }
+            }
+          },
+
+          {
+            "type": "object",
+            "description": "Describes a number input field that allows numbers only.",
+            "required": [ "constructor"],
+            "properties": {
+              "type": {
+                "const": "Number"
+              },
+              "input": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "placeholder": {
+                    "type": "string",
+                    "description": "An optional placeholder for the input field."
+                  },
+                  "unit": {
+                    "type": "string",
+                    "description": "The unit of the input value that will be displayed at the end of the input field."
+                  },
+                  "min": {
+                    "type": "integer",
+                    "description": "Limits the input value to a minimum value."
+                  },
+                  "max": {
+                    "type": "integer",
+                    "description": "Limits the input value to a maximum value."
+                  },
+                  "decimals": {
+                    "type": "integer",
+                    "description": "Restricts the number of allowed decimals by this input field.",
+                    "minimum": 0
+                  }
+                }
+              }
+            }
+          },
+
+          {
+            "type": "object",
+            "description": "Describes a time input field that allows entering a duration in different time units.",
+            "required": [ "constructor"],
+            "properties": {
+              "type": {
+                "const": "Duration"
+              },
+              "input": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "days": {
+                    "type": "object",
+                    "description": "Whether input in days should be possible.",
+                    "additionalProperties": false,
+                    "properties": {
+                      "step": {
+                        "type": "integer",
+                        "description": "The time segment size of the days input.",
+                        "minimum": 1,
+                        "default": 1
+                      },
+                      "max": {
+                        "type": "integer",
+                        "description": "The max value of the days input.",
+                        "minimum": 1,
+                        "default": 366
+                      }
+                    }
+                  },
+                  "hours": {
+                    "type": "object",
+                    "description": "Whether input in hours should be possible.",
+                    "additionalProperties": false,
+                    "properties": {
+                      "step": {
+                        "type": "integer",
+                        "description": "The time segment size of the hours input.",
+                        "minimum": 1,
+                        "default": 1
+                      },
+                      "max": {
+                        "type": "integer",
+                        "description": "The max value of the hours input.",
+                        "minimum": 1,
+                        "default": 24
+                      }
+                    }
+                  },
+                  "minutes": {
+                    "type": "object",
+                    "description": "Whether input in minutes should be possible.",
+                    "additionalProperties": false,
+                    "properties": {
+                      "step": {
+                        "type": "integer",
+                        "description": "The time segment size of the minutes input.",
+                        "minimum": 1,
+                        "default": 1
+                      },
+                      "max": {
+                        "type": "integer",
+                        "description": "The max value of the minutes input.",
+                        "minimum": 1,
+                        "default": 60
+                      }
+                    }
+                  },
+                  "seconds": {
+                    "type": "object",
+                    "description": "Whether input in seconds should be possible.",
+                    "additionalProperties": false,
+                    "properties": {
+                      "step": {
+                        "type": "integer",
+                        "description": "The time segment size of the seconds input.",
+                        "minimum": 1,
+                        "default": 1
+                      },
+                      "max": {
+                        "type": "integer",
+                        "description": "The max value of the seconds input.",
+                        "minimum": 1,
+                        "default": 60
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+
+          {
+            "type": "object",
+            "description": "Describes an input with exactly two possible answers that allows the selection of one answer.",
+            "properties": {
+              "type": {
+                "const": "Bool"
+              },
+              "input": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "osm_tags": {
+                      "type": "object",
+                      "description": "All OSM tags that should apply when this entry is selected.",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "A short term describing this answer. If omitted the first entry will fallback to \"Yes\" and the second to \"No\"."
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [ "osm_tags" ]
+                }
+              }
+            }
+          },
+
+          {
+            "type": "object",
+            "description": "Describes an input with multiple possible answers. List allows the selection of exactly one answer, while MultiList allows the selection of multiple answers.",
+            "properties": {
+              "type": {
+                "enum": [ "List", "MultiList" ]
+              },
+              "input": {
+                "type": "array",
+                "minItems": 2,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "osm_tags": {
+                      "type": "object",
+                      "description": "All OSM tags that should apply when this entry is selected.",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "A short term describing this answer."
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Additional details and hints clarifying this answer."
+                    },
+                    "image": {
+                      "type": "string",
+                      "description": "A single image describing this answer.",
+                      "format": "uri-reference"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [ "osm_tags", "name" ]
+                }
+              }
+            }
+          }
+        ]
       },
+
       "conditions": { "$ref": "/assets/datasets/osm_condition_schema.json" },
+
       "isProfessional": {
         "description": "Certain questions seek for information that requires authorization or might be dangerous to collect. If omitted this will fallback to false.",
         "type": "boolean",
         "default": false
       }
-    },
-    "additionalProperties": false,
-    "required": [ "id", "name", "question", "input" ]
+    }
   }
 }
