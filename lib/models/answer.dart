@@ -89,6 +89,8 @@ class NumberAnswer extends Answer<NumberAnswerDefinition, String> {
 
   @override
   bool get isValid {
+    // replace decimal comma with period
+    final value = this.value.replaceAll(',', '.');
     // match either a single 0 or negative/positive numbers not starting with 0
     final allowRegexStringBuilder = StringBuffer(r'^(0|-?[1-9]\d*');
     // match an unlimited amount of decimal places
@@ -206,8 +208,6 @@ class MultiListAnswer extends Answer<ListAnswerDefinition, List<int>> {
   @override
   String toString() => value.map((index) => definition.input[index].name).join(', ');
 }
-
-
 
 
 class DurationAnswer extends Answer<DurationAnswerDefinition, Duration> {
