@@ -800,7 +800,7 @@
          "constructor": {
             "height": ["concat", "$input", " cm"]
          }
-   },
+      },
       "conditions": [
          {
             "osm_tags": {
@@ -1919,12 +1919,10 @@
       "answer": {
          "type": "Duration",
          "input": {
-            "minutes": {
-               "step": 1,
-               "max": 10
-            },
-            "seconds": {
-               "step": 1
+            "max": 3,
+            "unit_step": {
+               "minutes": 1,
+               "seconds": 1
             }
          },
          "constructor": {

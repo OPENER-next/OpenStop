@@ -65,9 +65,11 @@
           },
           "constructor": {
             "type": "object",
-            "description": "The constructor ultimately creates the OSM tags to be written based on the given input value(s). Input types without predefined values like `String`, `Number` and `Duration` require a constructor, while all other types with predefined values have a default constructor that coalesces the selected values.\n The OSM tags to be written are defined by a key of type String and either a value of type String or an expression that evaluates to a String. Expressions are defined by an array [] containing the expression identifier as the first element followed by a number of Strings as arguments. The input values can be accessed using the `$input` variable. If the expression starts with the `$input` variable the coalesce expression is assumed.",
+            "description": "The constructor ultimately creates the OSM tags to be written based on the given input value(s). Input types without predefined values like `String`, `Number` and `Duration` require a constructor, while all other types with predefined values have a default constructor that coalesces the selected values.\n The OSM tags to be written are defined by a key of type String and an expression that evaluates to a String. Expressions are defined by an array [] containing the expression identifier as the first element followed by a number of Strings as arguments. The input values can be accessed using the `$input` variable. If the expression starts with the `$input` variable the coalesce expression is assumed.",
+            "minProperties": 1,
             "additionalProperties": {
-              "type": ["string", "array"],
+              "type": "array",
+              "minItems": 1,
               "items": {
                 "type": "string"
               }
@@ -158,81 +160,39 @@
               },
               "input": {
                 "type": "object",
+                "required": [ "unit_steps"],
                 "additionalProperties": false,
                 "properties": {
-                  "days": {
+                  "max": {
+                    "type": "integer",
+                    "description": "The maximum allowed value for the biggest unit.",
+                    "minimum": 1
+                  },
+                  "unit_step": {
                     "type": "object",
-                    "description": "Whether input in days should be possible.",
+                    "description": "Whether the input in the given time unit should be possible and its corresponding step size.",
                     "additionalProperties": false,
+                    "minProperties": 1,
                     "properties": {
-                      "step": {
+                      "days": {
                         "type": "integer",
                         "description": "The time segment size of the days input.",
-                        "minimum": 1,
-                        "default": 1
+                        "minimum": 1
                       },
-                      "max": {
-                        "type": "integer",
-                        "description": "The max value of the days input.",
-                        "minimum": 1,
-                        "default": 366
-                      }
-                    }
-                  },
-                  "hours": {
-                    "type": "object",
-                    "description": "Whether input in hours should be possible.",
-                    "additionalProperties": false,
-                    "properties": {
-                      "step": {
+                      "hours": {
                         "type": "integer",
                         "description": "The time segment size of the hours input.",
-                        "minimum": 1,
-                        "default": 1
+                        "minimum": 1
                       },
-                      "max": {
-                        "type": "integer",
-                        "description": "The max value of the hours input.",
-                        "minimum": 1,
-                        "default": 24
-                      }
-                    }
-                  },
-                  "minutes": {
-                    "type": "object",
-                    "description": "Whether input in minutes should be possible.",
-                    "additionalProperties": false,
-                    "properties": {
-                      "step": {
+                      "minutes": {
                         "type": "integer",
                         "description": "The time segment size of the minutes input.",
-                        "minimum": 1,
-                        "default": 1
+                        "minimum": 1
                       },
-                      "max": {
-                        "type": "integer",
-                        "description": "The max value of the minutes input.",
-                        "minimum": 1,
-                        "default": 60
-                      }
-                    }
-                  },
-                  "seconds": {
-                    "type": "object",
-                    "description": "Whether input in seconds should be possible.",
-                    "additionalProperties": false,
-                    "properties": {
-                      "step": {
+                      "seconds": {
                         "type": "integer",
                         "description": "The time segment size of the seconds input.",
-                        "minimum": 1,
-                        "default": 1
-                      },
-                      "max": {
-                        "type": "integer",
-                        "description": "The max value of the seconds input.",
-                        "minimum": 1,
-                        "default": 60
+                        "minimum": 1
                       }
                     }
                   }
