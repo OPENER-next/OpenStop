@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:open_stop/models/question_catalog.dart';
+import 'package:open_stop/models/question_catalog/question_catalog.dart';
 
 void main() async {
   // required to use rootBundle
