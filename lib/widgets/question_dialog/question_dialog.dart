@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:osm_api/osm_api.dart';
 
-import '/models/question.dart';
+import '/models/question_catalog/question_definition.dart';
 import '/view_models/osm_elements_provider.dart';
 import '/view_models/osm_authenticated_user_provider.dart';
 import '/view_models/questionnaire_provider.dart';
@@ -21,7 +21,7 @@ import 'question_text_header.dart';
 class QuestionDialog extends StatefulWidget {
   final int activeQuestionIndex;
 
-  final List<Question> questions;
+  final List<QuestionDefinition> questions;
   final List<AnswerController> answers;
 
   final bool showSummary;
@@ -200,8 +200,8 @@ class _QuestionDialogState extends State<QuestionDialog> {
               left: 20,
               bottom: 30
             ),
-            child: QuestionInputWidget.fromQuestionInput(
-              definition: question.input,
+            child: QuestionInputWidget.fromAnswerDefinition(
+              definition: question.answer,
               controller: widget.answers[index],
             )
           )

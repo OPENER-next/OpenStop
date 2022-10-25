@@ -26,7 +26,7 @@ import '/widgets/osm_element_layer/osm_element_layer.dart';
 import '/widgets/question_dialog/question_dialog.dart';
 import '/widgets/map_overlay/map_overlay.dart';
 import '/widgets/home_sidebar.dart';
-import '/models/question_catalog.dart';
+import '/models/question_catalog/question_catalog.dart';
 import '/models/stop_area.dart';
 import '/models/map_feature_collection.dart';
 import '/models/geometric_osm_element.dart';

@@ -2,8 +2,8 @@ import 'dart:collection';
 
 import 'package:osm_api/osm_api.dart';
 
-import '/models/question_catalog.dart';
-import '/models/question.dart';
+import '/models/question_catalog/question_catalog.dart';
+import '/models/question_catalog/question_definition.dart';
 import '/models/answer.dart';
 import '/models/proxy_osm_element.dart';
 
@@ -170,7 +170,7 @@ class Questionnaire {
 class QuestionnaireEntry<T extends Answer> {
   QuestionnaireEntry(this.question, [this.answer]);
 
-  final Question question;
+  final QuestionDefinition question;
   final T? answer;
 
   bool get hasValidAnswer => answer?.isValid == true;
