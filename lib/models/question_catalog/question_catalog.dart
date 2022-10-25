@@ -1,16 +1,16 @@
 import 'dart:collection';
 
-import '/models/question.dart';
+import 'question_definition.dart';
 
 /// This class resembles an iterable of questions.
 
-class QuestionCatalog with IterableMixin<Question> {
+class QuestionCatalog with IterableMixin<QuestionDefinition> {
 
   /// Wether professional questions should be excluded from this catalog or not.
 
   final bool excludeProfessional;
 
-  final List<Question> _questions;
+  final List<QuestionDefinition> _questions;
 
   const QuestionCatalog(this._questions, {
     this.excludeProfessional = false
@@ -18,23 +18,23 @@ class QuestionCatalog with IterableMixin<Question> {
 
 
   factory QuestionCatalog.fromJson(List<Map<String, dynamic>> json) {
-    final questionList = List<Question>.unmodifiable(
-      json.map<Question>(Question.fromJSON)
+    final questionList = List<QuestionDefinition>.unmodifiable(
+      json.map<QuestionDefinition>(QuestionDefinition.fromJSON)
     );
     return QuestionCatalog(questionList);
   }
 
 
-  Iterable<Question> get reversed => _questions.reversed.where(_isIncluded);
+  Iterable<QuestionDefinition> get reversed => _questions.reversed.where(_isIncluded);
 
 
   @override
-  Iterator<Question> get iterator => _ComparingIterator(
+  Iterator<QuestionDefinition> get iterator => _ComparingIterator(
     _questions, _isIncluded
   );
 
 
-  bool _isIncluded(Question question) {
+  bool _isIncluded(QuestionDefinition question) {
     return !excludeProfessional || !question.isProfessional;
   }
 
