@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+
 import '/models/answer.dart';
-import '/models/question_input.dart';
+import '/models/question_catalog/answer_definition.dart';
 import 'question_input_widget.dart';
 
 
-class BoolInput extends QuestionInputWidget<BoolAnswer> {
+class BoolInput extends QuestionInputWidget<BoolAnswerDefinition, BoolAnswer> {
   const BoolInput({
-    required QuestionInput definition,
-    required AnswerController<BoolAnswer> controller,
-    Key? key
-  }) : super(definition: definition, controller: controller, key: key);
-
+    required super.definition,
+    required super.controller,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,78 +20,73 @@ class BoolInput extends QuestionInputWidget<BoolAnswer> {
       width: double.infinity,
       child: Wrap(
         alignment: WrapAlignment.spaceBetween,
-        children: definition.values.entries.map<Widget>((entry) {
-          final state = entry.key == 'true';
-
-          return BoolInputItem(
-            label:  Text(entry.value.name ?? (state ? 'Ja' : 'Nein')),
-            onTap: () {
-              _handleChange(state);
-            },
+        children: List.generate(2, (index) {
+          final state = index == 0;
+          return _BoolInputItem(
+            label:  Text(definition.input[index].name ?? (state ? 'Ja' : 'Nein')),
+            onTap: () => _handleChange(state),
             active: controller.answer?.value == state,
-            color: theme.colorScheme.primary.withOpacity(0),
-            activeColor: theme.colorScheme.primary,
-            labelColor: theme.colorScheme.primary,
-            activeIconColor: theme.colorScheme.onPrimary,
+            backgroundColor: theme.colorScheme.primary.withOpacity(0),
+            activeBackgroundColor: theme.colorScheme.primary,
+            foregroundColor: theme.colorScheme.primary,
+            activeForegroundColor: theme.colorScheme.onPrimary,
           );
-        }).toList(),
-        ),
+        }, growable: false),
+      ),
     );
   }
 
   void _handleChange(bool selectedState) {
     controller.answer = controller.answer?.value != selectedState
       ? BoolAnswer(
-        questionValues: definition.values,
+        definition: definition,
         value: selectedState
       )
       : null;
   }
 }
 
-class BoolInputItem extends ImplicitlyAnimatedWidget {
 
+class _BoolInputItem extends ImplicitlyAnimatedWidget {
   final Widget label;
   final bool active;
   final double widthFactor;
+  final Color backgroundColor, activeBackgroundColor, foregroundColor, activeForegroundColor;
   final VoidCallback onTap;
-  final Color? color, activeColor, labelColor, activeIconColor;
 
-  const BoolInputItem({
+  const _BoolInputItem({
     required this.label,
     required this.onTap,
     this.active = false,
     this.widthFactor = 0.45,
-    this.color = Colors.white,
-    this.activeColor = Colors.green,
-    this.labelColor = Colors.green,
-    this.activeIconColor = Colors.white,
-    Duration duration = const Duration(milliseconds: 300),
-    Curve curve = Curves.ease,
-    Key? key,
-  }) : super(key: key, duration: duration, curve: curve);
+    this.backgroundColor = Colors.white,
+    this.activeBackgroundColor = Colors.green,
+    this.foregroundColor = Colors.green,
+    this.activeForegroundColor = Colors.white,
+    super.duration = const Duration(milliseconds: 300),
+    super.curve = Curves.ease,
+    super.key,
+  });
 
   @override
-  AnimatedWidgetBaseState<BoolInputItem> createState() => _BoolInputItemState();
+  AnimatedWidgetBaseState<_BoolInputItem> createState() => _BoolInputItemState();
 }
 
-class _BoolInputItemState extends AnimatedWidgetBaseState<BoolInputItem> {
-  ColorTween? _colorTween;
-
-  ColorTween? _iconColorTween;
+class _BoolInputItemState extends AnimatedWidgetBaseState<_BoolInputItem> {
+  ColorTween? _backgroundColorTween, _foregroundColorTween;
 
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
-    _colorTween = visitor(
-        _colorTween,
-        widget.active ? widget.activeColor : widget.color,
-            (value) => ColorTween(begin: value)
+    _backgroundColorTween = visitor(
+      _backgroundColorTween,
+      widget.active ? widget.activeBackgroundColor : widget.backgroundColor,
+      (value) => ColorTween(begin: value)
     ) as ColorTween?;
 
-    _iconColorTween = visitor(
-        _iconColorTween,
-        widget.active ? widget.activeIconColor : widget.labelColor,
-            (value) => ColorTween(begin: value)
+    _foregroundColorTween = visitor(
+      _foregroundColorTween,
+      widget.active ? widget.activeForegroundColor : widget.foregroundColor,
+      (value) => ColorTween(begin: value)
     ) as ColorTween?;
   }
 
@@ -100,12 +95,12 @@ class _BoolInputItemState extends AnimatedWidgetBaseState<BoolInputItem> {
     return FractionallySizedBox(
       widthFactor: widget.widthFactor,
       child: OutlinedButton(
-          style: OutlinedButton.styleFrom(
-            foregroundColor: _iconColorTween?.evaluate(animation),
-            backgroundColor: _colorTween?.evaluate(animation),
-          ),
-          onPressed: widget.onTap,
-          child: widget.label
+        style: OutlinedButton.styleFrom(
+          foregroundColor: _foregroundColorTween?.evaluate(animation),
+          backgroundColor: _backgroundColorTween?.evaluate(animation),
+        ),
+        onPressed: widget.onTap,
+        child: widget.label,
       ),
     );
   }

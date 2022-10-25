@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+
 import '/models/answer.dart';
+import '/models/question_catalog/answer_definition.dart';
 import 'question_input_widget.dart';
-import '/models/question_input.dart';
 
 
-class StringInput extends QuestionInputWidget<StringAnswer> {
+class StringInput extends QuestionInputWidget<StringAnswerDefinition, StringAnswer> {
   const StringInput({
-    required QuestionInput definition,
-    required AnswerController<StringAnswer> controller,
-    Key? key
-  }) : super(definition: definition, controller: controller, key: key);
+    required super.definition,
+    required super.controller,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +25,12 @@ class StringInput extends QuestionInputWidget<StringAnswer> {
 // propagate the changes to the TextEditingController
 
 class _StringInputDelegate extends StatefulWidget {
-    final QuestionInput definition;
-    final AnswerController<StringAnswer> controller;
+  final StringAnswerDefinition definition;
+  final AnswerController<StringAnswer> controller;
 
   const _StringInputDelegate(this.definition, this.controller, {
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
   State<_StringInputDelegate> createState() => _StringInputDelegateState();
@@ -59,24 +60,24 @@ class _StringInputDelegateState extends State<_StringInputDelegate> {
 
   @override
   Widget build(BuildContext context) {
-    final questionInputValue = widget.definition.values.values.first;
+    final input = widget.definition.input;
 
     return TextFormField(
       controller: _textController,
       onChanged: _handleChange,
       textAlignVertical: TextAlignVertical.center,
-      maxLength: _maxValue,
+      maxLength: input.max,
       decoration: InputDecoration(
-        hintText: questionInputValue.name ?? 'Hier eintragen...',
+        hintText: input.placeholder ?? 'Hier eintragen...',
         counter: const Offstage(),
         suffixIcon: IconButton(
           onPressed: _handleChange,
           icon: const Icon(Icons.clear_rounded),
-        )
+        ),
       ),
       autovalidateMode: AutovalidateMode.always,
       validator: (text) {
-        if (text != null && text.isNotEmpty && text.length < _minValue ) {
+        if (text != null && text.isNotEmpty && text.length <  input.min ) {
           return 'Eingabe zu kurz';
         }
         return null;
@@ -84,24 +85,14 @@ class _StringInputDelegateState extends State<_StringInputDelegate> {
     );
   }
 
-  int get _minValue => widget.definition.values.values.first.min ?? 0;
-
-  int get _maxValue => widget.definition.values.values.first.max ?? 255;
-
-
   void _handleChange([String value = '']) {
-    StringAnswer? answer;
-
-    if (value.isNotEmpty) {
-      answer = StringAnswer(
-        questionValues: widget.definition.values,
+    widget.controller.answer = value.isNotEmpty
+      ? StringAnswer(
+        definition: widget.definition,
         value: value
-      );
-    }
-
-    widget.controller.answer = answer;
+      )
+      : null;
   }
-
 
   @override
   void dispose() {

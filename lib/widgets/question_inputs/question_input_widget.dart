@@ -1,30 +1,27 @@
 import 'package:flutter/material.dart';
 
 import '/models/answer.dart';
-import '/models/question_input.dart';
+import '/models/question_catalog/answer_definition.dart';
 import '/widgets/question_inputs/string_input.dart';
 import '/widgets/question_inputs/bool_input.dart';
 import '/widgets/question_inputs/duration_input.dart';
 import '/widgets/question_inputs/list_input.dart';
 import '/widgets/question_inputs/number_input.dart';
-import '/widgets/question_inputs/opening_hours_input.dart';
 
 
 /// The base widget for all question input fields.
 /// It automatically rebuilds whenever its controller changes.
 /// The controller should be used as the single source of truth when it comes to maintain the state.
 
-abstract class QuestionInputWidget<T extends Answer> extends AnimatedWidget {
+abstract class QuestionInputWidget<D extends AnswerDefinition, T extends Answer> extends AnimatedWidget {
 
   /// The [QuestionInput] from which the view is constructed.
 
-  final QuestionInput definition;
-
+  final D definition;
 
   /// A controller holding the currently selected/entered [Answer].
 
   AnswerController<T> get controller => listenable as AnswerController<T>;
-
 
   const QuestionInputWidget({
     required this.definition,
@@ -33,26 +30,44 @@ abstract class QuestionInputWidget<T extends Answer> extends AnimatedWidget {
   }) : super(listenable: controller, key: key);
 
 
-  static QuestionInputWidget fromQuestionInput<A extends Answer>({
-    required QuestionInput definition,
+  static QuestionInputWidget fromAnswerDefinition<A extends Answer>({
+    required AnswerDefinition definition,
     required AnswerController<A> controller,
     Key? key
   }) {
-    switch (definition.type) {
-      case 'Bool':
-        return BoolInput(definition: definition, controller: controller as AnswerController<BoolAnswer>, key: key);
-      case 'Number':
-        return NumberInput(definition: definition, controller: controller as AnswerController<NumberAnswer>, key: key);
-      case 'String':
-        return StringInput(definition: definition, controller: controller as AnswerController<StringAnswer>, key: key);
-      case 'List':
-        return ListInput(definition: definition, controller: controller as AnswerController<ListAnswer>, key: key);
-      case 'Duration':
-        return DurationInput(definition: definition, controller: controller as AnswerController<DurationAnswer>, key: key);
-      case 'OpeningHours':
-        return OpeningHoursInput(definition: definition, controller: controller, key: key);
+    switch (definition.runtimeType) {
+      case StringAnswerDefinition:
+        return StringInput(
+          definition: definition as StringAnswerDefinition,
+          controller: controller as AnswerController<StringAnswer>,
+          key: key,
+        );
+      case NumberAnswerDefinition:
+        return NumberInput(
+          definition: definition as NumberAnswerDefinition,
+          controller: controller as AnswerController<NumberAnswer>,
+          key: key,
+        );
+      case DurationAnswerDefinition:
+        return DurationInput(
+          definition: definition as DurationAnswerDefinition,
+          controller: controller as AnswerController<DurationAnswer>,
+          key: key,
+        );
+      case BoolAnswerDefinition:
+        return BoolInput(
+          definition: definition as BoolAnswerDefinition,
+          controller: controller as AnswerController<BoolAnswer>,
+          key: key,
+        );
+      case ListAnswerDefinition:
+        return ListInput(
+          definition: definition as ListAnswerDefinition,
+          controller: controller as AnswerController<ListAnswer>,
+          key: key,
+        );
       default:
-        return throw TypeError();
+        throw TypeError();
     }
   }
 }
@@ -91,28 +106,24 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
 
   bool get hasValidAnswer => _answer?.isValid == true;
 
-
   static AnswerController fromType<T extends Answer>({
-    required String type,
+    required Type type,
     T? initialAnswer
   }) {
     switch (type) {
-      case 'Bool':
+      case BoolAnswerDefinition:
         return AnswerController<BoolAnswer>(initialAnswer: initialAnswer as BoolAnswer?);
-      case 'Number':
+      case NumberAnswerDefinition:
         return AnswerController<NumberAnswer>(initialAnswer: initialAnswer as NumberAnswer?);
-      case 'String':
+      case StringAnswerDefinition:
         return AnswerController<StringAnswer>(initialAnswer: initialAnswer as StringAnswer?);
-      case 'List':
+      case ListAnswerDefinition:
         return AnswerController<ListAnswer>(initialAnswer: initialAnswer as ListAnswer?);
-      case 'Duration':
+      case DurationAnswerDefinition:
         return AnswerController<DurationAnswer>(initialAnswer: initialAnswer as DurationAnswer?);
-      case 'OpeningHours':
-        return AnswerController(initialAnswer: initialAnswer);
       default: throw TypeError();
     }
   }
-
 
   bool _isDisposed = false;
 

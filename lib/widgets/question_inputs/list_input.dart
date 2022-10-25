@@ -1,61 +1,66 @@
 import 'package:flutter/material.dart';
-import '/widgets/hero_viewer.dart';
+
 import '/models/answer.dart';
+import '/models/question_catalog/answer_definition.dart';
+import '/widgets/hero_viewer.dart';
 import 'question_input_widget.dart';
-import '/models/question_input.dart';
 
-class ListInput extends QuestionInputWidget<ListAnswer> {
+class ListInput extends QuestionInputWidget<ListAnswerDefinition, ListAnswer> {
   const ListInput({
-    required QuestionInput definition,
-    required AnswerController<ListAnswer> controller,
-    Key? key
-  }) : super(definition: definition, controller: controller, key: key);
-
+    required super.definition,
+    required super.controller,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Wrap(
       runSpacing: 8.0,
-      children: definition.values.entries.map<Widget>((entry) {
-        return ListInputItem(
-          item: entry.value,
-          onTap: () {
-            _handleChange(entry.key);
-          },
-          active: entry.key == controller.answer?.value,
+      children: List.generate(definition.input.length, (index) {
+        final item = definition.input[index];
+        return _ListInputItem(
+          active: index == controller.answer?.value,
+          label: item.name,
+          description: item.description,
+          imagePath: item.image,
+          onTap: () => _handleChange(index),
         );
-      }).toList(),
+      }, growable: false),
     );
   }
 
-  void _handleChange(String selectedKey) {
-    controller.answer = selectedKey != controller.answer?.value
+  void _handleChange(int selectedIndex) {
+    controller.answer = selectedIndex != controller.answer?.value
       ? ListAnswer(
-        questionValues: definition.values,
-        value: selectedKey
+        definition: definition,
+        value: selectedIndex
       )
       : null;
   }
 }
 
 
-class ListInputItem extends StatefulWidget {
-  final QuestionInputValue item;
+class _ListInputItem extends StatefulWidget {
+  final String label;
+  final String? description;
+  final String? imagePath;
   final bool active;
   final VoidCallback onTap;
 
-  const ListInputItem({
-    required this.item,
+  const _ListInputItem({
+    required this.label,
     required this.onTap,
     this.active = false,
-    Key? key,
-  }) : super(key: key);
+    this.description,
+    this.imagePath,
+    super.key,
+  });
 
   @override
-  State<ListInputItem> createState() => _ListInputItemState();
+  State<_ListInputItem> createState() => _ListInputItemState();
 }
 
-class _ListInputItemState extends State<ListInputItem> with SingleTickerProviderStateMixin {
+class _ListInputItemState extends State<_ListInputItem> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
   late final CurvedAnimation _animation;
@@ -78,19 +83,13 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
   }
 
   @override
-  void didUpdateWidget(covariant ListInputItem oldWidget) {
+  void didUpdateWidget(covariant _ListInputItem oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.active) {
       _controller.forward();
     } else {
       _controller.reverse();
     }
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   @override
@@ -107,14 +106,18 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.only(left: 16.0, top: 8.0, right: 8.0, bottom: 8.0),
+                  padding: const EdgeInsets.only(
+                    left: 16.0,
+                    top: 8.0,
+                    right: 8.0,
+                    bottom: 8.0,
+                  ),
                   child: Text(
-                    widget.item.name ?? 'Unknown label',
+                    widget.label,
                     textAlign: TextAlign.left,
                   ),
                 ),
-                if (widget.item.description != null)
+                if (widget.description != null)
                   SizeTransition(
                     axisAlignment: -1,
                     sizeFactor: _animation,
@@ -122,9 +125,12 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                       opacity: _animation,
                       child: Padding(
                         padding: const EdgeInsets.only(
-                            left: 16.0, right: 8.0, bottom: 8.0),
+                          left: 16.0,
+                          right: 8.0,
+                          bottom: 8.0,
+                        ),
                         child: Text(
-                          widget.item.description ?? 'No Description',
+                          widget.description!,
                           style: const TextStyle(
                             fontWeight: FontWeight.normal,
                             fontSize: 12,
@@ -132,17 +138,17 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                         ),
                       ),
                     ),
-                  )
+                  ),
               ],
             ),
           ),
-          if (widget.item.image != null)
+          if (widget.imagePath != null)
             Expanded(
               flex: 2,
               // HeroViewer cannot be wrapped around since the returned error widget
               // represents a different widget wherefore the hero transition would fail.
               child: Image.asset(
-                widget.item.image!,
+                widget.imagePath!,
                 fit: BoxFit.cover,
                 height: 90,
                 frameBuilder: (context, child, _, __) {
@@ -158,18 +164,25 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                     height: 90,
                   );
                 },
-              )
-            )
+              ),
+            ),
         ],
       ),
     );
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   ButtonStyle? _toggleStyle(isSelected) {
     return isSelected
-        ? OutlinedButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            foregroundColor: Theme.of(context).colorScheme.onPrimary)
-        : null;
+      ? OutlinedButton.styleFrom(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        )
+      : null;
   }
 }
