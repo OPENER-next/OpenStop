@@ -7,6 +7,7 @@ import '/widgets/question_inputs/bool_input.dart';
 import '/widgets/question_inputs/duration_input.dart';
 import '/widgets/question_inputs/list_input.dart';
 import '/widgets/question_inputs/number_input.dart';
+import '/widgets/question_inputs/multi_list_input.dart';
 
 
 /// The base widget for all question input fields.
@@ -66,6 +67,12 @@ abstract class QuestionInputWidget<D extends AnswerDefinition, T extends Answer>
           controller: controller as AnswerController<ListAnswer>,
           key: key,
         );
+      case MultiListAnswerDefinition:
+        return MultiListInput(
+          definition: definition as MultiListAnswerDefinition,
+          controller: controller as AnswerController<MultiListAnswer>,
+          key: key,
+        );
       default:
         throw TypeError();
     }
@@ -121,6 +128,8 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
         return AnswerController<ListAnswer>(initialAnswer: initialAnswer as ListAnswer?);
       case DurationAnswerDefinition:
         return AnswerController<DurationAnswer>(initialAnswer: initialAnswer as DurationAnswer?);
+      case MultiListAnswerDefinition:
+        return AnswerController<MultiListAnswer>(initialAnswer: initialAnswer as MultiListAnswer?);
       default: throw TypeError();
     }
   }

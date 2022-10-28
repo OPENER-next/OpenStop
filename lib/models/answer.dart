@@ -177,6 +177,9 @@ class ListAnswer extends Answer<ListAnswerDefinition, int> {
   String toString() => definition.input[value].name;
 }
 
+/// Storing the selected indexes in a [List]
+/// (instead of having a fixed List of booleans or storing it bitwise using a single integer)
+/// has the benefit of remembering the user input order.
 
 class MultiListAnswer extends Answer<ListAnswerDefinition, List<int>> {
   MultiListAnswer({

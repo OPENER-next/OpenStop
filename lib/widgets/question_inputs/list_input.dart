@@ -18,7 +18,7 @@ class ListInput extends QuestionInputWidget<ListAnswerDefinition, ListAnswer> {
       runSpacing: 8.0,
       children: List.generate(definition.input.length, (index) {
         final item = definition.input[index];
-        return _ListInputItem(
+        return ListInputItem(
           active: index == controller.answer?.value,
           label: item.name,
           description: item.description,
@@ -40,14 +40,14 @@ class ListInput extends QuestionInputWidget<ListAnswerDefinition, ListAnswer> {
 }
 
 
-class _ListInputItem extends StatefulWidget {
+class ListInputItem extends StatefulWidget {
   final String label;
   final String? description;
   final String? imagePath;
   final bool active;
   final VoidCallback onTap;
 
-  const _ListInputItem({
+  const ListInputItem({
     required this.label,
     required this.onTap,
     this.active = false,
@@ -57,10 +57,10 @@ class _ListInputItem extends StatefulWidget {
   });
 
   @override
-  State<_ListInputItem> createState() => _ListInputItemState();
+  State<ListInputItem> createState() => _ListInputItemState();
 }
 
-class _ListInputItemState extends State<_ListInputItem> with SingleTickerProviderStateMixin {
+class _ListInputItemState extends State<ListInputItem> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
   late final CurvedAnimation _animation;
@@ -83,7 +83,7 @@ class _ListInputItemState extends State<_ListInputItem> with SingleTickerProvide
   }
 
   @override
-  void didUpdateWidget(covariant _ListInputItem oldWidget) {
+  void didUpdateWidget(covariant ListInputItem oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.active) {
       _controller.forward();
