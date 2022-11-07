@@ -83,10 +83,24 @@ class OSMElementProvider extends ChangeNotifier {
     );
   }
 
+  /// Check whether a stop area has been loaded and extracted.
+
+  bool stopAreaIsExtracted(StopArea stopArea) => _extractedOsmElementsMap.containsKey(stopArea);
+
+
+  /// Check whether a stop area has been loaded.
+
+  bool stopAreaIsLoaded(StopArea stopArea) => _cachedOsmElementsMap.containsKey(stopArea);
+
+
+  /// Check whether a stop area is currently loading.
+
+  bool stopAreaIsLoading(StopArea stopArea) => _loadingStopAreas.contains(stopArea);
+
   /// Load and extract elements from a given stop area and question catalog.
 
   Future<void> loadElementsFromStopArea(StopArea stopArea) async {
-    if (!_loadingStopAreas.contains(stopArea) && !_cachedOsmElementsMap.containsKey(stopArea)) {
+    if (!stopAreaIsLoading(stopArea) && !stopAreaIsLoaded(stopArea)) {
       _loadingStopAreas.add(stopArea);
       notifyListeners();
       try {
