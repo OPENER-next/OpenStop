@@ -7,7 +7,7 @@ extension AnimationUtils on MapController {
 
   /// Animate the map properties location, zoom and rotation.
 
-  animateTo({
+  TickerFuture animateTo({
     required TickerProvider ticker,
     LatLng? location,
     double? zoom,
@@ -48,7 +48,7 @@ extension AnimationUtils on MapController {
       }
     });
 
-    controller.forward();
+    return controller.forward();
   }
 
 

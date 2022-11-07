@@ -448,6 +448,9 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
         mapController.animateTo(
           ticker: this,
           location: LatLng(position.latitude, position.longitude),
+          // zoom close to user position if the camera isn't already zoomed in
+          // because location following doesn't make much sense for lower zoom levels
+          zoom: max(mapController.zoom, 17),
           duration: const Duration(milliseconds: 200),
           id: 'CameraTracker'
         );
