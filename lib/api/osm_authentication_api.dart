@@ -40,6 +40,7 @@ class OSMAuthenticationAPI {
         osm_config.oAuth2ClientId,
         osm_config.oAuth2RedirectUri,
         serviceConfiguration: _config,
+        preferEphemeralSession: true,
         scopes: const ['write_api', 'read_prefs']
       ),
     );
