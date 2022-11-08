@@ -53,7 +53,7 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Diese App braucht Zugriff auf den Standort, um die Position des Nutzers auf der Karte anzuzeigen und um nahegelegene Haltestellen zu laden.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 </dict>
