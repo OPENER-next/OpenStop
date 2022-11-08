@@ -1,13 +1,13 @@
 PODS:
-  - AppAuth (1.5.0):
-    - AppAuth/Core (= 1.5.0)
-    - AppAuth/ExternalUserAgent (= 1.5.0)
-  - AppAuth/Core (1.5.0)
-  - AppAuth/ExternalUserAgent (1.5.0):
+  - AppAuth (1.6.0):
+    - AppAuth/Core (= 1.6.0)
+    - AppAuth/ExternalUserAgent (= 1.6.0)
+  - AppAuth/Core (1.6.0)
+  - AppAuth/ExternalUserAgent (1.6.0):
     - AppAuth/Core
   - Flutter (1.0.0)
   - flutter_appauth (0.0.1):
-    - AppAuth (= 1.5.0)
+    - AppAuth (= 1.6.0)
     - Flutter
   - flutter_secure_storage (3.3.1):
     - Flutter
@@ -50,9 +50,9 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
-  AppAuth: 80317d99ac7ff2801a2f18ff86b48cd315ed465d
+  AppAuth: 8fca6b5563a5baef2c04bee27538025e4ceb2add
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  flutter_appauth: 2c4a407e6d649df3f2308375fb891822dcff291b
+  flutter_appauth: 525652bda90e43ca5eb7ed748ecc106b79d1f5a1
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
   motion_sensors: 03f55b7c637a7e365a0b5f9697a449f9059d5d91
