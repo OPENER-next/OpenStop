@@ -56,5 +56,7 @@
 	<string>Diese App braucht Zugriff auf den Standort, um die Position des Nutzers auf der Karte anzuzeigen und um nahegelegene Haltestellen zu laden.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
 </dict>
 </plist>
