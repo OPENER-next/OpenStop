@@ -2,7 +2,7 @@ import 'answer_constructor.dart';
 
 /// A base class that describes the answer input and the ultimately written OSM tags.
 
-class AnswerDefinition<T> {
+abstract class AnswerDefinition<T> {
 
   final T input;
 

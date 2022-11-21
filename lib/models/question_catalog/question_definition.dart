@@ -22,12 +22,12 @@ class QuestionDefinition {
   final AnswerDefinition answer;
 
   const QuestionDefinition({
-    required this.id,
     required this.name,
     required this.question,
     required this.isProfessional,
     required this.conditions,
     required this.answer,
+    this.id,
     this.description = '',
     this.images = const []
   });
