@@ -51,11 +51,8 @@ class OSMAuthenticatedUserProvider extends ChangeNotifier {
     if (isLoggedIn) return;
     try {
       final authentication = await _osmAuthenticationApi.login();
-
-      if (authentication != null) {
-        _authenticatedUser = await _getAuthenticatedUser(authentication);
-        notifyListeners();
-      }
+      _authenticatedUser = await _getAuthenticatedUser(authentication);
+      notifyListeners();
     }
     catch (error) {
       // TODO: display or handle error
