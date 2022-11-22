@@ -82,6 +82,7 @@ jobs:
 
   build_ios:
     runs-on: macos-latest
+    
     steps:
     - uses: actions/checkout@v2
     - uses: subosito/flutter-action@v2
@@ -93,10 +94,34 @@ jobs:
         channel: 'stable'
 
     - run: flutter pub get
-    - run: flutter build ios --release --no-codesign
+    
+    - run: >-
+        flutter build ios
+        --release --no-codesign
+        --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
+        --dart-define=IS_RELEASE=true
 
     # Upload generated .app folder to the artifacts.
     - uses: actions/upload-artifact@v2
       with:
         name: iOS App
         path: build/ios/iphoneos
+
+  build_web:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          # Use a fixed Flutter version (instead of latest) to ensure a more deterministic building process
+          flutter-version: '3.3.7'
+          channel: 'stable'
+      - uses: bluefireteam/flutter-gh-pages@v7
+        with:
+          # set the corresponding github page base url
+          # this is required so the index.html finds the necessary resources
+          baseHref: /OpenStop/
+          customArgs: >-
+            --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
+            --dart-define=IS_RELEASE=true
