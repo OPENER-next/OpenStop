@@ -3,10 +3,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 import '/view_models/osm_authenticated_user_provider.dart';
-import '/commons/osm_config.dart' as osm_config;
 import '/commons/routes.dart';
 import '/widgets/custom_list_tile.dart';
 
@@ -42,10 +40,10 @@ class _HomeSidebarState extends State<HomeSidebar> {
                           name: authenticatedUserProvider.authenticatedUser!.name,
                           imageUrl: authenticatedUserProvider.authenticatedUser?.profileImageUrl,
                           onLogoutTap: _handleLogout,
-                          onProfileTap: _handleShowProfile
+                          onProfileTap: context.watch<OSMAuthenticatedUserProvider>().openUserProfile
                         )
                         : LoginInfoHeader(
-                          onLoginTap: _handleLogin
+                          onLoginTap: context.watch<OSMAuthenticatedUserProvider>().login
                         )
                     );
                   }
@@ -74,12 +72,6 @@ class _HomeSidebarState extends State<HomeSidebar> {
   }
 
 
-  void _handleLogin() async {
-    final authenticationProvider = context.read<OSMAuthenticatedUserProvider>();
-    authenticationProvider.login();
-  }
-
-
   void _handleLogout() async {
     final osmAuthenticatedUserProvider = context.read<OSMAuthenticatedUserProvider>();
     final confirmed = await showDialog<bool>(
@@ -104,21 +96,6 @@ class _HomeSidebarState extends State<HomeSidebar> {
 
     if (confirmed == true) {
       osmAuthenticatedUserProvider.logout();
-    }
-  }
-
-  Future<void> _launchUrl(String url) async {
-    if (!await launchUrlString(
-      url,
-      mode: LaunchMode.externalApplication,
-    )) throw '$url kann nicht aufgerufen werden';
-  }
-
-  void _handleShowProfile() {
-    final authenticatedUserProvider = context.read<OSMAuthenticatedUserProvider>();
-    final userName = authenticatedUserProvider.authenticatedUser?.name;
-    if (userName != null) {
-      _launchUrl('${osm_config.osmServerUri}/user/$userName');
     }
   }
 }

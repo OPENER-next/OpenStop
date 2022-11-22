@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:osm_api/osm_api.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '/models/authenticated_user.dart';
 import '/api/osm_user_api.dart';
 import '/api/osm_authentication_api.dart';
+import '/commons/osm_config.dart' as osm_config;
 
 
 /// Provides the OAuth2 authentication object and details about the currently authenticated user.
@@ -49,11 +51,8 @@ class OSMAuthenticatedUserProvider extends ChangeNotifier {
     if (isLoggedIn) return;
     try {
       final authentication = await _osmAuthenticationApi.login();
-
-      if (authentication != null) {
-        _authenticatedUser = await _getAuthenticatedUser(authentication);
-        notifyListeners();
-      }
+      _authenticatedUser = await _getAuthenticatedUser(authentication);
+      notifyListeners();
     }
     catch (error) {
       // TODO: display or handle error
@@ -74,6 +73,21 @@ class OSMAuthenticatedUserProvider extends ChangeNotifier {
     catch (error) {
       // TODO: display or handle error
       debugPrint(error.toString());
+    }
+  }
+
+
+  Future<bool> openUserProfile() async {
+    if (isLoggedOut) return false;
+    try {
+      return await launchUrl(
+        Uri.https(osm_config.osmServer, '/user/${_authenticatedUser!.name}'),
+        mode: LaunchMode.externalApplication,
+      );
+    }
+    catch (error) {
+      debugPrint(error.toString());
+      return false;
     }
   }
 
