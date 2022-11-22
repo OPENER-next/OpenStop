@@ -217,6 +217,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
     return ScaleTransition(
       scale: animation,
       alignment: Alignment.bottomCenter,
+      filterQuality: FilterQuality.low,
       child: OsmElementMarker(
         onTap: () => widget.onOsmElementTap?.call(marker.geoElement),
         backgroundColor: isActive || hasNoActive ? null : Colors.grey,

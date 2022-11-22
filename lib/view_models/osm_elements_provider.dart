@@ -157,6 +157,7 @@ class OSMElementProvider extends ChangeNotifier {
       _updateOsmElement(newOsmElement);
     }
     finally {
+      uploadApi.dispose();
       notifyListeners();
     }
   }
