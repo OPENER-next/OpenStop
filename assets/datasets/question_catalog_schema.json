@@ -160,7 +160,7 @@
               },
               "input": {
                 "type": "object",
-                "required": [ "unit_steps"],
+                "required": [ "unit_step"],
                 "additionalProperties": false,
                 "properties": {
                   "max": {
