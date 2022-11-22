@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 
 class UserLocationProvider extends ChangeNotifier {
@@ -74,7 +75,12 @@ class UserLocationProvider extends ChangeNotifier {
         locationSettings: _locationSettings
       ).listen(_updatePosition, onError: (e) => stopLocationTracking());
 
-      _serviceStatusStreamSub = Geolocator.getServiceStatusStream().listen(_handleServiceStatus);
+      try {
+        _serviceStatusStreamSub = Geolocator.getServiceStatusStream().listen(_handleServiceStatus);
+      }
+      on UnimplementedError {
+        // getServiceStatusStream is not supported on web
+      }
 
       _updateState(LocationTrackingState.enabled);
     }
@@ -135,7 +141,12 @@ class UserLocationProvider extends ChangeNotifier {
     try {
       Position? lastPosition;
       if (!forceCurrent) {
-        lastPosition = await Geolocator.getLastKnownPosition();
+        try {
+          lastPosition = await Geolocator.getLastKnownPosition();
+        }
+        on PlatformException {
+          // getLastKnownPosition is not supported on web
+        }
       }
       // if no previous position is known automatically try to get the current one
       return lastPosition ?? await Geolocator.getCurrentPosition();
