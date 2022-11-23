@@ -8,7 +8,7 @@ const oAuth2ClientId = bool.fromEnvironment('IS_RELEASE', defaultValue: false)
 
 const oAuth2RedirectUri = kIsWeb
   ? bool.fromEnvironment('IS_RELEASE', defaultValue: false)
-    ? '$appCallbackUrlScheme://opener-next.github.io/OpenStop/oauth2.html'
+    ? '$appCallbackUrlScheme://try.openstop.app/oauth2.html'
     : '$appCallbackUrlScheme://127.0.0.1:8080/oauth2.html'
   : '$appCallbackUrlScheme:/oauth2';
 
