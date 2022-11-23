@@ -14,9 +14,9 @@ permissions:
   pages: write
   id-token: write
 
-# Allow one concurrent deployment
+# Allow only one concurrent build and deployment workflow
 concurrency:
-  group: "pages"
+  group: "build"
   cancel-in-progress: true
 
 jobs:
@@ -24,8 +24,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v3
 
     - name: Setup Java
       uses: actions/setup-java@v2
@@ -33,7 +33,7 @@ jobs:
         distribution: 'zulu'
         java-version: '11'
 
-    - name: Setup latest stable Flutter
+    - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
         # Use a fixed Flutter version (instead of latest) to ensure a more deterministic building process
@@ -65,14 +65,14 @@ jobs:
         keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
         storeFile=$(readlink -f key.jks)" >> android/key.properties
 
-    - name: Build app bundle
+    - name: Build App Bundle
       run: >-
         flutter build appbundle
         --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
         --dart-define=IS_RELEASE=true
         --flavor standard
 
-    - name: Build apk
+    - name: Build APK
       run: >-
         flutter build apk
         --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
@@ -95,8 +95,11 @@ jobs:
     runs-on: macos-latest
     
     steps:
-    - uses: actions/checkout@v2
-    - uses: subosito/flutter-action@v2
+    - name: Checkout
+      uses: actions/checkout@v3
+    
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
       with:
         # Use a fixed Flutter version (instead of latest) to ensure a more deterministic building process
         # When changing the Flutter version make sure to also update it in the F-Droid repository
@@ -104,19 +107,21 @@ jobs:
         flutter-version: '3.3.7'
         channel: 'stable'
 
-    - run: flutter pub get
+    - name: Download pub dependencies
+      run: flutter pub get
     
     - name: Run build_runner
       run: flutter pub run build_runner build --delete-conflicting-outputs
     
-    - run: >-
+    - name: Build iOS Bundle
+      run: >-
         flutter build ios
         --release --no-codesign
         --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
         --dart-define=IS_RELEASE=true
 
-    # Upload generated .app folder to the artifacts.
-    - uses: actions/upload-artifact@v2
+    - name: Upload iOS Bundle artifact 
+      uses: actions/upload-artifact@v2
       with:
         name: iOS App
         path: build/ios/iphoneos
@@ -149,7 +154,7 @@ jobs:
           --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
           --dart-define=IS_RELEASE=true
 
-      - name: Create and upload web artifact
+      - name: Upload web artifact
         uses: actions/upload-pages-artifact@v1
         with:
           path: 'build/web'
