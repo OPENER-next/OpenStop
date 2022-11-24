@@ -17,7 +17,7 @@ jobs:
     # Some app tests rely on this test server
     # derived from https://github.com/openstreetmap/openstreetmap-website/blob/master/.github/workflows/docker.yml
     - name: Checkout OSM website source
-      uses: actions/checkout@v2.3.4
+      uses: actions/checkout@v3
       with:
         repository: openstreetmap/openstreetmap-website
         path: osm-website
@@ -70,8 +70,7 @@ jobs:
         user.activate!'
       working-directory: ./osm-website
 
-    # Setup Flutter
-    - name: Install Flutter
+    - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
         channel: 'stable'
@@ -81,7 +80,7 @@ jobs:
 
     # App checkout, setup and final tests
     - name: Checkout App source
-      uses: actions/checkout@v2.3.4
+      uses: actions/checkout@v3
       with:
         path: app
 
