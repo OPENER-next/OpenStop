@@ -8,6 +8,12 @@ on:
   # Allow running this workflow manually from the Actions tab.
   workflow_dispatch:
 
+env:
+  # Use a fixed Flutter version (instead of latest) to ensure a more deterministic building process
+  # When changing the Flutter version make sure to also update it in the F-Droid repository
+  # https://gitlab.com/fdroid/fdroiddata/-/blob/master/metadata/de.tu_chemnitz.etit.sse.openstop.yml
+  FLUTTER_SDK_VERSION: '3.3.9'
+      
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
@@ -28,7 +34,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Setup Java
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v3
       with:
         distribution: 'zulu'
         java-version: '11'
@@ -36,10 +42,7 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        # Use a fixed Flutter version (instead of latest) to ensure a more deterministic building process
-        # When changing the Flutter version make sure to also update it in the F-Droid repository
-        # https://gitlab.com/fdroid/fdroiddata/-/blob/master/metadata/de.tu_chemnitz.etit.sse.openstop.yml
-        flutter-version: '3.3.7'
+        flutter-version: ${{ env.FLUTTER_SDK_VERSION }}
         channel: 'stable'
 
     - name: Check Flutter version
@@ -80,13 +83,13 @@ jobs:
         --flavor standard
 
     - name: Upload App Bundle artifact 
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: Android App Bundle
         path: build/app/outputs/bundle/standardRelease/app-standard-release.aab
 
     - name: Upload APK artifact 
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: Android APK
         path: build/app/outputs/flutter-apk/app-standard-release.apk
@@ -101,10 +104,7 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        # Use a fixed Flutter version (instead of latest) to ensure a more deterministic building process
-        # When changing the Flutter version make sure to also update it in the F-Droid repository
-        # https://gitlab.com/fdroid/fdroiddata/-/blob/master/metadata/de.tu_chemnitz.etit.sse.openstop.yml
-        flutter-version: '3.3.7'
+        flutter-version: ${{ env.FLUTTER_SDK_VERSION }}
         channel: 'stable'
 
     - name: Download pub dependencies
@@ -121,7 +121,7 @@ jobs:
         --dart-define=IS_RELEASE=true
 
     - name: Upload iOS Bundle artifact 
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: iOS App
         path: build/ios/iphoneos
@@ -138,8 +138,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          # Use a fixed Flutter version (instead of latest) to ensure a more deterministic building process
-          flutter-version: '3.3.7'
+          flutter-version: ${{ env.FLUTTER_SDK_VERSION }}
           channel: 'stable'
           
       - name: Download pub dependencies
