@@ -7,15 +7,13 @@ on:
       - 'v*'
   # Allow running this workflow manually from the Actions tab.
   workflow_dispatch:
-    inputs:
-      # Use a fixed Flutter version (instead of latest) to ensure a more deterministic building process
-      # When changing the Flutter version make sure to also update it in the F-Droid repository
-      # https://gitlab.com/fdroid/fdroiddata/-/blob/master/metadata/de.tu_chemnitz.etit.sse.openstop.yml
-      flutter_sdk_version:
-        description: 'Flutter SDK version'
-        default: '3.3.9'
-        type: string
 
+env:
+  # Use a fixed Flutter version (instead of latest) to ensure a more deterministic building process
+  # When changing the Flutter version make sure to also update it in the F-Droid repository
+  # https://gitlab.com/fdroid/fdroiddata/-/blob/master/metadata/de.tu_chemnitz.etit.sse.openstop.yml
+  FLUTTER_SDK_VERSION: '3.3.9'
+      
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
@@ -44,7 +42,7 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: ${{ inputs.flutter_sdk_version }}
+        flutter-version: ${{ env.FLUTTER_SDK_VERSION }}
         channel: 'stable'
 
     - name: Check Flutter version
@@ -106,7 +104,7 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: ${{ inputs.flutter_sdk_version }}
+        flutter-version: ${{ env.FLUTTER_SDK_VERSION }}
         channel: 'stable'
 
     - name: Download pub dependencies
@@ -140,7 +138,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ inputs.flutter_sdk_version }}
+          flutter-version: ${{ env.FLUTTER_SDK_VERSION }}
           channel: 'stable'
           
       - name: Download pub dependencies
