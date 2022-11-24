@@ -24,28 +24,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup NodeJS
-        uses: actions/setup-node@v2
-
-      - name: Install ajv-cli
-        run: npm install -g ajv-cli
-
+        uses: actions/checkout@v3
+        
       - name: Validate questions JSON
-        run: >
-          ajv validate
-          -s assets/datasets/question_catalog_schema.json
-          -r assets/datasets/osm_condition_schema.json
-          -d assets/datasets/question_catalog.json
-          --spec=draft2020
-          --strict=false
+        uses: cardinalby/schema-validator-action@v1
+        with:
+          file: 'assets/datasets/question_catalog.json'
+          schema: 'assets/datasets/question_catalog_schema.json'
 
       - name: Validate map features JSON
-        run: >
-          ajv validate
-          -s assets/datasets/map_feature_collection_schema.json
-          -r assets/datasets/osm_condition_schema.json
-          -d assets/datasets/map_feature_collection.json
-          --spec=draft2020
-          --strict=false
+        uses: cardinalby/schema-validator-action@v1
+        with:
+          file: 'assets/datasets/map_feature_collection_schema.json'
+          schema: 'assets/datasets/map_feature_collection.json'
