@@ -1,5 +1,4 @@
 {
-  "$id": "/assets/datasets/osm_condition_schema.json",
   "conditions": {
     "description": "A list of conditions where one must be met in order to ask this question. (Logical OR)",
     "type": "array",
