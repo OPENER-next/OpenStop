@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '/models/question_catalog/answer_definition.dart';
 import 'question_input_widget.dart';
 
 

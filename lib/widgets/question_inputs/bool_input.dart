@@ -1,3 +1,6 @@
+// ignore_for_file: unused_element
+// required till https://github.com/dart-lang/sdk/issues/48401 is resolved
+
 import 'package:flutter/material.dart';
 
 import '/models/answer.dart';
