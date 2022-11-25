@@ -78,7 +78,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
     if (_zoomLevelStream == null) {
       final mapController = context.read<MapController>();
       _zoomLevelStream = mapController.mapEventStream
-        .whereType<MapEventMove>()
+        .whereType<MapEventWithMove>()
         // some simple predictive zoom rounding
         // when zooming out always floor the current zoom, when zooming in round it
         // so markers get shown midway on zooming in but immediately hidden on zooming out
@@ -217,6 +217,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
     return ScaleTransition(
       scale: animation,
       alignment: Alignment.bottomCenter,
+      filterQuality: FilterQuality.low,
       child: OsmElementMarker(
         onTap: () => widget.onOsmElementTap?.call(marker.geoElement),
         backgroundColor: isActive || hasNoActive ? null : Colors.grey,

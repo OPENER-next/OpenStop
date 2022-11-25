@@ -44,7 +44,7 @@ class QuestionSummary extends StatelessWidget {
             bottom: 10
           ),
           child: Text(
-            'Endstation. Bisher hast du noch keine Frage beantwortet.',
+            'Endstation. Es gibt keine weiteren Fragen zu beantworten.',
             style: textStyle
           )
         )

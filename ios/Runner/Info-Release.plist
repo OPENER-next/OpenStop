@@ -4,14 +4,14 @@
 <dict>
 	<key>CFBundleURLTypes</key>
 	<array>
-			<dict>
-					<key>CFBundleTypeRole</key>
-					<string>Editor</string>
-					<key>CFBundleURLSchemes</key>
-					<array>
-							<string>openstop.app</string>
-					</array>
-			</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>openstop.app</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
@@ -53,8 +53,10 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Diese App braucht Zugriff auf den Standort, um die Position des Nutzers auf der Karte anzuzeigen und um nahegelegene Haltestellen zu laden.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
 </dict>
 </plist>

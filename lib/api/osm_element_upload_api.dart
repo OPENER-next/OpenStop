@@ -29,7 +29,7 @@ class OSMElementUploadAPI {
   OSMElementUploadAPI({
     required this.mapFeatureCollection,
     required AuthenticatedUser authenticatedUser,
-    String endPoint = '${osm_config.osmServerUri}/api/0.6',
+    String endPoint = 'https://${osm_config.osmServer}/api/0.6',
     this.changesetCreatedBy = '${app_config.appName} ${app_config.appVersion}',
     this.changesetSource = 'survey',
     this.changesetLocale = 'de'

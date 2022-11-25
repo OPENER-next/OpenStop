@@ -214,22 +214,19 @@ class _QuestionDialogState extends State<QuestionDialog> {
   void _handleBack() {
     // always unfocus the current node to close all onscreen keyboards
     FocusManager.instance.primaryFocus?.unfocus();
-    final questionnaire = context.read<QuestionnaireProvider>();
-    questionnaire.previousQuestion();
+    context.read<QuestionnaireProvider>().previousQuestion();
   }
 
 
   void _handleNext() {
     // always unfocus the current node to close all onscreen keyboards
     FocusManager.instance.primaryFocus?.unfocus();
-    final questionnaire = context.read<QuestionnaireProvider>();
-    questionnaire.nextQuestion();
+    context.read<QuestionnaireProvider>().nextQuestion();
   }
 
 
   void _handleJump(int index) {
-    final questionnaire = context.read<QuestionnaireProvider>();
-    questionnaire.jumpToQuestion(index);
+    context.read<QuestionnaireProvider>().jumpToQuestion(index);
   }
 
 
