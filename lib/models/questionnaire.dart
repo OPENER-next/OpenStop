@@ -2,8 +2,8 @@ import 'dart:collection';
 
 import 'package:osm_api/osm_api.dart';
 
-import '/models/question_catalog.dart';
-import '/models/question.dart';
+import '/models/question_catalog/question_catalog.dart';
+import '/models/question_catalog/question_definition.dart';
 import '/models/answer.dart';
 import '/models/proxy_osm_element.dart';
 
@@ -75,8 +75,8 @@ class Questionnaire {
         _entries[_activeIndex].question,
         answer
       );
-      _updateWorkingElement();
       _removeObsoleteEntries();
+      _updateWorkingElement();
       _insertMatchingEntries();
     }
   }
@@ -118,8 +118,14 @@ class Questionnaire {
 
 
   void _removeObsoleteEntries() {
+    // Note: do not use reverse iteration here
+    // because removing a previous entry might result in the removal of a following entry (and so forth)
+    // which wouldn't be detected when iterating in reverse
+
     // only iterate over all elements after the current active index
-    for (var i = _entries.length - 1; i > _activeIndex; i--) {
+    var i = _activeIndex + 1;
+
+    while (i < _entries.length) {
       final entry = _entries[i];
       // create working element from all preceding entries excluding the current entry
       // this needs to be done, because otherwise an entry can get obsolete by its own answer or answers of succeeding questions
@@ -139,6 +145,10 @@ class Questionnaire {
       if (!questionIsMatching) {
         // remove the answer
         _entries.removeAt(i);
+      }
+      else {
+        // only increment if no element was removed, because the removal will modify the indexes
+        i++;
       }
     }
   }
@@ -170,7 +180,7 @@ class Questionnaire {
 class QuestionnaireEntry<T extends Answer> {
   QuestionnaireEntry(this.question, [this.answer]);
 
-  final Question question;
+  final QuestionDefinition question;
   final T? answer;
 
   bool get hasValidAnswer => answer?.isValid == true;

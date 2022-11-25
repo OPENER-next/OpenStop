@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import '/models/answer.dart';
+import '/models/question_catalog/answer_definition.dart';
 import 'question_input_widget.dart';
-import '/models/question_input.dart';
 
-class NumberInput extends QuestionInputWidget<NumberAnswer> {
+class NumberInput extends QuestionInputWidget<NumberAnswerDefinition, NumberAnswer> {
   const NumberInput({
-    required QuestionInput definition,
-    required AnswerController<NumberAnswer> controller,
-    Key? key
-  }) : super(definition: definition, controller: controller, key: key);
-
+    required super.definition,
+    required super.controller,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +25,12 @@ class NumberInput extends QuestionInputWidget<NumberAnswer> {
 // propagate the changes to the TextEditingController
 
 class _NumberInputDelegate extends StatefulWidget {
-    final QuestionInput definition;
-    final AnswerController<NumberAnswer> controller;
+  final NumberAnswerDefinition definition;
+  final AnswerController<NumberAnswer> controller;
 
   const _NumberInputDelegate(this.definition, this.controller, {
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
   State<_NumberInputDelegate> createState() => _NumberInputDelegateState();
@@ -60,18 +60,17 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
 
   @override
   Widget build(BuildContext context) {
-    final questionInputValue = widget.definition.values.values.first;
-
-    final decimalsAllowed = questionInputValue.decimals == null || questionInputValue.decimals! > 0;
-    final negativeAllowed = questionInputValue.min == null || questionInputValue.min! < 0;
+    final input = widget.definition.input;
+    final decimalsAllowed = input.decimals == null || input.decimals! > 0;
+    final negativeAllowed = input.min == null || input.min! < 0;
 
     return TextFormField(
       controller: _textController,
       onChanged: _handleChange,
       textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
-        hintText: questionInputValue.name ?? 'Hier eintragen...',
-        suffixText: questionInputValue.unit,
+        hintText: input.placeholder ?? 'Hier eintragen...',
+        suffixText: input.unit,
         suffixIcon: IconButton(
           onPressed: _handleChange,
           icon: const Icon(Icons.clear_rounded),
@@ -81,26 +80,25 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
       autovalidateMode: AutovalidateMode.always,
       validator: (text) {
         if (text != null && text.isNotEmpty) {
-
           final answer = NumberAnswer(
-              questionValues: widget.definition.values,
-              value: text
+            definition: widget.definition,
+            value: text,
           );
 
           if (!answer.isValid) {
             final number = double.tryParse( text.replaceAll(',', '.') );
 
-            final nameString = questionInputValue.name ?? 'Wert';
-            final unitString = questionInputValue.unit != null
-              ? ' ${questionInputValue.unit}'
+            final nameString = input.placeholder ?? 'Wert';
+            final unitString = input.unit != null
+              ? ' ${input.unit}'
               : '';
 
             if (number != null) {
-              if (questionInputValue.max != null && number > questionInputValue.max!) {
-                return '$nameString muss kleiner sein als ${questionInputValue.max}$unitString.';
+              if (input.max != null && number > input.max!) {
+                return '$nameString muss kleiner sein als ${input.max}$unitString.';
               }
-              else if (questionInputValue.min != null && number < questionInputValue.min!) {
-                return '$nameString muss größer sein als ${questionInputValue.min}$unitString.';
+              else if (input.min != null && number < input.min!) {
+                return '$nameString muss größer sein als ${input.min}$unitString.';
               }
             }
             return 'Ungültige Zahl';
@@ -114,7 +112,7 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
       ),
       inputFormatters: [
         NumberTextInputFormatter(
-            decimals: questionInputValue.decimals,
+            decimals: input.decimals,
             negativeAllowed: negativeAllowed
         ),
       ],
@@ -122,18 +120,13 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
   }
 
   void _handleChange([String value = '']) {
-    NumberAnswer? answer;
-
-    if (value.isNotEmpty) {
-      answer = NumberAnswer(
-        questionValues: widget.definition.values,
+    widget.controller.answer = value.isNotEmpty
+      ? NumberAnswer(
+        definition: widget.definition,
         value: value
-      );
-    }
-
-    widget.controller.answer = answer;
+      )
+      : null;
   }
-
 
   @override
   void dispose() {

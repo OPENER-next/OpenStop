@@ -1,61 +1,68 @@
-import '/models/question_input.dart';
+import 'question_catalog/answer_definition.dart';
 
 
 /// A container class that holds answers for a specific question type in a readable form.
 /// This is needed since parsing the answer solely from the OSM tags can lead to inconsistencies.
 /// Each question input should create and return an appropriate Answer object.
+///
+/// An answer is based on an [AnswerDefinition] and a `value` of any type.
 
-abstract class Answer<T> {
+abstract class Answer<D extends AnswerDefinition, T> {
   const Answer({
-    required this.questionValues,
+    required this.definition,
     required this.value
   });
 
-  final Map<String, QuestionInputValue> questionValues;
+  final D definition;
 
   final T value;
 
+  /// The OSM tag to variable mapping.
+  /// This defines the values per tag used in the constructor for creating the final OSM tags.
+  ///
+  /// The following example defines two values for the `operator` tag:
+  /// `{ 'operator': [ 'value1', 'value2' ] }`
+  ///
+  /// Every answer needs to implement this.
+
+  Map<String, Iterable<String>> get _variables;
+
   /// Build OSM tags based on the given value.
 
-  Map<String, String> toTagMap();
+  Map<String, String> toTagMap() {
+    return definition.constructor.construct(_variables);
+  }
 
   /// Whether the value of this answer is valid or not.
 
   bool get isValid;
 
   @override
-  String toString() => throw UnimplementedError('Sub-classes should implement toString');
+  String toString() => throw UnimplementedError('Sub-classes must implement toString');
 }
 
 
-class StringAnswer extends Answer<String> {
+class StringAnswer extends Answer<StringAnswerDefinition, String> {
   const StringAnswer({
-    required Map<String, QuestionInputValue> questionValues,
-    required String value
-  }) : super(questionValues: questionValues, value: value);
-
+    required super.definition,
+    required super.value,
+  });
 
   @override
-  Map<String, String> toTagMap() {
-    final tags = questionValues.values.first.osmTags;
-
-    return tags.map((key, value) => MapEntry(
-      key,
-      value.replaceAll('%s', this.value)
-    ));
+  Map<String, Iterable<String>> get _variables {
+    // assign every tag used in the constructor the input value of this answer
+    final keys = definition.constructor.tagConstructorDef.keys;
+    return <String, Iterable<String>>{
+      for (final key in keys) key : [ value ]
+    };
   }
-
 
   @override
   bool get isValid {
-    final questionInputValue = questionValues.values.first;
-
-    final min = (questionInputValue.min ?? 1).clamp(1, 255);
-    final max = (questionInputValue.max ?? 255).clamp(1, 255);
-
+    final min = definition.input.min;
+    final max = definition.input.max;
     return value.length >= min && value.length <= max;
   }
-
 
   @override
   String toString() => value;
@@ -64,54 +71,48 @@ class StringAnswer extends Answer<String> {
 
 /// Use string instead of double to avoid precision errors
 
-class NumberAnswer extends Answer<String> {
+class NumberAnswer extends Answer<NumberAnswerDefinition, String> {
   const NumberAnswer({
-    required Map<String, QuestionInputValue> questionValues,
-    required String value
-  }) : super(questionValues: questionValues, value: value);
-
+    required super.definition,
+    required super.value,
+  });
 
   @override
-  Map<String, String> toTagMap() {
-    final tags = questionValues.values.first.osmTags;
-    // replace decimal comma with period
-    final number = value.replaceAll(',', '.');
-
-    return tags.map((key, value) => MapEntry(
-      key,
-      value.replaceAll('%s', number)
-    ));
+  Map<String, Iterable<String>> get _variables {
+    // assign every tag used in the constructor the input value of this answer
+    final keys = definition.constructor.tagConstructorDef.keys;
+    return <String, Iterable<String>>{
+      // replace decimal comma with period
+      for (final key in keys) key : [ value.replaceAll(',', '.') ]
+    };
   }
-
 
   @override
   bool get isValid {
-    final questionInputValue = questionValues.values.first;
     // replace decimal comma with period
-    final number = value.replaceAll(',', '.');
-
+    final value = this.value.replaceAll(',', '.');
     // match either a single 0 or negative/positive numbers not starting with 0
     final allowRegexStringBuilder = StringBuffer(r'^(0|-?[1-9]\d*');
     // match an unlimited amount of decimal places
-    if (questionInputValue.decimals == null) {
+    if (definition.input.decimals == null) {
       allowRegexStringBuilder.write(r'|-?\d+\.\d+');
     }
     // match a specific amount of decimal places
-    else if (questionInputValue.decimals! > 0) {
+    else if (definition.input.decimals! > 0) {
       allowRegexStringBuilder
-      ..write(r'|-?\d+\.\d{1,')..write(questionInputValue.decimals)..write(r'}');
+      ..write(r'|-?\d+\.\d{1,')..write(definition.input.decimals)..write(r'}');
     }
     allowRegexStringBuilder.write(r')$');
-    if (!RegExp(allowRegexStringBuilder.toString()).hasMatch(number)) {
+    if (!RegExp(allowRegexStringBuilder.toString()).hasMatch(value)) {
       return false;
     }
 
-    final numValue = double.tryParse(number);
+    final numValue = double.tryParse(value);
     if (numValue != null) {
-      if (questionInputValue.min != null && numValue < questionInputValue.min!) {
+      if (definition.input.min != null && numValue < definition.input.min!) {
         return false;
       }
-      if (questionInputValue.max != null && questionInputValue.max! < numValue) {
+      if (definition.input.max != null && definition.input.max! < numValue) {
         return false;
       }
       return true;
@@ -119,103 +120,123 @@ class NumberAnswer extends Answer<String> {
     return false;
   }
 
-
   @override
   String toString() {
-    final unit = questionValues.values.first.unit;
+    final unit = definition.input.unit;
     return (unit == null) ? value : '$value $unit';
   }
 }
 
 
-class BoolAnswer extends Answer<bool> {
+class BoolAnswer extends Answer<BoolAnswerDefinition, bool> {
   const BoolAnswer({
-    required Map<String, QuestionInputValue> questionValues,
-    required bool value
-  }) : super(questionValues: questionValues, value: value);
-
+    required super.definition,
+    required super.value,
+  });
 
   @override
-  Map<String, String> toTagMap() {
-    final tags = questionValues[value.toString()]?.osmTags;
-
-    if (tags == null) {
-      return const <String, String>{};
-    }
-
-    return Map.of(tags);
+  Map<String, Iterable<String>> get _variables {
+    // transform all tags of the selected answer to the variable mapping structure
+    final tags = definition.input[_valueIndex].osmTags.entries;
+    return <String, Iterable<String>>{
+      for (final tag in tags) tag.key : [ tag.value ]
+    };
   }
-
 
   @override
   bool get isValid => true;
 
+  int get _valueIndex => value ? 0 : 1;
 
   @override
   String toString() {
-    final boolString = value.toString();
-    return questionValues[boolString]?.name ?? (value ? 'Ja' : 'Nein');
+    return definition.input[_valueIndex].name ?? (value ? 'Ja' : 'Nein');
   }
 }
 
 
-class ListAnswer extends Answer<String> {
+class ListAnswer extends Answer<ListAnswerDefinition, int> {
   const ListAnswer({
-    required Map<String, QuestionInputValue> questionValues,
-    required String value
-  }) : super(questionValues: questionValues, value: value);
-
+    required super.definition,
+    required super.value,
+  });
 
   @override
-  Map<String, String> toTagMap() {
-    final tags = questionValues[value]?.osmTags;
-
-    if (tags == null) {
-      return const <String, String>{};
-    }
-
-    return Map.of(tags);
+  Map<String, Iterable<String>> get _variables {
+    // transform all tags of the selected answer to the variable mapping structure
+    final tags = definition.input[value].osmTags.entries;
+    return <String, Iterable<String>>{
+      for (final tag in tags) tag.key : [ tag.value ]
+    };
   }
 
+  @override
+  bool get isValid => value >= 0 && value < definition.input.length;
 
   @override
-  bool get isValid => questionValues.containsKey(value);
+  String toString() => definition.input[value].name;
+}
 
+/// Storing the selected indexes in a [List]
+/// (instead of having a fixed List of booleans or storing it bitwise using a single integer)
+/// has the benefit of remembering the user input order.
+
+class MultiListAnswer extends Answer<ListAnswerDefinition, List<int>> {
+  MultiListAnswer({
+    required super.definition,
+    required super.value,
+  });
 
   @override
-  String toString() => questionValues[value]?.name ?? value;
+  Map<String, Iterable<String>> get _variables {
+    // combine all tags of the selected answers
+    final map = <String, List<String>>{};
+    for (final index in value) {
+      for (final tag in definition.input[index].osmTags.entries) {
+        map.update(tag.key,
+          (value) => value..add(tag.value),
+          ifAbsent: () => [ tag.value ],
+        );
+      }
+    }
+    return map;
+  }
+
+  @override
+  bool get isValid {
+    return value.isNotEmpty && value.length <= definition.input.length &&
+    value.every((index) => index >= 0 && index < definition.input.length);
+  }
+
+  @override
+  String toString() => value.map((index) => definition.input[index].name).join(', ');
 }
 
 
-class DurationAnswer extends Answer<Duration> {
+class DurationAnswer extends Answer<DurationAnswerDefinition, Duration> {
   const DurationAnswer({
-    required Map<String, QuestionInputValue> questionValues,
-    required Duration value
-  }) : super(questionValues: questionValues, value: value);
-
+    required super.definition,
+    required super.value
+  });
 
   @override
-  Map<String, String> toTagMap() {
-    final tags = questionValues.values.first.osmTags;
-    return tags.map((key, value) {
-      final hours = this.value.inHours.toString().padLeft(2, '0');
-      final minutes = (this.value.inMinutes % 60).toString().padLeft(2, '0');
-      final seconds = (this.value.inSeconds % 60).toString().padLeft(2, '0');
-
-      return MapEntry(
-        key,
-        value.replaceAll(
-          RegExp(r'%s'),
-         '$hours:$minutes:$seconds'
-        )
-      );
-    });
+  Map<String, Iterable<String>> get _variables {
+    // assign every tag used in the constructor the input value of this answer
+    final keys = definition.constructor.tagConstructorDef.keys;
+    return <String, Iterable<String>>{
+      for (final key in keys) key : [ _valueAsHMS() ]
+    };
   }
 
+  String _valueAsHMS() {
+    final hours = value.inHours.toString().padLeft(2, '0');
+    final minutes = (value.inMinutes % 60).toString().padLeft(2, '0');
+    final seconds = (value.inSeconds % 60).toString().padLeft(2, '0');
+    return '$hours:$minutes:$seconds';
+  }
 
   @override
   bool get isValid => true;
-
 
   @override
   String toString() {

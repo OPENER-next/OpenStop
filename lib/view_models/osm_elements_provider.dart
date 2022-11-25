@@ -10,7 +10,7 @@ import '/models/map_feature_collection.dart';
 import '/models/proxy_osm_element.dart';
 import '/models/osm_element_type.dart' as special_types;
 import '/models/geometric_osm_element.dart';
-import '/models/question_catalog.dart';
+import '/models/question_catalog/question_catalog.dart';
 import '/api/osm_element_query_api.dart';
 import '/models/stop_area.dart';
 

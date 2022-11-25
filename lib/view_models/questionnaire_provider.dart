@@ -3,10 +3,10 @@ import 'package:flutter/widgets.dart';
 import 'package:osm_api/osm_api.dart';
 
 import '/models/questionnaire_store.dart';
-import '/models/question.dart';
+import '/models/question_catalog/question_definition.dart';
 import '/models/questionnaire.dart';
 import '/models/proxy_osm_element.dart';
-import '/models/question_catalog.dart';
+import '/models/question_catalog/question_catalog.dart';
 import '/widgets/question_inputs/question_input_widget.dart';
 
 
@@ -34,7 +34,7 @@ class QuestionnaireProvider extends ChangeNotifier {
     return false;
   }
 
-  UnmodifiableListView<Question> get questions {
+  UnmodifiableListView<QuestionDefinition> get questions {
     return UnmodifiableListView(
       _activeQuestionnaire?.entries.map(
         (entry) => entry.question
@@ -192,9 +192,9 @@ class QuestionnaireProvider extends ChangeNotifier {
       _answerControllerMapping.putIfAbsent(
         questionEntry,
         () => AnswerController.fromType(
-          type: questionEntry.question.input.type,
-          initialAnswer: questionEntry.answer
-        )
+          type: questionEntry.question.answer.runtimeType,
+          initialAnswer: questionEntry.answer,
+        ),
       );
     }
   }
