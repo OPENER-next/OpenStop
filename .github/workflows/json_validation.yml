@@ -35,5 +35,5 @@ jobs:
       - name: Validate map features JSON
         uses: cardinalby/schema-validator-action@v1
         with:
-          file: 'assets/datasets/map_feature_collection_schema.json'
-          schema: 'assets/datasets/map_feature_collection.json'
+          file: 'assets/datasets/map_feature_collection.json'
+          schema: 'assets/datasets/map_feature_collection_schema.json'
