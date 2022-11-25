@@ -25,15 +25,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
         
+      - name: Setup jsonschema
+        run: pip install jsonschema
+
       - name: Validate questions JSON
-        uses: cardinalby/schema-validator-action@v1
-        with:
-          file: 'assets/datasets/question_catalog.json'
-          schema: 'assets/datasets/question_catalog_schema.json'
+        run: jsonschema --instance 'assets/datasets/question_catalog.json' 'assets/datasets/question_catalog_schema.json'
 
       - name: Validate map features JSON
-        uses: cardinalby/schema-validator-action@v1
-        with:
-          file: 'assets/datasets/map_feature_collection.json'
-          schema: 'assets/datasets/map_feature_collection_schema.json'
+        run: jsonschema --instance 'assets/datasets/map_feature_collection.json' 'assets/datasets/map_feature_collection_schema.json'
