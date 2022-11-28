@@ -1369,7 +1369,7 @@
          },
          {
             "osm_tags": {
-               "highway": "path",
+               "highway": ["path", "cycleway"],
                "foot": ["yes", "designated"],
                "surface": false
             },
