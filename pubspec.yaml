@@ -45,7 +45,7 @@ dependency_overrides:
   flutter_map:
     git:
       url: https://github.com/fleaflet/flutter_map.git
-      ref: fb3f27066be4900f291adaef39fcf665c9c0090d
+      ref: 77cf06d598494e6360ced1ee0dec0161f8f5880f
 
 dev_dependencies:
   flutter_test:
