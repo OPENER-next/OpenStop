@@ -508,7 +508,10 @@
          "id": 1131,
          "name": "Akustische Ausgabe der Fahrplan-Anzeige",
          "text": "Hat die Fahrplan-Anzeige für die gesamte Station eine akustische Ausgabe?",
-         "description": "Einige Fahrplan-Anzeigen bieten die Möglichkeit bei Bedarf akustisch Informationen auszugeben."
+         "description": "Einige Fahrplan-Anzeigen bieten die Möglichkeit bei Bedarf akustisch Informationen auszugeben.",
+         "image": [
+            "assets/images/questions/1131a.jpg"
+         ]
       },
       "answer": {
          "type": "Bool",
