@@ -114,6 +114,8 @@ class QuestionSummary extends StatelessWidget {
                 child: Text(
                   answer!,
                   textAlign: TextAlign.right,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 )
               ),
             ],
