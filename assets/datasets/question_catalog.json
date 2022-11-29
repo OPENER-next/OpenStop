@@ -823,8 +823,11 @@
       "question": {
          "id": 1180,
          "name": "Plattform-Breite",
-         "text": "Wie breit ist die Plattform?",
-         "description": "Die Breite einer Plattform ist die Abmessung quer zur Fahrtrichtung. Als Breite einer Plattform ist die Breite anzugeben, die den Großteil der Plattform umfasst."
+         "text": "Was ist die überwiegende Breite der Plattform?",
+         "description": "Die Breite einer Plattform wird quer zur Fahrtrichtung gemessen. Variiert die Breite, ist die anzugeben, die den Großteil der Plattform umfasst. Achtung: Die engste Stelle einer Plattform wird separat erfasst.",
+         "image": [
+            "assets/images/questions/platform_width.png"
+         ]
       },
       "answer": {
          "type": "Number",
