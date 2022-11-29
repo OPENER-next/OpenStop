@@ -33,7 +33,7 @@ abstract class AnswerDefinition<T> {
           decimals: input['decimals'],
           min: input['min'],
           max: input['max'],
-          placeholder: input['name'],
+          placeholder: input['placeholder'],
           unit: input['unit'],
         ),
         constructor: AnswerConstructor(json['constructor'].map<String, List<String>>(
