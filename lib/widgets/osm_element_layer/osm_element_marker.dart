@@ -128,6 +128,7 @@ class MarkerPinPainter extends CustomPainter {
           color: strokeColor,
           fontSize: availableHeight * iconScale,
           fontFamily: icon.fontFamily,
+          package: icon.fontPackage,
           shadows: [
             Shadow(
               color: shadowColor,
