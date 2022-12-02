@@ -1,4 +1,4 @@
-import 'package:community_material_icon/community_material_icon.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import '/commons/themes.dart';
 import '/widgets/hero_viewer.dart';
@@ -137,7 +137,7 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                           )
                         ),
                         child: Icon(
-                          CommunityMaterialIcons.information_variant,
+                          MdiIcons.informationVariant,
                           color: _iconColorAnimation.value!,
                         )
                       );

@@ -166,13 +166,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.16.0"
-  community_material_icon:
-    dependency: "direct main"
-    description:
-      name: community_material_icon
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.9.55"
   convert:
     dependency: transitive
     description:
@@ -524,6 +517,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.5"
+  material_design_icons_flutter:
+    dependency: "direct main"
+    description:
+      name: material_design_icons_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.7096"
   meta:
     dependency: transitive
     description:
@@ -860,6 +860,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
+  temaki_flutter:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "26ca2e19542ce9ae2f95ad29d321966ac5f91fd7"
+      url: "https://github.com/OPENER-next/temaki_flutter.git"
+    source: git
+    version: "1.0.0"
   term_glyph:
     dependency: transitive
     description:

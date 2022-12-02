@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:community_material_icon/community_material_icon.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '/widgets/custom_list_tile.dart';
 import '/commons/app_config.dart' as app_config;
@@ -29,7 +29,7 @@ class HelpScreen extends StatelessWidget {
           child: Column(
             children: [
               CustomListTile(
-                leadingIcon: CommunityMaterialIcons.head_sync,
+                leadingIcon: MdiIcons.headSync,
                 trailingIcon: Icons.arrow_forward_ios_rounded,
                 title: 'Einführung erneut anschauen',
                 onTap: () => Navigator.push(context, Routes.onboarding),

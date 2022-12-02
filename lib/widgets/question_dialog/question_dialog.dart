@@ -1,4 +1,4 @@
-import 'package:community_material_icon/community_material_icon.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:osm_api/osm_api.dart';
@@ -163,7 +163,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         onPressed: _handleSubmit,
                         child: Icon(
-                          CommunityMaterialIcons.cloud_upload,
+                          MdiIcons.cloudUpload,
                           color: Theme.of(context).colorScheme.onPrimary,
                         )
                       )

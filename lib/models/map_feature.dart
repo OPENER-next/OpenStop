@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:community_material_icon/community_material_icon.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '/models/osm_condition.dart';
 import '/commons/custom_icons.dart';
@@ -22,7 +22,7 @@ class MapFeature {
   factory MapFeature.fromJSON(Map<String, dynamic> json) {
     return MapFeature(
       name: json['name'],
-      icon: customIcons[json['icon']] ?? CommunityMaterialIcons.cancel,
+      icon: customIcons[json['icon']] ?? MdiIcons.cancel,
       conditions: json['conditions']
       // https://github.com/dart-lang/linter/issues/3226
       // ignore: unnecessary_lambdas

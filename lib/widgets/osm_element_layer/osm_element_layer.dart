@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:animated_marker_layer/animated_marker_layer.dart';
-import 'package:community_material_icon/community_material_icon.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -221,7 +221,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       child: OsmElementMarker(
         onTap: () => widget.onOsmElementTap?.call(marker.geoElement),
         backgroundColor: isActive || hasNoActive ? null : Colors.grey,
-        icon: mapFeature?.icon ?? CommunityMaterialIcons.help_rhombus_outline
+        icon: mapFeature?.icon ?? MdiIcons.help
       )
     );
   }

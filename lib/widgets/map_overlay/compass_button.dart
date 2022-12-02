@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:community_material_icon/community_material_icon.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:flutter/material.dart';
 
 /// The rotation is expected in clockwise radians if not otherwise specified by the [isDegree] parameter.
@@ -32,7 +32,7 @@ class CompassButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Icon(
-              CommunityMaterialIcons.triangle,
+              MdiIcons.triangle,
               color: Colors.red,
               size: 9,
             ),

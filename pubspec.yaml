@@ -29,6 +29,9 @@ dependencies:
   osm_api:
     git:
       url: https://github.com/OPENER-next/osm_api.git
+  temaki_flutter:
+    git:
+      url: https://github.com/OPENER-next/temaki_flutter.git
   collection: ^1.16.0
   dio: ^4.0.0
   provider: ^6.0.1
@@ -36,7 +39,7 @@ dependencies:
   flutter_secure_storage: ^6.0.0
   url_launcher: ^6.0.17
   flutter_web_auth: ^0.5.0
-  community_material_icon: ^5.9.55
+  material_design_icons_flutter: ^6.0.7096
   flutter_markdown: ^0.6.9
   nvbw_open_data:
     path: ./dependencies/nvbw_open_data
