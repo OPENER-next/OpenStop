@@ -4,20 +4,25 @@
 
 Install and setup the [Flutter SDK](https://docs.flutter.dev/get-started/install).
 
+### Troubleshooting
+
+#### macOS
+If `flutter doctor` reports `CocoaPods not installed` and `gem install cocoapods` doesn't resolve the issue, try updating RubyGems by running `gem update --system`.
+
 ## Build process
 
 To build/run the app, navigate into the project and run the following commands:
 
-### Get the necessary dependencies
+### 1. Get the necessary dependencies
 ```console
 flutter pub get
 ```
-### Create any generated code files
+### 2. Create any generated code files
 Visit the [build_runner package](https://pub.dev/packages/build_runner#built-in-commands) for more information.
 ```console
 flutter pub run build_runner build --delete-conflicting-outputs
 ```
-### Build and run the app
+### 3. Build and run the app
 You can also omit the entire API key parameter. In this case the underlying map tiles won't be available in your build.
 ```console
 flutter run --dart-define THUNDERFOREST_API_KEY=${api key}
