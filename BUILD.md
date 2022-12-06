@@ -4,11 +4,6 @@
 
 Install and setup the [Flutter SDK](https://docs.flutter.dev/get-started/install).
 
-### Troubleshooting
-
-#### macOS
-If `flutter doctor` reports `CocoaPods not installed` and `gem install cocoapods` doesn't resolve the issue, try updating RubyGems by running `gem update --system`.
-
 ## Build process
 
 To build/run the app, navigate into the project's folder and execute the following commands:
@@ -47,3 +42,8 @@ The app uses a package to automatically generate icons for all plattforms. If yo
 ```console
 flutter pub run flutter_launcher_icons
 ```
+
+## Troubleshooting
+
+### macOS
+If `flutter doctor` reports `CocoaPods not installed` and `gem install cocoapods` doesn't resolve the issue, try updating RubyGems by running `gem update --system`.
