@@ -18,7 +18,7 @@ Soon available in App Store, too.
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot01.png" alt="Screenshot with visualized stop areas" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot02.png" alt="Screenshot with bool question dialog" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot03.png" alt="Screenshot with list question dialog" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot04.png" alt="Screenshot with upload dialog" width=150>
 
 ## Contributing
-We are always happy, if you not only want to help us mapping, but also want to directly participate in the project. You can either open issues for enhancement suggestions and bug reports or help us developing the app further.
+We are always happy, if you not only want to help us mapping, but also want to directly participate in the project. You can either open issues for enhancement suggestions and bug reports or help us developing the app further. A good starting point for the latter is to read the [build instructions](./BUILD.md) for the app.
 
 ## License
 This app is released under the terms of the [GNU General Public License](https://github.com/OPENER-next/OPENER-next/blob/master/LICENSE).
