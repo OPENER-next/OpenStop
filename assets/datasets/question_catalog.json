@@ -1786,6 +1786,36 @@
    },
    {
       "question": {
+         "name": "Fahrstuhl-Ansagen",
+         "text": "Gibt es im Fahrstuhl eine Ansage, auf welcher Etage man sich befindet?",
+         "description": "Hörbare Signale im Fahrstuhl helfen Seheingeschränkten, die aktuelle Etage zu erfahren und wann sich die Türen öffnen bzw. schließen."
+      },
+      "answer": {
+         "type": "Bool",
+         "input": [
+            {
+               "osm_tags": {
+                  "speech_output": "yes"
+               }
+            },
+            {
+               "osm_tags": {
+                  "speech_output": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "elevator",
+               "speech_output": false
+            }
+         }
+      ]
+   },
+   {
+      "question": {
          "id": 2112,
          "name": "Stufen-Höhe",
          "text": "Wie hoch ist eine einzelne Stufe?"
