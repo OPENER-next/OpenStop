@@ -1788,7 +1788,7 @@
       "question": {
          "name": "Fahrstuhl-Ansagen",
          "text": "Gibt es im Fahrstuhl eine Ansage, auf welcher Etage man sich befindet?",
-         "description": "Hörbare Signale im Fahrstuhl helfen Seheingeschränkten, die aktuelle Etage zu erfahren und wann sich die Türen öffnen bzw. schließen."
+         "description": "Ansagen im Fahrstuhl helfen Seheingeschränkten, die aktuelle Etage zu erfahren."
       },
       "answer": {
          "type": "Bool",
