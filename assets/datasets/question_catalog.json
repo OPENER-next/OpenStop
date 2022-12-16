@@ -1752,7 +1752,6 @@
    },
    {
       "question": {
-         "id": 2096,
          "name": "Fahrstuhl-Blindenschrift",
          "text": "Ist auf den Bedienelementen Blindenschrift vorhanden?",
          "image": [
@@ -1875,7 +1874,6 @@
    },
    {
       "question": {
-         "id": 2115,
          "name": "Handlauf-Blindenschrift",
          "text": "Ist auf dem Handlauf Blindenschrift vorhanden?",
          "image": [
@@ -1912,7 +1910,6 @@
    },
    {
       "question": {
-         "id": 2114,
          "name": "Treppen-Handlauf",
          "text": "Hat die Treppe einen Handlauf?",
          "image": [
