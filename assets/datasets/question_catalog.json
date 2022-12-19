@@ -1988,28 +1988,28 @@
          "input": [
             {
                "name": "Fußgängerampel",
-               "image": "assets/images/questions/crossing01.png",
+               "image": "assets/images/questions/crossing_traffic_signals.png",
                "osm_tags": {
                   "crossing": "traffic_signals"
                }
             },
             {
                "name": "Zebrastreifen",
-               "image": "assets/images/questions/crossing02.png",
+               "image": "assets/images/questions/crossing_zebra.png",
                "osm_tags": {
                   "crossing": "zebra"
                }
             },
             {
                "name": "Markierter Übergang",
-               "image": "assets/images/questions/crossing03.png",
+               "image": "assets/images/questions/crossing_marked.png",
                "osm_tags": {
                   "crossing": "marked"
                }
             },
             {
                "name": "Unmarkierter Übergang",
-               "image": "assets/images/questions/crossing04.png",
+               "image": "assets/images/questions/crossing_unmarked.png",
                "osm_tags": {
                   "crossing": "unmarked"
                }
