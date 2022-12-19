@@ -2316,7 +2316,9 @@
          "name": "Bodenindikatoren",
          "text": "Gibt es an dieser Stelle Bodenindikatoren?",
          "description": "Bodenindikatoren dienen vor allem Sehbehinderten als Warnung vor abgesenkten Bordsteinen oder Straßenüberquerungen und verhindern so ein unbewusstes Betreten der Fahrbahn.",
-         "image": []
+         "image": [
+            "assets/images/questions/tactile_paving_on_kerb.jpg"
+         ]
       },
       "answer": {
          "type": "Bool",
