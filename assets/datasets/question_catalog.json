@@ -1151,7 +1151,8 @@
             "osm_tags": {
                "entrance": ["yes", "main", "secondary", "exit", "entrance", "emergency", "staircase", "shop"],
                "access": ["yes", "customers", false],
-               "door": false
+               "door": false,
+               "addr:housenumber": false
             },
             "osm_element": "Node"
          },
@@ -1318,7 +1319,8 @@
             "osm_tags": {
                "entrance": ["yes", "main", "secondary", "exit", "entrance", "emergency", "staircase", "shop"],
                "access": ["yes", "customers", false],
-               "width": false
+               "width": false,
+               "addr:housenumber": false
             },
             "osm_element": "Node"
          }
