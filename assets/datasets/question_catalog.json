@@ -2031,7 +2031,10 @@
          "name": "Ampel-Taster",
          "text": "Haben die Fußgängerampeln auf beiden Straßenseiten einen Anforderungstaster?",
          "description": "Anforderungstaster sind meist mit 'Bitte berühren' beschriftet. Die erfolgreiche Anforderung wird bestätigt durch die Anzeige von 'Signal kommt' oder ähnlichem.",
-         "image": []
+         "image": [
+            "assets/images/questions/traffic_signals_pushbutton01.jpg",
+            "assets/images/questions/traffic_signals_pushbutton02.jpg"
+         ]
       },
       "answer": {
          "type": "Bool",
@@ -2070,7 +2073,9 @@
          "name": "Ampel-Tastbarer-Pfeil",
          "text": "Haben die Fußgängerampeln auf beiden Straßenseiten einen tastbaren Pfeil für Blinde?",
          "description": "Mit Hilfe eines tastbaren Pfeils können Blinde die Richtung, in der sie die Straße überqueren müssen, erfühlen. Der Pfeil befindet typischerweise an der Unter- oder Oberseite des Anforderungstasters.",
-         "image": []
+         "image": [
+            "assets/images/questions/traffic_signals_arrow.jpg"
+         ]
       },
       "answer": {
          "type": "Bool",
@@ -2109,7 +2114,11 @@
          "name": "Ampel-Akustisches-Signal",
          "text": "Gibt es an den Fußgängerampeln auf beiden Straßenseiten akustische Signale für Blinde?",
          "description": "Akustische Signale dienen Blinden dazu, festzustellen, wo sich die Ampel befindet bzw. wann die Straße überquert werden kann. Achtung: Der Signalgeber für Überquerung wird häufig nur bei Bedarf durch das Drücken eines Knopfs an der Unterseite aktiviert.",
-         "image": []
+         "image": [
+            "assets/images/questions/traffic_signals_blind.jpg",
+            "assets/images/questions/traffic_signals_blind_pushbutton01.jpg",
+            "assets/images/questions/traffic_signals_blind_pushbutton02.jpg"
+         ]
       },
       "answer": {
          "type": "List",
@@ -2152,7 +2161,10 @@
          "name": "Ampel-Vibrations-Signal",
          "text": "Gibt es an den Fußgängerampeln auf beiden Straßenseiten einen Vibrations-Signalgeber für Blinde?",
          "description": "Das Vibrations-Signal muss wie das akustische Signal üblicherweise an der Unterseite durch das Drücken eines Tasters angefordert werden. In der Grünphase vibriert dieser Knopf und signalisiert Blinden so, wann sie die Straße Überqueren können.",
-         "image": []
+         "image": [
+            "assets/images/questions/traffic_signals_blind_pushbutton01.jpg",
+            "assets/images/questions/traffic_signals_blind_pushbutton02.jpg"
+         ]
       },
       "answer": {
          "type": "Bool",
