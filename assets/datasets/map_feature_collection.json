@@ -350,5 +350,61 @@
         "osm_element": "Node"
       }
     ]
+  },
+  {
+    "name": "Fußgängerübergang",
+    "icon": "crosswalk",
+    "conditions": [
+      {
+        "osm_tags": {
+          "highway": "crossing"
+        },
+        "osm_element": ["Node", "OpenWay"]
+      }
+    ]
+  },
+  {
+    "name": "Fußgängerampel",
+    "icon": "traffic_signals",
+    "conditions": [
+      {
+        "osm_tags": {
+          "highway": "crossing",
+          "crossing": "traffic_signals"
+        },
+        "osm_element": ["Node", "OpenWay"]
+      },
+      {
+        "osm_tags": {
+          "highway": "crossing",
+          "crossing:signals": "yes"
+        },
+        "osm_element": ["Node", "OpenWay"]
+      }
+    ]
+  },
+  {
+    "name": "Straßenbahnübergang",
+    "icon": "tram_crossing",
+    "conditions": [
+      {
+        "osm_tags": {
+          "railway": "tram_crossing"
+        },
+        "osm_element": "Node"
+      }
+    ]
+  },
+  {
+    "name": "Bordstein",
+    "icon": "kerb",
+    "conditions": [
+      {
+        "osm_tags": {
+          "barrier": "kerb"
+        },
+        "osm_element": "Node"
+      }
+    ]
   }
 ]
