@@ -12,7 +12,7 @@ env:
   # Use a fixed Flutter version (instead of latest) to ensure a more deterministic building process
   # When changing the Flutter version make sure to also update it in the F-Droid repository
   # https://gitlab.com/fdroid/fdroiddata/-/blob/master/metadata/de.tu_chemnitz.etit.sse.openstop.yml
-  FLUTTER_SDK_VERSION: '3.3.9'
+  FLUTTER_SDK_VERSION: '3.3.10'
       
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
