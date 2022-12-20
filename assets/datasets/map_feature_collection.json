@@ -210,13 +210,26 @@
     ]
   },
   {
-    "name": "Informationssäule",
-    "icon": "terminal_info",
+    "name": "Info-Terminal",
+    "icon": "information",
     "conditions": [
       {
         "osm_tags": {
           "tourism": "information",
           "information": "terminal"
+        },
+        "osm_element": "Node"
+      }
+    ]
+  },
+  {
+    "name": "Informationssäule",
+    "icon": "phone_info",
+    "conditions": [
+      {
+        "osm_tags": {
+          "tourism": "information",
+          "information": "phone"
         },
         "osm_element": "Node"
       }
@@ -224,13 +237,13 @@
   },
   {
     "name": "Kombinierte Informations- und Notrufsäule",
-    "icon": "terminal",
+    "icon": "phone",
     "conditions": [
       {
         "osm_tags": {
           "emergency": "phone",
           "tourism": "information",
-          "information": "terminal"
+          "information": "phone"
         },
         "osm_element": "Node"
       }
@@ -238,7 +251,7 @@
   },
   {
     "name": "Notrufsäule",
-    "icon": "terminal_emergency",
+    "icon": "phone_emergency",
     "conditions": [
       {
         "osm_tags": {
