@@ -1754,7 +1754,6 @@
    },
    {
       "question": {
-         "id": 2096,
          "name": "Fahrstuhl-Blindenschrift",
          "text": "Ist auf den Bedienelementen Blindenschrift vorhanden?",
          "image": [
@@ -1877,7 +1876,6 @@
    },
    {
       "question": {
-         "id": 2115,
          "name": "Handlauf-Blindenschrift",
          "text": "Ist auf dem Handlauf Blindenschrift vorhanden?",
          "image": [
@@ -1914,7 +1912,6 @@
    },
    {
       "question": {
-         "id": 2114,
          "name": "Treppen-Handlauf",
          "text": "Hat die Treppe einen Handlauf?",
          "image": [
@@ -1979,6 +1976,405 @@
                "duration": false
             },
             "osm_element": "OpenWay"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "Fußgängerübergangs-Art",
+         "text": "Welche Art von Füßgängerübergang ist das?",
+         "description": "Falls mehrere Antworten zutreffen, ist die verkehrsmäßig übergeordnete anzugeben. Existiert z.B. eine Fußgängerampel mit einem Zebrastreifen, ist die Ampel anzugeben."
+      },
+      "answer": {
+         "type": "List",
+         "input": [
+            {
+               "name": "Fußgängerampel",
+               "image": "assets/images/questions/crossing_traffic_signals.png",
+               "osm_tags": {
+                  "crossing": "traffic_signals"
+               }
+            },
+            {
+               "name": "Zebrastreifen",
+               "image": "assets/images/questions/crossing_zebra.png",
+               "osm_tags": {
+                  "crossing": "zebra"
+               }
+            },
+            {
+               "name": "Markierter Übergang",
+               "image": "assets/images/questions/crossing_marked.png",
+               "osm_tags": {
+                  "crossing": "marked"
+               }
+            },
+            {
+               "name": "Unmarkierter Übergang",
+               "image": "assets/images/questions/crossing_unmarked.png",
+               "osm_tags": {
+                  "crossing": "unmarked"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "crossing",
+               "crossing": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "Ampel-Taster",
+         "text": "Hat die Fußgängerampel einen Anforderungstaster?",
+         "description": "Anforderungstaster sind meist mit 'Bitte berühren' beschriftet. Die erfolgreiche Anforderung wird bestätigt durch die Anzeige von 'Signal kommt' oder ähnlichem.",
+         "image": [
+            "assets/images/questions/traffic_signals_pushbutton_1.jpg",
+            "assets/images/questions/traffic_signals_pushbutton_2.jpg"
+         ]
+      },
+      "answer": {
+         "type": "Bool",
+         "input": [
+            {
+               "osm_tags": {
+                  "button_operated": "yes"
+               }
+            },
+            {
+               "osm_tags": {
+                  "button_operated": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "crossing",
+               "crossing": "traffic_signals",
+               "button_operated": false
+            },
+            "osm_element": ["Node", "OpenWay"]
+         },
+         {
+            "osm_tags": {
+               "highway": "crossing",
+               "crossing:signals": "yes",
+               "button_operated": false
+            },
+            "osm_element": ["Node", "OpenWay"]
+         },
+         {
+            "osm_tags": {
+               "railway": "tram_crossing",
+               "crossing": "traffic_signals",
+               "button_operated": false
+            },
+            "osm_element": ["Node", "OpenWay"]
+         },
+         {
+            "osm_tags": {
+               "railway": "tram_crossing",
+               "crossing:signals": "yes",
+               "button_operated": false
+            },
+            "osm_element": ["Node", "OpenWay"]
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "Ampel-Tastbarer-Pfeil",
+         "text": "Hat die Fußgängerampel einen tastbaren Pfeil für Blinde?",
+         "description": "Mit Hilfe eines tastbaren Pfeils können Blinde die Richtung, in der sie die Straße überqueren müssen, erfühlen. Der Pfeil befindet typischerweise an der Unter- oder Oberseite des Anforderungstasters.",
+         "image": [
+            "assets/images/questions/traffic_signals_arrow.jpg"
+         ]
+      },
+      "answer": {
+         "type": "Bool",
+         "input": [
+            {
+               "osm_tags": {
+                  "traffic_signals:arrow": "yes"
+               }
+            },
+            {
+               "osm_tags": {
+                  "traffic_signals:arrow": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "crossing",
+               "crossing": "traffic_signals",
+               "traffic_signals:arrow": false
+            },
+            "osm_element": ["Node", "OpenWay"]
+         },
+         {
+            "osm_tags": {
+               "highway": "crossing",
+               "crossing:signals": "yes",
+               "traffic_signals:arrow": false
+            },
+            "osm_element": ["Node", "OpenWay"]
+         },
+         {
+            "osm_tags": {
+               "railway": "tram_crossing",
+               "crossing": "traffic_signals",
+               "traffic_signals:arrow": false
+            },
+            "osm_element": ["Node", "OpenWay"]
+         },
+         {
+            "osm_tags": {
+               "railway": "tram_crossing",
+               "crossing:signals": "yes",
+               "traffic_signals:arrow": false
+            },
+            "osm_element": ["Node", "OpenWay"]
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "Ampel-Akustisches-Signal",
+         "text": "Gibt es an der Fußgängerampel akustische Signale für Blinde?",
+         "description": "Akustische Signale dienen Blinden dazu, festzustellen, wo sich die Ampel befindet bzw. wann die Straße überquert werden kann. Achtung: Der Signalgeber für Überquerung wird häufig nur bei Bedarf durch das Drücken eines Knopfs an der Unterseite aktiviert.",
+         "image": [
+            "assets/images/questions/traffic_signals_blind.jpg",
+            "assets/images/questions/traffic_signals_blind_pushbutton_1.jpg",
+            "assets/images/questions/traffic_signals_blind_pushbutton_2.jpg"
+         ]
+      },
+      "answer": {
+         "type": "List",
+         "input": [
+            {
+               "name": "Auffinde- und/oder Überquerungs-Signal",
+               "description": "Typischerweise ein 'Tock - Tock' zum Auffinden und ein 'Beep - Beep' zur Überquerung",
+               "osm_tags": {
+                  "traffic_signals:sound": "yes"
+               }
+            },
+            {
+               "name": "Kein akustisches Signal",
+               "description": "Achtung: Das Überquerungs-Signal muss oft manuell über einen Taster unten am Blinden-Taster angefordert werden.",
+               "osm_tags": {
+                  "traffic_signals:sound": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "crossing",
+               "crossing": "traffic_signals",
+               "traffic_signals:sound": false
+            },
+            "osm_element": ["Node", "OpenWay"]
+         },
+         {
+            "osm_tags": {
+               "highway": "crossing",
+               "crossing:signals": "yes",
+               "traffic_signals:sound": false
+            },
+            "osm_element": ["Node", "OpenWay"]
+         },
+         {
+            "osm_tags": {
+               "railway": "tram_crossing",
+               "crossing": "traffic_signals",
+               "traffic_signals:sound": false
+            },
+            "osm_element": ["Node", "OpenWay"]
+         },
+         {
+            "osm_tags": {
+               "railway": "tram_crossing",
+               "crossing:signals": "yes",
+               "traffic_signals:sound": false
+            },
+            "osm_element": ["Node", "OpenWay"]
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "Ampel-Vibrations-Signal",
+         "text": "Gibt es an der Fußgängerampel einen Vibrations-Signalgeber für Blinde?",
+         "description": "Das Vibrations-Signal muss wie das akustische Signal üblicherweise an der Unterseite durch das Drücken eines Tasters angefordert werden. In der Grünphase vibriert dieser Knopf und signalisiert Blinden so, wann sie die Straße Überqueren können.",
+         "image": [
+            "assets/images/questions/traffic_signals_blind_pushbutton_1.jpg",
+            "assets/images/questions/traffic_signals_blind_pushbutton_2.jpg"
+         ]
+      },
+      "answer": {
+         "type": "Bool",
+         "input": [
+            {
+               "osm_tags": {
+                  "traffic_signals:vibration": "yes"
+               }
+            },
+            {
+               "osm_tags": {
+                  "traffic_signals:vibration": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "crossing",
+               "crossing": "traffic_signals",
+               "traffic_signals:vibration": false
+            },
+            "osm_element": ["Node", "OpenWay"]
+         },
+         {
+            "osm_tags": {
+               "highway": "crossing",
+               "crossing:signals": "yes",
+               "traffic_signals:vibration": false
+            },
+            "osm_element": ["Node", "OpenWay"]
+         },
+         {
+            "osm_tags": {
+               "railway": "tram_crossing",
+               "crossing": "traffic_signals",
+               "traffic_signals:vibration": false
+            },
+            "osm_element": ["Node", "OpenWay"]
+         },
+         {
+            "osm_tags": {
+               "railway": "tram_crossing",
+               "crossing:signals": "yes",
+               "traffic_signals:vibration": false
+            },
+            "osm_element": ["Node", "OpenWay"]
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "Bordstein-Art",
+         "text": "Welche Art von Bordstein ist an dieser Stelle?"
+      },
+      "answer": {
+         "type": "List",
+         "input": [
+            {
+               "name": "Erhöht (>3cm)",
+               "image": "assets/images/questions/1170a.jpg",
+               "osm_tags": {
+                  "kerb": "raised"
+               }
+            },
+            {
+               "name": "Abgesenkt (<3cm)",
+               "image": "assets/images/questions/1170b.jpg",
+               "osm_tags": {
+                  "kerb": "lowered"
+               }
+            },
+            {
+               "name": "Ebenerdig (≈0cm)",
+               "image": "assets/images/questions/1170c.jpg",
+               "osm_tags": {
+                  "kerb": "flush"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "barrier": "kerb",
+               "kerb": ["yes", false]
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "Bodenindikatoren",
+         "text": "Gibt es an dieser Stelle Bodenindikatoren?",
+         "description": "Bodenindikatoren dienen vor allem Sehbehinderten als Warnung vor abgesenkten Bordsteinen oder Straßenüberquerungen und verhindern so ein unbewusstes Betreten der Fahrbahn.",
+         "image": [
+            "assets/images/questions/tactile_paving_on_kerb.jpg"
+         ]
+      },
+      "answer": {
+         "type": "Bool",
+         "input": [
+            {
+               "osm_tags": {
+                  "tactile_paving": "yes"
+               }
+            },
+            {
+               "osm_tags": {
+                  "tactile_paving": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "barrier": "kerb",
+               "tactile_paving": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "Straßenbahn-Akustisches-Warnsignal",
+         "text": "Gibt es eine akustisches Warnsignal bei Durchfahrt der Straßenbahn?",
+         "description": "Das Warnsignal ertönt durch ein stationären Signalgeber. Das Klingeln durch Triebfahrzeugführer gehört nicht dazu."
+      },
+      "answer": {
+         "type": "Bool",
+         "input": [
+            {
+               "osm_tags": {
+                  "crossing:bell": "yes"
+               }
+            },
+            {
+               "osm_tags": {
+                  "crossing:bell": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "railway": "tram_crossing",
+               "crossing:bell": false
+            },
+            "osm_element": "Node"
          }
       ]
    }

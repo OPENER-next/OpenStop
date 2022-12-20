@@ -28,4 +28,7 @@ const Map<String, IconData> customIcons = {
   'escalator': MdiIcons.escalator,
   'cycle_barrier': TemakiIcons.cycleBarrier,
   'crosswalk': TemakiIcons.pedestrianCrosswalk,
+  'traffic_signals': TemakiIcons.trafficSignals,
+  'tram_crossing': TemakiIcons.crossingTramSolid,
+  'kerb': TemakiIcons.kerbRaised,
 };
