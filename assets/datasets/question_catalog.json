@@ -719,11 +719,7 @@
                "train": [false, "no"],
                "bus": [false, "yes"],
                "kerb": false
-            },
-            "osm_element": [
-               "OpenWay",
-               "ClosedWay"
-            ]
+            }
          },
          {
             "osm_tags": {
@@ -731,11 +727,7 @@
                "railway": "platform",
                "bus": "yes",
                "kerb": false
-            },
-            "osm_element": [
-               "OpenWay",
-               "ClosedWay"
-            ]
+            }
          }
       ]
    },
@@ -776,11 +768,7 @@
             "osm_tags": {
                "public_transport": "platform",
                "kerb": "yes"
-            },
-            "osm_element": [
-               "OpenWay",
-               "ClosedWay"
-            ]
+            }
          }
       ]
    },
