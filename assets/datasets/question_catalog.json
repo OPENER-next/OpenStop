@@ -1419,12 +1419,7 @@
             "osm_tags": {
                "public_transport": "platform",
                "tactile_paving": false
-            },
-            "osm_element": [
-               "OpenWay",
-               "ClosedWay",
-               "Relation"
-            ]
+            }
          }
       ]
    },
