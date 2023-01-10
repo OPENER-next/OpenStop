@@ -35,7 +35,7 @@ class ProcessedRelation extends ProcessedElement<osmapi.OSMRelation, GeographicG
     }
     else {
       // TODO: handle this case properly
-      throw 'Unhandled type for relation $id';
+      throw 'Unhandled type "${tags['type']}" for relation $id';
       // just calculate a single node based on all nodes above?
       // or show create all elements that are part of this relation?
       // ignore none multipolygons because their data is most likely not fetched entirely. For example a relation like germany
