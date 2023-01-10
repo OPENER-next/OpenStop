@@ -29,7 +29,7 @@ import '/widgets/home_sidebar.dart';
 import '/models/question_catalog/question_catalog.dart';
 import '/models/stop_area.dart';
 import '/models/map_feature_collection.dart';
-import '/models/geometric_osm_element.dart';
+import '/models/element_variants/base_element.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -254,7 +254,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
                   ? tileLayerDescription.darkVariantTemplateUrl
                   : tileLayerDescription.templateUrl,
                 minZoom: tileLayerDescription.minZoom.toDouble(),
-                maxZoom: tileLayerDescription.maxZoom.toDouble()
+                maxZoom: tileLayerDescription.maxZoom.toDouble(),
               ),
               Consumer2<StopAreasProvider, OSMElementProvider>(
                 builder: (context, stopAreaProvider, osmElementProvider, child) {
@@ -272,9 +272,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
                     duration: const Duration(milliseconds: 300),
                     child: (selectedElement != null)
                       ? GeometryLayer(
-                        geometry: osmElementProvider.extractedOsmElements.firstWhere(
-                          (element) => selectedElement.isOther(element.osmElement)
-                        ).geometry,
+                        geometry: selectedElement.geometry,
                         key: ValueKey(selectedElement),
                       )
                       : null,
@@ -290,7 +288,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
                 builder: (context, osmElementProvider, child) {
                   return OsmElementLayer(
                     onOsmElementTap: _onOsmElementTap,
-                    geoElements: osmElementProvider.extractedOsmElements
+                    elements: osmElementProvider.extractedOsmElements
                   );
                 }
               ),
@@ -358,7 +356,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
     try {
       await osmElementProvider.loadElementsFromStopArea(stopArea);
 
-      if (osmElementProvider.stopAreaIsExtracted(stopArea) && osmElementProvider.extractedOsmElementsMap[stopArea]!.isEmpty) {
+      if (osmElementProvider.stopAreaIsLoaded(stopArea) && osmElementProvider.elementsOf(stopArea)!.isEmpty) {
         scaffold.showSnackBar(
             CustomSnackBar('Alle Fragen bereits beantwortet.')
         );
@@ -390,14 +388,13 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
   }
 
 
-  void _onOsmElementTap(GeometricOSMElement geometricOSMElement) async {
+  void _onOsmElementTap(ProcessedElement element) async {
     final questionnaire = context.read<QuestionnaireProvider>();
-    final osmElement = geometricOSMElement.osmElement;
 
     // show questions if a new marker is selected, else hide the current one
-    if (questionnaire.workingElement == null || !questionnaire.workingElement!.isOther(osmElement)) {
+    if (questionnaire.workingElement != element) {
       final questionCatalog = context.read<QuestionCatalog>();
-      questionnaire.open(osmElement, questionCatalog);
+      questionnaire.open(element, questionCatalog);
     }
     else {
       return questionnaire.close();
@@ -411,7 +408,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
       ticker: this,
       // use bounds method because the normal move to doesn't support padding
       // the benefit of this approach is, that it will always try to zoom in on the marker as much as possible
-      bounds: geometricOSMElement.geometry.bounds,
+      bounds: element.geometry.bounds,
       // calculate padding based on question dialog max height
       padding: EdgeInsets.only(
         top: mediaQuery.padding.top,

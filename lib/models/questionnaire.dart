@@ -1,17 +1,15 @@
 import 'dart:collection';
 
-import 'package:osm_api/osm_api.dart';
-
 import '/models/question_catalog/question_catalog.dart';
 import '/models/question_catalog/question_definition.dart';
 import '/models/answer.dart';
-import '/models/proxy_osm_element.dart';
+import 'element_variants/base_element.dart';
 
 
 class Questionnaire {
 
   Questionnaire({
-    required OSMElement osmElement,
+    required ProcessedElement osmElement,
     required QuestionCatalog questionCatalog,
   }) :
     _questionCatalog = questionCatalog,
@@ -25,14 +23,14 @@ class Questionnaire {
 
   final List<QuestionnaireEntry> _entries = [];
 
-  final OSMElement _osmElement;
+  final ProcessedElement _osmElement;
 
-  late ProxyOSMElement _workingElement;
+  late ProxyElement _workingElement;
 
   int _activeIndex = 0;
 
 
-  ProxyOSMElement get workingElement => _workingElement;
+  ProxyElement get workingElement => _workingElement;
 
 
   int get length => _entries.length;
@@ -99,10 +97,7 @@ class Questionnaire {
     for (final question in _questionCatalog.reversed) {
       // get whether the question conditions matches the current working element
       final questionIsMatching = question.conditions.any((condition) {
-        return condition.matches(
-          _workingElement.tags,
-          _workingElement.specialType
-        );
+        return condition.matches(_workingElement);
       });
 
       if (questionIsMatching) {
@@ -135,10 +130,7 @@ class Questionnaire {
       // get whether the question conditions of an entry still matches
       // the current working element
       final questionIsMatching = entry.question.conditions.any((condition) {
-        return condition.matches(
-          subWorkingElement.tags,
-          subWorkingElement.specialType
-        );
+        return condition.matches(subWorkingElement);
       });
 
       // if the conditions of an answer in the history do not match anymore
@@ -156,12 +148,12 @@ class Questionnaire {
 
   /// Optionally specify a custom list of entries from which the working element is constructed.
 
-  ProxyOSMElement _createWorkingElement([Iterable<QuestionnaireEntry>? entries]) {
+  ProxyElement _createWorkingElement([Iterable<QuestionnaireEntry>? entries]) {
     final changes = (entries ?? _entries)
       .where((entry) => entry.hasValidAnswer)
       .map((entry) => entry.answer!.toTagMap());
 
-    return ProxyOSMElement(_osmElement,
+    return ProxyElement(_osmElement,
       additionalTags: changes.fold<Map<String, String>>(
         {},
         (tags, newTags) => tags..addAll(newTags)

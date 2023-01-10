@@ -251,7 +251,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
         final osmElement = questionnaire.workingElement!;
         questionnaire.close();
         await osmElementProvider.upload(
-          osmProxyElement: osmElement,
+          proxyElement: osmElement,
           authenticatedUser: authenticationProvider.authenticatedUser!,
           locale: Localizations.localeOf(context)
         );

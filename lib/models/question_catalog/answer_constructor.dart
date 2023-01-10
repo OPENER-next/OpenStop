@@ -54,7 +54,7 @@ class AnswerConstructor {
     }
     // shorthand for coalesce
     if (mainParameter == r'$input') {
-      expression = coalesce;
+      expression = _coalesce;
       parameters = rawExpression;
     }
     else {
@@ -91,13 +91,13 @@ typedef Expression = String? Function(Iterable<String>);
 /// A name to function mapping for expressions.
 
 const expressionMapping = <String, Expression>{
-  'join': join,
-  'concat': concat,
-  'coalesce': coalesce,
+  'join': _join,
+  'concat': _concat,
+  'coalesce': _coalesce,
 };
 
 
-String? join(Iterable<String> args) {
+String? _join(Iterable<String> args) {
   if (args.isEmpty) {
     return null;
   }
@@ -106,11 +106,11 @@ String? join(Iterable<String> args) {
   return values.isEmpty ? null : values.join(delimiter);
 }
 
-String? concat(Iterable<String> args) {
+String? _concat(Iterable<String> args) {
   return args.isEmpty ? null : args.join();
 }
 
-String? coalesce(Iterable<String> args) {
+String? _coalesce(Iterable<String> args) {
   return args.isEmpty ? null : args.first;
 }
 
