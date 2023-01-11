@@ -13,7 +13,7 @@ Thanks and happy mapping!
     height="50">](https://play.google.com/store/apps/details?id=de.tu_chemnitz.etit.sse.openstop)
 [<img src="https://github.com/OPENER-next/OpenStop-website/blob/main/img/badges/App_Store_Badge_EN.svg"
     alt="Download on the App Store"
-    height="50">](https://apps.apple.com/de/app/openstop/id6444187660)
+    height="50">](https://apps.apple.com/app/id6444187660)
 
 ## Screenshots
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot01.png" alt="Screenshot with visualized stop areas" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot02.png" alt="Screenshot with bool question dialog" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot03.png" alt="Screenshot with list question dialog" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot04.png" alt="Screenshot with upload dialog" width=150>
