@@ -1,36 +1,43 @@
+import 'dart:async';
 import 'dart:collection';
 
 import 'package:collection/collection.dart' hide UnmodifiableSetView;
 import 'package:flutter/widgets.dart' hide ProxyElement;
 
-import '/models/element_processing/element_filter.dart';
 import '/models/element_processing/element_pool.dart';
-import '/api/osm_element_upload_api.dart';
 import '/models/authenticated_user.dart';
-import '/models/map_feature_collection.dart';
+import '/models/element_processing/element_filter.dart';
 import '/models/element_variants/base_element.dart';
+import '/models/map_feature_collection.dart';
 import '/models/question_catalog/question_catalog.dart';
-import '/api/osm_element_query_api.dart';
 import '/models/stop_area.dart';
 
 class OSMElementProvider extends ChangeNotifier {
 
-  final _osmElementQueryHandler = OSMElementQueryAPI();
-
   final _loadingStopAreas = <StopArea>{};
 
-  final _stopAreaToElementsMapping = <StopArea, ElementPool>{};
-
-  QuestionCatalog _questionCatalog;
+  final _stopAreaToElementsMapping = <StopArea, Set<ProcessedElement>>{};
 
   MapFeatureCollection _mapFeatureCollection;
+
+  final Future<ElementPool> _elementPool;
 
   OSMElementProvider({
     required QuestionCatalog questionCatalog,
     required MapFeatureCollection mapFeatureCollection
   }) :
-    _questionCatalog = questionCatalog,
-    _mapFeatureCollection = mapFeatureCollection;
+    _mapFeatureCollection = mapFeatureCollection,
+    _elementPool = _init(questionCatalog);
+
+
+  static Future<ElementPool> _init(QuestionCatalog questionCatalog) async {
+    final elementPool = await ElementPool.spawn();
+    await elementPool.applyFilters([
+      QuestionFilter(questionCatalog: questionCatalog)
+    ]);
+    return elementPool;
+  }
+
 
   /// Used to update all dependency injections.
   /// Updating the question catalog will re-extract/filter all osm elements.
@@ -39,16 +46,12 @@ class OSMElementProvider extends ChangeNotifier {
     required QuestionCatalog questionCatalog,
     required MapFeatureCollection mapFeatureCollection
   }) async {
-    if (questionCatalog != _questionCatalog) {
-      _questionCatalog = questionCatalog;
-      await Future.wait([
-        for (final entry in _stopAreaToElementsMapping.entries)
-          entry.value.filter(_buildFilters(entry.key))
-      ]);
-    }
+    final entries = await (await _elementPool).applyFilters([
+      QuestionFilter(questionCatalog: questionCatalog)
+    ]);
+    _stopAreaToElementsMapping.addEntries(entries);
 
     _mapFeatureCollection = mapFeatureCollection;
-    notifyListeners();
   }
 
 
@@ -56,8 +59,8 @@ class OSMElementProvider extends ChangeNotifier {
     => UnmodifiableSetView(_loadingStopAreas);
 
 
-  UnmodifiableSetView<ProcessedElement>? elementsOf(StopArea stopArea) {
-    return _stopAreaToElementsMapping[stopArea]?.filteredElements;
+  Set<ProcessedElement>? elementsOf(StopArea stopArea) {
+    return _stopAreaToElementsMapping[stopArea];
   }
 
   /// Get a set of all loaded and filtered osm elements
@@ -67,7 +70,7 @@ class OSMElementProvider extends ChangeNotifier {
     // this set won't contain duplicated osm elements
     // since a processed element has a custom equality function based on the underlying osm element
     return UnionSet.from(_stopAreaToElementsMapping.values.map(
-      (list) => list.filteredElements)
+      (list) => list)
     );
   }
 
@@ -90,12 +93,8 @@ class OSMElementProvider extends ChangeNotifier {
 
       try {
         // query elements
-        final osmElements = await _osmElementQueryHandler.queryByBBox(stopArea.bounds);
-        // extract elements
-        _stopAreaToElementsMapping[stopArea] = await ElementPool.extractFrom(
-          osmElements: osmElements,
-          filters: _buildFilters(stopArea),
-        );
+        final entry = await (await _elementPool).query(stopArea);
+        _stopAreaToElementsMapping[entry.key] = entry.value;
       }
       finally {
         _loadingStopAreas.remove(stopArea);
@@ -112,47 +111,26 @@ class OSMElementProvider extends ChangeNotifier {
     required AuthenticatedUser authenticatedUser,
     required Locale locale
   }) async {
-    // find the corresponding stop area
-    final relatedStopArea = _stopAreaToElementsMapping.entries.firstWhere(
-      (entry) => entry.value.allElements.contains(proxyElement),
-    ).key;
-
-    final uploadApi = OSMElementUploadAPI(
-      mapFeatureCollection: _mapFeatureCollection,
-      stopArea: relatedStopArea,
-      authenticatedUser: authenticatedUser,
-      changesetLocale: locale.languageCode
-    );
-
     try {
-      await proxyElement.publish(uploadApi);
-      // refilter on success
-      // because an elements condition can start matching when another element's tags change
-      // or can stop matching because all questions are answered an no condition matches anymore
-      await _stopAreaToElementsMapping[relatedStopArea]?.filter(
-        _buildFilters(relatedStopArea),
-      );
+      // update all affected stop areas afterwards
+      final entries = await (await _elementPool).update(ElementUpdateData(
+        element: proxyElement,
+        mapFeatureCollection: _mapFeatureCollection,
+        authenticatedUser: authenticatedUser,
+        languageCode: locale.languageCode,
+      ));
+
+      _stopAreaToElementsMapping.addEntries(entries);
     }
     finally {
-      uploadApi.dispose();
       notifyListeners();
     }
   }
 
 
-  List<ElementFilter> _buildFilters(StopArea stopArea) => [
-    AreaFilter(
-      area: stopArea,
-    ),
-    QuestionFilter(
-      questionCatalog: _questionCatalog,
-    ),
-  ];
-
-
   @override
   void dispose() {
-    _osmElementQueryHandler.dispose();
+    _elementPool.then((value) => value.dispose());
     super.dispose();
   }
 }

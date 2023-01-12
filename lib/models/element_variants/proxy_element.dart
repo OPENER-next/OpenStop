@@ -24,17 +24,15 @@ class ProxyElement<T extends osmapi.OSMElement, G extends GeographicGeometry> ex
   ]);
 
 
-  /// Updates the underlying OSM element with the given tags and
+  /// Updates the underlying OSM element with the given tags (and version) and
   /// uploads it to the OSM server.
   ///
   /// The method primarily exists to prevent the exposal of the underlying original OSM element.
   ///
-  /// Returns the [ProcessedElement] with all tags applied and updated version.
-  ///
   /// This method may throw any upload/OSMAPI errors.
   /// In this case the changes to the underlying element are reverted.
 
-  Future<ProcessedElement<T, G>> publish(OSMElementUploadAPI uploadAPI) async {
+  Future<void> publish(OSMElementUploadAPI uploadAPI) async {
     // create tag copy for rollback
     final tagCopy = Map.of(_osmElement.tags);
     // apply all tags to underlying OSM element
@@ -50,7 +48,6 @@ class ProxyElement<T extends osmapi.OSMElement, G extends GeographicGeometry> ex
       _osmElement.tags..clear()..addAll(tagCopy);
       rethrow;
     }
-    return _element;
   }
 
   // forward methods from processed elements
