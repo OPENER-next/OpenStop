@@ -585,7 +585,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "6bed7d51e7e37673a7315f9a3955383b6a8c22d8"
+      resolved-ref: c18353cc6023c3c0366721ec671d46a080e7b4e6
       url: "https://github.com/OPENER-next/osm_api.git"
     source: git
     version: "0.0.1"
