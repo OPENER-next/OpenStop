@@ -263,12 +263,10 @@ packages:
   flutter_map:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "77cf06d598494e6360ced1ee0dec0161f8f5880f"
-      resolved-ref: "77cf06d598494e6360ced1ee0dec0161f8f5880f"
-      url: "https://github.com/fleaflet/flutter_map.git"
-    source: git
-    version: "3.0.0"
+      name: flutter_map
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.0"
   flutter_markdown:
     dependency: "direct main"
     description:
@@ -1053,4 +1051,4 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=2.18.2 <3.0.0"
-  flutter: ">=3.0.0"
+  flutter: ">=3.3.0"
