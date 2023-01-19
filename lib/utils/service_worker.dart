@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:isolate';
 
 typedef ServiceWorkerInit<M> = ServiceWorker<M> Function(SendPort sendPort);
@@ -36,13 +37,26 @@ class ServiceWorkerController<M> {
   }
 
   /// Sends a message to the isolate with its own response port and returns the response.
+  ///
+  /// Errors and Exceptions in the service worker are forwarded to the main isolate.
 
-  Future<dynamic> send(M data) {
+  Future<dynamic> send(M data) async {
     final responsePort = ReceivePort();
+
     _sendPort.send(
       _Message(responsePort.sendPort, data)
     );
-    return responsePort.first;
+    // use completer to rethrow error
+    final completer = Completer();
+
+    final response = await responsePort.first;
+    if (response is _Error) {
+      completer.completeError(response.error);
+    }
+    else {
+      completer.complete(response.data);
+    }
+    return completer.future;
   }
 }
 
@@ -50,7 +64,7 @@ class ServiceWorkerController<M> {
 /// A service worker is meant to run in an isolate and kept alive as long as it has a connection to the [ServiceWorkerController].
 /// This means the class with all its data will persist until the isolates gets closed.
 ///
-/// Extend this class to write your wn service worker.
+/// Extend this class to write your own service worker.
 ///
 /// Use the [ServiceWorkerController] to spawn your custom service worker and communicate with it.
 ///
@@ -71,9 +85,14 @@ abstract class ServiceWorker<M> {
   void exit() => _receivePort.close();
 
   void _messageHandler(_Message<M> message) async {
-    message.responsePort.send(
-      await messageHandler(message.data),
-    );
+    try {
+      message.responsePort.send(_Response(
+        await messageHandler(message.data),
+      ));
+    }
+    catch(error) {
+      message.responsePort.send(_Error(error));
+    }
   }
 
   Future<dynamic> messageHandler(M message);
@@ -85,4 +104,14 @@ class _Message<T> {
   final T data;
 
   const _Message(this.responsePort, this.data);
+}
+
+class _Response<T> {
+  final T data;
+  const _Response(this.data);
+}
+
+class _Error<T> {
+  final T error;
+  const _Error(this.error);
 }
