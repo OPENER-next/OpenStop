@@ -1213,7 +1213,8 @@
       "question": {
          "id": 2032,
          "name": "Tür",
-         "text": "Hat dieser Durchgang eine Tür?"
+         "text": "Hat dieser Durchgang eine Tür?",
+         "description": "Ob ein Durchgang eine Tür hat, ist besonders für Rollstuhlfahrende relevant. Existiert eine Tür, wird die genaue Art nachfolgend abgefragt."
       },
       "answer": {
          "type": "Bool",
@@ -1376,7 +1377,7 @@
          "id": 2033,
          "name": "Tür-Automatik",
          "text": "Öffnet die Tür automatisch?",
-         "description": "Bei der automatischen Öffnung wird die Tür von einer Mechanik geöffnet. Der Benutzer muss die Tür nicht selbstständig drücken oder ziehen. Dagegen muss bei einer manuellen Öffnung die Tür von Hand geöffnet werden."
+         "description": "Bei der automatischen Öffnung wird die Tür von einer Mechanik geöffnet. Der Benutzer muss die Tür nicht selbstständig drücken oder ziehen."
       },
       "answer": {
          "type": "Bool",
