@@ -34,7 +34,7 @@ class GeographicPoint implements GeographicGeometry {
 /// However this element should still be treated and drawn as a set of lines with no fill.
 
 class GeographicPolyline implements GeographicGeometry {
-  static const Distance _distance = Distance();
+  static const _distance = Distance(roundResult: false);
 
   final List<LatLng> path;
 

@@ -24,10 +24,9 @@ class MapFeature {
       name: json['name'],
       icon: customIcons[json['icon']] ?? MdiIcons.cancel,
       conditions: json['conditions']
-      // https://github.com/dart-lang/linter/issues/3226
-      // ignore: unnecessary_lambdas
-          ?.map<OsmCondition>((e) =>OsmCondition.fromJSON(e))
-          ?.toList(growable: false) ?? [],
+        ?.cast<Map<String, dynamic>>()
+        .map<OsmCondition>(OsmCondition.fromJSON)
+        .toList(growable: false) ?? [],
     );
   }
   @override

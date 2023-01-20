@@ -1,4 +1,5 @@
 import '/models/osm_element_type.dart';
+import 'element_variants/base_element.dart';
 
 /// This class holds the conditions that specify if a [Question] should be asked.
 
@@ -6,31 +7,61 @@ class OsmCondition {
 
   final Map<String, dynamic> osmTags;
 
-  final List<OSMElementType> osmElements;
+  final List<OSMElementType> osmElementTypes;
 
-  const OsmCondition(this.osmTags, this.osmElements);
+  final List<OsmCondition> childElements;
+
+  final List<OsmCondition> parentElements;
+
+  const OsmCondition({
+    this.osmTags = const {},
+    this.osmElementTypes = const [],
+    this.childElements = const [],
+    this.parentElements = const [],
+  });
 
   factory OsmCondition.fromJSON(Map<String, dynamic> json) {
-    final List<OSMElementType> osmElement = [];
+    final List<OSMElementType> osmElement;
     if (json['osm_element'] is List) {
-      osmElement.addAll(json['osm_element']
+      osmElement = json['osm_element']
       .cast<String>()
-      .map<OSMElementType>((String e) => e.toOSMElementType()));
+      .map<OSMElementType>((String e) => e.toOSMElementType())
+      .toList();
     }
-    else if (json['osm_element'] is String) {
-      osmElement.add((json['osm_element'] as String).toOSMElementType());
+    else {
+      osmElement = [
+        // "as String" required since extension methods are resolved statically
+        if (json['osm_element'] is String) (json['osm_element'] as String).toOSMElementType(),
+      ];
     }
 
+    final List<OsmCondition>? child = json['child']
+      ?.cast<Map<String, dynamic>>()
+      .map<OsmCondition>(OsmCondition.fromJSON)
+      .toList(growable: false);
+
+    final List<OsmCondition>? parent = json['parent']
+      ?.cast<Map<String, dynamic>>()
+      .map<OsmCondition>(OsmCondition.fromJSON)
+      .toList(growable: false);
+
     return OsmCondition(
-      json['osm_tags'] ?? <String, dynamic>{},
-      osmElement
+      osmTags: json['osm_tags'] ?? <String, dynamic>{},
+      osmElementTypes: osmElement,
+      childElements: child ?? [],
+      parentElements: parent ?? [],
     );
   }
 
-  /// Check whether this condition matches the given data.
 
-  bool matches(Map<String, String> tags, OSMElementType type) =>
-    matchesTags(tags) && matchesElement(type);
+  /// Check whether this condition matches the given element.
+
+  bool matches(ProcessedElement element) {
+    return matchesTags(element.tags) &&
+           matchesElementType(element.specialType) &&
+           matchesChild(element.children) &&
+           matchesParent(element.parents);
+  }
 
 
   /// Check whether the tags of this condition matches the given tags.
@@ -51,8 +82,24 @@ class OsmCondition {
 
   /// Check whether the element types of this condition matches the given element type.
 
-  bool matchesElement(OSMElementType type) =>
-    osmElements.isEmpty || osmElements.contains(type);
+  bool matchesElementType(OSMElementType type) =>
+    osmElementTypes.isEmpty || osmElementTypes.contains(type);
+
+
+  /// Check whether any parent condition matches the parents of the given element.
+
+  bool matchesChild(Iterable<ChildElement> children) {
+    return childElements.isEmpty ||
+      childElements.any((condition) => children.any(condition.matches));
+  }
+
+
+  /// Check whether any child condition matches the children of the given element.
+
+  bool matchesParent(Iterable<ParentElement> parents) {
+    return parentElements.isEmpty ||
+      parentElements.any((condition) => parents.any(condition.matches));
+  }
 
 
   /// Returns true:
@@ -68,5 +115,5 @@ class OsmCondition {
   }
 
   @override
-  String toString() => 'QuestionCondition(osmTags: $osmTags, osmElements: $osmElements)';
+  String toString() => 'QuestionCondition(osmTags: $osmTags, osmElementTypes: $osmElementTypes, childElements: $childElements, parentElements: $parentElements)';
 }
