@@ -79,7 +79,7 @@ class OsmCondition {
   /// Returns null if the given value could not be parsed as a [RegExp].
 
   static RegExp? _parseAsRegex(dynamic value) {
-    if (value is String && value.isNotEmpty && value[0] == '/' && value[value.length - 1] == '/') {
+    if (value is String && value.length > 1 && value[0] == '/' && value[value.length - 1] == '/') {
       try {
         return RegExp(value.substring(1, value.length - 1));
       }

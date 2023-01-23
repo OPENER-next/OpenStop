@@ -375,8 +375,12 @@ In order to match elements that have or don't have a certain key one can set the
 To match against multiple values of the same key one could write multiple conditions. However this will often result in a lot of repetitive code wherefore a shorthand array notation exists:
 `highway": ["motorway ", "trunk", "primary"]` The previous example will match any elements that contain the key `highway` with a value of either `motorway`, `trunk` or `primary`. You can also use `true`, `false` and regular expressions in this notation.
 
-**Regular expressions** are written as a string enclosed by slashes (`/`). They use Dart's regular expression syntax and semantics, which is the same as for [JavaScript regular expressions](https://developer.mozilla.org/docs/Web/JavaScript/Guide/Regular_Expressions).
-They can also be used to match elements which tag **does not equal** a specific value `/^(?!EXCLUDED_VALUE$).*$/`.
+For more complex tag matching scenarios **Regular expressions** can be used. They are written as normal strings enclosed by slashes (`/`) and use Dart's regular expression syntax and semantics, which is the same as for [JavaScript regular expressions](https://developer.mozilla.org/docs/Web/JavaScript/Guide/Regular_Expressions).
+Example use cases are:
+- matching a tag that **does not equal** a certain value `/^(?!EXCLUDED_VALUE$).*$/`.
+- matching a tag that contains certain value `/INCLUDED_VALUE/`.
+- matching a tag that contains a certain value between a separator string (e.g. semicolon) `/(^|^.+;)LIST_VALUE(;.+$|$)/`.
+
 Currently setting regex flags is not supported. All of them are turned off except for the *match case sensitive* flag.
 
 **Notation summary:**
@@ -391,7 +395,7 @@ Currently setting regex flags is not supported. All of them are turned off excep
   "bar": false,
   // must have key "foo" with the value "value1" or "value2" or "value3"
   "foo": ["value1", "value2", "value3"],
-  // must have key with different value than "OTHER"
+  // must have key "foo" with different value than "OTHER"
   "foo": "/^(?!OTHER$).*$/",
 }
 ```
