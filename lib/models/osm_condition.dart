@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import '/models/osm_element_type.dart';
 import 'element_variants/base_element.dart';
 
@@ -20,7 +22,24 @@ class OsmCondition {
     this.parentElements = const [],
   });
 
+
+  /// Strings starting and ending with `/` are interpreted as regular expressions.
+  ///
+  /// Currently setting RegEx flags is not supported and case sensitive matching is enabled.
+
   factory OsmCondition.fromJSON(Map<String, dynamic> json) {
+    final Map<String, dynamic>? tags = json['osm_tags']
+      ?.cast<String, dynamic>()
+      .map((key, value) {
+        if (value is Iterable) {
+          value = value.map((v) => _parseAsRegex(v) ?? v).toList();
+        }
+        else {
+          value = _parseAsRegex(value) ?? value;
+        }
+        return MapEntry(key, value);
+      });
+
     final List<OSMElementType> osmElement;
     if (json['osm_element'] is List) {
       osmElement = json['osm_element']
@@ -46,11 +65,29 @@ class OsmCondition {
       .toList(growable: false);
 
     return OsmCondition(
-      osmTags: json['osm_tags'] ?? <String, dynamic>{},
+      osmTags: tags ?? <String, dynamic>{},
       osmElementTypes: osmElement,
       childElements: child ?? [],
       parentElements: parent ?? [],
     );
+  }
+
+  /// Strings starting and ending with `/` are interpreted as regular expressions.
+  ///
+  /// Currently setting RegEx flags is not supported and case sensitive matching is enabled.
+  ///
+  /// Returns null if the given value could not be parsed as a [RegExp].
+
+  static RegExp? _parseAsRegex(dynamic value) {
+    if (value is String && value.isNotEmpty && value[0] == '/' && value[value.length - 1] == '/') {
+      try {
+        return RegExp(value.substring(1, value.length - 1));
+      }
+      on FormatException {
+        debugPrint('RegEx parsing from question catalog failed.');
+      }
+    }
+    return null;
   }
 
 
@@ -105,11 +142,15 @@ class OsmCondition {
   /// Returns true:
   /// - if the condition value is true and the actual value is present (not null)
   /// - if the condition value is false and the actual value is not present (is null)
+  /// - if the condition value is a regular expression which matches the actual value
   /// - if the condition value is equal to the actual value
 
   bool _conditionCheck (dynamic conditionValue, String? actualValue) {
     if (conditionValue is bool) {
       return (actualValue is String) == conditionValue;
+    }
+    else if (conditionValue is RegExp && actualValue is String) {
+      return conditionValue.hasMatch(actualValue);
     }
     return actualValue == conditionValue;
   }
