@@ -30,14 +30,14 @@ class OsmCondition {
   factory OsmCondition.fromJSON(Map<String, dynamic> json) {
     final Map<String, dynamic>? tags = json['osm_tags']
       ?.cast<String, dynamic>()
-      .map((key, value) {
+      .map<String, dynamic>((key, value) {
         if (value is Iterable) {
           value = value.map((v) => _parseAsRegex(v) ?? v).toList();
         }
         else {
           value = _parseAsRegex(value) ?? value;
         }
-        return MapEntry(key, value);
+        return MapEntry<String, dynamic>(key, value);
       });
 
     final List<OSMElementType> osmElement;
