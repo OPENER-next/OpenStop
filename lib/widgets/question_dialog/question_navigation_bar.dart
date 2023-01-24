@@ -4,8 +4,8 @@ class QuestionNavigationBar extends StatelessWidget {
   final String? nextText;
   final String? backText;
 
-  final void Function()? onNext;
-  final void Function()? onBack;
+  final VoidCallback? onNext;
+  final VoidCallback? onBack;
 
   const QuestionNavigationBar({
     this.nextText,
@@ -30,70 +30,58 @@ class QuestionNavigationBar extends StatelessWidget {
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
               child: backText == null
-              ? const SizedBox.shrink()
+              ? null
               : TextButton(
-                style: ButtonStyle(
-                  textStyle: MaterialStateProperty.all<TextStyle>(
-                    const TextStyle(
-                      fontSize: 13
-                    )
-                  ),
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                    const EdgeInsets.all(20),
-                  ),
-                  alignment: Alignment.centerLeft,
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero
-                      )
-                  )
-                ),
+                style: _buttonStyle,
                 onPressed: onBack,
                 child: Row(
                   children: [
                     const Icon(Icons.chevron_left_rounded),
                     Text(backText!),
                   ],
-                )
+                ),
               ),
-            )
+            ),
           ),
           Expanded(
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
               child: nextText == null
-              ? const SizedBox.shrink()
+              ? null
               : TextButton(
                 key: ValueKey(nextText),
-                style: ButtonStyle(
-                  textStyle: MaterialStateProperty.all<TextStyle>(
-                    const TextStyle(
-                      fontSize: 13
-                    )
-                  ),
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                    const EdgeInsets.all(20),
-                  ),
-                  alignment: Alignment.centerRight,
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero
-                      )
-                  )
-                ),
+                // mimic disabled style
+                style: _buttonStyle,
                 onPressed: onNext,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(nextText!),
-                    const Icon(Icons.chevron_right_rounded)
-                  ]
-                )
-              )
+                    const Icon(Icons.chevron_right_rounded),
+                  ],
+                ),
+              ),
             ),
-          )
+          ),
         ],
-      )
+      ),
     );
   }
+
+  static const _buttonStyle = ButtonStyle(
+    textStyle: MaterialStatePropertyAll(
+      TextStyle(
+        fontSize: 13,
+      ),
+    ),
+    padding: MaterialStatePropertyAll(
+      EdgeInsets.all(20),
+    ),
+    alignment: Alignment.centerLeft,
+    shape: MaterialStatePropertyAll(
+      RoundedRectangleBorder(
+        borderRadius: BorderRadius.zero,
+      ),
+    ),
+  );
 }
