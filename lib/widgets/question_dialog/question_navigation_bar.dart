@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class QuestionNavigationBar extends StatelessWidget {
   final String? nextText;
@@ -17,6 +18,14 @@ class QuestionNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final disabledButtonStyle = ButtonStyle(
+      foregroundColor: MaterialStatePropertyAll(Theme.of(context).disabledColor),
+      overlayColor: const MaterialStatePropertyAll(Colors.transparent),
+      mouseCursor: const MaterialStatePropertyAll(SystemMouseCursors.forbidden),
+      splashFactory: NoSplash.splashFactory,
+      enableFeedback: false,
+    );
+
     return Container(
       color: Theme.of(context).colorScheme.background,
       padding: EdgeInsets.only(
@@ -32,8 +41,12 @@ class QuestionNavigationBar extends StatelessWidget {
               child: backText == null
               ? null
               : TextButton(
-                style: _buttonStyle,
-                onPressed: onBack,
+                // mimic disabled style
+                style: onBack != null
+                  ? _buttonStyle
+                  : _buttonStyle.merge(disabledButtonStyle),
+                // if button is disabled vibrate when pressed as additional feedback
+                onPressed: onBack ?? HapticFeedback.vibrate,
                 child: Row(
                   children: [
                     const Icon(Icons.chevron_left_rounded),
@@ -51,8 +64,11 @@ class QuestionNavigationBar extends StatelessWidget {
               : TextButton(
                 key: ValueKey(nextText),
                 // mimic disabled style
-                style: _buttonStyle,
-                onPressed: onNext,
+                style: onNext != null
+                  ? _buttonStyle
+                  : _buttonStyle.merge(disabledButtonStyle),
+                // if button is disabled vibrate when pressed as additional feedback
+                onPressed: onNext ?? HapticFeedback.vibrate,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [

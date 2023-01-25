@@ -51,7 +51,10 @@ class _QuestionDialogState extends State<QuestionDialog> {
   Widget build(BuildContext context) {
     final questionCount = widget.questions.length;
     final activeIndex = widget.showSummary ? questionCount : widget.activeQuestionIndex;
-    final hasPrevious = activeIndex > 0;
+    final hasPreviousQuestion = activeIndex > 0;
+    final hasNextQuestion = widget.activeQuestionIndex < questionCount - 1;
+
+    final currentIsValidAnswer = widget.answers[widget.activeQuestionIndex].hasValidAnswer;
     final hasAnyValidAnswer = widget.answers.any((controller) => controller.hasValidAnswer);
 
     // Use WillPopScope with "false" to prevent that back button closes app instead of Question Dialog
@@ -116,22 +119,22 @@ class _QuestionDialogState extends State<QuestionDialog> {
                             ),
                             CompositedTransformTarget(
                               link: _layerLink,
-                              child: AnimatedBuilder(
-                                animation: widget.answers[widget.activeQuestionIndex],
-                                builder: (context, child) {
-                                  final answerController = widget.answers[widget.activeQuestionIndex];
-                                  return QuestionNavigationBar(
-                                    nextText: widget.showSummary
-                                      ? null
-                                      : answerController.hasValidAnswer ? 'Weiter' : 'Überspringen',
-                                    backText: hasPrevious
-                                      ? 'Zurück'
-                                      : null,
-                                    onNext: _handleNext,
-                                    onBack: _handleBack,
-                                  );
-                                }
-                              )
+                              child: QuestionNavigationBar(
+                                nextText: widget.showSummary
+                                  ? null
+                                  : !hasNextQuestion
+                                    ? 'Abschließen'
+                                    : currentIsValidAnswer
+                                      ? 'Weiter'
+                                      : 'Überspringen',
+                                backText: hasPreviousQuestion
+                                  ? 'Zurück'
+                                  : null,
+                                onNext: hasNextQuestion || hasAnyValidAnswer
+                                  ? _handleNext
+                                  : null,
+                                onBack: _handleBack,
+                              ),
                             ),
                           ],
                         ),
@@ -149,12 +152,10 @@ class _QuestionDialogState extends State<QuestionDialog> {
                     duration: const Duration(milliseconds: 300),
                     switchInCurve: Curves.easeOutBack,
                     switchOutCurve: Curves.easeOutBack,
-                    transitionBuilder: (child, animation) {
-                      return ScaleTransition(
-                        scale: animation,
-                        child: child,
-                      );
-                    },
+                    transitionBuilder: (child, animation) => ScaleTransition(
+                      scale: animation,
+                      child: child,
+                    ),
                     child: widget.showSummary && hasAnyValidAnswer
                       ? FloatingActionButton.large(
                         elevation: 0,
