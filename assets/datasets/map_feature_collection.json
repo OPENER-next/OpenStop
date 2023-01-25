@@ -195,6 +195,13 @@
           "amenity": "parking"
         },
         "osm_element": ["Node", "ClosedWay"]
+      },
+      {
+        "osm_tags": {
+          "amenity": "parking",
+          "type": "multipolygon"
+        },
+        "osm_element": "Relation"
       }
     ]
   },
