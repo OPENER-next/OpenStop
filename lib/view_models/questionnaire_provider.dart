@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart' hide ProxyElement;
 
+import '/utils/debouncer.dart';
 import '/models/element_variants/base_element.dart';
 import '/models/questionnaire_store.dart';
 import '/models/question_catalog/question_definition.dart';
@@ -16,6 +17,10 @@ class QuestionnaireProvider extends ChangeNotifier {
   Questionnaire? _activeQuestionnaire;
 
   final Map<QuestionnaireEntry, AnswerController> _answerControllerMapping = {};
+
+  // used to throttle input changes
+
+  final _answerInputDebouncer = Debouncer(const Duration(milliseconds: 500));
 
   ProxyElement? get workingElement => _activeQuestionnaire?.workingElement;
 
@@ -163,10 +168,29 @@ class QuestionnaireProvider extends ChangeNotifier {
     }
   }
 
+
+  /// Updates the questionnaire with the current answer.
+  ///
+  /// Calling this repeatedly might be expensive, since a questionnaire update
+  /// will go through all questions and check whether they still match or start
+  /// matching.
+  ///
+  /// The questionnaire is still updated on "go to next/previous question" calls.
+
+  void _update() {
+    if (_activeQuestionnaire != null ) {
+      _updateQuestionnaireAnswer();
+      _updateAnswerControllers();
+      notifyListeners();
+    }
+  }
+
   /// Stores the answer of the current question in the questionnaire.
   /// This refreshes the questionnaire and may add new or remove obsolete questions.
 
   void _updateQuestionnaireAnswer() {
+    // cancel any queued callbacks
+    _answerInputDebouncer.cancel();
     final answerController = _answerControllerMapping[_activeQuestionnaire!.activeEntry];
     _activeQuestionnaire!.update(answerController!.answer);
   }
@@ -192,7 +216,7 @@ class QuestionnaireProvider extends ChangeNotifier {
         () => AnswerController.fromType(
           type: questionEntry.question.answer.runtimeType,
           initialAnswer: questionEntry.answer,
-        ),
+        )..addListener(_answerInputDebouncer.debounce(_update))
       );
     }
   }
@@ -200,6 +224,7 @@ class QuestionnaireProvider extends ChangeNotifier {
 
   @override
   void dispose() {
+    _answerInputDebouncer.cancel();
     // dispose all answer controllers
     _activeQuestionnaire = null;
     _updateAnswerControllers();
