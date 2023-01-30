@@ -17,6 +17,7 @@ import '/view_models/osm_elements_provider.dart';
 import '/view_models/preferences_provider.dart';
 import '/view_models/stop_areas_provider.dart';
 import '/utils/stream_utils.dart';
+import '/utils/geo_utils.dart';
 import '/commons/app_config.dart';
 import '/commons/tile_layers.dart';
 import '/utils/map_utils.dart';
@@ -403,12 +404,18 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
     final mediaQuery = MediaQuery.of(context);
     final mapController = context.read<MapController>();
 
+    // Build bounding box which is mirrored at the center point and extend the normal bbox by it.
+    // This adjusts the bbox so that the geometry center point is in the middle of the viewed bounding box
+    // while it ensures that the geometry is visible (within in the bounding box).
+    final bounds = element.geometry.bounds;
+    bounds.extendBounds(bounds.mirror(
+      element.geometry.center,
+    ));
+
     // move camera to element and include default sheet size as bottom padding
     mapController.animateToBounds(
       ticker: this,
-      // use bounds method because the normal move to doesn't support padding
-      // the benefit of this approach is, that it will always try to zoom in on the marker as much as possible
-      bounds: element.geometry.bounds,
+      bounds: bounds,
       // calculate padding based on question dialog max height
       padding: EdgeInsets.only(
         top: mediaQuery.padding.top,

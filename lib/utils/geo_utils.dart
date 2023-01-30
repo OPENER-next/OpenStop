@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong2/latlong.dart';
 
 /// Earth circumference in meters
@@ -16,4 +17,23 @@ double metersPerPixel(double latitude, double zoomLevel) {
 
 double pixelValue(double latitude, double meters, double zoomLevel) {
   return meters / metersPerPixel(latitude, zoomLevel);
+}
+
+/// Mirrors the underlying bbox at a given point in latitude and longitude.
+///
+/// Creates and returns a new [LatLngBounds].
+
+extension LatLngBoundsMirroring on LatLngBounds {
+  LatLngBounds mirror(LatLng point) {
+    final newNorthWest = LatLng(
+      point.latitude + point.latitude - northWest.latitude,
+      point.longitude + point.longitude - northWest.longitude,
+    );
+    final newSouthEast = LatLng(
+      point.latitude + point.latitude - southEast.latitude,
+      point.longitude + point.longitude - southEast.longitude,
+    );
+
+    return LatLngBounds(newNorthWest, newSouthEast);
+  }
 }
