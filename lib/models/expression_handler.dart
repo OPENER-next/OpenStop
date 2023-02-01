@@ -34,9 +34,9 @@ mixin ExpressionHandler {
   /// A name to function mapping for expressions.
 
   static const _expressionMapping = <String, Expression>{
-    'join': _join,
-    'concat': _concat,
-    'coalesce': _coalesce,
+    'JOIN': _join,
+    'CONCAT': _concat,
+    'COALESCE': _coalesce,
   };
 
   /// Substitutes any variables (marked by $) and then executes the given expression array.
