@@ -2,6 +2,14 @@
   {
     "name": "Bus-Haltestelle",
     "icon": "bus",
+    "label_template": [
+      "JOIN", "\n",
+        "$name",
+        [
+          "COUPLE",
+          "Steig: ", "$local_ref"
+        ]
+    ],
     "conditions": [
       {
         "osm_tags": {
@@ -25,6 +33,14 @@
   {
     "name": "Tram-Haltestelle",
     "icon": "tram",
+    "label_template": [
+      "JOIN", "\n",
+        "$name",
+        [
+          "COUPLE",
+          "Steig: ", "$local_ref"
+        ]
+    ],
     "conditions": [
       {
         "osm_tags": {
@@ -43,6 +59,14 @@
   {
     "name": "Bahnsteig",
     "icon": "train",
+    "label_template": [
+      "JOIN", "\n",
+        "$name",
+        [
+          "COUPLE",
+          "Gleis: ", "$local_ref"
+        ]
+    ],
     "conditions": [
       {
         "osm_tags": {
@@ -56,6 +80,7 @@
   {
     "name": "Plattform",
     "icon": "platform",
+    "label_template": ["$name"],
     "conditions": [
       {
         "osm_tags": {
@@ -68,6 +93,7 @@
   {
     "name": "Haltestellenmast",
     "icon": "pole",
+    "label_template": ["$name"],
     "conditions": [
       {
         "osm_tags": {
@@ -80,6 +106,7 @@
   {
     "name": "Station",
     "icon": "station",
+    "label_template": ["$name"],
     "conditions": [
       {
         "osm_tags": {
@@ -98,6 +125,11 @@
   {
     "name": "Fahrtkartenverkaufsstelle",
     "icon": "ticket_shop",
+    "label_template": [
+      "COUPLE",
+      ["COALESCE", "$operator:short", "$operator"],
+      " Fahrtkartenverkaufsstelle"
+    ],
     "conditions": [
       {
         "osm_tags": {
@@ -139,6 +171,11 @@
   {
     "name": "Fahrkartenautomat",
     "icon": "ticket_machine",
+    "label_template": [
+      "COUPLE",
+      ["COALESCE", "$operator:short", "$operator"],
+      " Fahrkartenautomat"
+    ],
     "conditions": [
       {
         "osm_tags": {
@@ -281,6 +318,7 @@
   },
   {
     "name": "Weg",
+    "label_template": ["$name"],
     "icon": "path",
     "conditions": [
       {
