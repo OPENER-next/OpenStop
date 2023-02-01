@@ -24,9 +24,8 @@ abstract class AnswerDefinition<T> {
           max: input['max'],
           placeholder: input['placeholder'],
         ),
-        constructor: AnswerConstructor(json['constructor'].map<String, List<String>>(
-          (key, value) => MapEntry<String, List<String>>(key, value.cast<String>()),
-        )),
+        constructor: AnswerConstructor(json['constructor']
+          .cast<String, List<dynamic>>()),
       );
       case 'Number': return NumberAnswerDefinition(
         input: NumberInputDefinition(
@@ -36,9 +35,8 @@ abstract class AnswerDefinition<T> {
           placeholder: input['placeholder'],
           unit: input['unit'],
         ),
-        constructor: AnswerConstructor(json['constructor'].map<String, List<String>>(
-          (key, value) => MapEntry<String, List<String>>(key, value.cast<String>()),
-        )),
+        constructor: AnswerConstructor(json['constructor']
+          .cast<String, List<dynamic>>()),
       );
       case 'Duration': return DurationAnswerDefinition(
         input: DurationInputDefinition(
@@ -48,9 +46,8 @@ abstract class AnswerDefinition<T> {
           minutesStepSize: input['unit_step']?['minutes'],
           secondsStepSize: input['unit_step']?['seconds'],
         ),
-        constructor: AnswerConstructor(json['constructor'].map<String, List<String>>(
-          (key, value) => MapEntry<String, List<String>>(key, value.cast<String>()),
-        )),
+        constructor: AnswerConstructor(json['constructor']
+          .cast<String, List<dynamic>>()),
       );
       case 'Bool': return BoolAnswerDefinition(
         input: input.map<BoolInputDefinition>((item) {
@@ -60,9 +57,7 @@ abstract class AnswerDefinition<T> {
           );
         }),
         constructor: json['constructor'] != null
-          ? AnswerConstructor(json['constructor'].map<String, List<String>>(
-            (key, value) => MapEntry<String, List<String>>(key, value.cast<String>()),
-          ))
+          ? AnswerConstructor(json['constructor'].cast<String, List<dynamic>>())
           : null,
       );
       case 'List': return ListAnswerDefinition(
@@ -75,9 +70,7 @@ abstract class AnswerDefinition<T> {
           );
         }),
         constructor: json['constructor'] != null
-          ? AnswerConstructor(json['constructor'].map<String, List<String>>(
-            (key, value) => MapEntry<String, List<String>>(key, value.cast<String>()),
-          ))
+          ? AnswerConstructor(json['constructor'].cast<String, List<dynamic>>())
           : null,
       );
       case 'MultiList': return MultiListAnswerDefinition(
@@ -90,9 +83,7 @@ abstract class AnswerDefinition<T> {
           );
         }),
         constructor: json['constructor'] != null
-          ? AnswerConstructor(json['constructor'].map<String, List<String>>(
-            (key, value) => MapEntry<String, List<String>>(key, value.cast<String>()),
-          ))
+          ? AnswerConstructor(json['constructor'].cast<String, List<dynamic>>())
           : null,
       );
       default:

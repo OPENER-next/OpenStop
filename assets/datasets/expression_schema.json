@@ -1,0 +1,15 @@
+{
+  "description": "An expression starting with an identifier and followed by parameters, which can be strings, variables or nested expressions.",
+  "type": "array",
+  "minItems": 1,
+  "items": {
+    "anyOf": [
+      {
+        "type": "string"
+      },
+      {
+        "$ref": "#"
+      }
+    ]
+  }
+}

@@ -269,4 +269,73 @@ void main() async {
       );
     }
   });
+
+
+  test('test expression nesting in constructor works correctly', () {
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': ['join',
+          ['concat', r'$input'],
+          r'$input'
+        ],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key1': 'aabcbabcc',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': ['join',
+          ['coalesce', r'$input'],
+          r'$input'
+        ],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key1': 'aabac',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': ['concat',
+          ['coalesce', r'$input'],
+          '-',
+          r'$input'
+        ],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key1': 'a-abc',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': ['concat',
+          ['join', ';', r'$input'],
+          '-',
+          r'$input'
+        ],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key1': 'a;b;c-abc',
+        })
+      );
+    }
+  });
 }

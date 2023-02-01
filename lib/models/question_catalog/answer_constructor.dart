@@ -1,9 +1,11 @@
+import '/models/expression_handler.dart';
+
 /// This class handles the OSM tags construction.
 ///
 /// It contains an OSM tag to expression mapping. The final OSM tags can be retrieved by calling the [construct] method.
 
-class AnswerConstructor {
-  final Map<String, List<String>> tagConstructorDef;
+class AnswerConstructor with ExpressionHandler {
+  final Map<String, List<dynamic>> tagConstructorDef;
 
   const AnswerConstructor(this.tagConstructorDef);
 
@@ -18,7 +20,7 @@ class AnswerConstructor {
     };
 
   /// Create the final OSM tags.
-  /// Input variables will be substituted with the values from the given [tagVariables] mapping.
+  /// Substitutes the `$input` variable with the respective values from the given [tagVariables] mapping.
   ///
   /// Tags with an expression that evaluates to `null` will **not** be written.
 
@@ -26,10 +28,14 @@ class AnswerConstructor {
     final map = <String, String>{};
 
     for (final entry in tagConstructorDef.entries) {
-      final result = _evaluateExpression(
-        tagVariables[entry.key] ?? const Iterable.empty(),
-        entry.value,
-      );
+      final result = evaluateExpression(entry.value, (varName) sync* {
+        if (varName == 'input') {
+          final values = tagVariables[entry.key];
+          if (values != null) {
+            yield* values;
+          }
+        }
+      });
       // write osm tag if the expression did not return null
       if (result != null) {
         map[entry.key] = result;
@@ -37,87 +43,4 @@ class AnswerConstructor {
     }
     return map;
   }
-
-  /// Substitutes the "$input" variable with the given variables and then executes the given expression array.
-
-  String? _evaluateExpression(Iterable<String> variables, List<String> rawExpression) {
-    if (rawExpression.isEmpty) {
-      throw const InvalidExpression('An expression list must not be empty.');
-    }
-
-    final mainParameter = rawExpression.first;
-    final Expression? expression;
-    final Iterable<String> parameters;
-
-    if (mainParameter.isEmpty) {
-      throw const InvalidExpression('The first expression parameter must not be empty.');
-    }
-    // shorthand for coalesce
-    if (mainParameter == r'$input') {
-      expression = _coalesce;
-      parameters = rawExpression;
-    }
-    else {
-      expression = expressionMapping[mainParameter];
-      parameters = rawExpression.skip(1);
-    }
-
-    if (expression != null) {
-      final substitutedParameters = _insertVariables(variables, parameters);
-      return expression(substitutedParameters);
-    }
-    throw UnsupportedError('The expression "$mainParameter" is not supported.');
-  }
-
-
-  Iterable<String> _insertVariables(Iterable<String> variables, Iterable<String> expressionParameters) {
-    return expressionParameters.expand<String>((arg) sync* {
-      if (arg == r'$input') {
-        yield* variables;
-      }
-      else {
-        yield arg;
-      }
-    });
-  }
-}
-
-
-/// Expressions must not throw an error.
-/// Instead they return a meaningfully result if possible or null.
-
-typedef Expression = String? Function(Iterable<String>);
-
-/// A name to function mapping for expressions.
-
-const expressionMapping = <String, Expression>{
-  'join': _join,
-  'concat': _concat,
-  'coalesce': _coalesce,
-};
-
-
-String? _join(Iterable<String> args) {
-  if (args.isEmpty) {
-    return null;
-  }
-  final delimiter = args.first;
-  final values = args.skip(1);
-  return values.isEmpty ? null : values.join(delimiter);
-}
-
-String? _concat(Iterable<String> args) {
-  return args.isEmpty ? null : args.join();
-}
-
-String? _coalesce(Iterable<String> args) {
-  return args.isEmpty ? null : args.first;
-}
-
-
-/// Indicates that an expression is malformed.
-
-class InvalidExpression implements Exception {
-  final String message;
-  const InvalidExpression(this.message);
 }
