@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Default {
   static const Color primary = Color(0xFFEC7C72);
 
-  // Foreground Selected (FloatingAction)Button / Background Account Image
+  // Foreground Selected (FloatingAction)Button / Account Background, Border, Text
   static Color onPrimaryLight = Colors.grey.shade100;
   static const Color onPrimaryDark = Color(0xFF002020);
 
@@ -15,20 +15,17 @@ class Default {
   static Color onPrimaryContainerLight = Colors.grey.shade900;
   static Color onPrimaryContainerDark = Colors.grey.shade50;
 
-  // toggleableActiveColor
-  static const Color secondary = Color(0xFFEC7C72);
+  // Mixed with Background Header Scaffold when scrolled / Transparent so no color change is visible
+  static const Color surfaceTint = Colors.transparent;
 
-  // Mixed with Background Header Scaffold when scrolled / Same as primary so no color change is visible
-  static const Color surfaceTint = Color(0xFFEC7C72);
-
-  // Background Header Scaffold // Background Elevated Button
+  // Background Header Scaffold / Background Body Drawer (default)
   static const Color surface = Color(0xFFEC7C72);
 
-  // Foreground Header Scaffold
-  static Color onSurfaceLight = Colors.grey.shade100;
-  static const Color onSurfaceDark = Color(0xFF002020);
+  // Foreground Header Scaffold / Foreground Body Scaffold / Foreground QuestionDialog (Text) / Foreground Body Drawer
+  //static Color onSurfaceLight = Colors.grey.shade100;
+  //static const Color onSurfaceDark = Color(0xFF002020);
 
-  // Background QuestionDialog
+  // Background Body Scaffold, Background QuestionDialog, Background Body Drawer, Background Map
   static Color backgroundLight = Colors.grey.shade100;
   static const Color backgroundDark = Color(0xFF002020);
 
@@ -38,6 +35,20 @@ class Default {
 
   // Shadow for Material Widgets (Zoom button, Loading indicator)
   static const shadow = Colors.black;
+
+  // Unselected Switch Track
+  static Color surfaceVariantLight = Colors.grey.shade300;
+  static Color surfaceVariantDark = Colors.grey.shade800;
+
+  // Suffix Icon Text Fields // Scaffold Back Button (Dark Theme only)
+  //static Color onSurfaceVariantLight = Colors.grey.shade600;
+  //static Color onSurfaceVariantDark = Colors.grey.shade100.withOpacity(0.6);
+
+  // Unselected Switch Outline
+  static Color outline = Colors.grey.shade500;
+
+  // Divider
+  static Color outlineVariant = Colors.grey.shade600.withOpacity(0.2);
 
   static const double borderRadius = 12.0;
   static const double padding = 12.0;
@@ -70,7 +81,6 @@ final ThemeData defaultTheme = ThemeData(
             borderRadius: BorderRadius.circular(Default.borderRadius),
           ),
           side: const BorderSide(
-              style: BorderStyle.solid,
               color: Default.primary
           )
       )
@@ -103,14 +113,16 @@ final ThemeData lightTheme = ThemeData(
       primaryContainer: Default.primaryContainerLight,
       onPrimaryContainer: Default.onPrimaryContainerLight,
       surface: Default.surface,
-      onSurface: Default.onSurfaceLight,
+      surfaceVariant: Default.surfaceVariantLight,
+      //onSurfaceVariant: Default.onSurfaceVariantLight,
       background: Default.backgroundLight,
       onBackground: Default.onBackgroundLight,
       tertiary: Colors.white,
       onTertiary: Colors.black,
       shadow: Default.shadow,
-      secondary: Default.secondary,
       surfaceTint: Default.surfaceTint,
+      outline: Default.outline,
+      outlineVariant: Default.outlineVariant,
   ),
   appBarTheme: defaultTheme.appBarTheme,
   floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
@@ -129,8 +141,6 @@ final ThemeData lightTheme = ThemeData(
   ),
   // To have the same background color for licenses as for every other scaffold
   cardColor: Default.backgroundLight,
-  // Background Body Drawer, Background Body Scaffold, Background Map
-  canvasColor: Default.backgroundLight
 );
 
 final ThemeData darkTheme = ThemeData(
@@ -141,14 +151,16 @@ final ThemeData darkTheme = ThemeData(
       primaryContainer: Default.primaryContainerDark,
       onPrimaryContainer: Default.onPrimaryContainerDark,
       surface: Default.surface,
-      onSurface: Default.onSurfaceDark,
+      surfaceVariant: Default.surfaceVariantDark,
+      //onSurfaceVariant: Default.onSurfaceVariantDark,
       background: Default.backgroundDark,
       onBackground: Default.onBackgroundDark,
       tertiary: Colors.black,
       onTertiary: Colors.white,
       shadow: Default.shadow,
-      secondary: Default.secondary,
       surfaceTint: Default.surfaceTint,
+      outline: Default.outline,
+      outlineVariant: Default.outlineVariant,
   ),
   appBarTheme: defaultTheme.appBarTheme,
   floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
@@ -165,8 +177,6 @@ final ThemeData darkTheme = ThemeData(
   snackBarTheme: defaultTheme.snackBarTheme,
   // To have the same background color for licenses as for every other scaffold
   cardColor: Default.backgroundDark,
-  // Background Body Drawer, Background Body Scaffold, Background Map
-  canvasColor: Default.backgroundDark
 );
 
 final ThemeData highContrastDarkTheme = ThemeData.dark().copyWith(
