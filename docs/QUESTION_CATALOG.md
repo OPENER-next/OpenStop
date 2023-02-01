@@ -145,7 +145,7 @@ Displays two options side by side and allows the selection of one of them.
       }
     ],
     // Can be omitted. In this case the constructor will be generated/derived from the selected input item.
-    // Generated constructor: "crossing:bell": ["coalesce", "$input"]
+    // Generated constructor: "crossing:bell": ["COALESCE", "$input"]
     // $input will contain the value of the corresponding key from the selected option.
     // If no corresponding key exists $input will be empty.
     "constructor": { }
@@ -188,11 +188,13 @@ The constructor is defined as a mapping of OSM keys to expressions, while an exp
 
 ```jsonc
 constructor: {
-  "my_tag": ["expression"]
+  "my_tag": ["EXPRESSION"]
 }
 ```
 
-Expressions are strucutred like this: `["expression", arg1, arg2, argN]`, while every argument hast to be a string.
+Expressions are structured like this: `["EXPRESSION", arg1, arg2, argN]`, while every argument hast to be a string.
+The first item of the array is the expression identifier and must be written in caps. Expressions can freely be nested in other expressions.
+
 There is a special `$input` variable which holds the **values** entered by the user via the input widget. Note that for some inputs like `MultiList` this might spread into multiple values.
 
 For `Number`, `Duration` and `String` inputs the `$input` variable will return the same value regardless of the tag/key it is used on.
@@ -200,52 +202,69 @@ For `Bool`, `List` and `MultiList` the `$input` variable has a separate value fo
 
 If an expression doesn't return a value, for example because all arguments are empty or invalid, the corresponding tag won't be written.
 
-#### `coalesce` expression (default)
+#### `COALESCE` expression (default)
 
-Coalesce takes the first value/argument and applies it to the tag/key.
+Takes the first value/argument and applies it to the tag/key.
 
-This is the default expression, which means it will be used when no expression is defined. Example: `"operator": ["$input"]` is equal to `"operator": ["coalesce", "$input"]`.
+This is the default expression, which means it will be used when no expression is defined. Example: `"operator": ["$input"]` is equal to `"operator": ["COALESCE", "$input"]`.
 
 **Examples:**
 - input: `[A,B,C]`
-constructor: `"operator": ["coalesce", "first", "$input", "last"]`
+constructor: `"operator": ["COALESCE", "first", "$input", "last"]`
 output: `operator=first`
 - input: `[A,B,C]`
-constructor: `"operator": ["coalesce", "$input"]`
+constructor: `"operator": ["COALESCE", "$input"]`
 output: `operator=a`
 
-#### `concat` expression
+#### `CONCAT` expression
 
-Concat concatenates all values/arguments to a single one and applies it to the tag/key.
+Concatenates all values/arguments to a single one and applies it to the tag/key.
 
 **Examples:**
 - input: `[A,B,C]`
-constructor: `"operator": ["concat", "first", "$input", "last"]`
+constructor: `"operator": ["CONCAT", "first", "$input", "last"]`
 output: `operator=firstABClast`
 - input: `[A,B,C]`
-constructor: `"operator": ["concat", "$input"]`
+constructor: `"operator": ["CONCAT", "$input"]`
 output: `operator=ABC`
 
-#### `join` expression
+#### `JOIN` expression
 
-Join concatenates all values/arguments to a single one with a given delimiter and applies it to the tag/key.
+Concatenates all values/arguments to a single one with a given delimiter and applies it to the tag/key.
 
 The first argument will be used as the delimiter string.
 
 **Examples:**
 - input: `[A,B,C]`
-constructor: `"operator": ["join", " | ", "first", "$input", "last"]`
+constructor: `"operator": ["JOIN", " | ", "first", "$input", "last"]`
 output: `operator=first | A | B | C | last`
 - input: `[A,B,C]`
-constructor: `"operator": ["join", ";", "$input"]`
+constructor: `"operator": ["JOIN", ";", "$input"]`
 output: `operator=A;B;C`
+
+#### `COUPLE` expression
+
+Concatenates exactly two values/arguments to a single value. In contrast to `CONCAT` this will return null if more or less arguments are given.
+
+This is useful for prefix and suffix strings which on their own don't make any sense.
+
+**Examples:**
+- input: `[A]`
+constructor: `"operator": ["COUPLE", "prefix_", "$input"]`
+output: `operator=prefix_A`
+- input: `[A]`
+constructor: `"operator": ["COUPLE", "$input", "_suffix"]`
+output: `operator=A_suffix`
+- input: `[]`
+constructor: `"operator": ["COUPLE", "$input", "_suffix"]`
+output: `operator=NULL`
 
 
 ### Answer examples
 
 #### Multiple values using the semi-colon value separator
 The example will write all selected values to the *cuisine* tag separated by semi-colon.
-**Explanation:** The `$input` variable will contain all selected values, which will be concatenated by the `join` expression.
+**Explanation:** The `$input` variable will contain all selected values, which will be concatenated by the `JOIN` expression.
 
 ```jsonc
 "answer": {
@@ -277,14 +296,14 @@ The example will write all selected values to the *cuisine* tag separated by sem
       }
     ],
     "constructor": {
-      "cuisine": ["join", ";", "$input"]
+      "cuisine": ["JOIN", ";", "$input"]
     }
 }
 ```
 
 #### Multiple values using multiple tags
 The example will write the three tags *bus*, *tram* & *train*. For unselected options the values will fallback to *no*.
-**Explanation:** The `$input` variable will be empty for unselected options. Because `coalesce` evaluates to the first value/argument it will output *no* in this case. If the fallback value is omitted then the expression will evaluate to `null` which means that the tag won't be written.
+**Explanation:** The `$input` variable will be empty for unselected options. Because `COALESCE` evaluates to the first value/argument it will output *no* in this case. If the fallback value is omitted then the expression will evaluate to `null` which means that the tag won't be written.
 ```jsonc
 "answer": {
     "type": "MultiList",
@@ -309,9 +328,9 @@ The example will write the three tags *bus*, *tram* & *train*. For unselected op
       }
     ],
     "constructor": {
-      "bus": ["coalesce", "$input", "no"],
-      "tram": ["coalesce", "$input", "no"],
-      "train": ["coalesce", "$input", "no"]
+      "bus": ["COALESCE", "$input", "no"],
+      "tram": ["COALESCE", "$input", "no"],
+      "train": ["COALESCE", "$input", "no"]
     }
 }
 ```
