@@ -21,8 +21,8 @@ class _HomeSidebarState extends State<HomeSidebar> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      width: min(MediaQuery.of(context).size.width * 0.65, 300),
-      child: Drawer(
+        width: min(MediaQuery.of(context).size.width * 0.65, 300),
+        backgroundColor: Theme.of(context).colorScheme.background,
         child: ListView(
           physics: const ClampingScrollPhysics(),
           padding: EdgeInsets.zero,
@@ -68,8 +68,7 @@ class _HomeSidebarState extends State<HomeSidebar> {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 
 
@@ -235,8 +234,8 @@ class UserAccountActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       style: IconButton.styleFrom(
-        foregroundColor: Theme.of(context).colorScheme.primary,
-        backgroundColor: Theme.of(context).colorScheme.onPrimary,
+        foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       icon: Icon(icon),
       onPressed: onTap,
