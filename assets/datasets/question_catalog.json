@@ -1177,30 +1177,30 @@
          "input": [
             {
                "name": "Anschlagtür",
-               "image": "assets/images/questions/2032a.jpg",
+               "image": "assets/images/questions/door_hinged.png",
                "osm_tags": {
                   "door": "hinged"
                }
             },
             {
-               "name": "Drehtür",
-               "image": "assets/images/questions/2032b.jpg",
+               "name": "Pendeltür",
+               "image": "assets/images/questions/door_swinging.png",
                "osm_tags": {
-                  "door": "revolving"
+                  "door": "swinging"
                }
             },
             {
                "name": "Schiebetür",
-               "image": "assets/images/questions/2032c.jpg",
+               "image": "assets/images/questions/door_sliding.png",
                "osm_tags": {
                   "door": "sliding"
                }
             },
             {
-               "name": "Pendeltür",
-               "image": "packages/nvbw_open_data/photos/2032d.jpg",
+               "name": "Drehtür",
+               "image": "assets/images/questions/door_revolving.png",
                "osm_tags": {
-                  "door": "swinging"
+                  "door": "revolving"
                }
             }
          ]
@@ -1296,9 +1296,6 @@
          "id": 2034,
          "name": "Durchgangsbreite",
          "text": "Wie breit ist der Durchgang?",
-         "image": [
-            "assets/images/questions/2034.jpg"
-         ],
          "description": "Die Durchgangsbreite wird erfasst, um sicherzustellen das Rollstühle, Kinderwagen etc. genug Platz haben. Es ist lediglich die nutzbare Türöffnung (Innenmaße der geöffneten Tür) zu messen."
       },
       "answer": {
