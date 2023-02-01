@@ -150,6 +150,8 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
               child: Image.asset(
                 widget.imagePath!,
                 fit: BoxFit.cover,
+                colorBlendMode: BlendMode.multiply,
+                color: Colors.grey.shade100.withOpacity(0.8),
                 height: 90,
                 frameBuilder: (context, child, _, __) {
                   return HeroViewer(
