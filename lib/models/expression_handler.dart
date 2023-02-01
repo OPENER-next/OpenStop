@@ -37,6 +37,7 @@ mixin ExpressionHandler {
     'JOIN': _join,
     'CONCAT': _concat,
     'COALESCE': _coalesce,
+    'COUPLE': _couple,
   };
 
   /// Substitutes any variables (marked by $) and then executes the given expression array.
@@ -109,6 +110,19 @@ String? _concat(Iterable<String> args) {
 
 String? _coalesce(Iterable<String> args) {
   return args.isEmpty ? null : args.first;
+}
+
+/// Concatenates exactly two values. If less or more values are given this returns null.
+
+String? _couple(Iterable<String> args) {
+  // manually iterate and count, since using length property is more expensive on the given iterable
+  var i = 0;
+  final buffer = StringBuffer();
+  for (final arg in args) {
+    buffer.write(arg);
+    i++;
+  }
+  return (i != 2) ? null : buffer.toString();
 }
 
 /// Indicates that an expression is malformed.
