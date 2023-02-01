@@ -206,15 +206,15 @@ class _MapLayerSwitcherState<T> extends State<MapLayerSwitcher<T>> with SingleTi
       child: FloatingActionButton.small(
         heroTag: null,
         child: _isActive
-            ? const Icon(
+          ? const Icon(
           Icons.layers_clear_rounded,
         )
-            : const Icon(
+          : const Icon(
           Icons.layers_rounded,
         ),
         onPressed: () {
           if (_controller.isDismissed) {
-            Overlay.of(context)?.insert(_overlayEntry);
+            Overlay.of(context).insert(_overlayEntry);
             _controller.forward();
           }
           else {
