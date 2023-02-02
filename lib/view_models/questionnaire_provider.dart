@@ -28,6 +28,10 @@ class QuestionnaireProvider extends ChangeNotifier {
 
   bool get hasQuestions => questionCount > 0;
 
+  bool get isOpen => _activeQuestionnaire != null;
+
+  bool get isClosed => _activeQuestionnaire == null;
+
   /// Whether all questions of the current questionnaire have been visited.
 
   bool get isFinished {
