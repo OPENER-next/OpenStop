@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 
 import '/models/answer.dart';
 import '/models/question_catalog/answer_definition.dart';
 import '/widgets/hero_viewer.dart';
-import '/commons/themes.dart';
 import 'question_input_widget.dart';
 
 class ListInput extends QuestionInputWidget<ListAnswerDefinition, ListAnswer> {
@@ -46,6 +44,7 @@ class ListInputItem extends StatefulWidget {
   final String label;
   final String? description;
   final String? imagePath;
+  final double imagePadding;
   final bool active;
   final VoidCallback onTap;
 
@@ -55,6 +54,7 @@ class ListInputItem extends StatefulWidget {
     this.active = false,
     this.description,
     this.imagePath,
+    this.imagePadding = 4.0,
     super.key,
   });
 
@@ -66,9 +66,6 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
   late final AnimationController _controller;
 
   late final CurvedAnimation _animation;
-
-  late final double _imagePadding = 4.0;
-  late final double _imageBorderRadius = max(Default.borderRadius - _imagePadding, 0);
 
   @override
   void initState() {
@@ -99,8 +96,12 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final buttonShape = theme.outlinedButtonTheme.style?.shape?.resolve({});
+    final innerBorderRadius = buttonShape is RoundedRectangleBorder
+        ? buttonShape.borderRadius.subtract(BorderRadius.circular(widget.imagePadding))
+        : null;
     return OutlinedButton(
-      clipBehavior: Clip.antiAlias,
       style: _toggleStyle(widget.active),
       onPressed: widget.onTap,
       child: Row(
@@ -153,12 +154,14 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
               // HeroViewer cannot be wrapped around since the returned error widget
               // represents a different widget wherefore the hero transition would fail.
               child: Padding(
-                padding: EdgeInsets.all(_imagePadding),
+                padding: EdgeInsets.fromLTRB(0, widget.imagePadding, widget.imagePadding, widget.imagePadding),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(_imageBorderRadius),
+                  borderRadius: innerBorderRadius,
                   child: Image.asset(
                     widget.imagePath!,
                     fit: BoxFit.cover,
+                    // Static background color for better visibility of illustrations
+                    // with transparency, especially in dark mode
                     colorBlendMode: BlendMode.dstOver,
                     color: Colors.grey.shade100,
                     height: 90,
