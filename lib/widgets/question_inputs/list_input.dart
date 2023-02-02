@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 import '/models/answer.dart';
 import '/models/question_catalog/answer_definition.dart';
 import '/widgets/hero_viewer.dart';
+import '/commons/themes.dart';
 import 'question_input_widget.dart';
 
 class ListInput extends QuestionInputWidget<ListAnswerDefinition, ListAnswer> {
@@ -64,6 +66,9 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
   late final AnimationController _controller;
 
   late final CurvedAnimation _animation;
+
+  late final double _imagePadding = 4.0;
+  late final double _imageBorderRadius = max(Default.borderRadius - _imagePadding, 0);
 
   @override
   void initState() {
@@ -147,25 +152,31 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
               flex: 2,
               // HeroViewer cannot be wrapped around since the returned error widget
               // represents a different widget wherefore the hero transition would fail.
-              child: Image.asset(
-                widget.imagePath!,
-                fit: BoxFit.cover,
-                colorBlendMode: BlendMode.multiply,
-                color: Colors.grey.shade100.withOpacity(0.8),
-                height: 90,
-                frameBuilder: (context, child, _, __) {
-                  return HeroViewer(
-                    child: child
-                  );
-                },
-                errorBuilder: (context, _, __) {
-                  // do not add a hero viewer to the error widget since enlarging this makes no sense
-                  return Image.asset(
-                    'assets/images/placeholder_image.png',
+              child: Padding(
+                padding: EdgeInsets.all(_imagePadding),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(_imageBorderRadius),
+                  child: Image.asset(
+                    widget.imagePath!,
                     fit: BoxFit.cover,
+                    colorBlendMode: BlendMode.dstOver,
+                    color: Colors.grey.shade100,
                     height: 90,
-                  );
-                },
+                    frameBuilder: (context, child, _, __) {
+                      return HeroViewer(
+                        child: child
+                      );
+                    },
+                    errorBuilder: (context, _, __) {
+                      // do not add a hero viewer to the error widget since enlarging this makes no sense
+                      return Image.asset(
+                        'assets/images/placeholder_image.png',
+                        fit: BoxFit.cover,
+                        height: 90,
+                      );
+                    },
+                  ),
+                ),
               ),
             ),
         ],
