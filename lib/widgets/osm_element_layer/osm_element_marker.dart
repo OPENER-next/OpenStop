@@ -99,7 +99,8 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
                             child: Text(widget.label,
                               softWrap: true,
                               maxLines: 2,
-                              style: const TextStyle(
+                              style: TextStyle(
+                                color: Colors.grey.shade900,
                                 fontSize: 16,
                                 overflow: TextOverflow.ellipsis,
                               ),

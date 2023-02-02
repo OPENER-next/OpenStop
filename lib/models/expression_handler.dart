@@ -4,7 +4,7 @@
 typedef SubstitutionCallback = Iterable<String> Function(String variableName);
 
 /// Expressions must not throw an error.
-/// Instead they return a meaningfully result if possible or null.
+/// Instead they return a meaningful result if possible or null.
 
 typedef Expression = String? Function(Iterable<String>);
 
@@ -12,7 +12,7 @@ typedef Expression = String? Function(Iterable<String>);
 /// A utility class that can be mixed in to get expression support wherever needed.
 ///
 /// Expressions are defined as an array where the first item is the expression identifier/name,
-/// while the other items are Strings or nested expressions (nested array) which will be passed
+/// while the other items are strings or nested expressions (nested array) which will be passed
 /// as arguments/parameters to the specific expression function.
 ///
 /// Expressions can also contain variables which are marked with a `$` symbol at the start.
@@ -20,9 +20,9 @@ typedef Expression = String? Function(Iterable<String>);
 ///
 /// Example:
 /// ```
-/// expression = ["join", "; ",
+/// expression = ["JOIN", "; ",
 ///   "Foo",
-///   ["concat", "$var", " unit"],
+///   ["CONCAT", "$var", " unit"],
 ///   "Bar"
 /// ]
 /// ```

@@ -209,7 +209,6 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
     final osmElement = marker.element;
     final mapFeature = context.watch<MapFeatureCollection>().getMatchingFeature(osmElement);
     final activeElement = context.watch<QuestionnaireProvider>().workingElement;
-    final hasNoActive = activeElement == null;
     final isActive = activeElement == osmElement;
 
     return ScaleTransition(

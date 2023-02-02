@@ -15,7 +15,7 @@ class MapFeature with ExpressionHandler {
 
   /// A expression that might reference OSM tags/keys via `$`.
   ///
-  /// Example: `["join", "\n", "$name", "$type"]`
+  /// Example: `["JOIN", "\n", "$name", "$type"]`
 
   final List<dynamic> labelTemplate;
 

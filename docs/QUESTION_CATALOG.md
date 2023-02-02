@@ -214,7 +214,7 @@ constructor: `"operator": ["COALESCE", "first", "$input", "last"]`
 output: `operator=first`
 - input: `[A,B,C]`
 constructor: `"operator": ["COALESCE", "$input"]`
-output: `operator=a`
+output: `operator=A`
 
 #### `CONCAT` expression
 
