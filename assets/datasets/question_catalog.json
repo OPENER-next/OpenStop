@@ -801,7 +801,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "height": ["concat", "$input", " cm"]
+            "height": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -839,7 +839,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "width": ["concat", "$input", " cm"]
+            "width": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -984,7 +984,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "wheelchair:portable_ramp:length": ["concat", "$input", " cm"]
+            "wheelchair:portable_ramp:length": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -1013,7 +1013,7 @@
             "unit": "Kilogramm"
          },
          "constructor": {
-            "wheelchair:portable_ramp:maxweight": ["concat", "$input", " kg"]
+            "wheelchair:portable_ramp:maxweight": ["CONCAT", "$input", " kg"]
          }
       },
       "conditions": [
@@ -1081,7 +1081,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "wheelchair:portable_lift:length": ["concat", "$input", " cm"]
+            "wheelchair:portable_lift:length": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -1113,7 +1113,7 @@
             "unit": "Kilogramm"
          },
          "constructor": {
-            "wheelchair:portable_lift:maxweight": ["concat", "$input", " kg"]
+            "wheelchair:portable_lift:maxweight": ["CONCAT", "$input", " kg"]
          }
       },
       "conditions": [
@@ -1308,7 +1308,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "width": ["concat", "$input", " cm"]
+            "width": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -1494,7 +1494,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "maxwidth:physical": ["concat", "$input", " cm"]
+            "maxwidth:physical": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -1531,7 +1531,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "opening": ["concat", "$input", " cm"]
+            "opening": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -1568,7 +1568,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "spacing": ["concat", "$input", " cm"]
+            "spacing": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -1639,7 +1639,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "wheelchair:lift:length": ["concat", "$input", " cm"]
+            "wheelchair:lift:length": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -1671,7 +1671,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "length": ["concat", "$input", " cm"]
+            "length": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -1704,7 +1704,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "wheelchair:lift:width": ["concat", "$input", " cm"]
+            "wheelchair:lift:width": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -1736,7 +1736,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "width": ["concat", "$input", " cm"]
+            "width": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -1828,7 +1828,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "step:height": ["concat", "$input", " cm"]
+            "step:height": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [

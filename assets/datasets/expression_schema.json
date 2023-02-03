@@ -1,0 +1,29 @@
+{
+  "description": "An expression starting with an identifier and followed by parameters, which can be strings, variables or nested expressions.",
+  "type": "array",
+  "minItems": 1,
+  "prefixItems": [
+    {
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": ["COALESCE", "JOIN", "CONCAT", "COUPLE"]
+        },
+        {
+          "type": "string",
+          "pattern": "^\\$.+$"
+        }
+      ]
+    }
+  ],
+  "items": {
+    "anyOf": [
+      {
+        "type": "string"
+      },
+      {
+        "$ref": "#"
+      }
+    ]
+  }
+}

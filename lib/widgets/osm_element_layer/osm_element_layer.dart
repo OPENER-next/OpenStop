@@ -121,43 +121,32 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 
         if (_supercluster != null) {
           final clusters =_supercluster!.search(-180, -85, 180, 85, zoomLevel);
+          var activeMarkerFound = false;
 
           for (final cluster in clusters) {
-            if (cluster is ImmutableLayerCluster<ProcessedElement>) {
-              final elements = (cluster.clusterData as _ClusterLeafs).elements;
+            final elements = _elementsFromCluster(cluster).iterator;
 
-              var hasMarker = false;
-              // skip first point since it might be build as a marker
-              for (final element in elements.skip(1)) {
-                // if this cluster contains the currently selected marker use this as the marker for this cluster
-                if (!hasMarker && questionnaireProvider.workingElement == element) {
+            if (questionnaireProvider.isOpen) {
+              while(!activeMarkerFound && elements.moveNext()) {
+                if (questionnaireProvider.workingElement == elements.current) {
                   visibleMarkers.add(
-                    _createMarker(element)
+                    _createMarker(elements.current)
                   );
-                  hasMarker = true;
+                  activeMarkerFound = true;
                 }
                 else {
-                  suppressedMarkers.add(_createMinimizedMarker(element));
+                  suppressedMarkers.add(_createMinimizedMarker(elements.current));
                 }
               }
-              // if this cluster is represented by the currently selected element
-              // create minimized marker for the first cluster marker
-              if (hasMarker) {
-                suppressedMarkers.add(
-                  _createMinimizedMarker(elements.first)
-                );
-              }
-              // else always show the first element as a marker and not placeholder
-              else {
-                visibleMarkers.add(
-                  _createMarker(elements.first)
-                );
-              }
             }
-            else if (cluster is ImmutableLayerPoint<ProcessedElement>) {
+            else {
+              // always show the first element as a marker and not placeholder
               visibleMarkers.add(
-                _createMarker(cluster.originalPoint)
+                _createMarker((elements..moveNext()).current)
               );
+            }
+            while(elements.moveNext()) {
+              suppressedMarkers.add(_createMinimizedMarker(elements.current));
             }
           }
         }
@@ -185,6 +174,16 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
   }
 
 
+  Iterable<ProcessedElement> _elementsFromCluster(cluster) sync* {
+    if (cluster is ImmutableLayerCluster<ProcessedElement>) {
+      yield* (cluster.clusterData as _ClusterLeafs).elements;
+    }
+    else if (cluster is ImmutableLayerPoint<ProcessedElement>) {
+      yield cluster.originalPoint;
+    }
+  }
+
+
   Duration _getRandomDelay([int? seed]) {
     if (widget.durationOffsetRange.inMicroseconds == 0) {
       return Duration.zero;
@@ -200,7 +199,6 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
     return _OsmElementMarker(
       element: element,
       animateInDelay: _getRandomDelay(seed),
-      animateOutDelay: _getRandomDelay(seed),
       builder: _markerBuilder
     );
   }
@@ -211,7 +209,6 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
     final osmElement = marker.element;
     final mapFeature = context.watch<MapFeatureCollection>().getMatchingFeature(osmElement);
     final activeElement = context.watch<QuestionnaireProvider>().workingElement;
-    final hasNoActive = activeElement == null;
     final isActive = activeElement == osmElement;
 
     return ScaleTransition(
@@ -220,8 +217,9 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       filterQuality: FilterQuality.low,
       child: OsmElementMarker(
         onTap: () => widget.onOsmElementTap?.call(marker.element),
-        backgroundColor: isActive || hasNoActive ? null : Colors.grey,
-        icon: mapFeature?.icon ?? MdiIcons.help
+        active: isActive,
+        icon: mapFeature?.icon ?? MdiIcons.help,
+        label: mapFeature?.labelByElement(osmElement) ?? mapFeature?.name ?? '',
       )
     );
   }
@@ -239,7 +237,6 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       animateInDuration: const Duration(milliseconds: 300),
       animateOutDuration: const Duration(milliseconds: 300),
       // supply id as seed so we get the same delay for both marker types
-      animateInDelay: _getRandomDelay(element.id),
       animateOutDelay: _getRandomDelay(element.id),
       builder: _minimizedMarkerBuilder
     );
@@ -270,14 +267,13 @@ class _OsmElementMarker extends AnimatedMarker {
   _OsmElementMarker({
     required this.element,
     required super.builder,
-    required super.animateInDelay,
-    required super.animateOutDelay,
+    super.animateInDelay,
   }) : super(
-    // use geo element as key, because osm element equality changes whenever its tags or version change
-    // while geo elements only compare the OSM element type and id
+    // use processed element as key
+    // its equality doesn't change when its tags or version changes
     key: ValueKey(element),
     point: element.geometry.center,
-    size: const Size.square(60),
+    size: const Size(260, 60),
     anchor: Alignment.bottomCenter,
     animateInCurve: Curves.elasticOut,
     animateOutCurve: Curves.easeOutBack,
