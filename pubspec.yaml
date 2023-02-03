@@ -36,7 +36,7 @@ dependencies:
   dio: ^4.0.0
   provider: ^6.0.1
   shared_preferences: ^2.0.7
-  flutter_secure_storage: ^6.0.0
+  flutter_secure_storage: ^7.0.1
   url_launcher: ^6.0.17
   flutter_web_auth: ^0.5.0
   material_design_icons_flutter: ^6.0.7096
@@ -47,7 +47,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.10.0
+  flutter_launcher_icons: ^0.11.0
   flutter_lints: ^2.0.0
   nock: ^1.2.1
   build_runner: ^2.1.7

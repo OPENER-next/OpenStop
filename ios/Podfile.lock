@@ -46,7 +46,7 @@ SPEC CHECKSUMS:
   flutter_web_auth: c25208760459cec375a3c39f6a8759165ca0fa4d
   geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
   shared_preferences_foundation: 297b3ebca31b34ec92be11acd7fb0ba932c822ca
-  url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
+  url_launcher_ios: ae1517e5e344f5544fb090b079e11f399dfbe4d2
 
 PODFILE CHECKSUM: 642e1262a59f7238a9b65ccfac5b00f35ff92053
 
