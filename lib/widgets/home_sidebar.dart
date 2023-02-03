@@ -24,6 +24,7 @@ class _HomeSidebarState extends State<HomeSidebar> {
       width: min(MediaQuery.of(context).size.width * 0.65, 300),
       child: Drawer(
         child: ListView(
+          physics: const ClampingScrollPhysics(),
           padding: EdgeInsets.zero,
           children: <Widget>[
             ColoredBox(
