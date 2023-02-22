@@ -3,7 +3,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import '/commons/custom_icons.dart';
 import '/models/element_variants/base_element.dart';
-import '/models/osm_condition.dart';
+import '/models/element_coniditions/element_condition.dart';
 import '/models/expression_handler.dart';
 
 /// A map feature defines how certain elements will be represented and described.
@@ -19,7 +19,7 @@ class MapFeature with ExpressionHandler {
 
   final List<dynamic> labelTemplate;
 
-  final List<OsmCondition> conditions;
+  final List<ElementCondition> conditions;
 
   const MapFeature({
     required this.name,
@@ -35,7 +35,7 @@ class MapFeature with ExpressionHandler {
       labelTemplate: json['label_template'] ?? [],
       conditions: json['conditions']
         ?.cast<Map<String, dynamic>>()
-        .map<OsmCondition>(OsmCondition.fromJSON)
+        .map<ElementCondition>(ElementCondition.fromJSON)
         .toList(growable: false) ?? [],
     );
   }
