@@ -374,11 +374,11 @@ When defining conditions it is important to ensure that **every answer invalidat
 }
 ```
 
-Multiple conditions can be defined per questions, while at least one of them must be met in order to ask the question. A condition itself consists of 4 main properties: `osm_tags`, `osm_element`, `child` and `parent`.
+Multiple conditions can be defined per questions, while at least one of them must be met in order to ask the question. A condition itself consists of 8 main properties: `osm_tags`, `osm_element`, `child`, `parent` and respective negated variants using the `!` prefix.
 
 ### `osm_tags` condition
 
-In its simplest form this defines a set of tags (key value pairs) that must apply to an OSM element in order to evaluate the condition to true.
+In its simplest form this defines a set of tags (key value pairs) that must apply to an OSM element in order to evaluate the condition to true. The negated variant `!osm_tags` basically means "match any element that doesn't have these tags".
 
 ```jsonc
 "osm_tags": {
@@ -421,7 +421,7 @@ Currently setting regex flags is not supported. All of them are turned off excep
 
 ### `osm_element` condition
 
-This defines the element type or types the element must have in order to evaluate the condition to true.
+This defines the element type or types the element must have in order to evaluate the condition to true. The negated variant `!osm_element` basically means "match any element that is not one of the given types".
 
 Possible types are: `Node`, `OpenWay`, `ClosedWay` and `Relation`
 
@@ -429,7 +429,7 @@ In contrast to the standard OSM element types, way is split into two sub-types t
 
 ### `child` condition
 
-This defines an array of nested conditions. An element must have at least one child element which in turn matches at least one of the inner conditions in order to evaluate the outer condition to true.
+This defines an array of nested conditions. An element must have at least one child element which in turn matches at least one of the inner conditions in order to evaluate the outer condition to true. The negated variant `!child` basically means "match any element that doesn't have a child which matches the nested conditions".
 
 Note that this condition field does not make sense for every OSM element:
 - *Nodes* cannot have children.
@@ -463,7 +463,7 @@ The example below matches all buildings (in this form only those defined as a wa
 
 *This is the inverted functionality of the child property and basically works identical.*
 
-Defines an array of nested conditions. An element must have at least one parent element which in turn matches at least one of the inner conditions in order to evaluate the outer condition to true.
+Defines an array of nested conditions. An element must have at least one parent element which in turn matches at least one of the inner conditions in order to evaluate the outer condition to true. The negated variant `!parent` basically means "match any element that doesn't have a parent which matches the nested conditions".
 
 While every element can have a parent element, not any element can serve as a parent element:
 - *Nodes* cannot be a parent element.
