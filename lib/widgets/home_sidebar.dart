@@ -27,7 +27,6 @@ class _HomeSidebarState extends State<HomeSidebar> {
         child: ListView(
           physics: const ClampingScrollPhysics(),
           padding: EdgeInsets.zero,
-          physics: const ClampingScrollPhysics(),
           children: <Widget>[
             ColoredBox(
               color: Theme.of(context).colorScheme.primary,
