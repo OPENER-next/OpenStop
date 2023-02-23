@@ -56,7 +56,7 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
           child: AnimatedBuilder(
             animation: _animation,
             builder: (_, __) => MarkerBubble(
-              shadowColor: Theme.of(context).colorScheme.shadow,
+              shadowColor: Theme.of(context).colorScheme.shadow.withOpacity(0.4),
               elevation: _animation.value * 2,
               child: Padding(
                 padding: const EdgeInsets.all(3),

@@ -122,10 +122,10 @@ class UserAccountHeader extends StatelessWidget {
     this.imageUrl,
     this.onLogoutTap,
     this.onProfileTap,
-    this.profilePictureSize = 100,
+    this.profilePictureSize = 110,
     this.borderWidth = 4,
     this.borderRadius = 12,
-    this.buttonOffset = const Offset(20, 20),
+    this.buttonOffset = const Offset(10, 10),
     Key? key,
   }) : super(key: key);
 
@@ -135,80 +135,95 @@ class UserAccountHeader extends StatelessWidget {
     final totalSize = profilePictureSize + 2 * borderWidth;
 
     return Container(
-      width: double.infinity,
-      padding: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top + 15,
-        left: 10,
-        right: 10,
-        bottom: 15
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: buttonOffset.dy + totalSize,
-            // double the offset value, because the image is (top) centered
-            // therefore the surrounding box needs to be extended equally left and right
-            width: 2 * buttonOffset.dx + totalSize,
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: IconButton(
-                    style: IconButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        width: double.infinity,
+        padding: EdgeInsets.only(
+            top: MediaQuery.of(context).padding.top + 15,
+            left: 10,
+            right: 10,
+            bottom: 15
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+                height: buttonOffset.dy + totalSize,
+                // double the offset value, because the image is (top) centered
+                // therefore the surrounding box needs to be extended equally left and right
+                width: 2 * buttonOffset.dx + totalSize,
+                child: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primaryContainer,
+                          borderRadius: BorderRadius.circular(borderRadius + borderWidth),
+                        ),
+                        clipBehavior: Clip.antiAlias,
+                        child: imageUrl == null
+                          ? UserAccountImagePlaceholder(
+                            size: profilePictureSize,
+                          )
+                          : FadeInImage.memoryNetwork(
+                            placeholder: _transparentImage,
+                            image: imageUrl!,
+                            fit: BoxFit.cover,
+                            width: profilePictureSize,
+                            height: profilePictureSize,
+                            fadeInDuration: const Duration(milliseconds: 300),
+                            imageCacheWidth: profilePictureSize.toInt(),
+                            imageCacheHeight: profilePictureSize.toInt(),
+                            imageErrorBuilder:(context, error, stackTrace) {
+                              return UserAccountImagePlaceholder(
+                                size: profilePictureSize,
+                              );
+                          },
+                        ),
+                      ),
                     ),
-                    onPressed: onProfileTap,
-                    icon: imageUrl == null
-                      ? UserAccountImagePlaceholder(
-                        size: profilePictureSize,
-                      )
-                      : Ink.image(
-                      width: profilePictureSize,
-                      height: profilePictureSize,
-                        image:FadeInImage.memoryNetwork(
-                          placeholder: _transparentImage,
-                          image: imageUrl!,
-                          fit: BoxFit.cover,
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Container(
                           width: profilePictureSize,
                           height: profilePictureSize,
-                          fadeInDuration: const Duration(milliseconds: 300),
-                          imageCacheWidth: profilePictureSize.toInt(),
-                          imageCacheHeight: profilePictureSize.toInt(),
-                          imageErrorBuilder:(context, error, stackTrace) {
-                            return UserAccountImagePlaceholder(
-                              size: profilePictureSize,
-                            );
-                          },
-                        ).image,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(borderRadius + borderWidth),
+                            border: Border.all(width: borderWidth, color: theme.colorScheme.primaryContainer),
+                          ),
+                          child: Material(
+                              type: MaterialType.transparency,
+                              borderRadius: BorderRadius.circular(borderRadius),
+                              clipBehavior: Clip.antiAlias,
+                              child: InkWell(
+                                onTap: onProfileTap,
+                              )
+                          )
                       ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: UserAccountActionButton(
-                    onTap: onLogoutTap,
-                    icon: Icons.logout_rounded,
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: UserAccountActionButton(
+                        onTap: onLogoutTap,
+                        icon: Icons.logout_rounded,
+                      ),
+                    )
+                  ],
+                )
+            ),
+            Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Text(
+                  name,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: theme.colorScheme.onPrimary
                   ),
                 )
-              ],
-            )
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Text(
-              name,
-              maxLines: 2,
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: theme.colorScheme.onPrimary
-              )
-            )
-          )
-        ]
-      )
+            ),
+          ],
+        )
     );
   }
 }
@@ -261,6 +276,7 @@ class UserAccountImagePlaceholder extends StatelessWidget {
       child: Icon(
         Icons.person,
         size: size/2,
+        color: Theme.of(context).colorScheme.onPrimaryContainer.withOpacity(0.4),
       ),
     );
   }
