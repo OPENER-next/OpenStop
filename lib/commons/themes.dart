@@ -4,8 +4,7 @@ class Default {
   static const Color primary = Color(0xFFEC7C72);
 
   // Foreground Selected (FloatingAction)Button / Account Background, Border, Text
-  static Color onPrimaryLight = Colors.grey.shade100;
-  static const Color onPrimaryDark = Color(0xFF002020);
+  static Color onPrimary = Colors.grey.shade100;
 
   // Background Unselected FloatingActionButton
   static Color primaryContainerLight = Colors.grey.shade100;
@@ -20,10 +19,6 @@ class Default {
 
   // Background Header Scaffold / Background Body Drawer (default)
   static const Color surface = Color(0xFFEC7C72);
-
-  // Foreground Header Scaffold / Foreground Body Scaffold / Foreground QuestionDialog (Text) / Foreground Body Drawer
-  //static Color onSurfaceLight = Colors.grey.shade100;
-  //static const Color onSurfaceDark = Color(0xFF002020);
 
   // Background Body Scaffold, Background QuestionDialog, Background Body Drawer, Background Map
   static Color backgroundLight = Colors.grey.shade100;
@@ -40,10 +35,6 @@ class Default {
   static Color surfaceVariantLight = Colors.grey.shade300;
   static Color surfaceVariantDark = Colors.grey.shade800;
 
-  // Suffix Icon Text Fields // Scaffold Back Button (Dark Theme only)
-  //static Color onSurfaceVariantLight = Colors.grey.shade600;
-  //static Color onSurfaceVariantDark = Colors.grey.shade100.withOpacity(0.6);
-
   // Unselected Switch Outline
   static Color outline = Colors.grey.shade500;
 
@@ -58,9 +49,10 @@ class Default {
 // Default theme for all common theme settings
 final ThemeData defaultTheme = ThemeData(
   useMaterial3: true,
-  appBarTheme: const AppBarTheme(
+  appBarTheme: AppBarTheme(
       elevation: Default.elevation,
       shadowColor: Default.shadow,
+      foregroundColor: Default.onPrimary
   ),
   floatingActionButtonTheme: FloatingActionButtonThemeData(
       smallSizeConstraints: BoxConstraints.tight(const Size.square(48)),
@@ -84,6 +76,14 @@ final ThemeData defaultTheme = ThemeData(
               color: Default.primary
           )
       )
+  ),
+  iconButtonTheme: IconButtonThemeData(
+    style: ButtonStyle(
+      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(Default.borderRadius),
+        )
+      )
+    )
   ),
   inputDecorationTheme: const InputDecorationTheme(
       contentPadding: EdgeInsets.symmetric(horizontal: Default.padding),
@@ -109,12 +109,11 @@ final ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   colorScheme: ThemeData.light().colorScheme.copyWith(
       primary: Default.primary,
-      onPrimary: Default.onPrimaryLight,
+      onPrimary: Default.onPrimary,
       primaryContainer: Default.primaryContainerLight,
       onPrimaryContainer: Default.onPrimaryContainerLight,
       surface: Default.surface,
       surfaceVariant: Default.surfaceVariantLight,
-      //onSurfaceVariant: Default.onSurfaceVariantLight,
       background: Default.backgroundLight,
       onBackground: Default.onBackgroundLight,
       tertiary: Colors.white,
@@ -126,8 +125,8 @@ final ThemeData lightTheme = ThemeData(
   ),
   appBarTheme: defaultTheme.appBarTheme,
   floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
-  elevatedButtonTheme: defaultTheme.elevatedButtonTheme,
   outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
+  iconButtonTheme: defaultTheme.iconButtonTheme,
   inputDecorationTheme: defaultTheme.inputDecorationTheme.copyWith(
       border: defaultTheme.inputDecorationTheme.border!,
       enabledBorder: defaultTheme.inputDecorationTheme.border!.copyWith(
@@ -147,12 +146,11 @@ final ThemeData darkTheme = ThemeData(
   useMaterial3: true,
   colorScheme: ThemeData.dark().colorScheme.copyWith(
       primary: Default.primary,
-      onPrimary: Default.onPrimaryDark,
+      onPrimary: Default.onPrimary,
       primaryContainer: Default.primaryContainerDark,
       onPrimaryContainer: Default.onPrimaryContainerDark,
       surface: Default.surface,
       surfaceVariant: Default.surfaceVariantDark,
-      //onSurfaceVariant: Default.onSurfaceVariantDark,
       background: Default.backgroundDark,
       onBackground: Default.onBackgroundDark,
       tertiary: Colors.black,
@@ -164,8 +162,8 @@ final ThemeData darkTheme = ThemeData(
   ),
   appBarTheme: defaultTheme.appBarTheme,
   floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
-  elevatedButtonTheme: defaultTheme.elevatedButtonTheme,
   outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
+  iconButtonTheme: defaultTheme.iconButtonTheme,
   inputDecorationTheme: defaultTheme.inputDecorationTheme.copyWith(
       border: defaultTheme.inputDecorationTheme.border!,
       enabledBorder: defaultTheme.inputDecorationTheme.border!.copyWith(
@@ -182,15 +180,15 @@ final ThemeData darkTheme = ThemeData(
 final ThemeData highContrastDarkTheme = ThemeData.dark().copyWith(
   colorScheme: const ColorScheme.highContrastDark(),
   floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
-  elevatedButtonTheme: defaultTheme.elevatedButtonTheme,
   outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
+  iconButtonTheme: defaultTheme.iconButtonTheme,
   inputDecorationTheme: defaultTheme.inputDecorationTheme
 );
 
 final ThemeData highContrastLightTheme = ThemeData.light().copyWith(
   colorScheme: const ColorScheme.highContrastLight(),
   floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
-  elevatedButtonTheme: defaultTheme.elevatedButtonTheme,
   outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
+  iconButtonTheme: defaultTheme.iconButtonTheme,
   inputDecorationTheme: defaultTheme.inputDecorationTheme
 );
