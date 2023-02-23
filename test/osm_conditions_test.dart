@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:open_stop/models/element_coniditions/sub_condition_matcher.dart';
 import 'package:open_stop/models/element_variants/base_element.dart';
-import 'package:open_stop/models/osm_condition.dart';
 import 'package:osm_api/osm_api.dart';
 
 void main() async {
@@ -13,99 +13,77 @@ void main() async {
 
   test('test if the tag conditions matches the pre-defined element', () {
     {
-      const cond = OsmCondition(
-        osmTags: {
-          'foo': 'bar',
-        },
-      );
+      final cond = TagsSubCondition.fromJson({
+        'foo': 'bar',
+      });
       expect(cond.matches(ele), isTrue);
     }
 
     {
-      const cond = OsmCondition(
-        osmTags: {
-          'foo': true,
-        },
-      );
+      final cond = TagsSubCondition.fromJson({
+        'foo': true,
+      });
       expect(cond.matches(ele), isTrue);
     }
     {
-      const cond = OsmCondition(
-        osmTags: {
-          'foo': [ 'value2', 'value3', true ],
-        },
-      );
+      final cond = TagsSubCondition.fromJson({
+        'foo': [ 'value2', 'value3', true ],
+      });
       expect(cond.matches(ele), isTrue);
     }
 
     {
-      const cond = OsmCondition(
-        osmTags: {
-          'test': false,
-        },
-      );
+      final cond = TagsSubCondition.fromJson({
+        'test': false,
+      });
       expect(cond.matches(ele), isTrue);
     }
     {
-      const cond = OsmCondition(
-        osmTags: {
-          'test': [ 'value2', 'value3', false ],
-        },
-      );
+      final cond = TagsSubCondition.fromJson({
+        'test': [ 'value2', 'value3', false ],
+      });
       expect(cond.matches(ele), isTrue);
     }
 
     {
-      const cond = OsmCondition(
-        osmTags: {
-          'foo': false,
-        },
-      );
+      final cond = TagsSubCondition.fromJson({
+        'foo': false,
+      });
       expect(cond.matches(ele), isFalse);
     }
     {
-      const cond = OsmCondition(
-        osmTags: {
-          'foo': [ 'value2', 'value3', false ],
-        },
-      );
+      final cond = TagsSubCondition.fromJson({
+        'foo': [ 'value2', 'value3', false ],
+      });
       expect(cond.matches(ele), isFalse);
     }
 
     {
-      const cond = OsmCondition(
-        osmTags: {
-          'foo': [ 'value2', 'value3', 'bar' ],
-        },
-      );
+      final cond = TagsSubCondition.fromJson({
+        'foo': [ 'value2', 'value3', 'bar' ],
+      });
       expect(cond.matches(ele), isTrue);
     }
 
     {
-      final cond = OsmCondition(
-        osmTags: {
-          'foo': RegExp(r'^b.*r$'),
-        },
-      );
+      final cond = TagsSubCondition.fromJson({
+        'foo': r'/^b.*r$/',
+      });
       expect(cond.matches(ele), isTrue);
     }
     {
-      final cond = OsmCondition(
-        osmTags: {
-          'foo': [ 'value2', 'value3', RegExp(r'^b.*r$') ],
-        },
-      );
+      final cond = TagsSubCondition.fromJson({
+        'foo': [ 'value2', 'value3', r'/^b.*r$/' ],
+      });
       expect(cond.matches(ele), isTrue);
     }
 
     {
-      final cond = OsmCondition(
-        osmTags: {
-          'foo': [ 'value2', 'value3', RegExp(r'^b.*r$') ],
-          'bla': [ 'test', true ],
-          'test': false,
-        },
-      );
+      final cond = TagsSubCondition.fromJson({
+        'foo': [ 'value2', 'value3', r'/^b.*r$/' ],
+        'bla': [ 'test', true ],
+        'test': false,
+      });
       expect(cond.matches(ele), isTrue);
     }
   });
