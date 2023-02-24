@@ -414,7 +414,14 @@
             "osm_tags": {
                "public_transport": "platform",
                "bench": false
-            }
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
          }
       ]
    },
@@ -450,7 +457,14 @@
             "osm_tags": {
                "public_transport": "platform",
                "shelter": false
-            }
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
          }
       ]
    },
@@ -573,7 +587,14 @@
             "osm_tags": {
                "public_transport": "platform",
                "passenger_information_display": false
-            }
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
          }
       ]
    },
@@ -608,7 +629,14 @@
                "public_transport": "platform",
                "passenger_information_display": "yes",
                "passenger_information_display:speech_output": false
-            }
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
          }
       ]
    },
@@ -644,7 +672,14 @@
                "public_transport": "platform",
                "train": "yes",
                "announcement": false
-            }
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
          }
       ]
    },
@@ -686,7 +721,14 @@
             "osm_tags": {
                "public_transport": "platform",
                "announcement": "yes"
-            }
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
          }
       ]
    },
@@ -723,6 +765,13 @@
             "osm_element": [
                "OpenWay",
                "ClosedWay"
+            ],
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
             ]
          },
          {
@@ -735,6 +784,13 @@
             "osm_element": [
                "OpenWay",
                "ClosedWay"
+            ],
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
             ]
          }
       ]
@@ -780,6 +836,13 @@
             "osm_element": [
                "OpenWay",
                "ClosedWay"
+            ],
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
             ]
          }
       ]
@@ -886,7 +949,14 @@
                   "yes"
                ],
                "kerb:approach_aid": false
-            }
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
          }
       ]
    },
@@ -963,7 +1033,14 @@
                "public_transport": "platform",
                "train": "yes",
                "wheelchair:portable_ramp": false
-            }
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
          }
       ]
    },
@@ -1057,7 +1134,14 @@
                "public_transport": "platform",
                "train": "yes",
                "wheelchair:portable_lift": false
-            }
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
          }
       ]
    },
@@ -1421,6 +1505,13 @@
                "OpenWay",
                "ClosedWay",
                "Relation"
+            ],
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
             ]
          }
       ]

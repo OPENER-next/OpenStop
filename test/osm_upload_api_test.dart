@@ -3,10 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:open_stop/api/osm_element_upload_api.dart';
 import 'package:open_stop/models/authenticated_user.dart';
+import 'package:open_stop/models/element_coniditions/sub_condition_matcher.dart';
 import 'package:open_stop/models/element_variants/base_element.dart';
 import 'package:open_stop/models/map_feature.dart';
 import 'package:open_stop/models/map_feature_collection.dart';
-import 'package:open_stop/models/osm_condition.dart';
+import 'package:open_stop/models/element_coniditions/element_condition.dart';
 import 'package:open_stop/models/osm_element_type.dart' as app;
 import 'package:open_stop/models/stop.dart';
 import 'package:open_stop/models/stop_area.dart';
@@ -51,38 +52,41 @@ void main() async {
     )
   ], LatLng(10.00001, 20.00001), 200);
 
+  const tags01 = {'map_feature_1': 'map_feature_1_value'};
+  const tags02 = {'map_feature_2': 'map_feature_2_value'};
+  const tags03 = {'map_feature_3': 'map_feature_3_value'};
 
-  final mapFeatureCollection = MapFeatureCollection( const [
+  final mapFeatureCollection = MapFeatureCollection([
     MapFeature(
       name: 'MapFeature1',
       icon: Icons.close,
       conditions: [
-        OsmCondition(
-          osmTags: {'map_feature_1': 'map_feature_1_value'},
-          osmElementTypes: [app.OSMElementType.node, app.OSMElementType.openWay],
-        )
-      ]
+        ElementCondition([
+          TagsSubCondition.fromJson(tags01),
+          const ElementTypeSubCondition([app.OSMElementType.node, app.OSMElementType.openWay]),
+        ]),
+      ],
     ),
     MapFeature(
       name: 'MapFeature2',
       icon: Icons.close,
       conditions: [
-        OsmCondition(
-          osmTags: {'map_feature_2': 'map_feature_2_value'},
-          osmElementTypes: [app.OSMElementType.node],
-        )
-      ]
+        ElementCondition([
+          TagsSubCondition.fromJson(tags02),
+          const ElementTypeSubCondition([app.OSMElementType.node]),
+        ]),
+      ],
     ),
     MapFeature(
       name: 'MapFeature3',
       icon: Icons.close,
       conditions: [
-        OsmCondition(
-          osmTags: {'map_feature_3': 'map_feature_3_value'},
-          osmElementTypes: [app.OSMElementType.openWay],
-        )
-      ]
-    )
+        ElementCondition([
+          TagsSubCondition.fromJson(tags03),
+          const ElementTypeSubCondition([app.OSMElementType.openWay]),
+        ]),
+      ],
+    ),
   ]);
 
   late OSMAPI osmapi;
@@ -105,11 +109,11 @@ void main() async {
 
     nodes = await Future.wait([
       osmapi.createElement(
-        OSMNode(10, 20, tags: Map.of(mapFeatureCollection[0].conditions.first.osmTags.cast<String, String>())),
+        OSMNode(10, 20, tags: Map.of(tags01)),
         changesetId
       ),
       osmapi.createElement(
-        OSMNode(10.00001, 20.00001, tags: Map.of(mapFeatureCollection[1].conditions.first.osmTags.cast<String, String>())),
+        OSMNode(10.00001, 20.00001, tags: Map.of(tags02)),
         changesetId
       ),
       osmapi.createElement(
@@ -124,7 +128,7 @@ void main() async {
 
     ways = await Future.wait([
       osmapi.createElement(
-        OSMWay([nodes[2].id, nodes[3].id], tags: Map.of(mapFeatureCollection[2].conditions.first.osmTags.cast<String, String>())),
+        OSMWay([nodes[2].id, nodes[3].id], tags: Map.of(tags03)),
         changesetId
       ),
     ]);
