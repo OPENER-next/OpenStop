@@ -1233,10 +1233,17 @@
       "conditions": [
          {
             "osm_tags": {
+               "railway": ["subway_entrance", "train_station_entrance"],
+               "door": false
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
                "entrance": ["yes", "main", "secondary", "exit", "entrance", "emergency", "staircase", "shop"],
                "access": ["yes", "customers", false],
-               "door": false,
-               "addr:housenumber": false
+               "level": true,
+               "door": false
             },
             "osm_element": "Node"
          },
@@ -1247,6 +1254,31 @@
                "door": false
             },
             "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "entrance": ["yes", "main", "secondary", "exit", "entrance", "emergency", "staircase", "shop"],
+               "access": ["yes", "customers", false],
+               "door": false
+            },
+            "osm_element": "Node",
+            "parent": [
+               {
+                  "osm_tags": {
+                     "building": ["train_station", "transportation", "toilets", "parking"]
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "public_transport": "station"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "level": true
+                  }
+               }
+            ]
          }
       ]
    },
@@ -1292,10 +1324,50 @@
       "conditions": [
          {
             "osm_tags": {
-               "door": "yes",
-               "access": ["yes", "customers", false]
+               "railway": ["subway_entrance", "train_station_entrance"],
+               "door": "yes"
             },
             "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "access": ["yes", "customers", false],
+               "level": true,
+               "door": "yes"
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "indoor": "door",
+               "access": ["yes", "customers", false],
+               "door": "yes"
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "access": ["yes", "customers", false],
+               "door": "yes"
+            },
+            "osm_element": "Node",
+            "parent": [
+               {
+                  "osm_tags": {
+                     "building": ["train_station", "transportation", "toilets", "parking"]
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "public_transport": "station"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "level": true
+                  }
+               }
+            ]
          }
       ]
    },
@@ -1324,11 +1396,53 @@
       "conditions": [
          {
             "osm_tags": {
+               "railway": ["subway_entrance", "train_station_entrance"],
                "door": ["yes", "hinged", "revolving", "sliding", "folding"],
+               "automatic_door": false
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "door": ["yes", "hinged", "revolving", "sliding", "folding"],
+               "access": ["yes", "customers", false],
+               "level": true,
+               "automatic_door": false
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "indoor": "door",
                "access": ["yes", "customers", false],
                "automatic_door": false
             },
             "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "door": ["yes", "hinged", "revolving", "sliding", "folding"],
+               "access": ["yes", "customers", false],
+               "automatic_door": false
+            },
+            "osm_element": "Node",
+            "parent": [
+               {
+                  "osm_tags": {
+                     "building": ["train_station", "transportation", "toilets", "parking"]
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "public_transport": "station"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "level": true
+                  }
+               }
+            ]
          }
       ]
    },
@@ -1368,10 +1482,50 @@
       "conditions": [
          {
             "osm_tags": {
-               "automatic_door": "yes",
-               "access": ["yes", "customers", false]
+               "railway": ["subway_entrance", "train_station_entrance"],
+               "automatic_door": "yes"
             },
             "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "level": true,
+               "access": ["yes", "customers", false],
+               "automatic_door": "yes"
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "indoor": "door",
+               "access": ["yes", "customers", false],
+               "automatic_door": "yes"
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "access": ["yes", "customers", false],
+               "automatic_door": "yes"
+            },
+            "osm_element": "Node",
+            "parent": [
+               {
+                  "osm_tags": {
+                     "building": ["train_station", "transportation", "toilets", "parking"]
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "public_transport": "station"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "level": true
+                  }
+               }
+            ]
          }
       ]
    },
@@ -1398,12 +1552,52 @@
       "conditions": [
          {
             "osm_tags": {
-               "entrance": ["yes", "main", "secondary", "exit", "entrance", "emergency", "staircase", "shop"],
-               "access": ["yes", "customers", false],
-               "width": false,
-               "addr:housenumber": false
+               "railway": ["subway_entrance", "train_station_entrance"],
+               "width": false
             },
             "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "entrance": ["yes", "main", "secondary", "exit", "entrance", "emergency", "staircase", "shop"],
+               "access": ["yes", "customers", false],
+               "level": true,
+               "width": false
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "indoor": "door",
+               "access": ["yes", "customers", false],
+               "width": false
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "entrance": ["yes", "main", "secondary", "exit", "entrance", "emergency", "staircase", "shop"],
+               "access": ["yes", "customers", false],
+               "width": false
+            },
+            "osm_element": "Node",
+            "parent": [
+               {
+                  "osm_tags": {
+                     "building": ["train_station", "transportation", "toilets", "parking"]
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "public_transport": "station"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "level": true
+                  }
+               }
+            ]
          }
       ]
    },
