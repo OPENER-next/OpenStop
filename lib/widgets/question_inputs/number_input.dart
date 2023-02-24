@@ -74,6 +74,7 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
         suffixIcon: IconButton(
           onPressed: _handleChange,
           icon: const Icon(Icons.clear_rounded),
+          highlightColor: Colors.transparent,
         ),
         errorMaxLines: 2,
       ),
