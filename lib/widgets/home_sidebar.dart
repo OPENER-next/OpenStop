@@ -21,55 +21,55 @@ class _HomeSidebarState extends State<HomeSidebar> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-        width: min(MediaQuery.of(context).size.width * 0.65, 300),
-        backgroundColor: Theme.of(context).colorScheme.background,
-        shape: const Border(),
-        child: ListView(
-          physics: const ClampingScrollPhysics(),
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            ColoredBox(
-              color: Theme.of(context).colorScheme.primary,
-              child: AnimatedSize(
-                curve: Curves.easeOutBack,
-                duration: const Duration(milliseconds: 300),
-                child: Consumer<OSMAuthenticatedUserProvider>(
-                  builder: (context, authenticatedUserProvider, child) {
-                    return AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      child: authenticatedUserProvider.isLoggedIn
-                        ? UserAccountHeader(
-                          name: authenticatedUserProvider.authenticatedUser!.name,
-                          imageUrl: authenticatedUserProvider.authenticatedUser?.profileImageUrl,
-                          onLogoutTap: _handleLogout,
-                          onProfileTap: context.watch<OSMAuthenticatedUserProvider>().openUserProfile
-                        )
-                        : LoginInfoHeader(
-                          onLoginTap: context.watch<OSMAuthenticatedUserProvider>().login
-                        )
-                    );
-                  }
-                )
+      width: min(MediaQuery.of(context).size.width * 0.65, 300),
+      backgroundColor: Theme.of(context).colorScheme.background,
+      shape: const Border(),
+      child: ListView(
+        physics: const ClampingScrollPhysics(),
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          ColoredBox(
+            color: Theme.of(context).colorScheme.primary,
+            child: AnimatedSize(
+              curve: Curves.easeOutBack,
+              duration: const Duration(milliseconds: 300),
+              child: Consumer<OSMAuthenticatedUserProvider>(
+                builder: (context, authenticatedUserProvider, child) {
+                  return AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    child: authenticatedUserProvider.isLoggedIn
+                      ? UserAccountHeader(
+                        name: authenticatedUserProvider.authenticatedUser!.name,
+                        imageUrl: authenticatedUserProvider.authenticatedUser?.profileImageUrl,
+                        onLogoutTap: _handleLogout,
+                        onProfileTap: context.watch<OSMAuthenticatedUserProvider>().openUserProfile
+                      )
+                      : LoginInfoHeader(
+                        onLoginTap: context.watch<OSMAuthenticatedUserProvider>().login
+                      )
+                  );
+                }
               )
-            ),
-            CustomListTile(
-              leadingIcon: Icons.settings,
-              title: 'Einstellungen',
-              onTap: () => Navigator.push(context, Routes.settings),
-            ),
-            CustomListTile(
-              leadingIcon: Icons.info,
-              title: 'Über',
-              onTap: () => Navigator.push(context, Routes.about),
-            ),
-            CustomListTile(
-              leadingIcon: Icons.help,
-              title: 'Hilfe',
-              onTap: () => Navigator.push(context, Routes.help),
-            ),
-          ],
-        ),
-      );
+            )
+          ),
+          CustomListTile(
+            leadingIcon: Icons.settings,
+            title: 'Einstellungen',
+            onTap: () => Navigator.push(context, Routes.settings),
+          ),
+          CustomListTile(
+            leadingIcon: Icons.info,
+            title: 'Über',
+            onTap: () => Navigator.push(context, Routes.about),
+          ),
+          CustomListTile(
+            leadingIcon: Icons.help,
+            title: 'Hilfe',
+            onTap: () => Navigator.push(context, Routes.help),
+          ),
+        ],
+      ),
+    );
   }
 
 
@@ -135,95 +135,95 @@ class UserAccountHeader extends StatelessWidget {
     final totalSize = profilePictureSize + 2 * borderWidth;
 
     return Container(
-        width: double.infinity,
-        padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top + 15,
-            left: 10,
-            right: 10,
-            bottom: 15
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-                height: buttonOffset.dy + totalSize,
-                // double the offset value, because the image is (top) centered
-                // therefore the surrounding box needs to be extended equally left and right
-                width: 2 * buttonOffset.dx + totalSize,
-                child: Stack(
-                  children: [
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.primaryContainer,
-                          borderRadius: BorderRadius.circular(borderRadius + borderWidth),
-                        ),
-                        clipBehavior: Clip.antiAlias,
-                        child: imageUrl == null
-                          ? UserAccountImagePlaceholder(
+      width: double.infinity,
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).padding.top + 15,
+        left: 10,
+        right: 10,
+        bottom: 15
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: buttonOffset.dy + totalSize,
+            // double the offset value, because the image is (top) centered
+            // therefore the surrounding box needs to be extended equally left and right
+            width: 2 * buttonOffset.dx + totalSize,
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.primaryContainer,
+                      borderRadius: BorderRadius.circular(borderRadius + borderWidth),
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    child: imageUrl == null
+                      ? UserAccountImagePlaceholder(
+                        size: profilePictureSize,
+                      )
+                      : FadeInImage.memoryNetwork(
+                        placeholder: _transparentImage,
+                        image: imageUrl!,
+                        fit: BoxFit.cover,
+                        width: profilePictureSize,
+                        height: profilePictureSize,
+                        fadeInDuration: const Duration(milliseconds: 300),
+                        imageCacheWidth: profilePictureSize.toInt(),
+                        imageCacheHeight: profilePictureSize.toInt(),
+                        imageErrorBuilder:(context, error, stackTrace) {
+                          return UserAccountImagePlaceholder(
                             size: profilePictureSize,
-                          )
-                          : FadeInImage.memoryNetwork(
-                            placeholder: _transparentImage,
-                            image: imageUrl!,
-                            fit: BoxFit.cover,
-                            width: profilePictureSize,
-                            height: profilePictureSize,
-                            fadeInDuration: const Duration(milliseconds: 300),
-                            imageCacheWidth: profilePictureSize.toInt(),
-                            imageCacheHeight: profilePictureSize.toInt(),
-                            imageErrorBuilder:(context, error, stackTrace) {
-                              return UserAccountImagePlaceholder(
-                                size: profilePictureSize,
-                              );
-                          },
-                        ),
+                          );
+                        },
                       ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    width: profilePictureSize,
+                    height: profilePictureSize,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(borderRadius + borderWidth),
+                      border: Border.all(width: borderWidth, color: theme.colorScheme.primaryContainer),
                     ),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                          width: profilePictureSize,
-                          height: profilePictureSize,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(borderRadius + borderWidth),
-                            border: Border.all(width: borderWidth, color: theme.colorScheme.primaryContainer),
-                          ),
-                          child: Material(
-                              type: MaterialType.transparency,
-                              borderRadius: BorderRadius.circular(borderRadius),
-                              clipBehavior: Clip.antiAlias,
-                              child: InkWell(
-                                onTap: onProfileTap,
-                              )
-                          )
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: UserAccountActionButton(
-                        onTap: onLogoutTap,
-                        icon: Icons.logout_rounded,
-                      ),
+                    child: Material(
+                      type: MaterialType.transparency,
+                      borderRadius: BorderRadius.circular(borderRadius),
+                      clipBehavior: Clip.antiAlias,
+                      child: InkWell(
+                        onTap: onProfileTap,
+                      )
                     )
-                  ],
-                )
-            ),
-            Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Text(
-                  name,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      color: theme.colorScheme.onPrimary
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: UserAccountActionButton(
+                    onTap: onLogoutTap,
+                    icon: Icons.logout_rounded,
                   ),
                 )
-            ),
-          ],
-        )
+              ],
+            )
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Text(
+              name,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: theme.colorScheme.onPrimary
+              ),
+            )
+          ),
+        ],
+      )
     );
   }
 }

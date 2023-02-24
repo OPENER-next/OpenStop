@@ -50,32 +50,32 @@ class Default {
 final ThemeData defaultTheme = ThemeData(
   useMaterial3: true,
   appBarTheme: AppBarTheme(
-      elevation: Default.elevation,
-      shadowColor: Default.shadow,
-      foregroundColor: Default.onPrimary
+    elevation: Default.elevation,
+    shadowColor: Default.shadow,
+    foregroundColor: Default.onPrimary
   ),
   floatingActionButtonTheme: FloatingActionButtonThemeData(
-      smallSizeConstraints: BoxConstraints.tight(const Size.square(48)),
-      largeSizeConstraints: BoxConstraints.tight(const Size.square(70)),
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-              Radius.circular(Default.borderRadius)
-          )
-        ),
-      elevation: Default.elevation
+    smallSizeConstraints: BoxConstraints.tight(const Size.square(48)),
+    largeSizeConstraints: BoxConstraints.tight(const Size.square(70)),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(
+        Radius.circular(Default.borderRadius)
+      )
+    ),
+    elevation: Default.elevation
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
-      style: OutlinedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          minimumSize: const Size.square(48),
-          padding: EdgeInsets.zero,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(Default.borderRadius),
-          ),
-          side: const BorderSide(
-              color: Default.primary
-          )
+    style: OutlinedButton.styleFrom(
+      backgroundColor: Colors.transparent,
+      minimumSize: const Size.square(48),
+      padding: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(Default.borderRadius),
+      ),
+      side: const BorderSide(
+        color: Default.primary
       )
+    )
   ),
   iconButtonTheme: IconButtonThemeData(
     style: ButtonStyle(
@@ -86,54 +86,54 @@ final ThemeData defaultTheme = ThemeData(
     )
   ),
   inputDecorationTheme: const InputDecorationTheme(
-      contentPadding: EdgeInsets.symmetric(horizontal: Default.padding),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(Default.borderRadius)),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(Default.borderRadius)),
-        borderSide: BorderSide(
-            color: Default.primary
-        )
+    contentPadding: EdgeInsets.symmetric(horizontal: Default.padding),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(Default.borderRadius)),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(Default.borderRadius)),
+      borderSide: BorderSide(
+        color: Default.primary
       )
+    )
   ),
   snackBarTheme: SnackBarThemeData(
-      actionTextColor: Default.primary,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(Default.borderRadius)
-      )
+    actionTextColor: Default.primary,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(Default.borderRadius)
+    )
   )
 );
 
 final ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   colorScheme: ThemeData.light().colorScheme.copyWith(
-      primary: Default.primary,
-      onPrimary: Default.onPrimary,
-      primaryContainer: Default.primaryContainerLight,
-      onPrimaryContainer: Default.onPrimaryContainerLight,
-      surface: Default.surface,
-      surfaceVariant: Default.surfaceVariantLight,
-      background: Default.backgroundLight,
-      onBackground: Default.onBackgroundLight,
-      tertiary: Colors.white,
-      onTertiary: Colors.black,
-      shadow: Default.shadow,
-      surfaceTint: Default.surfaceTint,
-      outline: Default.outline,
-      outlineVariant: Default.outlineVariant,
+    primary: Default.primary,
+    onPrimary: Default.onPrimary,
+    primaryContainer: Default.primaryContainerLight,
+    onPrimaryContainer: Default.onPrimaryContainerLight,
+    surface: Default.surface,
+    surfaceVariant: Default.surfaceVariantLight,
+    background: Default.backgroundLight,
+    onBackground: Default.onBackgroundLight,
+    tertiary: Colors.white,
+    onTertiary: Colors.black,
+    shadow: Default.shadow,
+    surfaceTint: Default.surfaceTint,
+    outline: Default.outline,
+    outlineVariant: Default.outlineVariant,
   ),
   appBarTheme: defaultTheme.appBarTheme,
   floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
   outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
   iconButtonTheme: defaultTheme.iconButtonTheme,
   inputDecorationTheme: defaultTheme.inputDecorationTheme.copyWith(
-      border: defaultTheme.inputDecorationTheme.border!,
-      enabledBorder: defaultTheme.inputDecorationTheme.border!.copyWith(
-        borderSide: defaultTheme.inputDecorationTheme.border!.borderSide.copyWith(
-            color: Default.onBackgroundLight
-        )
+    border: defaultTheme.inputDecorationTheme.border!,
+    enabledBorder: defaultTheme.inputDecorationTheme.border!.copyWith(
+      borderSide: defaultTheme.inputDecorationTheme.border!.borderSide.copyWith(
+        color: Default.onBackgroundLight
       )
+    )
   ),
   snackBarTheme: defaultTheme.snackBarTheme.copyWith(
     backgroundColor: Colors.grey.shade900,
@@ -145,32 +145,32 @@ final ThemeData lightTheme = ThemeData(
 final ThemeData darkTheme = ThemeData(
   useMaterial3: true,
   colorScheme: ThemeData.dark().colorScheme.copyWith(
-      primary: Default.primary,
-      onPrimary: Default.onPrimary,
-      primaryContainer: Default.primaryContainerDark,
-      onPrimaryContainer: Default.onPrimaryContainerDark,
-      surface: Default.surface,
-      surfaceVariant: Default.surfaceVariantDark,
-      background: Default.backgroundDark,
-      onBackground: Default.onBackgroundDark,
-      tertiary: Colors.black,
-      onTertiary: Colors.white,
-      shadow: Default.shadow,
-      surfaceTint: Default.surfaceTint,
-      outline: Default.outline,
-      outlineVariant: Default.outlineVariant,
+    primary: Default.primary,
+    onPrimary: Default.onPrimary,
+    primaryContainer: Default.primaryContainerDark,
+    onPrimaryContainer: Default.onPrimaryContainerDark,
+    surface: Default.surface,
+    surfaceVariant: Default.surfaceVariantDark,
+    background: Default.backgroundDark,
+    onBackground: Default.onBackgroundDark,
+    tertiary: Colors.black,
+    onTertiary: Colors.white,
+    shadow: Default.shadow,
+    surfaceTint: Default.surfaceTint,
+    outline: Default.outline,
+    outlineVariant: Default.outlineVariant,
   ),
   appBarTheme: defaultTheme.appBarTheme,
   floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
   outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
   iconButtonTheme: defaultTheme.iconButtonTheme,
   inputDecorationTheme: defaultTheme.inputDecorationTheme.copyWith(
-      border: defaultTheme.inputDecorationTheme.border!,
-      enabledBorder: defaultTheme.inputDecorationTheme.border!.copyWith(
-          borderSide: defaultTheme.inputDecorationTheme.border!.borderSide.copyWith(
-              color: Default.onBackgroundDark
-          )
+    border: defaultTheme.inputDecorationTheme.border!,
+    enabledBorder: defaultTheme.inputDecorationTheme.border!.copyWith(
+      borderSide: defaultTheme.inputDecorationTheme.border!.borderSide.copyWith(
+        color: Default.onBackgroundDark
       )
+    )
   ),
   snackBarTheme: defaultTheme.snackBarTheme,
   // To have the same background color for licenses as for every other scaffold

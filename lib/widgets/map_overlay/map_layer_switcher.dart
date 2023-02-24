@@ -207,11 +207,11 @@ class _MapLayerSwitcherState<T> extends State<MapLayerSwitcher<T>> with SingleTi
         heroTag: null,
         child: _isActive
           ? const Icon(
-          Icons.layers_clear_rounded,
-        )
+            Icons.layers_clear_rounded,
+          )
           : const Icon(
-          Icons.layers_rounded,
-        ),
+            Icons.layers_rounded,
+          ),
         onPressed: () {
           if (_controller.isDismissed) {
             Overlay.of(context).insert(_overlayEntry);
