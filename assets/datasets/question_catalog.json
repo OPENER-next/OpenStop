@@ -919,10 +919,12 @@
       "question": {
          "id": 1200,
          "name": "Anfahrtshilfe",
-         "text": "Hat der Bordstein eine Anfahrtshilfe für Busse?",
+         "text": "Ist der Bordstein speziell geformt und bietet eine Anfahrtshilfe für Busse?",
          "description": "Bordsteine mit Anfahrtshilfe sind speziell geformt, um Bussen ein dichtes Heranfahren an die Bordsteinkante zu ermöglichen.",
          "image": [
-            "assets/images/questions/1200a.jpg"
+            "assets/images/questions/1200a.jpg",
+            "assets/images/questions/1201b.png",
+            "assets/images/questions/1201c.png"
          ]
       },
       "answer": {
@@ -957,48 +959,6 @@
                   }
                }
             ]
-         }
-      ]
-   },
-   {
-      "question": {
-         "id": 1201,
-         "name": "Anfahrtshilfen-Art",
-         "text": "Wie sieht die Anfahrtshilfe für Busse aus?",
-         "description": "Bordsteine mit Anfahrtshilfe sind speziell geformt, um Bussen ein dichtes Heranfahren an die Bordsteinkante zu ermöglichen. Die Bilder der Antwortmöglichkeiten zeigen vereinfachte Querschnitte."
-      },
-      "answer": {
-         "type": "List",
-         "input": [
-            {
-               "name": "Aussparung",
-               "image": "assets/images/questions/1201a.png",
-               "osm_tags": {
-                  "kerb:approach_aid": "edge_recess"
-               }
-            },
-            {
-               "name": "Spurführung",
-               "image": "assets/images/questions/1201b.png",
-               "osm_tags": {
-                  "kerb:approach_aid": "lane_guidance"
-               }
-            },
-            {
-               "name": "Spurführung mit Aussparung",
-               "image": "assets/images/questions/1201c.png",
-               "osm_tags": {
-                  "kerb:approach_aid": "guidance_with_recess"
-               }
-            }
-         ]
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "public_transport": "platform",
-               "kerb:approach_aid": "yes"
-            }
          }
       ]
    },
@@ -1644,7 +1604,8 @@
             "osm_tags": {
                "highway": "footway",
                "footway": [false, "sidewalk"],
-               "surface": false
+               "surface": false,
+               "indoor": ["no", false]
             },
             "osm_element": [
                "OpenWay",
@@ -1655,7 +1616,9 @@
             "osm_tags": {
                "highway": ["path", "cycleway"],
                "foot": ["yes", "designated"],
-               "surface": false
+               "surface": false,
+               "indoor": ["no", false],
+               "!tunnel": "building_passage"
             },
             "osm_element": [
                "OpenWay",
