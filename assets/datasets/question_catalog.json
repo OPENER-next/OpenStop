@@ -1617,8 +1617,7 @@
                "highway": ["path", "cycleway"],
                "foot": ["yes", "designated"],
                "surface": false,
-               "indoor": ["no", false],
-               "!tunnel": "building_passage"
+               "indoor": ["no", false]
             },
             "osm_element": [
                "OpenWay",
