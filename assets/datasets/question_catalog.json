@@ -922,9 +922,8 @@
          "text": "Hat die Plattform einen speziellen Bordstein mit Anfahrtshilfe für Busse?",
          "description": "Bordsteine mit Anfahrtshilfe haben eine konkave Rundung zur Straße hin. Diese sorgt für eine Führung der Busreifen beim Anfahren der Haltestelle und ermöglicht so Bussen ein dichtes Heranfahren an die Bordsteinkante.",
          "image": [
-            "assets/images/questions/1200a.jpg",
-            "assets/images/questions/1201b.png",
-            "assets/images/questions/1201c.png"
+            "assets/images/questions/approach_aid_1.jpg",
+            "assets/images/questions/approach_aid_2.jpg"
          ]
       },
       "answer": {
