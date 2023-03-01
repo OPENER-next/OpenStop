@@ -919,10 +919,11 @@
       "question": {
          "id": 1200,
          "name": "Anfahrtshilfe",
-         "text": "Hat der Bordstein eine Anfahrtshilfe für Busse?",
-         "description": "Bordsteine mit Anfahrtshilfe sind speziell geformt, um Bussen ein dichtes Heranfahren an die Bordsteinkante zu ermöglichen.",
+         "text": "Hat die Plattform einen speziellen Bordstein mit Anfahrtshilfe für Busse?",
+         "description": "Bordsteine mit Anfahrtshilfe haben eine konkave Rundung zur Straße hin. Diese sorgt für eine Führung der Busreifen beim Anfahren der Haltestelle und ermöglicht so Bussen ein dichtes Heranfahren an die Bordsteinkante.",
          "image": [
-            "assets/images/questions/1200a.jpg"
+            "assets/images/questions/approach_aid_1.jpg",
+            "assets/images/questions/approach_aid_2.jpg"
          ]
       },
       "answer": {
@@ -957,48 +958,6 @@
                   }
                }
             ]
-         }
-      ]
-   },
-   {
-      "question": {
-         "id": 1201,
-         "name": "Anfahrtshilfen-Art",
-         "text": "Wie sieht die Anfahrtshilfe für Busse aus?",
-         "description": "Bordsteine mit Anfahrtshilfe sind speziell geformt, um Bussen ein dichtes Heranfahren an die Bordsteinkante zu ermöglichen. Die Bilder der Antwortmöglichkeiten zeigen vereinfachte Querschnitte."
-      },
-      "answer": {
-         "type": "List",
-         "input": [
-            {
-               "name": "Aussparung",
-               "image": "assets/images/questions/1201a.png",
-               "osm_tags": {
-                  "kerb:approach_aid": "edge_recess"
-               }
-            },
-            {
-               "name": "Spurführung",
-               "image": "assets/images/questions/1201b.png",
-               "osm_tags": {
-                  "kerb:approach_aid": "lane_guidance"
-               }
-            },
-            {
-               "name": "Spurführung mit Aussparung",
-               "image": "assets/images/questions/1201c.png",
-               "osm_tags": {
-                  "kerb:approach_aid": "guidance_with_recess"
-               }
-            }
-         ]
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "public_transport": "platform",
-               "kerb:approach_aid": "yes"
-            }
          }
       ]
    },
@@ -1213,7 +1172,8 @@
       "question": {
          "id": 2032,
          "name": "Tür",
-         "text": "Hat dieser Durchgang eine Tür?"
+         "text": "Hat dieser Durchgang eine Tür?",
+         "description": "Ob ein Durchgang eine Tür hat, ist besonders für Rollstuhlfahrende relevant. Existiert eine Tür, wird die genaue Art nachfolgend abgefragt."
       },
       "answer": {
          "type": "Bool",
@@ -1376,7 +1336,7 @@
          "id": 2033,
          "name": "Tür-Automatik",
          "text": "Öffnet die Tür automatisch?",
-         "description": "Bei der automatischen Öffnung wird die Tür von einer Mechanik geöffnet. Der Benutzer muss die Tür nicht selbstständig drücken oder ziehen. Dagegen muss bei einer manuellen Öffnung die Tür von Hand geöffnet werden."
+         "description": "Bei der automatischen Öffnung wird die Tür von einer Mechanik geöffnet. Der Benutzer muss die Tür nicht selbstständig drücken oder ziehen."
       },
       "answer": {
          "type": "Bool",
@@ -1643,7 +1603,8 @@
             "osm_tags": {
                "highway": "footway",
                "footway": [false, "sidewalk"],
-               "surface": false
+               "surface": false,
+               "indoor": ["no", false]
             },
             "osm_element": [
                "OpenWay",
@@ -1654,7 +1615,8 @@
             "osm_tags": {
                "highway": ["path", "cycleway"],
                "foot": ["yes", "designated"],
-               "surface": false
+               "surface": false,
+               "indoor": ["no", false]
             },
             "osm_element": [
                "OpenWay",

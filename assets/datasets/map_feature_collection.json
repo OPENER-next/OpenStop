@@ -195,6 +195,13 @@
           "amenity": "parking"
         },
         "osm_element": ["Node", "ClosedWay"]
+      },
+      {
+        "osm_tags": {
+          "amenity": "parking",
+          "type": "multipolygon"
+        },
+        "osm_element": "Relation"
       }
     ]
   },
@@ -299,7 +306,7 @@
     ]
   },
   {
-    "name": "Tür",
+    "name": "Durchgang",
     "icon": "door",
     "conditions": [
       {
@@ -313,17 +320,23 @@
           "door": ["yes", "hinged", "revolving", "sliding", "folding"]
         },
         "osm_element": "Node"
+      },
+      {
+        "osm_tags": {
+          "railway": ["subway_entrance", "train_station_entrance"]
+        },
+        "osm_element": "Node"
       }
     ]
   },
   {
-    "name": "Weg",
+    "name": "Fußweg",
     "label_template": ["$name"],
     "icon": "path",
     "conditions": [
       {
         "osm_tags": {
-          "highway": ["footway", "path"]
+          "highway": ["footway", "path", "cycle_way"]
         },
         "osm_element": ["OpenWay", "ClosedWay"]
       },
