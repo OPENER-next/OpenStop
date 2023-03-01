@@ -336,7 +336,7 @@
     "conditions": [
       {
         "osm_tags": {
-          "highway": ["footway", "path"]
+          "highway": ["footway", "path", "cycle_way"]
         },
         "osm_element": ["OpenWay", "ClosedWay"]
       },
