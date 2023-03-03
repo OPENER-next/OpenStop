@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class MapLayerSwitcher<T> extends StatefulWidget {
   /// A callback function that gets
   final void Function(T id) onSelection;
@@ -181,15 +180,15 @@ class _MapLayerSwitcherState<T> extends State<MapLayerSwitcher<T>> with SingleTi
             child: Container(
               margin: const EdgeInsets.only(left: 10),
               decoration: BoxDecoration(
-                color: isActive ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.secondary,
+                color: isActive ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.primaryContainer,
                 borderRadius: BorderRadius.circular(3),
                 boxShadow: kElevationToShadow[4]
               ),
               padding: const EdgeInsets.all(5),
               child: Text(
                 entry.label,
-                style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                  color: isActive ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onSecondary
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: isActive ? Theme.of(context).colorScheme.onPrimary : Theme.of(context).colorScheme.onPrimaryContainer
                 )
               )
             )
@@ -215,7 +214,7 @@ class _MapLayerSwitcherState<T> extends State<MapLayerSwitcher<T>> with SingleTi
           ),
         onPressed: () {
           if (_controller.isDismissed) {
-            Overlay.of(context)?.insert(_overlayEntry);
+            Overlay.of(context).insert(_overlayEntry);
             _controller.forward();
           }
           else {

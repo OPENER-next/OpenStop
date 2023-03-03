@@ -17,7 +17,12 @@
         "description": "The icon name/identifier from the custom icons map.",
         "type": "string"
       },
-      "conditions": { "$ref": "file:assets/datasets/osm_condition_schema.json" }
+      "label_template": {
+        "$ref": "file:assets/datasets/expression_schema.json"
+      },
+      "conditions": {
+        "$ref": "file:assets/datasets/osm_condition_schema.json"
+      }
     }
   }
 }

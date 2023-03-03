@@ -68,11 +68,7 @@
             "description": "The constructor ultimately creates the OSM tags to be written based on the given input value(s). Input types without predefined values like `String`, `Number` and `Duration` require a constructor, while all other types with predefined values have a default constructor that coalesces the selected values.\n The OSM tags to be written are defined by a key of type String and an expression that evaluates to a String. Expressions are defined by an array [] containing the expression identifier as the first element followed by a number of Strings as arguments. The input values can be accessed using the `$input` variable. If the expression starts with the `$input` variable the coalesce expression is assumed.",
             "minProperties": 1,
             "additionalProperties": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "string"
-              }
+              "$ref": "file:assets/datasets/expression_schema.json"
             }
           }
         },

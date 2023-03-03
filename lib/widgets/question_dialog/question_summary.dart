@@ -21,7 +21,6 @@ class QuestionSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasAnyAnswer = answers.any((answer) => answer != null);
     const textStyle = TextStyle(
       height: 1.3,
       fontSize: 20,
@@ -38,32 +37,22 @@ class QuestionSummary extends StatelessWidget {
         vertical: 25,
         horizontal: 20
       ),
-      child: !hasAnyAnswer
-        ? const Padding(
-          padding: EdgeInsets.only(
-            bottom: 10
-          ),
-          child: Text(
-            'Endstation. Es gibt keine weiteren Fragen zu beantworten.',
-            style: textStyle
-          )
-        )
-        : Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                bottom: 10
-              ),
-              child: Text(
-                'Danke ${userName}für deine Antworten. \nBitte prüfe sie vor dem Hochladen nochmal.',
-                style: textStyle
-              )
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              bottom: 10
             ),
-            ..._buildEntries(),
-          ],
-        ),
-      );
+            child: Text(
+              'Danke ${userName}für deine Antworten. \nBitte prüfe sie vor dem Hochladen nochmal.',
+              style: textStyle
+            )
+          ),
+          ..._buildEntries(),
+        ],
+      ),
+    );
   }
 
 
@@ -90,6 +79,7 @@ class QuestionSummary extends StatelessWidget {
     final answer = answers[index];
 
     return Material(
+      type: MaterialType.transparency,
       child: InkWell(
         onTap: () => onJump?.call(index),
         child: Padding(

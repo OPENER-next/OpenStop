@@ -414,7 +414,14 @@
             "osm_tags": {
                "public_transport": "platform",
                "bench": false
-            }
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
          }
       ]
    },
@@ -450,7 +457,14 @@
             "osm_tags": {
                "public_transport": "platform",
                "shelter": false
-            }
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
          }
       ]
    },
@@ -573,7 +587,14 @@
             "osm_tags": {
                "public_transport": "platform",
                "passenger_information_display": false
-            }
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
          }
       ]
    },
@@ -608,7 +629,14 @@
                "public_transport": "platform",
                "passenger_information_display": "yes",
                "passenger_information_display:speech_output": false
-            }
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
          }
       ]
    },
@@ -644,7 +672,14 @@
                "public_transport": "platform",
                "train": "yes",
                "announcement": false
-            }
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
          }
       ]
    },
@@ -686,7 +721,14 @@
             "osm_tags": {
                "public_transport": "platform",
                "announcement": "yes"
-            }
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
          }
       ]
    },
@@ -719,7 +761,14 @@
                "train": [false, "no"],
                "bus": [false, "yes"],
                "kerb": false
-            }
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
          },
          {
             "osm_tags": {
@@ -727,7 +776,14 @@
                "railway": "platform",
                "bus": "yes",
                "kerb": false
-            }
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
          }
       ]
    },
@@ -768,7 +824,14 @@
             "osm_tags": {
                "public_transport": "platform",
                "kerb": "yes"
-            }
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
          }
       ]
    },
@@ -789,7 +852,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "height": ["concat", "$input", " cm"]
+            "height": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -827,7 +890,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "width": ["concat", "$input", " cm"]
+            "width": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -844,10 +907,11 @@
       "question": {
          "id": 1200,
          "name": "Anfahrtshilfe",
-         "text": "Hat der Bordstein eine Anfahrtshilfe für Busse?",
-         "description": "Bordsteine mit Anfahrtshilfe sind speziell geformt, um Bussen ein dichtes Heranfahren an die Bordsteinkante zu ermöglichen.",
+         "text": "Hat die Plattform einen speziellen Bordstein mit Anfahrtshilfe für Busse?",
+         "description": "Bordsteine mit Anfahrtshilfe haben eine konkave Rundung zur Straße hin. Diese sorgt für eine Führung der Busreifen beim Anfahren der Haltestelle und ermöglicht so Bussen ein dichtes Heranfahren an die Bordsteinkante.",
          "image": [
-            "assets/images/questions/1200a.jpg"
+            "assets/images/questions/approach_aid_1.jpg",
+            "assets/images/questions/approach_aid_2.jpg"
          ]
       },
       "answer": {
@@ -874,49 +938,14 @@
                   "yes"
                ],
                "kerb:approach_aid": false
-            }
-         }
-      ]
-   },
-   {
-      "question": {
-         "id": 1201,
-         "name": "Anfahrtshilfen-Art",
-         "text": "Wie sieht die Anfahrtshilfe für Busse aus?",
-         "description": "Bordsteine mit Anfahrtshilfe sind speziell geformt, um Bussen ein dichtes Heranfahren an die Bordsteinkante zu ermöglichen. Die Bilder der Antwortmöglichkeiten zeigen vereinfachte Querschnitte."
-      },
-      "answer": {
-         "type": "List",
-         "input": [
-            {
-               "name": "Aussparung",
-               "image": "assets/images/questions/1201a.png",
-               "osm_tags": {
-                  "kerb:approach_aid": "edge_recess"
-               }
             },
-            {
-               "name": "Spurführung",
-               "image": "assets/images/questions/1201b.png",
-               "osm_tags": {
-                  "kerb:approach_aid": "lane_guidance"
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
                }
-            },
-            {
-               "name": "Spurführung mit Aussparung",
-               "image": "assets/images/questions/1201c.png",
-               "osm_tags": {
-                  "kerb:approach_aid": "guidance_with_recess"
-               }
-            }
-         ]
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "public_transport": "platform",
-               "kerb:approach_aid": "yes"
-            }
+            ]
          }
       ]
    },
@@ -951,7 +980,14 @@
                "public_transport": "platform",
                "train": "yes",
                "wheelchair:portable_ramp": false
-            }
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
          }
       ]
    },
@@ -972,7 +1008,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "wheelchair:portable_ramp:length": ["concat", "$input", " cm"]
+            "wheelchair:portable_ramp:length": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -1001,7 +1037,7 @@
             "unit": "Kilogramm"
          },
          "constructor": {
-            "wheelchair:portable_ramp:maxweight": ["concat", "$input", " kg"]
+            "wheelchair:portable_ramp:maxweight": ["CONCAT", "$input", " kg"]
          }
       },
       "conditions": [
@@ -1045,7 +1081,14 @@
                "public_transport": "platform",
                "train": "yes",
                "wheelchair:portable_lift": false
-            }
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
          }
       ]
    },
@@ -1069,7 +1112,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "wheelchair:portable_lift:length": ["concat", "$input", " cm"]
+            "wheelchair:portable_lift:length": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -1101,7 +1144,7 @@
             "unit": "Kilogramm"
          },
          "constructor": {
-            "wheelchair:portable_lift:maxweight": ["concat", "$input", " kg"]
+            "wheelchair:portable_lift:maxweight": ["CONCAT", "$input", " kg"]
          }
       },
       "conditions": [
@@ -1117,7 +1160,8 @@
       "question": {
          "id": 2032,
          "name": "Tür",
-         "text": "Hat dieser Durchgang eine Tür?"
+         "text": "Hat dieser Durchgang eine Tür?",
+         "description": "Ob ein Durchgang eine Tür hat, ist besonders für Rollstuhlfahrende relevant. Existiert eine Tür, wird die genaue Art nachfolgend abgefragt."
       },
       "answer": {
          "type": "Bool",
@@ -1137,10 +1181,17 @@
       "conditions": [
          {
             "osm_tags": {
+               "railway": ["subway_entrance", "train_station_entrance"],
+               "door": false
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
                "entrance": ["yes", "main", "secondary", "exit", "entrance", "emergency", "staircase", "shop"],
                "access": ["yes", "customers", false],
-               "door": false,
-               "addr:housenumber": false
+               "level": true,
+               "door": false
             },
             "osm_element": "Node"
          },
@@ -1151,6 +1202,31 @@
                "door": false
             },
             "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "entrance": ["yes", "main", "secondary", "exit", "entrance", "emergency", "staircase", "shop"],
+               "access": ["yes", "customers", false],
+               "door": false
+            },
+            "osm_element": "Node",
+            "parent": [
+               {
+                  "osm_tags": {
+                     "building": ["train_station", "transportation", "toilets", "parking"]
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "public_transport": "station"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "level": true
+                  }
+               }
+            ]
          }
       ]
    },
@@ -1165,30 +1241,30 @@
          "input": [
             {
                "name": "Anschlagtür",
-               "image": "assets/images/questions/2032a.jpg",
+               "image": "assets/images/questions/door_hinged.png",
                "osm_tags": {
                   "door": "hinged"
                }
             },
             {
-               "name": "Drehtür",
-               "image": "assets/images/questions/2032b.jpg",
+               "name": "Pendeltür",
+               "image": "assets/images/questions/door_swinging.png",
                "osm_tags": {
-                  "door": "revolving"
+                  "door": "swinging"
                }
             },
             {
                "name": "Schiebetür",
-               "image": "assets/images/questions/2032c.jpg",
+               "image": "assets/images/questions/door_sliding.png",
                "osm_tags": {
                   "door": "sliding"
                }
             },
             {
-               "name": "Pendeltür",
-               "image": "packages/nvbw_open_data/photos/2032d.jpg",
+               "name": "Drehtür",
+               "image": "assets/images/questions/door_revolving.png",
                "osm_tags": {
-                  "door": "swinging"
+                  "door": "revolving"
                }
             }
          ]
@@ -1196,10 +1272,50 @@
       "conditions": [
          {
             "osm_tags": {
-               "door": "yes",
-               "access": ["yes", "customers", false]
+               "railway": ["subway_entrance", "train_station_entrance"],
+               "door": "yes"
             },
             "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "access": ["yes", "customers", false],
+               "level": true,
+               "door": "yes"
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "indoor": "door",
+               "access": ["yes", "customers", false],
+               "door": "yes"
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "access": ["yes", "customers", false],
+               "door": "yes"
+            },
+            "osm_element": "Node",
+            "parent": [
+               {
+                  "osm_tags": {
+                     "building": ["train_station", "transportation", "toilets", "parking"]
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "public_transport": "station"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "level": true
+                  }
+               }
+            ]
          }
       ]
    },
@@ -1208,7 +1324,7 @@
          "id": 2033,
          "name": "Tür-Automatik",
          "text": "Öffnet die Tür automatisch?",
-         "description": "Bei der automatischen Öffnung wird die Tür von einer Mechanik geöffnet. Der Benutzer muss die Tür nicht selbstständig drücken oder ziehen. Dagegen muss bei einer manuellen Öffnung die Tür von Hand geöffnet werden."
+         "description": "Bei der automatischen Öffnung wird die Tür von einer Mechanik geöffnet. Der Benutzer muss die Tür nicht selbstständig drücken oder ziehen."
       },
       "answer": {
          "type": "Bool",
@@ -1228,11 +1344,53 @@
       "conditions": [
          {
             "osm_tags": {
+               "railway": ["subway_entrance", "train_station_entrance"],
                "door": ["yes", "hinged", "revolving", "sliding", "folding"],
+               "automatic_door": false
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "door": ["yes", "hinged", "revolving", "sliding", "folding"],
+               "access": ["yes", "customers", false],
+               "level": true,
+               "automatic_door": false
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "indoor": "door",
                "access": ["yes", "customers", false],
                "automatic_door": false
             },
             "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "door": ["yes", "hinged", "revolving", "sliding", "folding"],
+               "access": ["yes", "customers", false],
+               "automatic_door": false
+            },
+            "osm_element": "Node",
+            "parent": [
+               {
+                  "osm_tags": {
+                     "building": ["train_station", "transportation", "toilets", "parking"]
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "public_transport": "station"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "level": true
+                  }
+               }
+            ]
          }
       ]
    },
@@ -1272,10 +1430,50 @@
       "conditions": [
          {
             "osm_tags": {
-               "automatic_door": "yes",
-               "access": ["yes", "customers", false]
+               "railway": ["subway_entrance", "train_station_entrance"],
+               "automatic_door": "yes"
             },
             "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "level": true,
+               "access": ["yes", "customers", false],
+               "automatic_door": "yes"
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "indoor": "door",
+               "access": ["yes", "customers", false],
+               "automatic_door": "yes"
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "access": ["yes", "customers", false],
+               "automatic_door": "yes"
+            },
+            "osm_element": "Node",
+            "parent": [
+               {
+                  "osm_tags": {
+                     "building": ["train_station", "transportation", "toilets", "parking"]
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "public_transport": "station"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "level": true
+                  }
+               }
+            ]
          }
       ]
    },
@@ -1284,9 +1482,6 @@
          "id": 2034,
          "name": "Durchgangsbreite",
          "text": "Wie breit ist der Durchgang?",
-         "image": [
-            "assets/images/questions/2034.jpg"
-         ],
          "description": "Die Durchgangsbreite wird erfasst, um sicherzustellen das Rollstühle, Kinderwagen etc. genug Platz haben. Es ist lediglich die nutzbare Türöffnung (Innenmaße der geöffneten Tür) zu messen."
       },
       "answer": {
@@ -1299,18 +1494,58 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "width": ["concat", "$input", " cm"]
+            "width": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
          {
             "osm_tags": {
-               "entrance": ["yes", "main", "secondary", "exit", "entrance", "emergency", "staircase", "shop"],
-               "access": ["yes", "customers", false],
-               "width": false,
-               "addr:housenumber": false
+               "railway": ["subway_entrance", "train_station_entrance"],
+               "width": false
             },
             "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "entrance": ["yes", "main", "secondary", "exit", "entrance", "emergency", "staircase", "shop"],
+               "access": ["yes", "customers", false],
+               "level": true,
+               "width": false
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "indoor": "door",
+               "access": ["yes", "customers", false],
+               "width": false
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "entrance": ["yes", "main", "secondary", "exit", "entrance", "emergency", "staircase", "shop"],
+               "access": ["yes", "customers", false],
+               "width": false
+            },
+            "osm_element": "Node",
+            "parent": [
+               {
+                  "osm_tags": {
+                     "building": ["train_station", "transportation", "toilets", "parking"]
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "public_transport": "station"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "level": true
+                  }
+               }
+            ]
          }
       ]
    },
@@ -1356,7 +1591,8 @@
             "osm_tags": {
                "highway": "footway",
                "footway": [false, "sidewalk"],
-               "surface": false
+               "surface": false,
+               "indoor": ["no", false]
             },
             "osm_element": [
                "OpenWay",
@@ -1367,7 +1603,8 @@
             "osm_tags": {
                "highway": ["path", "cycleway"],
                "foot": ["yes", "designated"],
-               "surface": false
+               "surface": false,
+               "indoor": ["no", false]
             },
             "osm_element": [
                "OpenWay",
@@ -1412,6 +1649,13 @@
                "OpenWay",
                "ClosedWay",
                "Relation"
+            ],
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
             ]
          }
       ]
@@ -1485,7 +1729,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "maxwidth:physical": ["concat", "$input", " cm"]
+            "maxwidth:physical": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -1522,7 +1766,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "opening": ["concat", "$input", " cm"]
+            "opening": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -1559,7 +1803,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "spacing": ["concat", "$input", " cm"]
+            "spacing": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -1630,7 +1874,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "wheelchair:lift:length": ["concat", "$input", " cm"]
+            "wheelchair:lift:length": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -1662,7 +1906,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "length": ["concat", "$input", " cm"]
+            "length": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -1695,7 +1939,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "wheelchair:lift:width": ["concat", "$input", " cm"]
+            "wheelchair:lift:width": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -1727,7 +1971,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "width": ["concat", "$input", " cm"]
+            "width": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [
@@ -1819,7 +2063,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "step:height": ["concat", "$input", " cm"]
+            "step:height": ["CONCAT", "$input", " cm"]
          }
       },
       "conditions": [

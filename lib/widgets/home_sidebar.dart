@@ -20,53 +20,54 @@ class HomeSidebar extends StatefulWidget {
 class _HomeSidebarState extends State<HomeSidebar> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Drawer(
       width: min(MediaQuery.of(context).size.width * 0.65, 300),
-      child: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            ColoredBox(
-              color: Theme.of(context).colorScheme.primary,
-              child: AnimatedSize(
-                curve: Curves.easeOutBack,
-                duration: const Duration(milliseconds: 300),
-                child: Consumer<OSMAuthenticatedUserProvider>(
-                  builder: (context, authenticatedUserProvider, child) {
-                    return AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      child: authenticatedUserProvider.isLoggedIn
-                        ? UserAccountHeader(
-                          name: authenticatedUserProvider.authenticatedUser!.name,
-                          imageUrl: authenticatedUserProvider.authenticatedUser?.profileImageUrl,
-                          onLogoutTap: _handleLogout,
-                          onProfileTap: context.watch<OSMAuthenticatedUserProvider>().openUserProfile
-                        )
-                        : LoginInfoHeader(
-                          onLoginTap: context.watch<OSMAuthenticatedUserProvider>().login
-                        )
-                    );
-                  }
-                )
+      backgroundColor: Theme.of(context).colorScheme.background,
+      shape: const Border(),
+      child: ListView(
+        physics: const ClampingScrollPhysics(),
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          ColoredBox(
+            color: Theme.of(context).colorScheme.primary,
+            child: AnimatedSize(
+              curve: Curves.easeOutBack,
+              duration: const Duration(milliseconds: 300),
+              child: Consumer<OSMAuthenticatedUserProvider>(
+                builder: (context, authenticatedUserProvider, child) {
+                  return AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    child: authenticatedUserProvider.isLoggedIn
+                      ? UserAccountHeader(
+                        name: authenticatedUserProvider.authenticatedUser!.name,
+                        imageUrl: authenticatedUserProvider.authenticatedUser?.profileImageUrl,
+                        onLogoutTap: _handleLogout,
+                        onProfileTap: context.watch<OSMAuthenticatedUserProvider>().openUserProfile
+                      )
+                      : LoginInfoHeader(
+                        onLoginTap: context.watch<OSMAuthenticatedUserProvider>().login
+                      )
+                  );
+                }
               )
-            ),
-            CustomListTile(
-              leadingIcon: Icons.settings,
-              title: 'Einstellungen',
-              onTap: () => Navigator.push(context, Routes.settings),
-            ),
-            CustomListTile(
-              leadingIcon: Icons.info,
-              title: 'Über',
-              onTap: () => Navigator.push(context, Routes.about),
-            ),
-            CustomListTile(
-              leadingIcon: Icons.help,
-              title: 'Hilfe',
-              onTap: () => Navigator.push(context, Routes.help),
-            ),
-          ],
-        ),
+            )
+          ),
+          CustomListTile(
+            leadingIcon: Icons.settings,
+            title: 'Einstellungen',
+            onTap: () => Navigator.push(context, Routes.settings),
+          ),
+          CustomListTile(
+            leadingIcon: Icons.info,
+            title: 'Über',
+            onTap: () => Navigator.push(context, Routes.about),
+          ),
+          CustomListTile(
+            leadingIcon: Icons.help,
+            title: 'Hilfe',
+            onTap: () => Navigator.push(context, Routes.help),
+          ),
+        ],
       ),
     );
   }
@@ -77,18 +78,18 @@ class _HomeSidebarState extends State<HomeSidebar> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Abmelden'),
+        title: const Text('Von OSM abmelden?'),
         content: const Text(
           'Wenn du dich abmeldest, kannst du keine Änderungen mehr zu OpenStreetMap hochladen.'
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('ZURÜCK'),
+            child: const Text('Abbrechen'),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('ABMELDEN'),
+            child: const Text('Abmelden'),
           ),
         ],
       )
@@ -121,10 +122,10 @@ class UserAccountHeader extends StatelessWidget {
     this.imageUrl,
     this.onLogoutTap,
     this.onProfileTap,
-    this.profilePictureSize = 100,
+    this.profilePictureSize = 110,
     this.borderWidth = 4,
-    this.borderRadius = 20,
-    this.buttonOffset = const Offset(15, 15),
+    this.borderRadius = 12,
+    this.buttonOffset = const Offset(10, 10),
     Key? key,
   }) : super(key: key);
 
@@ -133,87 +134,95 @@ class UserAccountHeader extends StatelessWidget {
     final theme = Theme.of(context);
     final totalSize = profilePictureSize + 2 * borderWidth;
 
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onProfileTap,
-        child: Container(
-          width: double.infinity,
-          padding: EdgeInsets.only(
-            top: MediaQuery.of(context).padding.top + 15,
-            left: 10,
-            right: 10,
-            bottom: 10
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: buttonOffset.dy + totalSize,
-                // double the offset value, because the image is (top) centered
-                // therefore the surrounding box needs to be extended equally left and right
-                width: 2 * buttonOffset.dx + totalSize,
-                child: Stack(
-                  children: [
-                    Align(
-                      alignment: Alignment.topCenter,
-                      // required so the border can be drawn outside/around the image
-                      // ignore: use_decorated_box
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.onPrimary,
-                          borderRadius: BorderRadius.circular(borderRadius + borderWidth),
-                          border: Border.all(width: borderWidth, color: theme.colorScheme.onPrimary),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(borderRadius),
-                          child: imageUrl == null
-                            ? UserAccountImagePlaceholder(
-                              size: profilePictureSize,
-                            )
-                            : FadeInImage.memoryNetwork(
-                              placeholder: _transparentImage,
-                              image: imageUrl!,
-                              fit: BoxFit.cover,
-                              width: profilePictureSize,
-                              height: profilePictureSize,
-                              fadeInDuration: const Duration(milliseconds: 300),
-                              imageCacheWidth: profilePictureSize.toInt(),
-                              imageCacheHeight: profilePictureSize.toInt(),
-                              imageErrorBuilder:(context, error, stackTrace) {
-                                return UserAccountImagePlaceholder(
-                                  size: profilePictureSize,
-                                );
-                              },
-                          )
-                        )
-                      ),
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).padding.top + 15,
+        left: 10,
+        right: 10,
+        bottom: 15
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: buttonOffset.dy + totalSize,
+            // double the offset value, because the image is (top) centered
+            // therefore the surrounding box needs to be extended equally left and right
+            width: 2 * buttonOffset.dx + totalSize,
+            child: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.primaryContainer,
+                      borderRadius: BorderRadius.circular(borderRadius + borderWidth),
                     ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: UserAccountActionButton(
-                        onTap: onLogoutTap,
-                        icon: Icons.logout_rounded,
+                    clipBehavior: Clip.antiAlias,
+                    child: imageUrl == null
+                      ? UserAccountImagePlaceholder(
+                        size: profilePictureSize,
+                      )
+                      : FadeInImage.memoryNetwork(
+                        placeholder: _transparentImage,
+                        image: imageUrl!,
+                        fit: BoxFit.cover,
+                        width: profilePictureSize,
+                        height: profilePictureSize,
+                        fadeInDuration: const Duration(milliseconds: 300),
+                        imageCacheWidth: profilePictureSize.toInt(),
+                        imageCacheHeight: profilePictureSize.toInt(),
+                        imageErrorBuilder:(context, error, stackTrace) {
+                          return UserAccountImagePlaceholder(
+                            size: profilePictureSize,
+                          );
+                        },
                       ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    width: profilePictureSize,
+                    height: profilePictureSize,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(borderRadius + borderWidth),
+                      border: Border.all(width: borderWidth, color: theme.colorScheme.primaryContainer),
+                    ),
+                    child: Material(
+                      type: MaterialType.transparency,
+                      borderRadius: BorderRadius.circular(borderRadius),
+                      clipBehavior: Clip.antiAlias,
+                      child: InkWell(
+                        onTap: onProfileTap,
+                      )
                     )
-                  ],
-                )
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Text(
-                  name,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: theme.colorScheme.onPrimary
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: UserAccountActionButton(
+                    onTap: onLogoutTap,
+                    icon: Icons.logout_rounded,
                   ),
                 )
+              ],
+            )
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Text(
+              name,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: theme.colorScheme.onPrimary
               ),
-            ],
-          )
-        )
+            )
+          ),
+        ],
       )
     );
   }
@@ -223,33 +232,30 @@ class UserAccountHeader extends StatelessWidget {
 class UserAccountActionButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback? onTap;
+  final String? tooltip;
 
   const UserAccountActionButton({
     required this.icon,
     this.onTap,
+    this.tooltip,
     Key? key
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                spreadRadius: 3,
-                blurRadius: 4,
-                color: Theme.of(context).colorScheme.shadow
-              )
-            ]
-          ),
-      child: FloatingActionButton.small(
-        heroTag: null,
-        backgroundColor: Theme.of(context).colorScheme.onPrimary,
-        onPressed: onTap,
-        elevation: 0,
-        child: Icon(icon),
+    return IconButton(
+      style: IconButton.styleFrom(
+        foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        side: BorderSide(
+          width: 4,
+          strokeAlign: BorderSide.strokeAlignOutside,
+          color: Theme.of(context).colorScheme.primary
+        ),
       ),
+      tooltip: tooltip,
+      icon: Icon(icon),
+      onPressed: onTap,
     );
   }
 }
@@ -270,7 +276,7 @@ class UserAccountImagePlaceholder extends StatelessWidget {
       child: Icon(
         Icons.person,
         size: size/2,
-        color: Theme.of(context).iconTheme.color?.withOpacity(0.25),
+        color: Theme.of(context).colorScheme.onPrimaryContainer.withOpacity(0.4),
       ),
     );
   }
@@ -299,7 +305,7 @@ class LoginInfoHeader extends StatelessWidget {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             'Melde dich mit deinem OpenStreetMap-Konto an, um deine Änderungen hochzuladen.',
@@ -311,20 +317,14 @@ class LoginInfoHeader extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(theme.colorScheme.onPrimary),
-              textStyle: MaterialStateProperty.all<TextStyle>(
-                const TextStyle(fontSize: 14)
-              ),
+          ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+              foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
             ),
             onPressed: onLoginTap,
-            child: Text(
-              'ANMELDEN',
-              style: TextStyle(
-                color: theme.textTheme.bodyText1?.color
-              ),
-            )
+            label: const Text('Anmelden'),
+            icon: const Icon(Icons.login_rounded)
           ),
         ],
       )

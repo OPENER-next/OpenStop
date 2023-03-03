@@ -1,9 +1,9 @@
 import 'dart:collection';
 
-import 'package:osm_api/osm_api.dart' hide OSMElementType;
-import '/models/osm_element_type.dart';
-
 import '/models/map_feature.dart';
+import 'element_coniditions/element_condition.dart';
+import 'element_coniditions/sub_condition_matcher.dart';
+import 'element_variants/base_element.dart';
 
 class MapFeatureCollection extends ListBase<MapFeature> {
   final List<MapFeature> mapFeatureCollection;
@@ -37,20 +37,17 @@ class MapFeatureCollection extends ListBase<MapFeature> {
   /// Compare the elements of this Map Feature Collection with given OSM element
   /// and return the best matching Map Feature Template.
 
-  MapFeature? getMatchingFeature (OSMElement osmElement){
+  MapFeature? getMatchingFeature (ProcessedElement osmElement) {
     MapFeature? bestMatch;
     int score = 0;
 
     for (final MapFeature mapFeature in mapFeatureCollection) {
       try {
         final matchingCondition = mapFeature.conditions.firstWhere((condition) {
-          return condition.matches(
-            osmElement.tags,
-            typeFromOSMElement(osmElement)
-          );
+          return condition.matches(osmElement);
         });
         // Check if the newly matched map feature has more matching tags than the previously matched map feature
-        final newScore = matchingCondition.osmTags.length;
+        final newScore = _calcConditionScore(matchingCondition);
         if (newScore > score) {
           score = newScore;
           bestMatch = mapFeature;
@@ -61,5 +58,15 @@ class MapFeatureCollection extends ListBase<MapFeature> {
       }
     }
     return bestMatch;
+  }
+
+  // Calculate a simple score for a condition in order to prioritize one map feature over another.
+  // Currently this only counts the number of tags the main tag condition has.
+
+  int _calcConditionScore(ElementCondition condition) {
+    return condition.characteristics.fold<int>(0, (value, cond) {
+      if (cond is TagsSubCondition) return value + cond.characteristics.length;
+      return value;
+    });
   }
 }

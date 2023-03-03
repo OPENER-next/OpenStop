@@ -198,19 +198,17 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                             itemBuilder: (context, index) {
                               return ClipRRect(
                                 borderRadius: BorderRadius.circular(Default.borderRadius),
-                                child: Image.asset(
-                                  widget.images[index],
-                                  frameBuilder: (context, child, _, __) {
-                                    return HeroViewer(
-                                      child: child
-                                    );
-                                  },
-                                  errorBuilder: (context, _, __) {
-                                    // do not add a hero viewer to the error widget since enlarging this makes no sense
-                                    return Image.asset(
-                                      'assets/images/placeholder_image.png',
-                                    );
-                                  },
+                                // hero viewer cannot be used in frame builder
+                                // because the builder may be called after the page route transition starts
+                                child: HeroViewer(
+                                  child: Image.asset(
+                                    widget.images[index],
+                                    errorBuilder: (context, _, __) {
+                                      return Image.asset(
+                                        'assets/images/placeholder_image.png',
+                                      );
+                                    },
+                                  ),
                                 ),
                               );
                             },

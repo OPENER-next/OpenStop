@@ -44,6 +44,7 @@ class ListInputItem extends StatefulWidget {
   final String label;
   final String? description;
   final String? imagePath;
+  final double imagePadding;
   final bool active;
   final VoidCallback onTap;
 
@@ -53,6 +54,7 @@ class ListInputItem extends StatefulWidget {
     this.active = false,
     this.description,
     this.imagePath,
+    this.imagePadding = 4.0,
     super.key,
   });
 
@@ -94,8 +96,12 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final buttonShape = theme.outlinedButtonTheme.style?.shape?.resolve({});
+    final innerBorderRadius = buttonShape is RoundedRectangleBorder
+        ? buttonShape.borderRadius.subtract(BorderRadius.circular(widget.imagePadding))
+        : null;
     return OutlinedButton(
-      clipBehavior: Clip.antiAlias,
       style: _toggleStyle(widget.active),
       onPressed: widget.onTap,
       child: Row(
@@ -147,23 +153,31 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
               flex: 2,
               // HeroViewer cannot be wrapped around since the returned error widget
               // represents a different widget wherefore the hero transition would fail.
-              child: Image.asset(
-                widget.imagePath!,
-                fit: BoxFit.cover,
-                height: 90,
-                frameBuilder: (context, child, _, __) {
-                  return HeroViewer(
-                    child: child
-                  );
-                },
-                errorBuilder: (context, _, __) {
-                  // do not add a hero viewer to the error widget since enlarging this makes no sense
-                  return Image.asset(
-                    'assets/images/placeholder_image.png',
-                    fit: BoxFit.cover,
-                    height: 90,
-                  );
-                },
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(0, widget.imagePadding, widget.imagePadding, widget.imagePadding),
+                child: ClipRRect(
+                  borderRadius: innerBorderRadius,
+                  // hero viewer cannot be used in frame builder
+                  // because the builder may be called after the page route transition starts
+                  child: HeroViewer(
+                    child: Image.asset(
+                      widget.imagePath!,
+                      fit: BoxFit.cover,
+                      // Static background color for better visibility of illustrations
+                      // with transparency, especially in dark mode
+                      colorBlendMode: BlendMode.dstOver,
+                      color: Colors.grey.shade100,
+                      height: 90,
+                      errorBuilder: (context, _, __) {
+                        return Image.asset(
+                          'assets/images/placeholder_image.png',
+                          fit: BoxFit.cover,
+                          height: 90,
+                        );
+                      },
+                    ),
+                  ),
+                ),
               ),
             ),
         ],

@@ -1,4 +1,4 @@
-import '/models/osm_condition.dart';
+import '/models/element_coniditions/element_condition.dart';
 import 'answer_definition.dart';
 
 /// A [QuestionDefinition] is a bundle of data that describes the question that will be shown, when it will be shown
@@ -17,7 +17,7 @@ class QuestionDefinition {
 
   final bool isProfessional;
 
-  final List<OsmCondition> conditions;
+  final List<ElementCondition> conditions;
 
   final AnswerDefinition answer;
 
@@ -41,10 +41,9 @@ class QuestionDefinition {
       images: json['question']['image']?.cast<String>() ?? [],
       question: json['question']['text'],
       conditions: json['conditions']
-        // https://github.com/dart-lang/linter/issues/3226
-        // ignore: unnecessary_lambdas
-        ?.map<OsmCondition>((e) =>OsmCondition.fromJSON(e))
-        ?.toList(growable: false) ?? [],
+        ?.cast<Map<String, dynamic>>()
+        .map<ElementCondition>(ElementCondition.fromJSON)
+        .toList(growable: false) ?? [],
       answer: AnswerDefinition.fromJSON(json['answer']) ,
       isProfessional: json['isProfessional'] ?? false
     );

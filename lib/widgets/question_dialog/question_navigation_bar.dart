@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class QuestionNavigationBar extends StatelessWidget {
   final String? nextText;
   final String? backText;
 
-  final void Function()? onNext;
-  final void Function()? onBack;
+  final VoidCallback? onNext;
+  final VoidCallback? onBack;
 
   const QuestionNavigationBar({
     this.nextText,
@@ -17,6 +18,14 @@ class QuestionNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final disabledButtonStyle = ButtonStyle(
+      foregroundColor: MaterialStatePropertyAll(Theme.of(context).disabledColor),
+      overlayColor: const MaterialStatePropertyAll(Colors.transparent),
+      mouseCursor: const MaterialStatePropertyAll(SystemMouseCursors.forbidden),
+      splashFactory: NoSplash.splashFactory,
+      enableFeedback: false,
+    );
+
     return Container(
       color: Theme.of(context).colorScheme.background,
       padding: EdgeInsets.only(
@@ -30,70 +39,65 @@ class QuestionNavigationBar extends StatelessWidget {
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
               child: backText == null
-              ? const SizedBox.shrink()
+              ? null
               : TextButton(
-                style: ButtonStyle(
-                  textStyle: MaterialStateProperty.all<TextStyle>(
-                    const TextStyle(
-                      fontSize: 13
-                    )
-                  ),
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                    const EdgeInsets.all(20),
-                  ),
-                  alignment: Alignment.centerLeft,
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero
-                      )
-                  )
-                ),
-                onPressed: onBack,
+                // mimic disabled style
+                style: onBack != null
+                  ? _buttonStyle
+                  : _buttonStyle.merge(disabledButtonStyle),
+                // if button is disabled vibrate when pressed as additional feedback
+                onPressed: onBack ?? HapticFeedback.vibrate,
                 child: Row(
                   children: [
                     const Icon(Icons.chevron_left_rounded),
                     Text(backText!),
                   ],
-                )
+                ),
               ),
-            )
+            ),
           ),
           Expanded(
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
               child: nextText == null
-              ? const SizedBox.shrink()
+              ? null
               : TextButton(
                 key: ValueKey(nextText),
-                style: ButtonStyle(
-                  textStyle: MaterialStateProperty.all<TextStyle>(
-                    const TextStyle(
-                      fontSize: 13
-                    )
-                  ),
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                    const EdgeInsets.all(20),
-                  ),
-                  alignment: Alignment.centerRight,
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero
-                      )
-                  )
-                ),
-                onPressed: onNext,
+                // mimic disabled style
+                style: onNext != null
+                  ? _buttonStyle
+                  : _buttonStyle.merge(disabledButtonStyle),
+                // if button is disabled vibrate when pressed as additional feedback
+                onPressed: onNext ?? HapticFeedback.vibrate,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(nextText!),
-                    const Icon(Icons.chevron_right_rounded)
-                  ]
-                )
-              )
+                    const Icon(Icons.chevron_right_rounded),
+                  ],
+                ),
+              ),
             ),
-          )
+          ),
         ],
-      )
+      ),
     );
   }
+
+  static const _buttonStyle = ButtonStyle(
+    textStyle: MaterialStatePropertyAll(
+      TextStyle(
+        fontSize: 13,
+      ),
+    ),
+    padding: MaterialStatePropertyAll(
+      EdgeInsets.all(20),
+    ),
+    alignment: Alignment.centerLeft,
+    shape: MaterialStatePropertyAll(
+      RoundedRectangleBorder(
+        borderRadius: BorderRadius.zero,
+      ),
+    ),
+  );
 }
