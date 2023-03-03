@@ -386,7 +386,7 @@
       "question": {
          "id": 1120,
          "name": "Sitzplätze",
-         "text": "Gibt es an der Plattform Sitzplätze?",
+         "text": "Gibt es an der Haltestelle Sitzplätze?",
          "image": [
             "packages/nvbw_open_data/photos/1120a.jpg",
             "packages/nvbw_open_data/photos/1120b.jpg",
@@ -429,7 +429,7 @@
       "question": {
          "id": 1120,
          "name": "Überdachter Wartebereich",
-         "text": "Gibt es an der Plattform einen überdachten Wartebereich?",
+         "text": "Gibt es an der Haltestelle einen überdachten Wartebereich?",
          "image": [
             "packages/nvbw_open_data/photos/1120a.jpg",
             "packages/nvbw_open_data/photos/1120b.jpg",
@@ -559,7 +559,7 @@
       "question": {
          "id": 1140,
          "name": "Dynamischer Fahrtziel-Anzeiger",
-         "text": "Gibt es einen dynamischen Fahrtziel-Anzeiger an der Plattform?",
+         "text": "Gibt es einen dynamischen Fahrtziel-Anzeiger an der Haltestelle?",
          "description": "Dynamische Fahrtziel-Anzeiger zeigen Echtzeit-Informationen über das Ziel ein- bzw. abfahrender Züge/Busse an einem Bahn-/Bussteig an.",
          "image": [
             "packages/nvbw_open_data/photos/1140a.jpg",
@@ -602,7 +602,7 @@
       "question": {
          "id": 1141,
          "name": "Akustische Ausgabe des Fahrtziel-Anzeigers",
-         "text": "Hat der dynamische Fahrtziel-Anzeiger an der Plattform eine akustische Ausgabe?",
+         "text": "Hat der dynamische Fahrtziel-Anzeiger an der Haltestelle eine akustische Ausgabe?",
          "description": "Einige Fahrtziel-Anzeiger können bei Bedarf auf Knopfdruck die angezeigten Informationen akustisch ausgeben.",
          "image": [
             "assets/images/questions/1141a.jpg"
@@ -735,8 +735,8 @@
    {
       "question": {
          "id": 1170,
-         "name": "Plattform-Bordstein",
-         "text": "Hat die Plattform an der Fahrbahnseite einen Bordstein?"
+         "name": "Haltestellen-Bordstein",
+         "text": "Hat die Haltestelle an der Fahrbahnseite einen Bordstein?"
       },
       "answer": {
          "type": "Bool",
@@ -791,7 +791,7 @@
       "question": {
          "id": 1170,
          "name": "Bordstein-Art",
-         "text": "Welche Art von Bordstein hat die Plattform an der Seite, an der das Verkehrsmittel hält?"
+         "text": "Welche Art von Bordstein hat die Haltestelle an der Seite, an der das Verkehrsmittel hält?"
       },
       "answer": {
          "type": "List",
@@ -907,7 +907,7 @@
       "question": {
          "id": 1200,
          "name": "Anfahrtshilfe",
-         "text": "Hat die Plattform einen speziellen Bordstein mit Anfahrtshilfe für Busse?",
+         "text": "Hat die Haltestelle einen speziellen Bordstein mit Anfahrtshilfe für Busse?",
          "description": "Bordsteine mit Anfahrtshilfe haben eine konkave Rundung zur Straße hin. Diese sorgt für eine Führung der Busreifen beim Anfahren der Haltestelle und ermöglicht so Bussen ein dichtes Heranfahren an die Bordsteinkante.",
          "image": [
             "assets/images/questions/approach_aid_1.jpg",
@@ -1617,7 +1617,7 @@
       "question": {
          "id": 2070,
          "name": "Bodenindikatoren",
-         "text": "Gibt es Bodenindikatoren auf der Plattform?",
+         "text": "Gibt es Bodenindikatoren an der Haltestelle?",
          "description": "Bodenindikatoren sind Bodenelemente im öffentlichen Raum zur Information, Orientierung, Leitung und Warnung sehbehinderter Menschen. Sie stehen in einem hohen taktilen, visuellen und gegebenenfalls akustischen Kontrast zum angrenzenden Bodenbelag.",
          "image": [
             "packages/nvbw_open_data/photos/2070a.jpg",
