@@ -10,16 +10,16 @@ import 'package:provider/provider.dart';
 import 'package:supercluster/supercluster.dart';
 
 import '/utils/stream_utils.dart';
-import '/models/geometric_osm_element.dart';
+import '/models/element_variants/base_element.dart';
 import '/models/map_feature_collection.dart';
 import '/view_models/questionnaire_provider.dart';
 import '/widgets/osm_element_layer/osm_element_marker.dart';
 
 
 class OsmElementLayer extends StatefulWidget {
-  final Iterable<GeometricOSMElement> geoElements;
+  final Iterable<ProcessedElement> elements;
 
-  final void Function(GeometricOSMElement osmElement)? onOsmElementTap;
+  final void Function(ProcessedElement osmElement)? onOsmElementTap;
 
   /// The maximum shift in duration between different markers.
 
@@ -30,7 +30,7 @@ class OsmElementLayer extends StatefulWidget {
   final int zoomLowerLimit;
 
   const OsmElementLayer({
-    required this.geoElements,
+    required this.elements,
     this.onOsmElementTap,
     this.durationOffsetRange = const Duration(milliseconds: 300),
     this.zoomLowerLimit = 15,
@@ -42,7 +42,7 @@ class OsmElementLayer extends StatefulWidget {
 }
 
 class _OsmElementLayerState extends State<OsmElementLayer> {
-  SuperclusterImmutable<GeometricOSMElement>? _supercluster;
+  SuperclusterImmutable<ProcessedElement>? _supercluster;
 
   Stream<int>? _zoomLevelStream;
 
@@ -51,7 +51,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
   void initState() {
     super.initState();
 
-    compute(_cluster, widget.geoElements.toList()).then(
+    compute(_cluster, widget.elements.toList()).then(
      (value) {
         setState(() =>_supercluster = value);
       }
@@ -63,7 +63,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
   void didUpdateWidget(covariant OsmElementLayer oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    compute(_cluster, widget.geoElements.toList()).then(
+    compute(_cluster, widget.elements.toList()).then(
       (value) {
         setState(() =>_supercluster = value);
       }
@@ -94,8 +94,8 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
   }
 
 
-  static SuperclusterImmutable<GeometricOSMElement> _cluster(List<GeometricOSMElement> elements) {
-    return SuperclusterImmutable<GeometricOSMElement>(
+  static SuperclusterImmutable<ProcessedElement> _cluster(List<ProcessedElement> elements) {
+    return SuperclusterImmutable<ProcessedElement>(
       getX: (p) => p.geometry.center.longitude,
       getY: (p) => p.geometry.center.latitude,
       minZoom: 0,
@@ -121,43 +121,32 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 
         if (_supercluster != null) {
           final clusters =_supercluster!.search(-180, -85, 180, 85, zoomLevel);
+          var activeMarkerFound = false;
 
           for (final cluster in clusters) {
-            if (cluster is ImmutableLayerCluster<GeometricOSMElement>) {
-              final points = (cluster.clusterData as _ClusterLeafs).elements;
+            final elements = _elementsFromCluster(cluster).iterator;
 
-              var hasMarker = false;
-              // skip first point since it might be build as a marker
-              for (final point in points.skip(1)) {
-                // if this cluster contains the currently selected marker use this as the marker for this cluster
-                if (!hasMarker && questionnaireProvider.workingElement?.isOther(point.osmElement) == true) {
+            if (questionnaireProvider.isOpen) {
+              while(!activeMarkerFound && elements.moveNext()) {
+                if (questionnaireProvider.workingElement == elements.current) {
                   visibleMarkers.add(
-                    _createMarker(point)
+                    _createMarker(elements.current)
                   );
-                  hasMarker = true;
+                  activeMarkerFound = true;
                 }
                 else {
-                  suppressedMarkers.add(_createMinimizedMarker(point));
+                  suppressedMarkers.add(_createMinimizedMarker(elements.current));
                 }
               }
-              // if this cluster is represented by the currently selected element
-              // create minimized marker for the first cluster marker
-              if (hasMarker) {
-                suppressedMarkers.add(
-                  _createMinimizedMarker(points.first)
-                );
-              }
-              // else always show the first element as a marker and not placeholder
-              else {
-                visibleMarkers.add(
-                  _createMarker(points.first)
-                );
-              }
             }
-            else if (cluster is ImmutableLayerPoint<GeometricOSMElement>) {
+            else {
+              // always show the first element as a marker and not placeholder
               visibleMarkers.add(
-                _createMarker(cluster.originalPoint)
+                _createMarker((elements..moveNext()).current)
               );
+            }
+            while(elements.moveNext()) {
+              suppressedMarkers.add(_createMinimizedMarker(elements.current));
             }
           }
         }
@@ -185,6 +174,16 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
   }
 
 
+  Iterable<ProcessedElement> _elementsFromCluster(cluster) sync* {
+    if (cluster is ImmutableLayerCluster<ProcessedElement>) {
+      yield* (cluster.clusterData as _ClusterLeafs).elements;
+    }
+    else if (cluster is ImmutableLayerPoint<ProcessedElement>) {
+      yield cluster.originalPoint;
+    }
+  }
+
+
   Duration _getRandomDelay([int? seed]) {
     if (widget.durationOffsetRange.inMicroseconds == 0) {
       return Duration.zero;
@@ -194,13 +193,12 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
   }
 
 
-  AnimatedMarker _createMarker(GeometricOSMElement geoElement) {
+  AnimatedMarker _createMarker(ProcessedElement element) {
     // supply id as seed so we get the same delay for both marker types
-    final seed = geoElement.osmElement.id;
+    final seed = element.id;
     return _OsmElementMarker(
-      geoElement: geoElement,
+      element: element,
       animateInDelay: _getRandomDelay(seed),
-      animateOutDelay: _getRandomDelay(seed),
       builder: _markerBuilder
     );
   }
@@ -208,41 +206,38 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 
   Widget _markerBuilder(BuildContext context, Animation<double> animation, AnimatedMarker marker) {
     marker as _OsmElementMarker;
-    final osmElement = marker.geoElement.osmElement;
+    final osmElement = marker.element;
     final mapFeature = context.watch<MapFeatureCollection>().getMatchingFeature(osmElement);
     final activeElement = context.watch<QuestionnaireProvider>().workingElement;
-    final hasNoActive = activeElement == null;
-    final isActive = activeElement?.isOther(osmElement) ?? false;
+    final isActive = activeElement == osmElement;
 
     return ScaleTransition(
       scale: animation,
       alignment: Alignment.bottomCenter,
       filterQuality: FilterQuality.low,
       child: OsmElementMarker(
-        onTap: () => widget.onOsmElementTap?.call(marker.geoElement),
-        backgroundColor: isActive || hasNoActive ? null : Colors.grey,
-        icon: mapFeature?.icon ?? MdiIcons.help
+        onTap: () => widget.onOsmElementTap?.call(marker.element),
+        active: isActive,
+        icon: mapFeature?.icon ?? MdiIcons.help,
+        label: mapFeature?.labelByElement(osmElement) ?? mapFeature?.name ?? '',
       )
     );
   }
 
 
-  AnimatedMarker _createMinimizedMarker(GeometricOSMElement geoElement) {
-    final osmElement = geoElement.osmElement;
-
+  AnimatedMarker _createMinimizedMarker(ProcessedElement element) {
     return AnimatedMarker(
       // use geo element as key, because osm element equality changes whenever its tags or version change
       // while geo elements only compare the OSM element type and id
-      key: ValueKey(geoElement),
-      point: geoElement.geometry.center,
+      key: ValueKey(element),
+      point: element.geometry.center,
       size: const Size.fromRadius(4),
       animateInCurve: Curves.easeIn,
       animateOutCurve: Curves.easeOut,
       animateInDuration: const Duration(milliseconds: 300),
       animateOutDuration: const Duration(milliseconds: 300),
       // supply id as seed so we get the same delay for both marker types
-      animateInDelay: _getRandomDelay(osmElement.id),
-      animateOutDelay: _getRandomDelay(osmElement.id),
+      animateOutDelay: _getRandomDelay(element.id),
       builder: _minimizedMarkerBuilder
     );
   }
@@ -257,7 +252,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
           shape: BoxShape.circle,
           border: Border.all(
             width: 1,
-            color: Theme.of(context).colorScheme.shadow
+            color: Theme.of(context).colorScheme.shadow.withOpacity(0.26)
           )
         )
       )
@@ -267,19 +262,18 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 
 
 class _OsmElementMarker extends AnimatedMarker {
-  final GeometricOSMElement geoElement;
+  final ProcessedElement element;
 
   _OsmElementMarker({
-    required this.geoElement,
+    required this.element,
     required super.builder,
-    required super.animateInDelay,
-    required super.animateOutDelay,
+    super.animateInDelay,
   }) : super(
-    // use geo element as key, because osm element equality changes whenever its tags or version change
-    // while geo elements only compare the OSM element type and id
-    key: ValueKey(geoElement),
-    point: geoElement.geometry.center,
-    size: const Size.square(60),
+    // use processed element as key
+    // its equality doesn't change when its tags or version changes
+    key: ValueKey(element),
+    point: element.geometry.center,
+    size: const Size(260, 60),
     anchor: Alignment.bottomCenter,
     animateInCurve: Curves.elasticOut,
     animateOutCurve: Curves.easeOutBack,
@@ -289,7 +283,7 @@ class _OsmElementMarker extends AnimatedMarker {
 
 
 class _ClusterLeafs extends ClusterDataBase {
-  final List<GeometricOSMElement> elements;
+  final List<ProcessedElement> elements;
 
   _ClusterLeafs(this.elements);
 

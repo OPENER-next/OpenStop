@@ -2,24 +2,25 @@ PODS:
   - Flutter (1.0.0)
   - flutter_secure_storage (6.0.0):
     - Flutter
+  - flutter_sensors (0.0.1):
+    - Flutter
   - flutter_web_auth (0.5.0):
     - Flutter
   - geolocator_apple (1.2.0):
     - Flutter
-  - motion_sensors (0.0.1):
+  - shared_preferences_foundation (0.0.1):
     - Flutter
-  - shared_preferences_ios (0.0.1):
-    - Flutter
+    - FlutterMacOS
   - url_launcher_ios (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - flutter_sensors (from `.symlinks/plugins/flutter_sensors/ios`)
   - flutter_web_auth (from `.symlinks/plugins/flutter_web_auth/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
-  - motion_sensors (from `.symlinks/plugins/motion_sensors/ios`)
-  - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 EXTERNAL SOURCES:
@@ -27,25 +28,25 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  flutter_sensors:
+    :path: ".symlinks/plugins/flutter_sensors/ios"
   flutter_web_auth:
     :path: ".symlinks/plugins/flutter_web_auth/ios"
   geolocator_apple:
     :path: ".symlinks/plugins/geolocator_apple/ios"
-  motion_sensors:
-    :path: ".symlinks/plugins/motion_sensors/ios"
-  shared_preferences_ios:
-    :path: ".symlinks/plugins/shared_preferences_ios/ios"
+  shared_preferences_foundation:
+    :path: ".symlinks/plugins/shared_preferences_foundation/ios"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
+  flutter_sensors: dc6eed3291e7724bf8f4138d7d14c4071b42bd29
   flutter_web_auth: c25208760459cec375a3c39f6a8759165ca0fa4d
   geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
-  motion_sensors: 03f55b7c637a7e365a0b5f9697a449f9059d5d91
-  shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
-  url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
+  shared_preferences_foundation: 297b3ebca31b34ec92be11acd7fb0ba932c822ca
+  url_launcher_ios: ae1517e5e344f5544fb090b079e11f399dfbe4d2
 
 PODFILE CHECKSUM: 642e1262a59f7238a9b65ccfac5b00f35ff92053
 

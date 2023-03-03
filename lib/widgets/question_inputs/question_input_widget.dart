@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 
 import '/models/answer.dart';
@@ -95,16 +97,19 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
 
   set answer(T? value) {
     if (value != _answer && !isDisposed) {
+      final previousState = state;
       _answer = value;
+      final newState = state;
+
+      if (previousState != newState) {
+        _notifyStatusListeners(newState);
+      }
       notifyListeners();
     }
   }
 
   void clear() {
-    if (_answer != null && !isDisposed) {
-      _answer = null;
-      notifyListeners();
-    }
+    answer = null;
   }
 
   bool get isEmpty => _answer == null;
@@ -112,6 +117,42 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
   bool get isNotEmpty => !isEmpty;
 
   bool get hasValidAnswer => _answer?.isValid == true;
+
+  AnswerStatus get state {
+    if (isEmpty) {
+      return AnswerStatus.empty;
+    }
+    else if (hasValidAnswer) {
+      return AnswerStatus.valid;
+    }
+    return AnswerStatus.invalid;
+  }
+
+
+  final _statusListeners = HashSet<AnswerStatusListener>();
+
+  /// Calls listener every time the answer status changes.
+  ///
+  /// The same listener can only be added once.
+  ///
+  /// Returns true if the listener was not already registered.
+  bool addStatusListener(AnswerStatusListener listener) {
+    return _statusListeners.add(listener);
+  }
+
+  /// Stops calling the listener every time the answer status changes.
+  ///
+  /// Returns true if the listener was not already unregistered.
+  bool removeStatusListener(AnswerStatusListener listener) {
+    return _statusListeners.remove(listener);
+  }
+
+  void _notifyStatusListeners(AnswerStatus newState) {
+    for (final listener in _statusListeners) {
+      listener(newState);
+    }
+  }
+
 
   static AnswerController fromType<T extends Answer>({
     required Type type,
@@ -140,7 +181,14 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
 
   @override
   void dispose() {
+    _statusListeners.clear();
     super.dispose();
     _isDisposed = true;
   }
+}
+
+typedef AnswerStatusListener = void Function(AnswerStatus status);
+
+enum AnswerStatus {
+  invalid, empty, valid,
 }

@@ -8,7 +8,7 @@ void main() async {
     'key2': ['a', 'b', 'c'],
   };
 
- test('test if constructor coalesce works correctly', () {
+ test('test if constructor COALESCE works correctly', () {
     {
       const testConstructor = AnswerConstructor({
         'key1': [r'$input'],
@@ -25,7 +25,7 @@ void main() async {
     {
       const testConstructor = AnswerConstructor({
         'key1': [r'$input'],
-        'key2': ['coalesce', 'x'],
+        'key2': ['COALESCE', 'x'],
       });
 
       expect(
@@ -40,7 +40,7 @@ void main() async {
     {
       const testConstructor = AnswerConstructor({
         'key1': [r'$input', 'fallback'],
-        'key2': ['coalesce', 'x'],
+        'key2': ['COALESCE', 'x'],
       });
 
       expect(
@@ -55,7 +55,7 @@ void main() async {
     {
       const testConstructor = AnswerConstructor({
         'key1': [r'$input'],
-        'key2': ['coalesce', 'x'],
+        'key2': ['COALESCE', 'x'],
       });
 
       expect(
@@ -68,7 +68,7 @@ void main() async {
 
     {
       const testConstructor = AnswerConstructor({
-        'key1': ['coalesce', r'$input'],
+        'key1': ['COALESCE', r'$input'],
       });
 
       expect(
@@ -81,8 +81,8 @@ void main() async {
 
     {
       const testConstructor = AnswerConstructor({
-        'key1': ['coalesce', r'$input'],
-        'key2': ['coalesce', 'x'],
+        'key1': ['COALESCE', r'$input'],
+        'key2': ['COALESCE', 'x'],
       });
 
       expect(
@@ -96,8 +96,8 @@ void main() async {
 
     {
       const testConstructor = AnswerConstructor({
-        'key1': ['coalesce', r'$input', 'fallback'],
-        'key2': ['coalesce', 'x'],
+        'key1': ['COALESCE', r'$input', 'fallback'],
+        'key2': ['COALESCE', 'x'],
       });
 
       expect(
@@ -111,8 +111,8 @@ void main() async {
 
     {
       const testConstructor = AnswerConstructor({
-        'key1': ['coalesce', r'$input'],
-        'key2': ['coalesce', 'x'],
+        'key1': ['COALESCE', r'$input'],
+        'key2': ['COALESCE', 'x'],
       });
 
       expect(
@@ -125,10 +125,10 @@ void main() async {
   });
 
 
-  test('test if constructor concat works correctly', () {
+  test('test if constructor CONCAT works correctly', () {
     {
       const testConstructor = AnswerConstructor({
-        'key1': ['concat', r'$input'],
+        'key1': ['CONCAT', r'$input'],
       });
 
       expect(
@@ -141,7 +141,7 @@ void main() async {
 
     {
       const testConstructor = AnswerConstructor({
-        'key1': ['concat', r'$input', 'd'],
+        'key1': ['CONCAT', r'$input', 'd'],
       });
 
       expect(
@@ -154,8 +154,8 @@ void main() async {
 
     {
       const testConstructor = AnswerConstructor({
-        'key1': ['concat', r'$input'],
-        'key2': ['coalesce', 'x'],
+        'key1': ['CONCAT', r'$input'],
+        'key2': ['COALESCE', 'x'],
       });
 
       expect(
@@ -169,8 +169,8 @@ void main() async {
 
     {
       const testConstructor = AnswerConstructor({
-        'key1': ['concat', r'$input', 'fallback'],
-        'key2': ['coalesce', 'x'],
+        'key1': ['CONCAT', r'$input', 'fallback'],
+        'key2': ['COALESCE', 'x'],
       });
 
       expect(
@@ -184,8 +184,8 @@ void main() async {
 
     {
       const testConstructor = AnswerConstructor({
-        'key1': ['concat', r'$input'],
-        'key2': ['coalesce', 'x'],
+        'key1': ['CONCAT', r'$input'],
+        'key2': ['COALESCE', 'x'],
       });
 
       expect(
@@ -198,10 +198,10 @@ void main() async {
   });
 
 
-  test('test if constructor join works correctly', () {
+  test('test if constructor JOIN works correctly', () {
     {
       const testConstructor = AnswerConstructor({
-        'key1': ['join', ';', r'$input'],
+        'key1': ['JOIN', ';', r'$input'],
       });
 
       expect(
@@ -214,7 +214,7 @@ void main() async {
 
     {
       const testConstructor = AnswerConstructor({
-        'key1': ['join', ';', r'$input', 'd'],
+        'key1': ['JOIN', ';', r'$input', 'd'],
       });
 
       expect(
@@ -227,8 +227,8 @@ void main() async {
 
     {
       const testConstructor = AnswerConstructor({
-        'key1': ['join', ';', r'$input'],
-        'key2': ['coalesce', 'x'],
+        'key1': ['JOIN', ';', r'$input'],
+        'key2': ['COALESCE', 'x'],
       });
 
       expect(
@@ -242,8 +242,8 @@ void main() async {
 
     {
       const testConstructor = AnswerConstructor({
-        'key1': ['join', ';', r'$input', 'fallback'],
-        'key2': ['coalesce', 'x'],
+        'key1': ['JOIN', ';', r'$input', 'fallback'],
+        'key2': ['COALESCE', 'x'],
       });
 
       expect(
@@ -257,14 +257,148 @@ void main() async {
 
     {
       const testConstructor = AnswerConstructor({
-        'key1': ['join', ';', r'$input'],
-        'key2': ['coalesce', 'x'],
+        'key1': ['JOIN', ';', r'$input'],
+        'key2': ['COALESCE', 'x'],
       });
 
       expect(
         testConstructor.construct({}),
         equals({
           'key2': 'x',
+        })
+      );
+    }
+  });
+
+
+  test('test if constructor COUPLE works correctly', () {
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': ['COUPLE', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({})
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': ['COUPLE', 'a'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({})
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': ['JOIN', ';', r'$input'],
+        'key2': ['COUPLE', 'x'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key1': 'a;b;c',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': ['COUPLE', 'a', 'b'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key1': 'ab',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': ['COUPLE', 'a', r'$input', 'b'],
+      });
+
+      expect(
+        testConstructor.construct({}),
+        equals({
+          'key1': 'ab',
+        })
+      );
+    }
+  });
+
+
+  test('test expression nesting in constructor works correctly', () {
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': ['JOIN',
+          ['CONCAT', r'$input'],
+          r'$input'
+        ],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key1': 'aabcbabcc',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': ['JOIN',
+          ['COALESCE', r'$input'],
+          r'$input'
+        ],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key1': 'aabac',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': ['CONCAT',
+          ['COALESCE', r'$input'],
+          '-',
+          r'$input'
+        ],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key1': 'a-abc',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': ['CONCAT',
+          ['JOIN', ';', r'$input'],
+          '-',
+          r'$input'
+        ],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key1': 'a;b;c-abc',
         })
       );
     }

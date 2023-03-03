@@ -55,7 +55,6 @@ class SettingsScreen extends StatelessWidget {
                 leadingIcon: Icons.report_problem_rounded,
                 title: 'Profi-Fragen anzeigen',
                 subtitle: 'Aus Sicherheitsgründen nur für Fachpersonal bestimmt',
-                isThreeLine: true,
                 onChanged: (value) {
                   context.read<PreferencesProvider>().isProfessional = value;
                 },

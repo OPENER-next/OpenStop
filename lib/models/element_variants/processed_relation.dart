@@ -1,118 +1,41 @@
-import 'dart:collection';
+part of 'base_element.dart';
 
-import 'package:latlong2/latlong.dart';
-import 'package:osm_api/osm_api.dart';
+/// Concrete implementation of [ProcessedElement] for OSM relations.
+/// See [ProcessedElement] for details.
+///
+/// The geometry calculation requires adding all children/members in beforehand via `addChild`.
 
-import '/utils/osm_tag_area_resolver.dart';
-import 'geographic_geometries.dart';
+class ProcessedRelation extends ProcessedElement<osmapi.OSMRelation, GeographicGeometry> with ChildElement, ParentElement {
+  ProcessedRelation(super.element);
 
-/// A class for creating a geographic element from a given osm element.
-/// The equality of a [GeometricOSMElement] is solely determined by the OSM element id and type.
+  /// Do not modify any of the members.
 
-class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
-  final T osmElement;
-  final G geometry;
+  Iterable<osmapi.OSMMember> get members => Iterable.castFrom(_osmElement.members);
 
-  const GeometricOSMElement({
-    required this.osmElement,
-    required this.geometry
-  });
+  @override
+  UnmodifiableSetView<ProcessedRelation> get parents => UnmodifiableSetView(_parents.cast<ProcessedRelation>());
+
+  @override
+  void addParent(ProcessedRelation element) => super.addParent(element);
+
+  @override
+  void removeParent(ProcessedRelation element) => super.removeParent(element);
 
 
-  /// Create a [GeometricOSMElement] from an osm element and a given bundle of sub osm elements.
-
-  static GeometricOSMElement generateFromOSMElement(OSMElement osmElement, OSMElementBundle elementBundle) {
-    switch(osmElement.type) {
-      case OSMElementType.node:
-        return GeometricOSMElement.generateFromOSMNode(
-          osmNode: osmElement as OSMNode
-        );
-      case OSMElementType.way:
-        return GeometricOSMElement.generateFromOSMWay(
-          osmWay: osmElement as OSMWay,
-          osmNodes: elementBundle.getNodesFromWay(osmElement),
-        );
-      case OSMElementType.relation:
-        return GeometricOSMElement.generateFromOSMRelation(
-          osmRelation: osmElement as OSMRelation,
-          osmWays: elementBundle.getWaysFromRelation(osmElement),
-          osmNodes: elementBundle.nodes
-        );
-    }
-  }
-
-  /// Creates a [GeometricOSMElement] from a single [OSMNode].
-
-  static GeometricOSMElement<OSMNode, GeographicPoint> generateFromOSMNode({
-    required OSMNode osmNode,
-  }) {
-    final geometry = GeographicPoint(
-      LatLng(osmNode.lat, osmNode.lon)
-    );
-
-    return GeometricOSMElement(
-      osmElement: osmNode,
-      geometry: geometry
-    );
-  }
-
-  /// Creates a [GeometricOSMElement] from a single [OSMWay].
-  /// The [osmNodes] parameter should contain exactly the node elements that this way references.
-
-  static GeometricOSMElement<OSMWay, GeographicGeometry> generateFromOSMWay({
-    required OSMWay osmWay,
-    required Iterable<OSMNode> osmNodes
-  }) {
-    // assert that the provided nodes are exactly the ones referenced by the way and in the same order
-    assert(() {
-      var i = -1;
-      return osmNodes.every((node) {
-        i++;
-        return node.id == osmWay.nodeIds[i];
-      });
-    }(), 'OSM way ${osmWay.id} references nodes that cannot be found in the provided node data set.');
-
-    final accumulatedCoordinates = osmNodes
-      .map((node) => LatLng(node.lat, node.lon))
-      .toList();
-
-    final geometry = GeographicPolyline(accumulatedCoordinates);
-
-    if (osmWay.isClosed && isArea(osmWay.tags)) {
-      return GeometricOSMElement<OSMWay, GeographicPolygon>(
-        osmElement: osmWay,
-        geometry: GeographicPolygon(
-          outerShape: geometry
-        )
-      );
-    }
-    else {
-      return GeometricOSMElement<OSMWay, GeographicPolyline>(
-        osmElement: osmWay,
-        geometry: geometry
-      );
-    }
-  }
-
-  /// Creates a [GeometricOSMElement] from a single [OSMRelation].
-  /// The [osmNodes] and [osmWays] parameter should contain all elements that this relation references.
+  /// All members that this relation references must be added before calling this via `addChild`.
+  ///
   /// Note: Other relations that this relation might contain are currently ignored.
+  ///
+  /// This method throws for none multipolygon relations or unresolvable multipolygons.
 
-  static GeometricOSMElement<OSMRelation, GeographicGeometry> generateFromOSMRelation({
-    required OSMRelation osmRelation,
-    required Iterable<OSMNode> osmNodes,
-    required Iterable<OSMWay> osmWays
-  }) {
-    if (osmRelation.tags['type'] == 'multipolygon') {
-      return _fromMultipolygonRelation(
-        osmRelation: osmRelation,
-        osmNodes: osmNodes,
-        osmWays: osmWays
-      );
+  @override
+  void calcGeometry() {
+    if (tags['type'] == 'multipolygon') {
+      _geometry = _fromMultipolygonRelation();
     }
     else {
       // TODO: handle this case properly
-      throw 'Unknown type';
+      throw 'Unhandled type "${tags['type']}" for relation $id';
       // just calculate a single node based on all nodes above?
       // or show create all elements that are part of this relation?
       // ignore none multipolygons because their data is most likely not fetched entirely. For example a relation like germany
@@ -121,12 +44,15 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
 
 
   /// This algorithm is inspired by https://wiki.openstreetmap.org/wiki/Relation:multipolygon/Algorithm
+  GeographicGeometry _fromMultipolygonRelation() {
+    // assert that the provided ways are exactly the ones referenced by the relation.
+    assert(
+      _osmElement.members
+        .where((member) => member.type == osmapi.OSMElementType.way)
+        .every((member) => _children.any((element) => element is ProcessedWay && element.id == member.ref)),
+      'OSM relation $id referenced ways that cannot be found in the provided way data set.'
+    );
 
-  static GeometricOSMElement<OSMRelation, GeographicGeometry> _fromMultipolygonRelation({
-    required OSMRelation osmRelation,
-    required Iterable<OSMNode> osmNodes,
-    required Iterable<OSMWay> osmWays
-  }) {
     final List<GeographicPolyline> outerClosedPolylines = [];
     final List<GeographicPolyline> innerClosedPolylines = [];
 
@@ -134,30 +60,25 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
     // This means that if a wrong role or nothing is set we will always fallback to "outer".
     // This assumption should also lead to a little performance boost.
     final Set<int> innerWayIds = {};
-    for (final member in osmRelation.members) {
-      if (member.role == 'inner' && member.type == OSMElementType.way) {
+    for (final member in _osmElement.members) {
+      if (member.role == 'inner' && member.type == osmapi.OSMElementType.way) {
         innerWayIds.add(member.ref);
       }
     }
 
     // first step: ring grouping
 
-    final nodeList = osmNodes.toList();
+    final nodePositionLookUp = <int, LatLng>{};
 
-    // assert that the provided ways are exactly the ones referenced by the relation.
-    assert(
-      osmRelation.members
-        .where((member) => member.type == OSMElementType.way)
-        .every((member) => osmWays.any((way) => way.id == member.ref)),
-      'OSM relation references ways that cannot be found in the provided way data set.'
-    );
-    assert(
-      osmRelation.members
-        .where((member) => member.type == OSMElementType.way)
-        .length == osmWays.length,
-      'OSM relation has way references that differ from the provided way data set.'
-    );
-    var wayList = osmWays.toList();
+    var wayList = _children
+      .whereType<ProcessedWay>()
+      .map<osmapi.OSMWay>((way) {
+        for (final node in way.children) {
+          nodePositionLookUp[node.id] = node.geometry.center;
+        }
+        return way._osmElement;
+      })
+      .toList();
 
     while (wayList.isNotEmpty) {
       final workingWay = wayList.removeLast();
@@ -166,12 +87,9 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
 
       final accumulatedCoordinates = wayNodePool.nodeIds.map((id) {
         try {
-          // find node object by id
-          final node = nodeList.firstWhere((node) => node.id == id);
-          // convert node object to LatLng
-          return LatLng(node.lat, node.lon);
+          return nodePositionLookUp[id]!;
         }
-        on StateError {
+        on TypeError {
           throw StateError('OSM node with id $id not found in the provided node data set.');
         }
       }).toList();
@@ -221,15 +139,9 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
     }
 
     if (polygons.length > 1) {
-      return GeometricOSMElement<OSMRelation, GeographicMultipolygon>(
-        osmElement: osmRelation,
-        geometry: GeographicMultipolygon(polygons)
-      );
+      return GeographicMultipolygon(polygons);
     }
-    return GeometricOSMElement<OSMRelation, GeographicPolygon>(
-      osmElement: osmRelation,
-      geometry: polygons.single
-    );
+    return polygons.single;
   }
 
 
@@ -240,7 +152,7 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
   /// This is basically recursive but implemented in a non recursive way to mitigate any stack overflow.
   /// Throws an error if no ring could be built from the given ways
 
-  static _WayNodeIdPool _extractRingFromWays(List<OSMWay> wayList, OSMWay initialWay) {
+  _WayNodeIdPool _extractRingFromWays(List<osmapi.OSMWay> wayList, osmapi.OSMWay initialWay) {
     // this is used to keep a history which is required for backtracking the algorithm
     final workingWayHistory = ListQueue<Iterator<_WayNodeIdPool>>();
     // add new way as initial history entry
@@ -280,7 +192,7 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
   /// The node list order is already adjusted so that the first node will always connect to the given [nodeId].
   /// Note: This means that the first original node is not included since it's equal to the given [nodeId].
 
-  static Iterable<_WayNodeIdPool> _getConnectingWays(List<OSMWay> wayList, int nodeId) sync* {
+  Iterable<_WayNodeIdPool> _getConnectingWays(List<osmapi.OSMWay> wayList, int nodeId) sync* {
     // look for unassigned ways that start or end with the given node id
     for (var i = 0; i < wayList.length; i++) {
       final way = wayList[i];
@@ -304,23 +216,11 @@ class GeometricOSMElement<T extends OSMElement, G extends GeographicGeometry> {
       }
     }
   }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is GeometricOSMElement<T, G> &&
-      other.osmElement.id == osmElement.id &&
-      other.osmElement.type == osmElement.type;
-  }
-
-  @override
-  int get hashCode => osmElement.id.hashCode ^ osmElement.type.hashCode;
 }
 
 
 class _WayNodeIdPool {
-  final List<OSMWay> remainingWays;
+  final List<osmapi.OSMWay> remainingWays;
   final Iterable<int> nodeIds;
 
   _WayNodeIdPool(this.remainingWays, this.nodeIds);

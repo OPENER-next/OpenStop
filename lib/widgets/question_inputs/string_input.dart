@@ -73,6 +73,7 @@ class _StringInputDelegateState extends State<_StringInputDelegate> {
         suffixIcon: IconButton(
           onPressed: _handleChange,
           icon: const Icon(Icons.clear_rounded),
+          highlightColor: Colors.transparent,
         ),
       ),
       autovalidateMode: AutovalidateMode.always,
