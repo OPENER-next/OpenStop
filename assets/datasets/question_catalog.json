@@ -1617,7 +1617,7 @@
       "question": {
          "id": 2070,
          "name": "Bodenindikatoren",
-         "text": "Gibt es Bodenindikatoren auf der Haltestelle?",
+         "text": "Gibt es Bodenindikatoren an der Haltestelle?",
          "description": "Bodenindikatoren sind Bodenelemente im öffentlichen Raum zur Information, Orientierung, Leitung und Warnung sehbehinderter Menschen. Sie stehen in einem hohen taktilen, visuellen und gegebenenfalls akustischen Kontrast zum angrenzenden Bodenbelag.",
          "image": [
             "packages/nvbw_open_data/photos/2070a.jpg",
