@@ -762,10 +762,6 @@
                "bus": [false, "yes"],
                "kerb": false
             },
-            "osm_element": [
-               "OpenWay",
-               "ClosedWay"
-            ],
             "!parent": [
                {
                   "osm_tags": {
@@ -781,10 +777,6 @@
                "bus": "yes",
                "kerb": false
             },
-            "osm_element": [
-               "OpenWay",
-               "ClosedWay"
-            ],
             "!parent": [
                {
                   "osm_tags": {
@@ -833,10 +825,6 @@
                "public_transport": "platform",
                "kerb": "yes"
             },
-            "osm_element": [
-               "OpenWay",
-               "ClosedWay"
-            ],
             "!parent": [
                {
                   "osm_tags": {
