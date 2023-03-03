@@ -12,8 +12,8 @@ env:
   # Use a fixed Flutter version (instead of latest) to ensure a more deterministic building process
   # When changing the Flutter version make sure to also update it in the F-Droid repository
   # https://gitlab.com/fdroid/fdroiddata/-/blob/master/metadata/de.tu_chemnitz.etit.sse.openstop.yml
-  FLUTTER_SDK_VERSION: '3.7.1'
-      
+  FLUTTER_SDK_VERSION: '3.7.6'
+
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
@@ -82,13 +82,13 @@ jobs:
         --dart-define=IS_RELEASE=true
         --flavor standard
 
-    - name: Upload App Bundle artifact 
+    - name: Upload App Bundle artifact
       uses: actions/upload-artifact@v3
       with:
         name: Android App Bundle
         path: build/app/outputs/bundle/standardRelease/app-standard-release.aab
 
-    - name: Upload APK artifact 
+    - name: Upload APK artifact
       uses: actions/upload-artifact@v3
       with:
         name: Android APK
@@ -96,11 +96,11 @@ jobs:
 
   build_ios:
     runs-on: macos-latest
-    
+
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-    
+
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
@@ -109,10 +109,10 @@ jobs:
 
     - name: Download pub dependencies
       run: flutter pub get
-    
+
     - name: Run build_runner
       run: flutter pub run build_runner build --delete-conflicting-outputs
-    
+
     - name: Build iOS Bundle
       run: >-
         flutter build ios
@@ -120,7 +120,7 @@ jobs:
         --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
         --dart-define=IS_RELEASE=true
 
-    - name: Upload iOS Bundle artifact 
+    - name: Upload iOS Bundle artifact
       uses: actions/upload-artifact@v3
       with:
         name: iOS App
@@ -131,22 +131,22 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        
+
       - name: Setup Pages
         uses: actions/configure-pages@v2
-        
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_SDK_VERSION }}
           channel: 'stable'
-          
+
       - name: Download pub dependencies
         run: flutter pub get
 
       - name: Run build_runner
         run: flutter pub run build_runner build --delete-conflicting-outputs
-        
+
       - name: Build web
         run: >-
           flutter build web
@@ -157,7 +157,7 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           path: 'build/web'
-          
+
   deploy_web:
     environment:
       name: github-pages
