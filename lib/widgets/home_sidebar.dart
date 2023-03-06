@@ -122,7 +122,7 @@ class UserAccountHeader extends StatelessWidget {
     this.imageUrl,
     this.onLogoutTap,
     this.onProfileTap,
-    this.profilePictureSize = 110,
+    this.profilePictureSize = 100,
     this.borderWidth = 4,
     this.borderRadius = 12,
     this.buttonOffset = const Offset(10, 10),
@@ -132,12 +132,12 @@ class UserAccountHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final totalSize = profilePictureSize + 2 * borderWidth;
+    final link = LayerLink();
 
     return Container(
       width: double.infinity,
       padding: EdgeInsets.only(
-        top: MediaQuery.of(context).padding.top + 15,
+        top: MediaQuery.of(context).padding.top + 15 + borderWidth,
         left: 10,
         right: 10,
         bottom: 15
@@ -146,73 +146,64 @@ class UserAccountHeader extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
-            height: buttonOffset.dy + totalSize,
-            // double the offset value, because the image is (top) centered
-            // therefore the surrounding box needs to be extended equally left and right
-            width: 2 * buttonOffset.dx + totalSize,
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    decoration: BoxDecoration(
+          Stack(
+            children: [
+              CompositedTransformTarget(
+                link: link,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.primaryContainer,
+                    borderRadius: BorderRadius.circular(borderRadius),
+                    border: Border.all(
+                      width: borderWidth,
                       color: theme.colorScheme.primaryContainer,
-                      borderRadius: BorderRadius.circular(borderRadius + borderWidth),
+                      strokeAlign: BorderSide.strokeAlignOutside,
                     ),
-                    clipBehavior: Clip.antiAlias,
-                    child: imageUrl == null
-                      ? UserAccountImagePlaceholder(
-                        size: profilePictureSize,
-                      )
-                      : FadeInImage.memoryNetwork(
-                        placeholder: _transparentImage,
-                        image: imageUrl!,
-                        fit: BoxFit.cover,
-                        width: profilePictureSize,
-                        height: profilePictureSize,
-                        fadeInDuration: const Duration(milliseconds: 300),
-                        imageCacheWidth: profilePictureSize.toInt(),
-                        imageCacheHeight: profilePictureSize.toInt(),
-                        imageErrorBuilder:(context, error, stackTrace) {
-                          return UserAccountImagePlaceholder(
-                            size: profilePictureSize,
-                          );
-                        },
-                      ),
                   ),
-                ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    width: profilePictureSize,
-                    height: profilePictureSize,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(borderRadius + borderWidth),
-                      border: Border.all(width: borderWidth, color: theme.colorScheme.primaryContainer),
-                    ),
-                    child: Material(
-                      type: MaterialType.transparency,
-                      borderRadius: BorderRadius.circular(borderRadius),
-                      clipBehavior: Clip.antiAlias,
-                      child: InkWell(
-                        onTap: onProfileTap,
-                      )
+                  clipBehavior: Clip.antiAlias,
+                  child: imageUrl == null
+                    ? UserAccountImagePlaceholder(
+                      size: profilePictureSize,
                     )
+                    : FadeInImage.memoryNetwork(
+                      placeholder: _transparentImage,
+                      image: imageUrl!,
+                      fit: BoxFit.cover,
+                      width: profilePictureSize,
+                      height: profilePictureSize,
+                      fadeInDuration: const Duration(milliseconds: 300),
+                      imageCacheHeight: profilePictureSize.toInt(),
+                      imageErrorBuilder:(context, error, stackTrace) {
+                        return UserAccountImagePlaceholder(
+                          size: profilePictureSize,
+                        );
+                      },
+                    ),
+                ),
+              ),
+              Positioned.fill(
+                child: Material(
+                  type: MaterialType.transparency,
+                  borderRadius: BorderRadius.circular(borderRadius),
+                  clipBehavior: Clip.antiAlias,
+                  child: InkWell(
+                    onTap: onProfileTap,
                   ),
                 ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: UserAccountActionButton(
-                    onTap: onLogoutTap,
-                    icon: Icons.logout_rounded,
-                  ),
-                )
-              ],
-            )
+              ),
+              CompositedTransformFollower(
+                link: link,
+                targetAnchor: Alignment.bottomRight,
+                followerAnchor: Alignment.center,
+                child: UserAccountActionButton(
+                  onTap: onLogoutTap,
+                  icon: Icons.logout_rounded,
+                ),
+              )
+            ],
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
+            padding: const EdgeInsets.only(top: 25, bottom: 10),
             child: Text(
               name,
               maxLines: 2,
