@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '/widgets/dots_indicator.dart';
@@ -54,18 +55,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
     final pages = [
       OnboardingPage(
-          image: 'assets/images/onboarding/onboarding_1.png',
-          title: 'Hey!',
-          description: 'Wir freuen uns, dass du hier bist und deinen Teil zu einem besseren Nahverkehr beitragen willst.',
-          buttonText: 'So funktioniert\'s',
-          onButtonTap: _nextPage
+        image: 'assets/images/onboarding/onboarding_1.png',
+        title: 'Hey!',
+        description: 'Wir freuen uns, dass du hier bist und deinen Teil zu einem besseren Nahverkehr beitragen willst.',
+        buttonText: 'So funktioniert\'s',
+        onButtonTap: _nextPage,
       ),
       OnboardingPage(
-          image: 'assets/images/onboarding/onboarding_2.png',
-          title: 'Schau\'s dir an',
-          description: 'Begib dich zu einer Haltestelle in deiner Umgebung, um ihren aktuellen Zustand zu erfassen.',
-          buttonText: 'Mach\' ich',
-          onButtonTap: _nextPage
+        image: 'assets/images/onboarding/onboarding_2.png',
+        title: 'Schau\'s dir an',
+        description: 'Begib dich zu einer Haltestelle in deiner Umgebung, um ihren aktuellen Zustand zu erfassen.',
+        buttonText: 'Mach\' ich',
+        onButtonTap: _nextPage,
       ),
       OnboardingPage(
         image: 'assets/images/onboarding/onboarding_3.png',
@@ -75,40 +76,45 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         onButtonTap: _nextPage,
       ),
       OnboardingPage(
-          image: 'assets/images/onboarding/onboarding_4.png',
-          title: 'Sharing is caring',
-          description: 'Lade deine Antworten auf OpenStreetMap hoch und stelle sie so der ganzen Welt zur Verfügung.',
-          buttonText: 'Los geht\'s',
-          onButtonTap: () {
-            context.read<PreferencesProvider>().hasSeenOnboarding = true;
-            Navigator.pushReplacement(context, Routes.home);
-          }
+        image: 'assets/images/onboarding/onboarding_4.png',
+        title: 'Sharing is caring',
+        description: 'Lade deine Antworten auf OpenStreetMap hoch und stelle sie so der ganzen Welt zur Verfügung.',
+        buttonText: 'Los geht\'s',
+        onButtonTap: () {
+          context.read<PreferencesProvider>().hasSeenOnboarding = true;
+          Navigator.pushReplacement(context, Routes.home);
+        },
       ),
     ];
 
-    return Theme(
-      data: ThemeData(
-          outlinedButtonTheme: OutlinedButtonThemeData(
-              style: OutlinedButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  foregroundColor: Colors.white,
-                  minimumSize: const Size(150, 36),
-                  elevation: 0.0,
-                  padding: const EdgeInsets.only(left: 14.0, right: 8.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  side: const BorderSide(
-                      style: BorderStyle.solid,
-                      color: Colors.white
-                  ),
-                  textStyle: const TextStyle(
-                      fontSize: 16.0
-                  )
-              )
-          )
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.transparent,
       ),
-      child: Scaffold(
+      child: Theme(
+        data: ThemeData(
+          outlinedButtonTheme: OutlinedButtonThemeData(
+            style: OutlinedButton.styleFrom(
+              backgroundColor: Colors.transparent,
+              foregroundColor: Colors.white,
+              minimumSize: const Size(150, 36),
+              elevation: 0.0,
+              padding: const EdgeInsets.only(left: 14.0, right: 8.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+              side: const BorderSide(
+                style: BorderStyle.solid,
+                color: Colors.white,
+              ),
+              textStyle: const TextStyle(
+                fontSize: 16.0,
+              ),
+            ),
+          ),
+        ),
+        child: Scaffold(
           body: AnimatedBuilder(
             animation: _controller,
             builder: (context, child) {
@@ -124,38 +130,39 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 top: MediaQuery.of(context).padding.top,
               ),
               child: Column(
-                  children: [
-                    Expanded(
-                      child: PageView(
-                        scrollBehavior: const ScrollBehavior().copyWith(overscroll: false),
-                        scrollDirection: Axis.horizontal,
-                        controller: _controller,
-                        allowImplicitScrolling: true,
-                        children: pages,
-                      ),
+                children: [
+                  Expanded(
+                    child: PageView(
+                      scrollBehavior: const ScrollBehavior().copyWith(overscroll: false),
+                      scrollDirection: Axis.horizontal,
+                      controller: _controller,
+                      allowImplicitScrolling: true,
+                      children: pages,
                     ),
-                    Container(
-                      height: 70,
-                      margin: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).padding.bottom
-                      ),
-                      child: DotsIndicator(
-                        controller: _controller,
-                        itemCount: pages.length,
-                        color: Colors.white,
-                        onPageSelected: (int page) {
-                          _controller.animateToPage(
-                            page,
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.ease,
-                          );
-                        },
-                      ),
+                  ),
+                  Container(
+                    height: 70,
+                    margin: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).padding.bottom
                     ),
-                  ]
+                    child: DotsIndicator(
+                      controller: _controller,
+                      itemCount: pages.length,
+                      color: Colors.white,
+                      onPageSelected: (int page) {
+                        _controller.animateToPage(
+                          page,
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.ease,
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
-          )
+          ),
+        ),
       ),
     );
   }
@@ -186,12 +193,12 @@ class OnboardingPage extends StatelessWidget {
     return Flex(
       direction: isPortrait ? Axis.vertical : Axis.horizontal,
       children: [
-        if (!isPortrait)
-          const Spacer(
-              flex: 1
-          ),
+        if (!isPortrait) const Spacer(
+          flex: 1,
+        ),
         Image.asset(image,
-            fit: BoxFit.fitWidth),
+          fit: BoxFit.fitWidth,
+        ),
         Flexible(
           flex: 12,
           child: Padding(
@@ -205,54 +212,52 @@ class OnboardingPage extends StatelessWidget {
                 Flexible(
                   flex: 2,
                   child: Text(title,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.w300
-                      )
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.w300,
+                    ),
                   ),
                 ),
                 Expanded(
-                    flex: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(description,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w300
-                        ),
+                  flex: 3,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(description,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w300,
                       ),
-                    )
+                    ),
+                  ),
                 ),
                 Spacer(
-                    flex: buttonText != null ? 1 : 3
+                  flex: buttonText != null ? 1 : 3
                 ),
-                if (buttonText != null)
-                  Flexible(
-                      flex: 2,
-                      child: OutlinedButton(
-                          onPressed: onButtonTap,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(buttonText!),
-                              Icon(buttonIcon),
-                            ],
-                          )
-                      )
-                  )
+                if (buttonText != null) Flexible(
+                  flex: 2,
+                  child: OutlinedButton(
+                    onPressed: onButtonTap,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(buttonText!),
+                        Icon(buttonIcon),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
         ),
-        if (!isPortrait)
-          const Spacer(
-            flex: 1
-        )
+        if (!isPortrait) const Spacer(
+          flex: 1,
+        ),
       ],
     );
   }

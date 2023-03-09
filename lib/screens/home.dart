@@ -208,129 +208,140 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
     final tileLayerDescription = tileLayers[tileLayerId]!;
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      drawer: const HomeSidebar(),
-      body: Stack(
-        children: [
-          FlutterMap(
-            mapController: context.watch<MapController>(),
-            options: MapOptions(
-              onTap: _onMapTap,
-              enableMultiFingerGestureRace: true,
-              // intentionally use read() here because changes to these properties
-              // do not need to trigger rebuilds
-              center: context.read<PreferencesProvider>().mapLocation,
-              zoom: context.read<PreferencesProvider>().mapZoom,
-              rotation: context.read<PreferencesProvider>().mapRotation,
-              minZoom: tileLayerDescription.minZoom.toDouble(),
-              maxZoom: tileLayerDescription.maxZoom.toDouble()
-            ),
-            nonRotatedChildren: [
-              RepaintBoundary(
-                child: Consumer<QuestionnaireProvider>(
-                  builder: (context, questionnaire,child) {
-                    return AnimatedSwitcher(
-                      switchInCurve: Curves.ease,
-                      switchOutCurve: Curves.ease,
-                      duration: const Duration(milliseconds: 300),
-                      child: !questionnaire.hasQuestions
-                        ? const MapOverlay()
-                        : null
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.black26,
+        statusBarIconBrightness: Brightness.light,
+        systemStatusBarContrastEnforced: false,
+        systemNavigationBarColor: Colors.black26,
+        systemNavigationBarIconBrightness: Brightness.light,
+        systemNavigationBarContrastEnforced: false,
+      ),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        drawer: const HomeSidebar(),
+        body: Stack(
+          children: [
+            FlutterMap(
+              mapController: context.watch<MapController>(),
+              options: MapOptions(
+                onTap: _onMapTap,
+                enableMultiFingerGestureRace: true,
+                // intentionally use read() here because changes to these properties
+                // do not need to trigger rebuilds
+                center: context.read<PreferencesProvider>().mapLocation,
+                zoom: context.read<PreferencesProvider>().mapZoom,
+                rotation: context.read<PreferencesProvider>().mapRotation,
+                minZoom: tileLayerDescription.minZoom.toDouble(),
+                maxZoom: tileLayerDescription.maxZoom.toDouble()
+              ),
+              nonRotatedChildren: [
+                RepaintBoundary(
+                  child: Consumer<QuestionnaireProvider>(
+                    builder: (context, questionnaire,child) {
+                      return AnimatedSwitcher(
+                        switchInCurve: Curves.ease,
+                        switchOutCurve: Curves.ease,
+                        duration: const Duration(milliseconds: 300),
+                        child: !questionnaire.hasQuestions
+                          ? const MapOverlay()
+                          : null
+                      );
+                    }
+                  ),
+                ),
+              ],
+              children: [
+                TileLayer(
+                  overrideTilesWhenUrlChanges: true,
+                  tileProvider: NetworkTileProvider(
+                    headers: const {
+                      'User-Agent': appUserAgent
+                    }
+                  ),
+                  evictErrorTileStrategy: EvictErrorTileStrategy.dispose,
+                  backgroundColor: Colors.transparent,
+                  urlTemplate: isDarkMode && tileLayerDescription.darkVariantTemplateUrl != null
+                    ? tileLayerDescription.darkVariantTemplateUrl
+                    : tileLayerDescription.templateUrl,
+                  minZoom: tileLayerDescription.minZoom.toDouble(),
+                  maxZoom: tileLayerDescription.maxZoom.toDouble(),
+                ),
+                Consumer2<StopAreasProvider, OSMElementProvider>(
+                  builder: (context, stopAreaProvider, osmElementProvider, child) {
+                    return StopAreaLayer(
+                      stopAreas: stopAreaProvider.stopAreas,
+                      loadingStopAreas: osmElementProvider.loadingStopAreas,
+                      onStopAreaTap: _onStopAreaTap,
                     );
                   }
                 ),
-              ),
-            ],
-            children: [
-              TileLayer(
-                overrideTilesWhenUrlChanges: true,
-                tileProvider: NetworkTileProvider(
-                  headers: const {
-                    'User-Agent': appUserAgent
+                Consumer2<QuestionnaireProvider, OSMElementProvider>(
+                  builder: (context, questionnaireProvider, osmElementProvider, child) {
+                    final selectedElement = questionnaireProvider.workingElement;
+                    return AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: (selectedElement != null)
+                        ? GeometryLayer(
+                          geometry: selectedElement.geometry,
+                          key: ValueKey(selectedElement),
+                        )
+                        : null,
+                    );
                   }
                 ),
-                backgroundColor: Colors.transparent,
-                urlTemplate: isDarkMode && tileLayerDescription.darkVariantTemplateUrl != null
-                  ? tileLayerDescription.darkVariantTemplateUrl
-                  : tileLayerDescription.templateUrl,
-                minZoom: tileLayerDescription.minZoom.toDouble(),
-                maxZoom: tileLayerDescription.maxZoom.toDouble(),
-              ),
-              Consumer2<StopAreasProvider, OSMElementProvider>(
-                builder: (context, stopAreaProvider, osmElementProvider, child) {
-                  return StopAreaLayer(
-                    stopAreas: stopAreaProvider.stopAreas,
-                    loadingStopAreas: osmElementProvider.loadingStopAreas,
-                    onStopAreaTap: _onStopAreaTap,
-                  );
-                }
-              ),
-              Consumer2<QuestionnaireProvider, OSMElementProvider>(
-                builder: (context, questionnaireProvider, osmElementProvider, child) {
-                  final selectedElement = questionnaireProvider.workingElement;
-                  return AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 300),
-                    child: (selectedElement != null)
-                      ? GeometryLayer(
-                        geometry: selectedElement.geometry,
-                        key: ValueKey(selectedElement),
+                // rebuild location indicator when location access is granted
+                Selector<UserLocationProvider, LocationTrackingState>(
+                  selector: (_, userLocationProvider) => userLocationProvider.state,
+                  builder: (context, state, child) => const AnimatedLocationLayer(),
+                ),
+                Consumer<OSMElementProvider>(
+                  builder: (context, osmElementProvider, child) {
+                    return OsmElementLayer(
+                      onOsmElementTap: _onOsmElementTap,
+                      elements: osmElementProvider.extractedOsmElements
+                    );
+                  }
+                ),
+              ],
+            ),
+            // place sheet on extra stack above map so map pan events won't pass through
+            Consumer<QuestionnaireProvider>(
+              builder: (context, questionnaireProvider, child) {
+                return AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 500),
+                  reverseDuration: const Duration(milliseconds: 300),
+                  switchInCurve: Curves.easeInOutCubicEmphasized,
+                  switchOutCurve: Curves.ease,
+                  transitionBuilder: (child, animation) {
+                    final offsetAnimation = Tween<Offset>(
+                      begin: const Offset(0, 1),
+                      end: Offset.zero,
+                    ).animate(animation);
+                    return SlideTransition(
+                      position: offsetAnimation,
+                      child: FadeTransition(
+                        opacity: animation,
+                        child: child,
                       )
-                      : null,
-                  );
-                }
-              ),
-              // rebuild location indicator when location access is granted
-              Selector<UserLocationProvider, LocationTrackingState>(
-                selector: (_, userLocationProvider) => userLocationProvider.state,
-                builder: (context, state, child) => const AnimatedLocationLayer(),
-              ),
-              Consumer<OSMElementProvider>(
-                builder: (context, osmElementProvider, child) {
-                  return OsmElementLayer(
-                    onOsmElementTap: _onOsmElementTap,
-                    elements: osmElementProvider.extractedOsmElements
-                  );
-                }
-              ),
-            ],
-          ),
-          // place sheet on extra stack above map so map pan events won't pass through
-          Consumer<QuestionnaireProvider>(
-            builder: (context, questionnaireProvider, child) {
-              return AnimatedSwitcher(
-                duration: const Duration(milliseconds: 500),
-                reverseDuration: const Duration(milliseconds: 300),
-                switchInCurve: Curves.easeInOutCubicEmphasized,
-                switchOutCurve: Curves.ease,
-                transitionBuilder: (child, animation) {
-                  final offsetAnimation = Tween<Offset>(
-                    begin: const Offset(0, 1),
-                    end: Offset.zero,
-                  ).animate(animation);
-                  return SlideTransition(
-                    position: offsetAnimation,
-                    child: FadeTransition(
-                      opacity: animation,
-                      child: child,
+                    );
+                  },
+                  child: questionnaireProvider.hasQuestions
+                    ? QuestionDialog(
+                      activeQuestionIndex: questionnaireProvider.currentQuestionnaireIndex!,
+                      questions: questionnaireProvider.questions,
+                      answers: questionnaireProvider.answers,
+                      showSummary: questionnaireProvider.isFinished,
+                      maxHeightFactor: _HomeScreenContent.questionDialogMaxHeightFactor,
+                      key: questionnaireProvider.key,
                     )
-                  );
-                },
-                child: questionnaireProvider.hasQuestions
-                  ? QuestionDialog(
-                    activeQuestionIndex: questionnaireProvider.currentQuestionnaireIndex!,
-                    questions: questionnaireProvider.questions,
-                    answers: questionnaireProvider.answers,
-                    showSummary: questionnaireProvider.isFinished,
-                    maxHeightFactor: _HomeScreenContent.questionDialogMaxHeightFactor,
-                    key: questionnaireProvider.key,
-                  )
-                  : null
-              );
-            }
-          ),
-        ],
-      )
+                    : null
+                );
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 
