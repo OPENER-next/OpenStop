@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Default {
   static const Color primary = Color(0xFFEC7C72);
@@ -52,7 +53,15 @@ final ThemeData defaultTheme = ThemeData(
   appBarTheme: AppBarTheme(
     elevation: Default.elevation,
     shadowColor: Default.shadow,
-    foregroundColor: Default.onPrimary
+    foregroundColor: Default.onPrimary,
+    systemOverlayStyle: const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.light,
+      systemStatusBarContrastEnforced: false,
+      systemNavigationBarColor: Colors.black26,
+      systemNavigationBarIconBrightness: Brightness.light,
+      systemNavigationBarContrastEnforced: false,
+    ),
   ),
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     smallSizeConstraints: BoxConstraints.tight(const Size.square(48)),
