@@ -82,7 +82,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         buttonText: 'Los geht\'s',
         onButtonTap: () {
           context.read<PreferencesProvider>().hasSeenOnboarding = true;
-          Navigator.pushReplacement(context, Routes.home);
+          // remove previous routes to start of with no duplicated home screen
+          // when re-visiting the onboarding screen
+          Navigator.of(context).pushAndRemoveUntil(Routes.home, (route) => false);
         },
       ),
     ];
