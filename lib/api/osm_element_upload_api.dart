@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:osm_api/osm_api.dart';
 
 import '/models/changeset_comment_builder.dart';
@@ -157,18 +158,27 @@ class OSMElementUploadAPI {
   /// The returned bundle will contain all elements from the given bundle plus any child elements.
 
   Future<OSMElementBundle> _queryFullElements(OSMElementBundle bundle) async {
-    // query all child elements of ways and relations
+    // create new bundle with only the nodes of the original bundle
+    // the ways and relations with all their children will be queried and added (if successful) to this bundle
+    final newBundle = OSMElementBundle(nodes: bundle.nodes);
+
+    // re-query ways and relations with child elements
     final requestQueue = [
       for (final way in bundle.ways) _osmApi.getFullWay(way.id),
       for (final relation in bundle.relations) _osmApi.getFullRelation(relation.id),
     ];
+
     // wait till all requests are resolved
-    final fullElements = await Future.wait(requestQueue);
-    // merge all bundles into a copy of the original bundle
-    return fullElements.fold<OSMElementBundle>(
-      OSMElementBundle().combine(bundle),
-      (previousBundle, otherBundle) => previousBundle.merge(otherBundle),
-    );
+    // handle them in a stream in order to catch individual errors
+    await Stream.fromFutures(requestQueue)
+      .handleError((e) {
+        // catch any errors and ignore these elements
+        // for example the element or its children might be deleted by now
+        debugPrint('Could not query element of existing changeset: $e');
+      })
+      .forEach(newBundle.merge);
+
+    return newBundle;
   }
 
 
