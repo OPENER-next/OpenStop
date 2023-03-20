@@ -24,15 +24,57 @@ class ChangesetCommentBuilder {
 
   @override
   String toString() {
+    const moreStringAsIterable = ['mehr'];
+
+    final mapFeatureNames = _getElementNames(modifiedElements);
+    final stopNames = _getStopNames(stopArea.stops);
+
+    var countElementNames = mapFeatureNames.length;
+    var countStopNames = stopNames.length;
+    var finalString = _buildString(mapFeatureNames, stopNames);
+
+    // prevent changeset comment from getting larger than 255 characters
+    // try to reduce the string length step by step
+    while (finalString.length > 255) {
+      // try to reduce the string length by removing terms step by step
+      if (countElementNames > 1 || countStopNames > 1) {
+        var elementStrings = mapFeatureNames;
+        var stopStrings = stopNames;
+
+        if (countElementNames > 1) {
+          elementStrings = elementStrings.take(--countElementNames);
+        }
+        else {
+          stopStrings = stopStrings.take(--countStopNames);
+        }
+        // append "more" string if any term was removed
+        if (countElementNames < mapFeatureNames.length) {
+          elementStrings = elementStrings.followedBy(moreStringAsIterable);
+        }
+        if (countStopNames < stopNames.length) {
+          stopStrings = stopStrings.followedBy(moreStringAsIterable);
+        }
+        finalString = _buildString(elementStrings, stopStrings);
+      }
+      // hard truncate string
+      else {
+        finalString = finalString.substring(0, 256);
+      }
+    }
+    return finalString;
+  }
+
+
+  /// Build changeset comment string based on given map feature names and stop names.
+
+  String _buildString(Iterable<String> mapFeatureNames, Iterable<String> stopNames) {
     const mainString = 'Details zu %s im Haltestellenbereich %s hinzugefügt.';
 
     String mapFeaturesString;
-    final mapFeatureNames = _getElementNames(modifiedElements);
     mapFeaturesString = _concat(mapFeatureNames, conjunctionString: ' und ');
     // fallback name string
     if (mapFeaturesString.isEmpty) mapFeaturesString = 'Element';
 
-    final stopNames = _getStopNames(stopArea.stops);
     final stopsString = _concat(stopNames, conjunctionString: ' und ');
 
     return mainString
