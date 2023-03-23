@@ -4,6 +4,8 @@ import '/models/element_variants/base_element.dart';
 import '/models/question_catalog/question_catalog.dart';
 
 abstract class ElementFilter {
+  bool matches(ProcessedElement element);
+
   Iterable<ProcessedElement> filter(Iterable<ProcessedElement> elements);
 }
 
@@ -18,9 +20,12 @@ class AreaFilter implements ElementFilter {
   }) : _area = area;
 
   @override
-  Iterable<ProcessedElement> filter(Iterable<ProcessedElement> elements) => elements.where(
-    (element) => _area.isPointInside(element.geometry.center)
-  );
+  bool matches(ProcessedElement element) =>
+    _area.isPointInside(element.geometry.center);
+
+  @override
+  Iterable<ProcessedElement> filter(Iterable<ProcessedElement> elements) =>
+    elements.where(matches);
 }
 
 
@@ -34,13 +39,34 @@ class QuestionFilter implements ElementFilter {
   }) : _questionCatalog = questionCatalog;
 
   @override
-  Iterable<ProcessedElement> filter(Iterable<ProcessedElement> elements) => elements.where(_matches);
-
-  bool _matches(ProcessedElement element) {
+  bool matches(ProcessedElement element) {
     return _questionCatalog.any((question) {
       return question.conditions.any((condition) {
         return condition.matches(element);
       });
     });
   }
+
+  @override
+  Iterable<ProcessedElement> filter(Iterable<ProcessedElement> elements) =>
+    elements.where(matches);
+}
+
+
+/// Meta filter to "OR" combine multiple other element filters.
+
+class AnyFilter implements ElementFilter {
+  final Iterable<ElementFilter> _filters;
+
+  AnyFilter({
+    required Iterable<ElementFilter> filters,
+  }) : _filters = filters;
+
+  @override
+  bool matches(ProcessedElement element) =>
+    _filters.any((filter) => filter.matches(element));
+
+  @override
+  Iterable<ProcessedElement> filter(Iterable<ProcessedElement> elements) =>
+    elements.where(matches);
 }
