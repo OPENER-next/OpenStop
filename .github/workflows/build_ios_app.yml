@@ -71,11 +71,13 @@ jobs:
     - name: Download pub dependencies
       run: flutter pub get
 
+    - name: Run build_runner
+      run: flutter pub run build_runner build --delete-conflicting-outputs
+
     - name: Building IPA
       run: >- 
         flutter build ipa 
           --release 
-          --delete-conflicting-outputs
           --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
           --dart-define=IS_RELEASE=true
                 
