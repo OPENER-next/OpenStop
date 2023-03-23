@@ -75,7 +75,6 @@ jobs:
       run: >- 
         flutter build ipa 
           --release 
-          --export-method ad-hoc
           --delete-conflicting-outputs
           --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
           --dart-define=IS_RELEASE=true
