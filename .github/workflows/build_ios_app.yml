@@ -77,8 +77,9 @@ jobs:
     - name: Building IPA
       run: >- 
         flutter build ipa 
-          --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
-          --dart-define=IS_RELEASE=true
+        --release 
+        --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
+        --dart-define=IS_RELEASE=true
                 
     - name: Collect IPA artifacts
       uses: actions/upload-artifact@v3
