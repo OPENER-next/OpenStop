@@ -13,7 +13,7 @@ import 'element_processor.dart';
 ///
 /// It runs in a separate [Isolate] so it won't block the main thread.
 ///
-/// Holds a mapping of [StopArea]s to [ProcessedElement]s and allows filtering them.
+/// Holds a single [Set] of all queried [ProcessedElement]s over time and allows filtering them.
 ///
 /// The isolate persists so the [ProcessedElement]s can be cached.
 /// This is required because sending data between isolates copies the data over.
@@ -35,33 +35,37 @@ class ElementPool {
 
   /// Method to upload an element to the OSM server.
   ///
-  /// Update will return all affected stop areas and refilter them
+  /// Update will return all elements refiltered
   /// because an elements condition can start matching when another element's tags change
   /// or can stop matching because all questions are answered an no condition matches anymore.
   ///
-  /// Returns a list, since the updated element can be present in multiple stop areas.
-  ///
-  /// Elements are filtered by their stop area and any additionally applied filters.
+  /// Elements are filtered by the stop areas used to query them and any additionally applied filters.
 
-  Future<List<MapEntry<StopArea, Set<ProcessedElement>>>> update(ElementUpdateData data) async {
+  Future<Set<ProcessedElement>> update(ElementUpdateData data) async {
     return await _worker.send(_ElementPoolMessage(_Subject.update, data));
   }
 
   /// Query OSM elements from the server by a given stop area.
   ///
-  /// Elements are filtered by their stop area and any additionally applied filters.
+  /// Returns the newly queried and already existing elements filtered by the stop areas and any additionally filters.
   ///
   /// If the stop area was queried before the currently cached elements will be returned.
 
-  Future<MapEntry<StopArea, Set<ProcessedElement>>> query(StopArea stopArea) async {
+  Future<Set<ProcessedElement>> query(StopArea stopArea) async {
     return await _worker.send(_ElementPoolMessage(_Subject.query, stopArea));
   }
 
   /// This will override any existing filters and return all currently
-  /// cached stop area elements that passed the new filters.
+  /// cached elements that passed the new filters.
 
-  Future<List<MapEntry<StopArea, Set<ProcessedElement>>>> applyFilters(Iterable<ElementFilter> filters) async {
+  Future<Set<ProcessedElement>> applyFilters(Iterable<ElementFilter> filters) async {
     return await _worker.send(_ElementPoolMessage(_Subject.applyFilters, filters));
+  }
+
+  /// Check whether a given [StopArea] has any elements.
+
+  Future<bool> hasElements(StopArea stopArea) async {
+    return await _worker.send(_ElementPoolMessage(_Subject.hasElements, stopArea));
   }
 
   /// Close the service worker.
@@ -73,82 +77,103 @@ class ElementPool {
 
 
 class _ElementPool extends ServiceWorker<_ElementPoolMessage> {
+  final _elementPool = OSMElementProcessor();
+
   final _osmElementQueryHandler = OSMElementQueryAPI();
 
-  final _stopAreaToElementsMapping = <StopArea, Set<ProcessedElement>>{};
+  final _stopAreas = <StopArea>{};
 
-  final List<ElementFilter> _filters = [];
+  final _filters = <ElementFilter>[];
 
   _ElementPool(super.sendPort);
 
-  Future<MapEntry<StopArea, Set<ProcessedElement>>> _query(StopArea stopArea) async {
-    var elements = _stopAreaToElementsMapping[stopArea];
-
-    if (elements == null) {
-      // query elements by stop areas bbox
-      final elementBundle = await _osmElementQueryHandler.queryByBBox(stopArea.bounds);
-      // process stop area elements
-      elements = Set.of(OSMElementProcessor(elementBundle).process());
-      // store processed elements
-      _stopAreaToElementsMapping[stopArea] = elements;
-    }
-    // send entry to main isolate
-    return _filter(stopArea, elements);
-  }
-
-
-  Stream<MapEntry<StopArea, Set<ProcessedElement>>> _update(ElementUpdateData data) async* {
-    var isUploaded = false;
-
-    for (final entry in _stopAreaToElementsMapping.entries) {
-      final original = entry.value.lookup(data.element);
-
-      if (original != null) {
-        if (!isUploaded) {
-          // upload on first occurrence
-          final uploadAPI = OSMElementUploadAPI(
-            mapFeatureCollection: data.mapFeatureCollection,
-            stopArea: entry.key,
-            authenticatedUser: data.authenticatedUser,
-            changesetLocale: data.languageCode
-          );
-          // Since the underlying element from the isolate is not accessible from the outside we need to update it inside.
-          // Replacing element wouldn't work, since the new/provided element doesn't have
-          // the correct parent/child references to the isolate internal elements,
-          // because the element is always a copy from the main/outside isolate.
-          // Therefore create a proxy element of the original using the given proxy element.
-          final proxy = ProxyElement(original, additionalTags: data.element.additionalTags);
-          await proxy.publish(uploadAPI);
-          uploadAPI.dispose();
-          isUploaded = true;
-        }
-        yield _filter(entry.key, entry.value);
+  Future<Set<ProcessedElement>> _query(StopArea stopArea) async {
+    if (!_stopAreas.contains(stopArea)) {
+      _stopAreas.add(stopArea);
+      try {
+        // query elements by stop areas bbox
+        final elementBundle = await _osmElementQueryHandler.queryByBBox(stopArea.bounds);
+        // process stop area elements
+        _elementPool.add(elementBundle);
+      }
+      catch(e) {
+        _stopAreas.remove(stopArea);
+        rethrow;
       }
     }
+
+    // return all elements
+    return _getAllFiltered();
   }
 
 
-  Iterable<MapEntry<StopArea, Set<ProcessedElement>>> _applyFilters(Iterable<ElementFilter> filters) sync* {
+  Future<Set<ProcessedElement>> _update(ElementUpdateData data) async {
+    final original = _elementPool.find(data.element.type, data.element.id);
+
+    final stopArea = _stopAreas.firstWhere(
+      (stopArea) => stopArea.isPointInside(data.element.geometry.center),
+      orElse: () => throw StateError('No surrounding stop area found for ${data.element.type} ${data.element.id}.'),
+    );
+
+    if (original != null) {
+      // upload on first occurrence
+      final uploadAPI = OSMElementUploadAPI(
+        mapFeatureCollection: data.mapFeatureCollection,
+        stopArea: stopArea,
+        authenticatedUser: data.authenticatedUser,
+        changesetLocale: data.languageCode
+      );
+      // Since the underlying element from the isolate is not accessible from the outside we need to update it inside.
+      // Replacing element wouldn't work, since the new/provided element doesn't have
+      // the correct parent/child references to the isolate internal elements,
+      // because the element is always a copy from the main/outside isolate.
+      // Therefore create a proxy element of the original using the given proxy element.
+      final proxy = ProxyElement(original, additionalTags: data.element.additionalTags);
+      await proxy.publish(uploadAPI);
+      uploadAPI.dispose();
+      // return all elements since new elements might match after an element got updated
+      return _getAllFiltered();
+    }
+    throw StateError('No corresponding element found for ${data.element.type} ${data.element.id} in element pool.');
+  }
+
+
+  Set<ProcessedElement> _applyFilters(Iterable<ElementFilter> filters) {
     // replace all filters
     _filters..clear()..addAll(filters);
-
-    for (final entry in _stopAreaToElementsMapping.entries) {
-      yield _filter(entry.key, entry.value);
-    }
+    // return all elements
+    return _getAllFiltered();
   }
 
 
-  MapEntry<StopArea, Set<ProcessedElement>> _filter(StopArea stopArea, Set<ProcessedElement> elements) {
-    // filter stop area elements
-    final filteredElements = [
-      AreaFilter(area: stopArea),
+  Set<ProcessedElement> _getAllFiltered() {
+    final filters = [
+      AnyFilter(
+        // build area filters from stop areas
+        filters: _stopAreas.map((stopArea) => AreaFilter(area: stopArea)),
+      ),
       ..._filters,
-    ].fold<Iterable<ProcessedElement>>(
-      elements,
+    ];
+    // filter stop area elements
+    final filteredElements = filters.fold<Iterable<ProcessedElement>>(
+      _elementPool.elements,
       (elements, filter) => filter.filter(elements),
     );
     // return (copy) of filtered elements
-    return MapEntry(stopArea,  Set.of(filteredElements));
+    return Set.of(filteredElements);
+  }
+
+
+  bool _hasElements(StopArea stopArea) {
+    final filters = [
+      AreaFilter(area: stopArea),
+      ..._filters,
+    ];
+    final filteredElements = filters.fold<Iterable<ProcessedElement>>(
+      _elementPool.elements,
+      (elements, filter) => filter.filter(elements),
+    );
+    return filteredElements.isNotEmpty;
   }
 
 
@@ -164,9 +189,11 @@ class _ElementPool extends ServiceWorker<_ElementPoolMessage> {
       case _Subject.query:
         return await _query(message.data);
       case _Subject.update:
-        return await _update(message.data).toList();
+        return await _update(message.data);
       case _Subject.applyFilters:
-        return _applyFilters(message.data).toList();
+        return _applyFilters(message.data);
+      case _Subject.hasElements:
+        return _hasElements(message.data);
       case _Subject.dispose:
         return _dispose();
     }
@@ -175,7 +202,7 @@ class _ElementPool extends ServiceWorker<_ElementPoolMessage> {
 
 
 enum _Subject {
-  query, update, applyFilters, dispose
+  query, update, applyFilters, hasElements, dispose
 }
 
 
