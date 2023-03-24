@@ -48,6 +48,9 @@ jobs:
         flutter-version: ${{ env.FLUTTER_SDK_VERSION }}
         channel: 'stable'
 
+    - name: Run Flutter doctor
+      run: flutter doctor -v
+
     - name: Download pub dependencies
       run: flutter pub get
 
@@ -70,5 +73,5 @@ jobs:
     - name: Clean up keychain and provisioning profile
       if: ${{ always() }}
       run: |
-        security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
+        security delete-keychain $RUNNER_TEMP/signing_temp.keychain-db
         rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
