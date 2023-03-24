@@ -28,7 +28,7 @@ void main() async {
     final bundle = _parse(way01);
     // create processed element
     final elementProcessor = OSMElementProcessor(bundle);
-    final procEle = elementProcessor.process().whereType<ProcessedWay>().first;
+    final procEle = elementProcessor.elements.whereType<ProcessedWay>().first;
 
     expect(
       procEle.geometry,
@@ -56,7 +56,7 @@ void main() async {
     final bundle = _parse(relation01);
     // create processed element
     final elementProcessor = OSMElementProcessor(bundle);
-    final procEle = elementProcessor.process().whereType<ProcessedRelation>().first;
+    final procEle = elementProcessor.elements.whereType<ProcessedRelation>().first;
 
     expect(
       procEle.geometry,
@@ -119,7 +119,7 @@ void main() async {
     final bundle = _parse(relation02);
     // create processed element
     final elementProcessor = OSMElementProcessor(bundle);
-    final procEle = elementProcessor.process().whereType<ProcessedRelation>().first;
+    final procEle = elementProcessor.elements.whereType<ProcessedRelation>().first;
 
     expect(
       procEle.geometry,
@@ -158,7 +158,7 @@ void main() async {
     final bundle = _parse(relation03);
     // create processed element
     final elementProcessor = OSMElementProcessor(bundle);
-    final procEle = elementProcessor.process().whereType<ProcessedRelation>().first;
+    final procEle = elementProcessor.elements.whereType<ProcessedRelation>().first;
 
     expect(
       procEle.geometry,
