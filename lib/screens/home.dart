@@ -368,7 +368,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
     try {
       await osmElementProvider.loadElementsFromStopArea(stopArea);
 
-      if (osmElementProvider.stopAreaIsLoaded(stopArea) && osmElementProvider.elementsOf(stopArea)!.isEmpty) {
+      if (!(await osmElementProvider.stopAreaHasElements(stopArea))) {
         scaffold.showSnackBar(
             CustomSnackBar('Alle Fragen bereits beantwortet.')
         );
