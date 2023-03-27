@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:collection/collection.dart' hide UnmodifiableSetView;
 import 'package:flutter/widgets.dart' hide ProxyElement;
 
-import '/models/element_processing/element_pool.dart';
+import '/models/element_processing/element_worker.dart';
 import '/models/authenticated_user.dart';
 import '/models/element_processing/element_filter.dart';
 import '/models/element_variants/base_element.dart';
@@ -16,11 +15,11 @@ class OSMElementProvider extends ChangeNotifier {
 
   final _loadingStopAreas = <StopArea>{};
 
-  final _stopAreaToElementsMapping = <StopArea, Set<ProcessedElement>>{};
+  Set<ProcessedElement> _elements = {};
 
   MapFeatureCollection _mapFeatureCollection;
 
-  final Future<ElementPool> _elementPool;
+  final Future<ElementWorker> _elementPool;
 
   OSMElementProvider({
     required QuestionCatalog questionCatalog,
@@ -30,8 +29,8 @@ class OSMElementProvider extends ChangeNotifier {
     _elementPool = _init(questionCatalog);
 
 
-  static Future<ElementPool> _init(QuestionCatalog questionCatalog) async {
-    final elementPool = await ElementPool.spawn();
+  static Future<ElementWorker> _init(QuestionCatalog questionCatalog) async {
+    final elementPool = await ElementWorker.spawn();
     await elementPool.applyFilters([
       QuestionFilter(questionCatalog: questionCatalog)
     ]);
@@ -46,55 +45,39 @@ class OSMElementProvider extends ChangeNotifier {
     required QuestionCatalog questionCatalog,
     required MapFeatureCollection mapFeatureCollection
   }) async {
-    final entries = await (await _elementPool).applyFilters([
+    _elements = await (await _elementPool).applyFilters([
       QuestionFilter(questionCatalog: questionCatalog)
     ]);
-    _stopAreaToElementsMapping.addEntries(entries);
-
     _mapFeatureCollection = mapFeatureCollection;
   }
 
 
-  UnmodifiableSetView<StopArea> get loadingStopAreas
-    => UnmodifiableSetView(_loadingStopAreas);
+  UnmodifiableSetView<StopArea> get loadingStopAreas =>
+    UnmodifiableSetView(_loadingStopAreas);
 
-
-  Set<ProcessedElement>? elementsOf(StopArea stopArea) {
-    return _stopAreaToElementsMapping[stopArea];
-  }
 
   /// Get a set of all loaded and filtered osm elements
-  /// Since this returns a Set this won't contain any duplicates.
 
-  UnionSet<ProcessedElement> get extractedOsmElements {
-    // this set won't contain duplicated osm elements
-    // since a processed element has a custom equality function based on the underlying osm element
-    return UnionSet.from(_stopAreaToElementsMapping.values.map(
-      (list) => list)
-    );
-  }
-
-  /// Check whether a stop area has been loaded and extracted.
-
-  bool stopAreaIsLoaded(StopArea stopArea) => _stopAreaToElementsMapping.containsKey(stopArea);
+  UnmodifiableSetView<ProcessedElement> get extractedOsmElements =>
+    UnmodifiableSetView(_elements);
 
 
   /// Check whether a stop area is currently loading.
 
   bool stopAreaIsLoading(StopArea stopArea) => _loadingStopAreas.contains(stopArea);
 
+
   /// Load and extract elements from a given stop area and question catalog.
 
   Future<void> loadElementsFromStopArea(StopArea stopArea) async {
-    if (!stopAreaIsLoading(stopArea) && !stopAreaIsLoaded(stopArea)) {
+    if (!(await stopAreaIsLoaded(stopArea)) && !stopAreaIsLoading(stopArea)) {
       // add to loading stop areas
       _loadingStopAreas.add(stopArea);
       notifyListeners();
 
       try {
         // query elements
-        final entry = await (await _elementPool).query(stopArea);
-        _stopAreaToElementsMapping[entry.key] = entry.value;
+        _elements = await (await _elementPool).query(stopArea);
       }
       finally {
         _loadingStopAreas.remove(stopArea);
@@ -102,6 +85,19 @@ class OSMElementProvider extends ChangeNotifier {
       }
     }
   }
+
+  /// Check whether a stop area has already been loaded loading.
+
+  Future<bool> stopAreaIsLoaded(StopArea stopArea) async =>
+    (await _elementPool).hasStopArea(stopArea);
+
+
+  /// Check whether the given stop area has any matching elements left.
+  ///
+  /// The stop area must be loaded in advance.
+
+  Future<bool> stopAreaHasElements(StopArea stopArea) async =>
+    (await _elementPool).hasElements(stopArea);
 
 
   /// Upload the changes made by this questionnaire with the given authenticated user.
@@ -112,15 +108,13 @@ class OSMElementProvider extends ChangeNotifier {
     required Locale locale
   }) async {
     try {
-      // update all affected stop areas afterwards
-      final entries = await (await _elementPool).update(ElementUpdateData(
+      // update elements afterwards
+      _elements = await (await _elementPool).update(ElementUpdateData(
         element: proxyElement,
         mapFeatureCollection: _mapFeatureCollection,
         authenticatedUser: authenticatedUser,
         languageCode: locale.languageCode,
       ));
-
-      _stopAreaToElementsMapping.addEntries(entries);
     }
     finally {
       notifyListeners();

@@ -40,14 +40,14 @@ class ServiceWorkerController<M> {
   ///
   /// Errors and Exceptions in the service worker are forwarded to the main isolate.
 
-  Future<dynamic> send(M data) async {
+  Future<T> send<T>(M data) async {
     final responsePort = ReceivePort();
 
     _sendPort.send(
       _Message(responsePort.sendPort, data)
     );
     // use completer to rethrow error
-    final completer = Completer();
+    final completer = Completer<T>();
 
     final response = await responsePort.first;
     if (response is _Error) {

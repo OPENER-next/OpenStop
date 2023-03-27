@@ -140,13 +140,12 @@ class OSMElementUploadAPI {
     // gather all modified elements of this changeset
     final changes = await _osmApi.getChangesetChanges(changesetId);
     final changesWithChildren = await _queryFullElements(changes.modify);
-
+    // create processed elements for all modified elements + children
     final elementProcessor = OSMElementProcessor(changesWithChildren);
-    final processedElements = elementProcessor.process();
     // filter processed elements to only contain the original modified elements
     // otherwise we might match elements to map features that weren't modified
     // but are children of a modified element
-    return processedElements.where((pElement) {
+    return elementProcessor.elements.where((pElement) {
       return changes.modify.elements.any(
         (oElement) => pElement.isOriginal(oElement),
       );

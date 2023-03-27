@@ -4,46 +4,120 @@ import 'package:osm_api/osm_api.dart';
 import '/models/element_variants/base_element.dart';
 
 /// This class is used to created [ProcessedElement]s from an [OSMElementBundle].
+///
 /// It adds any cross references to the elements and calculates their geometries.
+///
+/// Elements whose geometry could not be calculated will **not be included**.
 
 class OSMElementProcessor {
   /// Nodes mapped to id for faster look up
-  final Map<int, ProcessedNode> _nodesLookUp;
+  final _nodesLookUp = <int, ProcessedNode>{};
   /// Ways mapped to id for faster look up
-  final Map<int, ProcessedWay> _waysLookUp;
+  final _waysLookUp = <int, ProcessedWay>{};
   /// Relations mapped to id for faster look up
-  final Map<int, ProcessedRelation> _relationsLookUp;
+  final _relationsLookUp = <int, ProcessedRelation>{};
 
-  OSMElementProcessor(
-    OSMElementBundle elements,
-  ) : _nodesLookUp = _mapNodes(elements),
-      _waysLookUp = _mapWays(elements),
-      _relationsLookUp = _mapRelations(elements);
-
-  static Map<int, ProcessedNode> _mapNodes (OSMElementBundle elements) => {
-    for (var node in elements.nodes) node.id: ProcessedNode(node)
-  };
-
-  static Map<int, ProcessedWay> _mapWays (OSMElementBundle elements) => {
-    for (var way in elements.ways) way.id: ProcessedWay(way)
-  };
-
-  static Map<int, ProcessedRelation> _mapRelations (OSMElementBundle elements) => {
-    for (var relation in elements.relations) relation.id: ProcessedRelation(relation)
-  };
+  OSMElementProcessor([ OSMElementBundle? elements ]) {
+    if(elements != null) add(elements);
+  }
 
   /// Returns all processed elements.
 
-  Iterable<ProcessedElement> get _processedElements sync* {
+  Iterable<ProcessedElement> get elements sync* {
     yield* _nodesLookUp.values;
     yield* _waysLookUp.values;
     yield* _relationsLookUp.values;
   }
 
-  /// Assigns all available children/parents per way.
+  /// Add and process elements.
+  /// Already existing element will be discarded.
+  ///
+  /// Elements whose geometry could not be calculated will **not be included**.
 
-  void _resolveWays() {
-    for (final pWay in _waysLookUp.values) {
+  void add(OSMElementBundle elements) {
+    // convert to list so lazy iterable is evaluated
+    final newNodes = _addNodes(elements.nodes)
+      .toList(growable: false);
+    final newWays = _addWays(elements.ways)
+      .toList(growable: false);
+    final newRelations = _addRelations(elements.relations)
+      .toList(growable: false);
+    // resolve references AFTER all elements have been added
+    _resolveWays(newWays);
+    _resolveRelations(newRelations);
+    // geometry calculation depends on parent/children assignment
+    // due to inner dependencies first process nodes, then ways and then relations
+    // also remove any elements where geometry calculation failed
+    _calcGeometries(newNodes)
+      .forEach((e) => _nodesLookUp.remove(e.id));
+    _calcGeometries(newWays)
+      .forEach((e) => _waysLookUp.remove(e.id));
+    _calcGeometries(newRelations)
+      .forEach((e) => _relationsLookUp.remove(e.id));
+  }
+
+  /// Fast way to get an element by it's type and id.
+
+  ProcessedElement? find(OSMElementType type, int id) {
+    switch (type) {
+      case OSMElementType.node:
+        return _nodesLookUp[id];
+      case OSMElementType.way:
+        return _waysLookUp[id];
+      case OSMElementType.relation:
+        return _relationsLookUp[id];
+    }
+  }
+
+  /// Convert and add nodes **lazily** if not already existing.
+  ///
+  /// Returns all newly added nodes.
+
+  Iterable<ProcessedNode> _addNodes(Iterable<OSMNode> nodes) sync* {
+    for (final node in nodes) {
+      var isNew = false;
+      final pNode = _nodesLookUp.putIfAbsent(node.id, () {
+        isNew = true;
+        return ProcessedNode(node);
+      });
+      if (isNew) yield pNode;
+    }
+  }
+
+  /// Convert and add ways **lazily** if not already existing.
+  ///
+  /// Returns all newly added ways.
+
+  Iterable<ProcessedWay> _addWays(Iterable<OSMWay> ways) sync* {
+    for (final way in ways) {
+      var isNew = false;
+      final pWay = _waysLookUp.putIfAbsent(way.id, () {
+        isNew = true;
+        return ProcessedWay(way);
+      });
+      if (isNew) yield pWay;
+    }
+  }
+
+  /// Convert and add relations **lazily** if not already existing.
+  ///
+  /// Returns all newly added relations.
+
+  Iterable<ProcessedRelation> _addRelations(Iterable<OSMRelation> relations) sync* {
+    for (final relation in relations) {
+      var isNew = false;
+      final pRelation = _relationsLookUp.putIfAbsent(relation.id, () {
+        isNew = true;
+        return ProcessedRelation(relation);
+      });
+      if (isNew) yield pRelation;
+    }
+  }
+
+  /// Assigns all available children per way.
+
+  void _resolveWays(Iterable<ProcessedWay> ways) {
+    for (final pWay in ways) {
       for (final nodeId in pWay.nodeIds) {
         final pNode = _nodesLookUp[nodeId]!;
         pWay.addChild(pNode);
@@ -51,61 +125,32 @@ class OSMElementProcessor {
     }
   }
 
-  /// Assigns all available children/parents per relation.
+  /// Assigns all available children per relation.
 
-  void _resolveRelations() {
-    for (final pRelation in _relationsLookUp.values) {
+  void _resolveRelations(Iterable<ProcessedRelation> relations) {
+    for (final pRelation in relations) {
       for (final member in pRelation.members) {
-        final ProcessedElement? child;
-        switch (member.type) {
-          case OSMElementType.node:
-            child = _nodesLookUp[member.ref];
-          break;
-          case OSMElementType.way:
-            child = _waysLookUp[member.ref];
-          break;
-          case OSMElementType.relation:
-            child = _relationsLookUp[member.ref];
-          break;
-        }
+        final child = find(member.type, member.ref);
         // relations my reference objects that are not present in the bundle
         if (child != null) pRelation.addChild(child as ChildElement);
       }
     }
   }
 
-  /// Calculates the geometry for every element.
+  /// Lazily calculates the geometry for every element.
   ///
-  /// Removes elements whose geometry calculation failed.
+  /// Return all elements whose geometry calculation failed.
 
-  void _calcGeometries(Map<int, ProcessedElement> elements) {
-    // remove elements where geometry calculation failed
-    elements.removeWhere((id, element) {
+  Iterable<T> _calcGeometries<T extends ProcessedElement>(Iterable<T> elements) sync* {
+    for (final element in elements) {
       try {
         element.calcGeometry();
-        return false;
       }
       // catch geometry calculation errors
       catch(e) {
         debugPrint(e.toString());
-        return true;
+        yield element;
       }
-    });
-  }
-
-  /// Processes all elements and returns them as an [Iterable].
-  ///
-  /// Elements whose geometry could not be calculated will be filtered here.
-
-  Iterable<ProcessedElement> process() {
-    // resolve all references
-    _resolveWays();
-    _resolveRelations();
-    // geometry calculation depends on parent/children assignment
-    // due to inner dependencies first process nodes, then ways and then relations
-    _calcGeometries(_nodesLookUp);
-    _calcGeometries(_waysLookUp);
-    _calcGeometries(_relationsLookUp);
-    return _processedElements;
+    }
   }
 }
