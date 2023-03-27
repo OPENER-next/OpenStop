@@ -58,7 +58,7 @@ class ChangesetCommentBuilder {
       }
       // hard truncate string
       else {
-        finalString = finalString.substring(0, 256);
+        finalString = finalString.substring(0, 255);
       }
     }
     return finalString;

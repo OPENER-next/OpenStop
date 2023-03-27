@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide ProxyElement;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:open_stop/api/osm_element_upload_api.dart';
@@ -18,6 +18,11 @@ void main() async {
     username: 'testuser',
     password: 'testpass'
   );
+
+  const endPoint = 'http://127.0.0.1:3000/api/0.6';
+  const changesetCreatedBy = 'test created by';
+  const changesetLocale = 'test locale';
+  const changesetSource = 'test source';
 
   final simpleStopArea = StopArea([
     Stop(
@@ -55,6 +60,7 @@ void main() async {
   const tags01 = {'map_feature_1': 'map_feature_1_value'};
   const tags02 = {'map_feature_2': 'map_feature_2_value'};
   const tags03 = {'map_feature_3': 'map_feature_3_value'};
+  const tags04 = {'map_feature_4': 'map_feature_4_value'};
 
   final mapFeatureCollection = MapFeatureCollection([
     MapFeature(
@@ -87,12 +93,23 @@ void main() async {
         ]),
       ],
     ),
+    MapFeature(
+      name: 'MapFeature4 with very long name that exceeds the 255 OSM character length. Looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong',
+      icon: Icons.close,
+      conditions: [
+        ElementCondition([
+          TagsSubCondition.fromJson(tags04),
+          const ElementTypeSubCondition([app.OSMElementType.openWay]),
+        ]),
+      ],
+    ),
   ]);
 
-  late OSMAPI osmapi;
-  late List<OSMNode> nodes;
-  late List<OSMWay> ways;
-  late AuthenticatedUser user;
+  late final OSMAPI osmapi;
+  late final List<OSMNode> nodes;
+  late final List<OSMWay> ways;
+  late final List<OSMRelation> relations;
+  late final AuthenticatedUser user;
 
 
   setUpAll(() async {
@@ -133,6 +150,16 @@ void main() async {
       ),
     ]);
 
+    relations = await Future.wait([
+      osmapi.createElement(
+        OSMRelation(
+          [OSMMember(type: OSMElementType.way, ref: ways[0].id)],
+          tags: Map.of(tags04),
+        ),
+        changesetId
+      ),
+    ]);
+
     await osmapi.closeChangeset(changesetId);
 
     final userDetails = await osmapi.getCurrentUserDetails();
@@ -145,7 +172,7 @@ void main() async {
   });
 
 
-  tearDownAll(() async {
+  tearDown(() async {
     // close all open changesets
     final openChangesets = await osmapi.queryChangesets(
       open: true,
@@ -158,11 +185,6 @@ void main() async {
 
 
   test('Test osm element upload changeset generation/updating', () async {
-    const endPoint = 'http://127.0.0.1:3000/api/0.6';
-    const changesetCreatedBy = 'test created by';
-    const changesetLocale = 'test locale';
-    const changesetSource = 'test source';
-
     final uploadApi01 = OSMElementUploadAPI(
       mapFeatureCollection: mapFeatureCollection,
       stopArea: simpleStopArea,
@@ -275,7 +297,6 @@ void main() async {
       'comment': 'Details zu MapFeature3, MapFeature1 und MapFeature2 im Haltestellenbereich Stop1, Stop2 und Stop3 hinzugefügt.',
     })));
 
-
     // check if no additional changeset was created by comparing the amount of changesets each query returned
     expect(changesetTagList01.length, equals(changesetTagList02.length));
     expect(changesetTagList01.length, equals(changesetTagList03.length));
@@ -287,5 +308,49 @@ void main() async {
     expect(serverNodes, equals(nodes));
     final serverWays = await osmapi.getWays(ways.map((way) => way.id));
     expect(serverWays, equals(ways));
+  });
+
+
+  test('Test osm element upload with changeset comment exceeding max length', () async {
+    final stopAreaWithLongName = StopArea([
+      Stop(
+        location: LatLng(10.00001, 20.00001),
+        name: 'Stop area with name longer than 255 characters - loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong'
+      ),
+    ], LatLng(10.00001, 20.00001), 200);
+
+    // update changeset with map feature and stop area of long name
+
+    final uploadApi = OSMElementUploadAPI(
+      mapFeatureCollection: mapFeatureCollection,
+      stopArea: stopAreaWithLongName,
+      authenticatedUser: user,
+      endPoint: endPoint,
+      changesetCreatedBy: changesetCreatedBy,
+      changesetLocale: changesetLocale,
+      changesetSource: changesetSource,
+    );
+
+    final updatedElement = ProxyElement(ProcessedRelation(relations[0]), additionalTags: {
+      'foo': 'bar',
+    });
+    await updatedElement.publish(uploadApi);
+    // check if one changeset of the currently open changesets contains the expected tags.
+    final changesetTagList = (await osmapi.queryChangesets(
+      open: true,
+      uid: user.id,
+    )).map((c) => c.tags);
+
+    expect(changesetTagList.any((e) => e['comment']?.length == 255), isTrue);
+    expect(changesetTagList, anyElement(equals({
+      'created_by': uploadApi.changesetCreatedBy,
+      'locale': uploadApi.changesetLocale,
+      'source': uploadApi.changesetSource,
+      'comment': 'Details zu Element im Haltestellenbereich Stop area with name longer than 255 characters - looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo',
+    })));
+
+    // check if upload of the relation was successful by downloading the relation from the server and comparing it
+    final serverRelations = await osmapi.getRelations(relations.map((rel) => rel.id));
+    expect(serverRelations, equals(relations));
   });
 }
