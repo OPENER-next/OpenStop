@@ -41,8 +41,8 @@ class ElementWorker {
   ///
   /// Elements are filtered by the stop areas used to query them and any additionally applied filters.
 
-  Future<Set<ProcessedElement>> update(ElementUpdateData data) async {
-    return await _worker.send(_ElementWorkerMessage(_Subject.update, data));
+  Future<Set<ProcessedElement>> update(ElementUpdateData data) {
+    return _worker.send<Set<ProcessedElement>>(_ElementWorkerMessage(_Subject.update, data));
   }
 
   /// Query OSM elements from the server by a given stop area.
@@ -51,21 +51,21 @@ class ElementWorker {
   ///
   /// If the stop area was queried before the currently cached elements will be returned.
 
-  Future<Set<ProcessedElement>> query(StopArea stopArea) async {
-    return await _worker.send(_ElementWorkerMessage(_Subject.query, stopArea));
+  Future<Set<ProcessedElement>> query(StopArea stopArea) {
+    return _worker.send<Set<ProcessedElement>>(_ElementWorkerMessage(_Subject.query, stopArea));
   }
 
   /// This will override any existing filters and return all currently
   /// cached elements that passed the new filters.
 
-  Future<Set<ProcessedElement>> applyFilters(Iterable<ElementFilter> filters) async {
-    return await _worker.send(_ElementWorkerMessage(_Subject.applyFilters, filters));
+  Future<Set<ProcessedElement>> applyFilters(Iterable<ElementFilter> filters) {
+    return _worker.send<Set<ProcessedElement>>(_ElementWorkerMessage(_Subject.applyFilters, filters));
   }
 
   /// Check whether a given [StopArea] has any elements.
 
-  Future<bool> hasElements(StopArea stopArea) async {
-    return await _worker.send(_ElementWorkerMessage(_Subject.hasElements, stopArea));
+  Future<bool> hasElements(StopArea stopArea) {
+    return _worker.send<bool>(_ElementWorkerMessage(_Subject.hasElements, stopArea));
   }
 
   /// Close the service worker.
