@@ -6,13 +6,14 @@ import '/models/question_catalog/question_catalog.dart';
 abstract class ElementFilter {
   bool matches(ProcessedElement element);
 
-  Iterable<ProcessedElement> filter(Iterable<ProcessedElement> elements);
+  Iterable<ProcessedElement> filter(Iterable<ProcessedElement> elements) =>
+    elements.where(matches);
 }
 
 
 /// Filter for elements which geometric center is inside the given [Circle].
 
-class AreaFilter implements ElementFilter {
+class AreaFilter extends ElementFilter {
   final Circle _area;
 
   AreaFilter({
@@ -22,16 +23,12 @@ class AreaFilter implements ElementFilter {
   @override
   bool matches(ProcessedElement element) =>
     _area.isPointInside(element.geometry.center);
-
-  @override
-  Iterable<ProcessedElement> filter(Iterable<ProcessedElement> elements) =>
-    elements.where(matches);
 }
 
 
 /// Filter for elements which match at least one question from a given [QuestionCatalog].
 
-class QuestionFilter implements ElementFilter {
+class QuestionFilter extends ElementFilter {
   final QuestionCatalog _questionCatalog;
 
   QuestionFilter({
@@ -46,16 +43,12 @@ class QuestionFilter implements ElementFilter {
       });
     });
   }
-
-  @override
-  Iterable<ProcessedElement> filter(Iterable<ProcessedElement> elements) =>
-    elements.where(matches);
 }
 
 
 /// Meta filter to "OR" combine multiple other element filters.
 
-class AnyFilter implements ElementFilter {
+class AnyFilter extends ElementFilter {
   final Iterable<ElementFilter> _filters;
 
   AnyFilter({
@@ -65,8 +58,4 @@ class AnyFilter implements ElementFilter {
   @override
   bool matches(ProcessedElement element) =>
     _filters.any((filter) => filter.matches(element));
-
-  @override
-  Iterable<ProcessedElement> filter(Iterable<ProcessedElement> elements) =>
-    elements.where(matches);
 }
