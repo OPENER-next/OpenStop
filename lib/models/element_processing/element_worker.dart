@@ -68,6 +68,12 @@ class ElementWorker {
     return _worker.send<bool>(_ElementWorkerMessage(_Subject.hasElements, stopArea));
   }
 
+  /// Check whether a given [StopArea] has already been loaded.
+
+  Future<bool> hasStopArea(StopArea stopArea) async {
+    return _worker.send<bool>(_ElementWorkerMessage(_Subject.hasStopArea, stopArea));
+  }
+
   /// Close the service worker.
 
   void dispose() {
@@ -177,6 +183,9 @@ class _ElementWorker extends ServiceWorker<_ElementWorkerMessage> {
   }
 
 
+  bool _hasStopArea(StopArea stopArea) => _stopAreas.contains(stopArea);
+
+
   void _dispose() {
     _osmElementQueryHandler.dispose();
     exit();
@@ -194,6 +203,8 @@ class _ElementWorker extends ServiceWorker<_ElementWorkerMessage> {
         return _applyFilters(message.data);
       case _Subject.hasElements:
         return _hasElements(message.data);
+      case _Subject.hasStopArea:
+        return _hasStopArea(message.data);
       case _Subject.dispose:
         return _dispose();
     }
@@ -202,7 +213,7 @@ class _ElementWorker extends ServiceWorker<_ElementWorkerMessage> {
 
 
 enum _Subject {
-  query, update, applyFilters, hasElements, dispose
+  query, update, applyFilters, hasElements, hasStopArea, dispose
 }
 
 

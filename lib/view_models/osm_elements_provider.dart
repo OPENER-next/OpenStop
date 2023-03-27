@@ -66,10 +66,11 @@ class OSMElementProvider extends ChangeNotifier {
 
   bool stopAreaIsLoading(StopArea stopArea) => _loadingStopAreas.contains(stopArea);
 
+
   /// Load and extract elements from a given stop area and question catalog.
 
   Future<void> loadElementsFromStopArea(StopArea stopArea) async {
-    if (!stopAreaIsLoading(stopArea)) {
+    if (!(await stopAreaIsLoaded(stopArea)) && !stopAreaIsLoading(stopArea)) {
       // add to loading stop areas
       _loadingStopAreas.add(stopArea);
       notifyListeners();
@@ -85,14 +86,18 @@ class OSMElementProvider extends ChangeNotifier {
     }
   }
 
+  /// Check whether a stop area has already been loaded loading.
+
+  Future<bool> stopAreaIsLoaded(StopArea stopArea) async =>
+    (await _elementPool).hasStopArea(stopArea);
+
 
   /// Check whether the given stop area has any matching elements left.
   ///
   /// The stop area must be loaded in advance.
 
-  Future<bool> stopAreaHasElements(StopArea stopArea) async {
-    return (await _elementPool).hasElements(stopArea);
-  }
+  Future<bool> stopAreaHasElements(StopArea stopArea) async =>
+    (await _elementPool).hasElements(stopArea);
 
 
   /// Upload the changes made by this questionnaire with the given authenticated user.
