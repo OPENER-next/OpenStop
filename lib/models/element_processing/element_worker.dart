@@ -9,7 +9,7 @@ import 'element_filter.dart';
 import 'element_processor.dart';
 
 
-/// The [ElementPool] is a service worker used to query, process and update elements from the OSM server.
+/// The [ElementWorker] is a service worker used to query, process and update elements from the OSM server.
 ///
 /// It runs in a separate [Isolate] so it won't block the main thread.
 ///
@@ -23,14 +23,14 @@ import 'element_processor.dart';
 ///
 /// TODO: If threads are ever possible in dart, this can be implemented much more efficiently.
 
-class ElementPool {
-  final ServiceWorkerController<_ElementPoolMessage> _worker;
+class ElementWorker {
+  final ServiceWorkerController<_ElementWorkerMessage> _worker;
 
-  ElementPool._(this._worker);
+  ElementWorker._(this._worker);
 
-  static Future<ElementPool> spawn() async {
-    final con = await ServiceWorkerController.spawn<_ElementPoolMessage>(_ElementPool.new);
-    return ElementPool._(con);
+  static Future<ElementWorker> spawn() async {
+    final con = await ServiceWorkerController.spawn<_ElementWorkerMessage>(_ElementWorker.new);
+    return ElementWorker._(con);
   }
 
   /// Method to upload an element to the OSM server.
@@ -42,7 +42,7 @@ class ElementPool {
   /// Elements are filtered by the stop areas used to query them and any additionally applied filters.
 
   Future<Set<ProcessedElement>> update(ElementUpdateData data) async {
-    return await _worker.send(_ElementPoolMessage(_Subject.update, data));
+    return await _worker.send(_ElementWorkerMessage(_Subject.update, data));
   }
 
   /// Query OSM elements from the server by a given stop area.
@@ -52,31 +52,31 @@ class ElementPool {
   /// If the stop area was queried before the currently cached elements will be returned.
 
   Future<Set<ProcessedElement>> query(StopArea stopArea) async {
-    return await _worker.send(_ElementPoolMessage(_Subject.query, stopArea));
+    return await _worker.send(_ElementWorkerMessage(_Subject.query, stopArea));
   }
 
   /// This will override any existing filters and return all currently
   /// cached elements that passed the new filters.
 
   Future<Set<ProcessedElement>> applyFilters(Iterable<ElementFilter> filters) async {
-    return await _worker.send(_ElementPoolMessage(_Subject.applyFilters, filters));
+    return await _worker.send(_ElementWorkerMessage(_Subject.applyFilters, filters));
   }
 
   /// Check whether a given [StopArea] has any elements.
 
   Future<bool> hasElements(StopArea stopArea) async {
-    return await _worker.send(_ElementPoolMessage(_Subject.hasElements, stopArea));
+    return await _worker.send(_ElementWorkerMessage(_Subject.hasElements, stopArea));
   }
 
   /// Close the service worker.
 
   void dispose() {
-    _worker.send(_ElementPoolMessage(_Subject.dispose));
+    _worker.send(_ElementWorkerMessage(_Subject.dispose));
   }
 }
 
 
-class _ElementPool extends ServiceWorker<_ElementPoolMessage> {
+class _ElementWorker extends ServiceWorker<_ElementWorkerMessage> {
   final _elementPool = OSMElementProcessor();
 
   final _osmElementQueryHandler = OSMElementQueryAPI();
@@ -85,7 +85,7 @@ class _ElementPool extends ServiceWorker<_ElementPoolMessage> {
 
   final _filters = <ElementFilter>[];
 
-  _ElementPool(super.sendPort);
+  _ElementWorker(super.sendPort);
 
   Future<Set<ProcessedElement>> _query(StopArea stopArea) async {
     if (!_stopAreas.contains(stopArea)) {
@@ -206,11 +206,11 @@ enum _Subject {
 }
 
 
-class _ElementPoolMessage {
+class _ElementWorkerMessage {
   final _Subject subject;
   final dynamic data;
 
-  _ElementPoolMessage(this.subject, [ this.data ]);
+  _ElementWorkerMessage(this.subject, [ this.data ]);
 }
 
 

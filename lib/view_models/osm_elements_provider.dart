@@ -3,7 +3,7 @@ import 'dart:collection';
 
 import 'package:flutter/widgets.dart' hide ProxyElement;
 
-import '/models/element_processing/element_pool.dart';
+import '/models/element_processing/element_worker.dart';
 import '/models/authenticated_user.dart';
 import '/models/element_processing/element_filter.dart';
 import '/models/element_variants/base_element.dart';
@@ -19,7 +19,7 @@ class OSMElementProvider extends ChangeNotifier {
 
   MapFeatureCollection _mapFeatureCollection;
 
-  final Future<ElementPool> _elementPool;
+  final Future<ElementWorker> _elementPool;
 
   OSMElementProvider({
     required QuestionCatalog questionCatalog,
@@ -29,8 +29,8 @@ class OSMElementProvider extends ChangeNotifier {
     _elementPool = _init(questionCatalog);
 
 
-  static Future<ElementPool> _init(QuestionCatalog questionCatalog) async {
-    final elementPool = await ElementPool.spawn();
+  static Future<ElementWorker> _init(QuestionCatalog questionCatalog) async {
+    final elementPool = await ElementWorker.spawn();
     await elementPool.applyFilters([
       QuestionFilter(questionCatalog: questionCatalog)
     ]);
