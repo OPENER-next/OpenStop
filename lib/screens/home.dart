@@ -375,7 +375,7 @@ class _HomeScreenContentState extends State<_HomeScreenContent> with TickerProvi
       }
     }
     on DioError catch (e) {
-      if (e.type == DioErrorType.connectTimeout) {
+      if (e.type == DioErrorType.connectionTimeout) {
         scaffold.showSnackBar(
             CustomSnackBar('Fehler: Zeitüberschreitung bei der Server-Abfrage.')
         );

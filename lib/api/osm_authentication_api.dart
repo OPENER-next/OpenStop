@@ -114,8 +114,8 @@ class OSMAuthenticationAPI {
     final osmApi = OSMAPI(
       baseUrl: Uri.https(osm_config.osmServer, '/api/0.6').toString(),
       authentication: authentication,
-      connectTimeout: 10000,
-      receiveTimeout: 15000,
+      connectTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 15),
     );
 
     try {

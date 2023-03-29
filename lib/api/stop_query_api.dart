@@ -61,8 +61,8 @@ class StopQueryAPI {
           'bbox': '${southWest.longitude},${southWest.latitude},${northEast.longitude},${northEast.latitude}'
         },
         options: Options(
-          sendTimeout: sendTimeout.inMilliseconds,
-          receiveTimeout: receiveTimeout.inMilliseconds,
+          sendTimeout: sendTimeout,
+          receiveTimeout: receiveTimeout,
         ),
       );
       return _queryResponseToStops(response);

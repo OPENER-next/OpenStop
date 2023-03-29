@@ -16,8 +16,8 @@ class OSMUserAPI {
     _osmApi = OSMAPI(
       authentication: authentication,
       baseUrl: endPoint,
-      connectTimeout: 10000,
-      receiveTimeout: 15000,
+      connectTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 15),
     );
 
   Auth get authentication => _osmApi.authentication!;
