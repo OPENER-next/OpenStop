@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:open_stop/models/answer.dart';
-import 'package:open_stop/models/element_coniditions/sub_condition_matcher.dart';
+import 'package:open_stop/models/element_conditions/sub_condition_matcher.dart';
 import 'package:open_stop/models/element_variants/base_element.dart';
-import 'package:open_stop/models/element_coniditions/element_condition.dart';
+import 'package:open_stop/models/element_conditions/element_condition.dart';
 import 'package:open_stop/models/question_catalog/answer_constructor.dart';
 import 'package:open_stop/models/question_catalog/answer_definition.dart';
 import 'package:open_stop/models/question_catalog/question_catalog.dart';

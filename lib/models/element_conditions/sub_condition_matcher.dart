@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '/models/element_coniditions/tag_value_matcher.dart';
+import '/models/element_conditions/tag_value_matcher.dart';
 import '/models/osm_element_type.dart';
 import '/models/element_variants/base_element.dart';
 import 'element_condition.dart';

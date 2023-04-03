@@ -1,8 +1,8 @@
 import 'dart:collection';
 
 import '/models/map_feature.dart';
-import 'element_coniditions/element_condition.dart';
-import 'element_coniditions/sub_condition_matcher.dart';
+import 'element_conditions/element_condition.dart';
+import 'element_conditions/sub_condition_matcher.dart';
 import 'element_variants/base_element.dart';
 
 class MapFeatureCollection extends ListBase<MapFeature> {

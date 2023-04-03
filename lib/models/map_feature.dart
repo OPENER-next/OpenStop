@@ -3,7 +3,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import '/commons/custom_icons.dart';
 import '/models/element_variants/base_element.dart';
-import '/models/element_coniditions/element_condition.dart';
+import '/models/element_conditions/element_condition.dart';
 import '/models/expression_handler.dart';
 
 /// A map feature defines how certain elements will be represented and described.

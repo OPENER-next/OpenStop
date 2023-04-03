@@ -1,4 +1,4 @@
-import '/models/element_coniditions/element_condition.dart';
+import '/models/element_conditions/element_condition.dart';
 import 'answer_definition.dart';
 
 /// A [QuestionDefinition] is a bundle of data that describes the question that will be shown, when it will be shown
