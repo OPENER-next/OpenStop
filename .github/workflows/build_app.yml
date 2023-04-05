@@ -29,9 +29,9 @@ jobs:
 
     - name: Read Flutter version from pubspec.yaml
       id: flutterVersion
-        uses: mikefarah/yq@master
-        with:
-          cmd: yq '.environment.flutter' 'pubspec.yaml'
+      uses: mikefarah/yq@master
+      with:
+        cmd: yq '.environment.flutter' 'pubspec.yaml'
 
     - name: Setup Java
       uses: actions/setup-java@v3
@@ -103,9 +103,9 @@ jobs:
 
     - name: Read Flutter version from pubspec.yaml
       id: flutterVersion
-        uses: mikefarah/yq@master
-        with:
-          cmd: yq '.environment.flutter' 'pubspec.yaml'
+      uses: mikefarah/yq@master
+      with:
+        cmd: yq '.environment.flutter' 'pubspec.yaml'
 
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
@@ -140,9 +140,9 @@ jobs:
 
       - name: Read Flutter version from pubspec.yaml
         id: flutterVersion
-          uses: mikefarah/yq@master
-          with:
-            cmd: yq '.environment.flutter' 'pubspec.yaml'
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq '.environment.flutter' 'pubspec.yaml'
 
       - name: Setup Pages
         uses: actions/configure-pages@v2
