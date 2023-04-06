@@ -8,12 +8,6 @@ on:
   # Allow running this workflow manually from the Actions tab.
   workflow_dispatch:
 
-env:
-  # Use a fixed Flutter version (instead of latest) to ensure a more deterministic building process
-  # When changing the Flutter version make sure to also update it in the F-Droid repository
-  # https://gitlab.com/fdroid/fdroiddata/-/blob/master/metadata/de.tu_chemnitz.etit.sse.openstop.yml
-  FLUTTER_SDK_VERSION: '3.7.8'
-
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
@@ -33,6 +27,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Install yq
+      run: pip3 install yq
+
+    - name: Read Flutter version from pubspec.yaml
+      id: flutterVersion
+      run: |
+        echo "result=$(yq -r .environment.flutter pubspec.yaml)" >> $GITHUB_OUTPUT 
+
     - name: Setup Java
       uses: actions/setup-java@v3
       with:
@@ -42,7 +44,7 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: ${{ env.FLUTTER_SDK_VERSION }}
+        flutter-version: ${{ steps.flutterVersion.outputs.result }}
         channel: 'stable'
 
     - name: Check Flutter version
@@ -101,10 +103,18 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Install yq
+      run: pip3 install yq
+
+    - name: Read Flutter version from pubspec.yaml
+      id: flutterVersion
+      run: |
+        echo "result=$(yq -r .environment.flutter pubspec.yaml)" >> $GITHUB_OUTPUT 
+
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: ${{ env.FLUTTER_SDK_VERSION }}
+        flutter-version: ${{ steps.flutterVersion.outputs.result }}
         channel: 'stable'
 
     - name: Download pub dependencies
@@ -132,13 +142,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Install yq
+        run: pip3 install yq
+
+      - name: Read Flutter version from pubspec.yaml
+        id: flutterVersion
+        run: |
+          echo "result=$(yq -r .environment.flutter pubspec.yaml)" >> $GITHUB_OUTPUT 
+
       - name: Setup Pages
         uses: actions/configure-pages@v2
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: ${{ env.FLUTTER_SDK_VERSION }}
+          flutter-version: ${{ steps.flutterVersion.outputs.result }}
           channel: 'stable'
 
       - name: Download pub dependencies
