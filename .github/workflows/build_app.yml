@@ -27,11 +27,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Install yq
+      run: pip3 install yq
+
     - name: Read Flutter version from pubspec.yaml
       id: flutterVersion
-      uses: mikefarah/yq@master
-      with:
-        cmd: yq '.environment.flutter' 'pubspec.yaml'
+      run: |
+        echo "result=$(yq -r .environment.flutter pubspec.yaml)" >> $GITHUB_OUTPUT 
 
     - name: Setup Java
       uses: actions/setup-java@v3
@@ -101,11 +103,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Install yq
+      run: pip3 install yq
+
     - name: Read Flutter version from pubspec.yaml
       id: flutterVersion
-      uses: mikefarah/yq@master
-      with:
-        cmd: yq '.environment.flutter' 'pubspec.yaml'
+      run: |
+        echo "result=$(yq -r .environment.flutter pubspec.yaml)" >> $GITHUB_OUTPUT 
 
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
@@ -138,11 +142,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Install yq
+        run: pip3 install yq
+
       - name: Read Flutter version from pubspec.yaml
         id: flutterVersion
-        uses: mikefarah/yq@master
-        with:
-          cmd: yq '.environment.flutter' 'pubspec.yaml'
+        run: |
+          echo "result=$(yq -r .environment.flutter pubspec.yaml)" >> $GITHUB_OUTPUT 
 
       - name: Setup Pages
         uses: actions/configure-pages@v2
