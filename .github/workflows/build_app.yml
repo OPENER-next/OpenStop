@@ -21,6 +21,9 @@ concurrency:
 
 jobs:
   build_android:
+    strategy:
+      matrix:
+        flavor: [ standard, fdroid ]
     runs-on: ubuntu-latest
 
     steps:
@@ -33,7 +36,12 @@ jobs:
     - name: Read Flutter version from pubspec.yaml
       id: flutterVersion
       run: |
-        echo "result=$(yq -r .environment.flutter pubspec.yaml)" >> $GITHUB_OUTPUT 
+        echo "result=$(yq -r .environment.flutter pubspec.yaml)" >> $GITHUB_OUTPUT
+
+    - name: Override dependencies in pubspec.yaml to be FLOSS
+      if: matrix.flavor == 'fdroid'
+      run: |
+        yq -y -i '.dependency_overrides.geolocator_android.git = {"url": "https://github.com/Zverik/flutter-geolocator.git", "ref": "floss", "path": "geolocator_android"}' pubspec.yaml
 
     - name: Setup Java
       uses: actions/setup-java@v3
@@ -71,30 +79,43 @@ jobs:
         storeFile=$(readlink -f key.jks)" >> android/key.properties
 
     - name: Build App Bundle
+      if: matrix.flavor != 'fdroid'
       run: >-
         flutter build appbundle
         --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
         --dart-define=IS_RELEASE=true
-        --flavor standard
+        --flavor ${{ matrix.flavor }}
 
     - name: Build APK
       run: >-
         flutter build apk
         --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
         --dart-define=IS_RELEASE=true
-        --flavor standard
+        --flavor ${{ matrix.flavor }}
+
+    - name: Rename App Bundle artifact
+      if: matrix.flavor != 'fdroid'
+      run: >-
+        mv build/app/outputs/bundle/${{ matrix.flavor }}Release/app-${{ matrix.flavor }}-release.aab
+        build/app/outputs/bundle/${{ matrix.flavor }}Release/OpenStop_${{ matrix.flavor }}_${{ github.ref_name }}.aab
+
+    - name: Rename APK artifact
+      run: >-
+        mv build/app/outputs/flutter-apk/app-${{ matrix.flavor }}-release.apk
+        build/app/outputs/flutter-apk/OpenStop_${{ matrix.flavor }}_${{ github.ref_name }}.apk
 
     - name: Upload App Bundle artifact
+      if: matrix.flavor != 'fdroid'
       uses: actions/upload-artifact@v3
       with:
-        name: Android App Bundle
-        path: build/app/outputs/bundle/standardRelease/app-standard-release.aab
+        name: Android App Bundle ${{ matrix.flavor }} ${{ github.ref_name }}
+        path: build/app/outputs/bundle/${{ matrix.flavor }}Release/OpenStop_${{ matrix.flavor }}_${{ github.ref_name }}.aab
 
     - name: Upload APK artifact
       uses: actions/upload-artifact@v3
       with:
-        name: Android APK
-        path: build/app/outputs/flutter-apk/app-standard-release.apk
+        name: Android APK ${{ matrix.flavor }} ${{ github.ref_name }}
+        path: build/app/outputs/flutter-apk/OpenStop_${{ matrix.flavor }}_${{ github.ref_name }}.apk
 
   build_ios:
     runs-on: macos-latest
@@ -109,7 +130,7 @@ jobs:
     - name: Read Flutter version from pubspec.yaml
       id: flutterVersion
       run: |
-        echo "result=$(yq -r .environment.flutter pubspec.yaml)" >> $GITHUB_OUTPUT 
+        echo "result=$(yq -r .environment.flutter pubspec.yaml)" >> $GITHUB_OUTPUT
 
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
@@ -139,42 +160,42 @@ jobs:
   build_web:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
 
-      - name: Install yq
-        run: pip3 install yq
+    - name: Install yq
+      run: pip3 install yq
 
-      - name: Read Flutter version from pubspec.yaml
-        id: flutterVersion
-        run: |
-          echo "result=$(yq -r .environment.flutter pubspec.yaml)" >> $GITHUB_OUTPUT 
+    - name: Read Flutter version from pubspec.yaml
+      id: flutterVersion
+      run: |
+        echo "result=$(yq -r .environment.flutter pubspec.yaml)" >> $GITHUB_OUTPUT 
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v2
+    - name: Setup Pages
+      uses: actions/configure-pages@v2
 
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ steps.flutterVersion.outputs.result }}
-          channel: 'stable'
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: ${{ steps.flutterVersion.outputs.result }}
+        channel: 'stable'
 
-      - name: Download pub dependencies
-        run: flutter pub get
+    - name: Download pub dependencies
+      run: flutter pub get
 
-      - name: Run build_runner
-        run: flutter pub run build_runner build --delete-conflicting-outputs
+    - name: Run build_runner
+      run: flutter pub run build_runner build --delete-conflicting-outputs
 
-      - name: Build web
-        run: >-
-          flutter build web
-          --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
-          --dart-define=IS_RELEASE=true
+    - name: Build web
+      run: >-
+        flutter build web
+        --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
+        --dart-define=IS_RELEASE=true
 
-      - name: Upload web artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: 'build/web'
+    - name: Upload web artifact
+      uses: actions/upload-pages-artifact@v1
+      with:
+        path: 'build/web'
 
   deploy_web:
     environment:
