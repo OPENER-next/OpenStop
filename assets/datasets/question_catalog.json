@@ -685,55 +685,6 @@
    },
    {
       "question": {
-         "id": 1150,
-         "name": "Ansage-Art",
-         "text": "Von welcher Art sind die Ansagen an der Plattform?",
-         "description": "Unter Ansagen werden die akustischen Fahrgastinformationen an der Haltestelle verstanden."
-      },
-      "answer": {
-         "type": "List",
-         "input": [
-            {
-               "name": "Automatisiert",
-               "description": "Bei den automatischen Ansagen wurden die Informationen vorab aufgenommen und automatisch eingespielt. Die Information beschränkt sich i. d. R. auf die nächsten Fahrten.",
-               "osm_tags": {
-                  "announcement": "automatic"
-               }
-            },
-            {
-               "name": "Manuell",
-               "description": "Manuelle Ansagen erfolgen direkt und individuell zum relevanten Zeitpunkt. Sie werden von einem Mitarbeiter gesprochen. Neben der Ankündigung der nächsten Verbindung können diese insbesondere zur Durchsage von Verspätungen, Ausfällen oder Gleiswechseln genutzt werden.",
-               "osm_tags": {
-                  "announcement": "manual"
-               }
-            },
-            {
-               "name": "Automatisiert und manuell",
-               "description": "Ansagen erfolgen sowohl mit vorab aufgenommenen und automatisch abgespielten Aufnahmen als auch direkt und individuell durch Mitarbeiter.",
-               "osm_tags": {
-                  "announcement": "mixed"
-               }
-            }
-         ]
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "public_transport": "platform",
-               "announcement": "yes"
-            },
-            "!parent": [
-               {
-                  "osm_tags": {
-                     "public_transport": "platform"
-                  }
-               }
-            ]
-         }
-      ]
-   },
-   {
-      "question": {
          "id": 1170,
          "name": "Haltestellen-Bordstein",
          "text": "Hat die Haltestelle an der Fahrbahnseite einen Bordstein?"
