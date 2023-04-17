@@ -1,0 +1,40 @@
+name: 'Setup app build'
+description: 'Runs pre-processing scripts shared by all app build jobs.'
+inputs:
+  flavor:
+    description: 'The flavor that should be build.'
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Install yq
+      run: pip3 install yq
+
+    - name: Read Flutter version from pubspec.yaml
+      id: flutterVersion
+      run: |
+        echo "result=$(yq -r .environment.flutter pubspec.yaml)" >> $GITHUB_OUTPUT
+
+    - name: Override dependencies in pubspec.yaml to be FLOSS
+      if: env.INPUT_FLAVOR == 'fdroid'
+      run: |
+        yq -y -i '.dependency_overrides.geolocator_android.git = {"url": "https://github.com/Zverik/flutter-geolocator.git", "ref": "floss", "path": "geolocator_android"}' pubspec.yaml
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: ${{ steps.flutterVersion.outputs.result }}
+        channel: 'stable'
+        
+    - name: Check Flutter version
+      run: flutter --version
+
+    - name: Download pub dependencies
+      run: flutter pub get
+
+    - name: Run build_runner
+      run: flutter pub run build_runner build --delete-conflicting-outputs
