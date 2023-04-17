@@ -47,9 +47,9 @@ jobs:
         flutter build web
         --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
         --dart-define=IS_RELEASE=true
-        
+              
     - name: Convert Markdown to HTML
-      uses: natescherer/markdown-to-html-with-github-style-action@v1
+      uses: natescherer/markdown-to-html-with-github-style-action@v1.1.0
       with:
         path: PRIVACY_POLICY.md
         outputpath: build/web
@@ -58,4 +58,3 @@ jobs:
       uses: actions/upload-pages-artifact@v1
       with:
         path: 'build/web'
-
