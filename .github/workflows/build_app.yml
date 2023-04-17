@@ -120,42 +120,82 @@ jobs:
   build_ios:
     runs-on: macos-latest
 
+    env:
+      BUILD_CERTIFICATE_BASE64: ${{ secrets.APPLE_DISTRIBUTION_CERT_BASE64 }}
+      P12_PASSWORD: ${{ secrets.APPLE_DISTRIBUTION_CERT_PASSWORD }}
+      BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.APPLE_MOBILEPROVISION_BASE64 }}
+      KEYCHAIN_PASSWORD: ${{ secrets.APPLE_KEYCHAIN_PASSWORD }}
+      BUILD_EXPORTOPTIONS_BASE64: ${{ secrets.APPLE_EXPORTOPTIONS_BASE64 }}
+      EXPORTOPTIONS_PATH: ${{ RUNNER_TEMP }}/ExportOptions.plist
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Install yq
-      run: pip3 install yq
+      - name: Install yq
+        run: pip3 install yq
 
-    - name: Read Flutter version from pubspec.yaml
-      id: flutterVersion
-      run: |
-        echo "result=$(yq -r .environment.flutter pubspec.yaml)" >> $GITHUB_OUTPUT
+      - name: Read Flutter version from pubspec.yaml
+        id: flutterVersion
+        run: |
+          echo "result=$(yq -r .environment.flutter pubspec.yaml)" >> $GITHUB_OUTPUT
 
-    - name: Setup Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: ${{ steps.flutterVersion.outputs.result }}
-        channel: 'stable'
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.flutterVersion.outputs.result }}
+          channel: 'stable'
 
-    - name: Download pub dependencies
-      run: flutter pub get
+      - name: Download pub dependencies
+        run: flutter pub get
 
-    - name: Run build_runner
-      run: flutter pub run build_runner build --delete-conflicting-outputs
+      - name: Install Apple certificate and provisioning profile
+        run: |
+          # Create variables
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+          
+          # Import certificate, provisioning profile and ExportOptions.plist
+          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
+          echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode --output $PP_PATH
+          echo -n "$BUILD_EXPORTOPTIONS_BASE64" | base64 --decode --output $EXPORTOPTIONS_PATH
+          
+          # Create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          
+          # Import certificate to keychain
+          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+          
+          # Apply provisioning profile
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
-    - name: Build iOS Bundle
-      run: >-
-        flutter build ios
-        --release --no-codesign
-        --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
-        --dart-define=IS_RELEASE=true
+      - name: Run build_runner
+        run: flutter pub run build_runner build --delete-conflicting-outputs
 
-    - name: Upload iOS Bundle artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: iOS App
-        path: build/ios/iphoneos
+      - name: Create IPA
+        run: |
+          flutter build ipa \
+          --release \
+          --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }} \
+          --dart-define=IS_RELEASE=true \
+          --export-options-plist=$EXPORTOPTIONS_PATH
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: iOS App ${{ github.ref_name }}
+          path: build/ios/ipa/*.ipa
+
+      - name: Clean up keychain and provisioning profile
+        if: ${{ always() }}
+        run: |
+          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
+          rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
 
   build_web:
     runs-on: ubuntu-latest
