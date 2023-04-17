@@ -53,7 +53,7 @@ jobs:
       uses: BaileyJM02/markdown-to-pdf@v1.2.0
       with:
         input_path: PRIVACY_POLICY.md
-        output_dir: build/web
+        output_dir: build/web/
         build_html: true
         build_pdf: false
         table_of_contents: true
