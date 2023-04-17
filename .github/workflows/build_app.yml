@@ -232,6 +232,16 @@ jobs:
         --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
         --dart-define=IS_RELEASE=true
 
+    # This step is mainly required because Google considers a link to a Github markdown file as "editable" which violates their policy.
+    # Therefore we convert the markdown file to HTML and publish it together with the App via Github pages here.
+    - name: Convert Privacy Policy to HTML
+      uses: BaileyJM02/markdown-to-pdf@v1.2.0
+      with:
+        input_path: PRIVACY_POLICY.md
+        output_dir: build/web/
+        build_html: true
+        build_pdf: false
+
     - name: Upload web artifact
       uses: actions/upload-pages-artifact@v1
       with:
