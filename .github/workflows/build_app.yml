@@ -107,13 +107,13 @@ jobs:
 
       - name: Cache App Bundle
         if: matrix.flavor != 'fdroid'
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: build/app/outputs/bundle/${{ matrix.flavor }}Release
           key: openstop-abb-${{ matrix.flavor }}-${{ github.ref_name }}
 
       - name: Cache APK
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: build/app/outputs/flutter-apk
           key: openstop-apk-${{ matrix.flavor }}-${{ github.ref_name }}
@@ -196,7 +196,7 @@ jobs:
           build/ios/ipa/OpenStop_${{ github.ref_name }}.ipa
 
       - name: Cache IPA
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: build/ios/ipa/*.ipa
           key: openstop-ipa-${{ github.ref_name }}
@@ -214,25 +214,25 @@ jobs:
 
     steps:
       - name: Restore Android Standard APK
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: build/app/outputs/flutter-apk
           key: openstop-apk-standard-${{ github.ref_name }}
 
       - name: Restore Android F-Droid APK
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: build/app/outputs/flutter-apk
           key: openstop-apk-fdroid-${{ github.ref_name }}
 
       - name: Restore Android Standard ABB
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: build/app/outputs/bundle/standardRelease
           key: openstop-abb-standard-${{ github.ref_name }}
 
       - name: Restore iOS IPA
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: build/ios/ipa/*.ipa
           key: openstop-ipa-${{ github.ref_name }}
@@ -242,8 +242,8 @@ jobs:
         with:
           name: OpenStop ${{ github.ref_name }}
           files: |
-            build/app/outputs/flutter-apk
-            build/app/outputs/bundle/standardRelease
+            build/app/outputs/flutter-apk/*.apk
+            build/app/outputs/bundle/standardRelease/*.aab
             build/ios/ipa/*.ipa
           draft: true
 
