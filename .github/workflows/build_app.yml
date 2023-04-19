@@ -111,11 +111,12 @@ jobs:
         name: Android App Bundle ${{ matrix.flavor }} ${{ github.ref_name }}
         path: build/app/outputs/bundle/${{ matrix.flavor }}Release/OpenStop_${{ matrix.flavor }}_${{ github.ref_name }}.aab
 
-    - name: Upload APK artifact
-      uses: actions/upload-artifact@v3
+    - name: Upload APK artifact to draft release
+      uses: softprops/action-gh-release@v1
       with:
-        name: Android APK ${{ matrix.flavor }} ${{ github.ref_name }}
-        path: build/app/outputs/flutter-apk/OpenStop_${{ matrix.flavor }}_${{ github.ref_name }}.apk
+        name: OpenStop ${{ github.ref_name }}
+        files: build/app/outputs/flutter-apk/OpenStop_${{ matrix.flavor }}_${{ github.ref_name }}.apk
+        draft: true
 
   build_ios:
     runs-on: macos-latest
@@ -188,11 +189,12 @@ jobs:
           --dart-define=IS_RELEASE=true \
           --export-options-plist=$EXPORTOPTIONS_PATH
 
-      - name: Upload IPA artifact
-        uses: actions/upload-artifact@v3
+      - name: Upload IPA artifact to draft release
+        uses: softprops/action-gh-release@v1
         with:
-          name: iOS App ${{ github.ref_name }}
-          path: build/ios/ipa/*.ipa
+          name: OpenStop ${{ github.ref_name }}
+          files: build/ios/ipa/*.ipa
+          draft: true
 
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
