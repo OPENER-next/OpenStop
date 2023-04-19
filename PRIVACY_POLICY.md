@@ -206,7 +206,7 @@ Sächsische Datenschutzbeauftragte \
 Dr. Juliane Hundert \
 Devrientstraße 5 \
 01067 Dresden \
-E-Mail: saechsdsb@slt.sachsen.de \
+E-Mail: post@sdtb.sachsen.de \
 Telefon: +49 351 85471-101 \
 Telefax: +49 351 85471-109 \
 Web: https://www.saechsdsb.de/
