@@ -109,17 +109,17 @@ jobs:
         if: matrix.flavor != 'fdroid'
         uses: actions/cache@v2
         with:
-          path: build/app/outputs/bundle/${{ matrix.flavor }}Release/OpenStop_${{ matrix.flavor }}_${{ github.ref_name }}.aab
+          path: build/app/outputs/bundle/${{ matrix.flavor }}Release
           key: openstop-abb-${{ matrix.flavor }}-${{ github.ref_name }}
 
       - name: Cache APK
         uses: actions/cache@v2
         with:
-          path: build/app/outputs/flutter-apk/OpenStop_${{ matrix.flavor }}_${{ github.ref_name }}.apk
+          path: build/app/outputs/flutter-apk
           key: openstop-apk-${{ matrix.flavor }}-${{ github.ref_name }}
 
   build_ios:
-    name: Build App for iOS
+    name: Build for iOS
     runs-on: macos-latest
 
     env:
@@ -209,37 +209,42 @@ jobs:
 
   release_app:
     name: Release App
-    strategy:
-      matrix:
-        flavor: [ standard, fdroid ]
     runs-on: ubuntu-latest
     needs: [ build_android, build_ios ]
 
     steps:
-      - name: Restore Android APK
+      - name: Restore Android Standard APK
         uses: actions/cache@v2
         with:
-          path: ./*
-          key: openstop-apk-${{ matrix.flavor }}-${{ github.ref_name }}
+          path: build/app/outputs/flutter-apk
+          key: openstop-apk-standard-${{ github.ref_name }}
 
-      - name: Restore Android ABB
-        if: matrix.flavor != 'fdroid'
+      - name: Restore Android F-Droid APK
         uses: actions/cache@v2
         with:
-          path: ./*
-          key: openstop-abb-${{ matrix.flavor }}-${{ github.ref_name }}
+          path: build/app/outputs/flutter-apk
+          key: openstop-apk-fdroid-${{ github.ref_name }}
 
-      - name: Restore Android IPA
+      - name: Restore Android Standard ABB
         uses: actions/cache@v2
         with:
-          path: ./*
+          path: build/app/outputs/bundle/standardRelease
+          key: openstop-abb-standard-${{ github.ref_name }}
+
+      - name: Restore iOS IPA
+        uses: actions/cache@v2
+        with:
+          path: build/ios/ipa/*.ipa
           key: openstop-ipa-${{ github.ref_name }}
 
       - name: Upload ABB, APK, IPA to draft release
         uses: softprops/action-gh-release@v1
         with:
           name: OpenStop ${{ github.ref_name }}
-          files: ./*
+          files: |
+            build/app/outputs/flutter-apk
+            build/app/outputs/bundle/standardRelease
+            build/ios/ipa/*.ipa
           draft: true
 
   build_web:
