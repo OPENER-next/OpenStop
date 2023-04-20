@@ -197,23 +197,25 @@ jobs:
         with:
           path: app
 
-      - name: Echo download path (for debugging)
-        run: echo ${{ steps.download.outputs.download-path }}
-
-      - name: Display structure of downloaded files
-        run: ls -R
-
       - name: Rename Android Standard APK
-        run: mv app/app-standard-release.apk app/OpenStop_standard_${{ github.ref_name }}.apk
+        run: >-
+          mv app/apk-standard-${{ github.ref_name }}/app-standard-release.apk
+          app/OpenStop_standard_${{ github.ref_name }}.apk
 
       - name: Rename Android F-Droid APK
-        run: mv app/app-fdroid-release.apk app/OpenStop_fdroid_${{ github.ref_name }}.apk
+        run: >-
+          mv app/apk-fdroid-${{ github.ref_name }}/app-fdroid-release.apk
+          app/OpenStop_fdroid_${{ github.ref_name }}.apk
 
       - name: Rename App Bundle
-        run: mv app/app-standard-release.aab app/OpenStop_${{ matrix.flavor }}_${{ github.ref_name }}.aab
+        run: >-
+          mv app/aab-standard-${{ github.ref_name }}/app-standard-release.aab
+          app/OpenStop_${{ matrix.flavor }}_${{ github.ref_name }}.aab
 
       - name: Rename IPA
-        run: mv app/OpenStop.ipa app/OpenStop_${{ github.ref_name }}.ipa
+        run: >-
+          mv app/ipa-${{ github.ref_name }}/OpenStop.ipa 
+          app/OpenStop_${{ github.ref_name }}.ipa
 
       - name: Upload AAB, APK, IPA to draft release
         uses: softprops/action-gh-release@v1
