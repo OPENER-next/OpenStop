@@ -521,7 +521,7 @@
       "question": {
          "id": 1131,
          "name": "Akustische Ausgabe der Fahrplan-Anzeige",
-         "text": "Hat die stationsweite Fahrplan-Anzeige eine manuell abrufbare akustische Ausgabe?",
+         "text": "Hat die stationsweite Fahrplan-Anzeige eine manuell auslösbare akustische Ausgabe?",
          "description": "Fahrplan-Anzeigen geben einen Überblick aller Fahrten an der gesamten Station. Einige Fahrplan-Anzeigen bieten die Möglichkeit bei Bedarf z.B. über einen Taster die angezeigten Informationen akustisch wiederzugeben.",
          "image": [
             "assets/images/questions/1131a.jpg"
@@ -558,9 +558,9 @@
    {
       "question": {
          "id": 1140,
-         "name": "Dynamischer Fahrtziel-Anzeiger",
-         "text": "Gibt es einen dynamischen Fahrtziel-Anzeiger an der Haltestelle?",
-         "description": "Dynamische Fahrtziel-Anzeiger zeigen Echtzeit-Informationen über das Ziel ein- bzw. abfahrender Züge/Busse an einem Bahn-/Bussteig an.",
+         "name": "Dynamische Fahrtziel-Anzeige",
+         "text": "Gibt es eine dynamische Fahrtziel-Anzeige an der Haltestelle?",
+         "description": "Dynamische Fahrtziel-Anzeigen zeigen Echtzeit-Informationen über das Ziel ein- bzw. abfahrender Züge/Busse an einem Bahn-/Bussteig an.",
          "image": [
             "packages/nvbw_open_data/photos/1140a.jpg",
             "packages/nvbw_open_data/photos/1140b.jpg",
@@ -601,9 +601,9 @@
    {
       "question": {
          "id": 1141,
-         "name": "Akustische Ausgabe des Fahrtziel-Anzeigers",
-         "text": "Hat der dynamische Fahrtziel-Anzeiger an der Haltestelle eine akustische Ausgabe?",
-         "description": "Einige Fahrtziel-Anzeiger bieten die Möglichkeit bei Bedarf z.B. über einen Taster die angezeigten Informationen akustisch wiederzugeben.",
+         "name": "Akustische Ausgabe der Fahrtziel-Anzeige",
+         "text": "Hat die dynamische Fahrtziel-Anzeige an der Haltestelle eine akustische Ausgabe?",
+         "description": "Einige Fahrtziel-Anzeigen bieten die Möglichkeit bei Bedarf z.B. über einen Taster die angezeigten Informationen akustisch wiederzugeben.",
          "image": [
             "assets/images/questions/1141a.jpg"
          ]
