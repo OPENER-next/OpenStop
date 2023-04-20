@@ -1275,7 +1275,7 @@
          "id": 2033,
          "name": "Tür-Automatik",
          "text": "Öffnet die Tür automatisch?",
-         "description": "Bei der automatischen Öffnung wird die Tür von einer Mechanik geöffnet. Der Benutzer muss die Tür nicht selbstständig drücken oder ziehen."
+         "description": "Bei der automatischen Öffnung wird die Tür von einer Mechanik geöffnet. Der Benutzer muss die Tür nicht selbstständig drücken oder ziehen, es könnte aber ggf. ein Tastendruck nötig sein."
       },
       "answer": {
          "type": "Bool",
