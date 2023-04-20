@@ -210,7 +210,7 @@ jobs:
       - name: Rename App Bundle
         run: >-
           mv app/aab-standard-${{ github.ref_name }}/app-standard-release.aab
-          app/OpenStop_${{ matrix.flavor }}_${{ github.ref_name }}.aab
+          app/OpenStop_standard_${{ github.ref_name }}.aab
 
       - name: Rename IPA
         run: >-
@@ -221,7 +221,11 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           name: OpenStop ${{ github.ref_name }}
-          files: app
+          files: |
+            app/OpenStop_standard_${{ github.ref_name }}.apk
+            app/OpenStop_fdroid_${{ github.ref_name }}.apk
+            app/OpenStop_standard_${{ github.ref_name }}.aab
+            app/OpenStop_${{ github.ref_name }}.ipa
           draft: true
 
   build_web:
