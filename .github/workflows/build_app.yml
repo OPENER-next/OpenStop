@@ -8,12 +8,6 @@ on:
   # Allow running this workflow manually from the Actions tab.
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: write
-  pages: write
-  id-token: write
-
 # Allow only one concurrent build and deployment workflow
 concurrency:
   group: "build"
@@ -94,28 +88,17 @@ jobs:
           --dart-define=IS_RELEASE=true
           --flavor ${{ matrix.flavor }}
 
-      - name: Rename App Bundle
-        if: matrix.flavor != 'fdroid'
-        run: >-
-          mv build/app/outputs/bundle/${{ matrix.flavor }}Release/app-${{ matrix.flavor }}-release.aab
-          build/app/outputs/bundle/${{ matrix.flavor }}Release/OpenStop_${{ matrix.flavor }}_${{ github.ref_name }}.aab
-
-      - name: Rename APK
-        run: >-
-          mv build/app/outputs/flutter-apk/app-${{ matrix.flavor }}-release.apk
-          build/app/outputs/flutter-apk/OpenStop_${{ matrix.flavor }}_${{ github.ref_name }}.apk
-
       - name: Cache App Bundle
         if: matrix.flavor != 'fdroid'
         uses: actions/cache@v3
         with:
-          path: build/app/outputs/bundle/${{ matrix.flavor }}Release
-          key: openstop-abb-${{ matrix.flavor }}-${{ github.ref_name }}
+          path: build/app/outputs/bundle/${{ matrix.flavor }}Release/*.aab
+          key: openstop-aab-${{ matrix.flavor }}-${{ github.ref_name }}
 
       - name: Cache APK
         uses: actions/cache@v3
         with:
-          path: build/app/outputs/flutter-apk
+          path: build/app/outputs/flutter-apk/*.apk
           key: openstop-apk-${{ matrix.flavor }}-${{ github.ref_name }}
 
   build_ios:
@@ -190,11 +173,6 @@ jobs:
           --dart-define=IS_RELEASE=true \
           --export-options-plist=$EXPORTOPTIONS_PATH
 
-      - name: Rename IPA
-        run: >-
-          mv build/ios/ipa/OpenStop.ipa
-          build/ios/ipa/OpenStop_${{ github.ref_name }}.ipa
-
       - name: Cache IPA
         uses: actions/cache@v3
         with:
@@ -209,6 +187,8 @@ jobs:
 
   release_app:
     name: Release App
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     needs: [ build_android, build_ios ]
 
@@ -216,35 +196,53 @@ jobs:
       - name: Restore Android Standard APK
         uses: actions/cache@v3
         with:
-          path: build/app/outputs/flutter-apk
           key: openstop-apk-standard-${{ github.ref_name }}
+          path: build/app/outputs/flutter-apk/*.apk
 
       - name: Restore Android F-Droid APK
         uses: actions/cache@v3
         with:
-          path: build/app/outputs/flutter-apk
           key: openstop-apk-fdroid-${{ github.ref_name }}
+          path: build/app/outputs/flutter-apk/*.apk
 
-      - name: Restore Android Standard ABB
+      - name: Restore Android Standard App Bundle
         uses: actions/cache@v3
         with:
-          path: build/app/outputs/bundle/standardRelease
-          key: openstop-abb-standard-${{ github.ref_name }}
+          key: openstop-aab-standard-${{ github.ref_name }}
+          path: build/app/outputs/bundle/standardRelease/*.aab
 
       - name: Restore iOS IPA
         uses: actions/cache@v3
         with:
-          path: build/ios/ipa/*.ipa
           key: openstop-ipa-${{ github.ref_name }}
+          path: build/ios/ipa/*.ipa
 
-      - name: Upload ABB, APK, IPA to draft release
+      - name: Create directory for app
+        run: mkdir app
+
+      - name: Rename Android Standard APK
+        run: >-
+          mv build/app/outputs/flutter-apk/app-standard-release.apk
+          app/OpenStop_standard_${{ github.ref_name }}.apk
+
+      - name: Rename Android F-Droid APK
+        run: >-
+          mv build/app/outputs/flutter-apk/app-fdroid-release.apk
+          app/OpenStop_fdroid_${{ github.ref_name }}.apk   
+
+      - name: Rename App Bundle
+        run: >-
+          mv build/app/outputs/bundle/standardRelease/app-standard-release.aab
+          app/OpenStop_${{ matrix.flavor }}_${{ github.ref_name }}.aab
+
+      - name: Rename IPA
+        run: mv build/ios/ipa/OpenStop.ipa app/OpenStop_${{ github.ref_name }}.ipa
+
+      - name: Upload AAB, APK, IPA to draft release
         uses: softprops/action-gh-release@v1
         with:
           name: OpenStop ${{ github.ref_name }}
-          files: |
-            build/app/outputs/flutter-apk/*.apk
-            build/app/outputs/bundle/standardRelease/*.aab
-            build/ios/ipa/*.ipa
+          files: app
           draft: true
 
   build_web:
@@ -300,6 +298,11 @@ jobs:
 
   deploy_web:
     name: Deploy Webpage
+    # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
