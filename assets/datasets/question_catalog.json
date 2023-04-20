@@ -1937,7 +1937,7 @@
          "image": [
             "assets/images/questions/2096a.jpg"
          ],
-         "description": "Blindenschrift sind Zeichen, die mit den Fingern gelesen werden können."
+         "description": "Blindenschrift sind Zeichen, die mit den Fingern gelesen werden können. Diese können u.a. geprägte gewöhnliche Buchstaben oder besondere Symbole sein, wie z.B. bei der Brailleschrift."
       },
       "answer": {
          "type": "Bool",
