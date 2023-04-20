@@ -472,7 +472,7 @@
       "question": {
          "id": 1130,
          "name": "Fahrplan-Anzeige",
-         "text": "Gibt es eine Fahrplan-Anzeige für die gesamte Station?",
+         "text": "Gibt es eine stationsweite Fahrplan-Anzeige?",
          "description": "Fahrplan-Anzeigen geben einen Überblick aller Fahrten an der gesamten Station. Dynamische Anzeigen informieren über aktuelle Fahrplanänderungen wie Verspätungen, Ausfälle oder Gleisänderungen. Statische Anzeigen sind gedruckte Fahrpläne."
       },
       "answer": {
@@ -521,8 +521,8 @@
       "question": {
          "id": 1131,
          "name": "Akustische Ausgabe der Fahrplan-Anzeige",
-         "text": "Hat die Fahrplan-Anzeige für die gesamte Station eine akustische Ausgabe?",
-         "description": "Einige Fahrplan-Anzeigen bieten die Möglichkeit bei Bedarf akustisch Informationen auszugeben.",
+         "text": "Hat die stationsweite Fahrplan-Anzeige eine manuell abrufbare akustische Ausgabe?",
+         "description": "Fahrplan-Anzeigen geben einen Überblick aller Fahrten an der gesamten Station. Einige Fahrplan-Anzeigen bieten die Möglichkeit bei Bedarf z.B. über einen Taster die angezeigten Informationen akustisch wiederzugeben.",
          "image": [
             "assets/images/questions/1131a.jpg"
          ]
@@ -603,7 +603,7 @@
          "id": 1141,
          "name": "Akustische Ausgabe des Fahrtziel-Anzeigers",
          "text": "Hat der dynamische Fahrtziel-Anzeiger an der Haltestelle eine akustische Ausgabe?",
-         "description": "Einige Fahrtziel-Anzeiger können bei Bedarf auf Knopfdruck die angezeigten Informationen akustisch ausgeben.",
+         "description": "Einige Fahrtziel-Anzeiger bieten die Möglichkeit bei Bedarf z.B. über einen Taster die angezeigten Informationen akustisch wiederzugeben.",
          "image": [
             "assets/images/questions/1141a.jpg"
          ]
