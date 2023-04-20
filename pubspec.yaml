@@ -5,14 +5,14 @@ description: 'Next Stop: Accessibility'
 publish_to: 'none'
 
 # Remember to create a new git tag (like so: v0.4.2) to trigger fdroid and github build scripts
-version: 0.4.2+12
+version: 0.4.3+13
 
 environment:
   sdk: ">=2.17.1 <3.0.0"
   # The Flutter version is read in different build scripts and is used to setup the appropriate flutter toolkit.
   # The build processes cannot handle range notations like >=2.17.1 <3.0.0 or ^3.7.0.
   # Therefore it is important to always specify a fixed flutter version in that format: [0-9]+.[0-9]+.[0-9]+
-  flutter: 3.7.9
+  flutter: 3.7.11
 
 dependencies:
   flutter:
