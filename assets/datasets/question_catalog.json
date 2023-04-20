@@ -521,7 +521,7 @@
       "question": {
          "id": 1131,
          "name": "Akustische Ausgabe der Fahrplan-Anzeige",
-         "text": "Hat die stationsweite Fahrplan-Anzeige eine manuell auslösbare akustische Ausgabe?",
+         "text": "Hat die stationsweite Fahrplan-Anzeige eine manuell anforderbare akustische Ausgabe?",
          "description": "Fahrplan-Anzeigen geben einen Überblick aller Fahrten an der gesamten Station. Einige Fahrplan-Anzeigen bieten die Möglichkeit bei Bedarf z.B. über einen Taster die angezeigten Informationen akustisch wiederzugeben.",
          "image": [
             "assets/images/questions/1131a.jpg"
