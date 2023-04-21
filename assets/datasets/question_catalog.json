@@ -522,7 +522,7 @@
          "id": 1131,
          "name": "Akustische Ausgabe der Fahrplan-Anzeige",
          "text": "Hat die stationsweite Fahrplan-Anzeige eine manuell anforderbare akustische Ausgabe?",
-         "description": "Fahrplan-Anzeigen geben einen Überblick aller Fahrten an der gesamten Station. Einige Fahrplan-Anzeigen bieten die Möglichkeit bei Bedarf z.B. über einen Taster die angezeigten Informationen akustisch wiederzugeben.",
+         "description": "Fahrplan-Anzeigen geben einen Überblick aller Fahrten an der gesamten Station. Einige Fahrplan-Anzeigen bieten die Möglichkeit, bei Bedarf (z.B. über einen Taster) die angezeigten Informationen akustisch wiederzugeben.",
          "image": [
             "assets/images/questions/1131a.jpg"
          ]
@@ -603,7 +603,7 @@
          "id": 1141,
          "name": "Akustische Ausgabe des Fahrtziel-Anzeigers",
          "text": "Hat der dynamische Fahrtziel-Anzeiger an der Haltestelle eine akustische Ausgabe?",
-         "description": "Einige Fahrtziel-Anzeiger bieten die Möglichkeit bei Bedarf z.B. über einen Taster die angezeigten Informationen akustisch wiederzugeben.",
+         "description": "Einige Fahrtziel-Anzeiger bieten die Möglichkeit, bei Bedarf (z.B. über einen Taster) die angezeigten Informationen akustisch wiederzugeben.",
          "image": [
             "assets/images/questions/1141a.jpg"
          ]
@@ -2126,7 +2126,7 @@
       "question": {
          "id": 2134,
          "name": "Rolltreppen-Fahrtdauer",
-         "text": "Wie lange dauert die Fahrt mit der Rolltreppe bzw. das Laufband?",
+         "text": "Wie lange dauert die Fahrt mit der Rolltreppe bzw. dem Laufband?",
          "description": "Ein Laufband (auch Rollsteig, Fahrsteig, bewegter oder rollender Bürgersteig genannt) ist ein sich bewegendes Fortbewegungsmittel, welches Personen auf einer horizontalen oder schrägen Ebene transportiert. Eine Rolltreppe ist eine sich bewegende Treppe, um Personen zwischen Stockwerken eines Gebäudes zu transportieren. Die Dauer der Rollentreppen-Fahrt ist relevant für die Berechnung von Umstiegszeiten."
       },
       "answer": {
@@ -2528,7 +2528,7 @@
    {
       "question": {
          "name": "Straßenbahn-Akustisches-Warnsignal",
-         "text": "Gibt es eine akustisches Warnsignal bei Durchfahrt der Straßenbahn?",
+         "text": "Gibt es ein akustisches Warnsignal bei Durchfahrt der Straßenbahn?",
          "description": "Das Warnsignal ertönt durch ein stationären Signalgeber. Das Klingeln durch Triebfahrzeugführer gehört nicht dazu."
       },
       "answer": {
