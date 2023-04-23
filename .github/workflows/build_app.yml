@@ -24,6 +24,8 @@ jobs:
     steps:
       - name: Run shared pre-build steps
         uses: ./.github/actions/prebuild_app
+        with:
+          flavor: ${{ matrix.flavor }}
 
       - name: Setup Java
         uses: actions/setup-java@v3
