@@ -176,7 +176,7 @@ jobs:
 
       - name: Rename Android F-Droid APK
         run: >-
-          mv app/apk-fdroid/app-fdroid-release.apk
+          mv app/apk-fdroid/app-release.apk
           app/OpenStop_fdroid_${{ github.ref_name }}.apk
 
       - name: Rename App Bundle
