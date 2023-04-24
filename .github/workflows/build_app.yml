@@ -192,6 +192,7 @@ jobs:
       - name: Upload AAB, APK, IPA to draft release
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: ${{ github.ref }}
           name: OpenStop ${{ github.ref_name }}
           files: |
             app/OpenStop_${{ github.ref_name }}.apk
