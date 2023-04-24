@@ -16,16 +16,11 @@ concurrency:
 jobs:
   build_android:
     name: Build for Android
-    strategy:
-      matrix:
-        flavor: [ standard, fdroid ]
     runs-on: ubuntu-latest
 
     steps:
       - name: Run shared pre-build steps
         uses: ./.github/actions/prebuild_app
-        with:
-          flavor: ${{ matrix.flavor }}
 
       - name: Setup Java
         uses: actions/setup-java@v3
@@ -48,32 +43,49 @@ jobs:
           storeFile=$(readlink -f key.jks)" >> android/key.properties
 
       - name: Build App Bundle
-        if: matrix.flavor != 'fdroid'
         run: >-
           flutter build appbundle
           --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
           --dart-define=IS_RELEASE=true
-          --flavor ${{ matrix.flavor }}
 
       - name: Build APK
         run: >-
           flutter build apk
           --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
           --dart-define=IS_RELEASE=true
-          --flavor ${{ matrix.flavor }}
 
       - name: Upload AAB artifact
-        if: matrix.flavor != 'fdroid'
         uses: actions/upload-artifact@v3
         with:
-          name: aab-${{ matrix.flavor }}-${{ github.ref_name }}
-          path: build/app/outputs/bundle/${{ matrix.flavor }}Release/app-${{ matrix.flavor }}-release.aab
+          name: aab
+          path: build/app/outputs/bundle/release/app-release.aab
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v3
         with:
-          name: apk-${{ matrix.flavor }}-${{ github.ref_name }}
-          path: build/app/outputs/flutter-apk/app-${{ matrix.flavor }}-release.apk
+          name: apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+      # F-Droid Build
+
+      - name: Override dependencies in pubspec.yaml to be FLOSS
+        run: |
+          yq -y -i '.dependency_overrides.geolocator_android.git = {"url": "https://github.com/Zverik/flutter-geolocator.git", "ref": "floss", "path": "geolocator_android"}' pubspec.yaml
+
+      - name: Download pub dependencies
+        run: flutter pub get
+
+      - name: Build F-Droid APK
+        run: >-
+          flutter build apk
+          --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
+          --dart-define=IS_RELEASE=true
+
+      - name: Upload F-Droid APK artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: apk-fdroid
+          path: build/app/outputs/flutter-apk/app-release.apk
 
   build_ios:
     name: Build for iOS
@@ -130,7 +142,7 @@ jobs:
       - name: Upload IPA artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ipa-${{ github.ref_name }}
+          name: ipa
           path: build/ios/ipa/*.ipa
 
       - name: Clean up keychain and provisioning profile
@@ -153,22 +165,22 @@ jobs:
 
       - name: Rename Android Standard APK
         run: >-
-          mv app/apk-standard-${{ github.ref_name }}/app-standard-release.apk
-          app/OpenStop_standard_${{ github.ref_name }}.apk
+          mv app/apk/app-release.apk
+          app/OpenStop_${{ github.ref_name }}.apk
 
       - name: Rename Android F-Droid APK
         run: >-
-          mv app/apk-fdroid-${{ github.ref_name }}/app-fdroid-release.apk
+          mv app/apk-fdroid/app-fdroid-release.apk
           app/OpenStop_fdroid_${{ github.ref_name }}.apk
 
       - name: Rename App Bundle
         run: >-
-          mv app/aab-standard-${{ github.ref_name }}/app-standard-release.aab
-          app/OpenStop_standard_${{ github.ref_name }}.aab
+          mv app/aab/app-release.aab
+          app/OpenStop_${{ github.ref_name }}.aab
 
       - name: Rename IPA
         run: >-
-          mv app/ipa-${{ github.ref_name }}/OpenStop.ipa 
+          mv app/ipa/OpenStop.ipa 
           app/OpenStop_${{ github.ref_name }}.ipa
 
       - name: Upload AAB, APK, IPA to draft release
@@ -176,9 +188,9 @@ jobs:
         with:
           name: OpenStop ${{ github.ref_name }}
           files: |
-            app/OpenStop_standard_${{ github.ref_name }}.apk
+            app/OpenStop_${{ github.ref_name }}.apk
             app/OpenStop_fdroid_${{ github.ref_name }}.apk
-            app/OpenStop_standard_${{ github.ref_name }}.aab
+            app/OpenStop_${{ github.ref_name }}.aab
             app/OpenStop_${{ github.ref_name }}.ipa
           draft: true
 

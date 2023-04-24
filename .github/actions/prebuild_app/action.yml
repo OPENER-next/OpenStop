@@ -1,9 +1,5 @@
 name: 'Setup app build'
 description: 'Runs pre-processing scripts shared by all app build jobs.'
-inputs:
-  flavor:
-    description: 'The flavor that should be build.'
-    required: false
 
 runs:
   using: "composite"
@@ -18,11 +14,6 @@ runs:
       id: flutterVersion
       run: |
         echo "result=$(yq -r .environment.flutter pubspec.yaml)" >> $GITHUB_OUTPUT
-
-    - name: Override dependencies in pubspec.yaml to be FLOSS
-      if: env.INPUT_FLAVOR == 'fdroid'
-      run: |
-        yq -y -i '.dependency_overrides.geolocator_android.git = {"url": "https://github.com/Zverik/flutter-geolocator.git", "ref": "floss", "path": "geolocator_android"}' pubspec.yaml
 
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
