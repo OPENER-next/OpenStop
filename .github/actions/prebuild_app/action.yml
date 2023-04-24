@@ -4,9 +4,6 @@ description: 'Runs pre-processing scripts shared by all app build jobs.'
 runs:
   using: "composite"
   steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-
     - name: Install yq
       run: pip3 install yq
 
