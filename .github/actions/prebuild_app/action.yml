@@ -5,10 +5,12 @@ runs:
   using: "composite"
   steps:
     - name: Install yq
+      shell: bash
       run: pip3 install yq
 
     - name: Read Flutter version from pubspec.yaml
       id: flutterVersion
+      shell: bash
       run: |
         echo "result=$(yq -r .environment.flutter pubspec.yaml)" >> $GITHUB_OUTPUT
 
@@ -19,10 +21,13 @@ runs:
         channel: 'stable'
         
     - name: Check Flutter version
+      shell: bash
       run: flutter --version
 
     - name: Download pub dependencies
+      shell: bash
       run: flutter pub get
 
     - name: Run build_runner
+      shell: bash
       run: flutter pub run build_runner build --delete-conflicting-outputs
