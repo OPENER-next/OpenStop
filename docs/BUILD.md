@@ -23,9 +23,6 @@ flutter run --dart-define THUNDERFOREST_API_KEY=${api key}
 ```
 You can also omit the entire API key parameter. In this case the underlying map tiles won't be available in your build.
 
-Building for **Android** requires a build flavor to be specified as the app currently has two different Android flavors: `standard` and `fdroid`.
-```console
-flutter run --flavor standard --dart-define THUNDERFOREST_API_KEY=${api key}
 ```
 
 ## Additional notes
