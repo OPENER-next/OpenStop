@@ -90,7 +90,7 @@ jobs:
         run: >-
           $ANDROID_SDK_ROOT/build-tools/33.0.1/apksigner sign
           --ks-key-alias ${{ secrets.ANDROID_KEY_ALIAS }}
-          --ks-pass ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          --ks-pass pass:"${{ secrets.ANDROID_KEYSTORE_PASSWORD }}"
           --ks key.jks
           build/app/outputs/flutter-apk/app-release.apk
 
