@@ -84,6 +84,16 @@ jobs:
           --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
           --dart-define=IS_RELEASE=true
 
+      # Required because F-Droid signs its apk with apksigner which produces a slightly different output than gradle signingConfig
+      # see: https://f-droid.org/docs/Reproducible_Builds/#reproducible-signatures
+      - name: Sign with apksigner
+        run: >-
+          $ANDROID_SDK_ROOT/build-tools/33.0.1/apksigner sign
+          --ks-key-alias ${{ secrets.ANDROID_KEY_ALIAS }}
+          --ks-pass pass:"${{ secrets.ANDROID_KEYSTORE_PASSWORD }}"
+          --ks key.jks
+          build/app/outputs/flutter-apk/app-release.apk
+
       - name: Upload F-Droid APK artifact
         uses: actions/upload-artifact@v3
         with:
