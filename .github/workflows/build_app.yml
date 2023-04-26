@@ -95,7 +95,7 @@ jobs:
       # see: https://f-droid.org/docs/Reproducible_Builds/#reproducible-signatures
       - name: Sign armeabi-v7a with apksigner
         run: >-
-          ${{ env.APKSIGNER }}
+          $APKSIGNER sign
           --ks-key-alias ${{ secrets.ANDROID_KEY_ALIAS }}
           --ks-pass pass:"${{ secrets.ANDROID_KEYSTORE_PASSWORD }}"
           --ks key.jks
@@ -103,7 +103,7 @@ jobs:
 
       - name: Sign arm64-v8a with apksigner
         run: >-
-          ${{ env.APKSIGNER }}
+          $APKSIGNER sign
           --ks-key-alias ${{ secrets.ANDROID_KEY_ALIAS }}
           --ks-pass pass:"${{ secrets.ANDROID_KEYSTORE_PASSWORD }}"
           --ks key.jks
@@ -111,7 +111,7 @@ jobs:
 
       - name: Sign x86_64 with apksigner
         run: >-
-          ${{ env.APKSIGNER }}
+          $APKSIGNER sign
           --ks-key-alias ${{ secrets.ANDROID_KEY_ALIAS }}
           --ks-pass pass:"${{ secrets.ANDROID_KEYSTORE_PASSWORD }}"
           --ks key.jks
