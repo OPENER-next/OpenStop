@@ -71,11 +71,16 @@ jobs:
 
       # F-Droid Build
 
+      - name: Find latest android build tools apksigner path
+        run: >-
+          echo "APKSIGNER=$(find $ANDROID_SDK_ROOT/build-tools -name apksigner | sort -r | head -n 1)"
+          >> "$GITHUB_ENV"
+
       - name: Override dependencies in pubspec.yaml to be FLOSS
         run: |
           yq -y -i '.dependency_overrides.geolocator_android.git = {"url": "https://github.com/Zverik/flutter-geolocator.git", "ref": "floss", "path": "geolocator_android"}' pubspec.yaml
 
-      - name: Download pub dependencies
+      - name: Re-Download pub dependencies
         run: flutter pub get
 
       - name: Build F-Droid APK
@@ -83,22 +88,42 @@ jobs:
           flutter build apk
           --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
           --dart-define=IS_RELEASE=true
+          --split-per-abi
 
       # Required because F-Droid signs its apk with apksigner which produces a slightly different output than gradle signingConfig
       # see: https://f-droid.org/docs/Reproducible_Builds/#reproducible-signatures
-      - name: Sign with apksigner
+      - name: Sign armeabi-v7a with apksigner
         run: >-
-          $(find $ANDROID_SDK_ROOT/build-tools -name apksigner | sort -r | head -n 1) sign
+          $APKSIGNER
           --ks-key-alias ${{ secrets.ANDROID_KEY_ALIAS }}
           --ks-pass pass:"${{ secrets.ANDROID_KEYSTORE_PASSWORD }}"
           --ks key.jks
-          build/app/outputs/flutter-apk/app-release.apk
+          build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
 
-      - name: Upload F-Droid APK artifact
+      - name: Sign arm64-v8a with apksigner
+        run: >-
+          $APKSIGNER
+          --ks-key-alias ${{ secrets.ANDROID_KEY_ALIAS }}
+          --ks-pass pass:"${{ secrets.ANDROID_KEYSTORE_PASSWORD }}"
+          --ks key.jks
+          build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+
+      - name: Sign x86_64 with apksigner
+        run: >-
+          $APKSIGNER
+          --ks-key-alias ${{ secrets.ANDROID_KEY_ALIAS }}
+          --ks-pass pass:"${{ secrets.ANDROID_KEYSTORE_PASSWORD }}"
+          --ks key.jks
+          build/app/outputs/flutter-apk/app-x86_64-release.apk
+
+      - name: Upload F-Droid APKs artifact
         uses: actions/upload-artifact@v3
         with:
-          name: apk-fdroid
-          path: build/app/outputs/flutter-apk/app-release.apk
+          name: fdroid-apks
+          path: |
+            build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
+            build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+            build/app/outputs/flutter-apk/app-x86_64-release.apk
 
   build_ios:
     name: Build for iOS
@@ -184,10 +209,11 @@ jobs:
           mv app/apk/app-release.apk
           app/OpenStop_${{ github.ref_name }}.apk
 
-      - name: Rename Android F-Droid APK
-        run: >-
-          mv app/apk-fdroid/app-release.apk
-          app/OpenStop_fdroid_${{ github.ref_name }}.apk
+      - name: Rename Android F-Droid APKs
+        run: |
+          mv app/fdroid-apks/app-armeabi-v7a-release.apk app/OpenStop_fdroid_${{ github.ref_name }}_armeabi-v7a.apk
+          mv app/fdroid-apks/app-arm64-v8a-release.apk app/OpenStop_fdroid_${{ github.ref_name }}_arm64-v8a.apk
+          mv app/fdroid-apks/app-x86_64-release.apk app/OpenStop_fdroid_${{ github.ref_name }}_x86_64.apk
 
       - name: Rename App Bundle
         run: >-
@@ -202,11 +228,13 @@ jobs:
       - name: Upload AAB, APK, IPA to draft release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.ref }}
+          tag_name: ${{ github.ref_name }}
           name: OpenStop ${{ github.ref_name }}
           files: |
             app/OpenStop_${{ github.ref_name }}.apk
-            app/OpenStop_fdroid_${{ github.ref_name }}.apk
+            app/OpenStop_fdroid_${{ github.ref_name }}_armeabi-v7a.apk
+            app/OpenStop_fdroid_${{ github.ref_name }}_arm64-v8a.apk
+            app/OpenStop_fdroid_${{ github.ref_name }}_x86_64.apk
             app/OpenStop_${{ github.ref_name }}.aab
             app/OpenStop_${{ github.ref_name }}.ipa
           draft: true
