@@ -8,9 +8,7 @@ class RippleIndicator extends StatefulWidget {
 
   final VoidCallback? onEnd;
 
-  /// Used to end the ripple animation.
-  ///
-  /// The ripple animation cannot be restarted once its end was initiated. Therefore this property can only be set from `false` to `true`.
+  /// Used to initiate the end the ripple animation.
   ///
   /// If the ripple animation finally ends the [onEnd] callback will be called.
 
@@ -99,6 +97,8 @@ class _RenderRippleIndicator extends RenderProxyBoxWithHitTestBehavior {
 
   Color _color;
 
+  Size _preferredSize;
+
   int _pulseCount;
 
   bool _end;
@@ -109,7 +109,7 @@ class _RenderRippleIndicator extends RenderProxyBoxWithHitTestBehavior {
 
   int _limitPulses = 0;
 
-  Size _preferredSize;
+  bool _restart = false;
 
   // used to detect animation repetition
   double _lastValue = 0;
@@ -128,9 +128,7 @@ class _RenderRippleIndicator extends RenderProxyBoxWithHitTestBehavior {
     _controller = AnimationController(vsync: vsync, duration: duration),
     super(behavior: HitTestBehavior.opaque)
   {
-    _controller
-      ..addListener(_listen)
-      ..repeat();
+    _controller..addListener(_listen)..repeat();
   }
 
   void _listen() {
@@ -147,9 +145,20 @@ class _RenderRippleIndicator extends RenderProxyBoxWithHitTestBehavior {
           _limitPulses++;
 
           if (_limitPulses > _pulseCount) {
+            if (_restart) {
+              // reset properties to restart animation
+              _newPulses = 0;
+              _limitPulses = 0;
+              _restart = false;
+              _end = false;
+            }
             // stop animation
-            _controller.stop(canceled: false);
-            _onEnd?.call();
+            else {
+              // remove listener, because reset will trigger this listener function
+              // which would lead to an infinite regress
+              _controller..removeListener(_listen)..reset();
+              _onEnd?.call();
+            }
           }
         }
       }
@@ -188,8 +197,16 @@ class _RenderRippleIndicator extends RenderProxyBoxWithHitTestBehavior {
 
   bool get end => _end;
   set end(bool value) {
-    assert(!(_end == true && value == false), '"end" property should not be set to from true to false');
-    if (value != _end) {
+    // if animation gets re-activated while currently expiring
+    // wait till it ended and then start it again
+    if (_end == true) {
+      _restart = !value;
+      // if controller is stopped, restart it
+      if (_controller.isDismissed) {
+        _controller..addListener(_listen)..repeat();
+      }
+    }
+    else if (value != _end) {
       _end = value;
     }
   }
