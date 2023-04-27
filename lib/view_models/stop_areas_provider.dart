@@ -107,26 +107,19 @@ class StopAreasProvider extends ChangeNotifier {
   }
 
 
-  /// Find a stop area that encloses the given location.
+  /// Find stop areas which contain at least one stop that lies inside a given bounding box.
 
-  StopArea? getStopAreaByPosition(LatLng position) {
-    const distance = Distance();
-    // construct a bounding box of arbitrary size to get close neighboring cells
-    final bbox = LatLngBounds(
-      distance.offset(position, stopAreaRadius * 2, 45),
-      distance.offset(position, stopAreaRadius * 2, 225)
-    );
-    final closeCellIndexes = _bboxToCellIndexes(bbox);
+  Iterable<StopArea> getStopAreasByBounds(LatLngBounds bounds) sync* {
+    final closeCellIndexes = _bboxToCellIndexes(bounds);
 
     for (final cellIndex in closeCellIndexes) {
-      for (final stopArea in _stopAreaCache.get(cellIndex) ?? {}) {
-        if (stopArea.isPointInside(position)) {
-          return stopArea;
+      final stopAreas = _stopAreaCache.get(cellIndex) ?? const Iterable<StopArea>.empty();
+      for (final stopArea in stopAreas) {
+        if (stopArea.stops.any((stop) => bounds.contains(stop.location))) {
+          yield stopArea;
         }
       }
     }
-
-    return null;
   }
 
 
