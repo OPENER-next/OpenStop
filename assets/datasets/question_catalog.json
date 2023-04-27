@@ -562,7 +562,7 @@
          "text": "Gibt es einen dynamischen Fahrtziel-Anzeiger an der Haltestelle?",
          "description": "Dynamische Fahrtziel-Anzeiger zeigen Echtzeit-Informationen über das Ziel ein- bzw. abfahrender Züge/Busse an einem Bahn-/Bussteig an.",
          "image": [
-            "packages/nvbw_open_data/photos/1140a.jpg",
+            "assets/images/questions/1140a.jpg",
             "packages/nvbw_open_data/photos/1140b.jpg",
             "assets/images/questions/1140c.jpg"
          ]
