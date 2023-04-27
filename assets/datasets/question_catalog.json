@@ -389,7 +389,7 @@
          "text": "Gibt es an der Haltestelle Sitzplätze?",
          "image": [
             "packages/nvbw_open_data/photos/1120a.jpg",
-            "packages/nvbw_open_data/photos/1120b.jpg",
+            "assets/images/questions/1120b.jpg",
             "packages/nvbw_open_data/photos/1120c.jpg",
             "packages/nvbw_open_data/photos/1120d.jpg"
          ]
@@ -480,14 +480,14 @@
          "input": [
             {
                "name": "Dynamische Fahrplan-Anzeige",
-               "image": "packages/nvbw_open_data/photos/1130a.jpg",
+               "image": "assets/images/questions/1130a.jpg",
                "osm_tags": {
                   "departures_board": "realtime"
                }
             },
             {
                "name": "Statische Fahrplan-Anzeige",
-               "image": "packages/nvbw_open_data/photos/1130b.jpg",
+               "image": "assets/images/questions/1130b.jpg",
                "osm_tags": {
                   "departures_board": "timetable"
                }
@@ -1571,8 +1571,8 @@
          "text": "Gibt es Bodenindikatoren an der Haltestelle?",
          "description": "Bodenindikatoren sind Bodenelemente im öffentlichen Raum zur Information, Orientierung, Leitung und Warnung sehbehinderter Menschen. Sie stehen in einem hohen taktilen, visuellen und gegebenenfalls akustischen Kontrast zum angrenzenden Bodenbelag.",
          "image": [
-            "packages/nvbw_open_data/photos/2070a.jpg",
-            "packages/nvbw_open_data/photos/2070b.jpg"
+            "assets/images/questions/2070a.jpg",
+            "assets/images/questions/2070b.jpg"
          ]
       },
       "answer": {
