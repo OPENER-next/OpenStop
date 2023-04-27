@@ -16,20 +16,20 @@ class MapLayer extends MultiChildRenderObjectWidget {
   });
 
   @override
-  RenderObject createRenderObject(BuildContext context) => _RenderMapLayer(
+  RenderMapLayer createRenderObject(BuildContext context) => RenderMapLayer(
     map: FlutterMapState.maybeOf(context)!,
   );
 
   @override
-  void updateRenderObject(BuildContext context, covariant _RenderMapLayer renderObject) {
+  void updateRenderObject(BuildContext context, covariant RenderMapLayer renderObject) {
     renderObject.map = FlutterMapState.maybeOf(context)!;
   }
 }
 
-class _RenderMapLayer extends RenderBox
+class RenderMapLayer extends RenderBox
     with ContainerRenderObjectMixin<RenderBox, _MapLayerParentData>,
          RenderBoxContainerDefaultsMixin<RenderBox, _MapLayerParentData> {
-  _RenderMapLayer({
+  RenderMapLayer({
     required FlutterMapState map,
     List<RenderBox>? children,
   }) : _map = map {
