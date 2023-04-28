@@ -20,26 +20,31 @@ class LoadingAreaLayer extends StatefulWidget {
 }
 
 class _LoadingAreaLayerState extends State<LoadingAreaLayer> {
-  var _loadingAreas = <Circle, MapLayerPositioned>{};
-
-  final _expiredAreas = <Circle, MapLayerPositioned>{};
+  // maps whether an area is still loading (true) or expiring (false)
+  final _loadingAreas = <Circle, bool>{};
 
   @override
   void didUpdateWidget(covariant LoadingAreaLayer oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    final newLoadingAreas = <Circle, MapLayerPositioned>{};
-    for (final area in widget.areas) {
-      _expiredAreas.remove(area);
-      newLoadingAreas[area] = _buildChild(area);
+    final newAreas = Set.of(widget.areas);
+    // set all previous areas not contained in newAreas to false (expiring)
+    // otherwise true (loading)
+    // remove them from the set so we afterwards only have to add the remaining areas
+    _loadingAreas.updateAll((area, loading) => newAreas.remove(area));
+    // add remaining areas
+    for (final area in newAreas) {
+      _loadingAreas[area] = true;
     }
+  }
 
-    final newExpiredEntries = _loadingAreas.keys
-      .where((area) => !newLoadingAreas.containsKey(area))
-      .map((area) => MapEntry(area, _buildChild(area, end: true)));
-
-    _expiredAreas.addEntries(newExpiredEntries);
-    _loadingAreas = newLoadingAreas;
+  @override
+  Widget build(BuildContext context) {
+    return MapLayer(
+      children: _loadingAreas.entries
+        .map((entry) => _buildChild(entry.key, end: !entry.value))
+        .toList(growable: false),
+    );
   }
 
   MapLayerPositioned _buildChild(Circle area, { bool end = false }) {
@@ -52,18 +57,11 @@ class _LoadingAreaLayerState extends State<LoadingAreaLayer> {
         onEnd: !end ? null : () {
           setState(() {
             // remove widget if animation ended
-            _expiredAreas.remove(area);
+            _loadingAreas.remove(area);
           });
         },
         duration: const Duration(seconds: 1),
       ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MapLayer(
-      children: _loadingAreas.values.followedBy(_expiredAreas.values).toList(),
     );
   }
 }
