@@ -109,28 +109,28 @@
          "input": [
             {
                "name": "Ebenerdiger Parkplatz",
-               "image": "packages/nvbw_open_data/photos/1051a.jpg",
+               "image": "assets/images/questions/1051a.jpg",
                "osm_tags": {
                   "parking": "surface"
                }
             },
             {
                "name": "Tiefgarage",
-               "image": "packages/nvbw_open_data/photos/1051b.jpg",
+               "image": "assets/images/questions/1051b.jpg",
                "osm_tags": {
                   "parking": "underground"
                }
             },
             {
                "name": "Parkbucht",
-               "image": "packages/nvbw_open_data/photos/1051c.jpg",
+               "image": "assets/images/questions/1051c.jpg",
                "osm_tags": {
                   "parking": "street_side"
                }
             },
             {
                "name": "Parkhaus",
-               "image": "packages/nvbw_open_data/photos/1051d.jpg",
+               "image": "assets/images/questions/1051d.jpg",
                "osm_tags": {
                   "parking": "multi-storey"
                }
@@ -157,9 +157,9 @@
          "name": "Behindertenparkplätze",
          "text": "Gibt es gesonderte Parkplätze für behinderte Personen?",
          "image": [
-            "packages/nvbw_open_data/photos/1051e.jpg",
-            "packages/nvbw_open_data/photos/1051f.jpg",
-            "packages/nvbw_open_data/photos/1051g.jpg"
+            "assets/images/questions/1051e.jpg",
+            "assets/images/questions/1051f.jpg",
+            "assets/images/questions/1051g.jpg"
          ]
       },
       "answer": {
@@ -431,10 +431,9 @@
          "name": "Überdachter Wartebereich",
          "text": "Gibt es an der Haltestelle einen überdachten Wartebereich?",
          "image": [
-            "packages/nvbw_open_data/photos/1120a.jpg",
-            "packages/nvbw_open_data/photos/1120b.jpg",
-            "packages/nvbw_open_data/photos/1120c.jpg",
-            "packages/nvbw_open_data/photos/1120d.jpg"
+            "assets/images/questions/1120a.jpg",
+            "assets/images/questions/1120b.jpg",
+            "assets/images/questions/1120c.jpg"
          ]
       },
       "answer": {
@@ -2093,8 +2092,8 @@
          "name": "Treppen-Handlauf",
          "text": "Hat die Treppe einen Handlauf?",
          "image": [
-            "packages/nvbw_open_data/photos/2114a.jpg",
-            "packages/nvbw_open_data/photos/2114b.jpg"
+            "assets/images/questions/2114a.jpg",
+            "assets/images/questions/2114b.jpg"
          ]
       },
       "answer": {
