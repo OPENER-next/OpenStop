@@ -157,9 +157,10 @@
          "name": "Behindertenparkplätze",
          "text": "Gibt es gesonderte Parkplätze für behinderte Personen?",
          "image": [
-            "assets/images/questions/1051e.jpg",
-            "assets/images/questions/1051f.jpg",
-            "assets/images/questions/1051g.jpg"
+			"assets/images/questions/traffic_sign_314_1044-10.png",
+            "assets/images/questions/disabled_parking_1.jpg",
+            "assets/images/questions/disabled_parking_2.jpg",
+            "assets/images/questions/disabled_parking_3.jpg"
          ]
       },
       "answer": {
@@ -231,9 +232,8 @@
          "text": "Ist dies ein Park+Ride-Parkplatz?",
          "description": "Park+Ride-Anlagen sind Parkplätze mit Anbindung an öffentliche Verkehrsmittel, die es Personen ermöglichen, ihr Fahrzeug zu verlassen und für den Rest der Reise auf öffentliche Verkehrsmittel umzusteigen.",
          "image": [
-            "packages/nvbw_open_data/photos/1052a.jpg",
-            "packages/nvbw_open_data/photos/1052b.jpg",
-            "packages/nvbw_open_data/photos/1052c.jpg"
+			"assets/images/questions/traffic_sign_316.png",
+            "packages/nvbw_open_data/photos/1052a.jpg"
          ]
       },
       "answer": {
