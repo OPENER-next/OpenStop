@@ -109,28 +109,28 @@
          "input": [
             {
                "name": "Ebenerdiger Parkplatz",
-               "image": "assets/images/questions/1051a.jpg",
+               "image": "assets/images/questions/parking_surface.jpg",
                "osm_tags": {
                   "parking": "surface"
                }
             },
             {
                "name": "Tiefgarage",
-               "image": "assets/images/questions/1051b.jpg",
+               "image": "assets/images/questions/parking_underground.jpg",
                "osm_tags": {
                   "parking": "underground"
                }
             },
             {
                "name": "Parkbucht",
-               "image": "assets/images/questions/1051c.jpg",
+               "image": "assets/images/questions/parking_street_side.jpg",
                "osm_tags": {
                   "parking": "street_side"
                }
             },
             {
                "name": "Parkhaus",
-               "image": "assets/images/questions/1051d.jpg",
+               "image": "assets/images/questions/parking_multistorey.jpg",
                "osm_tags": {
                   "parking": "multi-storey"
                }
@@ -306,7 +306,7 @@
          "name": "Toiletten-Zugänglichkeit",
          "text": "Für wen sind die Toiletten zugänglich?",
          "image": [
-            "assets/images/questions/1071a.jpg"
+            "assets/images/questions/toilet_house.jpg"
          ]
       },
       "answer": {
@@ -431,9 +431,9 @@
          "name": "Überdachter Wartebereich",
          "text": "Gibt es an der Haltestelle einen überdachten Wartebereich?",
          "image": [
-            "assets/images/questions/1120a.jpg",
-            "assets/images/questions/1120b.jpg",
-            "assets/images/questions/1120c.jpg"
+            "assets/images/questions/platform_shelter_1.jpg",
+            "assets/images/questions/platform_shelter_2.jpg",
+            "assets/images/questions/platform_shelter_3.jpg"
          ]
       },
       "answer": {
@@ -479,14 +479,14 @@
          "input": [
             {
                "name": "Dynamische Fahrplan-Anzeige",
-               "image": "assets/images/questions/1130a.jpg",
+               "image": "assets/images/questions/station_departures_board_digital.jpg",
                "osm_tags": {
                   "departures_board": "realtime"
                }
             },
             {
                "name": "Statische Fahrplan-Anzeige",
-               "image": "assets/images/questions/1130b.jpg",
+               "image": "assets/images/questions/station_departures_board_analog.jpg",
                "osm_tags": {
                   "departures_board": "timetable"
                }
@@ -523,7 +523,7 @@
          "text": "Hat die stationsweite Fahrplan-Anzeige eine manuell anforderbare akustische Ausgabe?",
          "description": "Fahrplan-Anzeigen geben einen Überblick aller Fahrten an der gesamten Station. Einige Fahrplan-Anzeigen bieten die Möglichkeit, bei Bedarf (z.B. über einen Taster) die angezeigten Informationen akustisch wiederzugeben.",
          "image": [
-            "assets/images/questions/1131a.jpg"
+            "assets/images/questions/station_departures_board_digital_2.jpg"
          ]
       },
       "answer": {
@@ -561,9 +561,8 @@
          "text": "Gibt es einen dynamischen Fahrtziel-Anzeiger an der Haltestelle?",
          "description": "Dynamische Fahrtziel-Anzeiger zeigen Echtzeit-Informationen über das Ziel ein- bzw. abfahrender Züge/Busse an einem Bahn-/Bussteig an.",
          "image": [
-            "assets/images/questions/1140a.jpg",
-            "packages/nvbw_open_data/photos/1140b.jpg",
-            "assets/images/questions/1140c.jpg"
+            "assets/images/questions/platform_departures_board_1.jpg",
+            "assets/images/questions/platform_departures_board_2.jpg"
          ]
       },
       "answer": {
@@ -604,7 +603,7 @@
          "text": "Hat der dynamische Fahrtziel-Anzeiger an der Haltestelle eine akustische Ausgabe?",
          "description": "Einige Fahrtziel-Anzeiger bieten die Möglichkeit, bei Bedarf (z.B. über einen Taster) die angezeigten Informationen akustisch wiederzugeben.",
          "image": [
-            "assets/images/questions/1141a.jpg"
+            "assets/images/questions/passenger_information_display_speech_output.jpg"
          ]
       },
       "answer": {
@@ -646,8 +645,8 @@
          "text": "Gibt es Ansagen über Lautsprecher an der Plattform?",
          "description": "Unter Ansagen werden die akustischen Fahrgastinformationen an der Haltestelle verstanden.",
          "image": [
-            "assets/images/questions/1150a.jpg",
-            "assets/images/questions/1150b.jpg"
+            "assets/images/questions/announcement_1.jpg",
+            "assets/images/questions/announcement_2.jpg"
          ]
       },
       "answer": {
@@ -748,21 +747,21 @@
          "input": [
             {
                "name": "Erhöht (>3cm)",
-               "image": "assets/images/questions/1170a.jpg",
+               "image": "assets/images/questions/approach_aid_no.jpg",
                "osm_tags": {
                   "kerb": "raised"
                }
             },
             {
                "name": "Abgesenkt (<3cm)",
-               "image": "assets/images/questions/1170b.jpg",
+               "image": "assets/images/questions/kerb_lowered.jpg",
                "osm_tags": {
                   "kerb": "lowered"
                }
             },
             {
                "name": "Ebenerdig (≈0cm)",
-               "image": "assets/images/questions/1170c.jpg",
+               "image": "assets/images/questions/kerb_flush.jpg",
                "osm_tags": {
                   "kerb": "flush"
                }
@@ -906,7 +905,7 @@
          "text": "Gibt es eine bewegbare Rollstuhl-Rampe?",
          "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
          "image": [
-            "assets/images/questions/1210a.jpg"
+            "assets/images/questions/wheelchair_lift_1.jpg"
          ]
       },
       "answer": {
@@ -1006,8 +1005,8 @@
          "text": "Gibt es einen bewegbaren Hublift für Rollstuhlfahrende?",
          "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
          "image": [
-            "assets/images/questions/1220a.jpg",
-            "assets/images/questions/1220b.jpg"
+            "assets/images/questions/wheelchair_lift_2.jpg",
+            "assets/images/questions/wheelchair_lift_3.jpg"
          ]
       },
       "answer": {
@@ -1049,7 +1048,7 @@
          "text": "Wie lang ist die Stellfläche des bewegbaren Hublifts?",
          "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
          "image": [
-            "packages/nvbw_open_data/photos/1220a.jpg"
+            "packages/nvbw_open_data/photos/wheelchair_lift_2.jpg"
          ]
       },
       "answer": {
@@ -1081,7 +1080,7 @@
          "text": "Was ist die maximale Tragfähigkeit der bewegbaren Hublifts?",
          "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
          "image": [
-            "packages/nvbw_open_data/photos/1220b.jpg"
+            "packages/nvbw_open_data/photos/wheelchair_lift_2.jpg"
          ]
       },
       "answer": {
@@ -1356,21 +1355,21 @@
          "input": [
             {
                "name": "Bewegungsmelder",
-               "image": "assets/images/questions/2033a.jpg",
+               "image": "assets/images/questions/sliding_door_automatic.jpg",
                "osm_tags": {
                   "automatic_door": "motion"
                }
             },
             {
                "name": "Knopfdruck",
-               "image": "assets/images/questions/2033b.jpg",
+               "image": "assets/images/questions/automatic_door_button.jpg",
                "osm_tags": {
                   "automatic_door": "button"
                }
             },
             {
                "name": "Automatik-Drehtür",
-               "image": "assets/images/questions/2032b.jpg",
+               "image": "assets/images/questions/door_revolving.jpg",
                "osm_tags": {
                   "automatic_door": "continuous"
                }
@@ -1511,14 +1510,14 @@
          "input": [
             {
                "name": "Befestigt",
-               "image": "assets/images/questions/2050a.jpg",
+               "image": "assets/images/questions/surface_paved.jpg",
                "osm_tags": {
                   "surface": "paved"
                }
             },
             {
                "name": "Unbefestigt",
-               "image": "assets/images/questions/2050b.jpg",
+               "image": "assets/images/questions/surface_unpaved.jpg",
                "osm_tags": {
                   "surface": "unpaved"
                }
@@ -1570,8 +1569,8 @@
          "text": "Gibt es Bodenindikatoren an der Haltestelle?",
          "description": "Bodenindikatoren sind Bodenelemente im öffentlichen Raum zur Information, Orientierung, Leitung und Warnung sehbehinderter Menschen. Sie stehen in einem hohen taktilen, visuellen und gegebenenfalls akustischen Kontrast zum angrenzenden Bodenbelag.",
          "image": [
-            "assets/images/questions/2070a.jpg",
-            "assets/images/questions/2070b.jpg"
+            "assets/images/questions/platform_tactile_paving_1.jpg",
+            "assets/images/questions/tactile_paving_1.jpg"
          ]
       },
       "answer": {
@@ -1805,7 +1804,7 @@
          "name": "Treppenlift-Tiefe",
          "text": "Wie tief ist die Stellfläche des Treppenlifts?",
          "image": [
-            "assets/images/questions/2093a.jpg"
+            "assets/images/questions/steps_wheelchair_lift.jpg"
          ],
          "description": "Als Tiefe wird die Distanz in Fahrtrichtung erfasst."
       },
@@ -1934,7 +1933,7 @@
          "name": "Fahrstuhl-Blindenschrift",
          "text": "Ist auf den Bedienelementen Blindenschrift vorhanden?",
          "image": [
-            "assets/images/questions/2096a.jpg"
+            "assets/images/questions/lift_buttons_tactile_writing.jpg"
          ],
          "description": "Blindenschrift sind Zeichen, die mit den Fingern gelesen werden können. Diese können u.a. geprägte gewöhnliche Buchstaben oder besondere Symbole sein, wie z.B. bei der Brailleschrift."
       },
@@ -2056,8 +2055,8 @@
          "name": "Handlauf-Blindenschrift",
          "text": "Ist auf dem Handlauf Blindenschrift vorhanden?",
          "image": [
-            "assets/images/questions/2115a.jpg",
-            "assets/images/questions/2115b.jpg"
+            "assets/images/questions/handrail_tactile_writing_1.jpg",
+            "assets/images/questions/handrail_tactile_writing_2.jpg"
          ],
          "description": "Blindenschrift sind Zeichen, die mit den Fingern gelesen werden können. Diese können u.a. geprägte gewöhnliche Buchstaben oder besondere Symbole sein, wie z.B. bei der Brailleschrift. Blinde können durch Blindenschrift am Handlauf Informationen erhalten, z.B. wohin die Treppe führt."
       },
@@ -2092,8 +2091,8 @@
          "name": "Treppen-Handlauf",
          "text": "Hat die Treppe einen Handlauf?",
          "image": [
-            "assets/images/questions/2114a.jpg",
-            "assets/images/questions/2114b.jpg"
+            "assets/images/questions/handrail_1.jpg",
+            "assets/images/questions/handrail_2.jpg"
          ]
       },
       "answer": {
@@ -2459,21 +2458,21 @@
          "input": [
             {
                "name": "Erhöht (>3cm)",
-               "image": "assets/images/questions/1170a.jpg",
+               "image": "assets/images/questions/approach_aid_no.jpg",
                "osm_tags": {
                   "kerb": "raised"
                }
             },
             {
                "name": "Abgesenkt (<3cm)",
-               "image": "assets/images/questions/1170b.jpg",
+               "image": "assets/images/questions/kerb_lowered.jpg",
                "osm_tags": {
                   "kerb": "lowered"
                }
             },
             {
                "name": "Ebenerdig (≈0cm)",
-               "image": "assets/images/questions/1170c.jpg",
+               "image": "assets/images/questions/kerb_flush.jpg",
                "osm_tags": {
                   "kerb": "flush"
                }
