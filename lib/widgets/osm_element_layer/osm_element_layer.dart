@@ -9,6 +9,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:provider/provider.dart';
 import 'package:supercluster/supercluster.dart';
 
+import '/models/map_feature.dart';
 import '/utils/stream_utils.dart';
 import '/models/element_variants/base_element.dart';
 import '/models/map_feature_collection.dart';
@@ -33,7 +34,7 @@ class OsmElementLayer extends StatefulWidget {
     required this.elements,
     this.onOsmElementTap,
     this.durationOffsetRange = const Duration(milliseconds: 300),
-    this.zoomLowerLimit = 15,
+    this.zoomLowerLimit = 16,
     Key? key
   }) : super(key: key);
 
@@ -46,18 +47,16 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 
   Stream<int>? _zoomLevelStream;
 
-
   @override
   void initState() {
     super.initState();
 
     compute(_cluster, widget.elements.toList()).then(
      (value) {
-        setState(() =>_supercluster = value);
+        setState(() => _supercluster = value);
       }
     );
   }
-
 
   @override
   void didUpdateWidget(covariant OsmElementLayer oldWidget) {
@@ -65,11 +64,10 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 
     compute(_cluster, widget.elements.toList()).then(
       (value) {
-        setState(() =>_supercluster = value);
+        setState(() => _supercluster = value);
       }
     );
   }
-
 
   @override
   void didChangeDependencies() {
@@ -118,9 +116,10 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
         final visibleMarkers = <AnimatedMarker>[];
         final suppressedMarkers = <AnimatedMarker>[];
         final questionnaireProvider = context.watch<QuestionnaireProvider>();
+        final mapFeatureCollection = context.watch<MapFeatureCollection>();
 
-        if (_supercluster != null) {
-          final clusters =_supercluster!.search(-180, -85, 180, 85, zoomLevel);
+        if (_supercluster != null && zoomLevel >= widget.zoomLowerLimit) {
+          final clusters = _supercluster!.search(-180, -85, 180, 85, zoomLevel);
           var activeMarkerFound = false;
 
           for (final cluster in clusters) {
@@ -130,7 +129,8 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
               while(!activeMarkerFound && elements.moveNext()) {
                 if (questionnaireProvider.workingElement == elements.current) {
                   visibleMarkers.add(
-                    _createMarker(elements.current)
+                    // avoid calling getMatchingFeature on every build because it can get expensive
+                    _createMarker(elements.current, mapFeatureCollection.getMatchingFeature(elements.current))
                   );
                   activeMarkerFound = true;
                 }
@@ -140,9 +140,11 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
               }
             }
             else {
+              elements.moveNext();
               // always show the first element as a marker and not placeholder
               visibleMarkers.add(
-                _createMarker((elements..moveNext()).current)
+                // avoid calling getMatchingFeature on every build because it can get expensive
+                _createMarker(elements.current, mapFeatureCollection.getMatchingFeature(elements.current))
               );
             }
             while(elements.moveNext()) {
@@ -193,11 +195,12 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
   }
 
 
-  AnimatedMarker _createMarker(ProcessedElement element) {
+  AnimatedMarker _createMarker(ProcessedElement element, MapFeature? mapFeature) {
     // supply id as seed so we get the same delay for both marker types
     final seed = element.id;
     return _OsmElementMarker(
       element: element,
+      mapFeature: mapFeature,
       animateInDelay: _getRandomDelay(seed),
       builder: _markerBuilder
     );
@@ -207,7 +210,6 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
   Widget _markerBuilder(BuildContext context, Animation<double> animation, AnimatedMarker marker) {
     marker as _OsmElementMarker;
     final osmElement = marker.element;
-    final mapFeature = context.watch<MapFeatureCollection>().getMatchingFeature(osmElement);
     final activeElement = context.watch<QuestionnaireProvider>().workingElement;
     final isActive = activeElement == osmElement;
 
@@ -218,8 +220,8 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       child: OsmElementMarker(
         onTap: () => widget.onOsmElementTap?.call(marker.element),
         active: isActive,
-        icon: mapFeature?.icon ?? MdiIcons.help,
-        label: mapFeature?.labelByElement(osmElement) ?? mapFeature?.name ?? '',
+        icon: marker.mapFeature?.icon ?? MdiIcons.help,
+        label: marker.mapFeature?.labelByElement(osmElement) ?? marker.mapFeature?.name ?? '',
       )
     );
   }
@@ -264,9 +266,12 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 class _OsmElementMarker extends AnimatedMarker {
   final ProcessedElement element;
 
+  final MapFeature? mapFeature;
+
   _OsmElementMarker({
     required this.element,
     required super.builder,
+    this.mapFeature,
     super.animateInDelay,
   }) : super(
     // use processed element as key
