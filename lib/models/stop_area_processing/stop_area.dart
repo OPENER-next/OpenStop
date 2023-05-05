@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
-import '/models/stop.dart';
+import 'stop.dart';
 
 /// A bundle of multiple nearby [Stop]s.
 
