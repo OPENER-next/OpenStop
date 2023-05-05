@@ -233,7 +233,7 @@
          "description": "Park+Ride-Anlagen sind Parkplätze mit Anbindung an öffentliche Verkehrsmittel, die es Personen ermöglichen, ihr Fahrzeug zu verlassen und für den Rest der Reise auf öffentliche Verkehrsmittel umzusteigen.",
          "image": [
 			"assets/images/questions/traffic_sign_316.png",
-            "packages/nvbw_open_data/photos/1052a.jpg"
+            "assets/images/questions/park_and_ride.jpg"
          ]
       },
       "answer": {
