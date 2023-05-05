@@ -157,7 +157,7 @@
          "name": "Behindertenparkplätze",
          "text": "Gibt es gesonderte Parkplätze für behinderte Personen?",
          "image": [
-         "assets/images/questions/traffic_sign_314_1044-10.png",
+            "assets/images/questions/traffic_sign_314_1044-10.png",
             "assets/images/questions/disabled_parking_1.jpg",
             "assets/images/questions/disabled_parking_2.jpg",
             "assets/images/questions/disabled_parking_3.jpg"
@@ -388,11 +388,9 @@
          "name": "Sitzplätze",
          "text": "Gibt es an der Haltestelle Sitzplätze?",
          "image": [
-            "packages/nvbw_open_data/photos/1120a.jpg",
-            "assets/images/questions/1120b.jpg",
-            "packages/nvbw_open_data/photos/1120c.jpg",
-            "packages/nvbw_open_data/photos/1120d.jpg"
-         ]
+            "assets/images/questions/platform_shelter_1.jpg",
+            "assets/images/questions/platform_shelter_2.jpg",
+            "assets/images/questions/platform_shelter_3.jpg"]
       },
       "answer": {
          "type": "Bool",
