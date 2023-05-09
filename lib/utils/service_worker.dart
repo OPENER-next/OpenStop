@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:isolate';
 
+import 'package:flutter/foundation.dart';
+
+
 typedef ServiceWorkerInit<M> = ServiceWorker<M> Function(SendPort sendPort);
 
 
@@ -9,11 +12,16 @@ typedef ServiceWorkerInit<M> = ServiceWorker<M> Function(SendPort sendPort);
 /// ```
 /// final controller = await ServiceWorkerController.spawn(YourCustomWorker.new);
 /// controller.send(...);
+/// controller.subscribe(...);
 ///
 /// class YourCustomWorker extends ServiceWorker {
 ///   YourCustomWorker(super.sendPort);
 ///
 ///   Future<dynamic> messageHandler(message) {
+///     ...
+///   }
+///
+///   Stream<dynamic> subscriptionHandler(message) {
 ///     ...
 ///   }
 /// }
@@ -42,21 +50,72 @@ class ServiceWorkerController<M> {
 
   Future<T> send<T>(M data) async {
     final responsePort = ReceivePort();
-
     _sendPort.send(
       _Message(responsePort.sendPort, data)
     );
     // use completer to rethrow error
     final completer = Completer<T>();
 
-    final response = await responsePort.first;
-    if (response is _Error) {
-      completer.completeError(response.error);
+    final _Response response = await responsePort.first;
+    if (response.type == _ResponseType.error) {
+      completer.completeError(response.data);
     }
     else {
       completer.complete(response.data);
     }
     return completer.future;
+  }
+
+
+// TODO
+  Stream<T> subscribe<T>(M data) {
+    final responsePort = ReceivePort();
+    _sendPort.send(
+      _Message(responsePort.sendPort, data, subscribe: true)
+    );
+    // used to send cancel, pause, and resume notifications
+    final sendPortCompleter = Completer<SendPort>();
+
+    final streamController = StreamController<T>(
+      onCancel: () async {
+        (await sendPortCompleter.future).send(_StreamSubscriptionChange.cancel);
+        responsePort.close();
+      },
+      onPause: () async {
+        (await sendPortCompleter.future).send(_StreamSubscriptionChange.pause);
+      },
+      onResume:() async {
+        (await sendPortCompleter.future).send(_StreamSubscriptionChange.resume);
+      },
+    );
+
+    // required due to self reference
+    // see: https://stackoverflow.com/questions/44450758/cancel-stream-ondata
+    late final StreamSubscription subscription;
+    subscription = responsePort.listen(
+      (message) {
+        // expect SendPort as first message and store it
+        sendPortCompleter.complete(message);
+        // rewrite response handler after initial response
+        subscription.onData((message) {
+          switch (message.type) {
+            case _ResponseType.message:
+              streamController.add(message.data);
+            break;
+            case _ResponseType.error:
+              streamController.addError(message.data);
+            break;
+            case _ResponseType.done:
+              streamController.close();
+            break;
+          }
+        });
+      },
+      onError: streamController.addError,
+      onDone: streamController.close,
+    );
+
+    return streamController.stream;
   }
 }
 
@@ -79,39 +138,92 @@ abstract class ServiceWorker<M> {
     // listening to this stream will keep the isolate alive
     _receivePort
       .cast<_Message<M>>()
-      .listen(_messageHandler);
+      .listen((message) {
+        if (message.subscribe) {
+          _subscriptionHandler(message);
+        }
+        else {
+          _messageHandler(message);
+        }
+      });
   }
 
+  @mustCallSuper
   void exit() => _receivePort.close();
 
   void _messageHandler(_Message<M> message) async {
     try {
       message.responsePort.send(_Response(
+        _ResponseType.message,
         await messageHandler(message.data),
       ));
     }
     catch(error) {
-      message.responsePort.send(_Error(error));
+      message.responsePort.send(_Response(
+        _ResponseType.error,
+        error,
+      ));
     }
   }
 
+  void _subscriptionHandler(_Message<M> message) async {
+    final receivePort = ReceivePort();
+    // initially send a SendPort to receive stream state changes
+    message.responsePort.send(receivePort.sendPort);
+
+    final stream = subscriptionHandler(message.data);
+    final subscription = stream.listen(
+      (event) {
+        message.responsePort.send(_Response(_ResponseType.message, event));
+      },
+      onError: (Object error) {
+        message.responsePort.send(_Response(_ResponseType.error, error));
+      },
+      onDone: () {
+        message.responsePort.send(const _Response(_ResponseType.error, null));
+      },
+    );
+
+    receivePort.listen((event) {
+      switch (event) {
+        case _StreamSubscriptionChange.cancel:
+          subscription.cancel();
+        break;
+        case _StreamSubscriptionChange.pause:
+          subscription.pause();
+        break;
+        case _StreamSubscriptionChange.resume:
+          subscription.resume();
+        break;
+      }
+    });
+  }
+
   Future<dynamic> messageHandler(M message);
+
+  Stream<dynamic> subscriptionHandler(M subscription);
 }
+
 
 
 class _Message<T> {
   final SendPort responsePort;
+  final bool subscribe;
   final T data;
 
-  const _Message(this.responsePort, this.data);
+  const _Message(this.responsePort, this.data, { this.subscribe = false });
+}
+
+enum _StreamSubscriptionChange {
+  cancel, pause, resume
 }
 
 class _Response<T> {
+  final _ResponseType type;
   final T data;
-  const _Response(this.data);
+  const _Response(this.type, this.data);
 }
 
-class _Error<T> {
-  final T error;
-  const _Error(this.error);
+enum _ResponseType {
+  message, error, done
 }
