@@ -903,7 +903,7 @@
          "text": "Gibt es eine bewegbare Rollstuhl-Rampe?",
          "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
          "image": [
-            "assets/images/questions/wheelchair_lift_1.jpg"
+            "assets/images/questions/wheelchair_ramp_1.jpg"
          ]
       },
       "answer": {
@@ -1003,8 +1003,8 @@
          "text": "Gibt es einen bewegbaren Hublift für Rollstuhlfahrende?",
          "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
          "image": [
-            "assets/images/questions/wheelchair_lift_2.jpg",
-            "assets/images/questions/wheelchair_lift_3.jpg"
+            "assets/images/questions/wheelchair_lift_1.jpg",
+            "assets/images/questions/wheelchair_lift_2.jpg"
          ]
       },
       "answer": {
