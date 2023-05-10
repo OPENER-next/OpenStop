@@ -1613,28 +1613,28 @@
          "input": [
             {
                "name": "Einfach",
-               "image": "assets/images/questions/2080a.png",
+               "image": "assets/images/questions/cycle_barrier_single.png",
                "osm_tags": {
                   "cycle_barrier": "single"
                }
             },
             {
                "name": "Zweifach",
-               "image": "assets/images/questions/2080b.png",
+               "image": "assets/images/questions/cycle_barrier_double.png",
                "osm_tags": {
                   "cycle_barrier": "double"
                }
             },
             {
                "name": "Dreifach",
-               "image": "assets/images/questions/2080c.png",
+               "image": "assets/images/questions/cycle_barrier_triple.png",
                "osm_tags": {
                   "cycle_barrier": "triple"
                }
             },
             {
                "name": "Diagonal",
-               "image": "assets/images/questions/2080d.png",
+               "image": "assets/images/questions/cycle_barrier_diagonal.png",
                "osm_tags": {
                   "cycle_barrier": "diagonal"
                }
@@ -1657,7 +1657,7 @@
          "name": "Umlaufsperren-Durchgangsbreite",
          "text": "Wie groß ist die Durchgangsbreite der Umlaufsperre?",
          "image": [
-            "assets/images/questions/2081a.png"
+            "assets/images/questions/cycle_barrier_width.png"
          ],
          "description": "Die Durchgangsbreite, auch lichte Breite genannt, beschreibt die maximal zulässige Breite, um eine Sperre passieren zu können."
       },
@@ -1693,8 +1693,8 @@
          "name": "Umlaufsperren-Zugangsbreite",
          "text": "Wie breit ist der (schmalste) Zugang der Umlaufsperre?",
          "image": [
-            "assets/images/questions/2081b.png",
-            "assets/images/questions/2081c.png"
+            "assets/images/questions/cycle_barrier_double_opening.png",
+            "assets/images/questions/cycle_barrier_triple_opening.png"
          ],
          "description": "Die Zugangsbreite beschreibt die Durchgangsbreite an der Öffnung der Umlaufsperre. Bei unterschiedlichen Zugangsbreiten ist die kleinste Breite zu erfassen."
       },
@@ -1730,8 +1730,8 @@
          "name": "Umlaufsperren-Abstand",
          "text": "Was ist der (kleinste) Abstand zwischen den Elementen der Umlaufsperre?",
          "image": [
-            "assets/images/questions/2081d.png",
-            "assets/images/questions/2081e.png"
+            "assets/images/questions/cycle_barrier_double_spacing.png",
+            "assets/images/questions/cycle_barrier_triple_spacing.png"
          ],
          "description": "Der Abstand beschreibt die Durchgangsbreite zwischen den Sperrelementen. Bei unterschiedlichen Abständen ist der kleinste Abstand zu erfassen."
       },
