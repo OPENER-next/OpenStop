@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// A unique identifier for a [_TileLayerDefinition] used in the [tileLayers] map.
+/// A unique identifier for a [TileLayerDefinition] used in the [tileLayers] map.
 
 enum TileLayerId {
   standard,
@@ -12,7 +12,7 @@ const _thunderforestAPIKey = String.fromEnvironment('THUNDERFOREST_API_KEY', def
 /// A map of tile layers used in the app.
 
 const tileLayers = {
-  TileLayerId.standard: _TileLayerDefinition(
+  TileLayerId.standard: TileLayerDefinition(
     name: 'Standard',
     templateUrl: 'https://tile.thunderforest.com/atlas/{z}/{x}/{y}@2x.png?apikey=$_thunderforestAPIKey',
     creditsText: 'Maps © Thunderforest',
@@ -20,7 +20,7 @@ const tileLayers = {
     maxZoom: 22,
     minZoom: 3
   ),
-  TileLayerId.publicTransport: _TileLayerDefinition(
+  TileLayerId.publicTransport: TileLayerDefinition(
     name: 'ÖPNV',
     icon: Icons.directions_bus_rounded,
     templateUrl: 'https://tile.thunderforest.com/transport/{z}/{x}/{y}@2x.png?apikey=$_thunderforestAPIKey',
@@ -35,7 +35,7 @@ const tileLayers = {
 
 /// Contains functional and legal information of a pixel tile layer.
 
-class _TileLayerDefinition {
+class TileLayerDefinition {
 
   /// The label of the tile layer.
 
@@ -65,7 +65,7 @@ class _TileLayerDefinition {
 
   final String? creditsUrl;
 
-  const _TileLayerDefinition({
+  const TileLayerDefinition({
     required this.name,
     required this.templateUrl,
     required this.creditsText,
