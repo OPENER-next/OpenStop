@@ -322,7 +322,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "4d2f9a1e25ecff1afc083b042febd72147a2146d"
+      resolved-ref: c6e68525f33cab4eebb6df84815e24e8f55308a2
       url: "https://github.com/Robbendebiene/flutter-mvvm-architecture.git"
     source: git
     version: "0.0.1"

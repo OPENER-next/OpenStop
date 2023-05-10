@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mvvm_architecture/flutter_mvvm_architecture.dart';
+import 'package:flutter_mvvm_architecture/base.dart';
 
 import '/view_models/settings_view_model.dart';
 import '/widgets/select_dialog.dart';

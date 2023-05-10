@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_mvvm_architecture/base/view.dart';
+import 'package:flutter_mvvm_architecture/base.dart';
 
 import '/view_models/onboarding_view_model.dart';
 import '/widgets/dots_indicator.dart';
