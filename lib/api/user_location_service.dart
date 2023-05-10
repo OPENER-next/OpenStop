@@ -1,43 +1,45 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
 
-class UserLocationProvider extends ChangeNotifier {
+class UserLocationService extends Service implements Disposable {
 
-  LocationTrackingState _state = LocationTrackingState.disabled;
+  final _state = Observable(LocationTrackingState.disabled);
 
   /// Whether the location permission has been granted and the location service has been enabled or not.
   /// This only changes after calls to [startTracking] since there is no permission notification API.
   /// Pending means that the tracking has been requested, but at this point
   /// it's unclear if the user grants the permissions or enables the location service.
 
-  LocationTrackingState get state => _state;
+  LocationTrackingState get state => _state.value;
 
-  Position? _position;
+  final _position = Observable<Position?>(null);
 
   /// The last known position if any.
 
-  Position? get position => _position;
+  Position? get position => _position.value;
 
-  bool _shouldFollowLocation = false;
+  final _shouldFollowLocation = Observable(false);
 
   /// Whether the camera should follow the user's position or not.
 
-  bool get shouldFollowLocation => _shouldFollowLocation;
+  bool get shouldFollowLocation => _shouldFollowLocation.value;
 
   set shouldFollowLocation(bool value) {
-    if (value != _shouldFollowLocation) {
-      _shouldFollowLocation = value;
-      notifyListeners();
-    }
+    _shouldFollowLocation.value = value;
   }
+
+  late final _isFollowingLocation = Computed(
+    () => shouldFollowLocation && state == LocationTrackingState.enabled,
+  );
 
   /// Whether the location service is enabled and the location should be followed.
 
-  get isFollowingLocation {
-    return _shouldFollowLocation && _state == LocationTrackingState.enabled;
-  }
+  bool get isFollowingLocation => _isFollowingLocation.value;
+
 
   final LocationSettings _locationSettings;
 
@@ -45,7 +47,7 @@ class UserLocationProvider extends ChangeNotifier {
 
   StreamSubscription<ServiceStatus>? _serviceStatusStreamSub;
 
-  UserLocationProvider({
+  UserLocationService({
     Duration updateInterval = const Duration(milliseconds: 300),
     int distanceThreshold = 1,
   }) : _locationSettings = AndroidSettings(
@@ -54,26 +56,25 @@ class UserLocationProvider extends ChangeNotifier {
   ), super();
 
 
-
   /// This function will automatically request permissions and the activation of the location service.
 
   void startLocationTracking() async {
-    if (_state != LocationTrackingState.disabled) return;
+    if (_state.value != LocationTrackingState.disabled) return;
 
-    _updateState(LocationTrackingState.pending);
+    _state.value = LocationTrackingState.pending;
 
     // request permissions and get last known position
     final lastPosition = await _acquireUserLocation(false);
 
     // if location was successfully granted and retrieved
     // and if state is still pending which means it wasn't canceled during the process
-    if (lastPosition != null && _state == LocationTrackingState.pending) {
+    if (lastPosition != null && _state.value == LocationTrackingState.pending) {
       // move to last known location if available
-      _updatePosition(lastPosition);
+      _position.value = lastPosition;
 
       _positionNotifierStreamSub = Geolocator.getPositionStream(
         locationSettings: _locationSettings
-      ).listen(_updatePosition, onError: (e) => stopLocationTracking());
+      ).listen((p) => _position.value = p, onError: (e) => stopLocationTracking());
 
       try {
         _serviceStatusStreamSub = Geolocator.getServiceStatusStream().listen(_handleServiceStatus);
@@ -82,37 +83,21 @@ class UserLocationProvider extends ChangeNotifier {
         // getServiceStatusStream is not supported on web
       }
 
-      _updateState(LocationTrackingState.enabled);
+      _state.value = LocationTrackingState.enabled;
     }
     else {
-      _updateState(LocationTrackingState.disabled);
+      _state.value = LocationTrackingState.disabled;
     }
   }
 
 
   void stopLocationTracking() {
-    if (_state == LocationTrackingState.disabled) return;
+    if (_state.value == LocationTrackingState.disabled) return;
 
     _positionNotifierStreamSub?.cancel();
     _serviceStatusStreamSub?.cancel();
 
-    _updateState(LocationTrackingState.disabled);
-  }
-
-
-  void _updateState(LocationTrackingState newState) {
-    if (newState != _state) {
-      _state = newState;
-      notifyListeners();
-    }
-  }
-
-
-  void _updatePosition(Position newPosition) {
-    if (newPosition != _position) {
-      _position = newPosition;
-      notifyListeners();
-    }
+    _state.value = LocationTrackingState.disabled;
   }
 
 
@@ -166,10 +151,9 @@ class UserLocationProvider extends ChangeNotifier {
 
 
   @override
-  void dispose() {
+  FutureOr onDispose() {
     _positionNotifierStreamSub?.cancel();
     _serviceStatusStreamSub?.cancel();
-    super.dispose();
   }
 }
 
