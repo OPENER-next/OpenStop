@@ -11,13 +11,13 @@ import '/commons/osm_config.dart' as osm_config;
 
 /// Provides login/logout method and details about the currently authenticated user.
 
-class AuthenticatedUserService extends Service {
+class UserAccountService extends Service {
 
   final _osmAuthenticationApi = OSMAuthenticationAPI();
 
   final _authenticatedUser = Observable<AuthenticatedUser?>(null);
 
-  AuthenticatedUserService() {
+  UserAccountService() {
     _init();
   }
 
