@@ -8,7 +8,7 @@ import '/commons/routes.dart';
 
 
 class OnboardingScreen extends View<OnboardingViewModel> {
-  OnboardingScreen({required super.create, super.key});
+  const OnboardingScreen({super.key}) : super(create: OnboardingViewModel.new);
 
   // Ideally has to match the number of pages
   static final _colorArray = <Color>[
@@ -34,7 +34,7 @@ class OnboardingScreen extends View<OnboardingViewModel> {
     );
   }
 
-  final _background = _buildColorSequence(_colorArray);
+  static final _backgroundColorSequence = _buildColorSequence(_colorArray);
 
   @override
   Widget build(BuildContext context, viewModel) {
@@ -108,7 +108,7 @@ class OnboardingScreen extends View<OnboardingViewModel> {
               final color = viewModel.controller.hasClients && pages.length > 1 ? viewModel.controller.page! / (pages.length - 1) : 0.0;
 
               return ColoredBox(
-                color: _background.evaluate(AlwaysStoppedAnimation(color))!,
+                color: _backgroundColorSequence.evaluate(AlwaysStoppedAnimation(color))!,
                 child: child,
               );
             },

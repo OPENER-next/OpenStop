@@ -92,7 +92,7 @@ class _RippleIndicator extends LeafRenderObjectWidget {
 }
 
 
-class _RenderRippleIndicator extends RenderProxyBoxWithHitTestBehavior {
+class _RenderRippleIndicator extends RenderBox {
   final AnimationController _controller;
 
   Color _color;
@@ -125,8 +125,7 @@ class _RenderRippleIndicator extends RenderProxyBoxWithHitTestBehavior {
     Duration duration,
   ) :
     _vsync = vsync,
-    _controller = AnimationController(vsync: vsync, duration: duration),
-    super(behavior: HitTestBehavior.opaque)
+    _controller = AnimationController(vsync: vsync, duration: duration)
   {
     _controller..addListener(_listen)..repeat();
   }

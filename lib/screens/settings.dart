@@ -13,7 +13,7 @@ class SettingsScreen extends View<SettingsViewModel> {
     ThemeMode.dark : 'Dunkel',
   };
 
-  const SettingsScreen({required super.create, super.key});
+  const SettingsScreen({super.key}) : super(create: SettingsViewModel.new);
 
   @override
   Widget build(BuildContext context, viewModel) {

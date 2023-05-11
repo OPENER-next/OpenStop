@@ -153,9 +153,8 @@ class RenderMapLayer extends RenderBox
     var child = firstChild;
     while (child != null) {
       final childParentData = child.parentData! as _MapLayerParentData;
-      final childRect = childParentData.offset & child.size;
+      final childRect = child.paintBounds.shift(childParentData.offset);
       // only render child if bounds are inside the viewport
-      // note this does not properly work for children that draw outside of their bounds (e.g. shadows)
       if (layerViewport.overlaps(childRect)) {
         context.paintChild(child, childParentData.offset + offset);
       }

@@ -19,11 +19,12 @@ double pixelValue(double latitude, double meters, double zoomLevel) {
   return meters / metersPerPixel(latitude, zoomLevel);
 }
 
-/// Mirrors the underlying bbox at a given point in latitude and longitude.
-///
-/// Creates and returns a new [LatLngBounds].
+extension LatLngBoundsExtensions on LatLngBounds {
 
-extension LatLngBoundsMirroring on LatLngBounds {
+  /// Mirrors the underlying bbox at a given point in latitude and longitude.
+  ///
+  /// Creates and returns a new [LatLngBounds].
+
   LatLngBounds mirror(LatLng point) {
     final newNorthWest = LatLng(
       point.latitude + point.latitude - northWest.latitude,
