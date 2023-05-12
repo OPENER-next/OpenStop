@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PrivacyPolicyScreen extends StatefulWidget {
-  const PrivacyPolicyScreen({Key? key}) : super(key: key);
+  const PrivacyPolicyScreen({super.key});
 
   @override
   State<PrivacyPolicyScreen> createState() => _PrivacyPolicyScreenState();
@@ -12,15 +12,6 @@ class PrivacyPolicyScreen extends StatefulWidget {
 
 class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
   final _privacyPolicyText = rootBundle.loadString('PRIVACY_POLICY.md');
-
-  Future<void> _launchUrl(String text, String? url, String? title) async {
-    if (url != null) {
-      if (!await launchUrlString(
-        url,
-        mode: LaunchMode.externalApplication,
-      )) throw '$url kann nicht aufgerufen werden';
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +25,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
           builder: (context, snapshot) {
             return (!snapshot.hasData)
               ? const Center(
-                child: CircularProgressIndicator()
+                child: CircularProgressIndicator(),
               )
               : Markdown(
                 data: snapshot.requireData,
@@ -42,13 +33,15 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
                   top: 20,
                   left: 20,
                   right: 20,
-                  bottom: MediaQuery.of(context).padding.bottom
+                  bottom: MediaQuery.of(context).padding.bottom,
                 ),
                 selectable: true,
-                onTapLink: _launchUrl
+                onTapLink: (_, url, __) {
+                  if (url != null) launchUrl(Uri.parse(url));
+                },
               );
-          }
-        )
+          },
+        ),
       ),
     );
   }

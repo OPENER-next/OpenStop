@@ -1,25 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '/widgets/custom_list_tile.dart';
 import '/commons/app_config.dart' as app_config;
 import '/commons/routes.dart';
 
 class AboutScreen extends StatelessWidget {
-  const AboutScreen({Key? key}) : super(key: key);
+  const AboutScreen({super.key});
 
-  static const String _urlCode = 'https://github.com/OPENER-next';
-  static const String _urlContributors = 'https://github.com/OPENER-next/OpenStop/graphs/contributors';
-  static const String _urlIdea = 'https://www.tu-chemnitz.de/etit/sse';
-  static const String _urlLicense = 'https://github.com/OPENER-next/OpenStop/blob/master/LICENSE';
-  static const String _urlVersion = 'https://github.com/OPENER-next/OpenStop/releases';
-
-  Future<void> _launchUrl(String url) async {
-    if (!await launchUrlString(
-      url,
-      mode: LaunchMode.externalApplication,
-    )) throw '$url kann nicht aufgerufen werden';
-  }
+  static final _urlCode = Uri.parse('https://github.com/OPENER-next');
+  static final _urlContributors = Uri.parse('https://github.com/OPENER-next/OpenStop/graphs/contributors');
+  static final _urlIdea = Uri.parse('https://www.tu-chemnitz.de/etit/sse');
+  static final _urlLicense = Uri.parse('https://github.com/OPENER-next/OpenStop/blob/master/LICENSE');
+  static final _urlVersion = Uri.parse('https://github.com/OPENER-next/OpenStop/releases');
 
   @override
   Widget build(BuildContext context) {
@@ -52,14 +45,14 @@ class AboutScreen extends StatelessWidget {
                 trailingIcon: Icons.open_in_new,
                 title: 'Version',
                 subtitle: app_config.appVersion,
-                onTap: () => _launchUrl(_urlVersion),
+                onTap: () => launchUrl(_urlVersion),
               ),
               CustomListTile(
                 leadingIcon: Icons.supervisor_account,
                 trailingIcon: Icons.open_in_new,
                 title: 'Autoren',
                 subtitle: '${app_config.appName} Mitwirkende',
-                onTap: () => _launchUrl(_urlContributors),
+                onTap: () => launchUrl(_urlContributors),
               ),
               CustomListTile(
                 isThreeLine: true,
@@ -68,21 +61,21 @@ class AboutScreen extends StatelessWidget {
                 title: 'Idee',
                 subtitle: 'Technische Universität Chemnitz\n'
                     'Professur Schaltkreis- und Systementwurf',
-                onTap: () => _launchUrl(_urlIdea),
+                onTap: () => launchUrl(_urlIdea),
               ),
               CustomListTile(
                 leadingIcon: Icons.code,
                 trailingIcon: Icons.open_in_new,
                 title: 'Quellcode',
                 subtitle: 'https://github.com/OPENER-next',
-                onTap: () => _launchUrl(_urlCode),
+                onTap: () => launchUrl(_urlCode),
               ),
               CustomListTile(
                 leadingIcon: Icons.copyright,
                 trailingIcon: Icons.open_in_new,
                 title: 'Lizenz',
                 subtitle: 'GPL-3.0',
-                onTap: () => _launchUrl(_urlLicense),
+                onTap: () => launchUrl(_urlLicense),
               ),
               CustomListTile(
                 leadingIcon: Icons.privacy_tip,
@@ -104,27 +97,30 @@ class AboutScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Flexible(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Image.asset(
-                              'assets/images/logos/BMDV_Fz_2021_Office_Farbe_de.png'),
-                        )),
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Image.asset(
+                          'assets/images/logos/BMDV_Fz_2021_Office_Farbe_de.png',
+                        ),
+                      ),
+                    ),
                     Flexible(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 50.0),
-                          child: Image.asset(
-                              'assets/images/logos/mFUND_Logo_sRGB.png'),
-                        )
-                    )
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 50.0),
+                        child: Image.asset(
+                          'assets/images/logos/mFUND_Logo_sRGB.png',
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
-      )
+      ),
     );
   }
 }
