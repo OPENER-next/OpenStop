@@ -61,44 +61,48 @@ class UserLocationService extends Service implements Disposable {
   void startLocationTracking() async {
     if (_state.value != LocationTrackingState.disabled) return;
 
-    _state.value = LocationTrackingState.pending;
+    runInAction(() => _state.value = LocationTrackingState.pending);
 
     // request permissions and get last known position
     final lastPosition = await _acquireUserLocation(false);
 
-    // if location was successfully granted and retrieved
-    // and if state is still pending which means it wasn't canceled during the process
-    if (lastPosition != null && _state.value == LocationTrackingState.pending) {
-      // move to last known location if available
-      _position.value = lastPosition;
+    runInAction(() {
+      // if location was successfully granted and retrieved
+      // and if state is still pending which means it wasn't canceled during the process
+      if (lastPosition != null && _state.value == LocationTrackingState.pending) {
+        // move to last known location if available
+        _position.value = lastPosition;
 
-      _positionNotifierStreamSub = Geolocator.getPositionStream(
-        locationSettings: _locationSettings
-      ).listen((p) => _position.value = p, onError: (e) => stopLocationTracking());
+        _positionNotifierStreamSub = Geolocator.getPositionStream(
+          locationSettings: _locationSettings
+        ).listen(
+          (p) => runInAction(() => _position.value = p),
+          onError: (e) => stopLocationTracking(),
+        );
 
-      try {
-        _serviceStatusStreamSub = Geolocator.getServiceStatusStream().listen(_handleServiceStatus);
+        try {
+          _serviceStatusStreamSub = Geolocator.getServiceStatusStream().listen(_handleServiceStatus);
+        }
+        on UnimplementedError {
+          // getServiceStatusStream is not supported on web
+        }
+        _state.value = LocationTrackingState.enabled;
       }
-      on UnimplementedError {
-        // getServiceStatusStream is not supported on web
+      else {
+        _state.value = LocationTrackingState.disabled;
       }
-
-      _state.value = LocationTrackingState.enabled;
-    }
-    else {
-      _state.value = LocationTrackingState.disabled;
-    }
+    });
   }
 
 
-  void stopLocationTracking() {
+  late final stopLocationTracking = Action(() {
     if (_state.value == LocationTrackingState.disabled) return;
 
     _positionNotifierStreamSub?.cancel();
     _serviceStatusStreamSub?.cancel();
 
     _state.value = LocationTrackingState.disabled;
-  }
+  });
 
 
   /// This function will automatically request permissions if not already granted

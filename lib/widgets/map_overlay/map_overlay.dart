@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 
 import '/view_models/home_view_model.dart';
@@ -33,97 +34,102 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
       initialEntries: [
         OverlayEntry(
           builder: (context) {
-            return Padding(
-              padding: MediaQuery.of(context).padding + EdgeInsets.all(buttonSpacing),
-              child: Stack(
-                children: [
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: LoadingIndicator(
-                      active: viewModel.isLoadingStopAreas,
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: FloatingActionButton.small(
-                      heroTag: null,
-                      onPressed: Scaffold.of(context).openDrawer,
-                      child: const Icon(
-                        Icons.menu,
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      child: viewModel.mapRotation % 360 != 0
-                        ? CompassButton(
-                          rotation: viewModel.mapRotation,
-                          isDegree: true,
-                          onPressed: viewModel.resetRotation,
-                        )
-                        : null
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        MapLayerSwitcher(
-                          entries: tileLayers.entries.map((entry) =>
-                            MapLayerSwitcherEntry(
-                              id: entry.key,
-                              icon: entry.value.icon ?? Icons.map_rounded,
-                              label: entry.value.name,
-                            ),
-                          ).toList(),
-                          active: viewModel.tileLayerId,
-                          onSelection: (TileLayerId v) => viewModel.updateTileProvider([v]),
+            // required because outer rebuilds do not affect Overlay entries
+            return Observer(
+              builder: (context) {
+                return Padding(
+                  padding: MediaQuery.of(context).padding + EdgeInsets.all(buttonSpacing),
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: LoadingIndicator(
+                          active: viewModel.isLoadingStopAreas,
                         ),
-                        Expanded(
-                          child: CreditText(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                            ),
-                            children: [
-                              const CreditTextPart(
-                                osm_config.osmCreditsText,
-                                url: osm_config.osmCreditsURL,
-                              ),
-                              CreditTextPart(
-                                viewModel.tileLayer.creditsText,
-                                url: viewModel.tileLayer.creditsUrl,
-                              ),
-                            ],
+                      ),
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: FloatingActionButton.small(
+                          heroTag: null,
+                          onPressed: Scaffold.of(context).openDrawer,
+                          child: const Icon(
+                            Icons.menu,
                           ),
                         ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                      ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 300),
+                          child: viewModel.mapRotation % 360 != 0
+                            ? CompassButton(
+                              rotation: viewModel.mapRotation,
+                              isDegree: true,
+                              onPressed: viewModel.resetRotation,
+                            )
+                            : null
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            LocationButton(
-                              activeColor: Theme.of(context).colorScheme.primary,
-                              activeIconColor: Theme.of(context).colorScheme.onPrimary,
-                              color: Theme.of(context).colorScheme.primaryContainer,
-                              iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
-                              active: viewModel.cameraIsFollowingLocation,
-                              onPressed: viewModel.toggleLocationFollowing,
+                            MapLayerSwitcher(
+                              entries: tileLayers.entries.map((entry) =>
+                                MapLayerSwitcherEntry(
+                                  id: entry.key,
+                                  icon: entry.value.icon ?? Icons.map_rounded,
+                                  label: entry.value.name,
+                                ),
+                              ).toList(),
+                              active: viewModel.tileLayerId,
+                              onSelection: (TileLayerId v) => viewModel.updateTileProvider([v]),
                             ),
-                            SizedBox (
-                              height: buttonSpacing,
+                            Expanded(
+                              child: CreditText(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                ),
+                                children: [
+                                  const CreditTextPart(
+                                    osm_config.osmCreditsText,
+                                    url: osm_config.osmCreditsURL,
+                                  ),
+                                  CreditTextPart(
+                                    viewModel.tileLayer.creditsText,
+                                    url: viewModel.tileLayer.creditsUrl,
+                                  ),
+                                ],
+                              ),
                             ),
-                            ZoomButton(
-                              onZoomInPressed: viewModel.zoomIn,
-                              onZoomOutPressed: viewModel.zoomOut,
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                LocationButton(
+                                  activeColor: Theme.of(context).colorScheme.primary,
+                                  activeIconColor: Theme.of(context).colorScheme.onPrimary,
+                                  color: Theme.of(context).colorScheme.primaryContainer,
+                                  iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                                  active: viewModel.cameraIsFollowingLocation,
+                                  onPressed: viewModel.toggleLocationFollowing,
+                                ),
+                                SizedBox (
+                                  height: buttonSpacing,
+                                ),
+                                ZoomButton(
+                                  onZoomInPressed: viewModel.zoomIn,
+                                  onZoomOutPressed: viewModel.zoomOut,
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                );
+              },
             );
           },
         ),

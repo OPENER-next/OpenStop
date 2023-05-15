@@ -8,7 +8,7 @@ class OnboardingViewModel extends ViewModel {
 
   PreferencesService get _preferencesService => getService<PreferencesService>();
 
-  late final markOnboardingAsSeen = Action((bool value) {
+  late final markOnboardingAsSeen = Action(() {
     _preferencesService.hasSeenOnboarding = true;
   });
 
