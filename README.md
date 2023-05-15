@@ -16,7 +16,7 @@ Thanks and happy mapping!
     height="50">](https://apps.apple.com/app/id6444187660)
 [<img src="https://openstop.app/img/badges/F-Droid_Badge_EN.svg"
     alt="Get it on F-Droid"
-    height="50">](https://f-droid.org/de/packages/de.tu_chemnitz.etit.sse.openstop/)
+    height="50">](https://f-droid.org/packages/de.tu_chemnitz.etit.sse.openstop/)
 
 ## Screenshots
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot01.png" alt="Screenshot with visualized stop areas" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot02.png" alt="Screenshot with bool question dialog" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot03.png" alt="Screenshot with list question dialog" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot04.png" alt="Screenshot with upload dialog" width=150>
