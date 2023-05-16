@@ -8,6 +8,7 @@ import '/api/osm_element_upload_api.dart';
 import '/utils/osm_tag_area_resolver.dart';
 import '/models/geographic_geometries.dart';
 import '/models/osm_element_type.dart';
+import 'element_identifier.dart';
 
 part 'processed_element.dart';
 part 'processed_node.dart';
@@ -21,7 +22,7 @@ part 'proxy_element.dart';
 
 /// Two elements are considered equal if they have the same [id] and [type].
 
-abstract class BaseElement<T extends osmapi.OSMElement> {
+abstract class BaseElement<T extends osmapi.OSMElement> extends ElementIdentifier {
 
   /// Do not manipulate this object except on upload.
 
@@ -29,8 +30,10 @@ abstract class BaseElement<T extends osmapi.OSMElement> {
 
   BaseElement(this._osmElement);
 
+  @override
   int get id => _osmElement.id;
 
+  @override
   osmapi.OSMElementType get type => _osmElement.type;
 
   /// Returns the special [OSMElementType] which makes distinguishes between closed and open ways.
@@ -58,18 +61,4 @@ abstract class BaseElement<T extends osmapi.OSMElement> {
   /// Check whether the underlying OSM element equals the given element.
 
   bool isOriginal(osmapi.OSMElement element) => _osmElement == element;
-
-  /// Two elements are considered equal if they have the same [id] and [type].
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is BaseElement<T> &&
-      other.id == id &&
-      other.type == type;
-  }
-
-  @override
-  int get hashCode => id.hashCode ^ type.hashCode;
 }
