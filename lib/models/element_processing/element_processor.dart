@@ -33,8 +33,10 @@ class OSMElementProcessor {
   /// Already existing element will be discarded.
   ///
   /// Elements whose geometry could not be calculated will **not be included**.
+  ///
+  /// Returns all newly added elements.
 
-  void add(OSMElementBundle elements) {
+  Iterable<ProcessedElement> add(OSMElementBundle elements) sync* {
     // convert to list so lazy iterable is evaluated
     final newNodes = _addNodes(elements.nodes)
       .toList(growable: false);
@@ -54,6 +56,8 @@ class OSMElementProcessor {
       .forEach((e) => _waysLookUp.remove(e.id));
     _calcGeometries(newRelations)
       .forEach((e) => _relationsLookUp.remove(e.id));
+
+    yield* newNodes; yield* newWays; yield* newRelations;
   }
 
   /// Fast way to get an element by it's type and id.

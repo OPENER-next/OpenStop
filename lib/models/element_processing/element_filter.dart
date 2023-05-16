@@ -8,6 +8,9 @@ abstract class ElementFilter {
 
   Iterable<ProcessedElement> filter(Iterable<ProcessedElement> elements) =>
     elements.where(matches);
+
+  Stream<ProcessedElement> asyncFilter(Stream<ProcessedElement> elements) =>
+    elements.where(matches);
 }
 
 
