@@ -1767,7 +1767,7 @@
          "name": "Treppenlift",
          "text": "Gibt es an der Treppe einen Treppenlift für Rollstuhlfahrende?",
          "image": [
-            "assets/images/questions/2090a.jpg"
+            "assets/images/questions/steps_wheelchair_lift.jpg"
          ]
       },
       "answer": {
@@ -1802,7 +1802,7 @@
          "name": "Treppenlift-Tiefe",
          "text": "Wie tief ist die Stellfläche des Treppenlifts?",
          "image": [
-            "assets/images/questions/steps_wheelchair_lift.jpg"
+            "assets/images/questions/2093a.jpg"
          ],
          "description": "Als Tiefe wird die Distanz in Fahrtrichtung erfasst."
       },
