@@ -14,7 +14,7 @@ class StringInput extends QuestionInputWidget<StringAnswerDefinition, StringAnsw
 
   @override
   Widget build(BuildContext context) {
-    return _StringInputDelegate(definition, controller, key: ValueKey(definition));
+    return _StringInputDelegate(definition, controller);
   }
 }
 
@@ -28,9 +28,7 @@ class _StringInputDelegate extends StatefulWidget {
   final StringAnswerDefinition definition;
   final AnswerController<StringAnswer> controller;
 
-  const _StringInputDelegate(this.definition, this.controller, {
-    super.key
-  });
+  const _StringInputDelegate(this.definition, this.controller);
 
   @override
   State<_StringInputDelegate> createState() => _StringInputDelegateState();
@@ -48,13 +46,13 @@ class _StringInputDelegateState extends State<_StringInputDelegate> {
     // we don't actually need to listen to the controller
     final newValue = widget.controller.answer?.value ?? '';
     if (_textController.text != newValue) {
-      _textController.value = TextEditingValue(
-        text: newValue,
+      final selection = _textController.selection.end > newValue.length
         // required, otherwise the input loses focus when clearing it
         // even though the cursor is still displayed in the input and pressing a special character
         // like a dot (.) will refocus the input field for whatever reason
-        selection: TextSelection.collapsed(offset: newValue.length)
-      );
+        ? TextSelection.collapsed(offset: newValue.length)
+        : null;
+      _textController.value = _textController.value.copyWith(text: newValue, selection: selection);
     }
   }
 

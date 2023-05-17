@@ -14,7 +14,7 @@ class NumberInput extends QuestionInputWidget<NumberAnswerDefinition, NumberAnsw
 
   @override
   Widget build(BuildContext context) {
-    return _NumberInputDelegate(definition, controller, key: ValueKey(definition));
+    return _NumberInputDelegate(definition, controller);
   }
 }
 
@@ -28,9 +28,7 @@ class _NumberInputDelegate extends StatefulWidget {
   final NumberAnswerDefinition definition;
   final AnswerController<NumberAnswer> controller;
 
-  const _NumberInputDelegate(this.definition, this.controller, {
-    super.key
-  });
+  const _NumberInputDelegate(this.definition, this.controller);
 
   @override
   State<_NumberInputDelegate> createState() => _NumberInputDelegateState();
@@ -48,13 +46,13 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
     // we don't actually need to listen to the controller
     final newValue = widget.controller.answer?.value ?? '';
     if (_textController.text != newValue) {
-      _textController.value = TextEditingValue(
-        text: newValue,
+      final selection = _textController.selection.end > newValue.length
         // required, otherwise the input loses focus when clearing it
         // even though the cursor is still displayed in the input and pressing a special character
         // like a dot (.) will refocus the input field for whatever reason
-        selection: TextSelection.collapsed(offset: newValue.length)
-      );
+        ? TextSelection.collapsed(offset: newValue.length)
+        : null;
+      _textController.value = _textController.value.copyWith(text: newValue, selection: selection);
     }
   }
 
