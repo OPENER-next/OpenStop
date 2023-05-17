@@ -14,8 +14,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Run shared pre-build steps
-      uses: ./.github/actions/prebuild_app
+    - name: Run shared environment setup steps
+      uses: ./.github/actions/environment_setup
 
     - name: Run static analysis and style guideline checks
       run: flutter analyze
