@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '/view_models/osm_authenticated_user_provider.dart';
 
 class QuestionSummary extends StatelessWidget {
   final List<String> questions;
@@ -10,10 +8,13 @@ class QuestionSummary extends StatelessWidget {
 
   final void Function(int index)? onJump;
 
+  final String? userName;
+
   const QuestionSummary({
     required this.questions,
     required this.answers,
     this.onJump,
+    this.userName,
     Key? key
   })  :
     assert(questions.length == answers.length, 'Every question should have a corresponding answer.'),
@@ -27,9 +28,8 @@ class QuestionSummary extends StatelessWidget {
       fontWeight: FontWeight.bold
     );
 
-    final userProvider = context.watch<OSMAuthenticatedUserProvider>();
-    final userName = userProvider.isLoggedIn
-      ? '${userProvider.authenticatedUser!.name} '
+    final userNameSubstitution = userName != null
+      ? '$userName '
       : '';
 
     return Padding(
@@ -45,7 +45,7 @@ class QuestionSummary extends StatelessWidget {
               bottom: 10
             ),
             child: Text(
-              'Danke ${userName}für deine Antworten. \nBitte prüfe sie vor dem Hochladen nochmal.',
+              'Danke ${userNameSubstitution}für deine Antworten. \nBitte prüfe sie vor dem Hochladen nochmal.',
               style: textStyle
             )
           ),
