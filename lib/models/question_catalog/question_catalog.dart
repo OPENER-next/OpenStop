@@ -1,5 +1,7 @@
 import 'dart:collection';
 
+import 'package:collection/collection.dart';
+
 import 'question_definition.dart';
 
 /// This class resembles an iterable of questions.
@@ -17,12 +19,11 @@ class QuestionCatalog with IterableMixin<QuestionDefinition> {
   });
 
 
-  factory QuestionCatalog.fromJson(List<Map<String, dynamic>> json) {
-    final questionList = List<QuestionDefinition>.unmodifiable(
-      json.map<QuestionDefinition>(QuestionDefinition.fromJSON)
-    );
-    return QuestionCatalog(questionList);
-  }
+  QuestionCatalog.fromJson(List<Map<String, dynamic>> json) :
+    _questions = List<QuestionDefinition>.unmodifiable(
+      json.mapIndexed<QuestionDefinition>(QuestionDefinition.fromJSON),
+    ),
+    excludeProfessional = false;
 
 
   Iterable<QuestionDefinition> get reversed => _questions.reversed.where(_isIncluded);
