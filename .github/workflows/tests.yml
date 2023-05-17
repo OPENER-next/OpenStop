@@ -70,27 +70,15 @@ jobs:
         user.activate!'
       working-directory: ./osm-website
 
-    - name: Setup Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        channel: 'stable'
-
-    - name: Check Flutter version
-      run: flutter --version
-
     # App checkout, setup and final tests
     - name: Checkout App source
       uses: actions/checkout@v3
-      with:
-        path: app
 
-    - name: Install App dependencies
-      run: flutter pub get
-      working-directory: ./app
+    - name: Run shared environment setup steps
+      uses: ./.github/actions/environment_setup
 
     - name: Run tests
       run: flutter test
-      working-directory: ./app
 
     - name: Check OSM website logs
       if: failure()
