@@ -11,12 +11,11 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: subosito/flutter-action@v2
-      with:
-        channel: 'stable'
-    - run: flutter --version
+    - name: Checkout
+      uses: actions/checkout@v3
 
-    - run: flutter pub get
-    # Run static analysis and style guideline checks
-    - run: flutter analyze
+    - name: Run shared pre-build steps
+      uses: ./.github/actions/prebuild_app
+
+    - name: Run static analysis and style guideline checks
+      run: flutter analyze
