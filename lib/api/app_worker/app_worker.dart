@@ -70,7 +70,7 @@ class AppWorker extends ServiceWorker<AppWorkerMessage>
       case AppWorkerSubject.subscribeElements:
         return elementStream;
       case AppWorkerSubject.subscribeQuestionnaireChanges:
-        return activeQuestionnaireStateStream;
+        return activeQuestionnaireStream;
       default:
         throw UnimplementedError('The given subscription subject is not implemented');
     }

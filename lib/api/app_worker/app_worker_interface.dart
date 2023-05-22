@@ -75,8 +75,8 @@ class AppWorkerInterface extends Service implements Disposable {
 
   // questionnaire related functions \\
 
-  Stream<QuestionnaireState?> subscribeQuestionnaireChanges() {
-    return _worker.subscribe<QuestionnaireState?>(AppWorkerMessage(
+  Stream<QuestionnaireRepresentation?> subscribeQuestionnaireChanges() {
+    return _worker.subscribe<QuestionnaireRepresentation?>(AppWorkerMessage(
       AppWorkerSubject.subscribeQuestionnaireChanges,
     ));
   }

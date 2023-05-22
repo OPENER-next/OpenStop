@@ -4,7 +4,7 @@ import 'package:osm_api/osm_api.dart' as osmapi;
 ///
 /// Two elements are considered equal if they have the same [id] and [type].
 
-abstract class ElementIdentifier<T extends osmapi.OSMElement> {
+abstract class ElementIdentifier {
   const ElementIdentifier();
 
   int get id;
@@ -17,7 +17,7 @@ abstract class ElementIdentifier<T extends osmapi.OSMElement> {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is ElementIdentifier<T> &&
+    return other is ElementIdentifier &&
       other.id == id &&
       other.type == type;
   }

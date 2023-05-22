@@ -19,7 +19,7 @@ dependencies:
   latlong2: ^0.8.0
   vector_math: ^2.1.4
   polylabel: ^1.0.1
-  supercluster: ^2.1.0
+  supercluster: ^2.1.1
   animated_location_indicator:
     git:
       url: https://github.com/OPENER-next/animated_location_indicator.git

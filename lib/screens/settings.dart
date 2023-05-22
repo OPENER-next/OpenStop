@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide View;
 import 'package:flutter_mvvm_architecture/base.dart';
 
 import '/view_models/settings_view_model.dart';
