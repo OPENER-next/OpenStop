@@ -25,7 +25,8 @@ class UserAccountService extends Service {
     final authentication = await _osmAuthenticationApi.restore();
     if (authentication != null) {
       try {
-        _authenticatedUser.value = await _getAuthenticatedUser(authentication);
+        final user =  await _getAuthenticatedUser(authentication);
+        runInAction(() => _authenticatedUser.value = user);
       }
       catch (error) {
         // TODO: display or handle error
@@ -39,7 +40,7 @@ class UserAccountService extends Service {
 
   bool get isLoggedIn => _isLoggedIn.value;
 
-  late final _isLoggedOut = Computed(() => authenticatedUser != null);
+  late final _isLoggedOut = Computed(() => authenticatedUser == null);
 
   bool get isLoggedOut => _isLoggedOut.value;
 
@@ -51,7 +52,8 @@ class UserAccountService extends Service {
     if (isLoggedIn) return;
     try {
       final authentication = await _osmAuthenticationApi.login();
-      _authenticatedUser.value = await _getAuthenticatedUser(authentication);
+      final user =  await _getAuthenticatedUser(authentication);
+      runInAction(() => _authenticatedUser.value = user);
     }
     catch (error) {
       // TODO: display or handle error
@@ -64,7 +66,7 @@ class UserAccountService extends Service {
     if (isLoggedOut) return;
     try {
       await _osmAuthenticationApi.logout();
-      _authenticatedUser.value = null;
+      runInAction(() => _authenticatedUser.value = null);
     }
     catch (error) {
       // TODO: display or handle error

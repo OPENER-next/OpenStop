@@ -6,8 +6,8 @@ class LoginInfoHeader extends StatelessWidget {
 
   const LoginInfoHeader({
     this.onLoginTap,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class LoginInfoHeader extends StatelessWidget {
         top: MediaQuery.of(context).padding.top + 25,
         left: 15,
         right: 15,
-        bottom: 25
+        bottom: 25,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -29,7 +29,7 @@ class LoginInfoHeader extends StatelessWidget {
             'Melde dich mit deinem OpenStreetMap-Konto an, um deine Änderungen hochzuladen.',
             style: TextStyle(
               fontSize: 13,
-              color: theme.colorScheme.onPrimary
+              color: theme.colorScheme.onPrimary,
             ),
           ),
           const SizedBox(
@@ -42,10 +42,10 @@ class LoginInfoHeader extends StatelessWidget {
             ),
             onPressed: onLoginTap,
             label: const Text('Anmelden'),
-            icon: const Icon(Icons.login_rounded)
+            icon: const Icon(Icons.login_rounded),
           ),
         ],
-      )
+      ),
     );
   }
 }

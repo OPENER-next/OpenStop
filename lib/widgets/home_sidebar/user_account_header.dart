@@ -27,8 +27,8 @@ class UserAccountHeader extends StatelessWidget {
     this.borderWidth = 4,
     this.borderRadius = 12,
     this.buttonOffset = const Offset(10, 10),
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +100,7 @@ class UserAccountHeader extends StatelessWidget {
                   onTap: onLogoutTap,
                   icon: Icons.logout_rounded,
                 ),
-              )
+              ),
             ],
           ),
           Padding(
@@ -110,12 +110,12 @@ class UserAccountHeader extends StatelessWidget {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                color: theme.colorScheme.onPrimary
+                color: theme.colorScheme.onPrimary,
               ),
-            )
+            ),
           ),
         ],
-      )
+      ),
     );
   }
 }
@@ -130,8 +130,8 @@ class UserAccountActionButton extends StatelessWidget {
     required this.icon,
     this.onTap,
     this.tooltip,
-    Key? key
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +142,7 @@ class UserAccountActionButton extends StatelessWidget {
         side: BorderSide(
           width: 4,
           strokeAlign: BorderSide.strokeAlignOutside,
-          color: Theme.of(context).colorScheme.primary
+          color: Theme.of(context).colorScheme.primary,
         ),
       ),
       tooltip: tooltip,
@@ -158,8 +158,8 @@ class UserAccountImagePlaceholder extends StatelessWidget {
 
   const UserAccountImagePlaceholder({
     required this.size,
-    Key? key
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
