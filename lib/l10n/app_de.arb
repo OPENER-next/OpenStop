@@ -1,0 +1,197 @@
+{
+  "@@locale": "de",
+  "about_autoren": "Autoren",
+  "@about_autoren": {
+    "description": "Contributors"
+  },
+  "about_privacy_policy": "Datenschutzerklärung",
+  "@about_privacy_policy": {},
+  "about_idee": "Idee",
+  "@about_idee": {
+    "description": "Title"
+  },
+  "about_idee_author": "Technische Universität Chemnitz\\n \nProfessur Schaltkreis- und Systementwurf",
+  "@about_idee_author": {
+    "description": "Subtitle"
+  },
+  "about_lizenz": "Lizenz",
+  "@about_lizenz": {
+    "description": "License"
+  },
+  "about_lizenzen_pakete": "Lizenzen verwendeter Pakete",
+  "@about_lizenzen_pakete": {},
+  "about_mitwirkende": "{appName} Mitwirkende",
+  "@about_mitwirkende": {
+    "description": "Short description for the contributiors option",
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "about_quellcode": "Quellcode",
+  "@about_quellcode": {
+    "description": "Source Code"
+  },
+  "about_title": "Nächster Halt: Barrierefreiheit",
+  "@about_title": {
+    "description": "Motto"
+  },
+  "about_title2": "Über",
+  "@about_title2": {
+    "description": "Title"
+  },
+  "about_version": "Version",
+  "@about_version": {
+    "description": "Current version of the app"
+  },
+  "changes_comment_message": "Details zu {mapFeaturesString} im Haltestellenbereich {stopsString} hinzugefügt.",
+  "@changes_comment_message": {
+    "placeholders": {
+      "mapFeaturesString": {
+        "type": "String"
+      },
+      "stopsString": {
+        "type": "String"
+      }
+    }
+  },
+  "duration_input_label1": "Tage",
+  "@duration_input_label1": {},
+  "duration_input_label2": "Stunden",
+  "@duration_input_label2": {},
+  "duration_input_label3": "Minuten",
+  "@duration_input_label3": {},
+  "duration_input_label4": "Sekunden",
+  "@duration_input_label4": {},
+  "help_introduction": "Einführung erneut anschauen",
+  "@help_introduction": {},
+  "help_report_error": "Fehler melden",
+  "@help_report_error": {},
+  "help_title": "Hilfe",
+  "@help_title": {},
+  "home_sidebar_button1": "Von OSM abmelden?",
+  "@home_sidebar_button1": {},
+  "home_sidebar_button2": "Abbrechen",
+  "@home_sidebar_button2": {},
+  "home_sidebar_button3": "Abmelden",
+  "@home_sidebar_button3": {},
+  "home_sidebar_button4": "Anmelden",
+  "@home_sidebar_button4": {},
+  "home_sidebar_menu1": "Einstellungen",
+  "@home_sidebar_menu1": {},
+  "home_sidebar_menu2": "Über",
+  "@home_sidebar_menu2": {},
+  "home_sidebar_menu3": "Hilfe",
+  "@home_sidebar_menu3": {},
+  "home_sidebar_text1": "Wenn du dich abmeldest, kannst du keine Änderungen mehr zu OpenStreetMap hochladen.",
+  "@home_sidebar_text1": {},
+  "home_sidebar_text2": "Melde dich mit deinem OpenStreetMap-Konto an, um deine Änderungen hochzuladen.",
+  "@home_sidebar_text2": {},
+  "number_input_error_m": "Ungültige Zahl",
+  "@number_input_error_m": {},
+  "number_input_hint": "Hier eintragen...",
+  "@number_input_hint": {},
+  "number_input_limit1": "{nameString} muss kleiner sein als {max}.",
+  "@number_input_limit1": {
+    "placeholders": {
+      "nameString": {
+        "type": "num",
+        "format": "compact"
+      },
+      "max": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "number_input_limit2": "{nameString} muss größer sein als ${min}.",
+  "@number_input_limit2": {
+    "placeholders": {
+      "nameString": {
+        "type": "num",
+        "format": "compact"
+      },
+      "min": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "number_input_value": "Wert",
+  "@number_input_value": {},
+  "onboarding_button1": "So funktioniert''s",
+  "@onboarding_button1": {},
+  "onboarding_button2": "Mach'' ich",
+  "@onboarding_button2": {},
+  "onboarding_button3": "Okay, verstanden",
+  "@onboarding_button3": {},
+  "onboarding_button4": "Los geht''s",
+  "@onboarding_button4": {},
+  "onboarding_description1": "Wir freuen uns, dass du hier bist und deinen Teil zu einem besseren Nahverkehr beitragen willst.",
+  "@onboarding_description1": {},
+  "onboarding_description2": "Begib dich zu einer Haltestelle in deiner Umgebung, um ihren aktuellen Zustand zu erfassen.",
+  "@onboarding_description2": {},
+  "onboarding_description3": "Wähle zur Erfassung einen Marker in der App aus und beantworte die angezeigten Fragen.",
+  "@onboarding_description3": {},
+  "onboarding_descripton4": "Lade deine Antworten auf OpenStreetMap hoch und stelle sie so der ganzen Welt zur Verfügung.",
+  "@onboarding_descripton4": {},
+  "onboarding_title1": "Hey!",
+  "@onboarding_title1": {},
+  "onboarding_title2": "Schau''s dir an",
+  "@onboarding_title2": {},
+  "onboarding_title3": "Jetzt bist du gefragt",
+  "@onboarding_title3": {},
+  "onboarding_title4": "Sharing is caring",
+  "@onboarding_title4": {},
+  "privacy_policy_title": "Datenschutzerklärung",
+  "@privacy_policy_title": {},
+  "question_dialog_button1": "Abschließen",
+  "@question_dialog_button1": {},
+  "question_dialog_button2": "Weiter",
+  "@question_dialog_button2": {},
+  "question_dialog_button3": "Zurück",
+  "@question_dialog_button3": {},
+  "question_dialog_button4": "Überspringen",
+  "@question_dialog_button4": {},
+  "question_dialog_message1": "Änderungen erfolgreich übertragen.",
+  "@question_dialog_message1": {},
+  "question_dialog_message2": "Fehler: Keine Verbindung zum OSM-Server.",
+  "@question_dialog_message2": {},
+  "question_dialog_message3": "Unbekannter Fehler bei der Übertragung.",
+  "@question_dialog_message3": {},
+  "question_summary_message1": "Danke {userName} für deine Antworten. \\nBitte prüfe sie vor dem Hochladen nochmal.",
+  "@question_summary_message1": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "select_dialog_button1": "Abbrechen",
+  "@select_dialog_button1": {},
+  "select_dialog_button2": "Bestätigen",
+  "@select_dialog_button2": {},
+  "settings_subtitle1": "Aus Sicherheitsgründen nur für Fachpersonal bestimmt",
+  "@settings_subtitle1": {},
+  "settings_theme1": "Systemeinstellung",
+  "@settings_theme1": {},
+  "settings_theme2": "Hell",
+  "@settings_theme2": {},
+  "settings_theme3": "Dunkel",
+  "@settings_theme3": {},
+  "settings_theme4": "Unbekannt",
+  "@settings_theme4": {},
+  "settings_title": "Einstellungen",
+  "@settings_title": {},
+  "settings_title2": "Farbliche Darstellung der App",
+  "@settings_title2": {},
+  "settings_title3": "Design auswählen",
+  "@settings_title3": {},
+  "settings_title4": "Profi-Fragen anzeigen",
+  "@settings_title4": {},
+  "string_input_error_m": "Eingabe zu kurz",
+  "@string_input_error_m": {},
+  "string_input_hint": "Hier eintragen...",
+  "@string_input_hint": {}
+}
