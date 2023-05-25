@@ -70,7 +70,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     // then try to load its elements
     _reactionDisposers.add(when(
       (p0) => _unloadedStopAreas.isNotEmpty,
-      loadElements,
+      _onDebouncedMapEvent,
     ));
   }
 
@@ -441,7 +441,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   Future<void> loadElements() async {
     if (mapController.zoom >= 16) {
       // query elements
-      _appWorker.queryElements(mapController.bounds!);
+      return _appWorker.queryElements(mapController.bounds!);
     }
   }
 
@@ -544,7 +544,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   }
 
 
-  void _onDebouncedMapEvent(MapEvent? event) async {
+  void _onDebouncedMapEvent([MapEvent? event]) async {
     // store map location on map move events
     _preferencesService
       ..mapLocation = mapController.center
@@ -556,7 +556,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
     try {
       // query elements from loaded stop areas
-      loadElements();
+      await loadElements();
     }
     on DioError catch (e) {
       if (e.type == DioErrorType.connectionTimeout) {

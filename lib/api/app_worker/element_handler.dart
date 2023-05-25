@@ -52,18 +52,26 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
   Future<void> queryElements(LatLngBounds bounds) async {
     final closeStopAreas = getStopAreasByBounds(bounds);
     final mfCollection = await mapFeatureCollection;
+    final futures = <Future<void>>[];
 
     for (final stopArea in closeStopAreas) {
       final elements = _queryElementsByStopArea(stopArea);
       // filter elements
-      final filteredElements = _filterElements(_buildFiltersForStopArea(stopArea), elements);
+      final filteredElements = _filterElements(
+        _buildFiltersForStopArea(stopArea), elements,
+      );
       // construct element updates
       final elementUpdates = filteredElements.map((element) => ElementUpdate.derive(
         element, mfCollection, ElementChange.create,
       ));
       // add newly queried elements to stream
-      elementUpdates.forEach(_elementStreamController.add);
+      futures.add(
+        elementUpdates.forEach(_elementStreamController.add),
+      );
     }
+    // used to only complete this function once all queries and processing is completed
+    // and also to forward any errors (especially query errors)
+    await Future.wait(futures, eagerError: true);
   }
 
   Stream<ProcessedElement> _queryElementsByStopArea(StopArea stopArea) async* {
@@ -76,19 +84,19 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
         // query elements by stop areas bbox
         final elementBundle = await _osmElementQueryHandler.queryByBBox(stopArea.bounds);
         // process stop area elements
-        final loadedElements = _elementPool
+        final stopAreaElements = _elementPool
           .add(elementBundle)
           .map((record) => record.element);
         // on success add to loaded stop areas and mark accordingly
         _loadedStopAreas.add(stopArea);
-        yield* Stream.fromIterable(loadedElements);
-
-        if (await _stopAreasHasElements(stopArea)) {
+        if (stopAreaElements.isNotEmpty) {
           markStopArea(stopArea, StopAreaState.incomplete);
         }
         else {
           markStopArea(stopArea, StopAreaState.complete);
         }
+        // return new elements
+        yield* Stream.fromIterable(stopAreaElements);
       }
       catch(e) {
         markStopArea(stopArea, StopAreaState.unloaded);
@@ -115,7 +123,7 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
     );
   }
 
-  Future<bool> _stopAreasHasElements(StopArea stopArea) async {
+  Future<bool> stopAreasHasElements(StopArea stopArea) async {
     final filteredElements = _filterElements(
       _buildFiltersForStopArea(stopArea),
       Stream.fromIterable(_elementPool.elements),
