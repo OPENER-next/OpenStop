@@ -388,7 +388,6 @@
          "name": "Sitzplätze",
          "text": "Gibt es an der Haltestelle Sitzplätze?",
          "image": [
-            "assets/images/questions/platform_shelter_1.jpg",
             "assets/images/questions/platform_shelter_2.jpg",
             "assets/images/questions/platform_shelter_3.jpg"]
       },
