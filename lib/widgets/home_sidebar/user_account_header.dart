@@ -43,75 +43,84 @@ class UserAccountHeader extends StatelessWidget {
         right: 10,
         bottom: 15
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      // The outer Stack is necessary, because when using the inner Stack for the
+      // CompositedTransformFollower it will only be clickable in the bounds of
+      // the inner Stack. Also the expanding container (width: double.infinity)
+      // is required for this.
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          Stack(
+          Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               CompositedTransformTarget(
                 link: link,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primaryContainer,
-                    borderRadius: BorderRadius.circular(borderRadius),
-                    border: Border.all(
-                      width: borderWidth,
-                      color: theme.colorScheme.primaryContainer,
-                      strokeAlign: BorderSide.strokeAlignOutside,
-                    ),
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  child: imageUrl == null
-                    ? UserAccountImagePlaceholder(
-                      size: profilePictureSize,
-                    )
-                    : FadeInImage.memoryNetwork(
-                      placeholder: _transparentImage,
-                      image: imageUrl!,
-                      fit: BoxFit.cover,
-                      width: profilePictureSize,
-                      height: profilePictureSize,
-                      fadeInDuration: const Duration(milliseconds: 300),
-                      imageCacheHeight: profilePictureSize.toInt(),
-                      imageErrorBuilder:(context, error, stackTrace) {
-                        return UserAccountImagePlaceholder(
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.circular(borderRadius),
+                        border: Border.all(
+                          width: borderWidth,
+                          color: theme.colorScheme.primaryContainer,
+                          strokeAlign: BorderSide.strokeAlignOutside,
+                        ),
+                      ),
+                      clipBehavior: Clip.antiAlias,
+                      child: imageUrl == null
+                        ? UserAccountImagePlaceholder(
                           size: profilePictureSize,
-                        );
-                      },
+                        )
+                        : FadeInImage.memoryNetwork(
+                          placeholder: _transparentImage,
+                          image: imageUrl!,
+                          fit: BoxFit.cover,
+                          width: profilePictureSize,
+                          height: profilePictureSize,
+                          fadeInDuration: const Duration(milliseconds: 300),
+                          imageCacheHeight: profilePictureSize.toInt(),
+                          imageErrorBuilder:(context, error, stackTrace) {
+                            return UserAccountImagePlaceholder(
+                              size: profilePictureSize,
+                            );
+                          },
+                        ),
+                      ),
+                    Positioned.fill(
+                      child: Material(
+                        type: MaterialType.transparency,
+                        borderRadius: BorderRadius.circular(borderRadius),
+                        clipBehavior: Clip.antiAlias,
+                        child: InkWell(
+                          onTap: onProfileTap,
+                        ),
+                      ),
                     ),
+                  ],
                 ),
               ),
-              Positioned.fill(
-                child: Material(
-                  type: MaterialType.transparency,
-                  borderRadius: BorderRadius.circular(borderRadius),
-                  clipBehavior: Clip.antiAlias,
-                  child: InkWell(
-                    onTap: onProfileTap,
+              Padding(
+                padding: const EdgeInsets.only(top: 25, bottom: 10),
+                child: Text(
+                  name,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: theme.colorScheme.onPrimary,
                   ),
-                ),
-              ),
-              CompositedTransformFollower(
-                link: link,
-                targetAnchor: Alignment.bottomRight,
-                followerAnchor: Alignment.center,
-                child: UserAccountActionButton(
-                  onTap: onLogoutTap,
-                  icon: Icons.logout_rounded,
                 ),
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 25, bottom: 10),
-            child: Text(
-              name,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: theme.colorScheme.onPrimary,
-              ),
+          CompositedTransformFollower(
+            link: link,
+            targetAnchor: Alignment.bottomRight,
+            followerAnchor: Alignment.center,
+            child: UserAccountActionButton(
+              onTap: onLogoutTap,
+              icon: Icons.logout_rounded,
             ),
           ),
         ],
