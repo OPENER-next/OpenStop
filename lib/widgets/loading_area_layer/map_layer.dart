@@ -10,7 +10,7 @@ import 'package:latlong2/latlong.dart';
 /// General purpose map layer for rendering multiple widgets using the [MapLayerPositioned] widget.
 
 class MapLayer extends MultiChildRenderObjectWidget {
-  MapLayer({
+  const MapLayer({
     super.children,
     super.key,
   });

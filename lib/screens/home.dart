@@ -100,6 +100,7 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                       // "length" used to listen to changes
                       viewModel.completeStopAreas.length;
                       return CompletedAreaLayer(
+                        currentZoom: viewModel.mapZoomRound,
                         locations: viewModel.completeStopAreas.map((s) => s.stops.first.location),
                       );
                     },
