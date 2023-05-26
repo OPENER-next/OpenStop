@@ -2,29 +2,28 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:animated_marker_layer/animated_marker_layer.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:provider/provider.dart';
 import 'package:supercluster/supercluster.dart';
 
-import '/models/map_feature.dart';
-import '/utils/stream_utils.dart';
-import '/models/element_variants/base_element.dart';
-import '/models/map_feature_collection.dart';
-import '/view_models/questionnaire_provider.dart';
+import '/api/app_worker/element_handler.dart';
 import '/widgets/osm_element_layer/osm_element_marker.dart';
 
 
 class OsmElementLayer extends StatefulWidget {
-  final Iterable<ProcessedElement> elements;
 
-  final void Function(ProcessedElement osmElement)? onOsmElementTap;
+  final Stream<ElementUpdate> elements;
+
+  final ElementRepresentation? selectedElement;
+
+  final void Function(ElementRepresentation osmElement)? onOsmElementTap;
 
   /// The maximum shift in duration between different markers.
 
   final Duration durationOffsetRange;
+
+  /// The current zoom level.
+
+  final num currentZoom;
 
   /// The lowest zoom level on which the layer is still visible.
 
@@ -32,6 +31,8 @@ class OsmElementLayer extends StatefulWidget {
 
   const OsmElementLayer({
     required this.elements,
+    required this.currentZoom,
+    this.selectedElement,
     this.onOsmElementTap,
     this.durationOffsetRange = const Duration(milliseconds: 300),
     this.zoomLowerLimit = 16,
@@ -43,144 +44,139 @@ class OsmElementLayer extends StatefulWidget {
 }
 
 class _OsmElementLayerState extends State<OsmElementLayer> {
-  SuperclusterImmutable<ProcessedElement>? _supercluster;
+  StreamSubscription<ElementUpdate>? _streamSubscription;
 
-  Stream<int>? _zoomLevelStream;
+  late final _superCluster = SuperclusterMutable<ElementRepresentation>(
+    getX: (p) => p.geometry.center.longitude,
+    getY: (p) => p.geometry.center.latitude,
+    minZoom: widget.zoomLowerLimit,
+    maxZoom: 20,
+    radius: 120,
+    extent: 512,
+    nodeSize: 64,
+    extractClusterData: (customMapPoint) => _ClusterLeafs([customMapPoint])
+  );
 
   @override
   void initState() {
     super.initState();
-
-    compute(_cluster, widget.elements.toList()).then(
-     (value) {
-        setState(() => _supercluster = value);
-      }
-    );
+    _streamSubscription = widget.elements.listen(_handleElementChange);
   }
 
   @override
   void didUpdateWidget(covariant OsmElementLayer oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    compute(_cluster, widget.elements.toList()).then(
-      (value) {
-        setState(() => _supercluster = value);
-      }
-    );
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    if (_zoomLevelStream == null) {
-      final mapController = context.read<MapController>();
-      _zoomLevelStream = mapController.mapEventStream
-        .whereType<MapEventWithMove>()
-        // some simple predictive zoom rounding
-        // when zooming out always floor the current zoom, when zooming in round it
-        // so markers get shown midway on zooming in but immediately hidden on zooming out
-        .map((event) {
-          return event.targetZoom < event.zoom
-            ? event.targetZoom.floor()
-            : event.targetZoom.round();
-        })
-        .transform(ComparePreviousTransformer(
-          (previous, current) => previous != current
-        ));
+    if (widget.elements != oldWidget.elements) {
+      _streamSubscription?.cancel();
+      _streamSubscription = widget.elements.listen(_handleElementChange);
     }
   }
 
-
-  static SuperclusterImmutable<ProcessedElement> _cluster(List<ProcessedElement> elements) {
-    return SuperclusterImmutable<ProcessedElement>(
-      getX: (p) => p.geometry.center.longitude,
-      getY: (p) => p.geometry.center.latitude,
-      minZoom: 0,
-      maxZoom: 20,
-      radius: 120,
-      extent: 512,
-      nodeSize: 64,
-      extractClusterData: (customMapPoint) => _ClusterLeafs([customMapPoint])
-    )..load(elements);
+  void _handleElementChange(ElementUpdate change) {
+    setState(() {
+      switch (change.change) {
+        case ElementChange.create:
+          // filter potential duplicated elements from overlapping areas
+          if (!_superCluster.contains(change.element)) {
+            _superCluster.insert(change.element);
+          }
+        break;
+        case ElementChange.update:
+          _superCluster.modifyPointData(change.element, change.element);
+        break;
+        case ElementChange.remove:
+          _superCluster.remove(change.element);
+        break;
+      }
+    });
   }
 
+  @override
+  void dispose() {
+    _streamSubscription?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<int>(
-      stream: _zoomLevelStream,
-      initialData: 0,
-      builder: (context, snapshot) {
-        final zoomLevel = snapshot.requireData;
-        final visibleMarkers = <AnimatedMarker>[];
-        final suppressedMarkers = <AnimatedMarker>[];
-        final questionnaireProvider = context.watch<QuestionnaireProvider>();
-        final mapFeatureCollection = context.watch<MapFeatureCollection>();
+    final visibleMarkers = <AnimatedMarker>[];
+    final suppressedMarkers = <AnimatedMarker>[];
 
-        if (_supercluster != null && zoomLevel >= widget.zoomLowerLimit) {
-          final clusters = _supercluster!.search(-180, -85, 180, 85, zoomLevel);
-          var activeMarkerFound = false;
+    if (widget.currentZoom >= widget.zoomLowerLimit) {
+      final clusters = _superCluster.search(-180, -85, 180, 85, widget.currentZoom.toInt());
+      var activeMarkerFound = false;
 
-          for (final cluster in clusters) {
-            final elements = _elementsFromCluster(cluster).iterator;
+      for (final cluster in clusters) {
+        // get elements from cluster
+        final elements = _elementsFromCluster(cluster).iterator;
 
-            if (questionnaireProvider.isOpen) {
-              while(!activeMarkerFound && elements.moveNext()) {
-                if (questionnaireProvider.workingElement == elements.current) {
-                  visibleMarkers.add(
-                    // avoid calling getMatchingFeature on every build because it can get expensive
-                    _createMarker(elements.current, mapFeatureCollection.getMatchingFeature(elements.current))
-                  );
-                  activeMarkerFound = true;
-                }
-                else {
-                  suppressedMarkers.add(_createMinimizedMarker(elements.current));
-                }
-              }
+        if (widget.selectedElement != null) {
+          while(!activeMarkerFound && elements.moveNext()) {
+            if (widget.selectedElement == elements.current) {
+              visibleMarkers.add(
+                _createMarker(elements.current)
+              );
+              activeMarkerFound = true;
             }
             else {
-              elements.moveNext();
-              // always show the first element as a marker and not placeholder
-              visibleMarkers.add(
-                // avoid calling getMatchingFeature on every build because it can get expensive
-                _createMarker(elements.current, mapFeatureCollection.getMatchingFeature(elements.current))
-              );
-            }
-            while(elements.moveNext()) {
               suppressedMarkers.add(_createMinimizedMarker(elements.current));
             }
           }
+          while(elements.moveNext()) {
+            suppressedMarkers.add(_createMinimizedMarker(elements.current));
+          }
         }
-
-        // hide layer when zooming out passing the lower zoom limit
-        return AnimatedSwitcher(
-          // instantly show the animated marker layer since the markers themselves will be animated in
-          duration: Duration.zero,
-          reverseDuration: const Duration(milliseconds: 300),
-          child: zoomLevel >= widget.zoomLowerLimit
-            ? Stack(
-              children: [
-                AnimatedMarkerLayer(
-                  markers: suppressedMarkers,
-                ),
-                AnimatedMarkerLayer(
-                  markers: visibleMarkers,
-                ),
-              ],
-            )
-            : null
-        );
+        else {
+          // loop over elements so that only the last one is a marker and not a placeholder
+          // this is required because the cluster update method changes the ordering
+          // which therefore affects which element is shown from the cluster.
+          // if we would always show the first one then it would be minimized after update since it becomes the last one
+          var hasNext = elements.moveNext();
+          while(hasNext) {
+            final current = elements.current;
+            if (elements.moveNext()) {
+              suppressedMarkers.add(
+                _createMinimizedMarker(current)
+              );
+            }
+            else {
+              visibleMarkers.add(
+                _createMarker(current),
+              );
+              hasNext = false;
+            }
+          }
+        }
       }
+    }
+
+    // hide layer when zooming out passing the lower zoom limit
+    return AnimatedSwitcher(
+      // instantly show the animated marker layer since the markers themselves will be animated in
+      duration: Duration.zero,
+      reverseDuration: const Duration(milliseconds: 300),
+      child: widget.currentZoom >= widget.zoomLowerLimit
+        ? Stack(
+          children: [
+            AnimatedMarkerLayer(
+              markers: suppressedMarkers,
+            ),
+            AnimatedMarkerLayer(
+              markers: visibleMarkers,
+            ),
+          ],
+        )
+        : null
     );
   }
 
 
-  Iterable<ProcessedElement> _elementsFromCluster(cluster) sync* {
-    if (cluster is ImmutableLayerCluster<ProcessedElement>) {
+  Iterable<ElementRepresentation> _elementsFromCluster(MutableLayerElement<ElementRepresentation> cluster) sync* {
+    if (cluster is MutableLayerCluster<ElementRepresentation>) {
       yield* (cluster.clusterData as _ClusterLeafs).elements;
     }
-    else if (cluster is ImmutableLayerPoint<ProcessedElement>) {
+    else if (cluster is MutableLayerPoint<ElementRepresentation>) {
       yield cluster.originalPoint;
     }
   }
@@ -195,12 +191,11 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
   }
 
 
-  AnimatedMarker _createMarker(ProcessedElement element, MapFeature? mapFeature) {
+  AnimatedMarker _createMarker(ElementRepresentation element) {
     // supply id as seed so we get the same delay for both marker types
     final seed = element.id;
     return _OsmElementMarker(
       element: element,
-      mapFeature: mapFeature,
       animateInDelay: _getRandomDelay(seed),
       builder: _markerBuilder
     );
@@ -209,9 +204,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 
   Widget _markerBuilder(BuildContext context, Animation<double> animation, AnimatedMarker marker) {
     marker as _OsmElementMarker;
-    final osmElement = marker.element;
-    final activeElement = context.watch<QuestionnaireProvider>().workingElement;
-    final isActive = activeElement == osmElement;
+    final isActive = widget.selectedElement == marker.element;
 
     return ScaleTransition(
       scale: animation,
@@ -220,14 +213,14 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       child: OsmElementMarker(
         onTap: () => widget.onOsmElementTap?.call(marker.element),
         active: isActive,
-        icon: marker.mapFeature?.icon ?? MdiIcons.help,
-        label: marker.mapFeature?.labelByElement(osmElement) ?? marker.mapFeature?.name ?? '',
+        icon: marker.element.icon,
+        label: marker.element.name,
       )
     );
   }
 
 
-  AnimatedMarker _createMinimizedMarker(ProcessedElement element) {
+  AnimatedMarker _createMinimizedMarker(ElementRepresentation element) {
     return AnimatedMarker(
       // use geo element as key, because osm element equality changes whenever its tags or version change
       // while geo elements only compare the OSM element type and id
@@ -264,17 +257,14 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 
 
 class _OsmElementMarker extends AnimatedMarker {
-  final ProcessedElement element;
-
-  final MapFeature? mapFeature;
+  final ElementRepresentation element;
 
   _OsmElementMarker({
     required this.element,
     required super.builder,
-    this.mapFeature,
     super.animateInDelay,
   }) : super(
-    // use processed element as key
+    // use ElementIdentifier as key
     // its equality doesn't change when its tags or version changes
     key: ValueKey(element),
     point: element.geometry.center,
@@ -288,7 +278,7 @@ class _OsmElementMarker extends AnimatedMarker {
 
 
 class _ClusterLeafs extends ClusterDataBase {
-  final List<ProcessedElement> elements;
+  final List<ElementRepresentation> elements;
 
   _ClusterLeafs(this.elements);
 
