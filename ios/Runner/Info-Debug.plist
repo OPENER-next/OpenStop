@@ -23,6 +23,8 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>OpenStop</string>
+	<key>CFBundleDisplayName</key>
+	<string>OpenStop</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

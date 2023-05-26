@@ -68,28 +68,6 @@ android {
             signingConfig keystorePropertiesFile.exists() ? signingConfigs.release : signingConfigs.debug
         }
     }
-
-    flavorDimensions "deploy"
-
-    productFlavors {
-        standard {
-            dimension "deploy"
-        }
-        // define a special fdroid flavor to pass an empty signing config
-        fdroid {
-            dimension "deploy"
-            signingConfig null
-        }
-    }
-
-    applicationVariants.all { variant ->
-        if (variant.getFlavorName() == "fdroid") {
-            // exclude propriatery Google Mobile Services (geolocator includes GMS)
-            // more details: https://github.com/Baseflow/flutter-geolocator/pull/1050
-            variant.getCompileConfiguration().exclude group: 'com.google.android.gms'
-            variant.getRuntimeConfiguration().exclude group: 'com.google.android.gms'
-        }
-    }
 }
 
 flutter {

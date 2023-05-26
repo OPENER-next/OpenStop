@@ -123,6 +123,7 @@ class OnboardingScreen extends View<OnboardingViewModel> {
                       scrollBehavior: const ScrollBehavior().copyWith(overscroll: false),
                       scrollDirection: Axis.horizontal,
                       controller: viewModel.controller,
+                      physics: const ClampingScrollPhysics(),
                       allowImplicitScrolling: true,
                       children: pages,
                     ),
