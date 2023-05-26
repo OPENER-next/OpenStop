@@ -114,6 +114,28 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
     return _elementPool.find(elementIdentifier.type, elementIdentifier.id);
   }
 
+  /// Send update events for a given element and its dependents.
+
+  Future<void> updateElementAndDependents(ProcessedElement element) async {
+    final mfCollection = await mapFeatureCollection;
+    final qCatalog = await questionCatalog;
+
+    final ElementChange change;
+    if (QuestionFilter(questionCatalog: qCatalog).matches(element)) {
+      change = ElementChange.update;
+    }
+    else {
+      change = ElementChange.remove;
+    }
+
+
+// TODO trigger reverse update element and dependent elements since new elements might match after an element got updated
+
+    [element]
+      .map((element) => ElementUpdate.derive(element, mfCollection, change))
+      .forEach(_elementStreamController.add);
+  }
+
   /// Finds a stop area a given element lies within.
 
   StopArea findCorrespondingStopArea(ProcessedElement element) {

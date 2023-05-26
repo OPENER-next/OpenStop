@@ -332,7 +332,6 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     }
   }
 
-
   /// Upload the changes made by this questionnaire with the current authenticated user.
 
   void submitQuestionnaire() async {
@@ -344,7 +343,9 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     // check if mounted to ensure context is valid
     if (_userAccountService.isLoggedIn && mounted) {
       try {
-        closeQuestionnaire();
+        // deselect element
+        runInAction(() => _selectedElement.value = null);
+        // this automatically closes the questionaire
         await _appWorker.uploadQuestionnaire(
           user: _userAccountService.authenticatedUser!,
           locale: Localizations.localeOf(context)
