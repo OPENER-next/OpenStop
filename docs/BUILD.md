@@ -35,7 +35,7 @@ To build the app for a specific platform (apk, appbundle, ios, web) in its ultim
 flutter build ${platform} --release --dart-define=THUNDERFOREST_API_KEY=${api key} --dart-define=IS_RELEASE=true [--flavor standard]
 ```
 
-The app uses a package to automatically generate icons for all plattforms. If you modify the corresponding entries under `flutter_icons:` in `pubspec.yaml` or replace the icon images, you have to execute the following command for the modifications to take effect:
+The app uses a package to automatically generate icons for all platforms. If you modify the corresponding entries under `flutter_icons:` in `pubspec.yaml` or replace the icon images, you have to execute the following command for the modifications to take effect:
 ```console
 flutter pub run flutter_launcher_icons
 ```

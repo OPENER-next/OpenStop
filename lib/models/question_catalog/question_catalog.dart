@@ -6,7 +6,7 @@ import 'question_definition.dart';
 
 class QuestionCatalog with IterableMixin<QuestionDefinition> {
 
-  /// Wether professional questions should be excluded from this catalog or not.
+  /// Whether professional questions should be excluded from this catalog or not.
 
   final bool excludeProfessional;
 

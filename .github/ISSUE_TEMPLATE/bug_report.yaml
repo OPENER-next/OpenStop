@@ -14,7 +14,7 @@ body:
       description: >-
         Describe the issue you are experiencing here. Tell us what you were trying to do and what happened.
 
-        Provide a clear and reproducable description of the problem.
+        Provide a clear and reproducible description of the problem.
   - type: markdown
     attributes:
       value: |
