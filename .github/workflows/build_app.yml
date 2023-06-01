@@ -73,7 +73,7 @@ jobs:
 
       - name: Find latest android build tools apksigner path
         run: |
-          APKSIGNER=$(find $ANDROID_SDK_ROOT/build-tools -name apksigner | sort -r | head -n 1)
+          APKSIGNER=$(find $ANDROID_SDK_ROOT/build-tools -name apksigner | sort | tail -n 1)
           echo $APKSIGNER
           echo "APKSIGNER=$APKSIGNER" >> "$GITHUB_ENV"
 
