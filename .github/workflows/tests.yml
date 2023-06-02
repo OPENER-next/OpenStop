@@ -77,9 +77,7 @@ jobs:
         path: app
 
     - name: Run shared environment setup steps
-      uses: ./.github/actions/environment_setup
-      with:
-        path: app
+      uses: ./app/.github/actions/environment_setup
 
     - name: Run tests
       run: flutter test
