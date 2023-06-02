@@ -137,6 +137,13 @@ class AppWorkerInterface extends Service implements Disposable {
     ));
   }
 
+  Future<void> updateQuestionCatalogPreferences({required bool excludeProfessional}) {
+    return _worker.send<void>(AppWorkerMessage(
+      AppWorkerSubject.updateQuestionCatalogPreferences,
+      excludeProfessional,
+    ));
+  }
+
   /// Close the service worker when un-registering this service.
 
   @override

@@ -90,7 +90,7 @@ class Questionnaire {
   }
 
 
-  _insertMatchingEntries({ int? afterIndex }) {
+  void _insertMatchingEntries({ int? afterIndex }) {
     afterIndex ??= _activeIndex;
     // insert questions in reverse so questions that follow next in the catalog
     // also follow next in the questionnaire

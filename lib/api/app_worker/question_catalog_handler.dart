@@ -16,5 +16,17 @@ mixin QuestionCatalogHandler<M> on ServiceWorker<M> {
     _completer.complete(QuestionCatalog.fromJson(jsonData));
   }
 
-  final questionCatalog = _completer.future;
+  var _questionCatalog = _completer.future;
+
+  Future<QuestionCatalog> get questionCatalog => _questionCatalog;
+
+  /// Note: currently this won't update any existing questionnaires.
+  /// Only the creation of subsequent questionnaires will be affected by this.
+
+  Future<void> updateQuestionCatalogPreferences({required bool excludeProfessional}) async {
+    final qc = await _questionCatalog;
+    _questionCatalog = Future.value(
+      qc.copyWith(excludeProfessional: excludeProfessional),
+    );
+  }
 }

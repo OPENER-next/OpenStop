@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -35,6 +36,12 @@ Future <void> main() async {
     rootBundle.load('assets/datasets/map_feature_collection.json'),
     rootBundle.load('assets/datasets/question_catalog.json'),
   ]).then(GetIt.I.get<AppWorkerInterface>().passAssets);
+
+  reaction((p0) => GetIt.I.get<PreferencesService>().isProfessional, (value) {
+    GetIt.I.get<AppWorkerInterface>().updateQuestionCatalogPreferences(
+      excludeProfessional: !value,
+    );
+  }, fireImmediately: true);
 
   runApp(const MyApp());
 }
