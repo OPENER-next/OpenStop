@@ -78,7 +78,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       switch (change.change) {
         case ElementChange.create:
           // filter potential duplicated elements from overlapping areas
-          if (!_superCluster.contains(change.element)) {
+          if (!_superCluster.containsPoint(change.element)) {
             _superCluster.insert(change.element);
           }
         break;

@@ -10,6 +10,7 @@ import '/models/questionnaire_store.dart';
 import '/models/questionnaire.dart';
 import 'element_handler.dart';
 import 'question_catalog_handler.dart';
+import 'stop_area_handler.dart';
 
 /// Handles questions to element matching and allows uploading the made changes.
 
@@ -125,7 +126,14 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
       await element.publish(uploadAPI);
       discardQuestionnaire(questionnaire);
       // trigger element representation updates
-      updateElementAndDependents(element);
+      await updateElementAndDependents(element);
+      // update stop area state
+      if (await stopAreaHasQuestions(stopArea)) {
+        markStopArea(stopArea, StopAreaState.incomplete);
+      }
+      else {
+        markStopArea(stopArea, StopAreaState.complete);
+      }
     }
     finally {
       uploadAPI.dispose();

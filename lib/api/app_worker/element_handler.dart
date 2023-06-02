@@ -89,7 +89,8 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
           .map((record) => record.element);
         // on success add to loaded stop areas and mark accordingly
         _loadedStopAreas.add(stopArea);
-        if (stopAreaElements.isNotEmpty) {
+
+        if (await stopAreaHasQuestions(stopArea, stopAreaElements)) {
           markStopArea(stopArea, StopAreaState.incomplete);
         }
         else {
@@ -145,10 +146,10 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
     );
   }
 
-  Future<bool> stopAreasHasElements(StopArea stopArea) async {
+  Future<bool> stopAreaHasQuestions(StopArea stopArea, [Iterable<ProcessedElement>? elements]) async {
     final filteredElements = _filterElements(
       _buildFiltersForStopArea(stopArea),
-      Stream.fromIterable(_elementPool.elements),
+      Stream.fromIterable(elements ?? _elementPool.elements),
     );
     return !(await filteredElements.isEmpty);
   }
