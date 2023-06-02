@@ -73,12 +73,16 @@ jobs:
     # App checkout, setup and final tests
     - name: Checkout App source
       uses: actions/checkout@v3
+      with:
+        path: app
 
     - name: Run shared environment setup steps
       uses: ./.github/actions/environment_setup
+      working-directory: ./app
 
     - name: Run tests
       run: flutter test
+      working-directory: ./app
 
     - name: Check OSM website logs
       if: failure()
