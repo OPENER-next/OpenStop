@@ -1,9 +1,18 @@
 name: 'Setup app build'
 description: 'Runs pre-processing scripts shared by all app build jobs.'
-
+inputs:
+  path:
+    description: 'working directory'
+    required: false
+    default: '.'
+    
 runs:
   using: "composite"
   steps:
+    - name: Set working directory
+      shell: bash
+      run: cd $INPUT_PATH
+  
     - name: Install yq
       shell: bash
       run: pip3 install yq
