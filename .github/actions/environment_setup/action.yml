@@ -11,7 +11,7 @@ runs:
   steps:
     - name: Set working directory
       shell: bash
-      run: cd $INPUT_PATH
+      run: cd ${{ inputs.path }}
   
     - name: Install yq
       shell: bash
