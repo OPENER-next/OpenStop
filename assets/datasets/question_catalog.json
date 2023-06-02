@@ -476,7 +476,7 @@
          "input": [
             {
                "name": "Dynamische Fahrplan-Anzeige",
-               "image": "assets/images/questions/station_departures_board_digital.jpg",
+               "image": "assets/images/questions/station_departures_board_digital_1.jpg",
                "osm_tags": {
                   "departures_board": "realtime"
                }
@@ -1898,7 +1898,7 @@
          "name": "Fahrstuhl-Breite",
          "text": "Wie breit ist die Grundfläche des Fahrstuhls?",
          "image": [
-            "assets/images/questions/2094b.jpg"
+            "assets/images/questions/lift.jpg"
          ],
          "description": "Als Breite wird die Distanz parallel zur Tür erfasst. Dieser Wert ist u.a. dafür wichtig, damit Rollstuhlfahrende wissen, ob ihr Rollstuhl in den Fahrstuhl passt."
       },
