@@ -556,10 +556,10 @@ packages:
     dependency: transitive
     description:
       name: kdbush
-      sha256: "252302766ef8aa7297f9d9bbd6e009451346574af5aa0d28a24447ce020a1a69"
+      sha256: f48295414e5d6b28f49f3b446ecc2900f578ed700af53e68829777b8b253fb62
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.4"
+    version: "0.0.5"
   latlong2:
     dependency: "direct main"
     description:
@@ -977,10 +977,10 @@ packages:
     dependency: "direct main"
     description:
       name: supercluster
-      sha256: "77d37099cfc6325e871b3023a2f61bbbc67395c32e1f6983b4f0e55772af4a24"
+      sha256: b956072ae2e5f9430c227a0b6a5863b261abd6eb7488411c042bd620a203aab9
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.1"
+    version: "2.4.0"
   temaki_flutter:
     dependency: "direct main"
     description:
@@ -1208,4 +1208,4 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=3.0.0 <4.0.0"
-  flutter: ">=3.7.9"
+  flutter: ">=3.10.2"
