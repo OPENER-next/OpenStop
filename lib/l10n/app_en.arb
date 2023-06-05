@@ -1,139 +1,202 @@
 {
   "@@locale": "en",
-  "aboutAuthors": "Authors",
-  "@aboutAuthors": {},
-  "aboutPrivacyPolicy": "Privacy Policy",
-  "@aboutPrivacyPolicy": {},
-  "aboutIdea": "Thought by",
-  "@aboutIdea": {},
-  "aboutIdeaAuthor": "Chemnitz University of Technology\\n\nProfessorship for Circuit and System Design",
-  "@aboutIdeaAuthor": {},
-  "aboutLicense": "License",
-  "@aboutLicense": {},
-  "aboutLicensePackage": "Licenses of used packages",
-  "@aboutLicensePackage": {},
-  "aboutContributors": "{appName} contributors",
-  "@aboutContributors": {},
-  "aboutSourceCode": "Source code",
-  "@aboutSourceCode": {},
+  "aboutAuthorsLabel": "Authors",
+  "@aboutAuthorsLabel": {},
+  "aboutPrivacyPolicyLabel": "Privacy Policy",
+  "@aboutPrivacyPolicyLabel": {},
+  "aboutIdeaLabel": "Idea",
+  "@aboutIdeaLabel": {},
+  "aboutIdeaDescription": "Chemnitz University of Technology\nProfessorship Circuit and System Design",
+  "@aboutIdeaDescription": {},
+  "aboutLicenseLabel": "License",
+  "@aboutLicenseLabel": {},
+  "aboutLicensePackageLabel": "Licenses of used packages",
+  "@aboutLicensePackageLabel": {},
+  "aboutAuthorsDescription": "{appName} contributors",
+  "@aboutAuthorsDescription": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutSourceCodeLabel": "Source code",
+  "@aboutSourceCodeLabel": {},
   "aboutSlogan": "Next stop: Accessibility",
   "@aboutSlogan": {},
   "aboutTitle": "About",
   "@aboutTitle": {},
   "aboutVersion": "Version",
   "@aboutVersion": {},
-  "changesCommentMessage": "Added details to {mapFeaturesString} in stops area {stopsString}.",
-  "@changesCommentMessage": {},
-  "changesCommentConjunctionString": "and",
-  "@changesCommentConjunctionString": {},
-  "durationInputDays": "Days",
-  "@durationInputDays": {},
-  "durationInputHours": "Hours",
-  "@durationInputHours": {},
-  "durationInputMinutes": "Minutes",
-  "@durationInputMinutes": {},
-  "durationInputSeconds": "Seconds\n",
-  "@durationInputSeconds": {},
-  "helpIntroduction": "Watch the introduction again",
-  "@helpIntroduction": {},
+  "changesetCommentMessage": "Added details to {mapFeaturesString} in stops area {stopsString}.",
+  "@changesetCommentMessage": {
+    "placeholders": {
+      "mapFeaturesString": {
+        "type": "String"
+      },
+      "stopsString": {
+        "type": "String"
+      }
+    }
+  },
+  "changesetCommentConjunctionString": "and",
+  "@changesetCommentConjunctionString": {},
+  "durationInputDays": "{day, plural, =0 {Day} =1 {Day} other {Days}}",
+  "@durationInputDays": {
+    "placeholders": {
+      "day": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "durationInputHours": "{hour, plural, =0 {Hour} =1 {Hour} other {Hours}}",
+  "@durationInputHours": {
+    "placeholders": {
+      "hour": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "durationInputMinutes": "{minute, plural, =0 {Minute} =1 {Minute} other {Minutes}}",
+  "@durationInputMinutes": {
+    "placeholders": {
+      "minute": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "durationInputSeconds": "{second, plural, =0 {Second} =1 {Second} other {Seconds}}",
+  "@durationInputSeconds": {
+    "placeholders": {
+      "second": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "helpOnboardingLabel": "Watch the introduction again",
+  "@helpOnboardingLabel": {},
   "helpReportError": "Report an error",
   "@helpReportError": {},
-  "helpTitle": "Help",
-  "@helpTitle": {},
-  "homeSidebarLogOutOSM": "Log out of OSM?",
-  "@homeSidebarLogOutOSM": {},
-  "homeSidebarAbort": "Abort",
-  "@homeSidebarAbort": {},
-  "homeSidebarLogOut": "Log out",
-  "@homeSidebarLogOut": {},
-  "homeSidebarLogin": "Login",
-  "@homeSidebarLogin": {},
-  "homeSidebarSettings": "Settings",
-  "@homeSidebarSettings": {},
-  "homeSidebarAbout": "About",
-  "@homeSidebarAbout": {},
-  "homeSidebarHelp": "Help",
-  "@homeSidebarHelp": {},
-  "homeSidebarUserMessajeLogout": "If you log out, you can no longer upload changes to OpenStreetMap.",
-  "@homeSidebarUserMessajeLogout": {},
-  "homeSidebarUserMessajeLogin": "Login with your OpenStreetMap account to upload your changes.",
-  "@homeSidebarUserMessajeLogin": {},
-  "numberInputErrorM": "Invalid number",
-  "@numberInputErrorM": {},
+  "homeSidebarSettingsLabel": "Settings",
+  "@homeSidebarSettingsLabel": {},
+  "homeSidebarAboutLabel": "About",
+  "@homeSidebarAboutLabel": {},
+  "homeSidebarHelpLabel": "Help",
+  "@homeSidebarHelpLabel": {},
+  "logoutDialogDescription": "If you log out, you can no longer upload changes to OpenStreetMap.",
+  "@logoutDialogDescription": {},
+  "loginHint": "Log in with your OpenStreetMap account to upload your changes.",
+  "@loginHint": {},
+  "numberInputValidationError": "Invalid number",
+  "@numberInputValidationError": {},
   "numberInputHint": "Enter here...",
   "@numberInputHint": {},
-  "numberInputMaxLimit": "{nameString} must be less than {max}.",
-  "@numberInputMaxLimit": {},
-  "numberInputMinLimit": "{nameString} must be greater than {min}.",
-  "@numberInputMinLimit": {},
-  "numberInputValue": "Value",
-  "@numberInputValue": {},
-  "onboardingScrollButtonSection1": "Here's how it works",
-  "@onboardingScrollButtonSection1": {},
-  "onboardingScrollButtonSection2": "I'll do it",
-  "@onboardingScrollButtonSection2": {},
-  "onboardingScrollButtonSection3": "OK, got it",
-  "@onboardingScrollButtonSection3": {},
-  "onboardingScrollButtonSection4": "Here we go",
-  "@onboardingScrollButtonSection4": {},
-  "onboardingDescriptionSection1": "We are pleased that you are here and that you want to do your part to improve local transport.",
-  "@onboardingDescriptionSection1": {},
-  "onboardingDescriptionSection2": "Go to a nearby stop to see its current status.",
-  "@onboardingDescriptionSection2": {},
-  "onboardingDescriptionSection3": "Select a map marker in the app to capture and answer the questions that appear.",
-  "@onboardingDescriptionSection3": {},
-  "onboardingDescriptionSection4": "Upload your answers to OpenStreetMap and make them available to the whole world.",
-  "@onboardingDescriptionSection4": {},
-  "onboardingTitleSection1": "Hey!",
-  "@onboardingTitleSection1": {},
-  "onboardingTitleSection2": "Take a look",
-  "@onboardingTitleSection2": {},
-  "onboardingTitleSection3": "Now it's your turn",
-  "@onboardingTitleSection3": {},
-  "onboardingTitleSection4": "Sharing is caring",
-  "@onboardingTitleSection4": {},
+  "numberInputValidationErrorMax": "{nameString} must be less than {max}.",
+  "@numberInputValidationErrorMax": {
+    "placeholders": {
+      "nameString": {
+        "type": "num",
+        "format": "compact"
+      },
+      "max": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "numberInputValidationErrorMin": "{nameString} must be greater than {min}.",
+  "@numberInputValidationErrorMin": {
+    "placeholders": {
+      "nameString": {
+        "type": "num",
+        "format": "compact"
+      },
+      "min": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "numberInputPlaceholder": "Value",
+  "@numberInputPlaceholder": {},
+  "onboardingGreetingButton": "Here's how it works",
+  "@onboardingGreetingButton": {},
+  "onboardingSurveyingButton": "I'll do it",
+  "@onboardingSurveyingButton": {},
+  "onboardingAnsweringButton": "Okay, got it",
+  "@onboardingAnsweringButton": {},
+  "onboardingContributingButton": "Here we go",
+  "@onboardingContributingButton": {},
+  "onboardingGreetingDescription": "We're glad you're here and want to do your part to improve public transport.",
+  "@onboardingGreetingDescription": {},
+  "onboardingSurveyDescription": "Go to a nearby stop to survey its current state.",
+  "@onboardingSurveyDescription": {},
+  "onboardingAnsweringDescription": "In order to collect data select a marker in the app and answer the displayed questions.",
+  "@onboardingAnsweringDescription": {},
+  "onboardingContributingDescription": "Upload your answers to OpenStreetMap to share them with the whole world.",
+  "@onboardingContributingDescription": {},
+  "onboardingGreetingTitle": "Hey!",
+  "@onboardingGreetingTitle": {},
+  "onboardingSurveyTitle": "Take a look",
+  "@onboardingSurveyTitle": {},
+  "onboardingAnsweringTitle": "Now it's your turn",
+  "@onboardingAnsweringTitle": {},
+  "onboardingContributingTitle": "Sharing is caring",
+  "@onboardingContributingTitle": {},
   "privacyPolicyTitle": "Privacy Policy",
   "@privacyPolicyTitle": {},
-  "questionDialogButtonFinish": "Finish",
-  "@questionDialogButtonFinish": {},
-  "questionDialogContinue": "Continue",
-  "@questionDialogContinue": {},
-  "questionDialogButtonBack": "Back",
-  "@questionDialogButtonBack": {},
-  "questionDialogButtonSkip": "Skip",
-  "@questionDialogButtonSkip": {},
-  "questionDialogUserMessageSuccess": "Changes successfully applied.",
-  "@questionDialogUserMessageSuccess": {},
-  "questionDialogErrorMessageConnection": "Error: No connection to the OSM server.",
-  "@questionDialogErrorMessageConnection": {},
-  "questionDialogErrorMessageTransmission": "Unknown error during transmission",
-  "@questionDialogErrorMessageTransmission": {},
-  "questionSummaryUserMessageSuccess": "Thanks {userName} for your replies. \\nPlease check again before uploading.",
-  "@questionSummaryUserMessageSuccess": {},
-  "selectDialogButtonAbort": "Abort",
-  "@selectDialogButtonAbort": {},
-  "selectDialogButtonConfirm": "Confirm",
-  "@selectDialogButtonConfirm": {},
-  "settingsSubtitle": "For safety reasons only intended for advanced users",
-  "@settingsSubtitle": {},
+  "uploadMessageSuccess": "Changes successfully uploaded.",
+  "@uploadMessageSuccess": {},
+  "uploadMessageServerConnectionError": "Error: No connection to the OSM server.",
+  "@uploadMessageServerConnectionError": {},
+  "uploadMessageUnknownConnectionError": "Unknown error during transmission.",
+  "@uploadMessageUnknownConnectionError": {},
+  "questionnaireSummaryDescription": "Thank you {userName} for your answers.\nPlease verify them before uploading.",
+  "@questionnaireSummaryDescription": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsProfessionalQuestionsDescription": "For safety reasons only intended for professionals",
+  "@settingsProfessionalQuestionsDescription": {},
   "settingsThemeOptionSystem": "System Setting",
   "@settingsThemeOptionSystem": {},
   "settingsThemeOptionLight": "Light",
   "@settingsThemeOptionLight": {},
   "settingsThemeOptionDark": "Dark",
   "@settingsThemeOptionDark": {},
-  "settingsThemeOptionUnknown": "Unknown",
-  "@settingsThemeOptionUnknown": {},
-  "settingsMenuTitle": "Settings",
-  "@settingsMenuTitle": {},
-  "settingsMenuOptionColor": "Color Scheme of the App",
-  "@settingsMenuOptionColor": {},
-  "settingsTitleTheme": "Select theme",
-  "@settingsTitleTheme": {},
-  "settingsMenuOptionAdvanceQuestions": "Display Advanced Questions",
-  "@settingsMenuOptionAdvanceQuestions": {},
-  "stringInputErrorM": "Input too short",
-  "@stringInputErrorM": {},
-  "stringInputHint": "Enter here...",
-  "@stringInputHint": {}
+  "settingsThemeLabel": "Color Scheme of the App",
+  "@settingsThemeLabel": {},
+  "settingsThemeDialogTitle": "Select theme",
+  "@settingsThemeDialogTitle": {},
+  "settingsProfessionalQuestionsLabel": "Display Professional Questions",
+  "@settingsProfessionalQuestionsLabel": {},
+  "stringInputValidationErrorMin": "Input too short",
+  "@stringInputValidationErrorMin": {},
+  "stringInputPlaceholder": "Enter here...",
+  "@stringInputPlaceholder": {},
+  "logoutDialogTitle": "Log out of OSM?",
+  "@logoutDialogTitle": {},
+  "back": "Back",
+  "@back": {},
+  "cancel": "Cancel",
+  "@cancel": {},
+  "confirm": "Confirm",
+  "@confirm": {},
+  "finish": "Finish",
+  "@finish": {},
+  "login": "Log in",
+  "@login": {},
+  "logout": "Log out",
+  "@logout": {},
+  "next": "Continue",
+  "@next": {},
+  "skip": "Skip",
+  "@skip": {}
 }
