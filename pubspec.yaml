@@ -48,7 +48,7 @@ dependencies:
   flutter_markdown: ^0.6.14
   nvbw_open_data:
     path: ./dependencies/nvbw_open_data
-  intl: ^0.18.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
