@@ -1,0 +1,211 @@
+{
+  "@@locale": "en",
+  "aboutTitle": "About",
+  "@aboutTitle": {},
+  "aboutSlogan": "Next stop: Accessibility",
+  "@aboutSlogan": {},
+  "aboutVersion": "Version",
+  "@aboutVersion": {},
+  "aboutAuthorsLabel": "Authors",
+  "@aboutAuthorsLabel": {},
+  "aboutAuthorsDescription": "{appName} contributors",
+  "@aboutAuthorsDescription": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPrivacyPolicyLabel": "Privacy Policy",
+  "@aboutPrivacyPolicyLabel": {},
+  "aboutIdeaLabel": "Idea",
+  "@aboutIdeaLabel": {},
+  "aboutIdeaDescription": "Chemnitz University of Technology\nProfessorship Circuit and System Design",
+  "@aboutIdeaDescription": {},
+  "aboutLicenseLabel": "License",
+  "@aboutLicenseLabel": {},
+  "aboutLicensePackageLabel": "Licenses of used packages",
+  "@aboutLicensePackageLabel": {},
+  "aboutSourceCodeLabel": "Source code",
+  "@aboutSourceCodeLabel": {},
+
+  "helpTitle": "Help",
+  "@helpTitle": {},
+  "helpOnboardingLabel": "Watch the introduction again",
+  "@helpOnboardingLabel": {},
+  "helpReportError": "Report an error",
+  "@helpReportError": {},
+
+  "onboardingGreetingTitle": "Hey!",
+  "@onboardingGreetingTitle": {},
+  "onboardingGreetingDescription": "We're glad you're here and want to do your part to improve public transport.",
+  "@onboardingGreetingDescription": {},
+  "onboardingGreetingButton": "Here's how it works",
+  "@onboardingGreetingButton": {},
+
+  "onboardingSurveyTitle": "Take a look",
+  "@onboardingSurveyTitle": {},
+  "onboardingSurveyDescription": "Go to a nearby stop to survey its current state.",
+  "@onboardingSurveyDescription": {},
+  "onboardingSurveyingButton": "I'll do it",
+  "@onboardingSurveyingButton": {},
+
+  "onboardingAnsweringTitle": "Now it's your turn",
+  "@onboardingAnsweringTitle": {},
+  "onboardingAnsweringDescription": "In order to collect data select a marker in the app and answer the displayed questions.",
+  "@onboardingAnsweringDescription": {},
+  "onboardingAnsweringButton": "Okay, got it",
+  "@onboardingAnsweringButton": {},
+
+  "onboardingContributingTitle": "Sharing is caring",
+  "@onboardingContributingTitle": {},
+  "onboardingContributingDescription": "Upload your answers to OpenStreetMap to share them with the whole world.",
+  "@onboardingContributingDescription": {},
+  "onboardingContributingButton": "Here we go",
+  "@onboardingContributingButton": {},
+
+  "privacyPolicyTitle": "Privacy Policy",
+  "@privacyPolicyTitle": {},
+
+  "settingsTitle": "Settings",
+  "@settingsTitle": {},
+  "settingsProfessionalQuestionsLabel": "Display Professional Questions",
+  "@settingsProfessionalQuestionsLabel": {},
+  "settingsProfessionalQuestionsDescription": "For safety reasons only intended for professionals",
+  "@settingsProfessionalQuestionsDescription": {},
+  "settingsThemeLabel": "Color Scheme of the App",
+  "@settingsThemeLabel": {},
+  "settingsThemeDialogTitle": "Select theme",
+  "@settingsThemeDialogTitle": {},
+  "settingsThemeOptionSystem": "System Setting",
+  "@settingsThemeOptionSystem": {},
+  "settingsThemeOptionLight": "Light",
+  "@settingsThemeOptionLight": {},
+  "settingsThemeOptionDark": "Dark",
+  "@settingsThemeOptionDark": {},
+
+  "logoutDialogTitle": "Log out of OSM?",
+  "@logoutDialogTitle": {},
+  "logoutDialogDescription": "If you log out, you can no longer upload changes to OpenStreetMap.",
+  "@logoutDialogDescription": {},
+  "loginHint": "Log in with your OpenStreetMap account to upload your changes.",
+  "@loginHint": {},
+
+  "numberInputPlaceholder": "Enter here...",
+  "@numberInputPlaceholder": {},
+  "numberInputFallbackName": "Value",
+  "@numberInputFallbackName": {
+    "description": "Fallback value for nameString in numberInputValidationErrorMax"
+  },
+  "numberInputValidationError": "Invalid number",
+  "@numberInputValidationError": {},
+  "numberInputValidationErrorMax": "{nameString} must be less than {max}.",
+  "@numberInputValidationErrorMax": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "max": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "numberInputValidationErrorMin": "{nameString} must be greater than {min}.",
+  "@numberInputValidationErrorMin": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "min": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+
+  "stringInputPlaceholder": "Enter here...",
+  "@stringInputPlaceholder": {},
+  "stringInputValidationErrorMin": "Input too short",
+  "@stringInputValidationErrorMin": {},
+
+  "changesetCommentMessage": "Added details to {mapFeaturesString} in stop area {stopsString}.",
+  "@changesetCommentMessage": {
+    "placeholders": {
+      "mapFeaturesString": {
+        "type": "String"
+      },
+      "stopsString": {
+        "type": "String"
+      }
+    }
+  },
+  "changesetCommentConjunctionString": "and",
+  "@changesetCommentConjunctionString": {},
+  "uploadMessageSuccess": "Changes successfully uploaded.",
+  "@uploadMessageSuccess": {},
+  "uploadMessageServerConnectionError": "Error: No connection to the OSM server.",
+  "@uploadMessageServerConnectionError": {},
+  "uploadMessageUnknownConnectionError": "Unknown error during transmission.",
+  "@uploadMessageUnknownConnectionError": {},
+  "questionnaireSummaryMessage": "Thank you {userName} for your answers.\nPlease verify them before uploading.",
+  "@questionnaireSummaryMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "back": "Back",
+  "@back": {},
+  "next": "Next",
+  "@next": {},
+  "cancel": "Cancel",
+  "@cancel": {},
+  "confirm": "Confirm",
+  "@confirm": {},
+  "finish": "Finish",
+  "@finish": {},
+  "login": "Log in",
+  "@login": {},
+  "logout": "Log out",
+  "@logout": {},
+  "skip": "Skip",
+  "@skip": {},
+  "days": "{day, plural, =0 {Days} =1 {Day} other {Days}}",
+  "@days": {
+    "placeholders": {
+      "day": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "hours": "{hour, plural, =0 {Hours} =1 {Hour} other {Hours}}",
+  "@hours": {
+    "placeholders": {
+      "hour": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "minutes": "{minute, plural, =0 {Minutes} =1 {Minute} other {Minutes}}",
+  "@minutes": {
+    "placeholders": {
+      "minute": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "seconds": "{second, plural, =0 {Seconds} =1 {Second} other {Seconds}}",
+  "@seconds": {
+    "placeholders": {
+      "second": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  }
+}
