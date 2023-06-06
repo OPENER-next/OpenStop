@@ -93,7 +93,7 @@
 
   "numberInputPlaceholder": "Enter here...",
   "@numberInputPlaceholder": {},
-  "numberInputFallbackName": "Value",
+  "numberInputFallback": "Value",
   "@numberInputFallback": {
     "description": "Fallback value for nameString in numberInputValidationErrorMax"
   },
