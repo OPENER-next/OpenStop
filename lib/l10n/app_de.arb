@@ -87,8 +87,8 @@
 
   "numberInputPlaceholder": "Hier eintragen...",
   "@numberInputPlaceholder": {},
-  "numberInputFallback": "Wert",
-  "@numberInputFallback": {},
+  "numberInputFallbackName": "Wert",
+  "@numberInputFallbackName": {},
   "numberInputValidationError": "Ungültige Zahl",
   "@numberInputValidationError": {},
   "numberInputValidationErrorMax": "{nameString} muss kleiner sein als {max}.",
