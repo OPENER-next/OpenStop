@@ -1,6 +1,11 @@
 name: 'Setup app build'
 description: 'Runs pre-processing scripts shared by all app build jobs.'
-
+inputs:
+  path:
+    description: 'working directory'
+    required: false
+    default: '.'
+    
 runs:
   using: "composite"
   steps:
@@ -11,6 +16,7 @@ runs:
     - name: Read Flutter version from pubspec.yaml
       id: flutterVersion
       shell: bash
+      working-directory: ${{ inputs.path }}
       run: |
         echo "result=$(yq -r .environment.flutter pubspec.yaml)" >> $GITHUB_OUTPUT
 
@@ -26,8 +32,10 @@ runs:
 
     - name: Download pub dependencies
       shell: bash
+      working-directory: ${{ inputs.path }}
       run: flutter pub get
 
     - name: Run build_runner
       shell: bash
+      working-directory: ${{ inputs.path }}
       run: flutter pub run build_runner build --delete-conflicting-outputs

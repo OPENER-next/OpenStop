@@ -51,8 +51,7 @@ dependencies:
   get_it: ^7.6.0
   mobx: ^2.2.0
   flutter_mobx: ^2.0.6+5
-  nvbw_open_data:
-    path: ./dependencies/nvbw_open_data
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +73,7 @@ flutter:
     - assets/datasets/map_feature_collection.json
   # The following line ensures that the Material Icons font is included
   uses-material-design: true
+  generate: true
 
 flutter_icons:
   image_path_android: 'assets/images/app_icon_android.png'
