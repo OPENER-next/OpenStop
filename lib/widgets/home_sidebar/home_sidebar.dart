@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/view_models/home_view_model.dart';
 import '/commons/routes.dart';
@@ -45,17 +46,17 @@ class HomeSidebar extends ViewFragment<HomeViewModel> {
           ),
           CustomListTile(
             leadingIcon: Icons.settings,
-            title: 'Einstellungen',
+            title: AppLocalizations.of(context)!.settingsTitle,
             onTap: () => Navigator.push(context, Routes.settings),
           ),
           CustomListTile(
             leadingIcon: Icons.info,
-            title: 'Über',
+            title: AppLocalizations.of(context)!.aboutTitle,
             onTap: () => Navigator.push(context, Routes.about),
           ),
           CustomListTile(
             leadingIcon: Icons.help,
-            title: 'Hilfe',
+            title: AppLocalizations.of(context)!.helpTitle,
             onTap: () => Navigator.push(context, Routes.help),
           ),
         ],

@@ -2,6 +2,7 @@
 // required till https://github.com/dart-lang/sdk/issues/48401 is resolved
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/models/answer.dart';
 import '/models/question_catalog/answer_definition.dart';
@@ -26,7 +27,7 @@ class BoolInput extends QuestionInputWidget<BoolAnswerDefinition, BoolAnswer> {
         children: List.generate(2, (index) {
           final state = index == 0;
           return _BoolInputItem(
-            label:  Text(definition.input[index].name ?? (state ? 'Ja' : 'Nein')),
+            label:  Text(definition.input[index].name ?? (state ? AppLocalizations.of(context)!.yes : AppLocalizations.of(context)!.no)),
             onTap: () => _handleChange(state),
             active: controller.answer?.value == state,
             backgroundColor: theme.colorScheme.primary.withOpacity(0),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QuestionSummary extends StatelessWidget {
   final List<String> questions;
@@ -45,7 +45,7 @@ class QuestionSummary extends StatelessWidget {
               bottom: 10
             ),
             child: Text(
-              'Danke ${userNameSubstitution}für deine Antworten. \nBitte prüfe sie vor dem Hochladen nochmal.',
+              AppLocalizations.of(context)!.questionnaireSummaryMessage(userNameSubstitution),
               style: textStyle
             )
           ),

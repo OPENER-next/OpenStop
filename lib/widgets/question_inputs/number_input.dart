@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '/models/answer.dart';
 import '/models/question_catalog/answer_definition.dart';
 import 'question_input_widget.dart';
@@ -67,7 +67,7 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
       onChanged: _handleChange,
       textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
-        hintText: input.placeholder ?? 'Hier eintragen...',
+        hintText: input.placeholder ?? AppLocalizations.of(context)!.numberInputPlaceholder,
         suffixText: input.unit,
         suffixIcon: IconButton(
           onPressed: _handleChange,
@@ -87,20 +87,20 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
           if (!answer.isValid) {
             final number = double.tryParse( text.replaceAll(',', '.') );
 
-            final nameString = input.placeholder ?? 'Wert';
+            final nameString = input.placeholder ?? AppLocalizations.of(context)!.numberInputFallbackName;
             final unitString = input.unit != null
               ? ' ${input.unit}'
               : '';
 
             if (number != null) {
               if (input.max != null && number > input.max!) {
-                return '$nameString muss kleiner sein als ${input.max}$unitString.';
+                return AppLocalizations.of(context)!.numberInputValidationErrorMax(nameString, '${input.max}$unitString');
               }
               else if (input.min != null && number < input.min!) {
-                return '$nameString muss größer sein als ${input.min}$unitString.';
+                return AppLocalizations.of(context)!.numberInputValidationErrorMin(nameString, '${input.min}$unitString');
               }
             }
-            return 'Ungültige Zahl';
+            return AppLocalizations.of(context)!.numberInputValidationError;
           }
         }
         return null;

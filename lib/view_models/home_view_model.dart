@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart' hide Action, ProxyElement;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:flutter_mvvm_architecture/extras.dart';
@@ -240,11 +241,11 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
   void logout() async {
     final choice = await promptUserInput(
-      title: 'Von OSM abmelden?',
-      message: 'Wenn du dich abmeldest, kannst du keine Änderungen mehr zu OpenStreetMap hochladen.',
+      title: AppLocalizations.of(context)!.logoutDialogTitle,
+      message: AppLocalizations.of(context)!.logoutDialogDescription,
       choices: {
-        'Abmelden': true,
-        'Abbrechen': false,
+        AppLocalizations.of(context)!.logout: true,
+        AppLocalizations.of(context)!.cancel: false,
       },
       isDismissible: true,
     );
@@ -335,6 +336,8 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   /// Upload the changes made by this questionnaire with the current authenticated user.
 
   void submitQuestionnaire() async {
+    var appLocalizationC = AppLocalizations.of(context);
+
     if (_userAccountService.isLoggedOut) {
       // wait till the user login process finishes
       await _userAccountService.login();
@@ -350,14 +353,14 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
           user: _userAccountService.authenticatedUser!,
           locale: Localizations.localeOf(context)
         );
-        notifyUser('Änderungen erfolgreich übertragen.');
+        notifyUser(appLocalizationC!.uploadMessageSuccess);
       }
       on OSMConnectionException {
-        notifyUser('Fehler: Keine Verbindung zum OSM-Server.');
+        notifyUser(appLocalizationC!.uploadMessageServerConnectionError);
       }
       catch(e) {
         debugPrint(e.toString());
-        notifyUser('Unbekannter Fehler bei der Übertragung.');
+        notifyUser(appLocalizationC!.uploadMessageUnknownConnectionError);
       }
     }
   }
@@ -546,6 +549,8 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
 
   void _onDebouncedMapEvent([MapEvent? event]) async {
+     var appLocalizationC = AppLocalizations.of(context);
+
     // store map location on map move events
     _preferencesService
       ..mapLocation = mapController.center
@@ -561,19 +566,19 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     }
     on DioError catch (e) {
       if (e.type == DioErrorType.connectionTimeout) {
-        notifyUser('Fehler: Zeitüberschreitung bei der Server-Abfrage.');
+        notifyUser(appLocalizationC!.debouncedMapEventConnectionTimeoutError);
       }
       else if (e.type == DioErrorType.receiveTimeout) {
-        notifyUser('Fehler: Zeitüberschreitung beim Datenempfang.');
+        notifyUser(appLocalizationC!.debouncedMapEventReceiveTimeoutError);
       }
       else {
         debugPrint(e.toString());
-        notifyUser('Unbekannter Fehler bei der Server-Kommunikation.');
+        notifyUser(appLocalizationC!.debouncedMapEventUnknownServerCommunicationError);
       }
     }
     catch(e) {
       debugPrint(e.toString());
-      notifyUser('Unbekannter Fehler.');
+      notifyUser(appLocalizationC!.debouncedMapEventUnknownError);
     }
   }
 

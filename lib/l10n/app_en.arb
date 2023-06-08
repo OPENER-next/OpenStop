@@ -43,10 +43,10 @@
   "onboardingGreetingButton": "Here's how it works",
   "@onboardingGreetingButton": {},
 
-  "onboardingSurveyTitle": "Take a look",
-  "@onboardingSurveyTitle": {},
-  "onboardingSurveyDescription": "Go to a nearby stop to survey its current state.",
-  "@onboardingSurveyDescription": {},
+  "onboardingSurveyingTitle": "Take a look",
+  "@onboardingSurveyingTitle": {},
+  "onboardingSurveyingDescription": "Go to a nearby stop to survey its current state.",
+  "@onboardingSurveyingDescription": {},
   "onboardingSurveyingButton": "I'll do it",
   "@onboardingSurveyingButton": {},
 
@@ -106,8 +106,7 @@
         "type": "String"
       },
       "max": {
-        "type": "num",
-        "format": "compact"
+        "type": "String"
       }
     }
   },
@@ -118,8 +117,7 @@
         "type": "String"
       },
       "min": {
-        "type": "num",
-        "format": "compact"
+        "type": "String"
       }
     }
   },
@@ -148,6 +146,16 @@
   "@uploadMessageServerConnectionError": {},
   "uploadMessageUnknownConnectionError": "Unknown error during transmission.",
   "@uploadMessageUnknownConnectionError": {},
+
+  "debouncedMapEventConnectionTimeoutError": "Timeout for the connection to the server.",
+  "@debouncedMapEventConnectionTimeoutError": {},
+  "debouncedMapEventReceiveTimeoutError": "Error: Data reception timed out.",
+  "@debouncedMapEventReceiveTimeoutError": {},
+  "debouncedMapEventUnknownServerCommunicationError": "Unknown error during communication with the server.",
+  "@debouncedMapEventUnknownServerCommunicationError": {},
+  "debouncedMapEventUnknownError": "Unknown error.",
+  "@debouncedMapEventUnknownError": {},
+
   "questionnaireSummaryMessage": "Thank you {userName} for your answers.\nPlease verify them before uploading.",
   "@questionnaireSummaryMessage": {
     "placeholders": {
@@ -172,7 +180,11 @@
   "@logout": {},
   "skip": "Skip",
   "@skip": {},
-  "days": "{day, plural, =0 {Days} =1 {Day} other {Days}}",
+  "yes": "Yes",
+  "@yes": {},
+  "no": "No",
+  "@no": {},
+  "days": "{day, plural, =0 {0 Days} =1 {1 Day} other {{day} Days}}",
   "@days": {
     "placeholders": {
       "day": {
@@ -181,7 +193,7 @@
       }
     }
   },
-  "hours": "{hour, plural, =0 {Hours} =1 {Hour} other {Hours}}",
+  "hours": "{hour, plural, =0 {0 Hours} =1 {1 Hour} other {{hour} Hours}}",
   "@hours": {
     "placeholders": {
       "hour": {
@@ -190,7 +202,7 @@
       }
     }
   },
-  "minutes": "{minute, plural, =0 {Minutes} =1 {Minute} other {Minutes}}",
+  "minutes": "{minute, plural, =0 {0 Minutes} =1 {1 Minute} other {{minute} Minutes}}",
   "@minutes": {
     "placeholders": {
       "minute": {
@@ -199,7 +211,7 @@
       }
     }
   },
-  "seconds": "{second, plural, =0 {Seconds} =1 {Second} other {Seconds}}",
+  "seconds": "{second, plural, =0 {0 Seconds} =1 {1 Second} other {{second} Seconds}}",
   "@seconds": {
     "placeholders": {
       "second": {
@@ -207,5 +219,8 @@
         "format": "compact"
       }
     }
-  }
+  },
+
+  "osmCreditsText": "Data © OpenStreetMap-Contributors",
+  "@osmCreditsText": {}
 }

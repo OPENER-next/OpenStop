@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PrivacyPolicyScreen extends StatefulWidget {
   const PrivacyPolicyScreen({super.key});
@@ -17,7 +18,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Datenschutzerklärung'),
+        title: Text(AppLocalizations.of(context)!.aboutPrivacyPolicyLabel),
       ),
       body: Scrollbar(
         child: FutureBuilder<String>(

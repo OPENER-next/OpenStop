@@ -37,10 +37,10 @@
   "onboardingGreetingButton": "So funktioniert's",
   "@onboardingGreetingButton": {},
 
-  "onboardingSurveyTitle": "Schau's dir an",
-  "@onboardingSurveyTitle": {},
-  "onboardingSurveyDescription": "Begib dich zu einer Haltestelle in deiner Umgebung, um ihren aktuellen Zustand zu erfassen.",
-  "@onboardingSurveyDescription": {},
+  "onboardingSurveyingTitle": "Schau's dir an",
+  "@onboardingSurveyingTitle": {},
+  "onboardingSurveyingDescription": "Begib dich zu einer Haltestelle in deiner Umgebung, um ihren aktuellen Zustand zu erfassen.",
+  "@onboardingSurveyingDescription": {},
   "onboardingSurveyingButton": "Mach' ich",
   "@onboardingSurveyingButton": {},
 
@@ -111,6 +111,16 @@
   "@uploadMessageServerConnectionError": {},
   "uploadMessageUnknownConnectionError": "Unbekannter Fehler bei der Übertragung.",
   "@uploadMessageUnknownConnectionError": {},
+
+  "debouncedMapEventConnectionTimeoutError": "Fehler: Zeitüberschreitung bei der Server-Abfrage.",
+  "@debouncedMapEventConnectionTimeoutError": {},
+  "debouncedMapEventReceiveTimeoutError": "Fehler: Zeitüberschreitung beim Datenempfang.",
+  "@debouncedMapEventReceiveTimeoutError": {},
+  "debouncedMapEventUnknownServerCommunicationError": "Unbekannter Fehler bei der Server-Kommunikation.",
+  "@debouncedMapEventUnknownServerCommunicationError": {},
+  "debouncedMapEventUnknownError": "Unbekannter Fehler.",
+  "@debouncedMapEventUnknownError": {},
+
   "questionnaireSummaryMessage": "Danke {userName} für deine Antworten.\nBitte prüfe sie vor dem Hochladen nochmal.",
   "@questionnaireSummaryMessage": {},
 
@@ -130,12 +140,19 @@
   "@logout": {},
   "skip": "Überspringen",
   "@skip": {},
-  "days": "{day, plural, =0 {Tage} =1 {Tag} other {Tage}}",
+  "yes": "Ja",
+  "@yes": {},
+  "no": "Nein",
+  "@no": {},
+  "days": "{day, plural, =0 {0 Tage} =1 {1 Tag} other {{day} Tage}}",
   "@days": {},
-  "hours": "{hour, plural, =0 {Stunden} =1 {Stunde} other {Stunden}}",
+  "hours": "{hour, plural, =0 {0 Stunden} =1 {1 Stunde} other {{hour} Stunden}}",
   "@hours": {},
-  "minutes": "{minute, plural, =0 {Minuten} =1 {Minute} other {Minuten}}",
+  "minutes": "{minute, plural, =0 {0 Minuten} =1 {1 Minute} other {{minute} Minuten}}",
   "@minutes": {},
-  "seconds": "{second, plural, =0 {Sekunden} =1 {Sekunde} other {Sekunden}}",
-  "@seconds": {}
+  "seconds": "{second, plural, =0 {0 Sekunden} =1 {1 Sekunde} other {{second} Sekunden}}",
+  "@seconds": {},
+
+  "osmCreditsText": "Data © OpenStreetMap-Mitwirkende",
+  "@osmCreditsText": {}
 }

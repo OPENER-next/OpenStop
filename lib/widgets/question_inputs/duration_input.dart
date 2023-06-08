@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/models/answer.dart';
 import '/models/question_catalog/answer_definition.dart';
@@ -50,14 +51,14 @@ class DurationInput extends QuestionInputWidget<DurationAnswerDefinition, Durati
       height: 150,
       child: Row(
         children: _intersperse(
-          _children,
+          _children (context),
           const VerticalDivider(color: Colors.transparent),
         ).toList(),
       ),
     );
   }
 
-  Iterable<Widget> get _children sync* {
+  Iterable<Widget> _children (BuildContext context) sync* {
     if (definition.input.daysStepSize > 0) {
       yield Flexible(
         child: TimeScroller(
