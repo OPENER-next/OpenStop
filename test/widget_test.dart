@@ -5,10 +5,10 @@ import 'package:get_it/get_it.dart';
 import 'package:nock/nock.dart';
 import 'package:open_stop/api/app_worker/app_worker_interface.dart';
 import 'package:open_stop/api/preferences_service.dart';
+import 'package:open_stop/main.dart';
 import 'package:open_stop/screens/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'package:open_stop/main.dart';
+import 'package:stack_trace/stack_trace.dart';
 
 const overpassReply = {
   'version': 0.6,
@@ -27,6 +27,18 @@ void main() {
   setUpAll((){
     nock.defaultBase = '';
     nock.init();
+
+    // required to prevent: https://stackoverflow.com/questions/73591769
+    FlutterError.demangleStackTrace = (stack) {
+      // Trace and Chain are classes in package:stack_trace
+      if (stack is Trace) {
+        return stack.vmTrace;
+      }
+      if (stack is Chain) {
+        return stack.toTrace().vmTrace;
+      }
+      return stack;
+    };
   });
 
 
