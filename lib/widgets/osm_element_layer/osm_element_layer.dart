@@ -75,19 +75,14 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 
   void _handleElementChange(ElementUpdate change) {
     setState(() {
-      switch (change.change) {
-        case ElementChange.create:
-          // filter potential duplicated elements from overlapping areas
-          if (!_superCluster.containsPoint(change.element)) {
-            _superCluster.insert(change.element);
-          }
-        break;
-        case ElementChange.update:
-          _superCluster.modifyPointData(change.element, change.element);
-        break;
-        case ElementChange.remove:
-          _superCluster.remove(change.element);
-        break;
+      if (!change.matches) {
+        _superCluster.remove(change.element);
+      }
+      else if (_superCluster.containsPoint(change.element)) {
+        _superCluster.modifyPointData(change.element, change.element);
+      }
+      else {
+        _superCluster.insert(change.element);
       }
     });
   }

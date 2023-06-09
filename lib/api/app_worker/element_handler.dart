@@ -1,13 +1,16 @@
 import 'dart:async';
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/widgets.dart' hide ProxyElement;
 import 'package:flutter_map/flutter_map.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:osm_api/osm_api.dart' as osmapi;
 
+import '/models/affected_elements_detector.dart';
 import '/models/element_variants/element_identifier.dart';
 import '/models/map_feature_collection.dart';
 import '/api/osm_element_query_api.dart';
+import '/api/osm_element_upload_api.dart';
+import '/api/app_worker/questionnaire_handler.dart';
 import '/models/element_processing/element_filter.dart';
 import '/models/element_processing/element_processor.dart';
 import '/models/element_variants/base_element.dart';
@@ -62,7 +65,7 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
       );
       // construct element updates
       final elementUpdates = filteredElements.map((element) => ElementUpdate.derive(
-        element, mfCollection, ElementChange.create,
+        element, mfCollection, matches: true,
       ));
       // add newly queried elements to stream
       futures.add(
@@ -115,26 +118,60 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
     return _elementPool.find(elementIdentifier.type, elementIdentifier.id);
   }
 
-  /// Send update events for a given element and its dependents.
 
-  Future<void> updateElementAndDependents(ProcessedElement element) async {
+  /// Uploads a given element.
+  /// Sends update events for the given element and its dependents.
+  ///
+  /// Returns true if upload was successful, otherwise false.
+
+  Future<bool> uploadElement(ProxyElement element, ElementUploadData uploadData) async {
     final mfCollection = await mapFeatureCollection;
     final qCatalog = await questionCatalog;
 
-    final ElementChange change;
-    if (QuestionFilter(questionCatalog: qCatalog).matches(element)) {
-      change = ElementChange.update;
+    final stopArea = findCorrespondingStopArea(element);
+
+    // upload with first StopArea occurrence
+    final uploadAPI = OSMElementUploadAPI(
+      mapFeatureCollection: await mapFeatureCollection,
+      stopArea: stopArea,
+      authenticatedUser: uploadData.user,
+      changesetLocale: uploadData.locale.languageCode,
+    );
+
+    try {
+      // upload element and detect elements that are affected by this change
+      final diffDetector = AffectedElementsDetector(questionCatalog: qCatalog);
+      diffDetector.takeSnapshot(element.original);
+      await element.publish(uploadAPI);
+      final affectedElements = diffDetector.takeSnapshot(element.original);
+
+      // update stop area state
+      if (await stopAreaHasQuestions(stopArea)) {
+        markStopArea(stopArea, StopAreaState.incomplete);
+      }
+      else {
+        markStopArea(stopArea, StopAreaState.complete);
+      }
+
+      affectedElements
+        // add the element itself to the affected elements
+        .followedBy([AffectedElementsRecord(
+          element: element.original,
+          matches: QuestionFilter(questionCatalog: qCatalog).matches(element),
+        )])
+        // send update messages to the main thread
+        .map((record) => ElementUpdate.derive(record.element, mfCollection, matches: record.matches))
+        .forEach(_elementStreamController.add);
+
+      return true;
     }
-    else {
-      change = ElementChange.remove;
+    catch(e) {
+      return false;
     }
-
-
-// TODO trigger reverse update element and dependent elements since new elements might match after an element got updated
-
-    [element]
-      .map((element) => ElementUpdate.derive(element, mfCollection, change))
-      .forEach(_elementStreamController.add);
+    // this is always executed, before the returns
+    finally {
+      uploadAPI.dispose();
+    }
   }
 
   /// Finds a stop area a given element lies within.
@@ -205,20 +242,16 @@ class ElementRepresentation extends ElementIdentifier {
   }
 }
 
-enum ElementChange {
-  create, update, remove
-}
-
 class ElementUpdate {
   final ElementRepresentation element;
-  final ElementChange change;
+  final bool matches;
 
   const ElementUpdate({
     required this.element,
-    required this.change,
+    required this.matches,
   });
 
-  ElementUpdate.derive(ProcessedElement element, MapFeatureCollection mapFeatureCollection, this.change) :
+  ElementUpdate.derive(ProcessedElement element, MapFeatureCollection mapFeatureCollection, {required this.matches}) :
     element = ElementRepresentation.derive(
       element, mapFeatureCollection,
     );
