@@ -10,7 +10,7 @@ import 'package:open_stop/models/map_feature_collection.dart';
 import 'package:open_stop/models/element_conditions/element_condition.dart';
 import 'package:open_stop/models/osm_element_type.dart' as app;
 import 'package:open_stop/models/stop_area_processing/stop.dart';
-import 'package:open_stop/models//stop_area_processing/stop_area.dart';
+import 'package:open_stop/models/stop_area_processing/stop_area.dart';
 import 'package:osm_api/osm_api.dart';
 
 void main() async {
