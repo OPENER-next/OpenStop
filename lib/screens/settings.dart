@@ -14,14 +14,16 @@ class SettingsScreen extends View<SettingsViewModel> {
 
   @override
   Widget build(BuildContext context, viewModel) {
-    final Map<Enum, String> _themeModesMap = {
-    ThemeMode.system : AppLocalizations.of(context)!.settingsThemeOptionSystem,
-    ThemeMode.light : AppLocalizations.of(context)!.settingsThemeOptionLight,
-    ThemeMode.dark : AppLocalizations.of(context)!.settingsThemeOptionDark,
+    final appLocale = AppLocalizations.of(context)!;
+
+    final Map<Enum, String> themeModesMap = {
+      ThemeMode.system: appLocale.settingsThemeOptionSystem,
+      ThemeMode.light: appLocale.settingsThemeOptionLight,
+      ThemeMode.dark: appLocale.settingsThemeOptionDark,
     };
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.settingsTitle),
+        title: Text(appLocale.settingsTitle),
       ),
       body: Scrollbar(
         child: SingleChildScrollView(
@@ -31,14 +33,14 @@ class SettingsScreen extends View<SettingsViewModel> {
             children: [
               CustomListTile(
                 leadingIcon: Icons.palette,
-                title: AppLocalizations.of(context)!.settingsThemeLabel,
-                subtitle: _themeModesMap[viewModel.themeMode] ?? 'Unbekannt',
+                title: appLocale.settingsThemeLabel,
+                subtitle: themeModesMap[viewModel.themeMode] ?? 'Unbekannt',
                 onTap: () async {
                   final selection = await showDialog<ThemeMode>(
                     context: context,
                     builder: (BuildContext context) {
                       return SelectDialog(
-                        valueLabelMap: _themeModesMap,
+                        valueLabelMap: themeModesMap,
                         value: viewModel.themeMode,
                         title: Text(AppLocalizations.of(context)!.settingsThemeDialogTitle),
                       );
@@ -52,8 +54,8 @@ class SettingsScreen extends View<SettingsViewModel> {
               CustomSwitchListTile(
                 value: viewModel.isProfessional,
                 leadingIcon: Icons.report_problem_rounded,
-                title: AppLocalizations.of(context)!.settingsProfessionalQuestionsLabel,
-                subtitle: AppLocalizations.of(context)!.settingsProfessionalQuestionsDescription,
+                title: appLocale.settingsProfessionalQuestionsLabel,
+                subtitle: appLocale.settingsProfessionalQuestionsDescription,
                 onChanged: (v) => viewModel.changeIsProfessional([v]),
               ),
             ],

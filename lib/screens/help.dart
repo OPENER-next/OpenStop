@@ -14,9 +14,10 @@ class HelpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocale = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.helpTitle),
+        title: Text(appLocale.helpTitle),
       ),
       body: Scrollbar(
         child: SingleChildScrollView(
@@ -27,13 +28,13 @@ class HelpScreen extends StatelessWidget {
               CustomListTile(
                 leadingIcon: MdiIcons.headSync,
                 trailingIcon: Icons.arrow_forward_ios_rounded,
-                title: AppLocalizations.of(context)!.helpOnboardingLabel,
+                title: appLocale.helpOnboardingLabel,
                 onTap: () => Navigator.push(context, Routes.onboarding),
               ),
               CustomListTile(
                 leadingIcon: Icons.feedback,
                 trailingIcon: Icons.open_in_new,
-                title: AppLocalizations.of(context)!.helpReportError,
+                title: appLocale.helpReportErrorLabel,
                 onTap: () => launchUrl(_urlIssues),
               ),
             ],

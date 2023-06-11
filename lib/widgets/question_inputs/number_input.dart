@@ -61,13 +61,14 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
     final input = widget.definition.input;
     final decimalsAllowed = input.decimals == null || input.decimals! > 0;
     final negativeAllowed = input.min == null || input.min! < 0;
+    final appLocale = AppLocalizations.of(context)!;
 
     return TextFormField(
       controller: _textController,
       onChanged: _handleChange,
       textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
-        hintText: input.placeholder ?? AppLocalizations.of(context)!.numberInputPlaceholder,
+        hintText: input.placeholder ?? appLocale.numberInputPlaceholder,
         suffixText: input.unit,
         suffixIcon: IconButton(
           onPressed: _handleChange,
@@ -87,20 +88,20 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
           if (!answer.isValid) {
             final number = double.tryParse( text.replaceAll(',', '.') );
 
-            final nameString = input.placeholder ?? AppLocalizations.of(context)!.numberInputFallbackName;
+            final nameString = input.placeholder ?? appLocale.numberInputFallbackName;
             final unitString = input.unit != null
               ? ' ${input.unit}'
               : '';
 
             if (number != null) {
               if (input.max != null && number > input.max!) {
-                return AppLocalizations.of(context)!.numberInputValidationErrorMax(nameString, '${input.max}$unitString');
+                return appLocale.numberInputValidationErrorMax(nameString, input.min!, unitString);
               }
               else if (input.min != null && number < input.min!) {
-                return AppLocalizations.of(context)!.numberInputValidationErrorMin(nameString, '${input.min}$unitString');
+                return appLocale.numberInputValidationErrorMin(nameString, input.min!, unitString);
               }
             }
-            return AppLocalizations.of(context)!.numberInputValidationError;
+            return appLocale.numberInputValidationError;
           }
         }
         return null;

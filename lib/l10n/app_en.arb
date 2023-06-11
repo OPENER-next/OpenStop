@@ -4,8 +4,8 @@
   "@aboutTitle": {},
   "aboutSlogan": "Next stop: Accessibility",
   "@aboutSlogan": {},
-  "aboutVersion": "Version",
-  "@aboutVersion": {},
+  "aboutVersionLabel": "Version",
+  "@aboutVersionLabel": {},
   "aboutAuthorsLabel": "Authors",
   "@aboutAuthorsLabel": {},
   "aboutAuthorsDescription": "{appName} contributors",
@@ -33,8 +33,8 @@
   "@helpTitle": {},
   "helpOnboardingLabel": "Watch the introduction again",
   "@helpOnboardingLabel": {},
-  "helpReportError": "Report an error",
-  "@helpReportError": {},
+  "helpReportErrorLabel": "Report an error",
+  "@helpReportErrorLabel": {},
 
   "onboardingGreetingTitle": "Hey!",
   "@onboardingGreetingTitle": {},
@@ -99,24 +99,30 @@
   },
   "numberInputValidationError": "Invalid number",
   "@numberInputValidationError": {},
-  "numberInputValidationErrorMax": "{nameString} must be less than {max}.",
+  "numberInputValidationErrorMax": "{nameString} must be less than {max}{unit}.",
   "@numberInputValidationErrorMax": {
     "placeholders": {
       "nameString": {
         "type": "String"
       },
       "max": {
+        "type": "num"
+      },
+      "unit": {
         "type": "String"
       }
     }
   },
-  "numberInputValidationErrorMin": "{nameString} must be greater than {min}.",
+  "numberInputValidationErrorMin": "{nameString} must be greater than {min}{unit}.",
   "@numberInputValidationErrorMin": {
     "placeholders": {
       "nameString": {
         "type": "String"
       },
       "min": {
+        "type": "num"
+      },
+      "unit": {
         "type": "String"
       }
     }
@@ -147,16 +153,16 @@
   "uploadMessageUnknownConnectionError": "Unknown error during transmission.",
   "@uploadMessageUnknownConnectionError": {},
 
-  "debouncedMapEventConnectionTimeoutError": "Timeout for the connection to the server.",
-  "@debouncedMapEventConnectionTimeoutError": {},
-  "debouncedMapEventReceiveTimeoutError": "Error: Data reception timed out.",
-  "@debouncedMapEventReceiveTimeoutError": {},
-  "debouncedMapEventUnknownServerCommunicationError": "Unknown error during communication with the server.",
-  "@debouncedMapEventUnknownServerCommunicationError": {},
-  "debouncedMapEventUnknownError": "Unknown error.",
-  "@debouncedMapEventUnknownError": {},
+  "queryMessageConnectionTimeoutError": "Error: Server query timed out.",
+  "@queryMessageConnectionTimeoutError": {},
+  "queryMessageReceiveTimeoutError": "Error: Receiving data timed out.",
+  "@queryMessageReceiveTimeoutError": {},
+  "queryMessageUnknownServerCommunicationError": "Unknown error during server communication.",
+  "@queryMessageUnknownServerCommunicationError": {},
+  "queryMessageUnknownError": "Unknown error.",
+  "@queryMessageUnknownError": {},
 
-  "questionnaireSummaryMessage": "Thank you {userName} for your answers.\nPlease verify them before uploading.",
+  "questionnaireSummaryMessage": "Thank you {userName}for your answers.\nPlease verify them before uploading.",
   "@questionnaireSummaryMessage": {
     "placeholders": {
       "userName": {
@@ -184,7 +190,7 @@
   "@yes": {},
   "no": "No",
   "@no": {},
-  "days": "{day, plural, =0 {0 Days} =1 {1 Day} other {{day} Days}}",
+  "days": "{day, plural, =1 {1 Day} other {{day} Days}}",
   "@days": {
     "placeholders": {
       "day": {
@@ -193,7 +199,7 @@
       }
     }
   },
-  "hours": "{hour, plural, =0 {0 Hours} =1 {1 Hour} other {{hour} Hours}}",
+  "hours": "{hour, plural, =1 {1 Hour} other {{hour} Hours}}",
   "@hours": {
     "placeholders": {
       "hour": {
@@ -202,7 +208,7 @@
       }
     }
   },
-  "minutes": "{minute, plural, =0 {0 Minutes} =1 {1 Minute} other {{minute} Minutes}}",
+  "minutes": "{minute, plural, =1 {1 Minute} other {{minute} Minutes}}",
   "@minutes": {
     "placeholders": {
       "minute": {
@@ -211,7 +217,7 @@
       }
     }
   },
-  "seconds": "{second, plural, =0 {0 Seconds} =1 {1 Second} other {{second} Seconds}}",
+  "seconds": "{second, plural, =1 {1 Second} other {{second} Seconds}}",
   "@seconds": {
     "placeholders": {
       "second": {
@@ -220,6 +226,15 @@
       }
     }
   },
+
+  "durationInputDaysLabel": "Days",
+  "@durationInputDaysLabel": {},
+  "durationInputHoursLabel": "Hours",
+  "@durationInputHoursLabel": {},
+  "durationInputMinutesLabel": "Minutes",
+  "@durationInputMinutesLabel": {},
+  "durationInputSecondsLabel": "Seconds",
+  "@durationInputSecondsLabel": {},
 
   "osmCreditsText": "Data © OpenStreetMap-Contributors",
   "@osmCreditsText": {}

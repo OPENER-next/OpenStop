@@ -13,9 +13,10 @@ import 'user_account_header.dart';
 
 class HomeSidebar extends ViewFragment<HomeViewModel> {
   const HomeSidebar({super.key});
-
+  
   @override
   Widget build(BuildContext context, viewModel) {
+    final appLocale = AppLocalizations.of(context)!;
     return Drawer(
       width: min(MediaQuery.of(context).size.width * 0.65, 300),
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -46,17 +47,17 @@ class HomeSidebar extends ViewFragment<HomeViewModel> {
           ),
           CustomListTile(
             leadingIcon: Icons.settings,
-            title: AppLocalizations.of(context)!.settingsTitle,
+            title: appLocale.settingsTitle,
             onTap: () => Navigator.push(context, Routes.settings),
           ),
           CustomListTile(
             leadingIcon: Icons.info,
-            title: AppLocalizations.of(context)!.aboutTitle,
+            title: appLocale.aboutTitle,
             onTap: () => Navigator.push(context, Routes.about),
           ),
           CustomListTile(
             leadingIcon: Icons.help,
-            title: AppLocalizations.of(context)!.helpTitle,
+            title: appLocale.helpTitle,
             onTap: () => Navigator.push(context, Routes.help),
           ),
         ],

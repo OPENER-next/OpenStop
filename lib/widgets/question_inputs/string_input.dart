@@ -60,6 +60,7 @@ class _StringInputDelegateState extends State<_StringInputDelegate> {
   @override
   Widget build(BuildContext context) {
     final input = widget.definition.input;
+    final appLocale = AppLocalizations.of(context)!;
 
     return TextFormField(
       controller: _textController,
@@ -67,7 +68,7 @@ class _StringInputDelegateState extends State<_StringInputDelegate> {
       textAlignVertical: TextAlignVertical.center,
       maxLength: input.max,
       decoration: InputDecoration(
-        hintText: input.placeholder ?? AppLocalizations.of(context)!.stringInputPlaceholder,
+        hintText: input.placeholder ?? appLocale.stringInputPlaceholder,
         counter: const Offstage(),
         suffixIcon: IconButton(
           onPressed: _handleChange,
@@ -78,7 +79,7 @@ class _StringInputDelegateState extends State<_StringInputDelegate> {
       autovalidateMode: AutovalidateMode.always,
       validator: (text) {
         if (text != null && text.isNotEmpty && text.length <  input.min ) {
-          return AppLocalizations.of(context)!.stringInputValidationErrorMin;
+          return appLocale.stringInputValidationErrorMin;
         }
         return null;
       },

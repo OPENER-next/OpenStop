@@ -240,12 +240,13 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   void login() => _userAccountService.login();
 
   void logout() async {
+    final appLocale = AppLocalizations.of(context)!;
     final choice = await promptUserInput(
-      title: AppLocalizations.of(context)!.logoutDialogTitle,
-      message: AppLocalizations.of(context)!.logoutDialogDescription,
+      title: appLocale.logoutDialogTitle,
+      message: appLocale.logoutDialogDescription,
       choices: {
-        AppLocalizations.of(context)!.logout: true,
-        AppLocalizations.of(context)!.cancel: false,
+        appLocale.logout: true,
+        appLocale.cancel: false,
       },
       isDismissible: true,
     );
@@ -336,7 +337,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   /// Upload the changes made by this questionnaire with the current authenticated user.
 
   void submitQuestionnaire() async {
-    var appLocalizationC = AppLocalizations.of(context);
+    final appLocale = AppLocalizations.of(context)!;
 
     if (_userAccountService.isLoggedOut) {
       // wait till the user login process finishes
@@ -353,14 +354,14 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
           user: _userAccountService.authenticatedUser!,
           locale: Localizations.localeOf(context)
         );
-        notifyUser(appLocalizationC!.uploadMessageSuccess);
+        notifyUser(appLocale.uploadMessageSuccess);
       }
       on OSMConnectionException {
-        notifyUser(appLocalizationC!.uploadMessageServerConnectionError);
+        notifyUser(appLocale.uploadMessageServerConnectionError);
       }
       catch(e) {
         debugPrint(e.toString());
-        notifyUser(appLocalizationC!.uploadMessageUnknownConnectionError);
+        notifyUser(appLocale.uploadMessageUnknownConnectionError);
       }
     }
   }
@@ -549,7 +550,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
 
   void _onDebouncedMapEvent([MapEvent? event]) async {
-     var appLocalizationC = AppLocalizations.of(context);
+     final appLocale = AppLocalizations.of(context)!;
 
     // store map location on map move events
     _preferencesService
@@ -566,19 +567,19 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     }
     on DioError catch (e) {
       if (e.type == DioErrorType.connectionTimeout) {
-        notifyUser(appLocalizationC!.debouncedMapEventConnectionTimeoutError);
+        notifyUser(appLocale!.queryMessageConnectionTimeoutError);
       }
       else if (e.type == DioErrorType.receiveTimeout) {
-        notifyUser(appLocalizationC!.debouncedMapEventReceiveTimeoutError);
+        notifyUser(appLocale.queryMessageReceiveTimeoutError);
       }
       else {
         debugPrint(e.toString());
-        notifyUser(appLocalizationC!.debouncedMapEventUnknownServerCommunicationError);
+        notifyUser(appLocale.queryMessageUnknownServerCommunicationError);
       }
     }
     catch(e) {
       debugPrint(e.toString());
-      notifyUser(appLocalizationC!.debouncedMapEventUnknownError);
+      notifyUser(appLocale.queryMessageUnknownError);
     }
   }
 

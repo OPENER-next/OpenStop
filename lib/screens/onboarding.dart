@@ -39,33 +39,34 @@ class OnboardingScreen extends View<OnboardingViewModel> {
 
   @override
   Widget build(BuildContext context, viewModel) {
+    final appLocale = AppLocalizations.of(context)!;
     final pages = [
       OnboardingPage(
         image: 'assets/images/onboarding/onboarding_1.png',
-        title: AppLocalizations.of(context)!.onboardingGreetingTitle,
-        description: AppLocalizations.of(context)!.onboardingGreetingDescription,
-        buttonText: AppLocalizations.of(context)!.onboardingGreetingButton,
+        title: appLocale.onboardingGreetingTitle,
+        description: appLocale.onboardingGreetingDescription,
+        buttonText: appLocale.onboardingGreetingButton,
         onButtonTap: viewModel.nextPage,
       ),
       OnboardingPage(
         image: 'assets/images/onboarding/onboarding_2.png',
-        title: AppLocalizations.of(context)!.onboardingSurveyingTitle,
-        description: AppLocalizations.of(context)!.onboardingSurveyingDescription,
-        buttonText: AppLocalizations.of(context)!.onboardingSurveyingButton,
+        title: appLocale.onboardingSurveyingTitle,
+        description: appLocale.onboardingSurveyingDescription,
+        buttonText: appLocale.onboardingSurveyingButton,
         onButtonTap: viewModel.nextPage,
       ),
       OnboardingPage(
         image: 'assets/images/onboarding/onboarding_3.png',
-        title: AppLocalizations.of(context)!.onboardingAnsweringTitle,
-        description: AppLocalizations.of(context)!.onboardingAnsweringDescription,
-        buttonText: AppLocalizations.of(context)!.onboardingAnsweringButton,
+        title: appLocale.onboardingAnsweringTitle,
+        description: appLocale.onboardingAnsweringDescription,
+        buttonText: appLocale.onboardingAnsweringButton,
         onButtonTap: viewModel.nextPage,
       ),
       OnboardingPage(
         image: 'assets/images/onboarding/onboarding_4.png',
-        title: AppLocalizations.of(context)!.onboardingContributingTitle,
-        description: AppLocalizations.of(context)!.onboardingContributingDescription,
-        buttonText: AppLocalizations.of(context)!.onboardingContributingButton,
+        title: appLocale.onboardingContributingTitle,
+        description: appLocale.onboardingContributingDescription,
+        buttonText: appLocale.onboardingContributingButton,
         onButtonTap: () {
           viewModel.markOnboardingAsSeen();
           // remove previous routes to start of with no duplicated home screen

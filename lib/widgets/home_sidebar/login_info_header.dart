@@ -13,6 +13,7 @@ class LoginInfoHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final appLocale = AppLocalizations.of(context)!;
 
     return Container(
       width: double.infinity,
@@ -27,7 +28,7 @@ class LoginInfoHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            AppLocalizations.of(context)!.loginHint,
+            appLocale.loginHint,
             style: TextStyle(
               fontSize: 13,
               color: theme.colorScheme.onPrimary,
@@ -42,7 +43,7 @@ class LoginInfoHeader extends StatelessWidget {
               foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
             ),
             onPressed: onLoginTap,
-            label: Text(AppLocalizations.of(context)!.login),
+            label: Text(appLocale.login),
             icon: const Icon(Icons.login_rounded),
           ),
         ],

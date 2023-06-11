@@ -17,9 +17,10 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocale = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.aboutTitle),
+        title: Text(appLocale.aboutTitle),
       ),
       body: Scrollbar(
         child: SingleChildScrollView(
@@ -37,56 +38,56 @@ class AboutScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(bottom: 20.0),
                 child: Text(
-                  AppLocalizations.of(context)!.aboutSlogan,
+                  appLocale.aboutSlogan,
                   style: TextStyle(fontStyle: FontStyle.italic),
                 ),
               ),
               CustomListTile(
                 leadingIcon: Icons.info,
                 trailingIcon: Icons.open_in_new,
-                title: AppLocalizations.of(context)!.aboutVersion,
+                title: appLocale.aboutVersionLabel,
                 subtitle: app_config.appVersion,
                 onTap: () => launchUrl(_urlVersion),
               ),
               CustomListTile(
                 leadingIcon: Icons.supervisor_account,
                 trailingIcon: Icons.open_in_new,
-                title: AppLocalizations.of(context)!.aboutAuthorsLabel,
-                subtitle: AppLocalizations.of(context)!.aboutAuthorsDescription(app_config.appName),
+                title: appLocale.aboutAuthorsLabel,
+                subtitle: appLocale.aboutAuthorsDescription(app_config.appName),
                 onTap: () => launchUrl(_urlContributors),
               ),
               CustomListTile(
                 isThreeLine: true,
                 leadingIcon: Icons.lightbulb,
                 trailingIcon: Icons.open_in_new,
-                title: AppLocalizations.of(context)!.aboutIdeaLabel,
-                subtitle: AppLocalizations.of(context)!.aboutIdeaDescription,
+                title: appLocale.aboutIdeaLabel,
+                subtitle: appLocale.aboutIdeaDescription,
                 onTap: () => launchUrl(_urlIdea),
               ),
               CustomListTile(
                 leadingIcon: Icons.code,
                 trailingIcon: Icons.open_in_new,
-                title: AppLocalizations.of(context)!.aboutSourceCodeLabel,
+                title: appLocale.aboutSourceCodeLabel,
                 subtitle: 'https://github.com/OPENER-next',
                 onTap: () => launchUrl(_urlCode),
               ),
               CustomListTile(
                 leadingIcon: Icons.copyright,
                 trailingIcon: Icons.open_in_new,
-                title: AppLocalizations.of(context)!.aboutLicenseLabel,
+                title: appLocale.aboutLicenseLabel,
                 subtitle: 'GPL-3.0',
                 onTap: () => launchUrl(_urlLicense),
               ),
               CustomListTile(
                 leadingIcon: Icons.privacy_tip,
                 trailingIcon: Icons.arrow_forward_ios_rounded,
-                title: AppLocalizations.of(context)!.aboutPrivacyPolicyLabel,
+                title: appLocale.aboutPrivacyPolicyLabel,
                 onTap: () => Navigator.push(context, Routes.privacyPolicy),
               ),
               CustomListTile(
                 leadingIcon: Icons.text_snippet,
                 trailingIcon: Icons.arrow_forward_ios_rounded,
-                title: AppLocalizations.of(context)!.aboutLicensePackageLabel,
+                title: appLocale.aboutLicensePackageLabel,
                 onTap: () => Navigator.push(context, Routes.licenses),
               ),
               Container(

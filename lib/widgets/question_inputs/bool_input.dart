@@ -19,7 +19,7 @@ class BoolInput extends QuestionInputWidget<BoolAnswerDefinition, BoolAnswer> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
+    
     return SizedBox(
       width: double.infinity,
       child: Wrap(
@@ -27,7 +27,8 @@ class BoolInput extends QuestionInputWidget<BoolAnswerDefinition, BoolAnswer> {
         children: List.generate(2, (index) {
           final state = index == 0;
           return _BoolInputItem(
-            label:  Text(definition.input[index].name ?? (state ? AppLocalizations.of(context)!.yes : AppLocalizations.of(context)!.no)),
+            label:  Text(definition.input[index].name ?? 
+                    (state ? AppLocalizations.of(context)!.yes : AppLocalizations.of(context)!.no)),
             onTap: () => _handleChange(state),
             active: controller.answer?.value == state,
             backgroundColor: theme.colorScheme.primary.withOpacity(0),

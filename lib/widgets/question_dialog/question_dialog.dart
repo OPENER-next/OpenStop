@@ -45,6 +45,8 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
     final currentIsValidAnswer = answers[activeQuestionIndex].hasValidAnswer;
     final hasAnyValidAnswer = answers.any((controller) => controller.hasValidAnswer);
 
+    final appLocale = AppLocalizations.of(context)!;
+
     // Use WillPopScope with "false" to prevent that back button closes app instead of Question Dialog
     return WillPopScope(
       onWillPop: () async {
@@ -109,12 +111,12 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                                 nextText: showSummary
                                   ? null
                                   : !hasNextQuestion
-                                    ? AppLocalizations.of(context)!.finish
+                                    ? appLocale.finish
                                     : currentIsValidAnswer
-                                      ? AppLocalizations.of(context)!.next
-                                      : AppLocalizations.of(context)!.skip,
+                                      ? appLocale.next
+                                      : appLocale.skip,
                                 backText: hasPreviousQuestion
-                                  ? AppLocalizations.of(context)!.back
+                                  ? appLocale.back
                                   : null,
                                 onNext: hasNextQuestion || hasAnyValidAnswer
                                   ? viewModel.goToNextQuestion
