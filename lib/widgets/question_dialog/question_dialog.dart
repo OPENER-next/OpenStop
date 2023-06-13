@@ -82,6 +82,7 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                                 : null
                               ).toList(),
                               onJump: viewModel.jumpToQuestion,
+                              userName: viewModel.userName,
                             ),
                           ),
                       ],
