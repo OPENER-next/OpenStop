@@ -4,6 +4,7 @@ import 'dart:ui';
 import '/models/authenticated_user.dart';
 import '/models/element_variants/element_identifier.dart';
 import '/models/answer.dart';
+import '/utils/stream_utils.dart';
 import '/utils/service_worker.dart';
 import '/models/questionnaire_store.dart';
 import '/models/questionnaire.dart';
@@ -21,9 +22,21 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
 
   final _activeQuestionnaireStreamController = StreamController<QuestionnaireRepresentation?>();
 
+  /// A MultiStream that returns the current questionnaire state if any on initial subscription.
+  ///
   /// Null means there is no active questionnaire.
 
-  Stream<QuestionnaireRepresentation?> get activeQuestionnaireStream => _activeQuestionnaireStreamController.stream;
+  late final activeQuestionnaireStream = _activeQuestionnaireStreamController.stream.makeMultiStream((controller) {
+    if (_activeQuestionnaire != null) {
+      controller.addSync(
+        QuestionnaireRepresentation.derive(
+          _activeQuestionnaire!,
+          isCompleted: _questionnaireStore.isFinished(_activeQuestionnaire!),
+        ),
+      );
+    }
+  });
+
 
   /// This either reopens an existing questionnaire or creates a new one.
 
@@ -160,6 +173,12 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
         QuestionnaireRepresentation.derive(_activeQuestionnaire!),
       );
     }
+  }
+
+  @override
+  void exit() {
+    _activeQuestionnaireStreamController.close();
+    super.exit();
   }
 }
 
