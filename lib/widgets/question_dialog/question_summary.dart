@@ -28,10 +28,6 @@ class QuestionSummary extends StatelessWidget {
       fontWeight: FontWeight.bold
     );
 
-    final userNameSubstitution = userName != null
-      ? '$userName '
-      : '';
-
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 25,
@@ -45,7 +41,9 @@ class QuestionSummary extends StatelessWidget {
               bottom: 10
             ),
             child: Text(
-              AppLocalizations.of(context)!.questionnaireSummaryMessage(userNameSubstitution),
+              userName != null
+              ? AppLocalizations.of(context)!.questionnaireSummaryDedicatedMessage(userName!)
+              : AppLocalizations.of(context)!.questionnaireSummaryUndedicatedMessage,
               style: textStyle
             )
           ),

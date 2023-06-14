@@ -81,7 +81,7 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                                 (question) => question.name
                               ).toList(),
                               answers: answers.map((controller) => controller.hasValidAnswer
-                                ? controller.answer.toString()
+                                ? controller.answer?.toLocaleString(appLocale)
                                 : null
                               ).toList(),
                               onJump: viewModel.jumpToQuestion,

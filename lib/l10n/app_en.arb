@@ -162,14 +162,17 @@
   "queryMessageUnknownError": "Unknown error.",
   "@queryMessageUnknownError": {},
 
-  "questionnaireSummaryMessage": "Thank you {userName}for your answers.\nPlease verify them before uploading.",
-  "@questionnaireSummaryMessage": {
+  "questionnaireSummaryDedicatedMessage": "Thank you {userName} for your answers.\nPlease verify them before uploading.",
+  "@questionnaireSummaryDedicatedMessage": {
     "placeholders": {
       "userName": {
         "type": "String"
       }
     }
   },
+  "questionnaireSummaryUndedicatedMessage": "Thank you for your answers.\nPlease verify them before uploading.",
+  "@questionnaireSummaryUndedicatedMessage": {},
+
   "back": "Back",
   "@back": {},
   "next": "Next",
@@ -194,8 +197,7 @@
   "@days": {
     "placeholders": {
       "day": {
-        "type": "num",
-        "format": "compact"
+        "type": "num"
       }
     }
   },
@@ -203,8 +205,7 @@
   "@hours": {
     "placeholders": {
       "hour": {
-        "type": "num",
-        "format": "compact"
+        "type": "num"
       }
     }
   },
@@ -212,8 +213,7 @@
   "@minutes": {
     "placeholders": {
       "minute": {
-        "type": "num",
-        "format": "compact"
+        "type": "num"
       }
     }
   },
@@ -221,8 +221,7 @@
   "@seconds": {
     "placeholders": {
       "second": {
-        "type": "num",
-        "format": "compact"
+        "type": "num"
       }
     }
   },

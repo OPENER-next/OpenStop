@@ -95,7 +95,7 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
 
             if (number != null) {
               if (input.max != null && number > input.max!) {
-                return appLocale.numberInputValidationErrorMax(nameString, input.min!, unitString);
+                return appLocale.numberInputValidationErrorMax(nameString, input.max!, unitString);
               }
               else if (input.min != null && number < input.min!) {
                 return appLocale.numberInputValidationErrorMin(nameString, input.min!, unitString);

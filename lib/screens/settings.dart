@@ -16,7 +16,7 @@ class SettingsScreen extends View<SettingsViewModel> {
   Widget build(BuildContext context, viewModel) {
     final appLocale = AppLocalizations.of(context)!;
 
-    final Map<Enum, String> themeModesMap = {
+    final Map<ThemeMode, String> themeModesMap = {
       ThemeMode.system: appLocale.settingsThemeOptionSystem,
       ThemeMode.light: appLocale.settingsThemeOptionLight,
       ThemeMode.dark: appLocale.settingsThemeOptionDark,

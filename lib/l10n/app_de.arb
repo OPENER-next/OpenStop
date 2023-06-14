@@ -121,8 +121,10 @@
   "queryMessageUnknownError": "Unbekannter Fehler.",
   "@queryMessageUnknownError": {},
 
-  "questionnaireSummaryMessage": "Danke {userName}für deine Antworten.\nBitte prüfe sie vor dem Hochladen nochmal.",
-  "@questionnaireSummaryMessage": {},
+  "questionnaireSummaryDedicatedMessage": "Danke {userName}für deine Antworten.\nBitte prüfe sie vor dem Hochladen nochmal.",
+  "@questionnaireSummaryDedicatedMessage": {},
+  "questionnaireSummaryUndedicatedMessage": "Danke für deine Antworten.\nBitte prüfe sie vor dem Hochladen nochmal.",
+  "@questionnaireSummaryUndedicatedMessage": {},
 
   "back": "Zurück",
   "@back": {},
