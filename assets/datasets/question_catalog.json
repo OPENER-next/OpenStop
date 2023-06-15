@@ -1051,6 +1051,7 @@
          "text": "Wie lang ist die Stellfläche des bewegbaren Hublifts?",
          "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
          "image": [
+            "assets/images/questions/wheelchair_lift_1.jpg",
             "assets/images/questions/wheelchair_lift_2.jpg"
          ]
       },
@@ -1083,6 +1084,7 @@
          "text": "Was ist die maximale Tragfähigkeit der bewegbaren Hublifts?",
          "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
          "image": [
+            "assets/images/questions/wheelchair_lift_1.jpg",
             "assets/images/questions/wheelchair_lift_2.jpg"
          ]
       },
