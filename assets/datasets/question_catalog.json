@@ -1538,7 +1538,12 @@
                "highway": "footway",
                "footway": [false, "sidewalk"],
                "surface": false,
-               "indoor": ["no", false]
+               "indoor": ["no", false],
+               "access": [
+                  "yes",
+                  "customers",
+                  false
+               ]
             },
             "osm_element": [
                "OpenWay",
@@ -1550,7 +1555,12 @@
                "highway": ["path", "cycleway"],
                "foot": ["yes", "designated"],
                "surface": false,
-               "indoor": ["no", false]
+               "indoor": ["no", false],
+               "access": [
+                  "yes",
+                  "customers",
+                  false
+               ]
             },
             "osm_element": [
                "OpenWay",
@@ -1789,7 +1799,12 @@
             "osm_tags": {
                "highway": "steps",
                "wheelchair:lift": false,
-               "conveying": [false, "no"]
+               "conveying": [false, "no"],
+               "access": [
+                  "yes",
+                  "customers",
+                  false
+               ]
             },
             "osm_element": "OpenWay"
          }
@@ -2012,7 +2027,12 @@
             "osm_tags": {
                "highway": "steps",
                "conveying": [false, "no"],
-               "step:height": false
+               "step:height": false,
+               "access": [
+                  "yes",
+                  "customers",
+                  false
+               ]
             },
             "osm_element": "OpenWay"
          }
@@ -2041,7 +2061,12 @@
             "osm_tags": {
                "highway": "steps",
                "conveying": [false, "no"],
-               "step_count": false
+               "step_count": false,
+               "access": [
+                  "yes",
+                  "customers",
+                  false
+               ]
             },
             "osm_element": "OpenWay"
          }
@@ -2112,7 +2137,12 @@
             "osm_tags": {
                "highway": "steps",
                "conveying": [false, "no"],
-               "handrail": false
+               "handrail": false,
+               "access": [
+                  "yes",
+                  "customers",
+                  false
+               ]
             }
          }
       ]
