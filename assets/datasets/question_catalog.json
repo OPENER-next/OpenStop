@@ -942,7 +942,10 @@
          "id": 1211,
          "name": "Rampen-Länge",
          "text": "Wie lang ist die bewegbare Rollstuhl-Rampe?",
-         "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen."
+         "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
+         "image": [
+            "assets/images/questions/wheelchair_ramp_1.jpg"
+         ]
       },
       "answer": {
          "type": "Number",
@@ -971,7 +974,10 @@
          "id": 1212,
          "name": "Rampen-Tragfähigkeit",
          "text": "Was ist die maximale Tragfähigkeit der bewegbaren Rampe?",
-         "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen."
+         "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
+         "image": [
+            "assets/images/questions/wheelchair_ramp_1.jpg"
+         ]
       },
       "answer": {
          "type": "Number",
