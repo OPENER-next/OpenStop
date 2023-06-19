@@ -6,7 +6,7 @@ typedef SubstitutionCallback = Iterable<String> Function(String variableName);
 /// Expressions must not throw an error.
 /// Instead they return a meaningful result if possible or null.
 
-typedef Expression = String? Function(Iterable<String>);
+typedef ExpressionCallback = String? Function(Iterable<String>);
 
 
 /// A utility class that can be mixed in to get expression support wherever needed.
@@ -33,7 +33,7 @@ mixin ExpressionHandler {
 
   /// A name to function mapping for expressions.
 
-  static const _expressionMapping = <String, Expression>{
+  static const _expressionMapping = <String, ExpressionCallback>{
     'JOIN': _join,
     'CONCAT': _concat,
     'COALESCE': _coalesce,
@@ -51,7 +51,7 @@ mixin ExpressionHandler {
     }
 
     final expressionIdentifier = rawExpression.first;
-    final Expression? expression;
+    final ExpressionCallback? expression;
     final Iterable parameters;
 
     if (expressionIdentifier is! String || expressionIdentifier.isEmpty) {
@@ -99,17 +99,20 @@ mixin ExpressionHandler {
 // expression functions
 
 String? _join(Iterable<String> args) {
-  if (args.isEmpty) {
-    return null;
-  }
+  if (args.isEmpty) return null;
+
   final delimiter = args.first;
   final values = args.skip(1);
   return values.isEmpty ? null : values.join(delimiter);
 }
 
+/// Returns the concatenation of all inputs.
+
 String? _concat(Iterable<String> args) {
   return args.isEmpty ? null : args.join();
 }
+
+/// Returns the first input and discards the others.
 
 String? _coalesce(Iterable<String> args) {
   return args.isEmpty ? null : args.first;
