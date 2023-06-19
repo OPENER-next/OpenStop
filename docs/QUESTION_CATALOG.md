@@ -278,7 +278,24 @@ output: `operator=tag_Xvalue`
 constructor: `"operator": ["INSERT", "X", "20", "$input"]`
 output: `operator=tag_value`
 
+#### `PAD` expression
 
+Adds a given String to a target String for each time the target String length is less than a given width.
+
+First argument represents the padding String.
+Second argument specifies the desired width. Positive values will prepend, negative values will append to the target String.
+Third argument resembles the target String.
+
+**Examples:**
+- input: `[1]`
+constructor: `"operator": ["PAD", "0", "3", "$input"]`
+output: `operator=001`
+- input: `[1]`
+constructor: `"operator": ["PAD", "0", "-3", "$input"]`
+output: `operator=100`
+- input: `[value]`
+constructor: `"operator": ["PAD", "XXX", "9", "$input"]`
+output: `operator=XXXXXXvalue`
 
 ### Answer examples
 

@@ -38,6 +38,7 @@ mixin ExpressionHandler {
     'CONCAT': _concat,
     'COALESCE': _coalesce,
     'COUPLE': _couple,
+    'PAD': _pad,
     'INSERT': _insert,
   };
 
@@ -126,6 +127,27 @@ String? _couple(Iterable<String> args) {
   return (i != 2) ? null : buffer.toString();
 }
 
+/// Adds a given String to a target String for each time the target String length is less than a given width.
+/// First arg is the padding String.
+/// Second arg is the desired width. Positive values will prepend, negative values will append to the target String.
+/// Third arg is the target String.
+
+String? _pad(Iterable<String> args) {
+  final iter = args.iterator;
+  if (!iter.moveNext()) return null;
+
+  final paddingString = iter.current;
+  if (!iter.moveNext()) return null;
+
+  final width = int.tryParse(iter.current);
+  if (!iter.moveNext() || width == null) return null;
+
+  final mainString = iter.current;
+
+  return width.isNegative
+    ? mainString.padRight(width.abs(), paddingString)
+    : mainString.padLeft(width, paddingString);
+}
 
 /// Inserts a given String into a target String.
 /// First arg is the insertion String.

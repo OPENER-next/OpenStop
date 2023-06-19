@@ -438,6 +438,146 @@ void main() async {
   });
 
 
+  test('test if constructor PAD works correctly', () {
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['PAD', 'X', '5', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'some_value',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['PAD', 'X', '10', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'some_value',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['PAD', 'X', '12', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'XXsome_value',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['PAD', 'X', '-5', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'some_value',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['PAD', 'X', '-10', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'some_value',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['PAD', 'X', '-12', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'some_valueXX',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['PAD', 'XXX', '11', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'XXXsome_value',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': ['PAD', 'XXX', '-11', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key1': 'aXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['PAD', '3', 'X', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({})
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['PAD', 'X', '1.2', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({})
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['PAD', '14', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({})
+      );
+    }
+  });
+
+
   test('test expression nesting in constructor works correctly', () {
     {
       const testConstructor = AnswerConstructor({
