@@ -6,6 +6,7 @@ void main() async {
   const values = {
     'key1': ['a', 'b', 'c'],
     'key2': ['a', 'b', 'c'],
+    'key3': ['some_value'],
   };
 
  test('test if constructor COALESCE works correctly', () {
@@ -331,6 +332,107 @@ void main() async {
         equals({
           'key1': 'ab',
         })
+      );
+    }
+  });
+
+
+  test('test if constructor INSERT works correctly', () {
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['INSERT', 'X', '0', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'Xsome_value',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['INSERT', 'X', '1', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'sXome_value',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['INSERT', 'X', '-1', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'some_valuXe',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': ['INSERT', 'X', '0', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key1': 'Xa',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': ['INSERT', 'X', '20', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key1': 'a',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['INSERT', '0', 'X', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({})
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['INSERT', 'X', '1.2', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({})
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['INSERT', '0', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({})
       );
     }
   });

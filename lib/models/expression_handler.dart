@@ -38,6 +38,7 @@ mixin ExpressionHandler {
     'CONCAT': _concat,
     'COALESCE': _coalesce,
     'COUPLE': _couple,
+    'INSERT': _insert,
   };
 
   /// Substitutes any variables (marked by $) and then executes the given expression array.
@@ -125,6 +126,34 @@ String? _couple(Iterable<String> args) {
   return (i != 2) ? null : buffer.toString();
 }
 
+
+/// Inserts a given String into a target String.
+/// First arg is the insertion String.
+/// Second arg is the position/index where the String should be inserted into the target String.
+/// Negative positions are treated as insertions starting at the end of the String.
+/// So -1 means insert before the last character of the target String.
+/// If the index exceeds the length of the target String, it will be returned without any modifications.
+/// Third arg is the target String.
+
+String? _insert(Iterable<String> args) {
+  final iter = args.iterator;
+  if (!iter.moveNext()) return null;
+
+  final insertionString = iter.current;
+  if (!iter.moveNext()) return null;
+
+  final position = int.tryParse(iter.current);
+  if (!iter.moveNext() || position == null) return null;
+
+  final mainString = iter.current;
+  if (mainString.length < position.abs()) return mainString;
+
+  final index = position.isNegative
+    ? mainString.length + position
+    : position;
+
+  return mainString.replaceRange(index, index, insertionString);
+}
 /// Indicates that an expression is malformed.
 
 class InvalidExpression implements Exception {

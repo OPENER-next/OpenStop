@@ -259,6 +259,26 @@ output: `operator=A_suffix`
 constructor: `"operator": ["COUPLE", "$input", "_suffix"]`
 output: `operator=NULL`
 
+#### `INSERT` expression
+
+Inserts one String into another String at a certain position.
+
+First argument represents the insertion String.
+Second argument specifies the position/index where the String should be inserted into the target String. Negative positions are treated as insertions starting at the end of the String. So -1 means insert before the last character of the target String. If the index exceeds the length of the target String, it will be returned without any modifications.
+Third argument resembles the target String.
+
+**Examples:**
+- input: `[tag_value]`
+constructor: `"operator": ["INSERT", "X", "1", "$input"]`
+output: `operator=tXag_value`
+- input: `[tag_value]`
+constructor: `"operator": ["INSERT", "X", "-5", "$input"]`
+output: `operator=tag_Xvalue`
+- input: `[tag_value]`
+constructor: `"operator": ["INSERT", "X", "20", "$input"]`
+output: `operator=tag_value`
+
+
 
 ### Answer examples
 
