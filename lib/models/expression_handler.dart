@@ -40,6 +40,7 @@ mixin ExpressionHandler {
     'COUPLE': _couple,
     'PAD': _pad,
     'INSERT': _insert,
+    'REPLACE': _replace,
   };
 
   /// Substitutes any variables (marked by $) and then executes the given expression array.
@@ -176,6 +177,41 @@ String? _insert(Iterable<String> args) {
 
   return mainString.replaceRange(index, index, insertionString);
 }
+
+/// Replaces a given Pattern (either String or RegExp) in a target String by a given replacement String.
+/// First arg is the Pattern the target String should be matched against.
+/// Second arg is the replacement String.
+/// Third arg is the target String.
+
+String? _replace(Iterable<String> args) {
+  final iter = args.iterator;
+  if (!iter.moveNext()) {
+    return null;
+  }
+  final Pattern pattern;
+
+  // parse RegExp from String
+  if (iter.current.startsWith('/') && iter.current.endsWith('/')) {
+    try {
+      pattern = RegExp(iter.current.substring(1, iter.current.length - 1));
+    }
+    on FormatException {
+      return null;
+    }
+  }
+  else {
+    pattern = iter.current;
+  }
+  if (!iter.moveNext()) return null;
+
+  final replacementString = iter.current;
+  if (!iter.moveNext()) return null;
+
+  final mainString = iter.current;
+
+  return mainString.replaceAll(pattern, replacementString);
+}
+
 /// Indicates that an expression is malformed.
 
 class InvalidExpression implements Exception {

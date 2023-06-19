@@ -297,6 +297,25 @@ output: `operator=100`
 constructor: `"operator": ["PAD", "XXX", "9", "$input"]`
 output: `operator=XXXXXXvalue`
 
+#### `REPLACE` expression
+
+Replaces a given Pattern (either String or RegExp) in a target String by a given replacement String.
+RegExp are denoted by a `/` at the start and end of the String.
+First argument represents the Pattern the target String should be matched against.
+Second argument defines the replacement String.
+Third argument resembles the target String.
+
+**Examples:**
+- input: `[sometimes]`
+constructor: `"operator": ["REPLACE", "times", "thing", "$input"]`
+output: `operator=something`
+- input: `[sometimes]`
+constructor: `"operator": ["REPLACE", "e", "#", "$input"]`
+output: `operator=som#tim#s`
+- input: `[value]`
+constructor: `"operator": ["REPLACE", "/^.|.$/", "_", "$input"]`
+output: `operator=_alu_`
+
 ### Answer examples
 
 #### Multiple values using the semi-colon value separator

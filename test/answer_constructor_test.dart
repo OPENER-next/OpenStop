@@ -578,6 +578,112 @@ void main() async {
   });
 
 
+  test('test if constructor REPLACE works correctly', () {
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['REPLACE', 'value', 'test', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'some_test',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['REPLACE', 'e', '#', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'som#_valu#',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['REPLACE', 'E', 'X', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'some_value',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        // match first and last character
+        'key3': ['REPLACE', r'/^.|.$/', '_', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': '_ome_valu_',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        // missing / will not parse it as a regular expression and instead teat it as a string
+        'key3': ['REPLACE', r'^.|.$', 'XX', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'some_value',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        // malformed regular expression
+        'key3': ['REPLACE', r'/^.|.$)/', 'XX', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({})
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['REPLACE', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({})
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': ['REPLACE', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key1': 'c',
+        })
+      );
+    }
+  });
+
+
   test('test expression nesting in constructor works correctly', () {
     {
       const testConstructor = AnswerConstructor({
