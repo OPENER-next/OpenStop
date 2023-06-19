@@ -37,8 +37,7 @@ abstract class Answer<D extends AnswerDefinition, T> {
 
   bool get isValid;
 
-  //@override
-  String toLocaleString(AppLocalizations appLocale) => throw UnimplementedError('Sub-classes must implement toString');
+  String toLocaleString(AppLocalizations appLocale);
 }
 
 
@@ -240,17 +239,16 @@ class DurationAnswer extends Answer<DurationAnswerDefinition, Duration> {
 
   @override
   String toLocaleString(AppLocalizations appLocale) {
-    var durationString = '';
     final days = value.inDays;
     final hours = value.inHours % 24;
     final minutes = value.inMinutes % 60;
     final seconds = value.inSeconds % 60;
 
-    durationString += days > 0 ? '${appLocale.days(days)} ' : '';
-    durationString += hours > 0 ? '${appLocale.hours(hours)} ' : '';
-    durationString += minutes > 0 ? '${appLocale.minutes(minutes)} ' : '';
-    durationString += seconds > 0 ? appLocale.seconds(seconds) : '';
-    // always remove first white space
-    return durationString;
+    return () sync* {
+      if (days > 0) yield appLocale.days(days);
+      if (hours > 0) yield appLocale.hours(hours);
+      if (minutes > 0) yield appLocale.minutes(minutes);
+      if (seconds > 0) yield appLocale.days(seconds);
+    }().join(' ');
   }
 }
