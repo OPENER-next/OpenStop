@@ -16,6 +16,4 @@ const osmServer = bool.fromEnvironment('IS_RELEASE', defaultValue: false)
   ? 'www.openstreetmap.org'
   : 'master.apis.dev.openstreetmap.org';
 
-const osmCreditsText = 'Data © OpenStreetMap-Mitwirkende';
-
 const osmCreditsURL= 'https://www.openstreetmap.org/copyright';

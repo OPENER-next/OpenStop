@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QuestionSummary extends StatelessWidget {
   final List<String> questions;
@@ -21,16 +21,6 @@ class QuestionSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const textStyle = TextStyle(
-      height: 1.3,
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-    );
-
-    final userNameSubstitution = userName != null
-      ? '$userName '
-      : '';
-
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 25,
@@ -44,8 +34,14 @@ class QuestionSummary extends StatelessWidget {
               bottom: 10,
             ),
             child: Text(
-              'Danke ${userNameSubstitution}für deine Antworten. \nBitte prüfe sie vor dem Hochladen nochmal.',
-              style: textStyle,
+              userName != null
+                ? AppLocalizations.of(context)!.questionnaireSummaryDedicatedMessage(userName!)
+                : AppLocalizations.of(context)!.questionnaireSummaryUndedicatedMessage,
+              style: const TextStyle(
+                height: 1.3,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           ..._buildEntries(),

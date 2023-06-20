@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SelectDialog<T> extends StatefulWidget {
   final Map<T, String> valueLabelMap;
@@ -59,7 +60,7 @@ class _SelectDialogState<T> extends State<SelectDialog<T>> {
         ),
         TextButton(
           onPressed: () => Navigator.pop(context, _selectedValue),
-          child: const Text('Bestätigen'),
+          child: Text(AppLocalizations.of(context)!.confirm),
         ),
       ],
     );

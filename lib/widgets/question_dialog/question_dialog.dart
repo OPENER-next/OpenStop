@@ -1,6 +1,7 @@
 import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/view_models/home_view_model.dart';
 import '/models/question_catalog/question_definition.dart';
@@ -44,6 +45,8 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
     final currentIsValidAnswer = answers[activeQuestionIndex].hasValidAnswer;
     final hasAnyValidAnswer = answers.any((controller) => controller.hasValidAnswer);
 
+    final appLocale = AppLocalizations.of(context)!;
+
     // Use WillPopScope with "false" to prevent that back button closes app instead of Question Dialog
     return WillPopScope(
       onWillPop: () async {
@@ -78,7 +81,7 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                                 (question) => question.name
                               ).toList(),
                               answers: answers.map((controller) => controller.hasValidAnswer
-                                ? controller.answer.toString()
+                                ? controller.answer?.toLocaleString(appLocale)
                                 : null
                               ).toList(),
                               onJump: viewModel.jumpToQuestion,
@@ -111,12 +114,12 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                                 nextText: showSummary
                                   ? null
                                   : !hasNextQuestion
-                                    ? 'Abschließen'
+                                    ? appLocale.finish
                                     : currentIsValidAnswer
-                                      ? 'Weiter'
-                                      : 'Überspringen',
+                                      ? appLocale.next
+                                      : appLocale.skip,
                                 backText: hasPreviousQuestion
-                                  ? 'Zurück'
+                                  ? appLocale.back
                                   : null,
                                 onNext: hasNextQuestion || hasAnyValidAnswer
                                   ? viewModel.goToNextQuestion

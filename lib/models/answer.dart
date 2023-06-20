@@ -1,5 +1,5 @@
 import 'question_catalog/answer_definition.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// A container class that holds answers for a specific question type in a readable form.
 /// This is needed since parsing the answer solely from the OSM tags can lead to inconsistencies.
@@ -37,8 +37,7 @@ abstract class Answer<D extends AnswerDefinition, T> {
 
   bool get isValid;
 
-  @override
-  String toString() => throw UnimplementedError('Sub-classes must implement toString');
+  String toLocaleString(AppLocalizations appLocale);
 }
 
 
@@ -65,7 +64,7 @@ class StringAnswer extends Answer<StringAnswerDefinition, String> {
   }
 
   @override
-  String toString() => value;
+  String toLocaleString(AppLocalizations appLocale) => value;
 }
 
 
@@ -121,7 +120,7 @@ class NumberAnswer extends Answer<NumberAnswerDefinition, String> {
   }
 
   @override
-  String toString() {
+  String toLocaleString(AppLocalizations appLocale) {
     final unit = definition.input.unit;
     return (unit == null) ? value : '$value $unit';
   }
@@ -149,8 +148,8 @@ class BoolAnswer extends Answer<BoolAnswerDefinition, bool> {
   int get _valueIndex => value ? 0 : 1;
 
   @override
-  String toString() {
-    return definition.input[_valueIndex].name ?? (value ? 'Ja' : 'Nein');
+  String toLocaleString(AppLocalizations appLocale) {
+    return definition.input[_valueIndex].name ?? (value ? appLocale.yes : appLocale.no);
   }
 }
 
@@ -174,7 +173,7 @@ class ListAnswer extends Answer<ListAnswerDefinition, int> {
   bool get isValid => value >= 0 && value < definition.input.length;
 
   @override
-  String toString() => definition.input[value].name;
+  String toLocaleString(AppLocalizations appLocale) => definition.input[value].name;
 }
 
 /// Storing the selected indexes in a [List]
@@ -209,7 +208,7 @@ class MultiListAnswer extends Answer<ListAnswerDefinition, List<int>> {
   }
 
   @override
-  String toString() => value.map((index) => definition.input[index].name).join(', ');
+  String toLocaleString(AppLocalizations appLocale) => value.map((index) => definition.input[index].name).join(', ');
 }
 
 
@@ -239,29 +238,17 @@ class DurationAnswer extends Answer<DurationAnswerDefinition, Duration> {
   bool get isValid => true;
 
   @override
-  String toString() {
-    var durationString = '';
+  String toLocaleString(AppLocalizations appLocale) {
     final days = value.inDays;
     final hours = value.inHours % 24;
     final minutes = value.inMinutes % 60;
     final seconds = value.inSeconds % 60;
 
-    durationString += _buildDurationPartStringByUnit(days, 'Tag', 'Tage');
-    durationString += _buildDurationPartStringByUnit(hours, 'Stunde', 'Stunden');
-    durationString += _buildDurationPartStringByUnit(minutes, 'Minute', 'Minuten');
-    durationString += _buildDurationPartStringByUnit(seconds, 'Sekunde', 'Sekunden');
-    // always remove first white space
-    return durationString.substring(1);
-  }
-
-
-  String _buildDurationPartStringByUnit(int count, String singular, String plural) {
-    if (count > 1) {
-      return ' $count $plural';
-    }
-    if (count > 0) {
-      return ' $count $singular';
-    }
-    return '';
+    return () sync* {
+      if (days > 0) yield appLocale.days(days);
+      if (hours > 0) yield appLocale.hours(hours);
+      if (minutes > 0) yield appLocale.minutes(minutes);
+      if (seconds > 0) yield appLocale.days(seconds);
+    }().join(' ');
   }
 }

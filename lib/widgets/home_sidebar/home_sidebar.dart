@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/view_models/home_view_model.dart';
 import '/commons/routes.dart';
@@ -12,9 +13,10 @@ import 'user_account_header.dart';
 
 class HomeSidebar extends ViewFragment<HomeViewModel> {
   const HomeSidebar({super.key});
-
+  
   @override
   Widget build(BuildContext context, viewModel) {
+    final appLocale = AppLocalizations.of(context)!;
     return Drawer(
       width: min(MediaQuery.of(context).size.width * 0.65, 300),
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -45,17 +47,17 @@ class HomeSidebar extends ViewFragment<HomeViewModel> {
           ),
           CustomListTile(
             leadingIcon: Icons.settings,
-            title: 'Einstellungen',
+            title: appLocale.settingsTitle,
             onTap: () => Navigator.push(context, Routes.settings),
           ),
           CustomListTile(
             leadingIcon: Icons.info,
-            title: 'Über',
+            title: appLocale.aboutTitle,
             onTap: () => Navigator.push(context, Routes.about),
           ),
           CustomListTile(
             leadingIcon: Icons.help,
-            title: 'Hilfe',
+            title: appLocale.helpTitle,
             onTap: () => Navigator.push(context, Routes.help),
           ),
         ],

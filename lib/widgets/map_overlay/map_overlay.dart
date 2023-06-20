@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 
@@ -92,8 +93,8 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
                                   horizontal: 10,
                                 ),
                                 children: [
-                                  const CreditTextPart(
-                                    osm_config.osmCreditsText,
+                                  CreditTextPart(
+                                    AppLocalizations.of(context)!.osmCreditsText,
                                     url: osm_config.osmCreditsURL,
                                   ),
                                   CreditTextPart(

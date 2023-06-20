@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/models/answer.dart';
 import '/models/question_catalog/answer_definition.dart';
@@ -59,6 +60,7 @@ class _StringInputDelegateState extends State<_StringInputDelegate> {
   @override
   Widget build(BuildContext context) {
     final input = widget.definition.input;
+    final appLocale = AppLocalizations.of(context)!;
 
     return TextFormField(
       controller: _textController,
@@ -66,7 +68,7 @@ class _StringInputDelegateState extends State<_StringInputDelegate> {
       textAlignVertical: TextAlignVertical.center,
       maxLength: input.max,
       decoration: InputDecoration(
-        hintText: input.placeholder ?? 'Hier eintragen...',
+        hintText: input.placeholder ?? appLocale.stringInputPlaceholder,
         counter: const Offstage(),
         suffixIcon: IconButton(
           onPressed: _handleChange,
@@ -77,7 +79,7 @@ class _StringInputDelegateState extends State<_StringInputDelegate> {
       autovalidateMode: AutovalidateMode.always,
       validator: (text) {
         if (text != null && text.isNotEmpty && text.length <  input.min ) {
-          return 'Eingabe zu kurz';
+          return appLocale.stringInputValidationErrorMin;
         }
         return null;
       },

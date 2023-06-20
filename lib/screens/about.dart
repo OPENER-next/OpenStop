@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '/widgets/custom_list_tile.dart';
@@ -16,9 +17,10 @@ class AboutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocale = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Über'),
+        title: Text(appLocale.aboutTitle),
       ),
       body: Scrollbar(
         child: SingleChildScrollView(
@@ -33,60 +35,59 @@ class AboutScreen extends StatelessWidget {
                   height: 120,
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 20.0),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20.0),
                 child: Text(
-                  '"Nächster Halt: Barrierefreiheit"',
-                  style: TextStyle(fontStyle: FontStyle.italic),
+                  appLocale.aboutSlogan,
+                  style: const TextStyle(fontStyle: FontStyle.italic),
                 ),
               ),
               CustomListTile(
                 leadingIcon: Icons.info,
                 trailingIcon: Icons.open_in_new,
-                title: 'Version',
+                title: appLocale.aboutVersionLabel,
                 subtitle: app_config.appVersion,
                 onTap: () => launchUrl(_urlVersion),
               ),
               CustomListTile(
                 leadingIcon: Icons.supervisor_account,
                 trailingIcon: Icons.open_in_new,
-                title: 'Autoren',
-                subtitle: '${app_config.appName} Mitwirkende',
+                title: appLocale.aboutAuthorsLabel,
+                subtitle: appLocale.aboutAuthorsDescription(app_config.appName),
                 onTap: () => launchUrl(_urlContributors),
               ),
               CustomListTile(
                 isThreeLine: true,
                 leadingIcon: Icons.lightbulb,
                 trailingIcon: Icons.open_in_new,
-                title: 'Idee',
-                subtitle: 'Technische Universität Chemnitz\n'
-                    'Professur Schaltkreis- und Systementwurf',
+                title: appLocale.aboutIdeaLabel,
+                subtitle: appLocale.aboutIdeaDescription,
                 onTap: () => launchUrl(_urlIdea),
               ),
               CustomListTile(
                 leadingIcon: Icons.code,
                 trailingIcon: Icons.open_in_new,
-                title: 'Quellcode',
+                title: appLocale.aboutSourceCodeLabel,
                 subtitle: 'https://github.com/OPENER-next',
                 onTap: () => launchUrl(_urlCode),
               ),
               CustomListTile(
                 leadingIcon: Icons.copyright,
                 trailingIcon: Icons.open_in_new,
-                title: 'Lizenz',
+                title: appLocale.aboutLicenseLabel,
                 subtitle: 'GPL-3.0',
                 onTap: () => launchUrl(_urlLicense),
               ),
               CustomListTile(
                 leadingIcon: Icons.privacy_tip,
                 trailingIcon: Icons.arrow_forward_ios_rounded,
-                title: 'Datenschutzerklärung',
+                title: appLocale.aboutPrivacyPolicyLabel,
                 onTap: () => Navigator.push(context, Routes.privacyPolicy),
               ),
               CustomListTile(
                 leadingIcon: Icons.text_snippet,
                 trailingIcon: Icons.arrow_forward_ios_rounded,
-                title: 'Lizenzen verwendeter Pakete',
+                title: appLocale.aboutLicensePackageLabel,
                 onTap: () => Navigator.push(context, Routes.licenses),
               ),
               Container(

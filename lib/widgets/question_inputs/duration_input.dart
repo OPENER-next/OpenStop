@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/models/answer.dart';
 import '/models/question_catalog/answer_definition.dart';
@@ -50,18 +51,19 @@ class DurationInput extends QuestionInputWidget<DurationAnswerDefinition, Durati
       height: 150,
       child: Row(
         children: _intersperse(
-          _children,
+          _children(context),
           const VerticalDivider(color: Colors.transparent),
         ).toList(),
       ),
     );
   }
 
-  Iterable<Widget> get _children sync* {
+  Iterable<Widget> _children(BuildContext context) sync* {
+    final appLocale = AppLocalizations.of(context)!;
     if (definition.input.daysStepSize > 0) {
       yield Flexible(
         child: TimeScroller(
-          name: 'Tage',
+          name: appLocale.durationInputDaysLabel,
           step: definition.input.daysStepSize,
           limit: _maxDays,
           value: _remainingDays,
@@ -72,7 +74,7 @@ class DurationInput extends QuestionInputWidget<DurationAnswerDefinition, Durati
     if (definition.input.hoursStepSize > 0) {
       yield Flexible(
         child: TimeScroller(
-          name: 'Stunden',
+          name: appLocale.durationInputHoursLabel,
           step: definition.input.hoursStepSize,
           limit: _maxHours,
           value: _remainingHours,
@@ -83,7 +85,7 @@ class DurationInput extends QuestionInputWidget<DurationAnswerDefinition, Durati
     if (definition.input.minutesStepSize > 0) {
       yield Flexible(
         child: TimeScroller(
-          name: 'Minuten',
+          name: appLocale.durationInputMinutesLabel,
           step: definition.input.minutesStepSize,
           limit: _maxMinutes,
           value: _remainingMinutes,
@@ -94,7 +96,7 @@ class DurationInput extends QuestionInputWidget<DurationAnswerDefinition, Durati
     if (definition.input.secondsStepSize > 0) {
       yield Flexible(
         child: TimeScroller(
-          name: 'Sekunden',
+          name: appLocale.durationInputSecondsLabel,
           step: definition.input.secondsStepSize,
           limit: _maxSeconds,
           value: _remainingSeconds,

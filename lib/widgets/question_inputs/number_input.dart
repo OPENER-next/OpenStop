@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '/models/answer.dart';
 import '/models/question_catalog/answer_definition.dart';
 import 'question_input_widget.dart';
@@ -61,13 +61,14 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
     final input = widget.definition.input;
     final decimalsAllowed = input.decimals == null || input.decimals! > 0;
     final negativeAllowed = input.min == null || input.min! < 0;
+    final appLocale = AppLocalizations.of(context)!;
 
     return TextFormField(
       controller: _textController,
       onChanged: _handleChange,
       textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
-        hintText: input.placeholder ?? 'Hier eintragen...',
+        hintText: input.placeholder ?? appLocale.numberInputPlaceholder,
         suffixText: input.unit,
         suffixIcon: IconButton(
           onPressed: _handleChange,
@@ -87,20 +88,20 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
           if (!answer.isValid) {
             final number = double.tryParse( text.replaceAll(',', '.') );
 
-            final nameString = input.placeholder ?? 'Wert';
+            final nameString = input.placeholder ?? appLocale.numberInputFallbackName;
             final unitString = input.unit != null
               ? ' ${input.unit}'
               : '';
 
             if (number != null) {
               if (input.max != null && number > input.max!) {
-                return '$nameString muss kleiner sein als ${input.max}$unitString.';
+                return appLocale.numberInputValidationErrorMax(nameString, input.max!, unitString);
               }
               else if (input.min != null && number < input.min!) {
-                return '$nameString muss größer sein als ${input.min}$unitString.';
+                return appLocale.numberInputValidationErrorMin(nameString, input.min!, unitString);
               }
             }
-            return 'Ungültige Zahl';
+            return appLocale.numberInputValidationError;
           }
         }
         return null;

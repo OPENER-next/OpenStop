@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' hide View;
 import 'package:flutter/services.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/view_models/onboarding_view_model.dart';
 import '/widgets/dots_indicator.dart';
@@ -38,33 +39,34 @@ class OnboardingScreen extends View<OnboardingViewModel> {
 
   @override
   Widget build(BuildContext context, viewModel) {
+    final appLocale = AppLocalizations.of(context)!;
     final pages = [
       OnboardingPage(
         image: 'assets/images/onboarding/onboarding_1.png',
-        title: 'Hey!',
-        description: 'Wir freuen uns, dass du hier bist und deinen Teil zu einem besseren Nahverkehr beitragen willst.',
-        buttonText: 'So funktioniert\'s',
+        title: appLocale.onboardingGreetingTitle,
+        description: appLocale.onboardingGreetingDescription,
+        buttonText: appLocale.onboardingGreetingButton,
         onButtonTap: viewModel.nextPage,
       ),
       OnboardingPage(
         image: 'assets/images/onboarding/onboarding_2.png',
-        title: 'Schau\'s dir an',
-        description: 'Begib dich zu einer Haltestelle in deiner Umgebung, um ihren aktuellen Zustand zu erfassen.',
-        buttonText: 'Mach\' ich',
+        title: appLocale.onboardingSurveyingTitle,
+        description: appLocale.onboardingSurveyingDescription,
+        buttonText: appLocale.onboardingSurveyingButton,
         onButtonTap: viewModel.nextPage,
       ),
       OnboardingPage(
         image: 'assets/images/onboarding/onboarding_3.png',
-        title: 'Jetzt bist du gefragt',
-        description: 'Wähle zur Erfassung einen Marker in der App aus und beantworte die angezeigten Fragen.',
-        buttonText: 'Okay, verstanden',
+        title: appLocale.onboardingAnsweringTitle,
+        description: appLocale.onboardingAnsweringDescription,
+        buttonText: appLocale.onboardingAnsweringButton,
         onButtonTap: viewModel.nextPage,
       ),
       OnboardingPage(
         image: 'assets/images/onboarding/onboarding_4.png',
-        title: 'Sharing is caring',
-        description: 'Lade deine Antworten auf OpenStreetMap hoch und stelle sie so der ganzen Welt zur Verfügung.',
-        buttonText: 'Los geht\'s',
+        title: appLocale.onboardingContributingTitle,
+        description: appLocale.onboardingContributingDescription,
+        buttonText: appLocale.onboardingContributingButton,
         onButtonTap: () {
           viewModel.markOnboardingAsSeen();
           // remove previous routes to start of with no duplicated home screen

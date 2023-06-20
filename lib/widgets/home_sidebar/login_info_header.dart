@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class LoginInfoHeader extends StatelessWidget {
@@ -12,6 +13,7 @@ class LoginInfoHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final appLocale = AppLocalizations.of(context)!;
 
     return Container(
       width: double.infinity,
@@ -26,7 +28,7 @@ class LoginInfoHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            'Melde dich mit deinem OpenStreetMap-Konto an, um deine Änderungen hochzuladen.',
+            appLocale.loginHint,
             style: TextStyle(
               fontSize: 13,
               color: theme.colorScheme.onPrimary,
@@ -41,7 +43,7 @@ class LoginInfoHeader extends StatelessWidget {
               foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
             ),
             onPressed: onLoginTap,
-            label: const Text('Anmelden'),
+            label: Text(appLocale.login),
             icon: const Icon(Icons.login_rounded),
           ),
         ],
