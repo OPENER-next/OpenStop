@@ -36,10 +36,10 @@ class AboutScreen extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(bottom: 20.0),
+                padding: const EdgeInsets.only(bottom: 20.0),
                 child: Text(
                   appLocale.aboutSlogan,
-                  style: TextStyle(fontStyle: FontStyle.italic),
+                  style: const TextStyle(fontStyle: FontStyle.italic),
                 ),
               ),
               CustomListTile(

@@ -567,7 +567,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     }
     on DioError catch (e) {
       if (e.type == DioErrorType.connectionTimeout) {
-        notifyUser(appLocale!.queryMessageConnectionTimeoutError);
+        notifyUser(appLocale.queryMessageConnectionTimeoutError);
       }
       else if (e.type == DioErrorType.receiveTimeout) {
         notifyUser(appLocale.queryMessageReceiveTimeoutError);
