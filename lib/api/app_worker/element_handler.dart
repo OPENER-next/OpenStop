@@ -16,6 +16,7 @@ import '/models/element_processing/element_processor.dart';
 import '/models/element_variants/base_element.dart';
 import '/models/geographic_geometries.dart';
 import '/models/stop_area_processing/stop_area.dart';
+import '/utils/stream_utils.dart';
 import '/utils/service_worker.dart';
 import 'map_feature_handler.dart';
 import 'question_catalog_handler.dart';
@@ -28,6 +29,8 @@ import 'stop_area_handler.dart';
 mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandler<M>, QuestionCatalogHandler<M> {
   final _elementStreamController = StreamController<ElementUpdate>();
 
+  /// A MultiStream that returns any existing elements on initial subscription.
+  ///
   /// Note for overlapping stop areas this may return the same element twice
   ///
   /// While the underlying code knows if an element was already downloaded,
@@ -36,17 +39,22 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
   /// Moving the filters inside the element processing step and removing
   /// non matching elements there is not a good idea, due to child/parent reference problems.
 
-  Stream<ElementUpdate> get elementStream => _elementStreamController.stream;
+  late final elementStream = _elementStreamController.stream.makeMultiStreamAsync((controller) async {
+    final mfCollection = await mapFeatureCollection;
+    final existingElements = _filterElements(
+      _buildFiltersForStopAreas(loadedStopAreas),
+      Stream.fromIterable(_elementPool.elements),
+    );
+    final elementUpdates = existingElements.map((element) => ElementUpdate.derive(
+      element, mfCollection, matches: true,
+    ));
+    return controller.addStream(elementUpdates);
+  });
 
   final _elementPool = OSMElementProcessor();
 
   final _osmElementQueryHandler = OSMElementQueryAPI();
 
-  /// All stop areas from [stopAreaCache] where elements have been loaded.
-
-  final _loadedStopAreas = <StopArea>{};
-
-  final _loadingStopAreas = <StopArea>{};
 
   /// Retrieves all stop areas in the given bounds and queries the elements for any unloaded stop area.
   ///
@@ -78,11 +86,9 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
   }
 
   Stream<ProcessedElement> _queryElementsByStopArea(StopArea stopArea) async* {
-    if (!_loadingStopAreas.contains(stopArea) && !_loadedStopAreas.contains(stopArea)) {
+    if (stopAreaIsUnloaded(stopArea)) {
       // add to current loading stop areas and mark as loading
-      _loadingStopAreas.add(stopArea);
       markStopArea(stopArea, StopAreaState.loading);
-
       try {
         // query elements by stop areas bbox
         final elementBundle = await _osmElementQueryHandler.queryByBBox(stopArea.bounds);
@@ -91,8 +97,6 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
           .add(elementBundle)
           .map((record) => record.element);
         // on success add to loaded stop areas and mark accordingly
-        _loadedStopAreas.add(stopArea);
-
         if (await stopAreaHasQuestions(stopArea, stopAreaElements)) {
           markStopArea(stopArea, StopAreaState.incomplete);
         }
@@ -105,9 +109,6 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
       catch(e) {
         markStopArea(stopArea, StopAreaState.unloaded);
         rethrow;
-      }
-      finally {
-        _loadingStopAreas.remove(stopArea);
       }
     }
   }
@@ -146,7 +147,7 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
       final affectedElements = diffDetector.takeSnapshot(element.original);
 
       // update stop area state
-      if (await stopAreaHasQuestions(stopArea)) {
+      if (await stopAreaHasQuestions(stopArea, _elementPool.elements)) {
         markStopArea(stopArea, StopAreaState.incomplete);
       }
       else {
@@ -174,15 +175,7 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
     }
   }
 
-  /// Finds a stop area a given element lies within.
-
-  StopArea findCorrespondingStopArea(ProcessedElement element) {
-    return _loadedStopAreas.firstWhere(
-      (stopArea) => stopArea.isPointInside(element.geometry.center),
-      orElse: () => throw StateError('No surrounding stop area found for ${element.type} ${element.id}.'),
-    );
-  }
-
+  @override
   Future<bool> stopAreaHasQuestions(StopArea stopArea, [Iterable<ProcessedElement>? elements]) async {
     final filteredElements = _filterElements(
       _buildFiltersForStopArea(stopArea),
@@ -203,9 +196,15 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
     yield AreaFilter(area: stopArea);
   }
 
+  Stream<ElementFilter> _buildFiltersForStopAreas(Iterable<StopArea> stopAreas) async* {
+    yield QuestionFilter(questionCatalog: await questionCatalog);
+    yield AnyFilter(filters: stopAreas.map((s) => AreaFilter(area: s)));
+  }
+
   @override
-  exit() {
+  void exit() {
     _osmElementQueryHandler.dispose();
+    _elementStreamController.close();
     super.exit();
   }
 }

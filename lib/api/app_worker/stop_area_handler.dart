@@ -1,15 +1,18 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
+import '/models/element_variants/base_element.dart';
 import '/models/stop_area_processing/stop_area.dart';
 import '/models/stop_area_processing/stop_area_generator.dart';
 import '/api/stop_query_api.dart';
+import '/utils/stream_utils.dart';
 import '/utils/cell_cache.dart';
 import '/utils/service_worker.dart';
-
+import 'element_handler.dart';
 
 /// Handles [Stop] querying and [StopArea] generation by a given view box.
 ///
@@ -31,22 +34,68 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
 
   final _loadingCells = <CellIndex>{};
 
+  /// All stop areas from [stopAreaCache] where elements have been loaded.
+
+  final _loadedStopAreas = <StopArea>{};
+
+  final _loadingStopAreas = <StopArea>{};
+
+  late final loadedStopAreas = UnmodifiableSetView(_loadedStopAreas);
+
   /// The cell size in degrees.
   /// Some reference values can be found here: https://en.wikipedia.org/wiki/Decimal_degrees
 
   final double _cellSize = 0.1;
 
+  /// A MultiStream that returns the number of currently loading cells on initial subscription.
+  ///
   /// Streams [StopArea] state updates.
 
-  Stream<StopAreaUpdate> get stopAreasStream => _stopAreasStreamController.stream;
+  late final stopAreasStream = _stopAreasStreamController.stream.makeMultiStreamAsync((controller) async {
+    for (final stopArea in _stopAreaCache.items.expand((cell) => cell)) {
+      final StopAreaState state;
+      if (_loadingStopAreas.contains(stopArea)) {
+        state = StopAreaState.loading;
+      }
+      else if(_loadedStopAreas.contains(stopArea)) {
+        if (await stopAreaHasQuestions(stopArea)) {
+          state = StopAreaState.incomplete;
+        }
+        else {
+          state = StopAreaState.complete;
+        }
+      }
+      else {
+        state = StopAreaState.unloaded;
+      }
+      controller.addSync(StopAreaUpdate(stopArea, state));
+    }
+  });
 
+  /// A MultiStream that returns the number of currently loading cells on initial subscription.
+  ///
   /// Streams the number of loading cells.
 
-  Stream<int> get loadingCellsStream => _loadingCellsStreamController.stream;
+  late final loadingCellsStream = _loadingCellsStreamController.stream.makeMultiStream((controller) {
+    controller.addSync(_loadingCells.length);
+  });
 
   /// Can be used by other handlers like the [ElementHandler] to change the state of a [StopArea].
 
   void markStopArea(StopArea stopArea, StopAreaState state) {
+    if (state == StopAreaState.complete || state == StopAreaState.incomplete) {
+      _loadingStopAreas.remove(stopArea);
+      _loadedStopAreas.add(stopArea);
+    }
+    else if (state == StopAreaState.loading) {
+      _loadingStopAreas.add(stopArea);
+      _loadedStopAreas.remove(stopArea);
+    }
+    else {
+      _loadingStopAreas.remove(stopArea);
+      _loadedStopAreas.remove(stopArea);
+    }
+
     _stopAreasStreamController.add(
       StopAreaUpdate(stopArea, state),
     );
@@ -107,9 +156,25 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
     }
   }
 
+  /// Finds a stop area a given element lies within.
+
+  StopArea findCorrespondingStopArea(ProcessedElement element) {
+    return _loadedStopAreas.firstWhere(
+      (stopArea) => stopArea.isPointInside(element.geometry.center),
+      orElse: () => throw StateError('No surrounding stop area found for ${element.type} ${element.id}.'),
+    );
+  }
+
+  bool stopAreaIsUnloaded(StopArea stopArea) {
+    return !_loadingStopAreas.contains(stopArea) && !_loadedStopAreas.contains(stopArea);
+  }
+
+  // Should be implemented by the element handler to get the elements
+  Future<bool> stopAreaHasQuestions(StopArea stopArea, [Iterable<ProcessedElement>? elements]);
+
 
   @override
-  exit() {
+  void exit() {
     _stopAreasStreamController.close();
     _loadingCellsStreamController.close();
     _stopAPI.dispose();

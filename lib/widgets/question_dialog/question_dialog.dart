@@ -85,6 +85,7 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                                 : null
                               ).toList(),
                               onJump: viewModel.jumpToQuestion,
+                              userName: viewModel.userName,
                             ),
                           ),
                       ],
@@ -92,7 +93,9 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                   ),
                   // Clip widget shadow vertically to prevent overlapping
                   ClipRect(
-                    clipper: const ClipSymmetric(),
+                    clipper: ClipSymmetric(
+                      mediaQuery: MediaQuery.of(context)
+                    ),
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         boxShadow: kElevationToShadow[4],

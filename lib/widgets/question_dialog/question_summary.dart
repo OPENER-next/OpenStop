@@ -15,37 +15,34 @@ class QuestionSummary extends StatelessWidget {
     required this.answers,
     this.onJump,
     this.userName,
-    Key? key
-  })  :
-    assert(questions.length == answers.length, 'Every question should have a corresponding answer.'),
-    super(key: key);
+    super.key,
+  }) :
+    assert(questions.length == answers.length, 'Every question should have a corresponding answer.');
 
   @override
   Widget build(BuildContext context) {
-    const textStyle = TextStyle(
-      height: 1.3,
-      fontSize: 20,
-      fontWeight: FontWeight.bold
-    );
-
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 25,
-        horizontal: 20
+        horizontal: 20,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.only(
-              bottom: 10
+              bottom: 10,
             ),
             child: Text(
               userName != null
-              ? AppLocalizations.of(context)!.questionnaireSummaryDedicatedMessage(userName!)
-              : AppLocalizations.of(context)!.questionnaireSummaryUndedicatedMessage,
-              style: textStyle
-            )
+                ? AppLocalizations.of(context)!.questionnaireSummaryDedicatedMessage(userName!)
+                : AppLocalizations.of(context)!.questionnaireSummaryUndedicatedMessage,
+              style: const TextStyle(
+                height: 1.3,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
           ..._buildEntries(),
         ],
@@ -84,7 +81,7 @@ class QuestionSummary extends StatelessWidget {
           padding: const EdgeInsets.only(
             top: 15,
             bottom: 15,
-            right: 10
+            right: 10,
           ),
           child: Row(
             children: [
@@ -104,10 +101,10 @@ class QuestionSummary extends StatelessWidget {
                   textAlign: TextAlign.right,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                )
+                ),
               ),
             ],
-          )
+          ),
         ),
       ),
     );
