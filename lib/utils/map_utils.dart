@@ -52,21 +52,23 @@ extension AnimationUtils on MapController {
   }
 
 
-  animateToBounds({
+  TickerFuture animateToBounds({
     required TickerProvider ticker,
     required LatLngBounds bounds,
     double maxZoom = 25,
+    double minZoom = 0,
     EdgeInsets padding = EdgeInsets.zero
   }) {
     final newCamera = CameraFit.bounds(
       bounds: bounds,
       maxZoom: maxZoom,
+      minZoom: minZoom,
       padding: padding,
       // round zoom level so zoom will always stick to integer levels
       forceIntegerZoomLevel: true,
     ).fit(camera);
 
-    animateTo(
+    return animateTo(
       ticker: ticker,
       location: newCamera.center,
       zoom: newCamera.zoom,
