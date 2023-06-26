@@ -1538,12 +1538,11 @@
                "highway": "footway",
                "footway": [false, "sidewalk"],
                "surface": false,
-               "indoor": ["no", false],
-               "access": [
-                  "yes",
-                  "customers",
-                  false
-               ]
+               "indoor": ["no", false]
+            },
+            "!osm_tags": {
+               "access": ["no","private"],
+               "foot": ["no", "private"]
             },
             "osm_element": [
                "OpenWay",
@@ -1555,12 +1554,11 @@
                "highway": ["path", "cycleway"],
                "foot": ["yes", "designated"],
                "surface": false,
-               "indoor": ["no", false],
-               "access": [
-                  "yes",
-                  "customers",
-                  false
-               ]
+               "indoor": ["no", false]
+            },
+            "!osm_tags": {
+               "access": ["no","private"],
+               "foot": ["no", "private"]
             },
             "osm_element": [
                "OpenWay",
@@ -1799,12 +1797,11 @@
             "osm_tags": {
                "highway": "steps",
                "wheelchair:lift": false,
-               "conveying": [false, "no"],
-               "access": [
-                  "yes",
-                  "customers",
-                  false
-               ]
+               "conveying": [false, "no"]
+            },
+            "!osm_tags": {
+               "access": ["no","private"],
+               "foot": ["no", "private"]
             },
             "osm_element": "OpenWay"
          }
@@ -2027,12 +2024,11 @@
             "osm_tags": {
                "highway": "steps",
                "conveying": [false, "no"],
-               "step:height": false,
-               "access": [
-                  "yes",
-                  "customers",
-                  false
-               ]
+               "step:height": false
+            },
+            "!osm_tags": {
+               "access": ["no","private"],
+               "foot": ["no", "private"]
             },
             "osm_element": "OpenWay"
          }
@@ -2061,12 +2057,11 @@
             "osm_tags": {
                "highway": "steps",
                "conveying": [false, "no"],
-               "step_count": false,
-               "access": [
-                  "yes",
-                  "customers",
-                  false
-               ]
+               "step_count": false
+            },
+            "!osm_tags": {
+               "access": ["no","private"],
+               "foot": ["no", "private"]
             },
             "osm_element": "OpenWay"
          }
@@ -2137,12 +2132,11 @@
             "osm_tags": {
                "highway": "steps",
                "conveying": [false, "no"],
-               "handrail": false,
-               "access": [
-                  "yes",
-                  "customers",
-                  false
-               ]
+               "handrail": false
+            },
+            "!osm_tags": {
+               "access": ["no","private"],
+               "foot": ["no", "private"]
             }
          }
       ]
