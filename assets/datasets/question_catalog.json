@@ -1548,6 +1548,10 @@
                "surface": false,
                "indoor": ["no", false]
             },
+            "!osm_tags": {
+               "access": ["no","private"],
+               "foot": ["no", "private"]
+            },
             "osm_element": [
                "OpenWay",
                "ClosedWay"
@@ -1559,6 +1563,10 @@
                "foot": ["yes", "designated"],
                "surface": false,
                "indoor": ["no", false]
+            },
+            "!osm_tags": {
+               "access": ["no","private"],
+               "foot": ["no", "private"]
             },
             "osm_element": [
                "OpenWay",
@@ -1799,6 +1807,10 @@
                "wheelchair:lift": false,
                "conveying": [false, "no"]
             },
+            "!osm_tags": {
+               "access": ["no","private"],
+               "foot": ["no", "private"]
+            },
             "osm_element": "OpenWay"
          }
       ]
@@ -2022,6 +2034,10 @@
                "conveying": [false, "no"],
                "step:height": false
             },
+            "!osm_tags": {
+               "access": ["no","private"],
+               "foot": ["no", "private"]
+            },
             "osm_element": "OpenWay"
          }
       ]
@@ -2050,6 +2066,10 @@
                "highway": "steps",
                "conveying": [false, "no"],
                "step_count": false
+            },
+            "!osm_tags": {
+               "access": ["no","private"],
+               "foot": ["no", "private"]
             },
             "osm_element": "OpenWay"
          }
@@ -2121,6 +2141,10 @@
                "highway": "steps",
                "conveying": [false, "no"],
                "handrail": false
+            },
+            "!osm_tags": {
+               "access": ["no","private"],
+               "foot": ["no", "private"]
             }
          }
       ]
