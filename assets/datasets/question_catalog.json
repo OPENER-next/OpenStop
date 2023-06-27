@@ -675,6 +675,19 @@
                   }
                }
             ]
+         },
+         {
+            "osm_element": [
+               "ClosedWay",
+               "Relation"
+            ],
+            "osm_tags": {
+               "public_transport": "platform",
+               "railway": "platform",
+               "bus": [false, "no"],
+               "tram": [false, "no"],
+               "announcement": false
+            }
          }
       ]
    },
