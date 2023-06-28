@@ -8,6 +8,7 @@ on:
       - '**/map_feature_collection.json'
       - '**/map_feature_collection_schema.json'
       - '**/osm_condition_schema.json'
+      - '**/expression_schema.json'
   pull_request:
     paths:
       - '**/question_catalog.json'
@@ -15,6 +16,7 @@ on:
       - '**/map_feature_collection.json'
       - '**/map_feature_collection_schema.json'
       - '**/osm_condition_schema.json'
+      - '**/expression_schema.json'
 
   # Allow running this workflow manually from the Actions tab
   workflow_dispatch:
