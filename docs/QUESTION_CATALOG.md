@@ -283,7 +283,7 @@ output: `operator=tag_value`
 Adds a given String to a target String for each time the target String length is less than a given width.
 
 First argument represents the padding String.
-Second argument specifies the desired width. Positive values will prepend, negative values will append to the target String.
+Second argument specifies the desired width. Positive values will prepend, negative values will append to the target String. Remember that the final String length may be greater than the desired width when the padding String contains more than one character.
 Third argument resembles the target String.
 
 **Examples:**
