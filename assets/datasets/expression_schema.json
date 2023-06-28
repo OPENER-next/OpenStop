@@ -7,7 +7,7 @@
       "anyOf": [
         {
           "type": "string",
-          "enum": ["COALESCE", "JOIN", "CONCAT", "COUPLE"]
+          "enum": ["COALESCE", "JOIN", "CONCAT", "COUPLE", "PAD", "INSERT", "REPLACE"]
         },
         {
           "type": "string",
