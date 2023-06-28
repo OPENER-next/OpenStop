@@ -391,6 +391,42 @@ The example will write the three tags *bus*, *tram* & *train*. For unselected op
 }
 ```
 
+#### Using expressions to convert centimeters to meters
+The example makes use of the 3 expressions PAD, INSERT and REPLACE to convert from centimeters to meters. The REPLACE expression is only used to remove any pending zeros (and potentially the decimal point). Note that this expression combination only works for positive integers (not for negative or decimal numbers) and does a conversion by exactly two decimal places to the left.
+
+**Explanation:** The expressions evaluate from the inner most to the outer most as shown in the table below.
+
+| $input | PAD   | INSERT | REPLACE |
+| ------ | ----- | ------ | ------- |
+| 1      | 001   | 0.01   | 0.01    |
+| 1000   | 1000  | 10.00  | 10      |
+| 12     | 012   | 0.12   | 0.12    |
+| 0      | 000   | 0.00   | 0       |
+| 102    | 102   | 1.02   | 1.02    |
+| 120    | 120   | 1.20   | 1.2     |
+
+
+```jsonc
+"answer": {
+    "type": "Number",
+    "input": {
+      "placeholder": "Step height",
+      "decimals": 0,
+      "min": 0,
+      "max": 40,
+      "unit": "Centimeter"
+    },
+    "constructor": {
+      "height": [
+          "REPLACE", "/\\.?0{1,2}$/", "", [
+            "INSERT", ".", "-2", [
+                "PAD", "0", "3", "$input"
+            ]
+          ]
+      ]
+    }
+}
+```
 
 
 ## The `conditions` part
