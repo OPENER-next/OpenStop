@@ -1,87 +1,74 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide View;
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_mvvm_architecture/base.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '/view_models/onboarding_view_model.dart';
 import '/widgets/dots_indicator.dart';
-import '/view_models/preferences_provider.dart';
 import '/commons/routes.dart';
 
 
-class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({Key? key}) : super(key: key);
+class OnboardingScreen extends View<OnboardingViewModel> {
+  const OnboardingScreen({super.key}) : super(create: OnboardingViewModel.new);
 
-  @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
-}
-
-class _OnboardingScreenState extends State<OnboardingScreen> {
-
-  final _controller = PageController();
   // Ideally has to match the number of pages
-  final _colorArray = <Color>[
+  static final _colorArray = <Color>[
     Colors.blueAccent.shade100,
     Colors.deepPurpleAccent.shade100,
     Colors.purpleAccent.shade100,
     Colors.redAccent.shade100,
   ];
-  late final _background = _buildColorSequence(_colorArray);
 
-  TweenSequence<Color?> _buildColorSequence(List<Color> colors) {
+  static TweenSequence<Color?> _buildColorSequence(List<Color> colors) {
     assert(colors.isNotEmpty, 'Colors must not be empty');
     return TweenSequence(
-        List.generate(
-            colors.length == 1 ? colors.length : colors.length - 1,
-                (index) =>
-                TweenSequenceItem(
-                    weight: 1.0,
-                    tween: ColorTween(
-                        begin: colors[index],
-                        end: colors[colors.length == 1 ? index : index + 1]
-                    )
-                )
-        )
+      List.generate(
+        colors.length == 1 ? colors.length : colors.length - 1,
+        (index) => TweenSequenceItem(
+          weight: 1.0,
+          tween: ColorTween(
+            begin: colors[index],
+            end: colors[colors.length == 1 ? index : index + 1],
+          ),
+        ),
+      ),
     );
   }
 
-  _nextPage() {
-    _controller.nextPage(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.ease
-    );
-  }
+  static final _backgroundColorSequence = _buildColorSequence(_colorArray);
 
   @override
-  Widget build(BuildContext context) {
-
+  Widget build(BuildContext context, viewModel) {
+    final appLocale = AppLocalizations.of(context)!;
     final pages = [
       OnboardingPage(
         image: 'assets/images/onboarding/onboarding_1.png',
-        title: 'Hey!',
-        description: 'Wir freuen uns, dass du hier bist und deinen Teil zu einem besseren Nahverkehr beitragen willst.',
-        buttonText: 'So funktioniert\'s',
-        onButtonTap: _nextPage,
+        title: appLocale.onboardingGreetingTitle,
+        description: appLocale.onboardingGreetingDescription,
+        buttonText: appLocale.onboardingGreetingButton,
+        onButtonTap: viewModel.nextPage,
       ),
       OnboardingPage(
         image: 'assets/images/onboarding/onboarding_2.png',
-        title: 'Schau\'s dir an',
-        description: 'Begib dich zu einer Haltestelle in deiner Umgebung, um ihren aktuellen Zustand zu erfassen.',
-        buttonText: 'Mach\' ich',
-        onButtonTap: _nextPage,
+        title: appLocale.onboardingSurveyingTitle,
+        description: appLocale.onboardingSurveyingDescription,
+        buttonText: appLocale.onboardingSurveyingButton,
+        onButtonTap: viewModel.nextPage,
       ),
       OnboardingPage(
         image: 'assets/images/onboarding/onboarding_3.png',
-        title: 'Jetzt bist du gefragt',
-        description: 'Wähle zur Erfassung einen Marker in der App aus und beantworte die angezeigten Fragen.',
-        buttonText: 'Okay, verstanden',
-        onButtonTap: _nextPage,
+        title: appLocale.onboardingAnsweringTitle,
+        description: appLocale.onboardingAnsweringDescription,
+        buttonText: appLocale.onboardingAnsweringButton,
+        onButtonTap: viewModel.nextPage,
       ),
       OnboardingPage(
         image: 'assets/images/onboarding/onboarding_4.png',
-        title: 'Sharing is caring',
-        description: 'Lade deine Antworten auf OpenStreetMap hoch und stelle sie so der ganzen Welt zur Verfügung.',
-        buttonText: 'Los geht\'s',
+        title: appLocale.onboardingContributingTitle,
+        description: appLocale.onboardingContributingDescription,
+        buttonText: appLocale.onboardingContributingButton,
         onButtonTap: () {
-          context.read<PreferencesProvider>().hasSeenOnboarding = true;
+          viewModel.markOnboardingAsSeen();
           // remove previous routes to start of with no duplicated home screen
           // when re-visiting the onboarding screen
           Navigator.of(context).pushAndRemoveUntil(Routes.home, (route) => false);
@@ -118,12 +105,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         ),
         child: Scaffold(
           body: AnimatedBuilder(
-            animation: _controller,
+            animation: viewModel.controller,
             builder: (context, child) {
-              final color = _controller.hasClients && pages.length > 1 ? _controller.page! / (pages.length - 1) : 0.0;
+              final color = viewModel.controller.hasClients && pages.length > 1 ? viewModel.controller.page! / (pages.length - 1) : 0.0;
 
               return ColoredBox(
-                color: _background.evaluate(AlwaysStoppedAnimation(color))!,
+                color: _backgroundColorSequence.evaluate(AlwaysStoppedAnimation(color))!,
                 child: child,
               );
             },
@@ -137,7 +124,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: PageView(
                       scrollBehavior: const ScrollBehavior().copyWith(overscroll: false),
                       scrollDirection: Axis.horizontal,
-                      controller: _controller,
+                      controller: viewModel.controller,
                       physics: const ClampingScrollPhysics(),
                       allowImplicitScrolling: true,
                       children: pages,
@@ -149,11 +136,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         bottom: MediaQuery.of(context).padding.bottom
                     ),
                     child: DotsIndicator(
-                      controller: _controller,
+                      controller: viewModel.controller,
                       itemCount: pages.length,
                       color: Colors.white,
                       onPageSelected: (int page) {
-                        _controller.animateToPage(
+                        viewModel.controller.animateToPage(
                           page,
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.ease,
@@ -170,6 +157,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 }
+
 
 class OnboardingPage extends StatelessWidget {
   final String image;

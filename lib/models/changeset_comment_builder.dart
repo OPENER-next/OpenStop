@@ -1,7 +1,7 @@
 import 'element_variants/base_element.dart';
 import 'map_feature_collection.dart';
-import 'stop.dart';
-import 'stop_area.dart';
+import 'stop_area_processing/stop.dart';
+import 'stop_area_processing/stop_area.dart';
 
 
 /// Build the changeset comment based on the surrounding stop area and changed osm elements.

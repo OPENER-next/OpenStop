@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '/view_models/osm_authenticated_user_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QuestionSummary extends StatelessWidget {
   final List<String> questions;
@@ -10,44 +8,41 @@ class QuestionSummary extends StatelessWidget {
 
   final void Function(int index)? onJump;
 
+  final String? userName;
+
   const QuestionSummary({
     required this.questions,
     required this.answers,
     this.onJump,
-    Key? key
-  })  :
-    assert(questions.length == answers.length, 'Every question should have a corresponding answer.'),
-    super(key: key);
+    this.userName,
+    super.key,
+  }) :
+    assert(questions.length == answers.length, 'Every question should have a corresponding answer.');
 
   @override
   Widget build(BuildContext context) {
-    const textStyle = TextStyle(
-      height: 1.3,
-      fontSize: 20,
-      fontWeight: FontWeight.bold
-    );
-
-    final userProvider = context.watch<OSMAuthenticatedUserProvider>();
-    final userName = userProvider.isLoggedIn
-      ? '${userProvider.authenticatedUser!.name} '
-      : '';
-
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 25,
-        horizontal: 20
+        horizontal: 20,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.only(
-              bottom: 10
+              bottom: 10,
             ),
             child: Text(
-              'Danke ${userName}für deine Antworten. \nBitte prüfe sie vor dem Hochladen nochmal.',
-              style: textStyle
-            )
+              userName != null
+                ? AppLocalizations.of(context)!.questionnaireSummaryDedicatedMessage(userName!)
+                : AppLocalizations.of(context)!.questionnaireSummaryUndedicatedMessage,
+              style: const TextStyle(
+                height: 1.3,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
           ..._buildEntries(),
         ],
@@ -86,7 +81,7 @@ class QuestionSummary extends StatelessWidget {
           padding: const EdgeInsets.only(
             top: 15,
             bottom: 15,
-            right: 10
+            right: 10,
           ),
           child: Row(
             children: [
@@ -106,10 +101,10 @@ class QuestionSummary extends StatelessWidget {
                   textAlign: TextAlign.right,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                )
+                ),
               ),
             ],
-          )
+          ),
         ),
       ),
     );

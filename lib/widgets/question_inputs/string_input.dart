@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/models/answer.dart';
 import '/models/question_catalog/answer_definition.dart';
@@ -14,7 +15,7 @@ class StringInput extends QuestionInputWidget<StringAnswerDefinition, StringAnsw
 
   @override
   Widget build(BuildContext context) {
-    return _StringInputDelegate(definition, controller, key: ValueKey(definition));
+    return _StringInputDelegate(definition, controller);
   }
 }
 
@@ -28,9 +29,7 @@ class _StringInputDelegate extends StatefulWidget {
   final StringAnswerDefinition definition;
   final AnswerController<StringAnswer> controller;
 
-  const _StringInputDelegate(this.definition, this.controller, {
-    super.key
-  });
+  const _StringInputDelegate(this.definition, this.controller);
 
   @override
   State<_StringInputDelegate> createState() => _StringInputDelegateState();
@@ -48,19 +47,20 @@ class _StringInputDelegateState extends State<_StringInputDelegate> {
     // we don't actually need to listen to the controller
     final newValue = widget.controller.answer?.value ?? '';
     if (_textController.text != newValue) {
-      _textController.value = TextEditingValue(
-        text: newValue,
+      final selection = _textController.selection.end > newValue.length
         // required, otherwise the input loses focus when clearing it
         // even though the cursor is still displayed in the input and pressing a special character
         // like a dot (.) will refocus the input field for whatever reason
-        selection: TextSelection.collapsed(offset: newValue.length)
-      );
+        ? TextSelection.collapsed(offset: newValue.length)
+        : null;
+      _textController.value = _textController.value.copyWith(text: newValue, selection: selection);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final input = widget.definition.input;
+    final appLocale = AppLocalizations.of(context)!;
 
     return TextFormField(
       controller: _textController,
@@ -68,7 +68,7 @@ class _StringInputDelegateState extends State<_StringInputDelegate> {
       textAlignVertical: TextAlignVertical.center,
       maxLength: input.max,
       decoration: InputDecoration(
-        hintText: input.placeholder ?? 'Hier eintragen...',
+        hintText: input.placeholder ?? appLocale.stringInputPlaceholder,
         counter: const Offstage(),
         suffixIcon: IconButton(
           onPressed: _handleChange,
@@ -79,7 +79,7 @@ class _StringInputDelegateState extends State<_StringInputDelegate> {
       autovalidateMode: AutovalidateMode.always,
       validator: (text) {
         if (text != null && text.isNotEmpty && text.length <  input.min ) {
-          return 'Eingabe zu kurz';
+          return appLocale.stringInputValidationErrorMin;
         }
         return null;
       },

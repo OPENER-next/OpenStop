@@ -33,18 +33,32 @@ class OSMElementProcessor {
   /// Already existing element will be discarded.
   ///
   /// Elements whose geometry could not be calculated will **not be included**.
+  ///
+  /// Returns all added elements and marks whether they are new or pre-existed.
 
-  void add(OSMElementBundle elements) {
+  Iterable<({ProcessedElement element, bool isNew})> add(OSMElementBundle elements) {
     // convert to list so lazy iterable is evaluated
-    final newNodes = _addNodes(elements.nodes)
+    final nodeRecords = _addNodes(elements.nodes)
       .toList(growable: false);
-    final newWays = _addWays(elements.ways)
+    final wayRecords = _addWays(elements.ways)
       .toList(growable: false);
-    final newRelations = _addRelations(elements.relations)
+    final relationRecords = _addRelations(elements.relations)
       .toList(growable: false);
+
+    final newNodes = nodeRecords
+      .where((record) => record.isNew)
+      .map((record) => record.element);
+    final newWays = wayRecords
+      .where((record) => record.isNew)
+      .map((record) => record.element);
+    final newRelations = relationRecords
+      .where((record) => record.isNew)
+      .map((record) => record.element);
+
     // resolve references AFTER all elements have been added
     _resolveWays(newWays);
     _resolveRelations(newRelations);
+
     // geometry calculation depends on parent/children assignment
     // due to inner dependencies first process nodes, then ways and then relations
     // also remove any elements where geometry calculation failed
@@ -54,6 +68,12 @@ class OSMElementProcessor {
       .forEach((e) => _waysLookUp.remove(e.id));
     _calcGeometries(newRelations)
       .forEach((e) => _relationsLookUp.remove(e.id));
+
+    // don't use sync* and yield here so the above statements get evaluated even if the returned iterable isn't read
+    return nodeRecords
+      .cast<({ProcessedElement element, bool isNew})>()
+      .followedBy(wayRecords)
+      .followedBy(relationRecords);
   }
 
   /// Fast way to get an element by it's type and id.
@@ -71,46 +91,46 @@ class OSMElementProcessor {
 
   /// Convert and add nodes **lazily** if not already existing.
   ///
-  /// Returns all newly added nodes.
+  /// Returns all added nodes and marks if they are new or already existed.
 
-  Iterable<ProcessedNode> _addNodes(Iterable<OSMNode> nodes) sync* {
+  Iterable<({ProcessedNode element, bool isNew})> _addNodes(Iterable<OSMNode> nodes) sync* {
     for (final node in nodes) {
       var isNew = false;
       final pNode = _nodesLookUp.putIfAbsent(node.id, () {
         isNew = true;
         return ProcessedNode(node);
       });
-      if (isNew) yield pNode;
+      yield (element: pNode, isNew: isNew);
     }
   }
 
   /// Convert and add ways **lazily** if not already existing.
   ///
-  /// Returns all newly added ways.
+  /// Returns all newly added ways and marks if they are new or already existed.
 
-  Iterable<ProcessedWay> _addWays(Iterable<OSMWay> ways) sync* {
+  Iterable<({ProcessedWay element, bool isNew})> _addWays(Iterable<OSMWay> ways) sync* {
     for (final way in ways) {
       var isNew = false;
       final pWay = _waysLookUp.putIfAbsent(way.id, () {
         isNew = true;
         return ProcessedWay(way);
       });
-      if (isNew) yield pWay;
+      yield (element: pWay, isNew: isNew);
     }
   }
 
   /// Convert and add relations **lazily** if not already existing.
   ///
-  /// Returns all newly added relations.
+  /// Returns all newly added relations and marks if they are new or already existed.
 
-  Iterable<ProcessedRelation> _addRelations(Iterable<OSMRelation> relations) sync* {
+  Iterable<({ProcessedRelation element, bool isNew})> _addRelations(Iterable<OSMRelation> relations) sync* {
     for (final relation in relations) {
       var isNew = false;
       final pRelation = _relationsLookUp.putIfAbsent(relation.id, () {
         isNew = true;
         return ProcessedRelation(relation);
       });
-      if (isNew) yield pRelation;
+      yield (element: pRelation, isNew: isNew);
     }
   }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '/models/answer.dart';
 import '/models/question_catalog/answer_definition.dart';
 import 'question_input_widget.dart';
@@ -14,7 +14,7 @@ class NumberInput extends QuestionInputWidget<NumberAnswerDefinition, NumberAnsw
 
   @override
   Widget build(BuildContext context) {
-    return _NumberInputDelegate(definition, controller, key: ValueKey(definition));
+    return _NumberInputDelegate(definition, controller);
   }
 }
 
@@ -28,9 +28,7 @@ class _NumberInputDelegate extends StatefulWidget {
   final NumberAnswerDefinition definition;
   final AnswerController<NumberAnswer> controller;
 
-  const _NumberInputDelegate(this.definition, this.controller, {
-    super.key
-  });
+  const _NumberInputDelegate(this.definition, this.controller);
 
   @override
   State<_NumberInputDelegate> createState() => _NumberInputDelegateState();
@@ -48,13 +46,13 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
     // we don't actually need to listen to the controller
     final newValue = widget.controller.answer?.value ?? '';
     if (_textController.text != newValue) {
-      _textController.value = TextEditingValue(
-        text: newValue,
+      final selection = _textController.selection.end > newValue.length
         // required, otherwise the input loses focus when clearing it
         // even though the cursor is still displayed in the input and pressing a special character
         // like a dot (.) will refocus the input field for whatever reason
-        selection: TextSelection.collapsed(offset: newValue.length)
-      );
+        ? TextSelection.collapsed(offset: newValue.length)
+        : null;
+      _textController.value = _textController.value.copyWith(text: newValue, selection: selection);
     }
   }
 
@@ -63,13 +61,14 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
     final input = widget.definition.input;
     final decimalsAllowed = input.decimals == null || input.decimals! > 0;
     final negativeAllowed = input.min == null || input.min! < 0;
+    final appLocale = AppLocalizations.of(context)!;
 
     return TextFormField(
       controller: _textController,
       onChanged: _handleChange,
       textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
-        hintText: input.placeholder ?? 'Hier eintragen...',
+        hintText: input.placeholder ?? appLocale.numberInputPlaceholder,
         suffixText: input.unit,
         suffixIcon: IconButton(
           onPressed: _handleChange,
@@ -89,20 +88,20 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
           if (!answer.isValid) {
             final number = double.tryParse( text.replaceAll(',', '.') );
 
-            final nameString = input.placeholder ?? 'Wert';
+            final nameString = input.placeholder ?? appLocale.numberInputFallbackName;
             final unitString = input.unit != null
               ? ' ${input.unit}'
               : '';
 
             if (number != null) {
               if (input.max != null && number > input.max!) {
-                return '$nameString muss kleiner sein als ${input.max}$unitString.';
+                return appLocale.numberInputValidationErrorMax(nameString, input.max!, unitString);
               }
               else if (input.min != null && number < input.min!) {
-                return '$nameString muss größer sein als ${input.min}$unitString.';
+                return appLocale.numberInputValidationErrorMin(nameString, input.min!, unitString);
               }
             }
-            return 'Ungültige Zahl';
+            return appLocale.numberInputValidationError;
           }
         }
         return null;

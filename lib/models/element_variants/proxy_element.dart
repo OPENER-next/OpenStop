@@ -3,12 +3,12 @@ part of 'base_element.dart';
 /// A wrapper class to modify the tags of [OSMElement]s without changing or exposing them.
 
 class ProxyElement<T extends osmapi.OSMElement, G extends GeographicGeometry> extends ProcessedElement<T, G> {
-  final ProcessedElement<T, G> _element;
+  final ProcessedElement<T, G> original;
 
-  ProxyElement(this._element, {
+  ProxyElement(this.original, {
     Map<String, String>? additionalTags,
   }) : additionalTags = additionalTags ?? {},
-       super(_element._osmElement);
+       super(original._osmElement);
 
   /// Tags that should be added or overridden.
 
@@ -53,18 +53,18 @@ class ProxyElement<T extends osmapi.OSMElement, G extends GeographicGeometry> ex
   // forward methods from processed elements
 
   @override
-  G get geometry => _element.geometry;
+  G get geometry => original.geometry;
 
   /// Any elements this element is a part of.
   /// The elements are unordered and do not contain duplicates.
   @override
-  UnmodifiableSetView<ParentElement> get parents => _element.parents;
+  UnmodifiableSetView<ParentElement> get parents => original.parents;
 
   /// Any elements this element consists of.
   /// The elements are unordered and do not contain duplicates.
   @override
-  UnmodifiableSetView<ChildElement> get children => _element.children;
+  UnmodifiableSetView<ChildElement> get children => original.children;
 
   @override
-  void calcGeometry() => _element.calcGeometry();
+  void calcGeometry() => original.calcGeometry();
 }

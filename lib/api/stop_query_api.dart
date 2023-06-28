@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:latlong2/latlong.dart';
-import '/models/stop.dart';
+import '/models/stop_area_processing/stop.dart';
 
 
 /// This class exposes API calls for querying [Stop]s via the Overpass API.

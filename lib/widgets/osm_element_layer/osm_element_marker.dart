@@ -25,12 +25,19 @@ class OsmElementMarker extends StatefulWidget {
 }
 
 class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerProviderStateMixin {
-  late final _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 600));
-  late final _animation = CurvedAnimation(
-    parent: _controller,
-    curve: Curves.easeInOutCubicEmphasized,
-    reverseCurve: Curves.easeInOutCubicEmphasized.flipped,
-  );
+  late final AnimationController _controller;
+  late final CurvedAnimation _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 600));
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOutCubicEmphasized,
+      reverseCurve: Curves.easeInOutCubicEmphasized.flipped,
+    );
+  }
 
   @override
   void didUpdateWidget(covariant OsmElementMarker oldWidget) {

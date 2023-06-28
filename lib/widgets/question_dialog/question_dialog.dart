@@ -1,13 +1,10 @@
+import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:osm_api/osm_api.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '/view_models/home_view_model.dart';
 import '/models/question_catalog/question_definition.dart';
-import '/view_models/osm_elements_provider.dart';
-import '/view_models/osm_authenticated_user_provider.dart';
-import '/view_models/questionnaire_provider.dart';
-import '/widgets/custom_snackbar.dart';
 import '/widgets/question_inputs/question_input_widget.dart';
 import '/widgets/question_dialog/question_summary.dart';
 import '/utils/ui_utils.dart';
@@ -18,7 +15,7 @@ import 'question_sheet.dart';
 import 'question_text_header.dart';
 
 
-class QuestionDialog extends StatefulWidget {
+class QuestionDialog extends ViewFragment<HomeViewModel> {
   final int activeQuestionIndex;
 
   final List<QuestionDefinition> questions;
@@ -26,42 +23,34 @@ class QuestionDialog extends StatefulWidget {
 
   final bool showSummary;
 
-  final double maxHeightFactor;
-
   const QuestionDialog({
     required this.activeQuestionIndex,
     required this.questions,
     required this.answers,
     this.showSummary = false,
-    this.maxHeightFactor = 0.75,
     Key? key
   }) :
     assert(questions.length == answers.length, 'Every question should have a corresponding answer controller.'),
     super(key: key);
 
   @override
-  State<QuestionDialog> createState() => _QuestionDialogState();
-}
+  Widget build(BuildContext context, viewModel) {
+    final layerLink = LayerLink();
 
-
-class _QuestionDialogState extends State<QuestionDialog> {
-  final _layerLink = LayerLink();
-
-  @override
-  Widget build(BuildContext context) {
-    final questionCount = widget.questions.length;
-    final activeIndex = widget.showSummary ? questionCount : widget.activeQuestionIndex;
+    final questionCount = questions.length;
+    final activeIndex = showSummary ? questionCount : activeQuestionIndex;
     final hasPreviousQuestion = activeIndex > 0;
-    final hasNextQuestion = widget.activeQuestionIndex < questionCount - 1;
+    final hasNextQuestion = activeQuestionIndex < questionCount - 1;
 
-    final currentIsValidAnswer = widget.answers[widget.activeQuestionIndex].hasValidAnswer;
-    final hasAnyValidAnswer = widget.answers.any((controller) => controller.hasValidAnswer);
+    final currentIsValidAnswer = answers[activeQuestionIndex].hasValidAnswer;
+    final hasAnyValidAnswer = answers.any((controller) => controller.hasValidAnswer);
+
+    final appLocale = AppLocalizations.of(context)!;
 
     // Use WillPopScope with "false" to prevent that back button closes app instead of Question Dialog
     return WillPopScope(
       onWillPop: () async {
-        final questionnaire = context.read<QuestionnaireProvider>();
-        questionnaire.close();
+        viewModel.closeQuestionnaire();
         return false;
       },
       child: SafeArea(
@@ -72,7 +61,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
           child: ConstrainedBox(
             constraints: BoxConstraints(
               maxWidth: 500,
-              maxHeight: MediaQuery.of(context).size.height * widget.maxHeightFactor,
+              maxHeight: MediaQuery.of(context).size.height * viewModel.questionDialogMaxHeightFactor,
             ),
             child: Stack(
               children: [
@@ -83,28 +72,30 @@ class _QuestionDialogState extends State<QuestionDialog> {
                         index: activeIndex,
                         children: [
                           ...Iterable<Widget>.generate(
-                            questionCount,
-                            _buildQuestion
+                            questionCount, _buildQuestion,
                           ),
                           QuestionSheet(
-                            elevate: widget.showSummary,
+                            elevate: showSummary,
                             child: QuestionSummary(
-                              questions: widget.questions.map(
+                              questions: questions.map(
                                 (question) => question.name
                               ).toList(),
-                              answers: widget.answers.map((controller) => controller.hasValidAnswer
-                                ? controller.answer.toString()
+                              answers: answers.map((controller) => controller.hasValidAnswer
+                                ? controller.answer?.toLocaleString(appLocale)
                                 : null
                               ).toList(),
-                              onJump: _handleJump
-                            )
-                          )
-                      ]
-                    )
+                              onJump: viewModel.jumpToQuestion,
+                              userName: viewModel.userName,
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
                   // Clip widget shadow vertically to prevent overlapping
                   ClipRect(
-                    clipper: const ClipSymmetric(),
+                    clipper: ClipSymmetric(
+                      mediaQuery: MediaQuery.of(context)
+                    ),
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         boxShadow: kElevationToShadow[4],
@@ -118,22 +109,22 @@ class _QuestionDialogState extends State<QuestionDialog> {
                               backgroundColor: Theme.of(context).colorScheme.onBackground,
                             ),
                             CompositedTransformTarget(
-                              link: _layerLink,
+                              link: layerLink,
                               child: QuestionNavigationBar(
-                                nextText: widget.showSummary
+                                nextText: showSummary
                                   ? null
                                   : !hasNextQuestion
-                                    ? 'Abschließen'
+                                    ? appLocale.finish
                                     : currentIsValidAnswer
-                                      ? 'Weiter'
-                                      : 'Überspringen',
+                                      ? appLocale.next
+                                      : appLocale.skip,
                                 backText: hasPreviousQuestion
-                                  ? 'Zurück'
+                                  ? appLocale.back
                                   : null,
                                 onNext: hasNextQuestion || hasAnyValidAnswer
-                                  ? _handleNext
+                                  ? viewModel.goToNextQuestion
                                   : null,
-                                onBack: _handleBack,
+                                onBack: viewModel.goToPreviousQuestion,
                               ),
                             ),
                           ],
@@ -145,7 +136,7 @@ class _QuestionDialogState extends State<QuestionDialog> {
                 // extra stack is necessary because the CompositedTransformFollower widget
                 // will take up the space where it was originally placed
                 CompositedTransformFollower(
-                  link: _layerLink,
+                  link: layerLink,
                   targetAnchor: Alignment.topCenter,
                   followerAnchor: Alignment.center,
                   child: AnimatedSwitcher(
@@ -156,36 +147,37 @@ class _QuestionDialogState extends State<QuestionDialog> {
                       scale: animation,
                       child: child,
                     ),
-                    child: widget.showSummary && hasAnyValidAnswer
+                    child: showSummary && hasAnyValidAnswer
                       ? FloatingActionButton.large(
                         elevation: 0,
                         highlightElevation: 2,
                         shape: const CircleBorder(),
                         backgroundColor: Theme.of(context).colorScheme.primary,
-                        onPressed: _handleSubmit,
+                        onPressed: viewModel.submitQuestionnaire,
                         child: Icon(
                           MdiIcons.cloudUpload,
                           color: Theme.of(context).colorScheme.onPrimary,
-                        )
+                        ),
                       )
                       : null
-                  )
-                )
+                  ),
+                ),
               ],
-            )
-          )
-        )
+            ),
+          ),
+        ),
       ),
     );
   }
 
 
   Widget _buildQuestion(int index) {
-    final question = widget.questions[index];
-    final isActive = widget.activeQuestionIndex == index;
+    final question = questions[index];
+    final isActive = activeQuestionIndex == index;
 
     return QuestionSheet(
       elevate: isActive,
+      // important otherwise animation will fail
       key: ValueKey(question),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -199,80 +191,15 @@ class _QuestionDialogState extends State<QuestionDialog> {
             padding: const EdgeInsets.only(
               right: 20,
               left: 20,
-              bottom: 30
+              bottom: 30,
             ),
             child: QuestionInputWidget.fromAnswerDefinition(
               definition: question.answer,
-              controller: widget.answers[index],
-            )
-          )
+              controller: answers[index],
+            ),
+          ),
         ],
       ),
     );
-  }
-
-
-  void _handleBack() {
-    // always unfocus the current node to close all onscreen keyboards
-    FocusManager.instance.primaryFocus?.unfocus();
-    context.read<QuestionnaireProvider>().previousQuestion();
-  }
-
-
-  void _handleNext() {
-    // always unfocus the current node to close all onscreen keyboards
-    FocusManager.instance.primaryFocus?.unfocus();
-    context.read<QuestionnaireProvider>().nextQuestion();
-  }
-
-
-  void _handleJump(int index) {
-    context.read<QuestionnaireProvider>().jumpToQuestion(index);
-  }
-
-
-  void _handleSubmit() async {
-    final authenticationProvider = context.read<OSMAuthenticatedUserProvider>();
-
-    if (authenticationProvider.isLoggedOut) {
-      // wait till the user login process finishes
-      await authenticationProvider.login();
-    }
-
-    // check if the user is successfully logged in
-    // check if mounted to verify a context exists
-    if (authenticationProvider.isLoggedIn && mounted) {
-      final osmElementProvider = context.read<OSMElementProvider>();
-      final questionnaire = context.read<QuestionnaireProvider>();
-
-      // save state object for later use even if widget is unmounted
-      final scaffold = ScaffoldMessenger.of(context);
-
-      try {
-        final osmElement = questionnaire.workingElement!;
-        questionnaire.close();
-        await osmElementProvider.upload(
-          proxyElement: osmElement,
-          authenticatedUser: authenticationProvider.authenticatedUser!,
-          locale: Localizations.localeOf(context)
-        );
-        // on success remove stored questionnaire
-        questionnaire.discard(osmElement);
-        scaffold.showSnackBar(
-          CustomSnackBar('Änderungen erfolgreich übertragen.')
-        );
-      }
-      on OSMConnectionException {
-        scaffold.showSnackBar(
-          CustomSnackBar('Fehler: Keine Verbindung zum OSM-Server.')
-        );
-      }
-      catch(e) {
-        debugPrint(e.toString());
-        scaffold.showSnackBar(
-          CustomSnackBar('Unbekannter Fehler bei der Übertragung.')
-        );
-      }
-    }
   }
 }

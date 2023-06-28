@@ -8,11 +8,11 @@ publish_to: 'none'
 version: 0.4.4+14
 
 environment:
-  sdk: ">=2.17.1 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
   # The Flutter version is read in different build scripts and is used to setup the appropriate flutter toolkit.
   # The build processes cannot handle range notations like >=2.17.1 <3.0.0 or ^3.7.0.
   # Therefore it is important to always specify a fixed flutter version in that format: [0-9]+.[0-9]+.[0-9]+
-  flutter: 3.7.11
+  flutter: 3.10.2
 
 dependencies:
   flutter:
@@ -24,7 +24,7 @@ dependencies:
   latlong2: ^0.8.0
   vector_math: ^2.1.4
   polylabel: ^1.0.1
-  supercluster: ^2.1.0
+  supercluster: ^2.4.0
   animated_location_indicator:
     git:
       url: https://github.com/OPENER-next/animated_location_indicator.git
@@ -39,14 +39,19 @@ dependencies:
       url: https://github.com/OPENER-next/temaki_flutter.git
   collection: ^1.17.0
   dio: ^5.1.0
-  provider: ^6.0.5
   shared_preferences: ^2.0.20
   flutter_secure_storage: ^8.0.0
   url_launcher: ^6.0.17
   flutter_web_auth: ^0.5.0
   material_design_icons_flutter: ^6.0.7096
   flutter_markdown: ^0.6.14
-  intl: ^0.17.0
+  flutter_mvvm_architecture:
+    git:
+      url: https://github.com/Robbendebiene/flutter-mvvm-architecture.git
+  get_it: ^7.6.0
+  mobx: ^2.2.0
+  flutter_mobx: ^2.0.6+5
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test:
@@ -54,6 +59,7 @@ dev_dependencies:
   flutter_launcher_icons: ^0.12.0
   flutter_lints: ^2.0.0
   nock: ^1.2.1
+  stack_trace: ^1.11.0
   build_runner: ^2.3.3
   build_version: ^2.1.1
 
@@ -68,7 +74,7 @@ flutter:
     - assets/datasets/map_feature_collection.json
   # The following line ensures that the Material Icons font is included
   uses-material-design: true
-  generate: true 
+  generate: true
 
 flutter_icons:
   image_path_android: 'assets/images/app_icon_android.png'

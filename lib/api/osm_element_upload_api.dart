@@ -8,7 +8,7 @@ import '/models/authenticated_user.dart';
 import '/commons/app_config.dart' as app_config;
 import '/commons/osm_config.dart' as osm_config;
 import '/models/map_feature_collection.dart';
-import '/models/stop_area.dart';
+import '/models/stop_area_processing/stop_area.dart';
 
 
 // NOTE:
