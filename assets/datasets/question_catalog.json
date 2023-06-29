@@ -798,7 +798,13 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "height": ["CONCAT", "$input", " cm"]
+            "height": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
          }
       },
       "conditions": [
@@ -830,13 +836,13 @@
          "type": "Number",
          "input": {
             "placeholder": "Plattform-Breite",
-            "decimals": 0,
-            "min": 30,
-            "max": 1500,
-            "unit": "Centimeter"
+            "decimals": 2,
+            "min": 0,
+            "max": 15,
+            "unit": "Meter"
          },
          "constructor": {
-            "width": ["CONCAT", "$input", " cm"]
+            "width": ["$input"]
          }
       },
       "conditions": [
@@ -957,7 +963,13 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "wheelchair:portable_ramp:length": ["CONCAT", "$input", " cm"]
+            "wheelchair:portable_ramp:length": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
          }
       },
       "conditions": [
@@ -1065,7 +1077,13 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "wheelchair:portable_lift:length": ["CONCAT", "$input", " cm"]
+            "wheelchair:portable_lift:length": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
          }
       },
       "conditions": [
@@ -1448,7 +1466,13 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "width": ["CONCAT", "$input", " cm"]
+            "width": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
          }
       },
       "conditions": [
@@ -1686,7 +1710,13 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "maxwidth:physical": ["CONCAT", "$input", " cm"]
+            "maxwidth:physical": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
          }
       },
       "conditions": [
@@ -1723,7 +1753,13 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "opening": ["CONCAT", "$input", " cm"]
+            "opening": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
          }
       },
       "conditions": [
@@ -1760,7 +1796,13 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "spacing": ["CONCAT", "$input", " cm"]
+            "spacing": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
          }
       },
       "conditions": [
@@ -1835,7 +1877,13 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "wheelchair:lift:length": ["CONCAT", "$input", " cm"]
+            "wheelchair:lift:length": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
          }
       },
       "conditions": [
@@ -1867,7 +1915,13 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "length": ["CONCAT", "$input", " cm"]
+            "length": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
          }
       },
       "conditions": [
@@ -1900,7 +1954,13 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "wheelchair:lift:width": ["CONCAT", "$input", " cm"]
+            "wheelchair:lift:width": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
          }
       },
       "conditions": [
@@ -1932,7 +1992,13 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "width": ["CONCAT", "$input", " cm"]
+            "width": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
          }
       },
       "conditions": [
@@ -2024,7 +2090,13 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "step:height": ["CONCAT", "$input", " cm"]
+            "step:height": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
          }
       },
       "conditions": [

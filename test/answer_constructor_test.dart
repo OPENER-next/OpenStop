@@ -6,6 +6,7 @@ void main() async {
   const values = {
     'key1': ['a', 'b', 'c'],
     'key2': ['a', 'b', 'c'],
+    'key3': ['some_value'],
   };
 
  test('test if constructor COALESCE works correctly', () {
@@ -330,6 +331,353 @@ void main() async {
         testConstructor.construct({}),
         equals({
           'key1': 'ab',
+        })
+      );
+    }
+  });
+
+
+  test('test if constructor INSERT works correctly', () {
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['INSERT', 'X', '0', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'Xsome_value',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['INSERT', 'X', '1', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'sXome_value',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['INSERT', 'X', '-1', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'some_valuXe',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': ['INSERT', 'X', '0', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key1': 'Xa',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': ['INSERT', 'X', '20', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key1': 'a',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['INSERT', '0', 'X', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({})
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['INSERT', 'X', '1.2', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({})
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['INSERT', '0', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({})
+      );
+    }
+  });
+
+
+  test('test if constructor PAD works correctly', () {
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['PAD', 'X', '5', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'some_value',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['PAD', 'X', '10', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'some_value',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['PAD', 'X', '12', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'XXsome_value',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['PAD', 'X', '-5', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'some_value',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['PAD', 'X', '-10', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'some_value',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['PAD', 'X', '-12', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'some_valueXX',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['PAD', 'XXX', '11', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'XXXsome_value',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': ['PAD', 'XXX', '-11', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key1': 'aXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['PAD', '3', 'X', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({})
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['PAD', 'X', '1.2', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({})
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['PAD', '14', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({})
+      );
+    }
+  });
+
+
+  test('test if constructor REPLACE works correctly', () {
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['REPLACE', 'value', 'test', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'some_test',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['REPLACE', 'e', '#', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'som#_valu#',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['REPLACE', 'E', 'X', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'some_value',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        // match first and last character
+        'key3': ['REPLACE', r'/^.|.$/', '_', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': '_ome_valu_',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        // missing / will not parse it as a regular expression and instead teat it as a string
+        'key3': ['REPLACE', r'^.|.$', 'XX', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key3': 'some_value',
+        })
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        // malformed regular expression
+        'key3': ['REPLACE', r'/^.|.$)/', 'XX', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({})
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key3': ['REPLACE', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({})
+      );
+    }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': ['REPLACE', r'$input'],
+      });
+
+      expect(
+        testConstructor.construct(values),
+        equals({
+          'key1': 'c',
         })
       );
     }

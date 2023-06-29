@@ -259,6 +259,62 @@ output: `operator=A_suffix`
 constructor: `"operator": ["COUPLE", "$input", "_suffix"]`
 output: `operator=NULL`
 
+#### `INSERT` expression
+
+Inserts one String into another String at a certain position.
+
+First argument represents the insertion String.
+Second argument specifies the position/index where the String should be inserted into the target String. Negative positions are treated as insertions starting at the end of the String. So -1 means insert before the last character of the target String. If the index exceeds the length of the target String, it will be returned without any modifications.
+Third argument resembles the target String.
+
+**Examples:**
+- input: `[tag_value]`
+constructor: `"operator": ["INSERT", "X", "1", "$input"]`
+output: `operator=tXag_value`
+- input: `[tag_value]`
+constructor: `"operator": ["INSERT", "X", "-5", "$input"]`
+output: `operator=tag_Xvalue`
+- input: `[tag_value]`
+constructor: `"operator": ["INSERT", "X", "20", "$input"]`
+output: `operator=tag_value`
+
+#### `PAD` expression
+
+Adds a given String to a target String for each time the target String length is less than a given width.
+
+First argument represents the padding String.
+Second argument specifies the desired width. Positive values will prepend, negative values will append to the target String. Remember that the final String length may be greater than the desired width when the padding String contains more than one character.
+Third argument resembles the target String.
+
+**Examples:**
+- input: `[1]`
+constructor: `"operator": ["PAD", "0", "3", "$input"]`
+output: `operator=001`
+- input: `[1]`
+constructor: `"operator": ["PAD", "0", "-3", "$input"]`
+output: `operator=100`
+- input: `[value]`
+constructor: `"operator": ["PAD", "XXX", "9", "$input"]`
+output: `operator=XXXXXXvalue`
+
+#### `REPLACE` expression
+
+Replaces a given Pattern (either String or RegExp) in a target String by a given replacement String.
+RegExp are denoted by a `/` at the start and end of the String.
+First argument represents the Pattern the target String should be matched against.
+Second argument defines the replacement String.
+Third argument resembles the target String.
+
+**Examples:**
+- input: `[sometimes]`
+constructor: `"operator": ["REPLACE", "times", "thing", "$input"]`
+output: `operator=something`
+- input: `[sometimes]`
+constructor: `"operator": ["REPLACE", "e", "#", "$input"]`
+output: `operator=som#tim#s`
+- input: `[value]`
+constructor: `"operator": ["REPLACE", "/^.|.$/", "_", "$input"]`
+output: `operator=_alu_`
 
 ### Answer examples
 
@@ -335,6 +391,42 @@ The example will write the three tags *bus*, *tram* & *train*. For unselected op
 }
 ```
 
+#### Using expressions to convert centimeters to meters
+The example makes use of the 3 expressions PAD, INSERT and REPLACE to convert from centimeters to meters. The REPLACE expression is only used to remove any pending zeros (and potentially the decimal point). Note that this expression combination only works for positive integers (not for negative or decimal numbers) and does a conversion by exactly two decimal places to the left.
+
+**Explanation:** The expressions evaluate from the inner most to the outer most as shown in the table below.
+
+| $input | PAD   | INSERT | REPLACE |
+| ------ | ----- | ------ | ------- |
+| 1      | 001   | 0.01   | 0.01    |
+| 1000   | 1000  | 10.00  | 10      |
+| 12     | 012   | 0.12   | 0.12    |
+| 0      | 000   | 0.00   | 0       |
+| 102    | 102   | 1.02   | 1.02    |
+| 120    | 120   | 1.20   | 1.2     |
+
+
+```jsonc
+"answer": {
+    "type": "Number",
+    "input": {
+      "placeholder": "Step height",
+      "decimals": 0,
+      "min": 0,
+      "max": 40,
+      "unit": "Centimeter"
+    },
+    "constructor": {
+      "height": [
+          "REPLACE", "/\\.?0{1,2}$/", "", [
+            "INSERT", ".", "-2", [
+                "PAD", "0", "3", "$input"
+            ]
+          ]
+      ]
+    }
+}
+```
 
 
 ## The `conditions` part
