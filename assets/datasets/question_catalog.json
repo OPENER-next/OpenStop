@@ -1295,8 +1295,8 @@
       "question": {
          "id": 2033,
          "name": "Tür-Automatik",
-         "text": "Öffnet die Tür automatisch?",
-         "description": "Bei der automatischen Öffnung wird die Tür von einer Mechanik geöffnet. Der Benutzer muss die Tür nicht selbstständig drücken oder ziehen."
+         "text": "Kann die Tür automatisch geöffnet werden?",
+         "description": "Bei der automatischen Öffnung wird die Tür von einer Mechanik geöffnet. Diese kann durch einen Sensor oder Taster ausgelöst werden."
       },
       "answer": {
          "type": "Bool",
@@ -1370,8 +1370,96 @@
       "question": {
          "id": 2033,
          "name": "Tür-Automatik-Art",
-         "text": "Wodurch öffnet sich die Automatik-Tür?",
-         "description": "Automatik-Türen können sich bei Annäherung einer Person öffnen oder durch das Betätigen eines Tasters"
+         "text": "Wodurch wird die automatische Tür-Öffnung ausgelöst?",
+         "description": "Automatik-Türen können sich durch Sensoren bei Annäherung einer Person öffnen oder durch das Betätigen eines Tasters"
+      },
+      "answer": {
+         "type": "List",
+         "input": [
+            {
+               "name": "Bewegungsmelder",
+               "image": "assets/images/questions/sliding_door_automatic.jpg",
+               "osm_tags": {
+                  "automatic_door": "motion"
+               }
+            },
+            {
+               "name": "Knopfdruck",
+               "image": "assets/images/questions/automatic_door_button.jpg",
+               "osm_tags": {
+                  "automatic_door": "button"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "railway": ["subway_entrance", "train_station_entrance"],
+               "automatic_door": "yes"
+            },
+            "!osm_tags": {
+               "door": "revolving"
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "level": true,
+               "access": ["yes", "customers", false],
+               "automatic_door": "yes"
+            },
+            "!osm_tags": {
+               "door": "revolving"
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "indoor": "door",
+               "access": ["yes", "customers", false],
+               "automatic_door": "yes"
+            },
+            "!osm_tags": {
+               "door": "revolving"
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "access": ["yes", "customers", false],
+               "automatic_door": "yes"
+            },
+            "!osm_tags": {
+               "door": "revolving"
+            },
+            "osm_element": "Node",
+            "parent": [
+               {
+                  "osm_tags": {
+                     "building": ["train_station", "transportation", "toilets", "parking"]
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "public_transport": "station"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "level": true
+                  }
+               }
+            ]
+         }
+      ]
+   },
+   {
+      "question": {
+         "id": 2033,
+         "name": "Drehtür-Automatik-Art",
+         "text": "Wodurch wird die automatische Tür-Öffnung ausgelöst?",
+         "description": "Automatik-Türen können sich durch Sensoren bei Annäherung einer Person öffnen oder durch das Betätigen eines Tasters"
       },
       "answer": {
          "type": "List",
@@ -1403,6 +1491,7 @@
          {
             "osm_tags": {
                "railway": ["subway_entrance", "train_station_entrance"],
+               "door": "revolving",
                "automatic_door": "yes"
             },
             "osm_element": "Node"
@@ -1411,6 +1500,7 @@
             "osm_tags": {
                "level": true,
                "access": ["yes", "customers", false],
+               "door": "revolving",
                "automatic_door": "yes"
             },
             "osm_element": "Node"
@@ -1419,6 +1509,7 @@
             "osm_tags": {
                "indoor": "door",
                "access": ["yes", "customers", false],
+               "door": "revolving",
                "automatic_door": "yes"
             },
             "osm_element": "Node"
@@ -1426,6 +1517,7 @@
          {
             "osm_tags": {
                "access": ["yes", "customers", false],
+               "door": "revolving",
                "automatic_door": "yes"
             },
             "osm_element": "Node",
