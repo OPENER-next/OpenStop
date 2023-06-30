@@ -1295,7 +1295,7 @@
       "question": {
          "id": 2033,
          "name": "Tür-Automatik",
-         "text": "Kann die Tür automatisch geöffnet werden?",
+         "text": "Kann sich die Tür automatisch öffnen?",
          "description": "Bei der automatischen Öffnung wird die Tür von einer Mechanik geöffnet. Diese kann durch einen Sensor oder Taster ausgelöst werden."
       },
       "answer": {
@@ -1317,14 +1317,14 @@
          {
             "osm_tags": {
                "railway": ["subway_entrance", "train_station_entrance"],
-               "door": ["yes", "hinged", "revolving", "sliding", "folding"],
+               "door": ["yes", "hinged", "sliding", "folding"],
                "automatic_door": false
             },
             "osm_element": "Node"
          },
          {
             "osm_tags": {
-               "door": ["yes", "hinged", "revolving", "sliding", "folding"],
+               "door": ["yes", "hinged", "sliding", "folding"],
                "access": ["yes", "customers", false],
                "level": true,
                "automatic_door": false
@@ -1341,7 +1341,74 @@
          },
          {
             "osm_tags": {
-               "door": ["yes", "hinged", "revolving", "sliding", "folding"],
+               "door": ["yes", "hinged", "sliding", "folding"],
+               "access": ["yes", "customers", false],
+               "automatic_door": false
+            },
+            "osm_element": "Node",
+            "parent": [
+               {
+                  "osm_tags": {
+                     "building": ["train_station", "transportation", "toilets", "parking"]
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "public_transport": "station"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "level": true
+                  }
+               }
+            ]
+         }
+      ]
+   },
+   {
+      "question": {
+         "id": 2033,
+         "name": "Drehttür-Automatik",
+         "text": "Bewegt sich die Drehtür automatisch?",
+         "description": "Drehtüren, die sich automatisch drehen, müssen nicht durch eigene Körperkraft bewegt werden."
+      },
+      "answer": {
+         "type": "Bool",
+         "input": [
+            {
+               "osm_tags": {
+                  "automatic_door": "yes"
+               }
+            },
+            {
+               "osm_tags": {
+                  "automatic_door": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "railway": ["subway_entrance", "train_station_entrance"],
+               "door": "revolving",
+               "automatic_door": false
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "door": "revolving",
+               "access": ["yes", "customers", false],
+               "level": true,
+               "automatic_door": false
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "door": "revolving",
                "access": ["yes", "customers", false],
                "automatic_door": false
             },
@@ -1384,7 +1451,7 @@
                }
             },
             {
-               "name": "Knopfdruck",
+               "name": "Taster",
                "image": "assets/images/questions/automatic_door_button.jpg",
                "osm_tags": {
                   "automatic_door": "button"
@@ -1396,10 +1463,8 @@
          {
             "osm_tags": {
                "railway": ["subway_entrance", "train_station_entrance"],
+               "door": ["yes", "hinged", "sliding", "folding"],
                "automatic_door": "yes"
-            },
-            "!osm_tags": {
-               "door": "revolving"
             },
             "osm_element": "Node"
          },
@@ -1407,10 +1472,8 @@
             "osm_tags": {
                "level": true,
                "access": ["yes", "customers", false],
+               "door": ["yes", "hinged", "sliding", "folding"],
                "automatic_door": "yes"
-            },
-            "!osm_tags": {
-               "door": "revolving"
             },
             "osm_element": "Node"
          },
@@ -1418,20 +1481,16 @@
             "osm_tags": {
                "indoor": "door",
                "access": ["yes", "customers", false],
+               "door": ["yes", "hinged", "sliding", "folding"],
                "automatic_door": "yes"
-            },
-            "!osm_tags": {
-               "door": "revolving"
             },
             "osm_element": "Node"
          },
          {
             "osm_tags": {
                "access": ["yes", "customers", false],
+               "door": ["yes", "hinged", "sliding", "folding"],
                "automatic_door": "yes"
-            },
-            "!osm_tags": {
-               "door": "revolving"
             },
             "osm_element": "Node",
             "parent": [
@@ -1458,31 +1517,28 @@
       "question": {
          "id": 2033,
          "name": "Drehtür-Automatik-Art",
-         "text": "Wodurch wird die automatische Tür-Öffnung ausgelöst?",
-         "description": "Automatik-Türen können sich durch Sensoren bei Annäherung einer Person öffnen oder durch das Betätigen eines Tasters"
+         "text": "Wie funktioniert die Automatik der Drehtür?",
+         "description": "Automatik-Drehtüren können sich kontinuierlich bewegen oder durch Sensoren bei Annäherung einer Person in Bewegung versetzt werden."
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "Bewegungsmelder",
-               "image": "assets/images/questions/sliding_door_automatic.jpg",
+               "name": "Durch Annäherung",
                "osm_tags": {
                   "automatic_door": "motion"
                }
             },
             {
-               "name": "Knopfdruck",
-               "image": "assets/images/questions/automatic_door_button.jpg",
+               "name": "Dauerhaft",
                "osm_tags": {
-                  "automatic_door": "button"
+                  "automatic_door": "continuous"
                }
             },
             {
-               "name": "Automatik-Drehtür",
-               "image": "assets/images/questions/door_revolving.jpg",
+               "name": "Dauerhaft mit Verlangsamungs-Taster",
                "osm_tags": {
-                  "automatic_door": "continuous"
+                  "automatic_door": "slowdown_button"
                }
             }
          ]
