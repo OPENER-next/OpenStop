@@ -559,7 +559,8 @@
          "description": "Dynamische Fahrtziel-Anzeiger zeigen Echtzeit-Informationen über das Ziel ein- bzw. abfahrender Züge/Busse an einem Bahn-/Bussteig an.",
          "image": [
             "assets/images/questions/platform_departures_board_1.jpg",
-            "assets/images/questions/platform_departures_board_2.jpg"
+            "assets/images/questions/platform_departures_board_2.jpg",
+            "assets/images/questions/platform_departures_board_3.jpg"
          ]
       },
       "answer": {
