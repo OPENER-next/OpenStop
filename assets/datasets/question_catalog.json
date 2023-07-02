@@ -2659,7 +2659,7 @@
    {
       "question": {
       "name": "Verkehrsmittel",
-      "text": "Welche Verkehrsmittel halten an dieser Haltestelle?"
+      "text": "Welche(s) Verkehrsmittel halten an dieser Haltestelle?"
       },
       "answer": {
           "type": "MultiList",
