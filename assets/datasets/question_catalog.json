@@ -2710,8 +2710,7 @@
                   },
                   "!osm_tags" {
                       "highway":"bus_stop",
-                      "amenity": "bus_station",
-                      "railway":"platform"
+                      "amenity": "bus_station"
                   }
               }
         ]
