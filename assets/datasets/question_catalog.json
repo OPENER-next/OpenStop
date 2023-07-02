@@ -2708,7 +2708,7 @@
                       "trolleybus": false,
                       "ferry": false
                   },
-                  "!osm_tags" {
+                  "!osm_tags":{
                       "highway":"bus_stop",
                       "amenity": "bus_station"
                   }
