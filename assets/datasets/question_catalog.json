@@ -2655,5 +2655,65 @@
             "osm_element": "Node"
          }
       ]
+   },
+   {
+      "question": {
+      "name": "Verkehrsmittel",
+      "text": "Welche Verkehrsmittel halten an dieser Haltestelle?"
+      },
+      "answer": {
+          "type": "MultiList",
+          "input": [
+              {
+                  "name": "Bus",
+                  "osm_tags": {
+                      "bus": "yes"
+                  }
+              },
+              {
+                  "name": "Straßenbahn",
+                  "osm_tags": {
+                      "tram": "yes"
+                  }
+              },
+              {
+                  "name": "Zug",
+                  "osm_tags": {
+                      "train": "yes"
+                  }
+              },
+              {
+                  "name": "Citiybahn",
+                  "osm_tags": {
+                      "light_rail": "yes"
+              }
+          }
+          ],
+        "constructor": {
+          "bus": ["COALESCE", "$input"],
+          "tram": ["COALESCE", "$input"],
+          "train": ["COALESCE", "$input"],
+          "light_rail": ["COALESCE", "$input"]
+        }
+      },
+        "conditions": [
+              {
+                  "osm_tags": {
+                      "public_transport":"platform",
+                      "bus": false,
+                      "tram": false,
+                      "light_rail": false,
+                      "monorail": false,
+                      "train":false,
+                      "trolleybus": false,
+                      "ferry": false
+                  },
+                  "!osm_tags" {
+                      "highway":"bus_stop",
+                      "amenity": "bus_station",
+                      "railway":"platform"
+                  }
+              }
+        ]
    }
 ]
