@@ -1317,14 +1317,14 @@
          {
             "osm_tags": {
                "railway": ["subway_entrance", "train_station_entrance"],
-               "door": ["yes", "hinged", "sliding", "folding"],
+               "door": ["hinged", "sliding", "folding"],
                "automatic_door": false
             },
             "osm_element": "Node"
          },
          {
             "osm_tags": {
-               "door": ["yes", "hinged", "sliding", "folding"],
+               "door": ["hinged", "sliding", "folding"],
                "access": ["yes", "customers", false],
                "level": true,
                "automatic_door": false
@@ -1333,6 +1333,7 @@
          },
          {
             "osm_tags": {
+               "door": ["hinged", "sliding", "folding"],
                "indoor": "door",
                "access": ["yes", "customers", false],
                "automatic_door": false
@@ -1341,7 +1342,7 @@
          },
          {
             "osm_tags": {
-               "door": ["yes", "hinged", "sliding", "folding"],
+               "door": ["hinged", "sliding", "folding"],
                "access": ["yes", "customers", false],
                "automatic_door": false
             },
@@ -1369,7 +1370,7 @@
    {
       "question": {
          "id": 2033,
-         "name": "Drehttür-Automatik",
+         "name": "Drehtür-Automatik",
          "text": "Bewegt sich die Drehtür automatisch?",
          "description": "Drehtüren, die sich automatisch drehen, müssen nicht durch eigene Körperkraft bewegt werden."
       },
@@ -1409,6 +1410,15 @@
          {
             "osm_tags": {
                "door": "revolving",
+               "indoor": "door",
+               "access": ["yes", "customers", false],
+               "automatic_door": false
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "door": "revolving",
                "access": ["yes", "customers", false],
                "automatic_door": false
             },
@@ -1438,7 +1448,7 @@
          "id": 2033,
          "name": "Tür-Automatik-Art",
          "text": "Wodurch wird die automatische Tür-Öffnung ausgelöst?",
-         "description": "Automatik-Türen können sich durch Sensoren bei Annäherung einer Person öffnen oder durch das Betätigen eines Tasters"
+         "description": "Automatik-Türen können sich durch Sensoren bei Annäherung einer Person öffnen oder durch das Betätigen eines Tasters."
       },
       "answer": {
          "type": "List",
@@ -1463,7 +1473,7 @@
          {
             "osm_tags": {
                "railway": ["subway_entrance", "train_station_entrance"],
-               "door": ["yes", "hinged", "sliding", "folding"],
+               "door": ["hinged", "sliding", "folding"],
                "automatic_door": "yes"
             },
             "osm_element": "Node"
@@ -1472,7 +1482,7 @@
             "osm_tags": {
                "level": true,
                "access": ["yes", "customers", false],
-               "door": ["yes", "hinged", "sliding", "folding"],
+               "door": ["hinged", "sliding", "folding"],
                "automatic_door": "yes"
             },
             "osm_element": "Node"
@@ -1481,7 +1491,7 @@
             "osm_tags": {
                "indoor": "door",
                "access": ["yes", "customers", false],
-               "door": ["yes", "hinged", "sliding", "folding"],
+               "door": ["hinged", "sliding", "folding"],
                "automatic_door": "yes"
             },
             "osm_element": "Node"
@@ -1489,7 +1499,7 @@
          {
             "osm_tags": {
                "access": ["yes", "customers", false],
-               "door": ["yes", "hinged", "sliding", "folding"],
+               "door": ["hinged", "sliding", "folding"],
                "automatic_door": "yes"
             },
             "osm_element": "Node",
