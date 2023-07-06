@@ -2714,18 +2714,18 @@
         "conditions": [
               {
                   "osm_tags": {
-                      "public_transport":"platform",
+                      "public_transport": "platform",
                       "bus": false,
                       "tram": false,
                       "light_rail": false,
                       "monorail": false,
-                      "train":false,
+                      "train": false,
                       "trolleybus": false,
                       "ferry": false,
                       "subway": false
                   },
                   "!osm_tags":{
-                      "highway":"bus_stop"
+                      "highway": "bus_stop"
                   }
               }
         ]
