@@ -2659,7 +2659,7 @@
    {
       "question": {
       "name": "Verkehrsmittel",
-      "text": "Welche(s) Verkehrsmittel halten an dieser Haltestelle?"
+      "text": "Welche Verkehrsmittel halten an dieser Haltestelle?"
       },
       "answer": {
           "type": "MultiList",
@@ -2687,6 +2687,7 @@
                   "osm_tags": {
                       "light_rail": "yes"
               }
+
           }
           ],
         "constructor": {
