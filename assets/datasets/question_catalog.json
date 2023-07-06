@@ -2683,13 +2683,27 @@
                   }
               },
               {
-                  "name": "Citiybahn",
+                  "name": "Stadtbahn",
+                  "description": "Eine Stadtbahn ist eine Zwischenstufe zwischen Straßenbahn und traditionellen Zügen. Sie verbindet oft ländliche Gebiete mit der Stadt und sind hochfluriger als Straßenbahnen.",
                   "osm_tags": {
                       "light_rail": "yes"
-              }
+                  }
+              },
+              {
+                  "name":"U-Bahn",
+                  "osm_tags": {
+                     "subway": "yes"
+                  }
 
-          }
-          ],
+              },
+              {
+               "name": "Einschienenbahn",
+               "description": "",
+               "osm_tags": {
+                  "monorail": "yes"
+                  }
+               }
+            ],
         "constructor": {
           "bus": ["COALESCE", "$input"],
           "tram": ["COALESCE", "$input"],
@@ -2707,7 +2721,8 @@
                       "monorail": false,
                       "train":false,
                       "trolleybus": false,
-                      "ferry": false
+                      "ferry": false,
+                      "subway": false
                   },
                   "!osm_tags":{
                       "highway":"bus_stop"
