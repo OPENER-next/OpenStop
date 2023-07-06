@@ -2684,7 +2684,7 @@
             },
             {
                "name": "Stadtbahn",
-               "description": "Eine Stadtbahn ist eine Zwischenstufe zwischen Straßenbahn und traditionellen Zügen. Sie verbindet oft ländliche Gebiete mit der Stadt und sind hochfluriger als Straßenbahnen.",
+               "description": "Eine Stadtbahn ist eine Zwischenstufe zwischen Straßenbahn und traditionellem Zug. Sie verbindet oft ländliche Gebiete mit der Stadt und sind hochfluriger als Straßenbahnen.",
                "osm_tags": {
                   "light_rail": "yes"
                }
