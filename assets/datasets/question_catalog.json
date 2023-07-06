@@ -2723,9 +2723,6 @@
                   "ferry": false,
                   "subway": false
                },
-               "!osm_tags":{
-                  "highway": "bus_stop"
-               },
                "!parent": [
                   {
                      "osm_tags": {
