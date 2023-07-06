@@ -2726,7 +2726,14 @@
                   },
                   "!osm_tags":{
                       "highway": "bus_stop"
-                  }
+                  },
+                  "!parent": [
+                     {
+                        "osm_tags": {
+                           "public_transport": "platform"
+                        }
+                     }
+                  ]
               }
         ]
    }
