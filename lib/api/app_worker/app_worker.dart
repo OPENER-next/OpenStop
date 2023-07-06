@@ -26,7 +26,7 @@ class AppWorker extends ServiceWorker<AppWorkerMessage>
     switch(message.subject) {
       case AppWorkerSubject.passAssets:
         takeMapFeatureCollectionAsset(message.data[0]);
-        takeQuestionCatalogAsset(message.data[1]);
+        takeQuestionCatalogAsset(message.data[1],message.data[2]);
         return;
 
       case AppWorkerSubject.queryStopAreas:
