@@ -2722,6 +2722,19 @@
                   "trolleybus": false,
                   "ferry": false,
                   "subway": false
+               }
+            },
+            {
+               "osm_tags": {
+                  "highway": "bus_stop",
+                  "bus": false,
+                  "tram": false,
+                  "light_rail": false,
+                  "monorail": false,
+                  "train": false,
+                  "trolleybus": false,
+                  "ferry": false,
+                  "subway": false
                },
                "!parent": [
                   {
@@ -2730,6 +2743,19 @@
                      }
                   }
                ]
+            },
+            {
+               "osm_tags": {
+                  "railway": "platform",
+                  "bus": false,
+                  "tram": false,
+                  "light_rail": false,
+                  "monorail": false,
+                  "train": false,
+                  "trolleybus": false,
+                  "ferry": false,
+                  "subway": false
+               }
             }
          ]
    }
