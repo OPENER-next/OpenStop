@@ -2698,7 +2698,7 @@
               },
               {
                "name": "Einschienenbahn",
-               "description": "",
+               "description": "Eine Einschienenbahn fährt meistens über der Straßenebene und hat keine sichtbaren Räder.",
                "osm_tags": {
                   "monorail": "yes"
                   }
