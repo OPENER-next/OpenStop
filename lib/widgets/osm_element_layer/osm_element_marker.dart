@@ -31,7 +31,11 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 600));
+    _controller = AnimationController(
+      vsync: this,
+      value: widget.active ? 1 : 0,
+      duration: const Duration(milliseconds: 600),
+    );
     _animation = CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOutCubicEmphasized,
