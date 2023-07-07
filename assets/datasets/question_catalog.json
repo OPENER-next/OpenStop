@@ -2707,26 +2707,15 @@
             "bus": ["COALESCE", "$input"],
             "tram": ["COALESCE", "$input"],
             "train": ["COALESCE", "$input"],
-            "light_rail": ["COALESCE", "$input"]
+            "light_rail": ["COALESCE", "$input"],
+            "subway": ["COALESCE", "$input"],
+            "monorail": ["COALESCE", "$input"]
         }
       },
          "conditions": [
             {
                "osm_tags": {
                   "public_transport": "platform",
-                  "bus": false,
-                  "tram": false,
-                  "light_rail": false,
-                  "monorail": false,
-                  "train": false,
-                  "trolleybus": false,
-                  "ferry": false,
-                  "subway": false
-               }
-            },
-            {
-               "osm_tags": {
-                  "highway": "bus_stop",
                   "bus": false,
                   "tram": false,
                   "light_rail": false,
@@ -2743,19 +2732,6 @@
                      }
                   }
                ]
-            },
-            {
-               "osm_tags": {
-                  "railway": "platform",
-                  "bus": false,
-                  "tram": false,
-                  "light_rail": false,
-                  "monorail": false,
-                  "train": false,
-                  "trolleybus": false,
-                  "ferry": false,
-                  "subway": false
-               }
             }
          ]
    }
