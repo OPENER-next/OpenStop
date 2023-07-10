@@ -2658,8 +2658,8 @@
    },
    {
       "question": {
-      "name": "Verkehrsmittel",
-      "text": "Welche Verkehrsmittel halten an dieser Haltestelle?"
+         "name": "Verkehrsmittel",
+         "text": "Welche Verkehrsmittel halten an dieser Haltestelle?"
       },
       "answer": {
          "type": "MultiList",
@@ -2695,14 +2695,14 @@
                   "subway": "yes"
                }
             },
-              {
+            {
                "name": "Einschienenbahn",
                "description": "Eine Einschienenbahn fährt meistens über der Straßenebene und hat keine sichtbaren Räder.",
                "osm_tags": {
-                     "monorail": "yes"
-                  }
+                  "monorail": "yes"
                }
-            ],
+            }
+         ],
          "constructor": {
             "bus": ["COALESCE", "$input"],
             "tram": ["COALESCE", "$input"],
@@ -2710,29 +2710,29 @@
             "light_rail": ["COALESCE", "$input"],
             "subway": ["COALESCE", "$input"],
             "monorail": ["COALESCE", "$input"]
-        }
+         }
       },
-         "conditions": [
-            {
-               "osm_tags": {
-                  "public_transport": "platform",
-                  "bus": false,
-                  "ferry": false,
-                  "light_rail": false,
-                  "monorail": false,
-                  "subway": false,
-                  "train": false,
-                  "tram": false,
-                  "trolleybus": false
-               },
-               "!parent": [
-                  {
-                     "osm_tags": {
-                        "public_transport": "platform"
-                     }
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "bus": false,
+               "ferry": false,
+               "light_rail": false,
+               "monorail": false,
+               "subway": false,
+               "train": false,
+               "tram": false,
+               "trolleybus": false
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
                   }
-               ]
-            }
-         ]
+               }
+            ]
+         }
+      ]
    }
 ]
