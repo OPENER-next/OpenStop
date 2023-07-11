@@ -2807,5 +2807,53 @@
             "osm_element": "Node"
          }
       ]
-   }
+   },
+   {
+      "question": {
+         "name": "Bodenindikatoren",
+         "text": "Gibt es an dieser Treppe Bodenindikatoren?",
+         "description": "Bodenindikatoren dienen vor allem Sehbehinderten als Warnung vor Gefahren durch Treppen.",
+         "image": [
+            "assets/images/questions/tactile_paving_on_kerb.jpg"
+         ]
+      },
+      "answer": {
+         "type": "List",
+         "input": [
+            {
+               "name": "Ja, oben und unten",
+               "osm_tags": {
+                  "tactile_paving": "yes"
+               }
+            },
+            {
+               "name": "Nur oben",
+               "osm_tags": {
+                  "tactile_paving": "partial"
+               }
+            },
+            {
+               "name": "Nur unten",
+               "osm_tags": {
+                  "tactile_paving": "incorrect"
+               }
+            },
+            {
+               "name": "Nein",
+               "osm_tags": {
+                  "tactile_paving": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "steps",
+               "tactile_paving": false
+            },
+            "osm_element": "OpenWay"
+         }
+      ]
+   },
 ]
