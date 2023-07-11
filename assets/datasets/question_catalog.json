@@ -1732,8 +1732,7 @@
                "indoor": ["no", false]
             },
             "!osm_tags": {
-               "access": ["no","private"],
-               "foot": ["no", "private"]
+               "access": ["no","private"]
             },
             "osm_element": [
                "OpenWay",
@@ -1748,8 +1747,7 @@
                "indoor": ["no", false]
             },
             "!osm_tags": {
-               "access": ["no","private"],
-               "foot": ["no", "private"]
+               "access": ["no","private"]
             },
             "osm_element": [
                "OpenWay",
@@ -2009,8 +2007,7 @@
                "conveying": [false, "no"]
             },
             "!osm_tags": {
-               "access": ["no","private"],
-               "foot": ["no", "private"]
+               "access": ["no","private"]
             },
             "osm_element": "OpenWay"
          }
@@ -2266,8 +2263,7 @@
                "step:height": false
             },
             "!osm_tags": {
-               "access": ["no","private"],
-               "foot": ["no", "private"]
+               "access": ["no","private"]
             },
             "osm_element": "OpenWay"
          }
@@ -2299,8 +2295,7 @@
                "step_count": false
             },
             "!osm_tags": {
-               "access": ["no","private"],
-               "foot": ["no", "private"]
+               "access": ["no","private"]
             },
             "osm_element": "OpenWay"
          }
@@ -2374,8 +2369,7 @@
                "handrail": false
             },
             "!osm_tags": {
-               "access": ["no","private"],
-               "foot": ["no", "private"]
+               "access": ["no","private"]
             }
          }
       ]
