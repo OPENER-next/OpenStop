@@ -435,5 +435,11 @@
   "tramAcousticWarningSignalText" : "Is there an acoustic warning signal when the tram passes through?",
   "@tramAcousticWarningSignalText" : {},
   "tramAcousticWarningSignalDescription" : "The acoustic warning is given by a stationary signaling device. Ringing by tram drivers does not count.",
-  "@tramAcousticWarningSignalDescription" : {}
+  "@tramAcousticWarningSignalDescription" : {},
+  "unitCentimeter" : "Centimeter",
+  "@unitCentimeter": {},
+  "unitMeter" : "Meter",
+  "@unitMeter": {},
+  "unitKilogram" : "Kilogram",
+  "@unitKilogram": {}
 }

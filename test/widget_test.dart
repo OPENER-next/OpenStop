@@ -9,6 +9,7 @@ import 'package:open_stop/main.dart';
 import 'package:open_stop/screens/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stack_trace/stack_trace.dart';
+import 'package:open_stop/models/question_catalog/question_catalog_reader.dart';
 
 const overpassReply = {
   'version': 0.6,
@@ -73,15 +74,19 @@ void main() {
         AppWorkerInterface.spawn(),
         SharedPreferences.getInstance(),
       ]);
+      
+      final QuestionCatalogReader questionCatalogReader = QuestionCatalogReader();
+      final questionC = await questionCatalogReader.read();
 
       GetIt.I.registerSingleton<AppWorkerInterface>(futures[0] as AppWorkerInterface);
       GetIt.I.registerSingleton<PreferencesService>(
         PreferencesService(preferences: futures[1] as SharedPreferences),
       );
       final assets = await Future.wait([
-        rootBundle.load('assets/datasets/map_feature_collection.json'),
-        rootBundle.load('assets/datasets/question_catalog.json'),
+        rootBundle.load('assets/datasets/map_feature_collection.json')
       ]);
+
+      GetIt.I.get<AppWorkerInterface>(). updateQuestionCatalog( questionCatalog: questionC,);
 
       GetIt.I.get<AppWorkerInterface>().passAssets(assets);
     });

@@ -18,7 +18,6 @@ import 'questionnaire_handler.dart';
 
 class AppWorker extends ServiceWorker<AppWorkerMessage>
   with MapFeatureHandler, QuestionCatalogHandler, StopAreaHandler, ElementHandler, QuestionnaireHandler {
-
   AppWorker(super.sendPort);
 
   @override
@@ -26,7 +25,6 @@ class AppWorker extends ServiceWorker<AppWorkerMessage>
     switch(message.subject) {
       case AppWorkerSubject.passAssets:
         takeMapFeatureCollectionAsset(message.data[0]);
-        takeQuestionCatalogAsset(message.data[1],message.data[2]);
         return;
 
       case AppWorkerSubject.queryStopAreas:
@@ -55,6 +53,9 @@ class AppWorker extends ServiceWorker<AppWorkerMessage>
       case AppWorkerSubject.updateQuestionCatalogPreferences:
         return updateQuestionCatalogPreferences(excludeProfessional: message.data);
 
+      case AppWorkerSubject.updateQuestionCatalog:
+        return takeQuestionCatalogAsset(message.data);
+
       case AppWorkerSubject.dispose:
         return exit();
 
@@ -80,7 +81,6 @@ class AppWorker extends ServiceWorker<AppWorkerMessage>
   }
 }
 
-
 enum AppWorkerSubject {
   passAssets,
 
@@ -103,13 +103,14 @@ enum AppWorkerSubject {
 
   updateQuestionCatalogPreferences,
 
+  updateQuestionCatalog,
+
   dispose,
 }
-
 
 class AppWorkerMessage {
   final AppWorkerSubject subject;
   final dynamic data;
 
-  AppWorkerMessage(this.subject, [ this.data ]);
+  AppWorkerMessage(this.subject, [this.data]);
 }

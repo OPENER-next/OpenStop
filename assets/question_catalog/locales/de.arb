@@ -435,5 +435,11 @@
   "tramAcousticWarningSignalText" : "Gibt es ein akustisches Warnsignal bei Durchfahrt der Straßenbahn?",
   "@tramAcousticWarningSignalText" : {},
   "tramAcousticWarningSignalDescription" : "Das Warnsignal ertönt durch ein stationären Signalgeber. Das Klingeln durch Triebfahrzeugführer gehört nicht dazu.",
-  "@tramAcousticWarningSignalDescription" : {}
+  "@tramAcousticWarningSignalDescription" : {},
+  "unitCentimeter" : "Zentimeter",
+  "@unitCentimeter": {},
+  "unitMeter" : "Meter",
+  "@unitMeter": {},
+  "unitKilogram" : "Kilogramm",
+  "@unitKilogram": {}
 }

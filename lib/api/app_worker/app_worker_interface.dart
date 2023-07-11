@@ -6,6 +6,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../models/question_catalog/question_catalog.dart';
 import '/models/element_variants/element_identifier.dart';
 import '/models/authenticated_user.dart';
 import '/models/answer.dart';
@@ -117,7 +118,6 @@ class AppWorkerInterface extends Service implements Disposable {
     )));
   }
 
-
   Future<void> nextQuestion() {
     return _worker.send<void>(AppWorkerMessage(
       AppWorkerSubject.nextQuestion,
@@ -142,6 +142,11 @@ class AppWorkerInterface extends Service implements Disposable {
       AppWorkerSubject.updateQuestionCatalogPreferences,
       excludeProfessional,
     ));
+  }
+
+  Future<void> updateQuestionCatalog({required QuestionCatalog questionCatalog}) {
+    return _worker
+        .send<void>(AppWorkerMessage(AppWorkerSubject.updateQuestionCatalog, questionCatalog));
   }
 
   /// Close the service worker when un-registering this service.
