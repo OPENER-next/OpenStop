@@ -2807,5 +2807,57 @@
             "osm_element": "Node"
          }
       ]
+   },
+   {
+      "question": {
+         "name": "Deutsche Haltestellen-ID (DHID) des Bahnsteigs",
+         "text": "Was ist die Deutsche Haltestellen-ID für diesen Bahnsteig?",
+         "description": "Die Deutsche Haltestellen-ID (DHID) ist eine eindeutige Kennung für Haltestellen und Bahnsteige kann im Deutschen Haltestellenverzeichnis (DHV) nachgesehen werden. Für Bahnsteige hat sie normalerweise die Form aa:bbbbb:cccc:dd:ee."
+      },
+      "answer": {
+         "type": "String",
+         "input": {
+            "placeholder": "DHID"
+         },
+         "constructor": {
+            "operator": ["$input"]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "ref:IFOPT": false,
+               "noref:IFOPT": false
+            }
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "Deutsche Haltestellen-ID (DHID) der Haltestelle",
+         "text": "Was ist die Deutsche Haltestellen-ID für die gesamte Haltestelle?",
+         "description": "Die Deutsche Haltestellen-ID (DHID) ist eine eindeutige Kennung für Haltestellen kann im Deutschen Haltestellenverzeichnis (DHV) nachgesehen werden. Für Haltestellen hat sie normalerweise die Form aa:bbbbb:cccc oder aa:bbbbb:cccc:dd."
+      },
+      "answer": {
+         "type": "String",
+         "input": {
+            "placeholder": "DHID"
+         },
+         "constructor": {
+            "operator": ["$input"]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "stop_area",
+               "ref:IFOPT": false,
+               "noref:IFOPT": false
+            },
+            "osm_element": "Relation"
+         }
+      ],
+      "isProfessional": true
    }
 ]
