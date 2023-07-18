@@ -2835,7 +2835,7 @@
                "name": "Beleuchtung per Bewegungsmelder aktiviert",
                "description": "Die Beleuchtung wird nur aktiviert, wenn jemand vorbeikommt.",
                "osm_tags": {
-                  "lit": "sensor"
+                  "lit": "automatic"
                }
             },
             {
