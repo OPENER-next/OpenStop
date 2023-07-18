@@ -2807,5 +2807,46 @@
             "osm_element": "Node"
          }
       ]
+   },
+   {
+      "question": {
+         "name": "Breite an Engstellen",
+         "text": "Wie breit ist die Plattform an ihrer schmalsten Stelle?",
+         "description": "Wie breit darf etwas maximal sein, damit es trotzem noch durchpasst?"
+      },
+      "answer": {
+         "type": "Number",
+         "input": {
+            "placeholder": "Breite",
+            "decimals": 0,
+            "min": 0,
+            "max": 500,
+            "unit": "Centimeter"
+         },
+         "constructor": {
+            "step:height": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "maxwidth:physical": false
+            },
+            "osm_element": [
+               "Node",
+               "OpenWay",
+               "ClosedWay",
+               "Relation"
+            ]
+         }
+      ],
+      "isProfessional": true
    }
 ]
