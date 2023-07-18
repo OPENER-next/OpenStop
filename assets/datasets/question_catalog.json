@@ -2807,5 +2807,66 @@
             "osm_element": "Node"
          }
       ]
+   },
+   {
+      "question": {
+         "name": "Bahnsteig-Beleuchtung",
+         "text": "Ist dieser Bahnsteig nachts beleuchtet?",
+         "description": "Der Bahnsteig selbst muss nicht dediziert beleuchtet sein. Es reicht, wenn die Umgebung ausreichend beleuchtet ist, damit es am Bahnsteig hell ist."
+      },
+      "answer": {
+         "type": "List",
+         "input": [
+            {
+               "name": "Ja, nachts beleuchtet",
+               "description": "Es ist hier die ganze Nacht hell genug, um den Bahnsteig zu können.",
+               "osm_tags": {
+                  "lit": "yes"
+               }
+            },
+            {
+               "name": "Ja, aber nicht die ganze Nacht",
+               "description": "Die Beleuchtung wird zu bestimmten Zeiten ausgeschaltet, bei Straßenlaternen am roten Ring erkennbar.",
+               "osm_tags": {
+                  "lit": "limited"
+               }
+            },
+            {
+               "name": "Beleuchtung per Bewegungsmelder aktiviert",
+               "description": "Die Beleuchtung wird nur aktiviert, wenn jemand vorbeikommt.",
+               "osm_tags": {
+                  "lit": "sensor"
+               }
+            },
+            {
+               "name": "Sogar Tag und Nacht beleuchtet",
+               "description": "Die Beleuchtung ist 24/7 an, auch tagsüber. Oftmals in unter Tage (z.B. U-Bahn) der Fall.",
+               "osm_tags": {
+                  "lit": "24/7"
+               }
+            },
+            {
+               "name": "Nein, nachts ist es hier dunkel",
+               "description": "Es gibt keine Beleuchtung.",
+               "osm_tags": {
+                  "lit": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "lit": false
+            },
+            "osm_element": [
+               "Node",
+               "OpenWay",
+               "ClosedWay",
+               "Relation"
+            ]
+         }
+      ]
    }
 ]
