@@ -11,7 +11,7 @@ void main() async {
 
   setUpAll(() async {
     final QuestionCatalogReader questionCatalogReader = QuestionCatalogReader();
-    questionJson = await questionCatalogReader.read();
+    questionJson = await questionCatalogReader.read(false);
   });
 
   test('test if the question_catalog.json can be parsed successfully to its corresponding models', () {

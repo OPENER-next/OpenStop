@@ -76,7 +76,7 @@ void main() {
       ]);
       
       final QuestionCatalogReader questionCatalogReader = QuestionCatalogReader();
-      final questionC = await questionCatalogReader.read();
+      final questionC = await questionCatalogReader.read(false);
 
       GetIt.I.registerSingleton<AppWorkerInterface>(futures[0] as AppWorkerInterface);
       GetIt.I.registerSingleton<PreferencesService>(

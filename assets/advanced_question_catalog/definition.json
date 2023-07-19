@@ -1,0 +1,42 @@
+[
+{
+      "question": {
+         "id": 1170,
+         "name": "@platformHeightName",
+         "text": "@platformHeightText",
+         "description": "@platformHeightDescription"
+      },
+      "answer": {
+         "type": "Number",
+         "input": {
+            "placeholder": "@platformHeightPlaceholder",
+            "decimals": 0,
+            "min": 0,
+            "max": 150,
+            "unit": "@unitCentimeter"
+         },
+         "constructor": {
+            "height": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "height": false
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay",
+               "Relation"
+            ]
+         }
+      ]
+   }
+]

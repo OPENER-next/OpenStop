@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import '../../models/question_catalog/question_catalog.dart';
 import '/models/authenticated_user.dart';
 import '/models/element_variants/element_identifier.dart';
 import '/models/answer.dart';
@@ -180,6 +181,29 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
     _activeQuestionnaireStreamController.close();
     super.exit();
   }
+
+  @override
+  void updateQuestionCatalog(QuestionCatalog catalog) {
+    super.updateQuestionCatalog(catalog);
+
+    //for (final questionnaire in _questionnaireStore) {
+      // update questionnaire with new catalog;
+
+      // requires change to questionnaire to be able to update itself.
+
+      // since the cprresponding element can become "obsolete" by a change to the questionnaire, at some place we also need to check whether we can throw away the questionnaire.
+    //}
+    if (_activeQuestionnaire != null) {
+      // notify change
+      _activeQuestionnaireStreamController.add(
+        QuestionnaireRepresentation.derive(
+          _activeQuestionnaire!,
+          isCompleted: _questionnaireStore.isFinished(_activeQuestionnaire!),
+        ),
+      );
+    }
+  }
+
 }
 
 /// An immutable representation of a Questionnaire used to present a snapshot of its state.

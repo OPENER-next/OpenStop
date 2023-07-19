@@ -137,13 +137,6 @@ class AppWorkerInterface extends Service implements Disposable {
     ));
   }
 
-  Future<void> updateQuestionCatalogPreferences({required bool excludeProfessional}) {
-    return _worker.send<void>(AppWorkerMessage(
-      AppWorkerSubject.updateQuestionCatalogPreferences,
-      excludeProfessional,
-    ));
-  }
-
   Future<void> updateQuestionCatalog({required QuestionCatalog questionCatalog}) {
     return _worker
         .send<void>(AppWorkerMessage(AppWorkerSubject.updateQuestionCatalog, questionCatalog));

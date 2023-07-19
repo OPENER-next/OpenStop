@@ -50,11 +50,8 @@ class AppWorker extends ServiceWorker<AppWorkerMessage>
       case AppWorkerSubject.jumpToQuestion:
         return jumpToQuestion(message.data);
 
-      case AppWorkerSubject.updateQuestionCatalogPreferences:
-        return updateQuestionCatalogPreferences(excludeProfessional: message.data);
-
       case AppWorkerSubject.updateQuestionCatalog:
-        return takeQuestionCatalogAsset(message.data);
+        return updateQuestionCatalog(message.data);
 
       case AppWorkerSubject.dispose:
         return exit();
@@ -100,8 +97,6 @@ enum AppWorkerSubject {
   nextQuestion,
   previousQuestion,
   jumpToQuestion,
-
-  updateQuestionCatalogPreferences,
 
   updateQuestionCatalog,
 

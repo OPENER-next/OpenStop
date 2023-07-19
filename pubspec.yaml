@@ -73,6 +73,9 @@ flutter:
     - assets/question_catalog/
     - assets/question_catalog/locales/
     - assets/question_catalog/images/
+    - assets/advanced_question_catalog/
+    - assets/advanced_question_catalog/locales/
+    - assets/advanced_question_catalog/images/
   # The following line ensures that the Material Icons font is included
   uses-material-design: true
   generate: true

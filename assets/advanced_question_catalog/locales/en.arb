@@ -1,0 +1,13 @@
+{
+  "@@locale": "en",
+  "platformHeightName" : "Platform height",
+  "@platformHeightName" : {},
+  "platformHeightText" : "What is the height difference between the platform and the road respectively the top edge of the rail?",
+  "@platformHeightText" : {},
+  "platformHeightDescription" : "If this height varies within a platform, the typical value for the usual entry point for wheelchair users should be determined.",
+  "@platformHeightDescription" : {},
+  "platformHeightPlaceholder" : "Platform height",
+  "@platformHeightPlaceholder" : {},
+  "unitCentimeter" : "Centimeter",
+  "@unitCentimeter": {}
+}

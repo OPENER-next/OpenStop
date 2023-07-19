@@ -1,12 +1,19 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
+
 import '/utils/service_worker.dart';
 import '/models/question_catalog/question_catalog.dart';
 
 mixin QuestionCatalogHandler<M> on ServiceWorker<M> {
   static final _completer = Completer<QuestionCatalog>();
 
-  void takeQuestionCatalogAsset(QuestionCatalog questionCatalog) {
-    _completer.complete(questionCatalog);
+  @mustCallSuper
+  void updateQuestionCatalog(QuestionCatalog questionCatalog) {
+    if (_completer.isCompleted) {
+      _questionCatalog = Future.value(questionCatalog);
+    } else {
+      _completer.complete(questionCatalog);
+    }
   }
 
   var _questionCatalog = _completer.future;
@@ -16,10 +23,4 @@ mixin QuestionCatalogHandler<M> on ServiceWorker<M> {
   /// Note: currently this won't update any existing questionnaires.
   /// Only the creation of subsequent questionnaires will be affected by this.
 
-  Future<void> updateQuestionCatalogPreferences({required bool excludeProfessional}) async {
-    final qc = await _questionCatalog;
-    _questionCatalog = Future.value(
-      qc.copyWith(excludeProfessional: excludeProfessional),
-    );
-  }
 }

@@ -1,0 +1,13 @@
+{
+  "@@locale": "de",
+  "platformHeightName" : "Plattform-Höhe",
+  "@platformHeightName" : {},
+  "platformHeightText" : "Wie groß ist der Höhenunterschied zwischen Plattform und Straße bzw. Schienenoberkante?",
+  "@platformHeightText" : {},
+  "platformHeightDescription" : "Wenn diese Höhe innerhalb eines Steiges variiert, ist der typische Wert für die übliche Einstiegsstelle von Rollstuhlfahrenden zu bestimmen.",
+  "@platformHeightDescription" : {},
+  "platformHeightPlaceholder" : "Plattform-Höhe",
+  "@platformHeightPlaceholder" : {},
+  "unitCentimeter" : "Zentimeter",
+  "@unitCentimeter": {}
+}
