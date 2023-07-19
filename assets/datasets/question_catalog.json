@@ -2812,7 +2812,7 @@
       "question": {
          "name": "Steig-Beleuchtung",
          "text": "Ist dieser Steig nachts beleuchtet?",
-         "description": "Der Steig selbst muss nicht dediziert beleuchtet sein. Es reicht, wenn die Umgebung ausreichend beleuchtet ist, damit es am Steig hell ist."
+         "description": "Der Steig selbst muss nicht extra beleuchtet sein. Es reicht, wenn die Umgebung ausreichend beleuchtet ist, damit es am Steig hell ist."
       },
       "answer": {
          "type": "Bool",
