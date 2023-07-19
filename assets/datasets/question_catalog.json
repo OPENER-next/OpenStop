@@ -2824,7 +2824,7 @@
             "unit": "Centimeter"
          },
          "constructor": {
-            "step:height": [
+            "maxwidth:physical": [
                "REPLACE", "/\\.?0{1,2}$/", "", [
                   "INSERT", ".", "-2", [
                      "PAD", "0", "3", "$input"
