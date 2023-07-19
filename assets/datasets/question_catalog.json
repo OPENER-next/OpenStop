@@ -2828,7 +2828,7 @@
             "osm_tags": {
                "public_transport": "platform",
                "ref:IFOPT": false,
-               "noref:IFOPT": [false, "no"]
+               "noref:IFOPT": false
             }
          }
       ],
@@ -2854,7 +2854,7 @@
             "osm_tags": {
                "public_transport": "stop_area",
                "ref:IFOPT": false,
-               "noref:IFOPT": [false, "no"]
+               "noref:IFOPT": false
             },
             "osm_element": "Relation"
          }
