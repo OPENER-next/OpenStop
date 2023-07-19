@@ -2812,7 +2812,7 @@
       "question": {
          "name": "DHID des Steigs",
          "text": "Was ist die Deutsche Haltestellen-ID für diesen Steig?",
-         "description": "Die Deutsche Haltestellen-ID (DHID) ist eine eindeutige Kennung für Steige und kann im Deutschen Haltestellenverzeichnis (DHV) nachgesehen werden. Für Steige hat sie normalerweise die Form aa:bbbbb:cccc:dd:ee."
+         "description": "Die Deutsche Haltestellen-ID (DHID) ist eine eindeutige Kennung für Steige. Sie kann im Deutschen Haltestellenverzeichnis (DHV) nachgesehen werden. Für Steige hat sie normalerweise die Form aa:bbbbb:cccc:dd:ee."
       },
       "answer": {
          "type": "String",
@@ -2838,7 +2838,7 @@
       "question": {
          "name": "DHID der Haltestelle",
          "text": "Was ist die Deutsche Haltestellen-ID für die gesamte Haltestelle?",
-         "description": "Die Deutsche Haltestellen-ID (DHID) ist eine eindeutige Kennung für Haltestellen und kann im Deutschen Haltestellenverzeichnis (DHV) nachgesehen werden. Für ganze Haltestellen hat sie normalerweise die Form aa:bbbbb:cccc oder aa:bbbbb:cccc:dd."
+         "description": "Die Deutsche Haltestellen-ID (DHID) ist eine eindeutige Kennung für Haltestellen. Sie kann im Deutschen Haltestellenverzeichnis (DHV) nachgesehen werden. Für ganze Haltestellen hat sie normalerweise die Form aa:bbbbb:cccc oder aa:bbbbb:cccc:dd."
       },
       "answer": {
          "type": "String",
