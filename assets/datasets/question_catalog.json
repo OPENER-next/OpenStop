@@ -2810,9 +2810,9 @@
    },
    {
       "question": {
-         "name": "Breite an Engstellen",
+         "name": "Engstellen-Breite",
          "text": "Wie breit ist die Plattform an ihrer schmalsten Stelle?",
-         "description": "Wie breit darf etwas maximal sein, damit es trotzem noch durchpasst?"
+         "description": "Die Wände von Unterständen oder der Mast erzeugen oft Engstellen."
       },
       "answer": {
          "type": "Number",
