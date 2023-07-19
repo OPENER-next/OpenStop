@@ -2810,9 +2810,9 @@
    },
    {
       "question": {
-         "name": "Deutsche Haltestellen-ID (DHID) des Bahnsteigs",
-         "text": "Was ist die Deutsche Haltestellen-ID für diesen Bahnsteig?",
-         "description": "Die Deutsche Haltestellen-ID (DHID) ist eine eindeutige Kennung für Haltestellen und Bahnsteige kann im Deutschen Haltestellenverzeichnis (DHV) nachgesehen werden. Für Bahnsteige hat sie normalerweise die Form aa:bbbbb:cccc:dd:ee."
+         "name": "DHID des Steigs",
+         "text": "Was ist die Deutsche Haltestellen-ID für diesen Steig?",
+         "description": "Die Deutsche Haltestellen-ID (DHID) ist eine eindeutige Kennung für Steige und kann im Deutschen Haltestellenverzeichnis (DHV) nachgesehen werden. Für Steige hat sie normalerweise die Form aa:bbbbb:cccc:dd:ee."
       },
       "answer": {
          "type": "String",
@@ -2820,7 +2820,7 @@
             "placeholder": "DHID"
          },
          "constructor": {
-            "operator": ["$input"]
+            "ref:IFOPT": ["$input"]
          }
       },
       "conditions": [
@@ -2828,7 +2828,7 @@
             "osm_tags": {
                "public_transport": "platform",
                "ref:IFOPT": false,
-               "noref:IFOPT": false
+               "noref:IFOPT": [false, "no"]
             }
          }
       ],
@@ -2836,9 +2836,9 @@
    },
    {
       "question": {
-         "name": "Deutsche Haltestellen-ID (DHID) der Haltestelle",
+         "name": "DHID der Haltestelle",
          "text": "Was ist die Deutsche Haltestellen-ID für die gesamte Haltestelle?",
-         "description": "Die Deutsche Haltestellen-ID (DHID) ist eine eindeutige Kennung für Haltestellen kann im Deutschen Haltestellenverzeichnis (DHV) nachgesehen werden. Für Haltestellen hat sie normalerweise die Form aa:bbbbb:cccc oder aa:bbbbb:cccc:dd."
+         "description": "Die Deutsche Haltestellen-ID (DHID) ist eine eindeutige Kennung für Haltestellen und kann im Deutschen Haltestellenverzeichnis (DHV) nachgesehen werden. Für ganze Haltestellen hat sie normalerweise die Form aa:bbbbb:cccc oder aa:bbbbb:cccc:dd."
       },
       "answer": {
          "type": "String",
@@ -2846,7 +2846,7 @@
             "placeholder": "DHID"
          },
          "constructor": {
-            "operator": ["$input"]
+            "ref:IFOPT": ["$input"]
          }
       },
       "conditions": [
@@ -2854,7 +2854,7 @@
             "osm_tags": {
                "public_transport": "stop_area",
                "ref:IFOPT": false,
-               "noref:IFOPT": false
+               "noref:IFOPT": [false, "no"]
             },
             "osm_element": "Relation"
          }
