@@ -2822,24 +2822,28 @@
          "input": [
             {
                "name": "Ja, oben und unten",
+               "image": "assets/images/questions/stepts_tactile_paving_both.jpg",
                "osm_tags": {
                   "tactile_paving": "yes"
                }
             },
             {
                "name": "Nur oben",
+               "image": "assets/images/questions/stepts_tactile_paving_top.jpg",
                "osm_tags": {
                   "tactile_paving": "partial"
                }
             },
             {
                "name": "Nur unten",
+               "image": "assets/images/questions/stepts_tactile_paving_bottom.jpg",
                "osm_tags": {
                   "tactile_paving": "incorrect"
                }
             },
             {
                "name": "Nein",
+               "image": "assets/images/questions/stepts_tactile_paving_no.jpg",
                "osm_tags": {
                   "tactile_paving": "no"
                }
