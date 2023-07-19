@@ -2837,7 +2837,9 @@
             },
             "osm_element": [
                "Node",
-               "OpenWay"
+               "OpenWay",
+               "ClosedWay",
+               "Relation" 
             ]
          }
       ]
