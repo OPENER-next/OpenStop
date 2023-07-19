@@ -2666,28 +2666,28 @@
          "input": [
             {
                "name": "Bus",
-               "image": "assets/images/questions/mode_of_transport_bus.jpg",
+               "image": "assets/images/questions/bus.jpg",
                "osm_tags": {
                   "bus": "yes"
                }
             },
             {
                "name": "Straßenbahn",
-               "image": "assets/images/questions/mode_of_transport_tram.jpg",
+               "image": "assets/images/questions/tram.jpg",
                "osm_tags": {
                   "tram": "yes"
                }
             },
             {
                "name": "Zug",
-               "image": "assets/images/questions/mode_of_transport_train.jpg",
+               "image": "assets/images/questions/train.jpg",
                "osm_tags": {
                   "train": "yes"
                }
             },
             {
                "name": "Stadtbahn",
-               "image": "assets/images/questions/mode_of_transport_lightrail.jpg",
+               "image": "assets/images/questions/lightrail.jpg",
                "description": "Eine Stadtbahn ist eine Zwischenstufe zwischen Straßenbahn und traditionellem Zug. Sie verbindet oft ländliche Gebiete mit der Stadt und sind hochfluriger als Straßenbahnen.",
                "osm_tags": {
                   "light_rail": "yes"
@@ -2695,14 +2695,14 @@
             },
             {
                "name":"U-Bahn",
-               "image": "assets/images/questions/mode_of_transport_subway.jpg",
+               "image": "assets/images/questions/subway.jpg",
                "osm_tags": {
                   "subway": "yes"
                }
             },
             {
                "name": "Einschienenbahn",
-               "image": "assets/images/questions/mode_of_transport_monorail.jpg",
+               "image": "assets/images/questions/monorail.jpg",
                "description": "Eine Einschienenbahn fährt meistens über der Straßenebene und hat keine sichtbaren Räder.",
                "osm_tags": {
                   "monorail": "yes"
