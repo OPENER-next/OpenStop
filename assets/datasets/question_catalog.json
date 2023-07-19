@@ -2839,12 +2839,7 @@
                "public_transport": "platform",
                "maxwidth:physical": false
             },
-            "osm_element": [
-               "Node",
-               "OpenWay",
-               "ClosedWay",
-               "Relation"
-            ]
+            "osm_element": "OpenWay"
          }
       ],
       "isProfessional": true
