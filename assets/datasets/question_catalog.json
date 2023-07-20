@@ -3014,9 +3014,7 @@
                "tactile_paving": false
             },
             "osm_element": "OpenWay",
-            "parent": [
-               {
-                  "!child": [
+            "!child": [
                      {
                         "osm_tags": {
                            "kerb": true
@@ -3029,8 +3027,6 @@
                         },
                         "osm_element": "Node"
                      }
-                  ]
-               }
             ]
          }
       ]
