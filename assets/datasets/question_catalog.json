@@ -858,6 +858,42 @@
    },
    {
       "question": {
+         "name": "Engstellen-Breite",
+         "text": "Wie breit ist die engste Stelle der Plattform?",
+         "description": "Die Wände von Unterständen oder der Mast erzeugen oft Engstellen. Dieser Wert ist u.a. dafür wichtig, damit Rollstuhlfahrende wissen, ob ihr Rollstuhl in die gesamte Plattform ereichen kann."
+      },
+      "answer": {
+         "type": "Number",
+         "input": {
+            "placeholder": "Breite",
+            "decimals": 0,
+            "min": 0,
+            "max": 1500,
+            "unit": "Centimeter"
+         },
+         "constructor": {
+            "maxwidth:physical": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "maxwidth:physical": false
+            },
+            "osm_element": "OpenWay"
+         }
+      ],
+      "isProfessional": true
+   },
+   {
+      "question": {
          "id": 1200,
          "name": "Anfahrtshilfe",
          "text": "Hat die Haltestelle einen speziellen Bordstein mit Anfahrtshilfe für Busse?",
@@ -2807,41 +2843,5 @@
             "osm_element": "Node"
          }
       ]
-   },
-   {
-      "question": {
-         "name": "Engstellen-Breite",
-         "text": "Wie breit ist die engste Stelle der Plattform?",
-         "description": "Die Wände von Unterständen oder der Mast erzeugen oft Engstellen. Dieser Wert ist u.a. dafür wichtig, damit Rollstuhlfahrende wissen, ob ihr Rollstuhl in die gesamte Plattform ereichen kann."
-      },
-      "answer": {
-         "type": "Number",
-         "input": {
-            "placeholder": "Breite",
-            "decimals": 0,
-            "min": 0,
-            "max": 1500,
-            "unit": "Centimeter"
-         },
-         "constructor": {
-            "maxwidth:physical": [
-               "REPLACE", "/\\.?0{1,2}$/", "", [
-                  "INSERT", ".", "-2", [
-                     "PAD", "0", "3", "$input"
-                  ]
-               ]
-            ]
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "public_transport": "platform",
-               "maxwidth:physical": false
-            },
-            "osm_element": "OpenWay"
-         }
-      ],
-      "isProfessional": true
    }
 ]
