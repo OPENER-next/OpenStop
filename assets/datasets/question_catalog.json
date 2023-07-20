@@ -2812,7 +2812,7 @@
       "question": {
          "name": "Engstellen-Breite",
          "text": "Wie breit ist die engste Stelle der Plattform?",
-         "description": "Die Wände von Unterständen oder der Mast erzeugen oft Engstellen."
+         "description": "Die Wände von Unterständen oder der Mast erzeugen oft Engstellen. Dieser Wert ist u.a. dafür wichtig, damit Rollstuhlfahrende wissen, ob ihr Rollstuhl in die gesamte Plattform ereichen kann."
       },
       "answer": {
          "type": "Number",
