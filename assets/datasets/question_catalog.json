@@ -2812,7 +2812,7 @@
       "question": {
          "name": "Haltestellen-Beleuchtung",
          "text": "Ist diese Haltestelle nachts beleuchtet?",
-         "description": "Die Haltestelle selbst muss nicht extra beleuchtet sein. Es reicht, wenn die Umgebung ausreichend beleuchtet ist, damit es an der Haltestelle hell ist."
+         "description": "Die Haltestelle muss keine eigene Beleuchtung besitzen. Es reicht, wenn sie durch umgebende Lampen ausreichend beleuchtet wird."
       },
       "answer": {
          "type": "Bool",
