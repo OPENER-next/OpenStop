@@ -1758,6 +1758,42 @@
    },
    {
       "question": {
+         "name": "Haltestellen-Beleuchtung",
+         "text": "Ist diese Haltestelle nachts beleuchtet?",
+         "description": "Die Haltestelle muss keine eigene Beleuchtung besitzen. Es reicht, wenn sie durch umgebende Lampen ausreichend beleuchtet wird."
+      },
+      "answer": {
+         "type": "Bool",
+         "input": [
+            {
+               "osm_tags": {
+                  "lit": "yes"
+               }
+            },
+            {
+               "osm_tags": {
+                  "lit": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "lit": false
+            },
+            "osm_element": [
+               "Node",
+               "OpenWay",
+               "ClosedWay",
+               "Relation" 
+            ]
+         }
+      ]
+   },
+   {
+      "question": {
          "id": 2070,
          "name": "Bodenindikatoren",
          "text": "Gibt es Bodenindikatoren an der Haltestelle?",
