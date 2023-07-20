@@ -33,6 +33,60 @@
          }
       ]
    },
+   ,
+   {
+      "question": {
+         "name": "DHID des Steigs",
+         "text": "Was ist die Deutsche Haltestellen-ID für diesen Steig?",
+         "description": "Die Deutsche Haltestellen-ID (DHID) ist eine eindeutige Kennung für Steige. Sie kann im Zentralen Haltestellenverzeichnis (ZHV) nachgesehen werden. Für Steige hat sie normalerweise die Form aa:bbbbb:cccc:dd:ee."
+      },
+      "answer": {
+         "type": "String",
+         "input": {
+            "placeholder": "DHID"
+         },
+         "constructor": {
+            "ref:IFOPT": ["$input"]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "ref:IFOPT": false,
+               "noref:IFOPT": false
+            }
+         }
+      ],
+      "isProfessional": true
+   },
+   {
+      "question": {
+         "name": "DHID der Haltestelle",
+         "text": "Was ist die Deutsche Haltestellen-ID für die gesamte Haltestelle?",
+         "description": "Die Deutsche Haltestellen-ID (DHID) ist eine eindeutige Kennung für Haltestellen. Sie kann im Zentralen Haltestellenverzeichnis (ZHV) nachgesehen werden. Für ganze Haltestellen hat sie normalerweise die Form aa:bbbbb:cccc oder aa:bbbbb:cccc:dd."
+      },
+      "answer": {
+         "type": "String",
+         "input": {
+            "placeholder": "DHID"
+         },
+         "constructor": {
+            "ref:IFOPT": ["$input"]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "stop_area",
+               "ref:IFOPT": false,
+               "noref:IFOPT": false
+            },
+            "osm_element": "Relation"
+         }
+      ],
+      "isProfessional": true
+   },
    {
       "question": {
          "id": 1022,
@@ -2807,58 +2861,5 @@
             "osm_element": "Node"
          }
       ]
-   },
-   {
-      "question": {
-         "name": "DHID des Steigs",
-         "text": "Was ist die Deutsche Haltestellen-ID für diesen Steig?",
-         "description": "Die Deutsche Haltestellen-ID (DHID) ist eine eindeutige Kennung für Steige. Sie kann im Zentralen Haltestellenverzeichnis (ZHV) nachgesehen werden. Für Steige hat sie normalerweise die Form aa:bbbbb:cccc:dd:ee."
-      },
-      "answer": {
-         "type": "String",
-         "input": {
-            "placeholder": "DHID"
-         },
-         "constructor": {
-            "ref:IFOPT": ["$input"]
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "public_transport": "platform",
-               "ref:IFOPT": false,
-               "noref:IFOPT": false
-            }
-         }
-      ],
-      "isProfessional": true
-   },
-   {
-      "question": {
-         "name": "DHID der Haltestelle",
-         "text": "Was ist die Deutsche Haltestellen-ID für die gesamte Haltestelle?",
-         "description": "Die Deutsche Haltestellen-ID (DHID) ist eine eindeutige Kennung für Haltestellen. Sie kann im Zentralen Haltestellenverzeichnis (ZHV) nachgesehen werden. Für ganze Haltestellen hat sie normalerweise die Form aa:bbbbb:cccc oder aa:bbbbb:cccc:dd."
-      },
-      "answer": {
-         "type": "String",
-         "input": {
-            "placeholder": "DHID"
-         },
-         "constructor": {
-            "ref:IFOPT": ["$input"]
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "public_transport": "stop_area",
-               "ref:IFOPT": false,
-               "noref:IFOPT": false
-            },
-            "osm_element": "Relation"
-         }
-      ],
-      "isProfessional": true
    }
 ]
