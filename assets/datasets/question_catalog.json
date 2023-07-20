@@ -2807,5 +2807,90 @@
             "osm_element": "Node"
          }
       ]
+   },
+   {
+      "question": {
+         "name": "Verkehrsmittel",
+         "text": "Welche Verkehrsmittel halten an dieser Haltestelle?"
+      },
+      "answer": {
+         "type": "MultiList",
+         "input": [
+            {
+               "name": "Bus",
+               "image": "assets/images/questions/bus.jpg",
+               "osm_tags": {
+                  "bus": "yes"
+               }
+            },
+            {
+               "name": "Straßenbahn",
+               "image": "assets/images/questions/tram.jpg",
+               "osm_tags": {
+                  "tram": "yes"
+               }
+            },
+            {
+               "name": "Zug",
+               "image": "assets/images/questions/train.jpg",
+               "osm_tags": {
+                  "train": "yes"
+               }
+            },
+            {
+               "name": "Stadtbahn",
+               "image": "assets/images/questions/lightrail.jpg",
+               "description": "Eine Stadtbahn ist eine Zwischenstufe zwischen Straßenbahn und traditionellem Zug. Sie verbindet oft ländliche Gebiete mit der Stadt und sind hochfluriger als Straßenbahnen.",
+               "osm_tags": {
+                  "light_rail": "yes"
+               }
+            },
+            {
+               "name":"U-Bahn",
+               "image": "assets/images/questions/subway.jpg",
+               "osm_tags": {
+                  "subway": "yes"
+               }
+            },
+            {
+               "name": "Einschienenbahn",
+               "image": "assets/images/questions/monorail.jpg",
+               "description": "Eine Einschienenbahn fährt meistens über der Straßenebene und hat keine sichtbaren Räder.",
+               "osm_tags": {
+                  "monorail": "yes"
+               }
+            }
+         ],
+         "constructor": {
+            "bus": ["COALESCE", "$input"],
+            "tram": ["COALESCE", "$input"],
+            "train": ["COALESCE", "$input"],
+            "light_rail": ["COALESCE", "$input"],
+            "subway": ["COALESCE", "$input"],
+            "monorail": ["COALESCE", "$input"]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "bus": false,
+               "ferry": false,
+               "light_rail": false,
+               "monorail": false,
+               "subway": false,
+               "train": false,
+               "tram": false,
+               "trolleybus": false
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
+         }
+      ]
    }
 ]
