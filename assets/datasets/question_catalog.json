@@ -2811,7 +2811,7 @@
    {
       "question": {
          "name": "Engstellen-Breite",
-         "text": "Wie breit ist die Plattform an ihrer schmalsten Stelle?",
+         "text": "Wie breit ist die engste Stelle der Plattform?",
          "description": "Die Wände von Unterständen oder der Mast erzeugen oft Engstellen."
       },
       "answer": {
