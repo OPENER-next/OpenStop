@@ -2428,6 +2428,55 @@
    },
    {
       "question": {
+         "name": "Bodenindikatoren",
+         "text": "Gibt es an dieser Treppe Bodenindikatoren?",
+         "description": "Bodenindikatoren dienen vor allem Sehbehinderten als Warnung vor Gefahren durch Treppen."
+      },
+      "answer": {
+         "type": "List",
+         "input": [
+            {
+               "name": "Ja, oben und unten",
+               "image": "assets/images/questions/steps_tactile_paving_yes.jpg",
+               "osm_tags": {
+                  "tactile_paving": "yes"
+               }
+            },
+            {
+               "name": "Nur oben",
+               "image": "assets/images/questions/steps_tactile_paving_partial.jpg",
+               "osm_tags": {
+                  "tactile_paving": "partial"
+               }
+            },
+            {
+               "name": "Nur unten",
+               "image": "assets/images/questions/steps_tactile_paving_incorrect.jpg",
+               "osm_tags": {
+                  "tactile_paving": "incorrect"
+               }
+            },
+            {
+               "name": "Nein",
+               "image": "assets/images/questions/steps_tactile_paving_no.jpg",
+               "osm_tags": {
+                  "tactile_paving": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "steps",
+               "tactile_paving": false
+            },
+            "osm_element": "OpenWay"
+         }
+      ]
+   },
+   {
+      "question": {
          "name": "Handlauf-Blindenschrift",
          "text": "Ist auf dem Handlauf Blindenschrift vorhanden?",
          "image": [
