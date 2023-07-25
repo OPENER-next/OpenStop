@@ -86,7 +86,7 @@ void main() {
         rootBundle.load('assets/datasets/map_feature_collection.json')
       ]);
 
-      GetIt.I.get<AppWorkerInterface>(). updateQuestionCatalog( questionCatalog: questionC,);
+      GetIt.I.get<AppWorkerInterface>(). updateQuestionCatalog( questionCatalog: questionC, onlyLanguageChange: false);
 
       GetIt.I.get<AppWorkerInterface>().passAssets(assets);
     });

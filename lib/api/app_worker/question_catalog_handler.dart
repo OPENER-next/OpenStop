@@ -8,19 +8,15 @@ mixin QuestionCatalogHandler<M> on ServiceWorker<M> {
   static final _completer = Completer<QuestionCatalog>();
 
   @mustCallSuper
-  void updateQuestionCatalog(QuestionCatalog questionCatalog) {
+  void updateQuestionCatalog(({QuestionCatalog questionCatalog, bool onlyLanguageChange}) questionCatalogChangeData) {
     if (_completer.isCompleted) {
-      _questionCatalog = Future.value(questionCatalog);
+      _questionCatalog = Future.value(questionCatalogChangeData.questionCatalog);
     } else {
-      _completer.complete(questionCatalog);
+      _completer.complete(questionCatalogChangeData.questionCatalog);
     }
   }
 
   var _questionCatalog = _completer.future;
 
   Future<QuestionCatalog> get questionCatalog => _questionCatalog;
-
-  /// Note: currently this won't update any existing questionnaires.
-  /// Only the creation of subsequent questionnaires will be affected by this.
-
 }

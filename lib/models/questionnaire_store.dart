@@ -9,6 +9,8 @@ class QuestionnaireStore {
 
   int get length => _questionnaires.length;
 
+  Iterable<Questionnaire> get items => _questionnaires.keys;
+
   bool isFinished(Questionnaire questionnaire) {
     return _questionnaires[questionnaire] ?? false;
   }
@@ -29,6 +31,10 @@ class QuestionnaireStore {
 
   void remove(Questionnaire questionnaire) {
     _questionnaires.remove(questionnaire);
+  }
+
+  void clear() {
+    _questionnaires.clear();
   }
 
   Questionnaire? find(bool Function(Questionnaire) callback) {

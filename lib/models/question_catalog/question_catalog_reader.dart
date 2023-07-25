@@ -24,15 +24,22 @@ class QuestionCatalogReader {
         questionCatalog.cast<Map<String, dynamic>>());
   }
 
-  Future<dynamic> _readCatalog(String directory) async {
+  Future<QuestionCatalog> readAll(Iterable<String> assetPaths) async {
+    final catalogs = await Future.wait(
+      assetPaths.map((path) => _readCatalog(path)),
+    );
+    return QuestionCatalog.fromJson(catalogs.expand((list) => list));
+  }
+
+  Future<List<Map<String, dynamic>>> _readCatalog(String directory) async {
     final locales = await Future.wait([
-      _readFile('assets/$directory/locales/$_deviceLocale.arb'),
-      _readFile('assets/$directory/locales/${_deviceLocale.languageCode}.arb'),
-      _readFile('assets/$directory/locales/$defaultLocate.arb')
+      _readFile('$directory/locales/$_deviceLocale.arb'),
+      _readFile('$directory/locales/${_deviceLocale.languageCode}.arb'),
+      _readFile('$directory/locales/$defaultLocate.arb')
     ]);
 
     final questionCatalog =
-        await _readFile('assets/$directory/definition.json', (key, value) {
+        await _readFile('$directory/definition.json', (key, value) {
       if (value is String) {
         if (value.startsWith('@')) {
           for (final languagefiles in locales) {
@@ -46,7 +53,7 @@ class QuestionCatalogReader {
       return value;
     });
 
-    return questionCatalog;
+    return questionCatalog.cast<Map<String, dynamic>>();
   }
 
   Future<dynamic> _readFile(String path,
