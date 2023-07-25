@@ -3007,14 +3007,15 @@
             {
                "name": "Zug",
                "image": "assets/images/questions/train.jpg",
+               "description": "Hierunter sind sowohl Züge für den Nahverkehr (inkl. S-Bahnen) als auch Fernverkehr zu verstehen.",
                "osm_tags": {
                   "train": "yes"
                }
             },
             {
-               "name": "Stadtbahn",
+               "name": "Leichtbahn",
                "image": "assets/images/questions/lightrail.jpg",
-               "description": "Eine Stadtbahn ist eine Zwischenstufe zwischen Straßenbahn und traditionellem Zug. Sie verbindet oft ländliche Gebiete mit der Stadt und sind hochfluriger als Straßenbahnen.",
+               "description": "Eine Leichtbahn, auch Stadtbahn genannt, ist eine Zwischenstufe zwischen Straßenbahn und Zug. Sie verbindet oft ländliche Gebiete mit der Stadt und sind hochfluriger als Straßenbahnen.",
                "osm_tags": {
                   "light_rail": "yes"
                }
