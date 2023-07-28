@@ -2928,12 +2928,6 @@
                            "kerb": true
                         },
                         "osm_element": "Node"
-                     },
-                     {
-                        "osm_tags": {
-                           "highway": "crossing"
-                        },
-                        "osm_element": "Node"
                      }
             ]
          },
