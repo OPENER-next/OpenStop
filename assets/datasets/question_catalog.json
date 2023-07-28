@@ -2892,7 +2892,7 @@
    },
    {
       "question": {
-         "name": "Übergangs-Bodenindikatoren (ALLE)",
+         "name": "Übergangs-Bodenindikatoren",
          "text": "Gibt es an beiden Enden dieses Übergangsweges Bodenindikatoren?",
          "description": "Bodenindikatoren dienen vor allem Sehbehinderten als Warnung vor abgesenkten Bordsteinen oder Straßenüberquerungen und verhindern so ein unbewusstes Betreten der Fahrbahn.",
          "image": [
