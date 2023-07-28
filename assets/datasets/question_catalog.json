@@ -2892,99 +2892,7 @@
    },
    {
       "question": {
-         "name": "Übergang-Bodenindikatoren (Straße)",
-         "text": "Gibt es an beiden Seiten dieses Übergangs Bodenindikatoren?",
-         "description": "Bodenindikatoren dienen vor allem Sehbehinderten als Warnung vor abgesenkten Bordsteinen oder Straßenüberquerungen und verhindern so ein unbewusstes Betreten der Fahrbahn.",
-         "image": [
-            "assets/images/questions/tactile_paving_on_kerb.jpg"
-         ]
-      },
-      "answer": {
-         "type": "Bool",
-         "input": [
-            {
-               "osm_tags": {
-                  "tactile_paving": "yes"
-               }
-            },
-            {
-               "osm_tags": {
-                  "tactile_paving": "no"
-               }
-            }
-         ]
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "highway": "crossing",
-               "tactile_paving": false
-            },
-            "osm_element": "Node",
-            "parent": [
-               {
-                  "!child": [
-                     {
-                        "osm_tags": {
-                           "kerb": true
-                        },
-                        "osm_element": "Node"
-                     }
-                  ]
-               }
-            ]
-         }
-      ]
-   },
-   {
-      "question": {
-         "name": "Übergang-Bodenindikatoren (Bahn)",
-         "text": "Gibt es an beiden Seiten dieses Bahnübergangs Bodenindikatoren?",
-         "description": "Bodenindikatoren dienen vor allem Sehbehinderten als Warnung vor abgesenkten Bordsteinen oder Straßenüberquerungen und verhindern so ein unbewusstes Betreten der Fahrbahn.",
-         "image": [
-            "assets/images/questions/tactile_paving_on_kerb.jpg"
-         ]
-      },
-      "answer": {
-         "type": "Bool",
-         "input": [
-            {
-               "osm_tags": {
-                  "tactile_paving": "yes"
-               }
-            },
-            {
-               "osm_tags": {
-                  "tactile_paving": "no"
-               }
-            }
-         ]
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "railway": "crossing",
-               "tactile_paving": false
-            },
-            "osm_element": "Node",
-            "parent": [
-               {
-                  "!child": [
-                     {
-                        "osm_tags": {
-                           "kerb": true
-                        },
-                        "osm_element": "Node"
-                     }
-                  ]
-               }
-            ]
-         }
-      ]
-   },
-   {
-      "question": {
-         "name": "Übergang-Bodenindikatoren (Straßen-Übergangsweg)",
+         "name": "Übergangs-Bodenindikatoren (ALLE)",
          "text": "Gibt es an beiden Enden dieses Übergangsweges Bodenindikatoren?",
          "description": "Bodenindikatoren dienen vor allem Sehbehinderten als Warnung vor abgesenkten Bordsteinen oder Straßenüberquerungen und verhindern so ein unbewusstes Betreten der Fahrbahn.",
          "image": [
@@ -3028,7 +2936,21 @@
                         "osm_element": "Node"
                      }
             ]
-         }
+         },
+         {
+            "osm_tags": {
+               "highway": "crossing",
+               "tactile_paving": false
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "railway": "crossing",
+               "tactile_paving": false
+            },
+            "osm_element": "Node"
+         }         
       ]
    },
    {
