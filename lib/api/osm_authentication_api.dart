@@ -25,8 +25,7 @@ class OSMAuthenticationAPI {
 
   static const _authorizationEndpoint = '/oauth2/authorize';
   static const _tokenEndpoint = '/oauth2/token';
-  // Currently there is no revoke end point, see: https://github.com/openstreetmap/openstreetmap-website/issues/3412
-
+  static const _revokeEndpoint = '/oauth2/revoke';
 
   /// This will start the login/authentication process by opening the openstreetmap website inside a browser/webview.
   /// The future will resolve when this process has finished.
@@ -98,12 +97,36 @@ class OSMAuthenticationAPI {
 
 
   /// Terminates the current session by deleting the current access token.
+  /// This also revokes the authentication token from the server.
 
   Future<void> logout() async {
-    await Future.wait([
-      _secureStorage.delete(key: 'accessToken'),
-      // OSM currently does not support token revocation (https://github.com/openstreetmap/openstreetmap-website/issues/3412)
-    ]);
+    final accessToken = await _secureStorage.read(key: 'accessToken');
+    if (accessToken != null) {
+      final dio = Dio();
+      try {
+        await Future.wait([
+          // remove token from storage
+          _secureStorage.delete(key: 'accessToken'),
+          // revoke the token from the osm server
+          // this way any granted permissions by the user are revoked
+          // the user has to authorize the app again on the next login
+          dio.post(
+            Uri.https(osm_config.osmServer, _revokeEndpoint).toString(),
+            data: {
+              'token': accessToken,
+              'token_type_hint': 'access_token',
+              'client_id': osm_config.oAuth2ClientId,
+            },
+            options: Options(
+              contentType: Headers.formUrlEncodedContentType,
+            ),
+          ),
+        ]);
+      }
+      finally {
+        dio.close();
+      }
+    }
   }
 
 
