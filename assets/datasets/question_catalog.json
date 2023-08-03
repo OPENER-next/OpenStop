@@ -2846,8 +2846,8 @@
    },
    {
       "question": {
-         "name": "Übergang-Bodenindikatoren (Straßenbahn)",
-         "text": "Gibt es an beiden Seiten dieses Straßenbahn-Übergangs Bodenindikatoren?",
+         "name": "Übergang-Bodenindikatoren",
+         "text": "Gibt es an beiden Seiten dieses Übergangs Bodenindikatoren?",
          "description": "Bodenindikatoren dienen vor allem Sehbehinderten als Warnung vor abgesenkten Bordsteinen oder Straßenüberquerungen und verhindern so ein unbewusstes Betreten der Fahrbahn.",
          "image": [
             "assets/images/questions/tactile_paving_on_kerb.jpg"
@@ -2874,47 +2874,22 @@
                "railway": "tram_crossing",
                "tactile_paving": false
             },
-            "osm_element": "Node",
-            "parent": [
-               {
-                  "!child": [
-                     {
-                        "osm_tags": {
-                           "kerb": true
-                        },
-                        "osm_element": "Node"
-                     }
-                  ]
-               }
-            ]
-         }
-      ]
-   },
-   {
-      "question": {
-         "name": "Übergangs-Bodenindikatoren",
-         "text": "Gibt es an beiden Enden dieses Übergangsweges Bodenindikatoren?",
-         "description": "Bodenindikatoren dienen vor allem Sehbehinderten als Warnung vor abgesenkten Bordsteinen oder Straßenüberquerungen und verhindern so ein unbewusstes Betreten der Fahrbahn.",
-         "image": [
-            "assets/images/questions/tactile_paving_on_kerb.jpg"
-         ]
-      },
-      "answer": {
-         "type": "Bool",
-         "input": [
-            {
-               "osm_tags": {
-                  "tactile_paving": "yes"
-               }
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "railway": "crossing",
+               "tactile_paving": false
             },
-            {
-               "osm_tags": {
-                  "tactile_paving": "no"
-               }
-            }
-         ]
-      },
-      "conditions": [
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "highway": "crossing",
+               "tactile_paving": false
+            },
+            "osm_element": "Node"
+         },
          {
             "osm_tags": {
                "highway": "footway",
@@ -2930,21 +2905,7 @@
                         "osm_element": "Node"
                      }
             ]
-         },
-         {
-            "osm_tags": {
-               "highway": "crossing",
-               "tactile_paving": false
-            },
-            "osm_element": "Node"
-         },
-         {
-            "osm_tags": {
-               "railway": "crossing",
-               "tactile_paving": false
-            },
-            "osm_element": "Node"
-         }         
+         }
       ]
    },
    {
