@@ -2847,7 +2847,7 @@
    {
       "question": {
          "name": "Übergang-Bodenindikatoren",
-         "text": "Gibt es an beiden Seiten dieses Übergangs Bodenindikatoren?",
+         "text": "Gibt es Bodenindikatoren an beiden Seiten dieses Übergangs?",
          "description": "Bodenindikatoren dienen vor allem Sehbehinderten als Warnung vor abgesenkten Bordsteinen oder Straßenüberquerungen und verhindern so ein unbewusstes Betreten der Fahrbahn.",
          "image": [
             "assets/images/questions/tactile_paving_on_kerb.jpg"
