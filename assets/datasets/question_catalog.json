@@ -1833,6 +1833,7 @@
                "highway": ["path", "cycleway"],
                "foot": ["yes", "designated"],
                "surface": false,
+               "footway:surface": false,
                "indoor": ["no", false]
             },
             "!osm_tags": {
