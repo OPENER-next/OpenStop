@@ -2850,7 +2850,8 @@
          "text": "Gibt es Bodenindikatoren an beiden Seiten dieses Übergangs?",
          "description": "Bodenindikatoren dienen vor allem Sehbehinderten als Warnung vor abgesenkten Bordsteinen oder Straßenüberquerungen und verhindern so ein unbewusstes Betreten der Fahrbahn.",
          "image": [
-            "assets/images/questions/crossing_tram.jpg"
+            "assets/images/questions/crossing_tram.jpg",
+            "assets/images/questions/crossing_rail.jpg"
          ]
       },
       "answer": {
