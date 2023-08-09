@@ -72,16 +72,20 @@ class _CheckMarkState extends State<CheckMark> with SingleTickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFF8ccf73),
+      decoration: BoxDecoration(
+        color: const Color(0xFF8ccf73),
         shape: BoxShape.circle,
+        border: Border.all(
+          color: Colors.white,
+          width: 3.0
+        )
       ),
-      width: 30,
-      height: 30,
+      width: 40,
+      height: 40,
       child: AnimatedPath(
         animation: _animation,
         strokeWidth: 5,
-        color: const Color(0xFF4c9031),
+        color: Colors.white,
         pathBuilder: (size) {
           return Path()
           ..moveTo(0.270 * size.width, 0.541 * size.height)
