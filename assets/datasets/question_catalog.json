@@ -2984,6 +2984,48 @@
    },
    {
       "question": {
+         "name": "Übergang-Bodenindikatoren",
+         "text": "Gibt es Bodenindikatoren an beiden Seiten dieses Übergangs?",
+         "description": "Bodenindikatoren dienen vor allem Sehbehinderten als Warnung vor abgesenkten Bordsteinen oder Straßenüberquerungen und verhindern so ein unbewusstes Betreten der Fahrbahn.",
+         "image": [
+            "assets/images/questions/crossing_tram.jpg",
+            "assets/images/questions/crossing_rail.jpg"
+         ]
+      },
+      "answer": {
+         "type": "Bool",
+         "input": [
+            {
+               "osm_tags": {
+                  "tactile_paving": "yes"
+               }
+            },
+            {
+               "osm_tags": {
+                  "tactile_paving": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "railway": ["tram_crossing", "crossing"],
+               "tactile_paving": false
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "highway": "crossing",
+               "tactile_paving": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
          "name": "Verkehrsmittel",
          "text": "Welche Verkehrsmittel halten an dieser Haltestelle?"
       },
