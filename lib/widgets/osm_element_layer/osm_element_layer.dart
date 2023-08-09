@@ -35,6 +35,7 @@ class OsmElementLayer extends StatefulWidget {
     this.selectedElement,
     this.onOsmElementTap,
     this.durationOffsetRange = const Duration(milliseconds: 300),
+    // TODO: currently changes to this won't update the super cluster
     this.zoomLowerLimit = 16,
     Key? key
   }) : super(key: key);
@@ -82,7 +83,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
         _superCluster.modifyPointData(change.element, change.element);
       }
       else {
-        _superCluster.insert(change.element);
+        _superCluster.add(change.element);
       }
     });
   }
@@ -123,23 +124,15 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
           }
         }
         else {
-          // loop over elements so that only the last one is a marker and not a placeholder
-          // this is required because the cluster update method changes the ordering
-          // which therefore affects which element is shown from the cluster.
-          // if we would always show the first one then it would be minimized after update since it becomes the last one
-          var hasNext = elements.moveNext();
-          while(hasNext) {
-            final current = elements.current;
-            if (elements.moveNext()) {
+          // loop over elements so that only the first one is a marker and not a placeholder
+          if (elements.moveNext()) {
+            visibleMarkers.add(
+              _createMarker(elements.current),
+            );
+            while(elements.moveNext()) {
               suppressedMarkers.add(
-                _createMinimizedMarker(current)
+                _createMinimizedMarker(elements.current)
               );
-            }
-            else {
-              visibleMarkers.add(
-                _createMarker(current),
-              );
-              hasNext = false;
             }
           }
         }

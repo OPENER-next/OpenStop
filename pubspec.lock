@@ -962,10 +962,10 @@ packages:
     dependency: "direct main"
     description:
       name: supercluster
-      sha256: b956072ae2e5f9430c227a0b6a5863b261abd6eb7488411c042bd620a203aab9
+      sha256: "9301624d8eee0045c3623b7d9816a51e3a392fbcde65a4c3206023ce968a8cd3"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.0"
+    version: "3.0.0"
   temaki_flutter:
     dependency: "direct main"
     description:
