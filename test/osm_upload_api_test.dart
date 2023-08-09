@@ -24,14 +24,14 @@ void main() async {
   const changesetLocale = 'test locale';
   const changesetSource = 'test source';
 
-  final simpleStopArea = StopArea([
+  final simpleStopArea = StopArea(const [
     Stop(
       location: LatLng(10.00001, 20.00001),
       name: 'Stop1'
     )
-  ], LatLng(10.00001, 20.00001), 200);
+  ], const LatLng(10.00001, 20.00001), 200);
 
-  final doubleStopArea = StopArea([
+  final doubleStopArea = StopArea(const [
     Stop(
       location: LatLng(10.00001, 20.00001),
       name: 'Stop1'
@@ -40,9 +40,9 @@ void main() async {
       location: LatLng(10.00001, 20.00001),
       name: 'Stop2'
     )
-  ], LatLng(10.00001, 20.00001), 200);
+  ], const LatLng(10.00001, 20.00001), 200);
 
-  final tripleStopArea = StopArea([
+  final tripleStopArea = StopArea(const [
     Stop(
       location: LatLng(10.00001, 20.00001),
       name: 'Stop1'
@@ -55,7 +55,7 @@ void main() async {
       location: LatLng(10.00001, 20.00001),
       name: 'Stop3'
     )
-  ], LatLng(10.00001, 20.00001), 200);
+  ], const LatLng(10.00001, 20.00001), 200);
 
   const tags01 = {'map_feature_1': 'map_feature_1_value'};
   const tags02 = {'map_feature_2': 'map_feature_2_value'};
@@ -312,12 +312,12 @@ void main() async {
 
 
   test('Test osm element upload with changeset comment exceeding max length', () async {
-    final stopAreaWithLongName = StopArea([
+    final stopAreaWithLongName = StopArea(const [
       Stop(
         location: LatLng(10.00001, 20.00001),
         name: 'Stop area with name longer than 255 characters - loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong'
       ),
-    ], LatLng(10.00001, 20.00001), 200);
+    ], const LatLng(10.00001, 20.00001), 200);
 
     // update changeset with map feature and stop area of long name
 

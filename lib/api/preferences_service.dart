@@ -15,7 +15,7 @@ class PreferencesService extends Service {
   static const _defaultProfessional = false;
   static const _defaultOnboarding = false;
   static const _defaultTileLayerId = TileLayerId.standard;
-  static final _defaultMapLocation = LatLng(50.8144951, 12.9295576);
+  static const _defaultMapLocation = LatLng(50.8144951, 12.9295576);
   static const _defaultMapZoom = 15.0;
   static const _defaultMapRotation = 0.0;
 

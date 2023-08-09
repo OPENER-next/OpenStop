@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
 
@@ -27,11 +28,11 @@ class PointsLayer extends LeafRenderObjectWidget  {
   @override
   RenderPointsLayer createRenderObject(BuildContext context) {
     // watch map changes
-    final map = FlutterMapState.maybeOf(context)!;
+    final mapCamera = MapCamera.of(context);
 
     return RenderPointsLayer(
       Float32List.fromList(
-        _localPoints(map).toList(growable: false),
+        _localPoints(mapCamera).toList(growable: false),
       ),
       radius * 2,
       color,
@@ -41,26 +42,26 @@ class PointsLayer extends LeafRenderObjectWidget  {
   @override
   void updateRenderObject(BuildContext context, RenderPointsLayer renderObject) {
     // watch map changes
-    final map = FlutterMapState.maybeOf(context)!;
+    final mapCamera = MapCamera.of(context);
 
     renderObject.points = Float32List.fromList(
-      _localPoints(map).toList(growable: false),
+      _localPoints(mapCamera).toList(growable: false),
     );
     renderObject.diameter = radius * 2;
     renderObject.color = color;
   }
 
-  Iterable<double> _localPoints(FlutterMapState map) sync* {
+  Iterable<double> _localPoints(MapCamera mapCamera) sync* {
     for (final point in points) {
-      final pxPoint = map.project(point);
+      final pxPoint = mapCamera.project(point);
 
-      final sw = CustomPoint(pxPoint.x + radius, pxPoint.y + radius);
-      final ne = CustomPoint(pxPoint.x - radius, pxPoint.y - radius);
+      final sw = Point(pxPoint.x + radius, pxPoint.y + radius);
+      final ne = Point(pxPoint.x - radius, pxPoint.y - radius);
 
-      final isVisible = map.pixelBounds.containsPartialBounds(Bounds(sw, ne));
+      final isVisible = mapCamera.pixelBounds.containsPartialBounds(Bounds(sw, ne));
 
       if (isVisible) {
-        final pos = pxPoint - map.pixelOrigin;
+        final pos = pxPoint - mapCamera.pixelOrigin.toDoublePoint();
         yield pos.x.toDouble();
         yield pos.y.toDouble();
       }
