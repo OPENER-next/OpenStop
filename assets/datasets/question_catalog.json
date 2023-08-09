@@ -2850,7 +2850,7 @@
          "text": "Gibt es Bodenindikatoren an beiden Seiten dieses Übergangs?",
          "description": "Bodenindikatoren dienen vor allem Sehbehinderten als Warnung vor abgesenkten Bordsteinen oder Straßenüberquerungen und verhindern so ein unbewusstes Betreten der Fahrbahn.",
          "image": [
-            "assets/images/questions/tactile_paving_on_kerb.jpg"
+            "assets/images/questions/crossing_tram.jpg"
          ]
       },
       "answer": {
@@ -2871,14 +2871,7 @@
       "conditions": [
          {
             "osm_tags": {
-               "railway": "tram_crossing",
-               "tactile_paving": false
-            },
-            "osm_element": "Node"
-         },
-         {
-            "osm_tags": {
-               "railway": "crossing",
+               "railway": ["tram_crossing", "crossing"],
                "tactile_paving": false
             },
             "osm_element": "Node"
