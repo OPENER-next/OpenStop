@@ -2920,7 +2920,7 @@
    {
       "question": {
          "name": "Bodenindikatoren",
-         "text": "Gibt es an dieser Stelle Bodenindikatoren?",
+         "text": "Gibt es Bodenindikatoren an dieser Stelle?",
          "description": "Bodenindikatoren dienen vor allem Sehbehinderten als Warnung vor abgesenkten Bordsteinen oder Straßenüberquerungen und verhindern so ein unbewusstes Betreten der Fahrbahn.",
          "image": [
             "assets/images/questions/tactile_paving_on_kerb.jpg"
@@ -2953,9 +2953,184 @@
    },
    {
       "question": {
-         "name": "Straßenbahn-Akustisches-Warnsignal",
-         "text": "Gibt es ein akustisches Warnsignal bei Durchfahrt der Straßenbahn?",
-         "description": "Das Warnsignal ertönt durch ein stationären Signalgeber. Das Klingeln durch Triebfahrzeugführer gehört nicht dazu."
+         "name": "Übergangsbarriere",
+         "text": "Wie ist dieser Bahnübergang für Fußgänger gesichert?"
+      },
+      "answer": {
+         "type": "List",
+         "input": [
+            {
+               "name": "Schranke",
+               "image": "assets/images/questions/crossing_barrier_full.png",
+               "osm_tags": {
+                  "crossing:barrier": "full",
+                  "crossing:chicane": "no"
+               }
+            },
+            {
+               "name": "Umlaufgitter",
+               "image": "assets/images/questions/crossing_chicane.png",
+               "osm_tags": {
+                  "crossing:chicane": "yes",
+                  "crossing:barrier": "no"
+               }
+            },
+            {
+               "name": "Tor",
+               "image": "assets/images/questions/crossing_barrier_gate.png",
+               "osm_tags": {
+                  "crossing:barrier": "gate",
+                  "crossing:chicane": "no"
+               }
+            },
+            {
+               "name": "Kette",
+               "image": "assets/images/questions/crossing_barrier_chain.png",
+               "osm_tags": {
+                  "crossing:barrier": "chain",
+                  "crossing:chicane": "no"
+               }
+            },
+            {
+               "name": "Ungesichert",
+               "image": "assets/images/questions/crossing_barrier_no.png",
+               "osm_tags": {
+                  "crossing:barrier": "no",
+                  "crossing:chicane": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "railway": ["crossing", "tram_crossing"],
+               "crossing:barrier": false,
+               "crossing:chicane": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "Übergangsbarriere",
+         "text": "Wie ist dieser Bahnübergang für Fußgänger gesichert?"
+      },
+      "answer": {
+         "type": "List",
+         "input": [
+            {
+               "name": "Schranke",
+               "image": "assets/images/questions/crossing_barrier_full.png",
+               "osm_tags": {
+                  "crossing:barrier": "full"
+               }
+            },
+            {
+               "name": "Tor",
+               "image": "assets/images/questions/crossing_barrier_gate.png",
+               "osm_tags": {
+                  "crossing:barrier": "gate"
+               }
+            },
+            {
+               "name": "Kette",
+               "image": "assets/images/questions/crossing_barrier_chain.png",
+               "osm_tags": {
+                  "crossing:barrier": "chain"
+               }
+            },
+            {
+               "name": "Ungesichert",
+               "image": "assets/images/questions/crossing_barrier_no.png",
+               "osm_tags": {
+                  "crossing:barrier": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "railway": ["crossing", "tram_crossing"],
+               "crossing:barrier": false,
+               "crossing:chicane": "no"
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "Umlaufgitter",
+         "text": "Gibt es ein Umlaufgitter an diesem Bahnübergang?",
+         "image": [
+            "assets/images/questions/crossing_chicane.png"
+         ]
+      },
+      "answer": {
+         "type": "Bool",
+         "input": [
+            {
+               "osm_tags": {
+                  "crossing:chicane": "yes"
+               }
+            },
+            {
+               "osm_tags": {
+                  "crossing:chicane": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "railway": ["crossing", "tram_crossing"],
+               "crossing:barrier": "no",
+               "crossing:chicane": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "Bahnübergangs-Warnlicht",
+         "text": "Gibt es ein Warnlicht an diesem Bahnübergang?",
+         "description": "Das Warnlicht signalisiert die Durchfahrt einer Bahn. Das Warnlicht kann am Anfang bzw. Ende des Übergangs stehen."
+      },
+      "answer": {
+         "type": "Bool",
+         "input": [
+            {
+               "osm_tags": {
+                  "crossing:light": "yes"
+               }
+            },
+            {
+               "osm_tags": {
+                  "crossing:light": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "railway": ["crossing", "tram_crossing"],
+               "crossing:light": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "Bahnübergang-Akustisches-Warnsignal",
+         "text": "Gibt es ein akustisches Signal, das vor der Durchfahrt einer Bahn warnt?",
+         "description": "Das Warnsignal ertönt durch ein stationären Signalgeber. Das Klingeln oder Pfeifen durch Triebfahrzeugführer gehört nicht dazu."
       },
       "answer": {
          "type": "Bool",
@@ -2975,8 +3150,42 @@
       "conditions": [
          {
             "osm_tags": {
-               "railway": "tram_crossing",
+               "railway": ["tram_crossing", "crossing"],
                "crossing:bell": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "Bahn-Akustisches-Warnsignal",
+         "text": "Gibt die Bahn bei Durchfahrt ein akustisches Warnsignal?",
+         "description": "Eine vorbeifahrende Bahn lässt ein akustisches Signal (Pfeifen oder Klingeln) ertönen, wenn es keine andere Einrichtung am Bahnübergang gibt, um Personen vor Durchfahrten zu warnen. Ein Schild entlang der Gleise, macht den Zugführer erkenntlich, ein akustisches Signal zu geben. Das Klingeln durch stationäre Signalgeber gehört nicht dazu."
+      },
+      "answer": {
+         "type": "Bool",
+         "input": [
+            {
+               "osm_tags": {
+                  "crossing:whistle": "yes"
+               }
+            },
+            {
+               "osm_tags": {
+                  "crossing:whistle": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "railway": ["crossing", "tram_crossing"],
+               "crossing:barrier": "no",
+               "crossing:light": "no",
+               "crossing:bell": "no",
+               "crossing:whistle": false
             },
             "osm_element": "Node"
          }
