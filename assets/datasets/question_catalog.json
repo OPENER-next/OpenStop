@@ -3120,7 +3120,6 @@
          {
             "osm_tags": {
                "railway": ["crossing", "tram_crossing"],
-               "crossing:barrier": "no",
                "crossing:light": false
             },
             "osm_element": "Node"
