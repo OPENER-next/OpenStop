@@ -30,5 +30,6 @@ const Map<String, IconData> customIcons = {
   'crosswalk': TemakiIcons.pedestrianCrosswalk,
   'traffic_signals': TemakiIcons.trafficSignals,
   'tram_crossing': TemakiIcons.crossingTramSolid,
+  'rail_crossing': TemakiIcons.crossingRailSolid,
   'kerb': TemakiIcons.kerbRaised,
 };
