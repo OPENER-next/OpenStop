@@ -1798,6 +1798,13 @@
                "osm_tags": {
                   "surface": "unpaved"
                }
+            },
+            {
+               "name": "Unterschiedlich",
+               "image": "assets/images/questions/surface_paved.jpg",
+               "osm_tags": {
+                  "segregated": "yes"
+               }
             }
          ]
       },
@@ -1818,7 +1825,8 @@
                "highway": "footway",
                "footway": [false, "sidewalk"],
                "surface": false,
-               "indoor": ["no", false]
+               "indoor": ["no", false],
+               "segregated": ["no", false]
             },
             "!osm_tags": {
                "access": ["no","private"]
@@ -1833,7 +1841,99 @@
                "highway": ["path", "cycleway"],
                "foot": ["yes", "designated"],
                "surface": false,
+               "indoor": ["no", false],
+               "segregated": ["no", false]
+            },
+            "!osm_tags": {
+               "access": ["no","private"]
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay"
+            ]
+         }
+      ]
+   },
+   {
+      "question": {
+         "id": 2051,
+         "name": "Bodenbeschaffenheit Fußweg",
+         "text": "Wie ist der Boden des Fußweges beschaffen?",
+         "description": "Besteht die Oberfläche aus Schotter, Sand, Gras oder einem vergleichbaren Belag, so handelt es sich um einen unbefestigten Bodenbelag."
+      },
+      "answer": {
+         "type": "List",
+         "input": [
+            {
+               "name": "Befestigt",
+               "image": "assets/images/questions/surface_paved.jpg",
+               "osm_tags": {
+                  "footway:surface": "paved"
+               }
+            },
+            {
+               "name": "Unbefestigt",
+               "image": "assets/images/questions/surface_unpaved.jpg",
+               "osm_tags": {
+                  "footway:surface": "unpaved"
+               }
+            }
+         ]
+      },
+      "conditions": {
+         {
+            "osm_tags": {
+               "highway": ["path", "footway", "cycleway"],
+               "foot": ["yes", "designated"],
+               "segregated": "yes",
+               "surface": false,
                "footway:surface": false,
+               "indoor": ["no", false]
+            },
+            "!osm_tags": {
+               "access": ["no","private"]
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay"
+            ]
+         }
+      ]
+   },
+   {
+      "question": {
+         "id": 2052,
+         "name": "Bodenbeschaffenheit Radweg",
+         "text": "Wie ist der Boden des Radweges beschaffen?",
+         "description": "Besteht die Oberfläche aus Schotter, Sand, Gras oder einem vergleichbaren Belag, so handelt es sich um einen unbefestigten Bodenbelag."
+      },
+      "answer": {
+         "type": "List",
+         "input": [
+            {
+               "name": "Befestigt",
+               "image": "assets/images/questions/surface_paved.jpg",
+               "osm_tags": {
+                  "footway:surface": "paved"
+               }
+            },
+            {
+               "name": "Unbefestigt",
+               "image": "assets/images/questions/surface_unpaved.jpg",
+               "osm_tags": {
+                  "footway:surface": "unpaved"
+               }
+            }
+         ]
+      },
+      "conditions": {
+         {
+            "osm_tags": {
+               "highway": ["path", "footway", "cycleway"],
+               "bicycle": ["yes", "designated"],
+               "segregated": "yes",
+               "surface": false,
+               "cycleway:surface": false,
                "indoor": ["no", false]
             },
             "!osm_tags": {
