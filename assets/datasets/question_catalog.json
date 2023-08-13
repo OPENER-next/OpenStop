@@ -1801,7 +1801,7 @@
             },
             {
                "name": "Unterschiedlich",
-               "image": "assets/images/questions/surface_paved.jpg",
+               "image": "assets/images/questions/segregated_surface_paved_unpaved.jpg",
                "osm_tags": {
                   "segregated": "yes"
                }
