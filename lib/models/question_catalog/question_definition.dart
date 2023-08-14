@@ -11,8 +11,6 @@ import 'answer_definition.dart';
 class QuestionDefinition {
   final int runtimeId;
 
-  final int? id;
-
   final String name;
 
   final String question;
@@ -34,14 +32,12 @@ class QuestionDefinition {
     required this.isProfessional,
     required this.conditions,
     required this.answer,
-    this.id,
     this.description = '',
     this.images = const []
   });
 
 
   QuestionDefinition.fromJSON(this.runtimeId, Map<String, dynamic> json) :
-    id = json['question']['id'],
     name = json['question']['name'],
     description = json['question']['description'] ?? '',
     images = json['question']['image']?.cast<String>() ?? [],
@@ -56,7 +52,7 @@ class QuestionDefinition {
 
   @override
   String toString() {
-    return 'QuestionDefinition(runtimeId: $runtimeId, id: $id, name: $name, question: $question, description: $description, images: $images, isProfessional: $isProfessional, conditions: $conditions, answer: $answer)';
+    return 'QuestionDefinition(runtimeId: $runtimeId, name: $name, question: $question, description: $description, images: $images, isProfessional: $isProfessional, conditions: $conditions, answer: $answer)';
   }
 
   @override

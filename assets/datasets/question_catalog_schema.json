@@ -16,11 +16,6 @@
         "required": [ "name", "text" ],
         "additionalProperties": false,
         "properties": {
-          "id": {
-            "description": "The DELFI id this question is derived from.",
-            "type": "integer",
-            "exclusiveMinimum": 0
-          },
           "name": {
             "description": "A short term describing the content of the answer.",
             "type": "string"
