@@ -53,7 +53,7 @@ void main() async {
     ),
     Stop(
       location: LatLng(10.00001, 20.00001),
-      name: 'Stop3'
+      name: 'Stop2'
     )
   ], LatLng(10.00001, 20.00001), 200);
 
@@ -268,7 +268,7 @@ void main() async {
       'created_by': uploadApi02.changesetCreatedBy,
       'locale': uploadApi02.changesetLocale,
       'source': uploadApi02.changesetSource,
-      'comment': 'Details zu MapFeature3, MapFeature1 und MapFeature2 im Haltestellenbereich Stop1 und Stop2 hinzugefügt.',
+      'comment': 'Details zu MapFeature3, MapFeature1 und MapFeature2 im Haltestellenbereich Stop1 hinzugefügt.',
     })));
 
     // update way for triple stop area
@@ -294,7 +294,7 @@ void main() async {
       'created_by': uploadApi03.changesetCreatedBy,
       'locale': uploadApi03.changesetLocale,
       'source': uploadApi03.changesetSource,
-      'comment': 'Details zu MapFeature3, MapFeature1 und MapFeature2 im Haltestellenbereich Stop1, Stop2 und Stop3 hinzugefügt.',
+      'comment': 'Details zu MapFeature3, MapFeature1 und MapFeature2 im Haltestellenbereich Stop2 hinzugefügt.',
     })));
 
     // check if no additional changeset was created by comparing the amount of changesets each query returned
