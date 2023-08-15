@@ -1880,11 +1880,10 @@
             }
          ]
       },
-      "conditions": {
+      "conditions": [
          {
             "osm_tags": {
                "highway": ["path", "footway", "cycleway"],
-               "foot": ["yes", "designated"],
                "segregated": "yes",
                "surface": false,
                "footway:surface": false,
@@ -1926,11 +1925,10 @@
             }
          ]
       },
-      "conditions": {
+      "conditions": [
          {
             "osm_tags": {
                "highway": ["path", "footway", "cycleway"],
-               "bicycle": ["yes", "designated"],
                "segregated": "yes",
                "surface": false,
                "cycleway:surface": false,
