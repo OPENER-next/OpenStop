@@ -1777,6 +1777,51 @@
    },
    {
       "question": {
+         "id": 2049,
+         "name": "Trennung",
+         "text": "Wie verlaufen der Fuß- und Radweg zueinander?",
+         "description": "Was für ein Schild schreibt die gemeinsame oder getrennte Nutzung des Weges vor?"
+      },
+      "answer": {
+         "type": "List",
+         "input": [
+            {
+               "name": "Getrennt",
+               "image": "assets/images/questions/segregated_yes_sign_241-30.png",
+               "osm_tags": {
+                  "segregated": "yes"
+               }
+            },
+            {
+               "name": "Gemeinsam",
+               "image": "assets/images/questions/segregated_no_sign_240.png",
+               "osm_tags": {
+                  "segregated": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": ["path", "footway", "cycleway"],
+               "segregated": false,
+               "foot": "designated",
+               "bicycle": "designated",
+               "indoor": ["no", false],
+            },
+            "!osm_tags": {
+               "access": ["no","private"]
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay"
+            ]
+         }
+      ]
+   },
+   {
+      "question": {
          "id": 2050,
          "name": "Bodenbeschaffenheit",
          "text": "Wie ist der Boden beschaffen?",
@@ -1797,13 +1842,6 @@
                "image": "assets/images/questions/surface_unpaved.jpg",
                "osm_tags": {
                   "surface": "unpaved"
-               }
-            },
-            {
-               "name": "Unterschiedlich",
-               "image": "assets/images/questions/segregated_surface_paved_unpaved.jpg",
-               "osm_tags": {
-                  "segregated": "yes"
                }
             }
          ]
@@ -1826,7 +1864,7 @@
                "footway": [false, "sidewalk"],
                "surface": false,
                "indoor": ["no", false],
-               "segregated": ["no", false]
+               "segregated": "no"
             },
             "!osm_tags": {
                "access": ["no","private"]
@@ -1842,7 +1880,7 @@
                "foot": ["yes", "designated"],
                "surface": false,
                "indoor": ["no", false],
-               "segregated": ["no", false]
+               "segregated": "no"
             },
             "!osm_tags": {
                "access": ["no","private"]
