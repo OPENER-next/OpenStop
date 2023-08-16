@@ -37,7 +37,7 @@ void main() async {
       name: 'Stop1'
     ),
     Stop(
-      location: LatLng(10.00001, 20.00001),
+      location: LatLng(10.00002, 20.00002),
       name: 'Stop2'
     )
   ], LatLng(10.00001, 20.00001), 200);
@@ -48,11 +48,11 @@ void main() async {
       name: 'Stop1'
     ),
     Stop(
-      location: LatLng(10.00001, 20.00001),
+      location: LatLng(10.00002, 20.00002),
       name: 'Stop2'
     ),
     Stop(
-      location: LatLng(10.00001, 20.00001),
+      location: LatLng(10.00003, 20.00003),
       name: 'Stop2'
     )
   ], LatLng(10.00001, 20.00001), 200);
