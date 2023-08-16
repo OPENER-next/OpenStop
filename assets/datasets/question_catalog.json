@@ -1,7 +1,6 @@
 [
    {
       "question": {
-         "id": 1021,
          "name": "Betreiber",
          "text": "Welches Verkehrsunternehmen betreibt diese Einrichtung?",
          "description": "Bei Verkaufsstellen handelt es sich um Einrichtungen, die Fahrkarten verkaufen (z.B. offizielle Vertriebsstellen der Verkehrsunternehmen oder des Verbundgebietes). Die Verkaufsstellen sind i.d.R. mit einem Erkennungszeichen (Tafel, Wimpel, Aufkleber, etc.) ausgestattet. Informationsstellen dienen dazu, sich über Reiserouten etc. zu informieren."
@@ -88,7 +87,6 @@
    },
    {
       "question": {
-         "id": 1022,
          "name": "Rollstuhlgerecht",
          "text": "Ist die Fahrkartenverkaufsstelle rollstuhlgerecht?",
          "description": "Rollstuhlgerecht bedeutet, die Fahrkartenverkaufsstelle ist stufenfrei erreichbar und die Zugänge haben eine ausreichende Breite (≥90cm)."
@@ -120,7 +118,6 @@
    },
    {
       "question": {
-         "id": 1032,
          "name": "Rollstuhlgerecht",
          "text": "Ist die Informationsstelle rollstuhlgerecht?",
          "description": "Rollstuhlgerecht bedeutet, die Informationsstelle ist stufenfrei erreichbar und die Zugänge haben eine ausreichende Breite (≥90cm)."
@@ -153,7 +150,6 @@
    },
    {
       "question": {
-         "id": 1051,
          "name": "Parkplatz-Art",
          "text": "Um welche Art von Parkplatz handelt es sich?"
       },
@@ -206,7 +202,6 @@
    },
    {
       "question": {
-         "id": 1051,
          "name": "Behindertenparkplätze",
          "text": "Gibt es gesonderte Parkplätze für behinderte Personen?",
          "image": [
@@ -247,7 +242,6 @@
    },
    {
       "question": {
-         "id": 1051,
          "name": "Behindertenparkplatz-Anzahl",
          "text": "Wie viele Parkplätze für behinderte Personen gibt es?",
          "description": "Behindertenparkplätze sind eigene Parkmöglichkeiten für behinderte Personen und weisen i.d.R. geräumigere Stellplatzmaße auf. Behindertenparkplätze sind durch ein Zusatzschild mit dem Piktogramm eines Rollstuhlfahrers gekennzeichnet. Zusätzlich sind meist Bodenmarkierungen angebracht."
@@ -280,7 +274,6 @@
    },
    {
       "question": {
-         "id": 1052,
          "name": "Park+Ride",
          "text": "Ist dies ein Park+Ride-Parkplatz?",
          "description": "Park+Ride-Anlagen sind Parkplätze mit Anbindung an öffentliche Verkehrsmittel, die es Personen ermöglichen, ihr Fahrzeug zu verlassen und für den Rest der Reise auf öffentliche Verkehrsmittel umzusteigen.",
@@ -320,7 +313,6 @@
    },
    {
       "question": {
-         "id": 1052,
          "name": "Parkplatz-Gebühren",
          "text": "Fallen für das Parken Gebühren an?"
       },
@@ -355,7 +347,6 @@
    },
    {
       "question": {
-         "id": 1071,
          "name": "Toiletten-Zugänglichkeit",
          "text": "Für wen sind die Toiletten zugänglich?",
          "image": [
@@ -403,7 +394,6 @@
    },
    {
       "question": {
-         "id": 1075,
          "name": "Toiletten-Gebühren",
          "text": "Ist die Nutzung der Toilette kostenpflichtig?"
       },
@@ -437,7 +427,6 @@
    },
    {
       "question": {
-         "id": 1120,
          "name": "Sitzplätze",
          "text": "Gibt es an der Haltestelle Sitzplätze?",
          "image": [
@@ -477,7 +466,6 @@
    },
    {
       "question": {
-         "id": 1120,
          "name": "Überdachter Wartebereich",
          "text": "Gibt es an der Haltestelle einen überdachten Wartebereich?",
          "image": [
@@ -519,7 +507,6 @@
    },
    {
       "question": {
-         "id": 1130,
          "name": "Fahrplan-Anzeige",
          "text": "Gibt es eine stationsweite Fahrplan-Anzeige?",
          "description": "Fahrplan-Anzeigen geben einen Überblick aller Fahrten an der gesamten Station. Dynamische Anzeigen informieren über aktuelle Fahrplanänderungen wie Verspätungen, Ausfälle oder Gleisänderungen. Statische Anzeigen sind gedruckte Fahrpläne."
@@ -568,7 +555,6 @@
    },
    {
       "question": {
-         "id": 1131,
          "name": "Akustische Ausgabe der Fahrplan-Anzeige",
          "text": "Hat die stationsweite Fahrplan-Anzeige eine manuell anforderbare akustische Ausgabe?",
          "description": "Fahrplan-Anzeigen geben einen Überblick aller Fahrten an der gesamten Station. Einige Fahrplan-Anzeigen bieten die Möglichkeit, bei Bedarf (z.B. über einen Taster) die angezeigten Informationen akustisch wiederzugeben.",
@@ -606,7 +592,6 @@
    },
    {
       "question": {
-         "id": 1140,
          "name": "Dynamischer Fahrtziel-Anzeiger",
          "text": "Gibt es einen dynamischen Fahrtziel-Anzeiger an der Haltestelle?",
          "description": "Dynamische Fahrtziel-Anzeiger zeigen Echtzeit-Informationen über das Ziel ein- bzw. abfahrender Züge/Busse an einem Bahn-/Bussteig an.",
@@ -649,7 +634,6 @@
    },
    {
       "question": {
-         "id": 1141,
          "name": "Akustische Ausgabe des Fahrtziel-Anzeigers",
          "text": "Hat der dynamische Fahrtziel-Anzeiger an der Haltestelle eine akustische Ausgabe?",
          "description": "Einige Fahrtziel-Anzeiger bieten die Möglichkeit, bei Bedarf (z.B. über einen Taster) die angezeigten Informationen akustisch wiederzugeben.",
@@ -691,7 +675,6 @@
    },
    {
       "question": {
-         "id": 1150,
          "name": "Ansagen",
          "text": "Gibt es Ansagen über Lautsprecher an der Plattform?",
          "description": "Unter Ansagen werden die akustischen Fahrgastinformationen an der Haltestelle verstanden.",
@@ -734,7 +717,6 @@
    },
    {
       "question": {
-         "id": 1170,
          "name": "Haltestellen-Bordstein",
          "text": "Hat die Haltestelle an der Fahrbahnseite einen Bordstein?"
       },
@@ -789,7 +771,6 @@
    },
    {
       "question": {
-         "id": 1170,
          "name": "Bordstein-Art",
          "text": "Welche Art von Bordstein hat die Haltestelle an der Seite, an der das Verkehrsmittel hält?"
       },
@@ -837,7 +818,6 @@
    },
    {
       "question": {
-         "id": 1170,
          "name": "Plattform-Höhe",
          "text": "Wie groß ist der Höhenunterschied zwischen Plattform und Straße bzw. Schienenoberkante?",
          "description": "Wenn diese Höhe innerhalb eines Steiges variiert, ist der typische Wert für die übliche Einstiegsstelle von Rollstuhlfahrenden zu bestimmen."
@@ -878,7 +858,6 @@
    },
    {
       "question": {
-         "id": 1180,
          "name": "Plattform-Breite",
          "text": "Was ist die überwiegende Breite der Plattform?",
          "description": "Die Breite einer Plattform wird quer zur Fahrtrichtung gemessen. Variiert die Breite, ist die anzugeben, die den Großteil der Plattform umfasst. Achtung: Die engste Stelle einer Plattform wird separat erfasst.",
@@ -947,7 +926,6 @@
    },
    {
       "question": {
-         "id": 1200,
          "name": "Anfahrtshilfe",
          "text": "Hat die Haltestelle einen speziellen Bordstein mit Anfahrtshilfe für Busse?",
          "description": "Bordsteine mit Anfahrtshilfe haben eine konkave Rundung zur Straße hin. Diese sorgt für eine Führung der Busreifen beim Anfahren der Haltestelle und ermöglicht so Bussen ein dichtes Heranfahren an die Bordsteinkante.",
@@ -993,7 +971,6 @@
    },
    {
       "question": {
-         "id": 1210,
          "name": "Bewegbare Rampe",
          "text": "Gibt es eine bewegbare Rollstuhl-Rampe?",
          "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
@@ -1035,7 +1012,6 @@
    },
    {
       "question": {
-         "id": 1211,
          "name": "Rampen-Länge",
          "text": "Wie lang ist die bewegbare Rollstuhl-Rampe?",
          "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
@@ -1073,7 +1049,6 @@
    },
    {
       "question": {
-         "id": 1212,
          "name": "Rampen-Tragfähigkeit",
          "text": "Was ist die maximale Tragfähigkeit der bewegbaren Rampe?",
          "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
@@ -1105,7 +1080,6 @@
    },
    {
       "question": {
-         "id": 1220,
          "name": "Bewegbarer Hublift",
          "text": "Gibt es einen bewegbaren Hublift für Rollstuhlfahrende?",
          "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
@@ -1148,7 +1122,6 @@
    },
    {
       "question": {
-         "id": 1221,
          "name": "Hublift-Stellflächenlänge",
          "text": "Wie lang ist die Stellfläche des bewegbaren Hublifts?",
          "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
@@ -1187,7 +1160,6 @@
    },
    {
       "question": {
-         "id": 1222,
          "name": "Hublift-Tragfähigkeit",
          "text": "Was ist die maximale Tragfähigkeit der bewegbaren Hublifts?",
          "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
@@ -1220,7 +1192,6 @@
    },
    {
       "question": {
-         "id": 2032,
          "name": "Tür",
          "text": "Hat dieser Durchgang eine Tür?",
          "description": "Ob ein Durchgang eine Tür hat, ist besonders für Rollstuhlfahrende relevant. Existiert eine Tür, wird die genaue Art nachfolgend abgefragt."
@@ -1294,7 +1265,6 @@
    },
    {
       "question": {
-         "id": 2032,
          "name": "Tür-Art",
          "text": "Welche Art von Tür ist verbaut?"
       },
@@ -1383,7 +1353,6 @@
    },
    {
       "question": {
-         "id": 2033,
          "name": "Tür-Automatik",
          "text": "Kann sich die Tür automatisch öffnen?",
          "description": "Bei der automatischen Öffnung wird die Tür von einer Mechanik geöffnet. Diese kann durch einen Sensor oder Taster ausgelöst werden."
@@ -1459,7 +1428,6 @@
    },
    {
       "question": {
-         "id": 2033,
          "name": "Drehtür-Automatik",
          "text": "Bewegt sich die Drehtür automatisch?",
          "description": "Drehtüren, die sich automatisch drehen, müssen nicht durch eigene Körperkraft bewegt werden."
@@ -1535,7 +1503,6 @@
    },
    {
       "question": {
-         "id": 2033,
          "name": "Tür-Automatik-Art",
          "text": "Wodurch wird die automatische Tür-Öffnung ausgelöst?",
          "description": "Automatik-Türen können sich durch Sensoren bei Annäherung einer Person öffnen oder durch das Betätigen eines Tasters."
@@ -1615,7 +1582,6 @@
    },
    {
       "question": {
-         "id": 2033,
          "name": "Drehtür-Automatik-Art",
          "text": "Wie funktioniert die Automatik der Drehtür?",
          "description": "Automatik-Drehtüren können sich kontinuierlich bewegen oder durch Sensoren bei Annäherung einer Person in Bewegung versetzt werden."
@@ -1699,7 +1665,6 @@
    },
    {
       "question": {
-         "id": 2034,
          "name": "Durchgangsbreite",
          "text": "Wie breit ist der Durchgang?",
          "description": "Die Durchgangsbreite wird erfasst, um sicherzustellen das Rollstühle, Kinderwagen etc. genug Platz haben. Es ist lediglich die nutzbare Türöffnung (Innenmaße der geöffneten Tür) zu messen."
@@ -1777,7 +1742,6 @@
    },
    {
       "question": {
-         "id": 2049,
          "name": "Trennung",
          "text": "Wie verlaufen der Fuß- und Radweg zueinander?",
          "description": "Was für ein Schild schreibt die gemeinsame oder getrennte Nutzung des Weges vor?"
@@ -1822,7 +1786,6 @@
    },
    {
       "question": {
-         "id": 2050,
          "name": "Bodenbeschaffenheit",
          "text": "Wie ist der Boden beschaffen?",
          "description": "Besteht die Oberfläche aus Schotter, Sand, Gras oder einem vergleichbaren Belag, so handelt es sich um einen unbefestigten Bodenbelag."
@@ -1894,7 +1857,6 @@
    },
    {
       "question": {
-         "id": 2051,
          "name": "Bodenbeschaffenheit Fußweg",
          "text": "Wie ist der Boden des Fußweges beschaffen?",
          "description": "Besteht die Oberfläche aus Schotter, Sand, Gras oder einem vergleichbaren Belag, so handelt es sich um einen unbefestigten Bodenbelag."
@@ -1939,7 +1901,6 @@
    },
    {
       "question": {
-         "id": 2052,
          "name": "Bodenbeschaffenheit Radweg",
          "text": "Wie ist der Boden des Radweges beschaffen?",
          "description": "Besteht die Oberfläche aus Schotter, Sand, Gras oder einem vergleichbaren Belag, so handelt es sich um einen unbefestigten Bodenbelag."
@@ -2013,14 +1974,13 @@
                "Node",
                "OpenWay",
                "ClosedWay",
-               "Relation" 
+               "Relation"
             ]
          }
       ]
    },
    {
       "question": {
-         "id": 2070,
          "name": "Bodenindikatoren",
          "text": "Gibt es Bodenindikatoren an der Haltestelle?",
          "description": "Bodenindikatoren sind Bodenelemente im öffentlichen Raum zur Information, Orientierung, Leitung und Warnung sehbehinderter Menschen. Sie stehen in einem hohen taktilen, visuellen und gegebenenfalls akustischen Kontrast zum angrenzenden Bodenbelag.",
@@ -2062,7 +2022,6 @@
    },
    {
       "question": {
-         "id": 2080,
          "name": "Umlaufsperren-Art",
          "text": "Wie ist der Aufbau der Umlaufsperre?"
       },
@@ -2111,7 +2070,6 @@
    },
    {
       "question": {
-         "id": 2081,
          "name": "Umlaufsperren-Durchgangsbreite",
          "text": "Wie groß ist die Durchgangsbreite der Umlaufsperre?",
          "image": [
@@ -2153,7 +2111,6 @@
    },
    {
       "question": {
-         "id": 2081,
          "name": "Umlaufsperren-Zugangsbreite",
          "text": "Wie breit ist der (schmalste) Zugang der Umlaufsperre?",
          "image": [
@@ -2196,7 +2153,6 @@
    },
    {
       "question": {
-         "id": 2081,
          "name": "Umlaufsperren-Abstand",
          "text": "Was ist der (kleinste) Abstand zwischen den Elementen der Umlaufsperre?",
          "image": [
@@ -2239,7 +2195,6 @@
    },
    {
       "question": {
-         "id": 2090,
          "name": "Treppenlift",
          "text": "Gibt es an der Treppe einen Treppenlift für Rollstuhlfahrende?",
          "image": [
@@ -2277,7 +2232,6 @@
    },
    {
       "question": {
-         "id": 2093,
          "name": "Treppenlift-Tiefe",
          "text": "Wie tief ist die Stellfläche des Treppenlifts?",
          "image": [
@@ -2315,7 +2269,6 @@
    },
    {
       "question": {
-         "id": 2093,
          "name": "Fahrstuhl-Tiefe",
          "text": "Wie tief ist die Grundfläche des Fahrstuhls?",
          "image": [
@@ -2354,7 +2307,6 @@
    },
    {
       "question": {
-         "id": 2094,
          "name": "Treppenlift-Breite",
          "text": "Wie breit ist die Stellfläche des Treppenlifts?",
          "image": [
@@ -2392,7 +2344,6 @@
    },
    {
       "question": {
-         "id": 2094,
          "name": "Fahrstuhl-Breite",
          "text": "Wie breit ist die Grundfläche des Fahrstuhls?",
          "image": [
@@ -2494,7 +2445,6 @@
    },
    {
       "question": {
-         "id": 2112,
          "name": "Stufen-Höhe",
          "text": "Wie hoch ist eine einzelne Stufe?"
       },
@@ -2533,7 +2483,6 @@
    },
    {
       "question": {
-         "id": 2113,
          "name": "Stufen-Anzahl",
          "text": "Wie viele Stufen hat die Treppe?"
       },
@@ -2687,7 +2636,6 @@
    },
    {
       "question": {
-         "id": 2134,
          "name": "Rolltreppen-Fahrtdauer",
          "text": "Wie lange dauert die Fahrt mit der Rolltreppe bzw. dem Laufband?",
          "description": "Ein Laufband (auch Rollsteig, Fahrsteig, bewegter oder rollender Bürgersteig genannt) ist ein sich bewegendes Fortbewegungsmittel, welches Personen auf einer horizontalen oder schrägen Ebene transportiert. Eine Rolltreppe ist eine sich bewegende Treppe, um Personen zwischen Stockwerken eines Gebäudes zu transportieren. Die Dauer der Rollentreppen-Fahrt ist relevant für die Berechnung von Umstiegszeiten."
@@ -3057,7 +3005,7 @@
    {
       "question": {
          "name": "Bodenindikatoren",
-         "text": "Gibt es an dieser Stelle Bodenindikatoren?",
+         "text": "Gibt es Bodenindikatoren an dieser Stelle?",
          "description": "Bodenindikatoren dienen vor allem Sehbehinderten als Warnung vor abgesenkten Bordsteinen oder Straßenüberquerungen und verhindern so ein unbewusstes Betreten der Fahrbahn.",
          "image": [
             "assets/images/questions/tactile_paving_on_kerb.jpg"
@@ -3090,9 +3038,184 @@
    },
    {
       "question": {
-         "name": "Straßenbahn-Akustisches-Warnsignal",
-         "text": "Gibt es ein akustisches Warnsignal bei Durchfahrt der Straßenbahn?",
-         "description": "Das Warnsignal ertönt durch ein stationären Signalgeber. Das Klingeln durch Triebfahrzeugführer gehört nicht dazu."
+         "name": "Übergangsbarriere",
+         "text": "Wie ist dieser Bahnübergang für Fußgänger gesichert?"
+      },
+      "answer": {
+         "type": "List",
+         "input": [
+            {
+               "name": "Schranke",
+               "image": "assets/images/questions/crossing_barrier_full.png",
+               "osm_tags": {
+                  "crossing:barrier": "full",
+                  "crossing:chicane": "no"
+               }
+            },
+            {
+               "name": "Umlaufgitter",
+               "image": "assets/images/questions/crossing_chicane.png",
+               "osm_tags": {
+                  "crossing:chicane": "yes",
+                  "crossing:barrier": "no"
+               }
+            },
+            {
+               "name": "Tor",
+               "image": "assets/images/questions/crossing_barrier_gate.png",
+               "osm_tags": {
+                  "crossing:barrier": "gate",
+                  "crossing:chicane": "no"
+               }
+            },
+            {
+               "name": "Kette",
+               "image": "assets/images/questions/crossing_barrier_chain.png",
+               "osm_tags": {
+                  "crossing:barrier": "chain",
+                  "crossing:chicane": "no"
+               }
+            },
+            {
+               "name": "Ungesichert",
+               "image": "assets/images/questions/crossing_barrier_no.png",
+               "osm_tags": {
+                  "crossing:barrier": "no",
+                  "crossing:chicane": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "railway": ["crossing", "tram_crossing"],
+               "crossing:barrier": false,
+               "crossing:chicane": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "Übergangsbarriere",
+         "text": "Wie ist dieser Bahnübergang für Fußgänger gesichert?"
+      },
+      "answer": {
+         "type": "List",
+         "input": [
+            {
+               "name": "Schranke",
+               "image": "assets/images/questions/crossing_barrier_full.png",
+               "osm_tags": {
+                  "crossing:barrier": "full"
+               }
+            },
+            {
+               "name": "Tor",
+               "image": "assets/images/questions/crossing_barrier_gate.png",
+               "osm_tags": {
+                  "crossing:barrier": "gate"
+               }
+            },
+            {
+               "name": "Kette",
+               "image": "assets/images/questions/crossing_barrier_chain.png",
+               "osm_tags": {
+                  "crossing:barrier": "chain"
+               }
+            },
+            {
+               "name": "Ungesichert",
+               "image": "assets/images/questions/crossing_barrier_no.png",
+               "osm_tags": {
+                  "crossing:barrier": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "railway": ["crossing", "tram_crossing"],
+               "crossing:barrier": false,
+               "crossing:chicane": "no"
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "Umlaufgitter",
+         "text": "Gibt es ein Umlaufgitter an diesem Bahnübergang?",
+         "image": [
+            "assets/images/questions/crossing_chicane.png"
+         ]
+      },
+      "answer": {
+         "type": "Bool",
+         "input": [
+            {
+               "osm_tags": {
+                  "crossing:chicane": "yes"
+               }
+            },
+            {
+               "osm_tags": {
+                  "crossing:chicane": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "railway": ["crossing", "tram_crossing"],
+               "crossing:barrier": "no",
+               "crossing:chicane": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "Bahnübergangs-Warnlicht",
+         "text": "Gibt es ein Warnlicht an diesem Bahnübergang?",
+         "description": "Das Warnlicht signalisiert die Durchfahrt einer Bahn. Das Warnlicht kann am Anfang bzw. Ende des Übergangs stehen."
+      },
+      "answer": {
+         "type": "Bool",
+         "input": [
+            {
+               "osm_tags": {
+                  "crossing:light": "yes"
+               }
+            },
+            {
+               "osm_tags": {
+                  "crossing:light": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "railway": ["crossing", "tram_crossing"],
+               "crossing:light": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "Bahnübergang-Akustisches-Warnsignal",
+         "text": "Gibt es ein akustisches Signal, das vor der Durchfahrt einer Bahn warnt?",
+         "description": "Das Warnsignal ertönt durch ein stationären Signalgeber. Das Klingeln oder Pfeifen durch Triebfahrzeugführer gehört nicht dazu."
       },
       "answer": {
          "type": "Bool",
@@ -3112,8 +3235,84 @@
       "conditions": [
          {
             "osm_tags": {
-               "railway": "tram_crossing",
+               "railway": ["tram_crossing", "crossing"],
                "crossing:bell": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "Bahn-Akustisches-Warnsignal",
+         "text": "Gibt die Bahn bei Durchfahrt ein akustisches Warnsignal?",
+         "description": "Eine vorbeifahrende Bahn lässt ein akustisches Signal (Pfeifen oder Klingeln) ertönen, wenn es keine andere Einrichtung am Bahnübergang gibt, um Personen vor Durchfahrten zu warnen. Ein Schild entlang der Gleise, macht den Zugführer erkenntlich, ein akustisches Signal zu geben. Das Klingeln durch stationäre Signalgeber gehört nicht dazu."
+      },
+      "answer": {
+         "type": "Bool",
+         "input": [
+            {
+               "osm_tags": {
+                  "crossing:whistle": "yes"
+               }
+            },
+            {
+               "osm_tags": {
+                  "crossing:whistle": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "railway": ["crossing", "tram_crossing"],
+               "crossing:barrier": "no",
+               "crossing:light": "no",
+               "crossing:bell": "no",
+               "crossing:whistle": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "Übergang-Bodenindikatoren",
+         "text": "Gibt es Bodenindikatoren an beiden Seiten dieses Übergangs?",
+         "description": "Bodenindikatoren dienen vor allem Sehbehinderten als Warnung vor abgesenkten Bordsteinen oder Straßenüberquerungen und verhindern so ein unbewusstes Betreten der Fahrbahn.",
+         "image": [
+            "assets/images/questions/crossing_tram.jpg",
+            "assets/images/questions/crossing_rail.jpg"
+         ]
+      },
+      "answer": {
+         "type": "Bool",
+         "input": [
+            {
+               "osm_tags": {
+                  "tactile_paving": "yes"
+               }
+            },
+            {
+               "osm_tags": {
+                  "tactile_paving": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "railway": ["tram_crossing", "crossing"],
+               "tactile_paving": false
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "highway": "crossing",
+               "tactile_paving": false
             },
             "osm_element": "Node"
          }

@@ -48,17 +48,17 @@ class StopsLayer extends StatelessWidget {
             PointsLayer(
               points: unloadedStops,
               color: Colors.grey.shade400,
-              radius: 3,
+              radius: 5,
             ),
             PointsLayer(
               points: incompleteStops,
               color: theme.colorScheme.primary,
-              radius: 3,
+              radius: 5,
             ),
             PointsLayer(
               points: completedStops,
               color: const Color(0xFF8ccf73),
-              radius: 3,
+              radius: 5,
             ),
           ],
         ),

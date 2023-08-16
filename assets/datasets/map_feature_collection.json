@@ -460,6 +460,18 @@
     ]
   },
   {
+    "name": "Bahnübergang",
+    "icon": "rail_crossing",
+    "conditions": [
+      {
+        "osm_tags": {
+          "railway": "crossing"
+        },
+        "osm_element": "Node"
+      }
+    ]
+  },
+  {
     "name": "Bordstein",
     "icon": "kerb",
     "conditions": [
