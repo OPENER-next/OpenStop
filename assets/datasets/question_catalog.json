@@ -1742,9 +1742,9 @@
    },
    {
       "question": {
-         "name": "Trennung",
+         "name": "Fuß-/Radweg-Verlauf",
          "text": "Wie verlaufen der Fuß- und Radweg zueinander?",
-         "description": "Was für ein Schild schreibt die gemeinsame oder getrennte Nutzung des Weges vor?"
+         "description": "Die gemeinsame oder getrennte Nutzung des Weges wird üblicherweise durch Schilder vorgeschrieben."
       },
       "answer": {
          "type": "List",
@@ -1827,7 +1827,9 @@
                "footway": [false, "sidewalk"],
                "surface": false,
                "indoor": ["no", false],
-               "segregated": "no"
+               "segregated": ["no", false],
+               "footway:surface": false,
+               "cycleway:surface": false
             },
             "!osm_tags": {
                "access": ["no","private"]
@@ -1843,7 +1845,9 @@
                "foot": ["yes", "designated"],
                "surface": false,
                "indoor": ["no", false],
-               "segregated": "no"
+               "segregated": ["no", false],
+               "footway:surface": false,
+               "cycleway:surface": false
             },
             "!osm_tags": {
                "access": ["no","private"]
