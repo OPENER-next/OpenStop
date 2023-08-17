@@ -1772,7 +1772,7 @@
                "segregated": false,
                "foot": "designated",
                "bicycle": "designated",
-               "indoor": ["no", false],
+               "indoor": ["no", false]
             },
             "!osm_tags": {
                "access": ["no","private"]
