@@ -1900,6 +1900,21 @@
                "OpenWay",
                "ClosedWay"
             ]
+         },
+         {
+            "osm_tags": {
+               "highway": ["path", "footway", "cycleway"],
+               "cycleway:surface": true,
+               "footway:surface": false,
+               "indoor": ["no", false]
+            },
+            "!osm_tags": {
+               "access": ["no","private"]
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay"
+            ]
          }
       ]
    },
@@ -1916,14 +1931,14 @@
                "name": "Befestigt",
                "image": "assets/images/questions/surface_paved.jpg",
                "osm_tags": {
-                  "footway:surface": "paved"
+                  "cycleway:surface": "paved"
                }
             },
             {
                "name": "Unbefestigt",
                "image": "assets/images/questions/surface_unpaved.jpg",
                "osm_tags": {
-                  "footway:surface": "unpaved"
+                  "cycleway:surface": "unpaved"
                }
             }
          ]
@@ -1934,6 +1949,21 @@
                "highway": ["path", "footway", "cycleway"],
                "segregated": "yes",
                "surface": false,
+               "cycleway:surface": false,
+               "indoor": ["no", false]
+            },
+            "!osm_tags": {
+               "access": ["no","private"]
+            },
+            "osm_element": [
+               "OpenWay",
+               "ClosedWay"
+            ]
+         },
+         {
+            "osm_tags": {
+               "highway": ["path", "footway", "cycleway"],
+               "footway:surface": true,
                "cycleway:surface": false,
                "indoor": ["no", false]
             },
