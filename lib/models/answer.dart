@@ -18,19 +18,19 @@ abstract class Answer<D extends AnswerDefinition, T> {
   final T value;
 
   /// The OSM tag to variable mapping.
-  /// This defines the values per tag used in the constructor for creating the final OSM tags.
+  /// This resolves the values for a given tag used in the constructor for creating the final OSM tags.
   ///
   /// The following example defines two values for the `operator` tag:
   /// `{ 'operator': [ 'value1', 'value2' ] }`
   ///
   /// Every answer needs to implement this.
 
-  Map<String, Iterable<String>> get _variables;
+  Iterable<String> _resolve(String key);
 
   /// Build OSM tags based on the given value.
 
   Map<String, String> toTagMap() {
-    return definition.constructor.construct(_variables);
+    return definition.constructor.construct(_resolve);
   }
 
   /// Whether the value of this answer is valid or not.
@@ -48,12 +48,8 @@ class StringAnswer extends Answer<StringAnswerDefinition, String> {
   });
 
   @override
-  Map<String, Iterable<String>> get _variables {
-    // assign every tag used in the constructor the input value of this answer
-    final keys = definition.constructor.tagConstructorDef.keys;
-    return <String, Iterable<String>>{
-      for (final key in keys) key : [ value ]
-    };
+  Iterable<String> _resolve(String key) sync* {
+    yield value;
   }
 
   @override
@@ -77,13 +73,9 @@ class NumberAnswer extends Answer<NumberAnswerDefinition, String> {
   });
 
   @override
-  Map<String, Iterable<String>> get _variables {
-    // assign every tag used in the constructor the input value of this answer
-    final keys = definition.constructor.tagConstructorDef.keys;
-    return <String, Iterable<String>>{
-      // replace decimal comma with period
-      for (final key in keys) key : [ value.replaceAll(',', '.') ]
-    };
+  Iterable<String> _resolve(String key) sync* {
+    // replace decimal comma with period
+    yield value.replaceAll(',', '.');
   }
 
   @override
@@ -134,12 +126,11 @@ class BoolAnswer extends Answer<BoolAnswerDefinition, bool> {
   });
 
   @override
-  Map<String, Iterable<String>> get _variables {
-    // transform all tags of the selected answer to the variable mapping structure
-    final tags = definition.input[_valueIndex].osmTags.entries;
-    return <String, Iterable<String>>{
-      for (final tag in tags) tag.key : [ tag.value ]
-    };
+  Iterable<String> _resolve(String key) sync* {
+    // return matching tag value of the selected answer if any
+    final tags = definition.input[_valueIndex].osmTags;
+    final tagValue = tags[key];
+    if (tagValue != null) yield tagValue;
   }
 
   @override
@@ -161,12 +152,11 @@ class ListAnswer extends Answer<ListAnswerDefinition, int> {
   });
 
   @override
-  Map<String, Iterable<String>> get _variables {
-    // transform all tags of the selected answer to the variable mapping structure
-    final tags = definition.input[value].osmTags.entries;
-    return <String, Iterable<String>>{
-      for (final tag in tags) tag.key : [ tag.value ]
-    };
+  Iterable<String> _resolve(String key) sync* {
+    // return matching tag value of the selected answer if any
+    final tags = definition.input[value].osmTags;
+    final tagValue = tags[key];
+    if (tagValue != null) yield tagValue;
   }
 
   @override
@@ -187,18 +177,12 @@ class MultiListAnswer extends Answer<ListAnswerDefinition, List<int>> {
   });
 
   @override
-  Map<String, Iterable<String>> get _variables {
-    // combine all tags of the selected answers
-    final map = <String, List<String>>{};
+  Iterable<String> _resolve(String key) sync* {
     for (final index in value) {
-      for (final tag in definition.input[index].osmTags.entries) {
-        map.update(tag.key,
-          (value) => value..add(tag.value),
-          ifAbsent: () => [ tag.value ],
-        );
-      }
+      final tags = definition.input[index].osmTags;
+      final tagValue = tags[key];
+      if (tagValue != null) yield tagValue;
     }
-    return map;
   }
 
   @override
@@ -219,12 +203,8 @@ class DurationAnswer extends Answer<DurationAnswerDefinition, Duration> {
   });
 
   @override
-  Map<String, Iterable<String>> get _variables {
-    // assign every tag used in the constructor the input value of this answer
-    final keys = definition.constructor.tagConstructorDef.keys;
-    return <String, Iterable<String>>{
-      for (final key in keys) key : [ _valueAsHMS() ]
-    };
+  Iterable<String> _resolve(String key) sync* {
+    yield* _values.map((v) => v.toString());
   }
 
   String _valueAsHMS() {
