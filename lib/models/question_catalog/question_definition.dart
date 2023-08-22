@@ -19,8 +19,6 @@ class QuestionDefinition {
 
   final List<String> images;
 
-  final bool isProfessional;
-
   final List<ElementCondition> conditions;
 
   final AnswerDefinition answer;
@@ -29,7 +27,6 @@ class QuestionDefinition {
     required this.runtimeId,
     required this.name,
     required this.question,
-    required this.isProfessional,
     required this.conditions,
     required this.answer,
     this.description = '',
@@ -46,13 +43,12 @@ class QuestionDefinition {
       ?.cast<Map<String, dynamic>>()
       .map<ElementCondition>(ElementCondition.fromJSON)
       .toList(growable: false) ?? [],
-    answer = AnswerDefinition.fromJSON(json['answer']) ,
-    isProfessional = json['isProfessional'] ?? false;
+    answer = AnswerDefinition.fromJSON(json['answer']);
 
 
   @override
   String toString() {
-    return 'QuestionDefinition(runtimeId: $runtimeId, name: $name, question: $question, description: $description, images: $images, isProfessional: $isProfessional, conditions: $conditions, answer: $answer)';
+    return 'QuestionDefinition(runtimeId: $runtimeId, name: $name, question: $question, description: $description, images: $images, conditions: $conditions, answer: $answer)';
   }
 
   @override
