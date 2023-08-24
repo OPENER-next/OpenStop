@@ -5,28 +5,64 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'question_catalog.dart';
 
-class QuestionCatalogReader {
-  final String defaultLocate;
+// It must not be called before `WidgetsFlutterBinding.ensureInitialized`
+// It automatically re-reads files when the locale changes
+// if the class is no longer used dispose must be called
 
-  QuestionCatalogReader({this.defaultLocate = 'en'});
+
+class QuestionCatalogReader with WidgetsBindingObserver {
+
+  Iterable<String> _assetPaths;
+
+  String _defaultLocate;
+
+  QuestionCatalogReader({
+    required Iterable<String> assetPaths,
+    String defaultLocate = 'en',
+  }) :
+    _assetPaths = assetPaths,
+    _defaultLocate = defaultLocate
+  {
+    WidgetsBinding.instance.addObserver(this);
+    _readAll(assetPaths).then((questionCatalog) {
+      _streamController.add(QuestionCatalogChange(catalog: questionCatalog, change: QuestionCatalogChangeReason.definition));
+    });
+  }
+
+  Iterable<String> get assetPaths => _assetPaths;
+
+  String get defaultLocate => _defaultLocate;
+
+  set assetPaths(Iterable<String> value) {
+    _assetPaths = value;
+    _readAll(assetPaths).then((questionCatalog) {
+      _streamController.add(QuestionCatalogChange(catalog: questionCatalog, change: QuestionCatalogChangeReason.definition));
+    });
+  }
+
+  set defaultLocate(String value) {
+    _defaultLocate = value;
+    _readAll(assetPaths).then((questionCatalog) {
+      _streamController.add(QuestionCatalogChange(catalog: questionCatalog, change: QuestionCatalogChangeReason.definition));
+    });
+  }
 
   Locale get _deviceLocale => PlatformDispatcher.instance.locale;
 
-  Future<QuestionCatalog> read(bool advanceCatalog) async {
-    var questionCatalog = await _readCatalog('question_catalog');
+  final _streamController = StreamController<QuestionCatalogChange>();
 
-    if (advanceCatalog) {
-      final advanceQ = await _readCatalog('advanced_question_catalog');
-      questionCatalog.addAll(advanceQ);
-    }
+  Stream<QuestionCatalogChange> get questionCatalog => _streamController.stream;
 
-    return QuestionCatalog.fromJson(
-        questionCatalog.cast<Map<String, dynamic>>());
+  @override
+  @mustCallSuper
+  void didChangeLocales(List<Locale>? locales) async {
+    final questionCatalog = await _readAll(assetPaths);
+    _streamController.add(QuestionCatalogChange(catalog: questionCatalog, change: QuestionCatalogChangeReason.language));
   }
 
-  Future<QuestionCatalog> readAll(Iterable<String> assetPaths) async {
+  Future<QuestionCatalog> _readAll(Iterable<String> assetPaths) async {
     final catalogs = await Future.wait(
-      assetPaths.map((path) => _readCatalog(path)),
+      assetPaths.map(_readCatalog),
     );
     return QuestionCatalog.fromJson(catalogs.expand((list) => list));
   }
@@ -64,5 +100,11 @@ class QuestionCatalogReader {
     } catch (e) {
       return const <String, dynamic>{};
     }
+  }
+
+  @mustCallSuper
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _streamController.close();
   }
 }

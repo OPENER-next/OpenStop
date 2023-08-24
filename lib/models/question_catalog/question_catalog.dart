@@ -58,3 +58,21 @@ class _ComparingIterator<T> implements Iterator<T> {
   @override
   T get current => _items[_index];
 }
+
+enum QuestionCatalogChangeReason {
+    language,
+    definition,
+}
+
+class QuestionCatalogChange {
+  final QuestionCatalog catalog;
+  final QuestionCatalogChangeReason change;
+
+  QuestionCatalogChange({
+    required this.catalog,
+    required this.change,
+  });   
+
+  QuestionCatalogChange.derive(this.catalog, this.change);
+}
+

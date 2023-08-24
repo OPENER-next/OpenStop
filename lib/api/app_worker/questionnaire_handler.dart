@@ -180,15 +180,15 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
   }
 
   @override
-  void updateQuestionCatalog(({QuestionCatalog questionCatalog, bool onlyLanguageChange}) questionCatalogChangeData) {
-    super.updateQuestionCatalog(questionCatalogChangeData);
+  void updateQuestionCatalog(QuestionCatalogChange questionCatalogChange) {
+    super.updateQuestionCatalog(questionCatalogChange);
 
-    if (questionCatalogChangeData.onlyLanguageChange) {
+    if (questionCatalogChange.change == QuestionCatalogChangeReason.language) {
       // Update all QuestionDefinition of all the stored questionnares
       final questionnaireList = _questionnaireStore.items;
 
       for (final Questionnaire questionnaire in questionnaireList) { 
-        questionnaire.updateQuestionCatalogLanguage(questionCatalogChangeData.questionCatalog);
+        questionnaire.updateQuestionCatalogLanguage(questionCatalogChange.catalog);
       }
       // Update current _activeQuestionnaire
       if (_activeQuestionnaire != null) {

@@ -8,11 +8,11 @@ mixin QuestionCatalogHandler<M> on ServiceWorker<M> {
   static final _completer = Completer<QuestionCatalog>();
 
   @mustCallSuper
-  void updateQuestionCatalog(({QuestionCatalog questionCatalog, bool onlyLanguageChange}) questionCatalogChangeData) {
+  void updateQuestionCatalog(QuestionCatalogChange questionCatalogChange) {
     if (_completer.isCompleted) {
-      _questionCatalog = Future.value(questionCatalogChangeData.questionCatalog);
+      _questionCatalog = Future.value(questionCatalogChange.catalog);
     } else {
-      _completer.complete(questionCatalogChangeData.questionCatalog);
+      _completer.complete(questionCatalogChange.catalog);
     }
   }
 

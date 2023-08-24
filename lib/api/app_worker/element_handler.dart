@@ -57,8 +57,8 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
   final _osmElementQueryHandler = OSMElementQueryAPI();
 
   @override
-  void updateQuestionCatalog(({QuestionCatalog questionCatalog, bool onlyLanguageChange}) questionCatalogChangeData) async {
-    super.updateQuestionCatalog(questionCatalogChangeData);
+  void updateQuestionCatalog(QuestionCatalogChange questionCatalogChange) async {
+    super.updateQuestionCatalog(questionCatalogChange);
     final mfCollection = await mapFeatureCollection;
     final existingElements = _filterElements(
       _buildFiltersForStopAreas(loadedStopAreas),

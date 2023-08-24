@@ -6,7 +6,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../models/question_catalog/question_catalog.dart';
+import '/models/question_catalog/question_catalog.dart';
 import '/models/element_variants/element_identifier.dart';
 import '/models/authenticated_user.dart';
 import '/models/answer.dart';
@@ -137,12 +137,9 @@ class AppWorkerInterface extends Service implements Disposable {
     ));
   }
 
-  Future<void> updateQuestionCatalog({required QuestionCatalog questionCatalog, required bool onlyLanguageChange}) {
+  Future<void> updateQuestionCatalog(QuestionCatalogChange questionCatalogChange) {
     return _worker.send<void>(AppWorkerMessage(
-      AppWorkerSubject.updateQuestionCatalog, (
-      questionCatalog: questionCatalog,
-      onlyLanguageChange: onlyLanguageChange,
-      )
+      AppWorkerSubject.updateQuestionCatalog, questionCatalogChange,
     ));
   }
 
