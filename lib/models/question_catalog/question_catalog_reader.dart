@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'question_catalog.dart';
 
-// It must not be called before `WidgetsFlutterBinding.ensureInitialized`
-// It automatically re-reads files when the locale changes
-// if the class is no longer used dispose must be called
+/// This method should not be invoked prior `WidgetsFlutterBinding.ensureInitialized`
+///
+/// It automatically refreshes files when the locale is modified.
+///
+/// If the class is no longer in use, it is required to call `dispose`.
 
 
 class QuestionCatalogReader with WidgetsBindingObserver {

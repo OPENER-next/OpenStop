@@ -1,14 +1,14 @@
 [
    {
       "question": {
-         "name": "Betreiber",
-         "text": "Welches Verkehrsunternehmen betreibt diese Einrichtung?",
-         "description": "Bei Verkaufsstellen handelt es sich um Einrichtungen, die Fahrkarten verkaufen (z.B. offizielle Vertriebsstellen der Verkehrsunternehmen oder des Verbundgebietes). Die Verkaufsstellen sind i.d.R. mit einem Erkennungszeichen (Tafel, Wimpel, Aufkleber, etc.) ausgestattet. Informationsstellen dienen dazu, sich über Reiserouten etc. zu informieren."
+         "name": "@operatorName",
+         "text": "@operatorText",
+         "description": "@operatorDescription"
       },
       "answer": {
          "type": "String",
          "input": {
-            "placeholder": "Betreiber"
+            "placeholder": "@operatorPlaceholder"
          },
          "constructor": {
             "operator": ["$input"]
@@ -34,62 +34,9 @@
    },
    {
       "question": {
-         "name": "DHID des Steigs",
-         "text": "Was ist die Deutsche Haltestellen-ID für diesen Steig?",
-         "description": "Die Deutsche Haltestellen-ID (DHID) ist eine eindeutige Kennung für Steige. Sie kann im Zentralen Haltestellenverzeichnis (ZHV) nachgesehen werden. Für Steige hat sie normalerweise die Form aa:bbbbb:cccc:dd:ee."
-      },
-      "answer": {
-         "type": "String",
-         "input": {
-            "placeholder": "DHID"
-         },
-         "constructor": {
-            "ref:IFOPT": ["$input"]
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "public_transport": "platform",
-               "ref:IFOPT": false,
-               "noref:IFOPT": false
-            }
-         }
-      ],
-      "isProfessional": true
-   },
-   {
-      "question": {
-         "name": "DHID der Haltestelle",
-         "text": "Was ist die Deutsche Haltestellen-ID für die gesamte Haltestelle?",
-         "description": "Die Deutsche Haltestellen-ID (DHID) ist eine eindeutige Kennung für Haltestellen. Sie kann im Zentralen Haltestellenverzeichnis (ZHV) nachgesehen werden. Für ganze Haltestellen hat sie normalerweise die Form aa:bbbbb:cccc oder aa:bbbbb:cccc:dd."
-      },
-      "answer": {
-         "type": "String",
-         "input": {
-            "placeholder": "DHID"
-         },
-         "constructor": {
-            "ref:IFOPT": ["$input"]
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "public_transport": "stop_area",
-               "ref:IFOPT": false,
-               "noref:IFOPT": false
-            },
-            "osm_element": "Relation"
-         }
-      ],
-      "isProfessional": true
-   },
-   {
-      "question": {
-         "name": "Rollstuhlgerecht",
-         "text": "Ist die Fahrkartenverkaufsstelle rollstuhlgerecht?",
-         "description": "Rollstuhlgerecht bedeutet, die Fahrkartenverkaufsstelle ist stufenfrei erreichbar und die Zugänge haben eine ausreichende Breite (≥90cm)."
+         "name": "@ticketOfficeWheelchairName",
+         "text": "@ticketOfficeWheelchairText",
+         "description": "@ticketOfficeWheelchairDescription"
       },
       "answer": {
          "type": "Bool",
@@ -118,9 +65,9 @@
    },
    {
       "question": {
-         "name": "Rollstuhlgerecht",
-         "text": "Ist die Informationsstelle rollstuhlgerecht?",
-         "description": "Rollstuhlgerecht bedeutet, die Informationsstelle ist stufenfrei erreichbar und die Zugänge haben eine ausreichende Breite (≥90cm)."
+         "name": "@informationCenterWheelchairName",
+         "text": "@informationCenterWheelchairText",
+         "description": "@informationCenterWheelchairDescription"
       },
       "answer": {
          "type": "Bool",
@@ -150,36 +97,36 @@
    },
    {
       "question": {
-         "name": "Parkplatz-Art",
-         "text": "Um welche Art von Parkplatz handelt es sich?"
+         "name": "@parkingTypeName",
+         "text": "@parkingTypeText"
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "Ebenerdiger Parkplatz",
-               "image": "assets/images/questions/parking_surface.jpg",
+               "name": "@parkingTypeGroundLevelOption",
+               "image": "assets/question_catalog/images/parking_surface.jpg",
                "osm_tags": {
                   "parking": "surface"
                }
             },
             {
-               "name": "Tiefgarage",
-               "image": "assets/images/questions/parking_underground.jpg",
+               "name": "@parkingTypeUndergroundOption",
+               "image": "assets/question_catalog/images/parking_underground.jpg",
                "osm_tags": {
                   "parking": "underground"
                }
             },
             {
-               "name": "Parkbucht",
-               "image": "assets/images/questions/parking_street_side.jpg",
+               "name": "@parkingTypeBayOption",
+               "image": "assets/question_catalog/images/parking_street_side.jpg",
                "osm_tags": {
                   "parking": "street_side"
                }
             },
             {
-               "name": "Parkhaus",
-               "image": "assets/images/questions/parking_multistorey.jpg",
+               "name": "@parkingTypeMultiStoreyOption",
+               "image": "assets/question_catalog/images/parking_multistorey.jpg",
                "osm_tags": {
                   "parking": "multi-storey"
                }
@@ -202,13 +149,13 @@
    },
    {
       "question": {
-         "name": "Behindertenparkplätze",
-         "text": "Gibt es gesonderte Parkplätze für behinderte Personen?",
+         "name": "@disabledParkingName",
+         "text": "@disabledParkingText",
          "image": [
-            "assets/images/questions/traffic_sign_314_1044-10.png",
-            "assets/images/questions/disabled_parking_1.jpg",
-            "assets/images/questions/disabled_parking_2.jpg",
-            "assets/images/questions/disabled_parking_3.jpg"
+            "assets/question_catalog/images/traffic_sign_314_1044-10.png",
+            "assets/question_catalog/images/disabled_parking_1.jpg",
+            "assets/question_catalog/images/disabled_parking_2.jpg",
+            "assets/question_catalog/images/disabled_parking_3.jpg"
          ]
       },
       "answer": {
@@ -242,14 +189,14 @@
    },
    {
       "question": {
-         "name": "Behindertenparkplatz-Anzahl",
-         "text": "Wie viele Parkplätze für behinderte Personen gibt es?",
-         "description": "Behindertenparkplätze sind eigene Parkmöglichkeiten für behinderte Personen und weisen i.d.R. geräumigere Stellplatzmaße auf. Behindertenparkplätze sind durch ein Zusatzschild mit dem Piktogramm eines Rollstuhlfahrers gekennzeichnet. Zusätzlich sind meist Bodenmarkierungen angebracht."
+         "name": "@disabledParkingNumberName",
+         "text": "@disabledParkingNumberText",
+         "description": "@disabledParkingNumberDescription"
       },
       "answer": {
          "type": "Number",
          "input": {
-            "placeholder": "Parkplatzanzahl",
+            "placeholder": "@disabledParkingAmountPlaceholder",
             "decimals": 0,
             "min": 1,
             "max": 1000
@@ -274,12 +221,12 @@
    },
    {
       "question": {
-         "name": "Park+Ride",
-         "text": "Ist dies ein Park+Ride-Parkplatz?",
-         "description": "Park+Ride-Anlagen sind Parkplätze mit Anbindung an öffentliche Verkehrsmittel, die es Personen ermöglichen, ihr Fahrzeug zu verlassen und für den Rest der Reise auf öffentliche Verkehrsmittel umzusteigen.",
+         "name": "@parkAndRideName",
+         "text": "@parkAndRideText",
+         "description": "@parkAndRideDescription",
          "image": [
-            "assets/images/questions/traffic_sign_316.png",
-            "assets/images/questions/park_and_ride.jpg"
+            "assets/question_catalog/images/traffic_sign_316.png",
+            "assets/question_catalog/images/park_and_ride.jpg"
          ]
       },
       "answer": {
@@ -313,8 +260,8 @@
    },
    {
       "question": {
-         "name": "Parkplatz-Gebühren",
-         "text": "Fallen für das Parken Gebühren an?"
+         "name": "@parkingFeesName",
+         "text": "@parkingFeesText"
       },
       "answer": {
          "type": "Bool",
@@ -347,32 +294,32 @@
    },
    {
       "question": {
-         "name": "Toiletten-Zugänglichkeit",
-         "text": "Für wen sind die Toiletten zugänglich?",
+         "name": "@toiletAccessibilityName",
+         "text": "@toiletAccessibilityText",
          "image": [
-            "assets/images/questions/toilet_house.jpg"
+            "assets/question_catalog/images/toilet_house.jpg"
          ]
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "Ausschließlich für Rollstuhlfahrende",
-               "description": "Die Toiletten sind nur für Rollstuhlfahrende vorgesehen.",
+               "name": "@toiletAccessibilityWheelchairOptionName",
+               "description": "@toiletAccessibilityWheelchairOptionDescription",
                "osm_tags": {
                   "wheelchair": "designated"
                }
             },
             {
-               "name": "Für Rollstuhlfahrende und andere",
-               "description": "Die Toiletten sind für Rollstuhlfahrende und andere Personen vorgesehen.",
+               "name": "@toiletAccessibilityEveryoneOptionName",
+               "description": "@toiletAccessibilityEveryoneOptionDescription",
                "osm_tags": {
                   "wheelchair": "yes"
                }
             },
             {
-               "name": "Nicht für Rollstuhlfahrende",
-               "description": "Die Toiletten sind nicht rollstuhlgerecht. Rollstuhlfahrernde haben keine Zugangsmöglichkeiten.",
+               "name": "@toiletAccessibilityNoWheelchairOptionName",
+               "description": "@toiletAccessibilityNoWheelchairOptionDescription",
                "osm_tags": {
                   "wheelchair": "no"
                }
@@ -394,8 +341,8 @@
    },
    {
       "question": {
-         "name": "Toiletten-Gebühren",
-         "text": "Ist die Nutzung der Toilette kostenpflichtig?"
+         "name": "@toiletFeesName",
+         "text": "@toiletFeesDescription"
       },
       "answer": {
          "type": "Bool",
@@ -427,11 +374,11 @@
    },
    {
       "question": {
-         "name": "Sitzplätze",
-         "text": "Gibt es an der Haltestelle Sitzplätze?",
+         "name": "@stopSeatsName",
+         "text": "@stopSeatsText",
          "image": [
-            "assets/images/questions/platform_shelter_1.jpg",
-            "assets/images/questions/platform_shelter_2.jpg"]
+            "assets/question_catalog/images/platform_shelter_1.jpg",
+            "assets/question_catalog/images/platform_shelter_2.jpg"]
       },
       "answer": {
          "type": "Bool",
@@ -466,12 +413,12 @@
    },
    {
       "question": {
-         "name": "Überdachter Wartebereich",
-         "text": "Gibt es an der Haltestelle einen überdachten Wartebereich?",
+         "name": "@stopCoveredAreaName",
+         "text": "@stopCoveredAreaText",
          "image": [
-            "assets/images/questions/platform_shelter_1.jpg",
-            "assets/images/questions/platform_shelter_2.jpg",
-            "assets/images/questions/platform_shelter_3.jpg"
+            "assets/question_catalog/images/platform_shelter_1.jpg",
+            "assets/question_catalog/images/platform_shelter_2.jpg",
+            "assets/question_catalog/images/platform_shelter_3.jpg"
          ]
       },
       "answer": {
@@ -507,29 +454,29 @@
    },
    {
       "question": {
-         "name": "Fahrplan-Anzeige",
-         "text": "Gibt es eine stationsweite Fahrplan-Anzeige?",
-         "description": "Fahrplan-Anzeigen geben einen Überblick aller Fahrten an der gesamten Station. Dynamische Anzeigen informieren über aktuelle Fahrplanänderungen wie Verspätungen, Ausfälle oder Gleisänderungen. Statische Anzeigen sind gedruckte Fahrpläne."
+         "name": "@timetableDisplayName",
+         "text": "@timetableDisplayText",
+         "description": "@timetableDisplayDescription"
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "Dynamische Fahrplan-Anzeige",
-               "image": "assets/images/questions/station_departures_board_digital_1.jpg",
+               "name": "@timetableDisplayDynamicOption",
+               "image": "assets/question_catalog/images/station_departures_board_digital_1.jpg",
                "osm_tags": {
                   "departures_board": "realtime"
                }
             },
             {
-               "name": "Statische Fahrplan-Anzeige",
-               "image": "assets/images/questions/station_departures_board_analog.jpg",
+               "name": "@timetableDisplayStaticOption",
+               "image": "assets/question_catalog/images/station_departures_board_analog.jpg",
                "osm_tags": {
                   "departures_board": "timetable"
                }
             },
             {
-               "name": "Keine Fahrplan-Anzeige",
+               "name": "@timetableDisplayNoDisplayOption",
                "osm_tags": {
                   "departures_board": "no"
                }
@@ -555,11 +502,11 @@
    },
    {
       "question": {
-         "name": "Akustische Ausgabe der Fahrplan-Anzeige",
-         "text": "Hat die stationsweite Fahrplan-Anzeige eine manuell anforderbare akustische Ausgabe?",
-         "description": "Fahrplan-Anzeigen geben einen Überblick aller Fahrten an der gesamten Station. Einige Fahrplan-Anzeigen bieten die Möglichkeit, bei Bedarf (z.B. über einen Taster) die angezeigten Informationen akustisch wiederzugeben.",
+         "name": "@timetableDisplaySpeechOutputName",
+         "text": "@timetableDisplaySpeechOutputText",
+         "description": "@timetableDisplaySpeechOutputDescription",
          "image": [
-            "assets/images/questions/station_departures_board_digital_2.jpg"
+            "assets/question_catalog/images/station_departures_board_digital_2.jpg"
          ]
       },
       "answer": {
@@ -592,13 +539,13 @@
    },
    {
       "question": {
-         "name": "Dynamischer Fahrtziel-Anzeiger",
-         "text": "Gibt es einen dynamischen Fahrtziel-Anzeiger an der Haltestelle?",
-         "description": "Dynamische Fahrtziel-Anzeiger zeigen Echtzeit-Informationen über das Ziel ein- bzw. abfahrender Züge/Busse an einem Bahn-/Bussteig an.",
+         "name": "@passengerInformationDisplayName",
+         "text": "@passengerInformationDisplayText",
+         "description": "@passengerInformationDisplayDescription",
          "image": [
-            "assets/images/questions/platform_departures_board_1.jpg",
-            "assets/images/questions/platform_departures_board_2.jpg",
-            "assets/images/questions/platform_departures_board_3.jpg"
+            "assets/question_catalog/images/platform_departures_board_1.jpg",
+            "assets/question_catalog/images/platform_departures_board_2.jpg",
+            "assets/question_catalog/images/platform_departures_board_3.jpg"
          ]
       },
       "answer": {
@@ -634,11 +581,11 @@
    },
    {
       "question": {
-         "name": "Akustische Ausgabe des Fahrtziel-Anzeigers",
-         "text": "Hat der dynamische Fahrtziel-Anzeiger an der Haltestelle eine akustische Ausgabe?",
-         "description": "Einige Fahrtziel-Anzeiger bieten die Möglichkeit, bei Bedarf (z.B. über einen Taster) die angezeigten Informationen akustisch wiederzugeben.",
+         "name": "@passengerInformationDisplaySpeechOutputName",
+         "text": "@passengerInformationDisplaySpeechOutputText",
+         "description": "@passengerInformationDisplaySpeechOutputDescription",
          "image": [
-            "assets/images/questions/passenger_information_display_speech_output.jpg"
+            "assets/question_catalog/images/passenger_information_display_speech_output.jpg"
          ]
       },
       "answer": {
@@ -675,12 +622,12 @@
    },
    {
       "question": {
-         "name": "Ansagen",
-         "text": "Gibt es Ansagen über Lautsprecher an der Plattform?",
-         "description": "Unter Ansagen werden die akustischen Fahrgastinformationen an der Haltestelle verstanden.",
+         "name": "@announcementsName",
+         "text": "@announcementsText",
+         "description": "@announcementsDescription",
          "image": [
-            "assets/images/questions/announcement_1.jpg",
-            "assets/images/questions/announcement_2.jpg"
+            "assets/question_catalog/images/announcement_1.jpg",
+            "assets/question_catalog/images/announcement_2.jpg"
          ]
       },
       "answer": {
@@ -717,8 +664,8 @@
    },
    {
       "question": {
-         "name": "Haltestellen-Bordstein",
-         "text": "Hat die Haltestelle an der Fahrbahnseite einen Bordstein?"
+         "name": "@stopCurbName",
+         "text": "@stopCurbText"
       },
       "answer": {
          "type": "Bool",
@@ -771,29 +718,29 @@
    },
    {
       "question": {
-         "name": "Bordstein-Art",
-         "text": "Welche Art von Bordstein hat die Haltestelle an der Seite, an der das Verkehrsmittel hält?"
+         "name": "@stopCurbTypeName",
+         "text": "@stopCurbTypeText"
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "Erhöht (>3cm)",
-               "image": "assets/images/questions/approach_aid_no.jpg",
+               "name": "@stopCurbTypeRaisedOption",
+               "image": "assets/question_catalog/images/approach_aid_no.jpg",
                "osm_tags": {
                   "kerb": "raised"
                }
             },
             {
-               "name": "Abgesenkt (<3cm)",
-               "image": "assets/images/questions/kerb_lowered.jpg",
+               "name": "@stopCurbTypeLoweredOption",
+               "image": "assets/question_catalog/images/kerb_lowered.jpg",
                "osm_tags": {
                   "kerb": "lowered"
                }
             },
             {
-               "name": "Ebenerdig (≈0cm)",
-               "image": "assets/images/questions/kerb_flush.jpg",
+               "name": "@stopCurbTypeFlushOption",
+               "image": "assets/question_catalog/images/kerb_flush.jpg",
                "osm_tags": {
                   "kerb": "flush"
                }
@@ -818,61 +765,21 @@
    },
    {
       "question": {
-         "name": "Plattform-Höhe",
-         "text": "Wie groß ist der Höhenunterschied zwischen Plattform und Straße bzw. Schienenoberkante?",
-         "description": "Wenn diese Höhe innerhalb eines Steiges variiert, ist der typische Wert für die übliche Einstiegsstelle von Rollstuhlfahrenden zu bestimmen."
-      },
-      "answer": {
-         "type": "Number",
-         "input": {
-            "placeholder": "Plattform-Höhe",
-            "decimals": 0,
-            "min": 0,
-            "max": 150,
-            "unit": "Centimeter"
-         },
-         "constructor": {
-            "height": [
-               "REPLACE", "/\\.?0{1,2}$/", "", [
-                  "INSERT", ".", "-2", [
-                     "PAD", "0", "3", "$input"
-                  ]
-               ]
-            ]
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "public_transport": "platform",
-               "height": false
-            },
-            "osm_element": [
-               "OpenWay",
-               "ClosedWay",
-               "Relation"
-            ]
-         }
-      ],
-      "isProfessional": true
-   },
-   {
-      "question": {
-         "name": "Plattform-Breite",
-         "text": "Was ist die überwiegende Breite der Plattform?",
-         "description": "Die Breite einer Plattform wird quer zur Fahrtrichtung gemessen. Variiert die Breite, ist die anzugeben, die den Großteil der Plattform umfasst. Achtung: Die engste Stelle einer Plattform wird separat erfasst.",
+         "name": "@platformWidthName",
+         "text": "@platformWidthText",
+         "description": "@platformWidthDescription",
          "image": [
-            "assets/images/questions/platform_width.png"
+            "assets/question_catalog/images/platform_width.png"
          ]
       },
       "answer": {
          "type": "Number",
          "input": {
-            "placeholder": "Plattform-Breite",
+            "placeholder": "@platformWidthPlaceholder",
             "decimals": 2,
             "min": 0,
             "max": 15,
-            "unit": "Meter"
+            "unit": "@unitMeter"
          },
          "constructor": {
             "width": ["$input"]
@@ -890,48 +797,12 @@
    },
    {
       "question": {
-         "name": "Engstellen-Breite",
-         "text": "Wie breit ist die engste Stelle der Plattform?",
-         "description": "Die Wände von Unterständen oder der Mast erzeugen oft Engstellen. Dieser Wert ist u.a. dafür wichtig, damit Rollstuhlfahrende wissen, ob ihr Rollstuhl in die gesamte Plattform ereichen kann."
-      },
-      "answer": {
-         "type": "Number",
-         "input": {
-            "placeholder": "Breite",
-            "decimals": 0,
-            "min": 0,
-            "max": 1500,
-            "unit": "Centimeter"
-         },
-         "constructor": {
-            "maxwidth:physical": [
-               "REPLACE", "/\\.?0{1,2}$/", "", [
-                  "INSERT", ".", "-2", [
-                     "PAD", "0", "3", "$input"
-                  ]
-               ]
-            ]
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "public_transport": "platform",
-               "maxwidth:physical": false
-            },
-            "osm_element": "OpenWay"
-         }
-      ],
-      "isProfessional": true
-   },
-   {
-      "question": {
-         "name": "Anfahrtshilfe",
-         "text": "Hat die Haltestelle einen speziellen Bordstein mit Anfahrtshilfe für Busse?",
-         "description": "Bordsteine mit Anfahrtshilfe haben eine konkave Rundung zur Straße hin. Diese sorgt für eine Führung der Busreifen beim Anfahren der Haltestelle und ermöglicht so Bussen ein dichtes Heranfahren an die Bordsteinkante.",
+         "name": "@approachAidName",
+         "text": "@approachAidText",
+         "description": "@approachAidDescription",
          "image": [
-            "assets/images/questions/approach_aid_1.jpg",
-            "assets/images/questions/approach_aid_2.jpg"
+            "assets/question_catalog/images/approach_aid_1.jpg",
+            "assets/question_catalog/images/approach_aid_2.jpg"
          ]
       },
       "answer": {
@@ -971,11 +842,11 @@
    },
    {
       "question": {
-         "name": "Bewegbare Rampe",
-         "text": "Gibt es eine bewegbare Rollstuhl-Rampe?",
-         "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
+         "name": "@portableRampName",
+         "text": "@portableRampText",
+         "description": "@portableRampDescription",
          "image": [
-            "assets/images/questions/wheelchair_ramp_1.jpg"
+            "assets/question_catalog/images/wheelchair_ramp_1.jpg"
          ]
       },
       "answer": {
@@ -1012,21 +883,21 @@
    },
    {
       "question": {
-         "name": "Rampen-Länge",
-         "text": "Wie lang ist die bewegbare Rollstuhl-Rampe?",
-         "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
+         "name": "@portableRampLengthName",
+         "text": "@portableRampLengthText",
+         "description": "@portableRampLengthDescription",
          "image": [
-            "assets/images/questions/wheelchair_ramp_1.jpg"
+            "assets/question_catalog/images/wheelchair_ramp_1.jpg"
          ]
       },
       "answer": {
          "type": "Number",
          "input": {
-            "placeholder": "Rampenlänge",
+            "placeholder": "@portableRampLengthPlaceholder",
             "decimals": 0,
             "min": 20,
             "max": 500,
-            "unit": "Centimeter"
+            "unit": "@unitCentimeter"
          },
          "constructor": {
             "wheelchair:portable_ramp:length": [
@@ -1049,21 +920,21 @@
    },
    {
       "question": {
-         "name": "Rampen-Tragfähigkeit",
-         "text": "Was ist die maximale Tragfähigkeit der bewegbaren Rampe?",
-         "description": "Bahnsteiggebundene Rampen sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
+         "name": "@portableRampLoadCapacityName",
+         "text": "@portableRampLoadCapacityText",
+         "description": "@portableRampLoadCapacityDescription",
          "image": [
-            "assets/images/questions/wheelchair_ramp_1.jpg"
+            "assets/question_catalog/images/wheelchair_ramp_1.jpg"
          ]
       },
       "answer": {
          "type": "Number",
          "input": {
-            "placeholder": "Tragfähigkeit",
+            "placeholder": "@portableRampLoadCapacityPlaceholder",
             "decimals": 0,
             "min": 70,
             "max": 1000,
-            "unit": "Kilogramm"
+            "unit": "@unitKilogram"
          },
          "constructor": {
             "wheelchair:portable_ramp:maxweight": ["CONCAT", "$input", " kg"]
@@ -1080,12 +951,12 @@
    },
    {
       "question": {
-         "name": "Bewegbarer Hublift",
-         "text": "Gibt es einen bewegbaren Hublift für Rollstuhlfahrende?",
-         "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
+         "name": "@portableLiftName",
+         "text": "@portableLiftText",
+         "description": "@portableLiftDescription",
          "image": [
-            "assets/images/questions/wheelchair_lift_1.jpg",
-            "assets/images/questions/wheelchair_lift_2.jpg"
+            "assets/question_catalog/images/wheelchair_lift_1.jpg",
+            "assets/question_catalog/images/wheelchair_lift_2.jpg"
          ]
       },
       "answer": {
@@ -1122,22 +993,22 @@
    },
    {
       "question": {
-         "name": "Hublift-Stellflächenlänge",
-         "text": "Wie lang ist die Stellfläche des bewegbaren Hublifts?",
-         "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
+         "name": "@portableLiftLengthName",
+         "text": "@portableLiftLengthText",
+         "description": "@portableLiftLengthDescription",
          "image": [
-            "assets/images/questions/wheelchair_lift_1.jpg",
-            "assets/images/questions/wheelchair_lift_2.jpg"
+            "assets/question_catalog/images/wheelchair_lift_1.jpg",
+            "assets/question_catalog/images/wheelchair_lift_2.jpg"
          ]
       },
       "answer": {
          "type": "Number",
          "input": {
-            "placeholder": "Stellflächenlänge",
+            "placeholder": "@portableLiftLengthPlaceholder",
             "decimals": 0,
             "min": 100,
             "max": 300,
-            "unit": "Centimeter"
+            "unit": "@unitCentimeter"
          },
          "constructor": {
             "wheelchair:portable_lift:length": [
@@ -1160,22 +1031,22 @@
    },
    {
       "question": {
-         "name": "Hublift-Tragfähigkeit",
-         "text": "Was ist die maximale Tragfähigkeit der bewegbaren Hublifts?",
-         "description": "Bahnsteiggebundene Hublifte sind bewegbar und helfen beim Ein- und Ausstieg von Rollstuhlfahrenden zur Überwindung eines Spalts bzw. von Stufen.",
+         "name": "@portableLiftLoadCapacityName",
+         "text": "@portableLiftLoadCapacityText",
+         "description": "@portableLiftLoadCapacityDescription",
          "image": [
-            "assets/images/questions/wheelchair_lift_1.jpg",
-            "assets/images/questions/wheelchair_lift_2.jpg"
+            "assets/question_catalog/images/wheelchair_lift_1.jpg",
+            "assets/question_catalog/images/wheelchair_lift_2.jpg"
          ]
       },
       "answer": {
          "type": "Number",
          "input": {
-            "placeholder": "Tragfähigkeit",
+            "placeholder": "@portableLiftLoadCapacityPlaceholder",
             "decimals": 0,
             "min": 70,
             "max": 1000,
-            "unit": "Kilogramm"
+            "unit": "@unitKilogram"
          },
          "constructor": {
             "wheelchair:portable_lift:maxweight": ["CONCAT", "$input", " kg"]
@@ -1192,9 +1063,9 @@
    },
    {
       "question": {
-         "name": "Tür",
-         "text": "Hat dieser Durchgang eine Tür?",
-         "description": "Ob ein Durchgang eine Tür hat, ist besonders für Rollstuhlfahrende relevant. Existiert eine Tür, wird die genaue Art nachfolgend abgefragt."
+         "name": "@doorName",
+         "text": "@doorText",
+         "description": "@doorDescription"
       },
       "answer": {
          "type": "Bool",
@@ -1265,36 +1136,36 @@
    },
    {
       "question": {
-         "name": "Tür-Art",
-         "text": "Welche Art von Tür ist verbaut?"
+         "name": "@doorTypeName",
+         "text": "@doorTypeText"
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "Anschlagtür",
-               "image": "assets/images/questions/door_hinged.png",
+               "name": "@doorTypeHingedOption",
+               "image": "assets/question_catalog/images/door_hinged.png",
                "osm_tags": {
                   "door": "hinged"
                }
             },
             {
-               "name": "Pendeltür",
-               "image": "assets/images/questions/door_swinging.png",
+               "name": "@doorTypeSwingingOption",
+               "image": "assets/question_catalog/images/door_swinging.png",
                "osm_tags": {
                   "door": "swinging"
                }
             },
             {
-               "name": "Schiebetür",
-               "image": "assets/images/questions/door_sliding.png",
+               "name": "@doorTypeSlidingOption",
+               "image": "assets/question_catalog/images/door_sliding.png",
                "osm_tags": {
                   "door": "sliding"
                }
             },
             {
-               "name": "Drehtür",
-               "image": "assets/images/questions/door_revolving.png",
+               "name": "@doorTypeRevolvingOption",
+               "image": "assets/question_catalog/images/door_revolving.png",
                "osm_tags": {
                   "door": "revolving"
                }
@@ -1353,9 +1224,9 @@
    },
    {
       "question": {
-         "name": "Tür-Automatik",
-         "text": "Kann sich die Tür automatisch öffnen?",
-         "description": "Bei der automatischen Öffnung wird die Tür von einer Mechanik geöffnet. Diese kann durch einen Sensor oder Taster ausgelöst werden."
+         "name": "@doorAutomatismName",
+         "text": "@doorAutomatismText",
+         "description": "@doorAutomatismDescription"
       },
       "answer": {
          "type": "Bool",
@@ -1428,9 +1299,9 @@
    },
    {
       "question": {
-         "name": "Drehtür-Automatik",
-         "text": "Bewegt sich die Drehtür automatisch?",
-         "description": "Drehtüren, die sich automatisch drehen, müssen nicht durch eigene Körperkraft bewegt werden."
+         "name": "@revolvingDoorAutomatismName",
+         "text": "@revolvingDoorAutomatismText",
+         "description": "@revolvingDoorAutomatismDescription"
       },
       "answer": {
          "type": "Bool",
@@ -1500,26 +1371,26 @@
             ]
          }
       ]
-   },
+   },   
    {
       "question": {
-         "name": "Tür-Automatik-Art",
-         "text": "Wodurch wird die automatische Tür-Öffnung ausgelöst?",
-         "description": "Automatik-Türen können sich durch Sensoren bei Annäherung einer Person öffnen oder durch das Betätigen eines Tasters."
+         "name": "@doorAutomatismTypeName",
+         "text": "@doorAutomatismTypeText",
+         "description": "@doorAutomatismTypeDescription"
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "Bewegungsmelder",
-               "image": "assets/images/questions/sliding_door_automatic.jpg",
+               "name": "@doorAutomatismTypeMotionDetectorOption",
+               "image": "assets/question_catalog/images/sliding_door_automatic.jpg",
                "osm_tags": {
                   "automatic_door": "motion"
                }
             },
             {
-               "name": "Taster",
-               "image": "assets/images/questions/automatic_door_button.jpg",
+               "name": "@doorAutomatismTypeButtonPressOption",
+               "image": "assets/question_catalog/images/automatic_door_button.jpg",
                "osm_tags": {
                   "automatic_door": "button"
                }
@@ -1539,7 +1410,6 @@
             "osm_tags": {
                "level": true,
                "access": ["yes", "customers", false],
-               "door": ["hinged", "sliding", "folding"],
                "automatic_door": "yes"
             },
             "osm_element": "Node"
@@ -1582,27 +1452,27 @@
    },
    {
       "question": {
-         "name": "Drehtür-Automatik-Art",
-         "text": "Wie funktioniert die Automatik der Drehtür?",
-         "description": "Automatik-Drehtüren können sich kontinuierlich bewegen oder durch Sensoren bei Annäherung einer Person in Bewegung versetzt werden."
+         "name": "@revolvingDoorAutomatismTypeName",
+         "text": "@revolvingDoorAutomatismTypeText",
+         "description": "@revolvingDoorAutomatismTypeDescription"
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "Durch Annäherung",
+               "name": "@revolvingDoorAutomatismTypeApproachOption",
                "osm_tags": {
                   "automatic_door": "motion"
                }
             },
             {
-               "name": "Dauerhaft",
+               "name": "@revolvingDoorAutomatismTypeContinuousOption",
                "osm_tags": {
                   "automatic_door": "continuous"
                }
             },
             {
-               "name": "Dauerhaft mit Verlangsamungs-Taster",
+               "name": "@revolvingDoorAutomatismTypeSlowdownOption",
                "osm_tags": {
                   "automatic_door": "slowdown_button"
                }
@@ -1665,18 +1535,18 @@
    },
    {
       "question": {
-         "name": "Durchgangsbreite",
-         "text": "Wie breit ist der Durchgang?",
-         "description": "Die Durchgangsbreite wird erfasst, um sicherzustellen das Rollstühle, Kinderwagen etc. genug Platz haben. Es ist lediglich die nutzbare Türöffnung (Innenmaße der geöffneten Tür) zu messen."
+         "name": "@doorWidthName",
+         "text": "@doorWidthText",
+         "description": "@doorWidthDescription"
       },
       "answer": {
          "type": "Number",
          "input": {
-            "placeholder": "Breite",
+            "placeholder": "@doorWidthPlaceholder",
             "decimals": 0,
             "min": 50,
             "max": 1000,
-            "unit": "Centimeter"
+            "unit": "@unitCentimeter"
          },
          "constructor": {
             "width": [
@@ -1742,23 +1612,23 @@
    },
    {
       "question": {
-         "name": "Fuß-/Radweg-Verlauf",
-         "text": "Wie verlaufen der Fuß- und Radweg zueinander?",
-         "description": "Die gemeinsame oder getrennte Nutzung des Weges wird üblicherweise durch Schilder vorgeschrieben."
+         "name": "@waySegregatedName",
+         "text": "@waySegregatedText",
+         "description": "@waySegregatedDescription"
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "Getrennt",
-               "image": "assets/images/questions/segregated_yes_sign_241-30.png",
+               "name": "@waySegregatedYesOption",
+               "image": "assets/question_catalog/images/segregated_yes_sign_241-30.png",
                "osm_tags": {
                   "segregated": "yes"
                }
             },
             {
-               "name": "Gemeinsam",
-               "image": "assets/images/questions/segregated_no_sign_240.png",
+               "name": "@waySegregatedNoOption",
+               "image": "assets/question_catalog/images/segregated_no_sign_240.png",
                "osm_tags": {
                   "segregated": "no"
                }
@@ -1786,23 +1656,23 @@
    },
    {
       "question": {
-         "name": "Bodenbeschaffenheit",
-         "text": "Wie ist der Boden beschaffen?",
-         "description": "Besteht die Oberfläche aus Schotter, Sand, Gras oder einem vergleichbaren Belag, so handelt es sich um einen unbefestigten Bodenbelag."
+         "name": "@surfaceName",
+         "text": "@surfaceText",
+         "description": "@surfaceDescription"
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "Befestigt",
-               "image": "assets/images/questions/surface_paved.jpg",
+               "name": "@surfacePavedOption",
+               "image": "assets/question_catalog/images/surface_paved.jpg",
                "osm_tags": {
                   "surface": "paved"
                }
             },
             {
-               "name": "Unbefestigt",
-               "image": "assets/images/questions/surface_unpaved.jpg",
+               "name": "@surfaceUnpavedOption",
+               "image": "assets/question_catalog/images/surface_unpaved.jpg",
                "osm_tags": {
                   "surface": "unpaved"
                }
@@ -1861,23 +1731,23 @@
    },
    {
       "question": {
-         "name": "Bodenbeschaffenheit Fußweg",
-         "text": "Wie ist der Boden des Fußweges beschaffen?",
-         "description": "Besteht die Oberfläche aus Schotter, Sand, Gras oder einem vergleichbaren Belag, so handelt es sich um einen unbefestigten Bodenbelag."
+         "name": "@footpathSurfaceName",
+         "text": "@footpathSurfaceText",
+         "description": "@footpathSurfaceDescription"
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "Befestigt",
-               "image": "assets/images/questions/surface_paved.jpg",
+               "name": "@surfacePavedOption",
+               "image": "assets/question_catalog/images/surface_paved.jpg",
                "osm_tags": {
                   "footway:surface": "paved"
                }
             },
             {
-               "name": "Unbefestigt",
-               "image": "assets/images/questions/surface_unpaved.jpg",
+               "name": "@surfaceUnpavedOption",
+               "image": "assets/question_catalog/images/surface_unpaved.jpg",
                "osm_tags": {
                   "footway:surface": "unpaved"
                }
@@ -1920,23 +1790,23 @@
    },
    {
       "question": {
-         "name": "Bodenbeschaffenheit Radweg",
-         "text": "Wie ist der Boden des Radweges beschaffen?",
-         "description": "Besteht die Oberfläche aus Schotter, Sand, Gras oder einem vergleichbaren Belag, so handelt es sich um einen unbefestigten Bodenbelag."
+         "name": "@cyclelineSurfaceName",
+         "text": "@cyclelineSurfaceText",
+         "description": "@cyclelineSurfaceDescription"
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "Befestigt",
-               "image": "assets/images/questions/surface_paved.jpg",
+               "name": "@surfacePavedOption",
+               "image": "assets/question_catalog/images/surface_paved.jpg",
                "osm_tags": {
                   "cycleway:surface": "paved"
                }
             },
             {
-               "name": "Unbefestigt",
-               "image": "assets/images/questions/surface_unpaved.jpg",
+               "name": "@surfaceUnpavedOption",
+               "image": "assets/question_catalog/images/surface_unpaved.jpg",
                "osm_tags": {
                   "cycleway:surface": "unpaved"
                }
@@ -1979,9 +1849,9 @@
    },
    {
       "question": {
-         "name": "Haltestellen-Beleuchtung",
-         "text": "Ist diese Haltestelle nachts beleuchtet?",
-         "description": "Die Haltestelle muss keine eigene Beleuchtung besitzen. Es reicht, wenn sie durch umgebende Lampen ausreichend beleuchtet wird."
+         "name": "@stopLightName",
+         "text": "@stopLightText",
+         "description": "@stopLightDescription"
       },
       "answer": {
          "type": "Bool",
@@ -2015,12 +1885,12 @@
    },
    {
       "question": {
-         "name": "Bodenindikatoren",
-         "text": "Gibt es Bodenindikatoren an der Haltestelle?",
-         "description": "Bodenindikatoren sind Bodenelemente im öffentlichen Raum zur Information, Orientierung, Leitung und Warnung sehbehinderter Menschen. Sie stehen in einem hohen taktilen, visuellen und gegebenenfalls akustischen Kontrast zum angrenzenden Bodenbelag.",
+         "name": "@tactilePavingsStopName",
+         "text": "@tactilePavingsStopText",
+         "description": "@tactilePavingsStopDescription",
          "image": [
-            "assets/images/questions/platform_tactile_paving_1.jpg",
-            "assets/images/questions/tactile_paving_1.jpg"
+            "assets/question_catalog/images/platform_tactile_paving_1.jpg",
+            "assets/question_catalog/images/tactile_paving_1.jpg"
          ]
       },
       "answer": {
@@ -2056,36 +1926,36 @@
    },
    {
       "question": {
-         "name": "Umlaufsperren-Art",
-         "text": "Wie ist der Aufbau der Umlaufsperre?"
+         "name": "@cycleBarrierTypeName",
+         "text": "@cycleBarrierTypeText"
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "Einfach",
-               "image": "assets/images/questions/cycle_barrier_single.png",
+               "name": "@cycleBarrierTypeSingleOption",
+               "image": "assets/question_catalog/images/cycle_barrier_single.png",
                "osm_tags": {
                   "cycle_barrier": "single"
                }
             },
             {
-               "name": "Zweifach",
-               "image": "assets/images/questions/cycle_barrier_double.png",
+               "name": "@cycleBarrierTypeDoubleOption",
+               "image": "assets/question_catalog/images/cycle_barrier_double.png",
                "osm_tags": {
                   "cycle_barrier": "double"
                }
             },
             {
-               "name": "Dreifach",
-               "image": "assets/images/questions/cycle_barrier_triple.png",
+               "name": "@cycleBarrierTypeTripleOption",
+               "image": "assets/question_catalog/images/cycle_barrier_triple.png",
                "osm_tags": {
                   "cycle_barrier": "triple"
                }
             },
             {
-               "name": "Diagonal",
-               "image": "assets/images/questions/cycle_barrier_diagonal.png",
+               "name": "@cycleBarrierTypeDiagonalOption",
+               "image": "assets/question_catalog/images/cycle_barrier_diagonal.png",
                "osm_tags": {
                   "cycle_barrier": "diagonal"
                }
@@ -2104,21 +1974,21 @@
    },
    {
       "question": {
-         "name": "Umlaufsperren-Durchgangsbreite",
-         "text": "Wie groß ist die Durchgangsbreite der Umlaufsperre?",
+         "name": "@cycleBarrierWidthName",
+         "text": "@cycleBarrierWidthText",
          "image": [
-            "assets/images/questions/cycle_barrier_width.png"
+            "assets/question_catalog/images/cycle_barrier_width.png"
          ],
-         "description": "Die Durchgangsbreite, auch lichte Breite genannt, beschreibt die maximal zulässige Breite, um eine Sperre passieren zu können."
+         "description": "@cycleBarrierWidthDescription"
       },
       "answer": {
          "type": "Number",
          "input": {
-            "placeholder": "Breite",
+            "placeholder": "@cycleBarrierWidthPlaceholder",
             "decimals": 0,
             "min": 30,
             "max": 200,
-            "unit": "Centimeter"
+            "unit": "@unitCentimeter"
          },
          "constructor": {
             "maxwidth:physical": [
@@ -2145,22 +2015,22 @@
    },
    {
       "question": {
-         "name": "Umlaufsperren-Zugangsbreite",
-         "text": "Wie breit ist der (schmalste) Zugang der Umlaufsperre?",
+         "name": "@cycleBarrierOpeningName",
+         "text": "@cycleBarrierOpeningText",
          "image": [
-            "assets/images/questions/cycle_barrier_double_opening.png",
-            "assets/images/questions/cycle_barrier_triple_opening.png"
+            "assets/question_catalog/images/cycle_barrier_double_opening.png",
+            "assets/question_catalog/images/cycle_barrier_triple_opening.png"
          ],
-         "description": "Die Zugangsbreite beschreibt die Durchgangsbreite an der Öffnung der Umlaufsperre. Bei unterschiedlichen Zugangsbreiten ist die kleinste Breite zu erfassen."
+         "description": "@cycleBarrierOpeningDescription"
       },
       "answer": {
          "type": "Number",
          "input": {
-            "placeholder": "Breite",
+            "placeholder": "@cycleBarrierOpeningPlaceholder",
             "decimals": 0,
             "min": 30,
             "max": 200,
-            "unit": "Centimeter"
+            "unit": "@unitCentimeter"
          },
          "constructor": {
             "opening": [
@@ -2187,22 +2057,22 @@
    },
    {
       "question": {
-         "name": "Umlaufsperren-Abstand",
-         "text": "Was ist der (kleinste) Abstand zwischen den Elementen der Umlaufsperre?",
+         "name": "@cycleBarrierSpacingName",
+         "text": "@cycleBarrierSpacingTex",
          "image": [
-            "assets/images/questions/cycle_barrier_double_spacing.png",
-            "assets/images/questions/cycle_barrier_triple_spacing.png"
+            "assets/question_catalog/images/cycle_barrier_double_spacing.png",
+            "assets/question_catalog/images/cycle_barrier_triple_spacing.png"
          ],
-         "description": "Der Abstand beschreibt die Durchgangsbreite zwischen den Sperrelementen. Bei unterschiedlichen Abständen ist der kleinste Abstand zu erfassen."
+         "description": "@cycleBarrierSpacingDescription"
       },
       "answer": {
          "type": "Number",
          "input": {
-            "placeholder": "Abstand",
+            "placeholder": "@cycleBarrierSpacingPlaceholder",
             "decimals": 0,
             "min": 30,
             "max": 200,
-            "unit": "Centimeter"
+            "unit": "@unitCentimeter"
          },
          "constructor": {
             "spacing": [
@@ -2229,10 +2099,10 @@
    },
    {
       "question": {
-         "name": "Treppenlift",
-         "text": "Gibt es an der Treppe einen Treppenlift für Rollstuhlfahrende?",
+         "name": "@stairLiftName",
+         "text": "@stairLiftText",
          "image": [
-            "assets/images/questions/steps_wheelchair_lift.jpg"
+            "assets/question_catalog/images/steps_wheelchair_lift.jpg"
          ]
       },
       "answer": {
@@ -2266,21 +2136,21 @@
    },
    {
       "question": {
-         "name": "Treppenlift-Tiefe",
-         "text": "Wie tief ist die Stellfläche des Treppenlifts?",
+         "name": "@stairLiftLengthName",
+         "text": "@stairLiftLengthText",
          "image": [
-            "assets/images/questions/2093a.jpg"
+            "assets/question_catalog/images/2093a.jpg"
          ],
-         "description": "Als Tiefe wird die Distanz in Fahrtrichtung erfasst."
+         "description": "@stairLiftLengthDescription"
       },
       "answer": {
          "type": "Number",
          "input": {
-            "placeholder": "Treppenlift-Tiefe",
+            "placeholder": "@stairLiftLengthPlaceholder",
             "decimals": 0,
             "min": 50,
             "max": 200,
-            "unit": "Centimeter"
+            "unit": "@unitCentimeter"
          },
          "constructor": {
             "wheelchair:lift:length": [
@@ -2303,21 +2173,21 @@
    },
    {
       "question": {
-         "name": "Fahrstuhl-Tiefe",
-         "text": "Wie tief ist die Grundfläche des Fahrstuhls?",
+         "name": "@elevatorLengthName",
+         "text": "@elevatorLengthText",
          "image": [
-            "assets/images/questions/2093b.jpg"
+            "assets/question_catalog/images/2093b.jpg"
          ],
-         "description": "Als Tiefe wird die Distanz senkrecht zur Tür erfasst. Dieser Wert ist u.a. dafür wichtig, damit Rollstuhlfahrende wissen, ob ihr Rollstuhl in den Fahrstuhl passt."
+         "description": "@elevatorLengthDescription"
       },
       "answer": {
          "type": "Number",
          "input": {
-            "placeholder": "Fahrstuhl-Tiefe",
+            "placeholder": "@elevatorLengthPlaceholder",
             "decimals": 0,
             "min": 50,
             "max": 500,
-            "unit": "Centimeter"
+            "unit": "@unitCentimeter"
          },
          "constructor": {
             "length": [
@@ -2341,21 +2211,21 @@
    },
    {
       "question": {
-         "name": "Treppenlift-Breite",
-         "text": "Wie breit ist die Stellfläche des Treppenlifts?",
+         "name": "@stairLiftWidthName",
+         "text": "@stairLiftWidthText",
          "image": [
-            "assets/images/questions/2094a.jpg"
+            "assets/question_catalog/images/2094a.jpg"
          ],
-         "description": "Als Breite wird die Distanz quer zur Fahrtrichtung erfasst."
+         "description": "@stairLiftWidthDescription"
       },
       "answer": {
          "type": "Number",
          "input": {
-            "placeholder": "Treppenlift-Breite",
+            "placeholder": "@stairLiftWidthPlaceholder",
             "decimals": 0,
             "min": 50,
             "max": 200,
-            "unit": "Centimeter"
+            "unit": "@unitCentimeter"
          },
          "constructor": {
             "wheelchair:lift:width": [
@@ -2378,21 +2248,21 @@
    },
    {
       "question": {
-         "name": "Fahrstuhl-Breite",
-         "text": "Wie breit ist die Grundfläche des Fahrstuhls?",
+         "name": "@elevatorWidthName",
+         "text": "@elevatorWidthText",
          "image": [
-            "assets/images/questions/lift.jpg"
+            "assets/question_catalog/images/lift.jpg"
          ],
-         "description": "Als Breite wird die Distanz parallel zur Tür erfasst. Dieser Wert ist u.a. dafür wichtig, damit Rollstuhlfahrende wissen, ob ihr Rollstuhl in den Fahrstuhl passt."
+         "description": "@elevatorWidthDescription"
       },
       "answer": {
          "type": "Number",
          "input": {
-            "placeholder": "Fahrstuhl-Breite",
+            "placeholder": "@elevatorWidthPlaceholder",
             "decimals": 0,
             "min": 50,
             "max": 500,
-            "unit": "Centimeter"
+            "unit": "@unitCentimeter"
          },
          "constructor": {
             "width": [
@@ -2416,12 +2286,12 @@
    },
    {
       "question": {
-         "name": "Fahrstuhl-Blindenschrift",
-         "text": "Ist auf den Bedienelementen Blindenschrift vorhanden?",
+         "name": "@elevatorTactileWritingName",
+         "text": "@elevatorTactileWritingText",
          "image": [
-            "assets/images/questions/lift_buttons_tactile_writing.jpg"
+            "assets/question_catalog/images/lift_buttons_tactile_writing.jpg"
          ],
-         "description": "Blindenschrift sind Zeichen, die mit den Fingern gelesen werden können. Diese können u.a. geprägte gewöhnliche Buchstaben oder besondere Symbole sein, wie z.B. bei der Brailleschrift."
+         "description": "@elevatorTactileWritingDescription"
       },
       "answer": {
          "type": "Bool",
@@ -2449,9 +2319,9 @@
    },
    {
       "question": {
-         "name": "Fahrstuhl-Ansagen",
-         "text": "Gibt es im Fahrstuhl eine Ansage, auf welcher Etage man sich befindet?",
-         "description": "Ansagen im Fahrstuhl helfen Seheingeschränkten, die aktuelle Etage zu erfahren."
+         "name": "@elevatorAnnouncementsName",
+         "text": "@elevatorAnnouncementsText",
+         "description": "@elevatorAnnouncementsDescription"
       },
       "answer": {
          "type": "Bool",
@@ -2479,17 +2349,17 @@
    },
    {
       "question": {
-         "name": "Stufen-Höhe",
-         "text": "Wie hoch ist eine einzelne Stufe?"
+         "name": "@stepHeightName",
+         "text": "@stepHeightText"
       },
       "answer": {
          "type": "Number",
          "input": {
-            "placeholder": "Höhe",
+            "placeholder": "@stepHeightPlaceholder",
             "decimals": 0,
             "min": 0,
             "max": 30,
-            "unit": "Centimeter"
+            "unit": "@unitCentimeter"
          },
          "constructor": {
             "step:height": [
@@ -2517,13 +2387,13 @@
    },
    {
       "question": {
-         "name": "Stufen-Anzahl",
-         "text": "Wie viele Stufen hat die Treppe?"
+         "name": "@numberStepsName",
+         "text": "@numberStepsText"
       },
       "answer": {
          "type": "Number",
          "input": {
-            "placeholder": "Anzahl",
+            "placeholder": "@numberStepsPlaceholder",
             "decimals": 0,
             "min": 1,
             "max": 2000
@@ -2548,37 +2418,37 @@
    },
    {
       "question": {
-         "name": "Bodenindikatoren",
-         "text": "Gibt es an dieser Treppe Bodenindikatoren?",
-         "description": "Bodenindikatoren dienen vor allem Sehbehinderten als Warnung vor Gefahren durch Treppen."
+         "name": "@stairsTactilePavingName",
+         "text": "@stairsTactilePavingText",
+         "description": "@stairsTactilePavingDescription"
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "Ja, oben und unten",
-               "image": "assets/images/questions/steps_tactile_paving_yes.jpg",
+               "name": "J@stairsTactilePavingBothOption",
+               "image": "assets/question_catalog/images/steps_tactile_paving_yes.jpg",
                "osm_tags": {
                   "tactile_paving": "yes"
                }
             },
             {
-               "name": "Nur oben",
-               "image": "assets/images/questions/steps_tactile_paving_partial.jpg",
+               "name": "@stairsTactilePavingTopOption",
+               "image": "assets/question_catalog/images/steps_tactile_paving_partial.jpg",
                "osm_tags": {
                   "tactile_paving": "partial"
                }
             },
             {
-               "name": "Nur unten",
-               "image": "assets/images/questions/steps_tactile_paving_incorrect.jpg",
+               "name": "@stairsTactilePavingBottomOption",
+               "image": "assets/question_catalog/images/steps_tactile_paving_incorrect.jpg",
                "osm_tags": {
                   "tactile_paving": "incorrect"
                }
             },
             {
-               "name": "Nein",
-               "image": "assets/images/questions/steps_tactile_paving_no.jpg",
+               "name": "@stairsTactilePavingNoOption",
+               "image": "assets/question_catalog/images/steps_tactile_paving_no.jpg",
                "osm_tags": {
                   "tactile_paving": "no"
                }
@@ -2597,13 +2467,13 @@
    },
    {
       "question": {
-         "name": "Handlauf-Blindenschrift",
-         "text": "Ist auf dem Handlauf Blindenschrift vorhanden?",
+         "name": "@handrailTactileWritingName",
+         "text": "@handrailTactileWritingText",
          "image": [
-            "assets/images/questions/handrail_tactile_writing_1.jpg",
-            "assets/images/questions/handrail_tactile_writing_2.jpg"
+            "assets/question_catalog/images/handrail_tactile_writing_1.jpg",
+            "assets/question_catalog/images/handrail_tactile_writing_2.jpg"
          ],
-         "description": "Blindenschrift sind Zeichen, die mit den Fingern gelesen werden können. Diese können u.a. geprägte gewöhnliche Buchstaben oder besondere Symbole sein, wie z.B. bei der Brailleschrift. Blinde können durch Blindenschrift am Handlauf Informationen erhalten, z.B. wohin die Treppe führt."
+         "description": "@handrailTactileWritingDescription"
       },
       "answer": {
          "type": "Bool",
@@ -2633,11 +2503,11 @@
    },
    {
       "question": {
-         "name": "Treppen-Handlauf",
-         "text": "Hat die Treppe einen Handlauf?",
+         "name": "@stairsHandrailName",
+         "text": "@stairsHandrailText",
          "image": [
-            "assets/images/questions/handrail_1.jpg",
-            "assets/images/questions/handrail_2.jpg"
+            "assets/question_catalog/images/handrail_1.jpg",
+            "assets/question_catalog/images/handrail_2.jpg"
          ]
       },
       "answer": {
@@ -2670,9 +2540,9 @@
    },
    {
       "question": {
-         "name": "Rolltreppen-Fahrtdauer",
-         "text": "Wie lange dauert die Fahrt mit der Rolltreppe bzw. dem Laufband?",
-         "description": "Ein Laufband (auch Rollsteig, Fahrsteig, bewegter oder rollender Bürgersteig genannt) ist ein sich bewegendes Fortbewegungsmittel, welches Personen auf einer horizontalen oder schrägen Ebene transportiert. Eine Rolltreppe ist eine sich bewegende Treppe, um Personen zwischen Stockwerken eines Gebäudes zu transportieren. Die Dauer der Rollentreppen-Fahrt ist relevant für die Berechnung von Umstiegszeiten."
+         "name": "@escalatorDurationName",
+         "text": "@escalatorDurationText",
+         "description": "@escalatorDurationDescription"
       },
       "answer": {
          "type": "Duration",
@@ -2704,37 +2574,37 @@
    },
    {
       "question": {
-         "name": "Fußgängerübergangs-Art",
-         "text": "Welche Art von Füßgängerübergang ist das?",
-         "description": "Falls mehrere Antworten zutreffen, ist die verkehrsmäßig übergeordnete anzugeben. Existiert z.B. eine Fußgängerampel mit einem Zebrastreifen, ist die Ampel anzugeben."
+         "name": "@crosswalkTypeName",
+         "text": "@crosswalkTypeText",
+         "description": "@crosswalkTypeDescription"
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "Fußgängerampel",
-               "image": "assets/images/questions/crossing_traffic_signals.png",
+               "name": "@crosswalkTypePedestrianOption",
+               "image": "assets/question_catalog/images/crossing_traffic_signals.png",
                "osm_tags": {
                   "crossing": "traffic_signals"
                }
             },
             {
-               "name": "Zebrastreifen",
-               "image": "assets/images/questions/crossing_zebra.png",
+               "name": "@crosswalkTypeZebraOption",
+               "image": "assets/question_catalog/images/crossing_zebra.png",
                "osm_tags": {
                   "crossing": "zebra"
                }
             },
             {
-               "name": "Markierter Übergang",
-               "image": "assets/images/questions/crossing_marked.png",
+               "name": "@crosswalkTypeMarkedOption",
+               "image": "assets/question_catalog/images/crossing_marked.png",
                "osm_tags": {
                   "crossing": "marked"
                }
             },
             {
-               "name": "Unmarkierter Übergang",
-               "image": "assets/images/questions/crossing_unmarked.png",
+               "name": "@crosswalkTypeUnmarkedOption",
+               "image": "assets/question_catalog/images/crossing_unmarked.png",
                "osm_tags": {
                   "crossing": "unmarked"
                }
@@ -2753,12 +2623,12 @@
    },
    {
       "question": {
-         "name": "Ampel-Taster",
-         "text": "Hat die Fußgängerampel einen Anforderungstaster?",
-         "description": "Anforderungstaster sind meist mit 'Bitte berühren' beschriftet. Die erfolgreiche Anforderung wird bestätigt durch die Anzeige von 'Signal kommt' oder ähnlichem.",
+         "name": "@trafficLightButtonName",
+         "text": "@trafficLightButtonText",
+         "description": "@trafficLightButtonDescription",
          "image": [
-            "assets/images/questions/traffic_signals_pushbutton_1.jpg",
-            "assets/images/questions/traffic_signals_pushbutton_2.jpg"
+            "assets/question_catalog/images/traffic_signals_pushbutton_1.jpg",
+            "assets/question_catalog/images/traffic_signals_pushbutton_2.jpg"
          ]
       },
       "answer": {
@@ -2813,11 +2683,11 @@
    },
    {
       "question": {
-         "name": "Ampel-Tastbarer-Pfeil",
-         "text": "Hat die Fußgängerampel einen tastbaren Pfeil für Blinde?",
-         "description": "Mit Hilfe eines tastbaren Pfeils können Blinde die Richtung, in der sie die Straße überqueren müssen, erfühlen. Der Pfeil befindet typischerweise an der Unter- oder Oberseite des Anforderungstasters.",
-         "image": [
-            "assets/images/questions/traffic_signals_arrow.jpg"
+         "name": "@trafficLightTactileArrowName",
+         "text": "@trafficLightTactileArrowText",
+        "description": "@trafficLightTactileArrowDescription", 
+        "image": [
+            "assets/question_catalog/images/traffic_signals_arrow.jpg"
          ]
       },
       "answer": {
@@ -2872,28 +2742,28 @@
    },
    {
       "question": {
-         "name": "Ampel-Akustisches-Signal",
-         "text": "Gibt es an der Fußgängerampel akustische Signale für Blinde?",
-         "description": "Akustische Signale dienen Blinden dazu, festzustellen, wo sich die Ampel befindet bzw. wann die Straße überquert werden kann. Achtung: Der Signalgeber für Überquerung wird häufig nur bei Bedarf durch das Drücken eines Knopfs an der Unterseite aktiviert.",
+         "name": "@trafficLightAcousticSignalName",
+         "text": "@trafficLightAcousticSignalText",
+         "description": "@trafficLightAcousticSignalDescription",
          "image": [
-            "assets/images/questions/traffic_signals_blind.jpg",
-            "assets/images/questions/traffic_signals_blind_pushbutton_1.jpg",
-            "assets/images/questions/traffic_signals_blind_pushbutton_2.jpg"
+            "assets/question_catalog/images/traffic_signals_blind.jpg",
+            "assets/question_catalog/images/traffic_signals_blind_pushbutton_1.jpg",
+            "assets/question_catalog/images/traffic_signals_blind_pushbutton_2.jpg"
          ]
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "Auffinde- und/oder Überquerungs-Signal",
-               "description": "Typischerweise ein 'Tock - Tock' zum Auffinden und ein 'Beep - Beep' zur Überquerung",
+               "name": "@trafficLightAcousticSignalYesOption",
+               "description": "@trafficLightAcousticSignalYesOptionDescription",
                "osm_tags": {
                   "traffic_signals:sound": "yes"
                }
             },
             {
-               "name": "Kein akustisches Signal",
-               "description": "Achtung: Das Überquerungs-Signal muss oft manuell über einen Taster unten am Blinden-Taster angefordert werden.",
+               "name": "@trafficLightAcousticSignalNoOption",
+               "description": "@trafficLightAcousticSignalNoOptionDescription",
                "osm_tags": {
                   "traffic_signals:sound": "no"
                }
@@ -2937,12 +2807,12 @@
    },
    {
       "question": {
-         "name": "Ampel-Vibrations-Signal",
-         "text": "Gibt es an der Fußgängerampel einen Vibrations-Signalgeber für Blinde?",
-         "description": "Das Vibrations-Signal muss wie das akustische Signal üblicherweise an der Unterseite durch das Drücken eines Tasters angefordert werden. In der Grünphase vibriert dieser Knopf und signalisiert Blinden so, wann sie die Straße Überqueren können.",
+         "name": "@trafficLightVibrationSignalName",
+         "text": "@trafficLightVibrationSignalText",
+         "description": "@trafficLightVibrationSignalDescription",
          "image": [
-            "assets/images/questions/traffic_signals_blind_pushbutton_1.jpg",
-            "assets/images/questions/traffic_signals_blind_pushbutton_2.jpg"
+            "assets/question_catalog/images/traffic_signals_blind_pushbutton_1.jpg",
+            "assets/question_catalog/images/traffic_signals_blind_pushbutton_2.jpg"
          ]
       },
       "answer": {
@@ -2997,29 +2867,29 @@
    },
    {
       "question": {
-         "name": "Bordstein-Art",
-         "text": "Welche Art von Bordstein ist an dieser Stelle?"
+         "name": "@curbTypeName",
+         "text": "@curbTypeText"
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "Erhöht (>3cm)",
-               "image": "assets/images/questions/approach_aid_no.jpg",
+               "name": "@curbTypeRaisedOption",
+               "image": "assets/question_catalog/images/approach_aid_no.jpg",
                "osm_tags": {
                   "kerb": "raised"
                }
             },
             {
-               "name": "Abgesenkt (<3cm)",
-               "image": "assets/images/questions/kerb_lowered.jpg",
+               "name": "@curbTypeLoweredOption",
+               "image": "assets/question_catalog/images/kerb_lowered.jpg",
                "osm_tags": {
                   "kerb": "lowered"
                }
             },
             {
-               "name": "Ebenerdig (≈0cm)",
-               "image": "assets/images/questions/kerb_flush.jpg",
+               "name": "@curbTypeFlush",
+               "image": "assets/question_catalog/images/kerb_flush.jpg",
                "osm_tags": {
                   "kerb": "flush"
                }
@@ -3038,11 +2908,11 @@
    },
    {
       "question": {
-         "name": "Bodenindikatoren",
-         "text": "Gibt es Bodenindikatoren an dieser Stelle?",
-         "description": "Bodenindikatoren dienen vor allem Sehbehinderten als Warnung vor abgesenkten Bordsteinen oder Straßenüberquerungen und verhindern so ein unbewusstes Betreten der Fahrbahn.",
+         "name": "@tactilePavingName",
+         "text": "@tactilePavingText",
+         "description": "@tactilePavingDescription",
          "image": [
-            "assets/images/questions/tactile_paving_on_kerb.jpg"
+            "assets/question_catalog/images/tactile_paving_on_kerb.jpg"
          ]
       },
       "answer": {
@@ -3072,47 +2942,47 @@
    },
    {
       "question": {
-         "name": "Übergangsbarriere",
-         "text": "Wie ist dieser Bahnübergang für Fußgänger gesichert?"
+         "name": "@crosswalkBarrierName",
+         "text": "@crosswalkBarrierText"
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "Schranke",
-               "image": "assets/images/questions/crossing_barrier_full.png",
+               "name": "@crosswalkBarrierOption",
+               "image": "assets/question_catalog/images/crossing_barrier_full.png",
                "osm_tags": {
                   "crossing:barrier": "full",
                   "crossing:chicane": "no"
                }
             },
             {
-               "name": "Umlaufgitter",
-               "image": "assets/images/questions/crossing_chicane.png",
+               "name": "@crosswalkBarrierChicaneOption",
+               "image": "assets/question_catalog/images/crossing_chicane.png",
                "osm_tags": {
                   "crossing:chicane": "yes",
                   "crossing:barrier": "no"
                }
             },
             {
-               "name": "Tor",
-               "image": "assets/images/questions/crossing_barrier_gate.png",
+               "name": "@crosswalkBarrierGateOption",
+               "image": "assets/question_catalog/images/crossing_barrier_gate.png",
                "osm_tags": {
                   "crossing:barrier": "gate",
                   "crossing:chicane": "no"
                }
             },
             {
-               "name": "Kette",
-               "image": "assets/images/questions/crossing_barrier_chain.png",
+               "name": "@crosswalkBarrierChainOption",
+               "image": "assets/question_catalog/images/crossing_barrier_chain.png",
                "osm_tags": {
                   "crossing:barrier": "chain",
                   "crossing:chicane": "no"
                }
             },
             {
-               "name": "Ungesichert",
-               "image": "assets/images/questions/crossing_barrier_no.png",
+               "name": "@crosswalkBarrierUnsecuredOption",
+               "image": "assets/question_catalog/images/crossing_barrier_no.png",
                "osm_tags": {
                   "crossing:barrier": "no",
                   "crossing:chicane": "no"
@@ -3133,36 +3003,36 @@
    },
    {
       "question": {
-         "name": "Übergangsbarriere",
-         "text": "Wie ist dieser Bahnübergang für Fußgänger gesichert?"
+         "name": "@crosswalkBarrierName",
+         "text": "@crosswalkBarrierText"
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "Schranke",
-               "image": "assets/images/questions/crossing_barrier_full.png",
+               "name": "@crosswalkBarrierOption",
+               "image": "assets/question_catalog/images/crossing_barrier_full.png",
                "osm_tags": {
                   "crossing:barrier": "full"
                }
             },
             {
-               "name": "Tor",
-               "image": "assets/images/questions/crossing_barrier_gate.png",
+               "name": "@crosswalkBarrierGateOption",
+               "image": "assets/question_catalog/images/crossing_barrier_gate.png",
                "osm_tags": {
                   "crossing:barrier": "gate"
                }
             },
             {
-               "name": "Kette",
-               "image": "assets/images/questions/crossing_barrier_chain.png",
+               "name": "@crosswalkBarrierChainOption",
+               "image": "assets/question_catalog/images/crossing_barrier_chain.png",
                "osm_tags": {
                   "crossing:barrier": "chain"
                }
             },
             {
-               "name": "Ungesichert",
-               "image": "assets/images/questions/crossing_barrier_no.png",
+               "name": "@crosswalkBarrierUnsecuredOption",
+               "image": "assets/question_catalog/images/crossing_barrier_no.png",
                "osm_tags": {
                   "crossing:barrier": "no"
                }
@@ -3182,10 +3052,10 @@
    },
    {
       "question": {
-         "name": "Umlaufgitter",
-         "text": "Gibt es ein Umlaufgitter an diesem Bahnübergang?",
+         "name": "@railroadChicaneName",
+         "text": "@railroadChicaneText",
          "image": [
-            "assets/images/questions/crossing_chicane.png"
+            "assets/question_catalog/images/crossing_chicane.png"
          ]
       },
       "answer": {
@@ -3216,9 +3086,9 @@
    },
    {
       "question": {
-         "name": "Bahnübergangs-Warnlicht",
-         "text": "Gibt es ein Warnlicht an diesem Bahnübergang?",
-         "description": "Das Warnlicht signalisiert die Durchfahrt einer Bahn. Das Warnlicht kann am Anfang bzw. Ende des Übergangs stehen."
+         "name": "@railroadWarningLightName",
+         "text": "@railroadWarningLightText",
+         "description": "@railroadWarningLightDescription"
       },
       "answer": {
          "type": "Bool",
@@ -3245,11 +3115,13 @@
          }
       ]
    },
+
+
    {
       "question": {
-         "name": "Bahnübergang-Akustisches-Warnsignal",
-         "text": "Gibt es ein akustisches Signal, das vor der Durchfahrt einer Bahn warnt?",
-         "description": "Das Warnsignal ertönt durch ein stationären Signalgeber. Das Klingeln oder Pfeifen durch Triebfahrzeugführer gehört nicht dazu."
+         "name": "@tramAcousticWarningSignalName",
+         "text": "@tramAcousticWarningSignalText",
+         "description": "@tramAcousticWarningSignalDescription"
       },
       "answer": {
          "type": "Bool",
@@ -3276,11 +3148,12 @@
          }
       ]
    },
-   {
+
+ {
       "question": {
-         "name": "Bahn-Akustisches-Warnsignal",
-         "text": "Gibt die Bahn bei Durchfahrt ein akustisches Warnsignal?",
-         "description": "Eine vorbeifahrende Bahn lässt ein akustisches Signal (Pfeifen oder Klingeln) ertönen, wenn es keine andere Einrichtung am Bahnübergang gibt, um Personen vor Durchfahrten zu warnen. Ein Schild entlang der Gleise, macht den Zugführer erkenntlich, ein akustisches Signal zu geben. Das Klingeln durch stationäre Signalgeber gehört nicht dazu."
+         "name": "@railroadAcousticWarningName",
+         "text": "@railroadAcousticWarningText",
+         "description": "@railroadAcousticWarningDescription"
       },
       "answer": {
          "type": "Bool",
@@ -3312,12 +3185,12 @@
    },
    {
       "question": {
-         "name": "Übergang-Bodenindikatoren",
-         "text": "Gibt es Bodenindikatoren an beiden Seiten dieses Übergangs?",
-         "description": "Bodenindikatoren dienen vor allem Sehbehinderten als Warnung vor abgesenkten Bordsteinen oder Straßenüberquerungen und verhindern so ein unbewusstes Betreten der Fahrbahn.",
+         "name": "@crossingGroundIndicatorName",
+         "text": "@crossingGroundIndicatorText",
+         "description": "@crossingGroundIndicatorDescription",
          "image": [
-            "assets/images/questions/crossing_tram.jpg",
-            "assets/images/questions/crossing_rail.jpg"
+            "assets/question_catalog/images/crossing_tram.jpg",
+            "assets/question_catalog/images/crossing_rail.jpg"
          ]
       },
       "answer": {
@@ -3354,53 +3227,53 @@
    },
    {
       "question": {
-         "name": "Verkehrsmittel",
-         "text": "Welche Verkehrsmittel halten an dieser Haltestelle?"
+         "name": "@tranportationModesName",
+         "text": "@tranportationModesText"
       },
       "answer": {
          "type": "MultiList",
          "input": [
             {
-               "name": "Bus",
-               "image": "assets/images/questions/bus.jpg",
+               "name": "@tranportationModesBusOption",
+               "image": "assets/question_catalog/images/bus.jpg",
                "osm_tags": {
                   "bus": "yes"
                }
             },
             {
-               "name": "Straßenbahn",
-               "image": "assets/images/questions/tram.jpg",
+               "name": "@tranportationModesTramOption",
+               "image": "assets/question_catalog/images/tram.jpg",
                "osm_tags": {
                   "tram": "yes"
                }
             },
             {
-               "name": "Zug",
-               "image": "assets/images/questions/train.jpg",
-               "description": "Hierunter sind sowohl Züge für den Nahverkehr (inkl. S-Bahnen) als auch Fernverkehr zu verstehen.",
+               "name": "@tranportationModesTrainOptionName",
+               "image": "assets/question_catalog/images/train.jpg",
+               "description": "@tranportationModesTrainOptionDescription",
                "osm_tags": {
                   "train": "yes"
                }
             },
             {
-               "name": "Leichtbahn",
-               "image": "assets/images/questions/lightrail.jpg",
-               "description": "Eine Leichtbahn, auch Stadtbahn genannt, ist eine Zwischenstufe zwischen Straßenbahn und Zug. Sie verbindet oft ländliche Gebiete mit der Stadt und sind hochfluriger als Straßenbahnen.",
+               "name": "@tranportationModesLightRailOptionName",
+               "image": "assets/question_catalog/images/lightrail.jpg",
+               "description": "@tranportationModesLightRailOptionDescription",
                "osm_tags": {
                   "light_rail": "yes"
                }
             },
             {
-               "name":"U-Bahn",
-               "image": "assets/images/questions/subway.jpg",
+               "name":"@tranportationModesSubwayOption",
+               "image": "assets/question_catalog/images/subway.jpg",
                "osm_tags": {
                   "subway": "yes"
                }
             },
             {
-               "name": "Einschienenbahn",
-               "image": "assets/images/questions/monorail.jpg",
-               "description": "Eine Einschienenbahn fährt meistens über der Straßenebene und hat keine sichtbaren Räder.",
+               "name": "@tranportationModesMonorailOptionName",
+               "image": "assets/question_catalog/images/monorail.jpg",
+               "description": "@tranportationModesMonorailOptionDescription",
                "osm_tags": {
                   "monorail": "yes"
                }

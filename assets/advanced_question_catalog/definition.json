@@ -1,7 +1,6 @@
 [
-{
+   {
       "question": {
-         "id": 1170,
          "name": "@platformHeightName",
          "text": "@platformHeightText",
          "description": "@platformHeightDescription"
@@ -38,5 +37,92 @@
             ]
          }
       ]
+   },
+   {
+      "question": {
+         "name": "@IFOPTStopName",
+         "text": "@IFOPTStopText",
+         "description": "@IFOPTStopDescription"
+      },
+      "answer": {
+         "type": "String",
+         "input": {
+            "placeholder": "@IFOPTPlaceholder"
+         },
+         "constructor": {
+            "ref:IFOPT": ["$input"]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "ref:IFOPT": false,
+               "noref:IFOPT": false
+            }
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "@IFOPTStopAreaName",
+         "text": "@IFOPTStopAreaText",
+         "description": "@IFOPTStopAreaDescription"
+      },
+      "answer": {
+         "type": "String",
+         "input": {
+            "placeholder": "@IFOPTPlaceholder"
+         },
+         "constructor": {
+            "ref:IFOPT": ["$input"]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "stop_area",
+               "ref:IFOPT": false,
+               "noref:IFOPT": false
+            },
+            "osm_element": "Relation"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "@platformNarrowsName",
+         "text": "@platformNarrowsText",
+         "description": "@platformNarrowsDescription"
+      },
+      "answer": {
+         "type": "Number",
+         "input": {
+            "placeholder": "@platformNarrowsPlaceholder",
+            "decimals": 0,
+            "min": 0,
+            "max": 1500,
+            "unit": "@unitCentimeter"
+         },
+         "constructor": {
+            "maxwidth:physical": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "maxwidth:physical": false
+            },
+            "osm_element": "OpenWay"
+         }
+      ],
+      "isProfessional": true
    }
 ]

@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 import '/utils/service_worker.dart';
 import '/models/question_catalog/question_catalog.dart';
@@ -11,7 +11,8 @@ mixin QuestionCatalogHandler<M> on ServiceWorker<M> {
   void updateQuestionCatalog(QuestionCatalogChange questionCatalogChange) {
     if (_completer.isCompleted) {
       _questionCatalog = Future.value(questionCatalogChange.catalog);
-    } else {
+    } 
+  else {
       _completer.complete(questionCatalogChange.catalog);
     }
   }

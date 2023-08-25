@@ -200,7 +200,8 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
           ),
         );
       }
-    } else {
+    } 
+    else {
       _questionnaireStore.clear();
       closeQuestionnaire();
     }

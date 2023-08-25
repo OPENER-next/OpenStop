@@ -172,9 +172,9 @@ class QuestionnaireEntry<T extends Answer> {
 
   QuestionnaireEntry copyWith({QuestionDefinition? question,T? answer}) { 
     return  QuestionnaireEntry(
-              question = question ?? this.question,
-              answer = answer ?? this.answer,
-            );
+      question = question ?? this.question,
+      answer = answer ?? this.answer,
+    );
   }
 
   bool get hasValidAnswer => answer?.isValid == true;

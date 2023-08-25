@@ -35,44 +35,18 @@ class QuestionCatalog with ListMixin<QuestionDefinition> {
  
 }
 
-
-class _ComparingIterator<T> implements Iterator<T> {
-  final List<T> _items;
-
-  final bool Function(T element) compare;
-
-  int _index = -1;
-
-  _ComparingIterator(this._items, this.compare);
-
-  @override
-  bool moveNext() {
-    while (++_index < _items.length) {
-      if (compare(_items[_index])) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  @override
-  T get current => _items[_index];
-}
-
 enum QuestionCatalogChangeReason {
-    language,
-    definition,
+  language,
+  definition,
 }
 
 class QuestionCatalogChange {
   final QuestionCatalog catalog;
   final QuestionCatalogChangeReason change;
 
-  QuestionCatalogChange({
+  const QuestionCatalogChange({
     required this.catalog,
     required this.change,
   });   
-
-  QuestionCatalogChange.derive(this.catalog, this.change);
 }
-
+  
