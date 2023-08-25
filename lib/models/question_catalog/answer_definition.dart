@@ -38,17 +38,39 @@ abstract class AnswerDefinition<T> {
         constructor: AnswerConstructor(json['constructor']
           .cast<String, List<dynamic>>()),
       );
-      case 'Duration': return DurationAnswerDefinition(
-        input: DurationInputDefinition(
-          max: input['max'],
-          daysStepSize: input['unit_step']?['days'],
-          hoursStepSize: input['unit_step']?['hours'],
-          minutesStepSize: input['unit_step']?['minutes'],
-          secondsStepSize: input['unit_step']?['seconds'],
-        ),
-        constructor: AnswerConstructor(json['constructor']
-          .cast<String, List<dynamic>>()),
-      );
+      case 'Duration':
+        final days = input['days'];
+        final hours = input['hours'];
+        final minutes = input['minutes'];
+        final seconds = input['seconds'];
+
+        return DurationAnswerDefinition(
+          input: DurationInputDefinition(
+            days: (
+              step: days?['step'] ?? 1,
+              display: days?['display'] ?? days != null,
+              output: days?['return'] ?? days != null,
+            ),
+            hours: (
+              step: hours?['step'] ?? 1,
+              display: hours?['display'] ?? hours != null,
+              output: hours?['return'] ?? hours != null,
+            ),
+            minutes: (
+              step: minutes?['step'] ?? 1,
+              display: minutes?['display'] ?? minutes != null,
+              output: minutes?['return'] ?? minutes != null,
+            ),
+            seconds: (
+              step: seconds?['step'] ?? 1,
+              display: seconds?['display'] ?? seconds != null,
+              output: seconds?['return'] ?? seconds != null,
+            ),
+            max: input['max'],
+          ),
+          constructor: AnswerConstructor(json['constructor']
+            .cast<String, List<dynamic>>()),
+        );
       case 'Bool': return BoolAnswerDefinition(
         input: input.map<BoolInputDefinition>((item) {
           return BoolInputDefinition(
@@ -160,25 +182,27 @@ class DurationAnswerDefinition extends AnswerDefinition<DurationInputDefinition>
 }
 
 class DurationInputDefinition implements InputDefinition {
+
   /// The maximum allowed value for the biggest unit.
+
+  // This has to be separated from the individual units, because otherwise
+  // incompatible states can occur. Example: minutes max : 1 & seconds max: 450
 
   final int? max;
 
-  /// The step size of each time unit. A step size of `0` means the time unit is omitted.
+  /// [step] describes the precision the user can select.
+  /// [display] describes whether a dedicated time unit input should be shown to the user.
+  /// [output] defines whether the time unit should be returned as a separate value in the answer constructor.
 
-  final int daysStepSize, hoursStepSize, minutesStepSize, secondsStepSize;
+  final ({int step, bool display, bool output}) days, hours, minutes, seconds;
 
   const DurationInputDefinition({
+    required this.days,
+    required this.hours,
+    required this.minutes,
+    required this.seconds,
     this.max,
-    int? daysStepSize,
-    int? hoursStepSize,
-    int? minutesStepSize,
-    int? secondsStepSize,
-  }) :
-    daysStepSize = daysStepSize ?? 0,
-    hoursStepSize = hoursStepSize ?? 0,
-    minutesStepSize = minutesStepSize ?? 0,
-    secondsStepSize = secondsStepSize ?? 0;
+  });
 }
 
 

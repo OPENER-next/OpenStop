@@ -151,41 +151,30 @@
               },
               "input": {
                 "type": "object",
-                "required": [ "unit_step"],
                 "additionalProperties": false,
+                "anyOf": [
+                  { "required": [ "days" ] },
+                  { "required": [ "hours" ] },
+                  { "required": [ "minutes" ] },
+                  { "required": [ "seconds" ] }
+                ],
                 "properties": {
                   "max": {
                     "type": "integer",
                     "description": "The maximum allowed value for the biggest unit.",
                     "minimum": 1
                   },
-                  "unit_step": {
-                    "type": "object",
-                    "description": "Whether the input in the given time unit should be possible and its corresponding step size.",
-                    "additionalProperties": false,
-                    "minProperties": 1,
-                    "properties": {
-                      "days": {
-                        "type": "integer",
-                        "description": "The time segment size of the days input.",
-                        "minimum": 1
-                      },
-                      "hours": {
-                        "type": "integer",
-                        "description": "The time segment size of the hours input.",
-                        "minimum": 1
-                      },
-                      "minutes": {
-                        "type": "integer",
-                        "description": "The time segment size of the minutes input.",
-                        "minimum": 1
-                      },
-                      "seconds": {
-                        "type": "integer",
-                        "description": "The time segment size of the seconds input.",
-                        "minimum": 1
-                      }
-                    }
+                  "days": {
+                    "$ref": "#/$defs/unit_options"
+                  },
+                  "hours": {
+                    "$ref": "#/$defs/unit_options"
+                  },
+                  "minutes": {
+                    "$ref": "#/$defs/unit_options"
+                  },
+                  "seconds": {
+                    "$ref": "#/$defs/unit_options"
                   }
                 }
               }
@@ -269,6 +258,32 @@
       },
 
       "conditions": { "$ref": "file:schemas/osm_condition_schema.json" }
+    }
+  },
+
+  "$defs": {
+    "unit_options": {
+      "type": "object",
+      "description": "Options for the specific time unit.",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "step": {
+          "type": "integer",
+          "description": "The time segment size of the respective duration input.",
+          "minimum": 1
+        },
+        "display": {
+          "type": "boolean",
+          "description": "Whether the unit input should be displayed to the user.",
+          "default": true
+        },
+        "return": {
+          "type": "boolean",
+          "description": "Whether this unit should be returned as a separate value.",
+          "default": true
+        }
+      }
     }
   }
 }

@@ -1,3 +1,6 @@
+import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
+
 import 'question_catalog/answer_definition.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -203,15 +206,60 @@ class DurationAnswer extends Answer<DurationAnswerDefinition, Duration> {
   });
 
   @override
-  Iterable<String> _resolve(String key) sync* {
-    yield* _values.map((v) => v.toString());
-  }
+  Iterable<String> _resolve(String key) => _values.map((v){
+    final formatter = NumberFormat()
+      ..minimumFractionDigits = 0
+      ..maximumFractionDigits = 3;
+    return formatter.format(v);
+  });
 
-  String _valueAsHMS() {
-    final hours = value.inHours.toString().padLeft(2, '0');
-    final minutes = (value.inMinutes % 60).toString().padLeft(2, '0');
-    final seconds = (value.inSeconds % 60).toString().padLeft(2, '0');
-    return '$hours:$minutes:$seconds';
+  /// Returns days, hours, minutes and seconds in the specified order.
+  ///
+  /// Whether the duration part is returned depends on the DurationInputDefinition.
+
+  Iterable<num> get _values sync* {
+    var (fractionalDays, fractionalHours, fractionalMinutes) = (0.0, 0.0, 0.0);
+
+    // calculate remainder as decimal if any (result will be 0 if none is required)
+    // required to handle cases where input and output differs
+    // e.g. user is able to input hours, minutes, seconds, but the output is only in hours
+
+    if (definition.input.seconds.output) {
+      // noop
+    }
+    else if (definition.input.minutes.output) {
+      fractionalMinutes = (value.inSeconds % Duration.secondsPerMinute) / Duration.secondsPerMinute;
+    }
+    else if (definition.input.hours.output) {
+      fractionalHours = (value.inSeconds % Duration.secondsPerHour) / Duration.secondsPerHour;
+    }
+    else if (definition.input.days.output) {
+      fractionalDays = (value.inSeconds % Duration.secondsPerDay) / Duration.secondsPerDay;
+    }
+
+    // wrap duration parts according to the units present in the output
+
+    const maxInteger = kIsWeb ? 0x20000000000000 : 0x7FFFFFFFFFFFFFFF;
+    var (wrapHours, wrapMinutes, wrapSeconds) = (maxInteger, maxInteger, maxInteger);
+
+    if (definition.input.days.output) {
+      wrapHours = Duration.hoursPerDay;
+      wrapMinutes = Duration.minutesPerDay;
+      wrapSeconds = Duration.secondsPerDay;
+      yield value.inDays + fractionalDays;
+    }
+    if (definition.input.hours.output) {
+      wrapMinutes = Duration.minutesPerHour;
+      wrapSeconds = Duration.secondsPerHour;
+      yield (value.inHours % wrapHours) + fractionalHours;
+    }
+    if (definition.input.minutes.output) {
+      wrapSeconds = Duration.secondsPerMinute;
+      yield (value.inMinutes % wrapMinutes) + fractionalMinutes;
+    }
+    if (definition.input.seconds.output) {
+      yield value.inSeconds % wrapSeconds;
+    }
   }
 
   @override

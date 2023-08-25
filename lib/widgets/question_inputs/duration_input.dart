@@ -8,7 +8,14 @@ import 'question_input_widget.dart';
 class DurationInput extends QuestionInputWidget<DurationAnswerDefinition, DurationAnswer> {
   late final int _maxDays, _maxHours, _maxMinutes, _maxSeconds;
 
-   DurationInput({
+  Duration get _currentDuration => controller.answer?.value ?? Duration.zero;
+
+  int get _remainingDays => _currentDuration.inDays % _maxDays;
+  int get _remainingHours => _currentDuration.inHours % _maxHours;
+  int get _remainingMinutes => _currentDuration.inMinutes % _maxMinutes;
+  int get _remainingSeconds => _currentDuration.inSeconds % _maxSeconds;
+
+  DurationInput({
     required super.definition,
     required super.controller,
     super.key,
@@ -19,19 +26,19 @@ class DurationInput extends QuestionInputWidget<DurationAnswerDefinition, Durati
     // set max values to 1 so the "_remainingUnit" functions return 0 for all unused units
     // this is necessary because the biggest unit will contain the left over duration
     if (maxValue != null) {
-      if (definition.input.daysStepSize > 0) {
+      if (definition.input.days.display) {
         maxDays = maxValue;
       }
-      else if (definition.input.hoursStepSize > 0) {
+      else if (definition.input.hours.display) {
         maxDays = 1;
         maxHours = maxValue;
       }
-      else if (definition.input.minutesStepSize > 0) {
+      else if (definition.input.minutes.display) {
         maxDays = 1;
         maxHours = 1;
         maxMinutes = maxValue;
       }
-      else if (definition.input.secondsStepSize > 0) {
+      else if (definition.input.seconds.display) {
         maxDays = 1;
         maxHours = 1;
         maxMinutes = 1;
@@ -60,44 +67,44 @@ class DurationInput extends QuestionInputWidget<DurationAnswerDefinition, Durati
 
   Iterable<Widget> _children(BuildContext context) sync* {
     final appLocale = AppLocalizations.of(context)!;
-    if (definition.input.daysStepSize > 0) {
+    if (definition.input.days.display) {
       yield Flexible(
         child: TimeScroller(
           name: appLocale.durationInputDaysLabel,
-          step: definition.input.daysStepSize,
+          step: definition.input.days.step,
           limit: _maxDays,
           value: _remainingDays,
           onChange: (value) => _handleChange(days: value),
         ),
       );
     }
-    if (definition.input.hoursStepSize > 0) {
+    if (definition.input.hours.display) {
       yield Flexible(
         child: TimeScroller(
           name: appLocale.durationInputHoursLabel,
-          step: definition.input.hoursStepSize,
+          step: definition.input.hours.step,
           limit: _maxHours,
           value: _remainingHours,
           onChange: (value) => _handleChange(hours: value),
         ),
       );
     }
-    if (definition.input.minutesStepSize > 0) {
+    if (definition.input.minutes.display) {
       yield Flexible(
         child: TimeScroller(
           name: appLocale.durationInputMinutesLabel,
-          step: definition.input.minutesStepSize,
+          step: definition.input.minutes.step,
           limit: _maxMinutes,
           value: _remainingMinutes,
           onChange: (value) => _handleChange(minutes: value),
         ),
       );
     }
-    if (definition.input.secondsStepSize > 0) {
+    if (definition.input.seconds.display) {
       yield Flexible(
         child: TimeScroller(
           name: appLocale.durationInputSecondsLabel,
-          step: definition.input.secondsStepSize,
+          step: definition.input.seconds.step,
           limit: _maxSeconds,
           value: _remainingSeconds,
           onChange: (value) => _handleChange(seconds: value),
@@ -105,16 +112,6 @@ class DurationInput extends QuestionInputWidget<DurationAnswerDefinition, Durati
       );
     }
   }
-
-  Duration get _currentDuration => controller.answer?.value ?? Duration.zero;
-
-  int get _remainingDays => _currentDuration.inDays % _maxDays;
-
-  int get _remainingHours => _currentDuration.inHours % _maxHours;
-
-  int get _remainingMinutes => _currentDuration.inMinutes % _maxMinutes;
-
-  int get _remainingSeconds => _currentDuration.inSeconds % _maxSeconds;
 
   Iterable<T> _intersperse<T>(Iterable<T> iterable, T element) sync* {
     final iterator = iterable.iterator;
