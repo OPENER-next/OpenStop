@@ -74,19 +74,25 @@ void main() {
         AppWorkerInterface.spawn(),
         SharedPreferences.getInstance(),
       ]);
-      
-      final QuestionCatalogReader questionCatalogReader = QuestionCatalogReader();
-      final questionC = await questionCatalogReader.read(false);
 
       GetIt.I.registerSingleton<AppWorkerInterface>(futures[0] as AppWorkerInterface);
       GetIt.I.registerSingleton<PreferencesService>(
         PreferencesService(preferences: futures[1] as SharedPreferences),
       );
+
+      const mainCatalogDirectory = 'assets/question_catalog';
+
+      final questionCatalogReader = QuestionCatalogReader(
+        assetPaths: [mainCatalogDirectory],
+      );
+
+      questionCatalogReader.questionCatalog.listen((questionCatalogChange) {
+        GetIt.I.get<AppWorkerInterface>().updateQuestionCatalog(questionCatalogChange);
+      });
+
       final assets = await Future.wait([
         rootBundle.load('assets/datasets/map_feature_collection.json')
       ]);
-
-      GetIt.I.get<AppWorkerInterface>(). updateQuestionCatalog( questionCatalog: questionC, onlyLanguageChange: false);
 
       GetIt.I.get<AppWorkerInterface>().passAssets(assets);
     });
