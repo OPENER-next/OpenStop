@@ -37,9 +37,12 @@ class AnswerConstructor with ExpressionHandler {
           yield* values;
         }
       });
-      // write osm tag if the expression did not return null
-      if (result != null) {
-        map[entry.key] = result;
+      // write first value of expression to osm tag
+      try {
+        map[entry.key] = result.first;
+      }
+      on StateError {
+        // no osm tag will be written
       }
     }
     return map;

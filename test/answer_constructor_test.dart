@@ -754,5 +754,30 @@ void main() async {
         })
       );
     }
+
+    {
+      const testConstructor = AnswerConstructor({
+        'key1': [
+          'CONCAT', [
+            'INSERT', '_', '-1', [
+              'PAD', '#', '4', r'$input',
+            ],
+          ],
+        ],
+        'key2': [
+          'JOIN', '.', [
+            'REPLACE', 'a', 'x', r'$input'
+          ],
+        ],
+      });
+
+      expect(
+        testConstructor.construct(withValues),
+        equals({
+          'key1': '###_a###_b###_c',
+          'key2': 'x.b.c',
+        }),
+      );
+    }
   });
 }

@@ -274,11 +274,12 @@ output: `operator=NULL`
 
 #### `INSERT` expression
 
-Inserts one String into another String at a certain position.
+Inserts one String into one or multiple other Strings at a certain position.
+*This expression can have multiple return values.*
 
 First argument represents the insertion String.
 Second argument specifies the position/index where the String should be inserted into the target String. Negative positions are treated as insertions starting at the end of the String. So -1 means insert before the last character of the target String. If the index exceeds the length of the target String, it will be returned without any modifications.
-Third argument resembles the target String.
+All succeeding arguments resemble the target Strings. For each target string a respective result value will be returned.
 
 **Examples:**
 - input: `[tag_value]`
@@ -293,11 +294,12 @@ output: `operator=tag_value`
 
 #### `PAD` expression
 
-Adds a given String to a target String for each time the target String length is less than a given width.
+Adds a given String to one or multiple other Strings for each time the target String length is less than the given width.
+*This expression can have multiple return values.*
 
 First argument represents the padding String.
 Second argument specifies the desired width. Positive values will prepend, negative values will append to the target String. Remember that the final String length may be greater than the desired width when the padding String contains more than one character.
-Third argument resembles the target String.
+All succeeding arguments resemble the target Strings. For each target string a respective result value will be returned.
 
 **Examples:**
 - input: `[1]`
@@ -312,11 +314,13 @@ output: `operator=XXXXXXvalue`
 
 #### `REPLACE` expression
 
-Replaces a given Pattern (either String or RegExp) in a target String by a given replacement String.
+Replaces a given Pattern (either String or RegExp) in one or multiple target Strings with a given replacement String.
+*This expression can have multiple return values.*
+
 RegExp are denoted by a `/` at the start and end of the String.
 First argument represents the Pattern the target String should be matched against.
 Second argument defines the replacement String.
-Third argument resembles the target String.
+All succeeding arguments resemble the target Strings. For each target string a respective result value will be returned.
 
 **Examples:**
 - input: `[sometimes]`
