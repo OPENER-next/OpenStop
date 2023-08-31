@@ -266,7 +266,9 @@
             }
           }
         ]
-      }
+      },
+
+      "conditions": { "$ref": "file:assets/datasets/osm_condition_schema.json" }
     }
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 
 import '/utils/service_worker.dart';
 import '/models/question_catalog/question_catalog.dart';
+import '/models/question_catalog/question_catalog_reader.dart';
 
 mixin QuestionCatalogHandler<M> on ServiceWorker<M> {
   static final _completer = Completer<QuestionCatalog>();

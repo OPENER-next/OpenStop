@@ -3115,8 +3115,6 @@
          }
       ]
    },
-
-
    {
       "question": {
          "name": "@tramAcousticWarningSignalName",
@@ -3148,8 +3146,7 @@
          }
       ]
    },
-
- {
+   {
       "question": {
          "name": "@railroadAcousticWarningName",
          "text": "@railroadAcousticWarningText",

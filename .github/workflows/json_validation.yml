@@ -3,8 +3,7 @@ name: JSON Validation
 on:
   push:
     paths:
-      - '**/question_catalog/definition.json'
-      - '**/advanced_question_catalog/definition.json'
+      - '**/definition.json'
       - '**/question_catalog_schema.json'
       - '**/map_feature_collection.json'
       - '**/map_feature_collection_schema.json'
@@ -12,8 +11,7 @@ on:
       - '**/expression_schema.json'
   pull_request:
     paths:
-      - '**/question_catalog/definition.json'
-      - '**/advanced_question_catalog/definition.json'
+      - '**/definition.json'
       - '**/question_catalog_schema.json'
       - '**/map_feature_collection.json'
       - '**/map_feature_collection_schema.json'
@@ -37,10 +35,10 @@ jobs:
         run: pip install jsonschema
 
       - name: Validate questions JSON
-        run: jsonschema --instance 'assets/datasets/question_catalog/definition.json' 'assets/datasets/question_catalog_schema.json'
+        run: jsonschema --instance 'assets/question_catalog/definition.json' 'assets/datasets/question_catalog_schema.json'
       
       - name: Validate advanced questions JSON
-        run: jsonschema --instance 'assets/datasets/advanced_question_catalog/definition.json' 'assets/datasets/question_catalog_schema.json'
+        run: jsonschema --instance 'assets/advanced_question_catalog/definition.json' 'assets/datasets/question_catalog_schema.json'
 
       - name: Validate map features JSON
         run: jsonschema --instance 'assets/datasets/map_feature_collection.json' 'assets/datasets/map_feature_collection_schema.json'

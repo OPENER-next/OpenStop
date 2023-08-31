@@ -11,7 +11,7 @@ import '/commons/app_config.dart' as app_config;
 import '/commons/routes.dart';
 import '/api/preferences_service.dart';
 import '/api/app_worker/app_worker_interface.dart';
-import 'models/question_catalog/question_catalog_reader.dart';
+import '/models/question_catalog/question_catalog_reader.dart';
 
 Future <void> main() async {
   // this is required to run flutter dependent code before runApp is called
@@ -26,7 +26,7 @@ Future <void> main() async {
   ]);
 
   GetIt.I.registerSingleton<AppWorkerInterface>(
-    futures[0] as AppWorkerInterface
+    futures[0] as AppWorkerInterface,
   );
   GetIt.I.registerSingleton<PreferencesService>(
     PreferencesService(preferences: futures[1] as SharedPreferences),

@@ -110,3 +110,18 @@ class QuestionCatalogReader with WidgetsBindingObserver {
     _streamController.close();
   }
 }
+
+enum QuestionCatalogChangeReason {
+  language,
+  definition,
+}
+
+class QuestionCatalogChange {
+  final QuestionCatalog catalog;
+  final QuestionCatalogChangeReason change;
+
+  const QuestionCatalogChange({
+    required this.catalog,
+    required this.change,
+  });   
+}

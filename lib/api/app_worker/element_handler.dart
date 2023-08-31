@@ -5,7 +5,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:osm_api/osm_api.dart' as osmapi;
 
-import '/models/question_catalog/question_catalog.dart';
+import '/models/question_catalog/question_catalog_reader.dart';
 import '/models/affected_elements_detector.dart';
 import '/models/element_variants/element_identifier.dart';
 import '/models/map_feature_collection.dart';

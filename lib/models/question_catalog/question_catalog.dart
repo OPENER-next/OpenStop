@@ -5,8 +5,6 @@ import 'question_definition.dart';
 
 class QuestionCatalog with ListMixin<QuestionDefinition> {
 
-  /// Whether professional questions should be excluded from this catalog or not.
-
   final List<QuestionDefinition> _questions;
 
   const QuestionCatalog(this._questions);
@@ -34,19 +32,3 @@ class QuestionCatalog with ListMixin<QuestionDefinition> {
   }
  
 }
-
-enum QuestionCatalogChangeReason {
-  language,
-  definition,
-}
-
-class QuestionCatalogChange {
-  final QuestionCatalog catalog;
-  final QuestionCatalogChangeReason change;
-
-  const QuestionCatalogChange({
-    required this.catalog,
-    required this.change,
-  });   
-}
-  

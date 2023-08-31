@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
-import '/models/question_catalog/question_catalog.dart';
+import '/models/question_catalog/question_catalog_reader.dart';
 import '/models/authenticated_user.dart';
 import '/models/element_variants/element_identifier.dart';
 import '/models/answer.dart';
