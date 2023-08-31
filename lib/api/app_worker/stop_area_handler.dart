@@ -184,8 +184,8 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
   /// Method to retrieve all cell indexes that cover given bounding box.
 
   Iterable<CellIndex> _bboxToCellIndexes(LatLngBounds cameraViewBox) sync* {
-    final southWestIndex = _geoToCellIndex(cameraViewBox.southWest!);
-    final northEastIndex = _geoToCellIndex(cameraViewBox.northEast!);
+    final southWestIndex = _geoToCellIndex(cameraViewBox.southWest);
+    final northEastIndex = _geoToCellIndex(cameraViewBox.northEast);
 
     for (var x = southWestIndex.x; x <= northEastIndex.x; x++) {
       for (var y = southWestIndex.y; y <= northEastIndex.y; y++) {

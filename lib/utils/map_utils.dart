@@ -16,13 +16,13 @@ extension AnimationUtils on MapController {
     Duration duration = const Duration(milliseconds: 500),
     String? id,
   }) {
-    location ??= center;
-    zoom ??= this.zoom;
-    rotation ??= this.rotation;
+    location ??= camera.center;
+    zoom ??= camera.zoom;
+    rotation ??= camera.rotation;
 
-    final positionTween = LatLngTween(begin: center, end: location);
-    final zoomTween = Tween<double>(begin: this.zoom, end: zoom);
-    final rotationTween = RotationTween(begin: this.rotation, end: rotation);
+    final positionTween = LatLngTween(begin: camera.center, end: location);
+    final zoomTween = Tween<double>(begin: camera.zoom, end: zoom);
+    final rotationTween = RotationTween(begin: camera.rotation, end: rotation);
 
     final controller = AnimationController(
       duration: duration,
@@ -52,26 +52,26 @@ extension AnimationUtils on MapController {
   }
 
 
-  animateToBounds({
+  TickerFuture animateToBounds({
     required TickerProvider ticker,
     required LatLngBounds bounds,
     double maxZoom = 25,
+    double minZoom = 0,
     EdgeInsets padding = EdgeInsets.zero
   }) {
-    final centerZoom = centerZoomFitBounds(
-      bounds,
-      options: FitBoundsOptions(
-        maxZoom: maxZoom,
-        padding: padding,
-        // round zoom level so zoom will always stick to integer levels
-        forceIntegerZoomLevel: true,
-      )
-    );
+    final newCamera = CameraFit.bounds(
+      bounds: bounds,
+      maxZoom: maxZoom,
+      minZoom: minZoom,
+      padding: padding,
+      // round zoom level so zoom will always stick to integer levels
+      forceIntegerZoomLevel: true,
+    ).fit(camera);
 
-    animateTo(
+    return animateTo(
       ticker: ticker,
-      location: centerZoom.center,
-      zoom: centerZoom.zoom,
+      location: newCamera.center,
+      zoom: newCamera.zoom,
     );
   }
 }
