@@ -3,7 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map/flutter_map.dart';
+
 import 'package:latlong2/latlong.dart';
 
 
@@ -17,12 +18,12 @@ class MapLayer extends MultiChildRenderObjectWidget {
 
   @override
   RenderMapLayer createRenderObject(BuildContext context) => RenderMapLayer(
-    map: FlutterMapState.maybeOf(context)!,
+    mapCamera: MapCamera.of(context),
   );
 
   @override
   void updateRenderObject(BuildContext context, covariant RenderMapLayer renderObject) {
-    renderObject.map = FlutterMapState.maybeOf(context)!;
+    renderObject.mapCamera = MapCamera.of(context);
   }
 }
 
@@ -30,9 +31,9 @@ class RenderMapLayer extends RenderBox
     with ContainerRenderObjectMixin<RenderBox, _MapLayerParentData>,
          RenderBoxContainerDefaultsMixin<RenderBox, _MapLayerParentData> {
   RenderMapLayer({
-    required FlutterMapState map,
+    required MapCamera mapCamera,
     List<RenderBox>? children,
-  }) : _map = map {
+  }) : _mapCamera = mapCamera {
     addAll(children);
   }
 
@@ -46,9 +47,9 @@ class RenderMapLayer extends RenderBox
   double? _prevZoom;
   LatLng? _prevPos;
 
-  FlutterMapState get map => _map;
-  FlutterMapState _map;
-  set map(FlutterMapState value) {
+  MapCamera get mapCamera => _mapCamera;
+  MapCamera _mapCamera;
+  set mapCamera(MapCamera value) {
     if (_prevZoom != value.zoom) {
       _prevZoom = value.zoom;
       markNeedsLayout();
@@ -57,8 +58,8 @@ class RenderMapLayer extends RenderBox
       _prevPos = value.center;
       markNeedsPaint();
     }
-    if (_map != value) {
-      _map = value;
+    if (_mapCamera != value) {
+      _mapCamera = value;
     }
   }
 
@@ -88,7 +89,7 @@ class RenderMapLayer extends RenderBox
     // if size in meters is specified
     if (childParentData.size != null && childParentData.position != null) {
       // calc tight size constraints
-      final size = _calcSizeFromMeters(childParentData.size!, childParentData.position!, map.zoom);
+      final size = _calcSizeFromMeters(childParentData.size!, childParentData.position!, mapCamera.zoom);
       childConstraints = BoxConstraints.tight(size);
     }
     // else use infinite constraints for child
@@ -99,7 +100,7 @@ class RenderMapLayer extends RenderBox
     child.layout(childConstraints, parentUsesSize: true);
 
     // calculate pixel position of child
-    final pxPoint = map.project(childParentData.position!);
+    final pxPoint = mapCamera.project(childParentData.position!);
     // shift position to center
     final center = Offset(pxPoint.x.toDouble() - child.size.width/2, pxPoint.y.toDouble() - child.size.height/2);
     // write global pixel offset
@@ -126,8 +127,8 @@ class RenderMapLayer extends RenderBox
     // because defaultHitTestChildren operates on the offset of the _MapLayerParentData
     // which we set to global pixels on layout
     position = position.translate(
-      map.pixelOrigin.x.toDouble(),
-      map.pixelOrigin.y.toDouble(),
+      mapCamera.pixelOrigin.x.toDouble(),
+      mapCamera.pixelOrigin.y.toDouble(),
     );
     return defaultHitTestChildren(result, position: position);
   }
@@ -136,8 +137,8 @@ class RenderMapLayer extends RenderBox
   void paint(PaintingContext context, Offset offset) {
     // transform to local pixel offset
     offset = offset.translate(
-      -map.pixelOrigin.x.toDouble(),
-      -map.pixelOrigin.y.toDouble(),
+      -mapCamera.pixelOrigin.x.toDouble(),
+      -mapCamera.pixelOrigin.y.toDouble(),
     );
     // for performance improvements the layer is not clipped
     // instead the whole map widget should be clipped
@@ -145,10 +146,10 @@ class RenderMapLayer extends RenderBox
     // this is an altered version of defaultPaint(context, offset);
     // which does not paint children outside the map layer viewport
     final layerViewport = Rect.fromLTWH(
-      map.pixelOrigin.x.toDouble(),
-      map.pixelOrigin.y.toDouble(),
-      map.size.x,
-      map.size.y,
+      mapCamera.pixelOrigin.x.toDouble(),
+      mapCamera.pixelOrigin.y.toDouble(),
+      mapCamera.size.x,
+      mapCamera.size.y,
     );
     var child = firstChild;
     while (child != null) {
@@ -165,7 +166,7 @@ class RenderMapLayer extends RenderBox
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('map', map));
+    properties.add(DiagnosticsProperty('mapCamera', mapCamera));
   }
 }
 

@@ -125,8 +125,8 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   /// The query results can be accessed via the specific "stop areas" property.
 
   void loadStopAreas() async {
-    if (mapController.zoom > 11) {
-      _appWorker.queryStopAreas(mapController.bounds!);
+    if (mapController.camera.zoom > 11) {
+      _appWorker.queryStopAreas(mapController.camera.visibleBounds);
     }
   }
 
@@ -182,13 +182,13 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
   late final _mapRotation = Computed(() {
     _mapEventStream.value; // used to subscribe to changes
-    return mapController.rotation;
+    return mapController.camera.rotation;
   });
   double get mapRotation => _mapRotation.value;
 
   late final _mapZoom = Computed(() {
     _mapEventStream.value; // used to subscribe to changes
-    return mapController.zoom;
+    return mapController.camera.zoom;
   });
   double get mapZoom => _mapZoom.value;
 
@@ -203,7 +203,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
   late final _mapPosition = Computed(() {
     _mapEventStream.value; // used to subscribe to changes
-    return mapController.center;
+    return mapController.camera.center;
   });
   LatLng get mapPosition => _mapPosition.value;
 
@@ -211,14 +211,14 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
   void zoomIn() {
     // round zoom level so zoom will always stick to integer levels
-    mapController.animateTo(ticker: this, zoom: mapController.zoom.roundToDouble() + 1);
+    mapController.animateTo(ticker: this, zoom: mapController.camera.zoom.roundToDouble() + 1);
   }
 
   /// Zoom out of the map view.
 
   void zoomOut() {
     // round zoom level so zoom will always stick to integer levels
-    mapController.animateTo(ticker: this, zoom: mapController.zoom.roundToDouble() - 1);
+    mapController.animateTo(ticker: this, zoom: mapController.camera.zoom.roundToDouble() - 1);
   }
 
   /// Reset the map rotation.
@@ -444,9 +444,9 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   /// Load and extract elements from a given stop area and question catalog.
 
   Future<void> loadElements() async {
-    if (mapController.zoom >= 16) {
+    if (mapController.camera.zoom >= 16) {
       // query elements
-      return _appWorker.queryElements(mapController.bounds!);
+      return _appWorker.queryElements(mapController.camera.visibleBounds);
     }
   }
 
@@ -492,9 +492,11 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
         top: mediaQuery.padding.top,
         bottom: mediaQuery.size.height * questionDialogMaxHeightFactor
       ),
+      // only zoom in to fit the object, but never zoom out
+      minZoom: mapController.camera.zoom,
       // zoom in on 20 or more if the current zoom level is above 20
       // required due to clustering, because not all markers may be visible on zoom level 20
-      maxZoom: max(20, mapController.zoom)
+      maxZoom: max(20, mapController.camera.zoom)
     );
   }
 
@@ -506,7 +508,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
       final position = _userLocationService.position!;
       mapController.move(
         LatLng(position.latitude, position.longitude),
-        mapController.zoom,
+        mapController.camera.zoom,
         id: 'CameraTracker'
       );
       _userLocationService.shouldFollowLocation = true;
@@ -529,7 +531,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
           location: LatLng(position.latitude, position.longitude),
           // zoom close to user position if the camera isn't already zoomed in
           // because location following doesn't make much sense for lower zoom levels
-          zoom: max(mapController.zoom, 17),
+          zoom: max(mapController.camera.zoom, 17),
           duration: const Duration(milliseconds: 200),
           id: 'CameraTracker'
         );
@@ -542,7 +544,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     // cancel tracking on user interaction or any map move not caused by the camera tracker
     if (
       (event is MapEventDoubleTapZoomStart) ||
-      (event is MapEventMove && event.id != 'CameraTracker' && event.targetCenter != event.center)
+      (event is MapEventMove && event.id != 'CameraTracker' && event.camera.center != event.oldCamera.center)
     ) {
       _userLocationService.shouldFollowLocation = false;
     }
@@ -554,9 +556,9 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
     // store map location on map move events
     _preferencesService
-      ..mapLocation = mapController.center
-      ..mapZoom = mapController.zoom
-      ..mapRotation = mapController.rotation;
+      ..mapLocation = mapController.camera.center
+      ..mapZoom = mapController.camera.zoom
+      ..mapRotation = mapController.camera.rotation;
 
     // query stop areas on map interactions
     loadStopAreas();

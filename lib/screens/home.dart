@@ -50,10 +50,12 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                 mapController: viewModel.mapController,
                 options: MapOptions(
                   onTap: (_, __) => viewModel.closeQuestionnaire(),
-                  enableMultiFingerGestureRace: true,
-                  center: untracked(() => viewModel.storedMapLocation),
-                  zoom: untracked(() => viewModel.storedMapZoom),
-                  rotation: untracked(() => viewModel.storedMapRotation),
+                  interactionOptions: const InteractionOptions(
+                    enableMultiFingerGestureRace: true,
+                  ),
+                  initialCenter: untracked(() => viewModel.storedMapLocation),
+                  initialZoom: untracked(() => viewModel.storedMapZoom),
+                  initialRotation: untracked(() => viewModel.storedMapRotation),
                   minZoom: viewModel.tileLayer.minZoom.toDouble(),
                   maxZoom: viewModel.tileLayer.maxZoom.toDouble(),
                 ),
@@ -71,7 +73,6 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                 ],
                 children: [
                   TileLayer(
-                    overrideTilesWhenUrlChanges: true,
                     tileProvider: NetworkTileProvider(
                       headers: const {
                         'User-Agent': appUserAgent,

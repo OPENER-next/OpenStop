@@ -104,7 +104,7 @@ class GeographicPolygon implements GeographicGeometry {
     ];
 
     final result = polylabel(polygon, precision: 7);
-    final point = CustomPoint(result.point.x, result.point.y);
+    final point = Point(result.point.x, result.point.y);
     return projection.unproject(point);
   }
 

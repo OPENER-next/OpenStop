@@ -87,10 +87,10 @@ void main() async {
       isTrue
     );
 
-    final pointInsidePolygon = GeographicPoint(LatLng(50.81519, 12.92478));
-    final pointOnPolygonEdge = GeographicPoint(LatLng(50.8152519, 12.9261345));
-    final pointOutsidePolygon = GeographicPoint(LatLng(50.8152072, 12.9262028));
-    final pointInsideHole = GeographicPoint(LatLng(50.81523, 12.92523));
+    const pointInsidePolygon = GeographicPoint(LatLng(50.81519, 12.92478));
+    const pointOnPolygonEdge = GeographicPoint(LatLng(50.8152519, 12.9261345));
+    const pointOutsidePolygon = GeographicPoint(LatLng(50.8152072, 12.9262028));
+    const pointInsideHole = GeographicPoint(LatLng(50.81523, 12.92523));
 
     expect(
       poly.enclosesPoint(pointInsidePolygon),
@@ -133,9 +133,9 @@ void main() async {
       isTrue
     );
 
-    final pointInsidePolygon = GeographicPoint(LatLng(50.82547, 12.89363));
-    final pointOnPolygonEdge = GeographicPoint(LatLng(50.8256884, 12.8957832));
-    final pointOutsidePolygon = GeographicPoint(LatLng(50.82604, 12.89144));
+    const pointInsidePolygon = GeographicPoint(LatLng(50.82547, 12.89363));
+    const pointOnPolygonEdge = GeographicPoint(LatLng(50.8256884, 12.8957832));
+    const pointOutsidePolygon = GeographicPoint(LatLng(50.82604, 12.89144));
 
     expect(
       poly.enclosesPoint(pointInsidePolygon),
@@ -177,9 +177,9 @@ void main() async {
       hasLength(6)
     );
 
-    final pointInsidePolygon = GeographicPoint(LatLng(51.0391, 13.73419));
-    final pointOnPolygonEdge = GeographicPoint(LatLng(51.0405454, 13.7294276));
-    final pointOutsidePolygon = GeographicPoint(LatLng(51.03921, 13.73212));
+    const pointInsidePolygon = GeographicPoint(LatLng(51.0391, 13.73419));
+    const pointOnPolygonEdge = GeographicPoint(LatLng(51.0405454, 13.7294276));
+    const pointOutsidePolygon = GeographicPoint(LatLng(51.03921, 13.73212));
 
     expect(
       poly.enclosesPoint(pointInsidePolygon),
@@ -196,9 +196,9 @@ void main() async {
       isFalse
     );
 
-    final pathInside = GeographicPolyline([LatLng(51.0401503, 13.7307434), LatLng(51.0400668, 13.7310070)]);
-    final pathOutside = GeographicPolyline([LatLng(51.04014, 13.72976), LatLng(51.04005, 13.7301)]);
-    final pathThroughHole = GeographicPolyline([LatLng(51.0401503, 13.7307434), LatLng(51.0398141, 13.7318035)]);
+    const pathInside = GeographicPolyline([LatLng(51.0401503, 13.7307434), LatLng(51.0400668, 13.7310070)]);
+    const pathOutside = GeographicPolyline([LatLng(51.04014, 13.72976), LatLng(51.04005, 13.7301)]);
+    const pathThroughHole = GeographicPolyline([LatLng(51.0401503, 13.7307434), LatLng(51.0398141, 13.7318035)]);
 
     expect(
       poly.enclosesPolyline(pathInside),

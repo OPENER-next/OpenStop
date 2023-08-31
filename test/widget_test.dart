@@ -47,9 +47,11 @@ void main() {
 
 
   testWidgets('Basic app start test', (WidgetTester tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+
     // mock preferences
     SharedPreferences.setMockInitialValues({
-      'hasSeenOnboarding': false
+      'hasSeenOnboarding': false,
     });
     // mock overpass requests
     nock.get('https://overpass-api.de/api/interpreter')
@@ -68,34 +70,27 @@ void main() {
     // set screen size (mainly for emulator testing)
     await tester.binding.setSurfaceSize(const Size(1080, 1920));
 
-    await tester.runAsync(() async {
-      // main function init
-      final futures = await Future.wait([
-        AppWorkerInterface.spawn(),
-        SharedPreferences.getInstance(),
-      ]);
-
-      GetIt.I.registerSingleton<AppWorkerInterface>(futures[0] as AppWorkerInterface);
-      GetIt.I.registerSingleton<PreferencesService>(
-        PreferencesService(preferences: futures[1] as SharedPreferences),
-      );
-
-      const mainCatalogDirectory = 'assets/question_catalog';
-
-      final questionCatalogReader = QuestionCatalogReader(
-        assetPaths: [mainCatalogDirectory],
-      );
-
-      questionCatalogReader.questionCatalog.listen((questionCatalogChange) {
-        GetIt.I.get<AppWorkerInterface>().updateQuestionCatalog(questionCatalogChange);
-      });
-
-      final assets = await Future.wait([
-        rootBundle.load('assets/datasets/map_feature_collection.json')
-      ]);
-
-      GetIt.I.get<AppWorkerInterface>().passAssets(assets);
+    // wrap worker calls in runAsync
+    final worker = await tester.runAsync(AppWorkerInterface.spawn);
+    GetIt.I.registerSingleton<AppWorkerInterface>(worker!);
+    GetIt.I.registerSingleton<PreferencesService>(
+      PreferencesService(preferences: await SharedPreferences.getInstance()),
+    );
+  
+    const mainCatalogDirectory = 'assets/question_catalog';
+    final questionCatalogReader = QuestionCatalogReader(
+      assetPaths: [mainCatalogDirectory],
+    );
+    questionCatalogReader.questionCatalog.listen((questionCatalogChange) {
+      GetIt.I.get<AppWorkerInterface>().updateQuestionCatalog(questionCatalogChange);
     });
+
+    // important: do not wrap this into a Future.wait, otherwise it will be empty
+    final assets = [
+      await rootBundle.load('assets/datasets/map_feature_collection.json'),
+    ];
+    // wrap worker calls in runAsync
+    await tester.runAsync(() => GetIt.I.get<AppWorkerInterface>().passAssets(assets));
 
     // build app and trigger first frame
     await tester.pumpWidget(const MyApp());
@@ -111,5 +106,7 @@ void main() {
     await tester.tap(nextButton);
     await tester.pumpAndSettle();
     expect(find.byType(HomeScreen), findsOneWidget);
+    // wait for any pending timers
+    await tester.pumpAndSettle(const Duration(seconds: 5));
   });
 }
