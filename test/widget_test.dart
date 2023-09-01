@@ -76,7 +76,7 @@ void main() {
     GetIt.I.registerSingleton<PreferencesService>(
       PreferencesService(preferences: await SharedPreferences.getInstance()),
     );
-  
+
     const mainCatalogDirectory = 'assets/question_catalog';
     final questionCatalogReader = QuestionCatalogReader(
       assetPaths: [mainCatalogDirectory],
@@ -84,13 +84,6 @@ void main() {
     questionCatalogReader.questionCatalog.listen((questionCatalogChange) {
       GetIt.I.get<AppWorkerInterface>().updateQuestionCatalog(questionCatalogChange);
     });
-
-    // important: do not wrap this into a Future.wait, otherwise it will be empty
-    final assets = [
-      await rootBundle.load('assets/datasets/map_feature_collection.json'),
-    ];
-    // wrap worker calls in runAsync
-    await tester.runAsync(() => GetIt.I.get<AppWorkerInterface>().passAssets(assets));
 
     // build app and trigger first frame
     await tester.pumpWidget(const MyApp());

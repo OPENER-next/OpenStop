@@ -32,15 +32,6 @@ class AppWorkerInterface extends Service implements Disposable {
     return AppWorkerInterface._(con);
   }
 
-  // required due to flutter limitation (see main.dart)
-
-  Future<void> passAssets(List<ByteData> assets) {
-    return _worker.send<void>(AppWorkerMessage(
-      AppWorkerSubject.passAssets,
-      assets,
-    ));
-  }
-
   // stop area related functions \\
 
   Stream<int> subscribeLoadingChunks() {

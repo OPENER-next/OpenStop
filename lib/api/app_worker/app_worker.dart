@@ -4,7 +4,6 @@ import '/api/app_worker/stop_area_handler.dart';
 import '/utils/service_worker.dart';
 
 import 'element_handler.dart';
-import 'map_feature_handler.dart';
 import 'question_catalog_handler.dart';
 import 'questionnaire_handler.dart';
 
@@ -17,16 +16,12 @@ import 'questionnaire_handler.dart';
 /// The isolate persists so it can cache any queried or processed data.
 
 class AppWorker extends ServiceWorker<AppWorkerMessage>
-  with MapFeatureHandler, QuestionCatalogHandler, StopAreaHandler, ElementHandler, QuestionnaireHandler {
+  with QuestionCatalogHandler, StopAreaHandler, ElementHandler, QuestionnaireHandler {
   AppWorker(super.sendPort);
 
   @override
   Future<dynamic> messageHandler(message) async {
     switch(message.subject) {
-      case AppWorkerSubject.passAssets:
-        takeMapFeatureCollectionAsset(message.data[0]);
-        return;
-
       case AppWorkerSubject.queryStopAreas:
         return queryStopAreas(message.data);
 
@@ -79,8 +74,6 @@ class AppWorker extends ServiceWorker<AppWorkerMessage>
 }
 
 enum AppWorkerSubject {
-  passAssets,
-
   subscribeLoadingChunks,
   subscribeStopAreas,
   queryStopAreas,
