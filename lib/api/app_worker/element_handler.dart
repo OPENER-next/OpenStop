@@ -19,7 +19,6 @@ import '/models/geographic_geometries.dart';
 import '/models/stop_area_processing/stop_area.dart';
 import '/utils/stream_utils.dart';
 import '/utils/service_worker.dart';
-import 'map_feature_handler.dart';
 import 'question_catalog_handler.dart';
 import 'stop_area_handler.dart';
 
@@ -27,7 +26,7 @@ import 'stop_area_handler.dart';
 ///
 /// All downloaded elements are cached in the [OSMElementProcessor].
 
-mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandler<M>, QuestionCatalogHandler<M> {
+mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalogHandler<M> {
   final _elementStreamController = StreamController<ElementUpdate>();
 
   /// A MultiStream that returns any existing elements on initial subscription.
