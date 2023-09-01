@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import '/models/question_catalog/question_catalog_reader.dart';
 import '/models/authenticated_user.dart';
 import '/models/element_variants/element_identifier.dart';
 import '/models/answer.dart';
@@ -14,11 +15,9 @@ import 'question_catalog_handler.dart';
 /// Handles questions to element matching and allows uploading the made changes.
 
 mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, ElementHandler<M> {
-
   final _questionnaireStore = QuestionnaireStore();
 
   Questionnaire? _activeQuestionnaire;
-
 
   final _activeQuestionnaireStreamController = StreamController<QuestionnaireRepresentation?>();
 
@@ -36,7 +35,6 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
       );
     }
   });
-
 
   /// This either reopens an existing questionnaire or creates a new one.
 
@@ -180,6 +178,34 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
     _activeQuestionnaireStreamController.close();
     super.exit();
   }
+
+  @override
+  void updateQuestionCatalog(QuestionCatalogChange questionCatalogChange) {
+    super.updateQuestionCatalog(questionCatalogChange);
+
+    if (questionCatalogChange.change == QuestionCatalogChangeReason.language) {
+      // Update all QuestionDefinition of all the stored questionnares
+      final questionnaireList = _questionnaireStore.items;
+
+      for (final Questionnaire questionnaire in questionnaireList) { 
+        questionnaire.updateQuestionCatalogLanguage(questionCatalogChange.catalog);
+      }
+      // Update current _activeQuestionnaire
+      if (_activeQuestionnaire != null) {
+        // notify change
+        _activeQuestionnaireStreamController.add(
+          QuestionnaireRepresentation.derive(
+            _activeQuestionnaire!,
+            isCompleted: _questionnaireStore.isFinished(_activeQuestionnaire!),
+          ),
+        );
+      }
+    } 
+    else {
+      _questionnaireStore.clear();
+      closeQuestionnaire();
+    }
+  }
 }
 
 /// An immutable representation of a Questionnaire used to present a snapshot of its state.
@@ -197,11 +223,10 @@ class QuestionnaireRepresentation {
     this.isCompleted = false,
   });
 
-  QuestionnaireRepresentation.derive(Questionnaire questionnaire, {this.isCompleted = false }) :
+  QuestionnaireRepresentation.derive(Questionnaire questionnaire, {this.isCompleted = false}) :
     entries = questionnaire.entries,
     activeIndex = questionnaire.activeIndex;
 }
-
 
 class ElementUploadData {
   final AuthenticatedUser user;

@@ -9,6 +9,7 @@ import 'package:open_stop/main.dart';
 import 'package:open_stop/screens/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stack_trace/stack_trace.dart';
+import 'package:open_stop/models/question_catalog/question_catalog_reader.dart';
 
 const overpassReply = {
   'version': 0.6,
@@ -75,13 +76,19 @@ void main() {
     GetIt.I.registerSingleton<PreferencesService>(
       PreferencesService(preferences: await SharedPreferences.getInstance()),
     );
+  
+    const mainCatalogDirectory = 'assets/question_catalog';
+    final questionCatalogReader = QuestionCatalogReader(
+      assetPaths: [mainCatalogDirectory],
+    );
+    questionCatalogReader.questionCatalog.listen((questionCatalogChange) {
+      GetIt.I.get<AppWorkerInterface>().updateQuestionCatalog(questionCatalogChange);
+    });
 
     // important: do not wrap this into a Future.wait, otherwise it will be empty
     final assets = [
       await rootBundle.load('assets/datasets/map_feature_collection.json'),
-      await rootBundle.load('assets/datasets/question_catalog.json'),
     ];
-
     // wrap worker calls in runAsync
     await tester.runAsync(() => GetIt.I.get<AppWorkerInterface>().passAssets(assets));
 

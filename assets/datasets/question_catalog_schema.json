@@ -268,13 +268,7 @@
         ]
       },
 
-      "conditions": { "$ref": "file:assets/datasets/osm_condition_schema.json" },
-
-      "isProfessional": {
-        "description": "Certain questions seek for information that requires authorization or might be dangerous to collect. If omitted this will fallback to false.",
-        "type": "boolean",
-        "default": false
-      }
+      "conditions": { "$ref": "file:assets/datasets/osm_condition_schema.json" }
     }
   }
 }

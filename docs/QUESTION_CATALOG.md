@@ -28,7 +28,7 @@ Further details and information can be added using the `description` and `image`
       "text": "",
       "description": "...",
       "image": [
-        "assets/images/questions/..."
+        "assets/question_catalog/images/..."
       ]
   },
   ...

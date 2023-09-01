@@ -5,21 +5,20 @@ import '/models/question_catalog/question_definition.dart';
 import '/models/answer.dart';
 import 'element_variants/base_element.dart';
 
-
 class Questionnaire {
 
   Questionnaire({
     required ProcessedElement osmElement,
     required QuestionCatalog questionCatalog,
-  }) :
+  }) : 
     _questionCatalog = questionCatalog,
-    _osmElement = osmElement
+    _osmElement = osmElement 
   {
     _updateWorkingElement();
     _insertMatchingEntries(afterIndex: -1);
   }
 
-  final QuestionCatalog _questionCatalog;
+  QuestionCatalog _questionCatalog;
 
   final List<QuestionnaireEntry> _entries = [];
 
@@ -29,24 +28,18 @@ class Questionnaire {
 
   int _activeIndex = 0;
 
-
   ProxyElement get workingElement => _workingElement;
 
-
   int get length => _entries.length;
-
 
   UnmodifiableListView<QuestionnaireEntry> get entries {
     return UnmodifiableListView(_entries);
   }
 
-
   int get activeIndex => _activeIndex;
-
 
   QuestionnaireEntry? get activeEntry =>
     _isValidIndex(_activeIndex) ? _entries[_activeIndex] : null;
-
 
   bool jumpTo(int index) {
     if (_isValidIndex(index) && index != _activeIndex) {
@@ -56,16 +49,13 @@ class Questionnaire {
     return false;
   }
 
-
   bool previous() {
     return jumpTo(_activeIndex - 1);
   }
 
-
   bool next() {
     return jumpTo(_activeIndex + 1);
   }
-
 
   void update<T extends Answer>(T? answer) {
     if (_isValidIndex(_activeIndex)) {
@@ -79,16 +69,13 @@ class Questionnaire {
     }
   }
 
-
   bool _isValidIndex(int index) {
     return index >= 0 && _entries.length > index;
   }
 
-
   void _updateWorkingElement() {
     _workingElement = _createWorkingElement();
   }
-
 
   void _insertMatchingEntries({ int? afterIndex }) {
     afterIndex ??= _activeIndex;
@@ -110,7 +97,6 @@ class Questionnaire {
       }
     }
   }
-
 
   void _removeObsoleteEntries() {
     // Note: do not use reverse iteration here
@@ -145,6 +131,15 @@ class Questionnaire {
     }
   }
 
+  void updateQuestionCatalogLanguage(QuestionCatalog questionCatalog) {
+    assert(_questionCatalog.length == questionCatalog.length, 'Question catalogs are different while they should be of the same strucutre.');
+    _questionCatalog = questionCatalog;
+  
+    for (var i = 0; i < _entries.length; i++) {
+       _entries[i] = _entries[i].copyWith(question: _questionCatalog.firstWhere((q) => q == _entries[i].question),
+       );
+     }
+  }
 
   /// Optionally specify a custom list of entries from which the working element is constructed.
 
@@ -162,7 +157,6 @@ class Questionnaire {
   }
 }
 
-
 /// A [QuestionnaireEntry] delegates its equality to the underlying question.
 /// This means two [QuestionnaireEntry]s are equal if their underlying questions are equal,
 /// even though their answers might be different.
@@ -170,10 +164,18 @@ class Questionnaire {
 /// optional answer value.
 
 class QuestionnaireEntry<T extends Answer> {
-  QuestionnaireEntry(this.question, [this.answer]);
 
   final QuestionDefinition question;
   final T? answer;
+
+  QuestionnaireEntry(this.question, [this.answer]);
+
+  QuestionnaireEntry copyWith({QuestionDefinition? question,T? answer}) { 
+    return  QuestionnaireEntry(
+      question = question ?? this.question,
+      answer = answer ?? this.answer,
+    );
+  }
 
   bool get hasValidAnswer => answer?.isValid == true;
 

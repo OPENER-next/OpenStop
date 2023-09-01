@@ -18,19 +18,19 @@ void main() async {
   );
 
   final dummyCatalog = QuestionCatalog([
-    QuestionDefinition(runtimeId: 0, name: 'q1', question: 'q1', isProfessional: false,
+    QuestionDefinition(runtimeId: 0, name: 'q1', question: 'q1',
       conditions: [
         ElementCondition([ TagsSubCondition.fromJson({ 'tag_a': false }) ]),
       ],
       answer: stringAnswer,
     ),
-    QuestionDefinition(runtimeId: 1, name: 'q2', question: 'q2', isProfessional: false,
+    QuestionDefinition(runtimeId: 1, name: 'q2', question: 'q2',
       conditions: [
         ElementCondition([ TagsSubCondition.fromJson({ 'tag_a': '1' }) ]),
       ],
       answer: stringAnswer,
     ),
-    QuestionDefinition(runtimeId: 2, name: 'q2', question: 'q2', isProfessional: false,
+    QuestionDefinition(runtimeId: 2, name: 'q2', question: 'q2',
       conditions: [
         ElementCondition([ TagsSubCondition.fromJson({ 'tag_a': '2' }) ]),
       ],

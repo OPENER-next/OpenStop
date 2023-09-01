@@ -56,7 +56,7 @@ class _SelectDialogState<T> extends State<SelectDialog<T>> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Abbrechen'),
+          child: Text(AppLocalizations.of(context)!.cancel),
         ),
         TextButton(
           onPressed: () => Navigator.pop(context, _selectedValue),

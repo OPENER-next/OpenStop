@@ -5,6 +5,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:osm_api/osm_api.dart' as osmapi;
 
+import '/models/question_catalog/question_catalog_reader.dart';
 import '/models/affected_elements_detector.dart';
 import '/models/element_variants/element_identifier.dart';
 import '/models/map_feature_collection.dart';
@@ -46,7 +47,7 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
       Stream.fromIterable(_elementPool.elements),
     );
     final elementUpdates = existingElements.map((element) => ElementUpdate.derive(
-      element, mfCollection, matches: true,
+      element, mfCollection, action: ElementUpdateAction.update,
     ));
     return controller.addStream(elementUpdates);
   });
@@ -55,6 +56,19 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
 
   final _osmElementQueryHandler = OSMElementQueryAPI();
 
+  @override
+  void updateQuestionCatalog(QuestionCatalogChange questionCatalogChange) async {
+    super.updateQuestionCatalog(questionCatalogChange);
+    final mfCollection = await mapFeatureCollection;
+    final existingElements = _filterElements(
+      _buildFiltersForStopAreas(loadedStopAreas),
+      Stream.fromIterable(_elementPool.elements),
+    );
+    _elementStreamController.add(const ElementUpdate(action: ElementUpdateAction.clear));
+    existingElements
+      .map((element) => ElementUpdate.derive(element, mfCollection, action: ElementUpdateAction.update))
+      .forEach(_elementStreamController.add);
+  }
 
   /// Retrieves all stop areas in the given bounds and queries the elements for any unloaded stop area.
   ///
@@ -73,7 +87,7 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
       );
       // construct element updates
       final elementUpdates = filteredElements.map((element) => ElementUpdate.derive(
-        element, mfCollection, matches: true,
+        element, mfCollection, action: ElementUpdateAction.update,
       ));
       // add newly queried elements to stream
       futures.add(
@@ -161,7 +175,7 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
           matches: QuestionFilter(questionCatalog: qCatalog).matches(element),
         )])
         // send update messages to the main thread
-        .map((record) => ElementUpdate.derive(record.element, mfCollection, matches: record.matches))
+        .map((record) => ElementUpdate.derive(record.element, mfCollection, action: record.matches ? ElementUpdateAction.update : ElementUpdateAction.remove))
         .forEach(_elementStreamController.add);
 
       return true;
@@ -241,17 +255,16 @@ class ElementRepresentation extends ElementIdentifier {
   }
 }
 
+enum ElementUpdateAction { update, remove, clear }
+
 class ElementUpdate {
-  final ElementRepresentation element;
-  final bool matches;
+  final ElementRepresentation? element;
+  final ElementUpdateAction action;
 
   const ElementUpdate({
-    required this.element,
-    required this.matches,
+    required this.action, this.element,
   });
 
-  ElementUpdate.derive(ProcessedElement element, MapFeatureCollection mapFeatureCollection, {required this.matches}) :
-    element = ElementRepresentation.derive(
-      element, mapFeatureCollection,
-    );
+  ElementUpdate.derive(ProcessedElement element, MapFeatureCollection mapFeatureCollection, {required this.action}) :
+    element = ElementRepresentation.derive(element, mapFeatureCollection,);
 }
