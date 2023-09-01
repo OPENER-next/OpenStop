@@ -224,37 +224,6 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
 }
 
 
-class ElementRepresentation extends ElementIdentifier {
-  @override
-  final int id;
-
-  @override
-  final osmapi.OSMElementType type;
-
-  final GeographicGeometry geometry;
-  final String name;
-  final IconData icon;
-
-  const ElementRepresentation({
-    required this.id,
-    required this.type,
-    required this.name,
-    required this.icon,
-    required this.geometry,
-  });
-
-  factory ElementRepresentation.derive(ProcessedElement element, MapFeatureCollection mapFeatureCollection) {
-    final mapFeature = mapFeatureCollection.getMatchingFeature(element);
-    return ElementRepresentation(
-      id: element.id,
-      type: element.type,
-      geometry: element.geometry,
-      icon: mapFeature?.icon ?? MdiIcons.help,
-      name: mapFeature?.labelByElement(element) ?? mapFeature?.name ?? '',
-    );
-  }
-}
-
 enum ElementUpdateAction { update, remove, clear }
 
 class ElementUpdate {
