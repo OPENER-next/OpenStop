@@ -7,7 +7,6 @@ import '/models/element_variants/base_element.dart';
 import '/models/authenticated_user.dart';
 import '/commons/app_config.dart' as app_config;
 import '/commons/osm_config.dart' as osm_config;
-import '/models/map_feature_collection.dart';
 import '/models/stop_area_processing/stop_area.dart';
 
 
@@ -18,8 +17,6 @@ import '/models/stop_area_processing/stop_area.dart';
 
 
 class OSMElementUploadAPI {
-  final MapFeatureCollection mapFeatureCollection;
-
   final StopArea stopArea;
 
   AuthenticatedUser _authenticatedUser;
@@ -33,7 +30,6 @@ class OSMElementUploadAPI {
   final OSMAPI _osmApi;
 
   OSMElementUploadAPI({
-    required this.mapFeatureCollection,
     required this.stopArea,
     required AuthenticatedUser authenticatedUser,
     String endPoint = 'https://${osm_config.osmServer}/api/0.6',
@@ -88,7 +84,6 @@ class OSMElementUploadAPI {
       final changesetCommentBuilder = ChangesetCommentBuilder(
         modifiedElements: [newElement, ...changesetElements],
         stopArea: stopArea,
-        mapFeatureCollection: mapFeatureCollection,
       );
       changesetData['comment'] = changesetCommentBuilder.toString();
       await _osmApi.updateChangeset(changesetId, changesetData);
@@ -98,7 +93,6 @@ class OSMElementUploadAPI {
       final changesetCommentBuilder = ChangesetCommentBuilder(
         modifiedElements: [newElement],
         stopArea: stopArea,
-        mapFeatureCollection: mapFeatureCollection,
       );
       changesetData['comment'] = changesetCommentBuilder.toString();
       changesetId = await _osmApi.createChangeset(changesetData);

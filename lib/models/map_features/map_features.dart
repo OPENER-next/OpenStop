@@ -13,12 +13,12 @@ import 'map_feature_representation.dart';
 
 abstract final class MapFeatures {
 
-  /// Compare the elements of this Map Feature Collection with given OSM element
-  /// and return the best matching Map Feature Template.
+  /// Compare the defined Map Features with the given OSM element and return
+  /// the best matching [MapFeatureRepresentation].
   ///
-  /// If not matching [MapFeatureDefinition] can be found a dummy [MapFeatureRepresentation] is returned.
+  /// If no matching [MapFeatureDefinition] can be found a dummy [MapFeatureRepresentation] is returned.
 
-  static MapFeatureRepresentation getForElement (ProcessedElement osmElement) {
+  static MapFeatureRepresentation representElement (ProcessedElement osmElement) {
     MapFeatureDefinition? bestMatch;
     int score = 0;
 

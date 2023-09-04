@@ -1,14 +1,13 @@
 import 'dart:async';
 
-import 'package:flutter/widgets.dart' hide ProxyElement;
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:osm_api/osm_api.dart' as osmapi;
 
+import '/models/map_features/map_features.dart';
+import '/models/map_features/map_feature_representation.dart';
 import '/models/question_catalog/question_catalog_reader.dart';
 import '/models/affected_elements_detector.dart';
 import '/models/element_variants/element_identifier.dart';
-import '/models/map_feature_collection.dart';
 import '/api/osm_element_query_api.dart';
 import '/api/osm_element_upload_api.dart';
 import '/api/app_worker/questionnaire_handler.dart';
@@ -40,13 +39,12 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
   /// non matching elements there is not a good idea, due to child/parent reference problems.
 
   late final elementStream = _elementStreamController.stream.makeMultiStreamAsync((controller) async {
-    final mfCollection = await mapFeatureCollection;
     final existingElements = _filterElements(
       _buildFiltersForStopAreas(loadedStopAreas),
       Stream.fromIterable(_elementPool.elements),
     );
     final elementUpdates = existingElements.map((element) => ElementUpdate.derive(
-      element, mfCollection, action: ElementUpdateAction.update,
+      element, action: ElementUpdateAction.update,
     ));
     return controller.addStream(elementUpdates);
   });
@@ -58,14 +56,13 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
   @override
   void updateQuestionCatalog(QuestionCatalogChange questionCatalogChange) async {
     super.updateQuestionCatalog(questionCatalogChange);
-    final mfCollection = await mapFeatureCollection;
     final existingElements = _filterElements(
       _buildFiltersForStopAreas(loadedStopAreas),
       Stream.fromIterable(_elementPool.elements),
     );
     _elementStreamController.add(const ElementUpdate(action: ElementUpdateAction.clear));
     existingElements
-      .map((element) => ElementUpdate.derive(element, mfCollection, action: ElementUpdateAction.update))
+      .map((element) => ElementUpdate.derive(element, action: ElementUpdateAction.update))
       .forEach(_elementStreamController.add);
   }
 
@@ -75,7 +72,6 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
 
   Future<void> queryElements(LatLngBounds bounds) async {
     final closeStopAreas = getStopAreasByBounds(bounds);
-    final mfCollection = await mapFeatureCollection;
     final futures = <Future<void>>[];
 
     for (final stopArea in closeStopAreas) {
@@ -86,7 +82,7 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
       );
       // construct element updates
       final elementUpdates = filteredElements.map((element) => ElementUpdate.derive(
-        element, mfCollection, action: ElementUpdateAction.update,
+        element, action: ElementUpdateAction.update,
       ));
       // add newly queried elements to stream
       futures.add(
@@ -139,14 +135,12 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
   /// Returns true if upload was successful, otherwise false.
 
   Future<bool> uploadElement(ProxyElement element, ElementUploadData uploadData) async {
-    final mfCollection = await mapFeatureCollection;
     final qCatalog = await questionCatalog;
 
     final stopArea = findCorrespondingStopArea(element);
 
     // upload with first StopArea occurrence
     final uploadAPI = OSMElementUploadAPI(
-      mapFeatureCollection: await mapFeatureCollection,
       stopArea: stopArea,
       authenticatedUser: uploadData.user,
       changesetLocale: uploadData.locale.languageCode,
@@ -174,7 +168,12 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
           matches: QuestionFilter(questionCatalog: qCatalog).matches(element),
         )])
         // send update messages to the main thread
-        .map((record) => ElementUpdate.derive(record.element, mfCollection, action: record.matches ? ElementUpdateAction.update : ElementUpdateAction.remove))
+        .map((record) => ElementUpdate.derive(
+          record.element,
+          action: record.matches
+            ? ElementUpdateAction.update
+            : ElementUpdateAction.remove,
+        ))
         .forEach(_elementStreamController.add);
 
       return true;
@@ -226,13 +225,13 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
 enum ElementUpdateAction { update, remove, clear }
 
 class ElementUpdate {
-  final ElementRepresentation? element;
+  final MapFeatureRepresentation? element;
   final ElementUpdateAction action;
 
   const ElementUpdate({
     required this.action, this.element,
   });
 
-  ElementUpdate.derive(ProcessedElement element, MapFeatureCollection mapFeatureCollection, {required this.action}) :
-    element = ElementRepresentation.derive(element, mapFeatureCollection,);
+  ElementUpdate.derive(ProcessedElement element, {required this.action}) :
+    element = MapFeatures.representElement(element);
 }

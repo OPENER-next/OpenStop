@@ -37,7 +37,7 @@ class MapFeatureRepresentation extends ElementIdentifier {
     _label = label;
 
   static String _defaultLabel(AppLocalizations _, Map<String, String> tags) {
-    return tags['name'] ?? tags['ref'] ?? '';
+    return tags['name'] ?? tags['ref'] ?? 'Element';
   }
 
   @override
@@ -54,5 +54,7 @@ class MapFeatureRepresentation extends ElementIdentifier {
 
   final Map<String, String> _tags;
 
-  String label(AppLocalizations locale) => _label(locale, _tags);
+  String genericLabel(AppLocalizations locale) => _label(locale, const {});
+
+  String elementLabel(AppLocalizations locale) => _label(locale, _tags);
 }

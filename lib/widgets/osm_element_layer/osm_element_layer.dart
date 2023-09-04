@@ -4,7 +4,9 @@ import 'dart:math';
 import 'package:animated_marker_layer/animated_marker_layer.dart';
 import 'package:flutter/material.dart';
 import 'package:supercluster/supercluster.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '/models/map_features/map_feature_representation.dart';
 import '/api/app_worker/element_handler.dart';
 import '/widgets/osm_element_layer/osm_element_marker.dart';
 
@@ -13,9 +15,9 @@ class OsmElementLayer extends StatefulWidget {
 
   final Stream<ElementUpdate> elements;
 
-  final ElementRepresentation? selectedElement;
+  final MapFeatureRepresentation? selectedElement;
 
-  final void Function(ElementRepresentation osmElement)? onOsmElementTap;
+  final void Function(MapFeatureRepresentation osmElement)? onOsmElementTap;
 
   /// The maximum shift in duration between different markers.
 
@@ -47,7 +49,7 @@ class OsmElementLayer extends StatefulWidget {
 class _OsmElementLayerState extends State<OsmElementLayer> {
   StreamSubscription<ElementUpdate>? _streamSubscription;
 
-  late final _superCluster = SuperclusterMutable<ElementRepresentation>(
+  late final _superCluster = SuperclusterMutable<MapFeatureRepresentation>(
     getX: (p) => p.geometry.center.longitude,
     getY: (p) => p.geometry.center.latitude,
     minZoom: widget.zoomLowerLimit,
@@ -86,7 +88,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
         else {
           _superCluster.add(change.element!);
         }
-      } 
+      }
       else if (change.action == ElementUpdateAction.remove){
         _superCluster.remove(change.element!);
       }
@@ -165,11 +167,11 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
   }
 
 
-  Iterable<ElementRepresentation> _elementsFromCluster(MutableLayerElement<ElementRepresentation> cluster) sync* {
-    if (cluster is MutableLayerCluster<ElementRepresentation>) {
+  Iterable<MapFeatureRepresentation> _elementsFromCluster(MutableLayerElement<MapFeatureRepresentation> cluster) sync* {
+    if (cluster is MutableLayerCluster<MapFeatureRepresentation>) {
       yield* (cluster.clusterData as _ClusterLeafs).elements;
     }
-    else if (cluster is MutableLayerPoint<ElementRepresentation>) {
+    else if (cluster is MutableLayerPoint<MapFeatureRepresentation>) {
       yield cluster.originalPoint;
     }
   }
@@ -184,7 +186,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
   }
 
 
-  AnimatedMarker _createMarker(ElementRepresentation element) {
+  AnimatedMarker _createMarker(MapFeatureRepresentation element) {
     // supply id as seed so we get the same delay for both marker types
     final seed = element.id;
     return _OsmElementMarker(
@@ -196,6 +198,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 
 
   Widget _markerBuilder(BuildContext context, Animation<double> animation, AnimatedMarker marker) {
+    final appLocale = AppLocalizations.of(context)!;
     marker as _OsmElementMarker;
     final isActive = widget.selectedElement == marker.element;
 
@@ -207,13 +210,13 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
         onTap: () => widget.onOsmElementTap?.call(marker.element),
         active: isActive,
         icon: marker.element.icon,
-        label: marker.element.name,
+        label: marker.element.elementLabel(appLocale),
       )
     );
   }
 
 
-  AnimatedMarker _createMinimizedMarker(ElementRepresentation element) {
+  AnimatedMarker _createMinimizedMarker(MapFeatureRepresentation element) {
     return AnimatedMarker(
       // use geo element as key, because osm element equality changes whenever its tags or version change
       // while geo elements only compare the OSM element type and id
@@ -250,7 +253,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 
 
 class _OsmElementMarker extends AnimatedMarker {
-  final ElementRepresentation element;
+  final MapFeatureRepresentation element;
 
   _OsmElementMarker({
     required this.element,
@@ -271,7 +274,7 @@ class _OsmElementMarker extends AnimatedMarker {
 
 
 class _ClusterLeafs extends ClusterDataBase {
-  final List<ElementRepresentation> elements;
+  final List<MapFeatureRepresentation> elements;
 
   _ClusterLeafs(this.elements);
 
