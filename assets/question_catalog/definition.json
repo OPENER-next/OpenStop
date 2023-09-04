@@ -719,7 +719,8 @@
    {
       "question": {
          "name": "@stopCurbTypeName",
-         "text": "@stopCurbTypeText"
+         "text": "@stopCurbTypeText",
+         "description": "@stopCurbTypeDescription"
       },
       "answer": {
          "type": "List",

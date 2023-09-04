@@ -28,7 +28,7 @@
   "@platformNarrowsName" : {},
   "platformNarrowsText" : "Wie breit ist die engste Stelle der Plattform?",
   "@platformNarrowsText" : {},
-  "platformNarrowsDescription" : "Die Wände von Unterständen oder der Mast erzeugen oft Engstellen. Dieser Wert ist u.a. dafür wichtig, damit Rollstuhlfahrende wissen, ob ihr Rollstuhl in die gesamte Plattform erreichen kann.",
+  "platformNarrowsDescription" : "Die Wände von Unterständen oder der Mast erzeugen oft Engstellen. Dieser Wert ist u.a. dafür wichtig, damit Rollstuhlfahrende wissen, ob ihr Rollstuhl die gesamte Plattform erreichen kann.",
   "@platformNarrowsDescription" : {},
   "platformNarrowsPlaceholder" : "Breite",
   "@platformNarrowsPlaceholder" : {}
