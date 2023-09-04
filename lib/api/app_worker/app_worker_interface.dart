@@ -137,7 +137,7 @@ class AppWorkerInterface extends Service implements Disposable {
   /// Close the service worker when un-registering this service.
 
   @override
-  FutureOr onDispose() {
-    _worker.send(AppWorkerMessage(AppWorkerSubject.dispose));
+  Future<void> onDispose() {
+    return _worker.send<void>(AppWorkerMessage(AppWorkerSubject.dispose));
   }
 }

@@ -13,6 +13,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:mobx/mobx.dart';
 import 'package:osm_api/osm_api.dart';
 import '/api/app_worker/element_handler.dart';
+import '/models/map_features/map_feature_representation.dart';
 import '/models/question_catalog/question_definition.dart';
 import '/models/questionnaire.dart';
 import '/utils/debouncer.dart';
@@ -308,7 +309,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
   /// This either reopens an existing questionnaire or creates a new one.
 
-  void _openQuestionnaire(ElementRepresentation element) {
+  void _openQuestionnaire(MapFeatureRepresentation element) {
     if (_questionnaireState.value != null) {
       // store latest answer from previous questionnaire
       _updateQuestionnaireAnswer();
@@ -450,8 +451,8 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     }
   }
 
-  final _selectedElement = Observable<ElementRepresentation?>(null);
-  ElementRepresentation? get selectedElement => _selectedElement.value;
+  final _selectedElement = Observable<MapFeatureRepresentation?>(null);
+  MapFeatureRepresentation? get selectedElement => _selectedElement.value;
 
   late final _hasSelectedElement = Computed(() => selectedElement != null);
   bool get hasSelectedElement => _hasSelectedElement.value;
@@ -464,7 +465,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   });
   Key get selectedElementKey => _selectedElementKey.value;
 
-  void onElementTap(ElementRepresentation element) {
+  void onElementTap(MapFeatureRepresentation element) {
     // show questions if a new marker is selected, else hide the current one
     if (_selectedElement.value != element) {
       _openQuestionnaire(element);

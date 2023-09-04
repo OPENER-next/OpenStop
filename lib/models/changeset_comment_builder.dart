@@ -1,7 +1,9 @@
 import 'element_variants/base_element.dart';
-import 'map_feature_collection.dart';
+import 'map_features/map_features.dart';
 import 'stop_area_processing/stop.dart';
 import 'stop_area_processing/stop_area.dart';
+
+import 'package:flutter_gen/gen_l10n/app_localizations_de.dart';
 
 
 /// Build the changeset comment based on the surrounding stop area and changed osm elements.
@@ -9,12 +11,10 @@ import 'stop_area_processing/stop_area.dart';
 /// OSM element names are taken from the [MapFeatureCollection].
 
 class ChangesetCommentBuilder {
-  final MapFeatureCollection mapFeatureCollection;
   final StopArea stopArea;
   final Iterable<ProcessedElement> modifiedElements;
 
   const ChangesetCommentBuilder({
-    required this.mapFeatureCollection,
     required this.stopArea,
     required this.modifiedElements,
   });
@@ -97,12 +97,15 @@ class ChangesetCommentBuilder {
   /// extracts their names while filtering duplicates.
 
   Iterable<String> _getElementNames(Iterable<ProcessedElement> elements) {
+    // Note: localization should not be the user UI or system language here
+    // instead it should the language of the country/region the changes are made in or english
+    final deLocale = AppLocalizationsDe();
+
     // use set to automatically remove duplicates
     return Set<String>.from(
-      elements
-      .map((element) => mapFeatureCollection.getMatchingFeature(element)?.name)
-      // filter null for elements that do not have a matching MapFeature
-      .whereType<String>()
+      elements.map(
+        (element) => MapFeatures.representElement(element).genericLabel(deLocale),
+      ),
     );
   }
 
