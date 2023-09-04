@@ -126,7 +126,7 @@
   "@stopCurbTypeName" : {},
   "stopCurbTypeText" : "Welche Art von Bordstein hat die Haltestelle an der Seite, an der das Verkehrsmittel hält?",
   "@stopCurbTypeText" : {},
-  "stopCurbTypeDescription" : "Wenn die Art des Bordsteins an einer Haltestelle variiert, ist die Bordstein-Art für die übliche Einstiegsstelle von Rollstuhlfahrenden anzugeben.",
+  "stopCurbTypeDescription" : "Wenn der Bordstein an einer Haltestelle variiert, ist die Bordstein-Art für die übliche Einstiegsstelle von Rollstuhlfahrenden anzugeben.",
   "@stopCurbTypeDescription" : {},
   "stopCurbTypeRaisedOption" : "Erhöht (>3cm)",
   "@stopCurbTypeRaisedOption" : {},
