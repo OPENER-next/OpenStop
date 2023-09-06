@@ -2153,7 +2153,7 @@
    {
       "question": {
          "name": "@cycleBarrierSpacingName",
-         "text": "@cycleBarrierSpacingTex",
+         "text": "@cycleBarrierSpacingText",
          "image": [
             "assets/question_catalog/images/cycle_barrier_double_spacing.png",
             "assets/question_catalog/images/cycle_barrier_triple_spacing.png"
@@ -2521,7 +2521,7 @@
          "type": "List",
          "input": [
             {
-               "name": "J@stairsTactilePavingBothOption",
+               "name": "@stairsTactilePavingBothOption",
                "image": "assets/question_catalog/images/steps_tactile_paving_yes.jpg",
                "osm_tags": {
                   "tactile_paving": "yes"
