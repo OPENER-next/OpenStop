@@ -1,6 +1,92 @@
 [
    {
       "question": {
+         "name": "@tranportationModesName",
+         "text": "@tranportationModesText"
+      },
+      "answer": {
+         "type": "MultiList",
+         "input": [
+            {
+               "name": "@tranportationModesBusOption",
+               "image": "assets/question_catalog/images/bus.jpg",
+               "osm_tags": {
+                  "bus": "yes"
+               }
+            },
+            {
+               "name": "@tranportationModesTramOption",
+               "image": "assets/question_catalog/images/tram.jpg",
+               "osm_tags": {
+                  "tram": "yes"
+               }
+            },
+            {
+               "name": "@tranportationModesTrainOptionName",
+               "image": "assets/question_catalog/images/train.jpg",
+               "description": "@tranportationModesTrainOptionDescription",
+               "osm_tags": {
+                  "train": "yes"
+               }
+            },
+            {
+               "name": "@tranportationModesLightRailOptionName",
+               "image": "assets/question_catalog/images/lightrail.jpg",
+               "description": "@tranportationModesLightRailOptionDescription",
+               "osm_tags": {
+                  "light_rail": "yes"
+               }
+            },
+            {
+               "name":"@tranportationModesSubwayOption",
+               "image": "assets/question_catalog/images/subway.jpg",
+               "osm_tags": {
+                  "subway": "yes"
+               }
+            },
+            {
+               "name": "@tranportationModesMonorailOptionName",
+               "image": "assets/question_catalog/images/monorail.jpg",
+               "description": "@tranportationModesMonorailOptionDescription",
+               "osm_tags": {
+                  "monorail": "yes"
+               }
+            }
+         ],
+         "constructor": {
+            "bus": ["COALESCE", "$input"],
+            "tram": ["COALESCE", "$input"],
+            "train": ["COALESCE", "$input"],
+            "light_rail": ["COALESCE", "$input"],
+            "subway": ["COALESCE", "$input"],
+            "monorail": ["COALESCE", "$input"]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "bus": false,
+               "ferry": false,
+               "light_rail": false,
+               "monorail": false,
+               "subway": false,
+               "train": false,
+               "tram": false,
+               "trolleybus": false
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
+         }
+      ]
+   },
+   {
+      "question": {
          "name": "@operatorName",
          "text": "@operatorText",
          "description": "@operatorDescription"
@@ -3228,92 +3314,6 @@
                "tactile_paving": false
             },
             "osm_element": "Node"
-         }
-      ]
-   },
-   {
-      "question": {
-         "name": "@tranportationModesName",
-         "text": "@tranportationModesText"
-      },
-      "answer": {
-         "type": "MultiList",
-         "input": [
-            {
-               "name": "@tranportationModesBusOption",
-               "image": "assets/question_catalog/images/bus.jpg",
-               "osm_tags": {
-                  "bus": "yes"
-               }
-            },
-            {
-               "name": "@tranportationModesTramOption",
-               "image": "assets/question_catalog/images/tram.jpg",
-               "osm_tags": {
-                  "tram": "yes"
-               }
-            },
-            {
-               "name": "@tranportationModesTrainOptionName",
-               "image": "assets/question_catalog/images/train.jpg",
-               "description": "@tranportationModesTrainOptionDescription",
-               "osm_tags": {
-                  "train": "yes"
-               }
-            },
-            {
-               "name": "@tranportationModesLightRailOptionName",
-               "image": "assets/question_catalog/images/lightrail.jpg",
-               "description": "@tranportationModesLightRailOptionDescription",
-               "osm_tags": {
-                  "light_rail": "yes"
-               }
-            },
-            {
-               "name":"@tranportationModesSubwayOption",
-               "image": "assets/question_catalog/images/subway.jpg",
-               "osm_tags": {
-                  "subway": "yes"
-               }
-            },
-            {
-               "name": "@tranportationModesMonorailOptionName",
-               "image": "assets/question_catalog/images/monorail.jpg",
-               "description": "@tranportationModesMonorailOptionDescription",
-               "osm_tags": {
-                  "monorail": "yes"
-               }
-            }
-         ],
-         "constructor": {
-            "bus": ["COALESCE", "$input"],
-            "tram": ["COALESCE", "$input"],
-            "train": ["COALESCE", "$input"],
-            "light_rail": ["COALESCE", "$input"],
-            "subway": ["COALESCE", "$input"],
-            "monorail": ["COALESCE", "$input"]
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "public_transport": "platform",
-               "bus": false,
-               "ferry": false,
-               "light_rail": false,
-               "monorail": false,
-               "subway": false,
-               "train": false,
-               "tram": false,
-               "trolleybus": false
-            },
-            "!parent": [
-               {
-                  "osm_tags": {
-                     "public_transport": "platform"
-                  }
-               }
-            ]
          }
       ]
    }
