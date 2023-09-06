@@ -1,53 +1,53 @@
 [
    {
       "question": {
-         "name": "@tranportationModesName",
-         "text": "@tranportationModesText"
+         "name": "@transportationModesName",
+         "text": "@transportationModesText"
       },
       "answer": {
          "type": "MultiList",
          "input": [
             {
-               "name": "@tranportationModesBusOption",
+               "name": "@transportationModesBusOption",
                "image": "assets/question_catalog/images/bus.jpg",
                "osm_tags": {
                   "bus": "yes"
                }
             },
             {
-               "name": "@tranportationModesTramOption",
+               "name": "@transportationModesTramOption",
                "image": "assets/question_catalog/images/tram.jpg",
                "osm_tags": {
                   "tram": "yes"
                }
             },
             {
-               "name": "@tranportationModesTrainOptionName",
+               "name": "@transportationModesTrainOptionName",
                "image": "assets/question_catalog/images/train.jpg",
-               "description": "@tranportationModesTrainOptionDescription",
+               "description": "@transportationModesTrainOptionDescription",
                "osm_tags": {
                   "train": "yes"
                }
             },
             {
-               "name": "@tranportationModesLightRailOptionName",
+               "name": "@transportationModesLightRailOptionName",
                "image": "assets/question_catalog/images/lightrail.jpg",
-               "description": "@tranportationModesLightRailOptionDescription",
+               "description": "@transportationModesLightRailOptionDescription",
                "osm_tags": {
                   "light_rail": "yes"
                }
             },
             {
-               "name":"@tranportationModesSubwayOption",
+               "name":"@transportationModesSubwayOption",
                "image": "assets/question_catalog/images/subway.jpg",
                "osm_tags": {
                   "subway": "yes"
                }
             },
             {
-               "name": "@tranportationModesMonorailOptionName",
+               "name": "@transportationModesMonorailOptionName",
                "image": "assets/question_catalog/images/monorail.jpg",
-               "description": "@tranportationModesMonorailOptionDescription",
+               "description": "@transportationModesMonorailOptionDescription",
                "osm_tags": {
                   "monorail": "yes"
                }
