@@ -100,7 +100,7 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
     final buttonShape = theme.outlinedButtonTheme.style?.shape?.resolve({});
     final innerBorderRadius = buttonShape is RoundedRectangleBorder
         ? buttonShape.borderRadius.subtract(BorderRadius.circular(widget.imagePadding))
-        : null;
+        : BorderRadius.zero;
     return OutlinedButton(
       style: _toggleStyle(widget.active),
       onPressed: widget.onTap,
