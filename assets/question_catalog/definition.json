@@ -1116,7 +1116,7 @@
       "conditions": [
          {
             "osm_tags": {
-               "platform_lift": "yes",
+               "platform_lift": ["yes", "vertical"],
                "platform_lift:portable": "yes",
                "platform_lift:maxlength:physical": false
             }
@@ -1149,7 +1149,7 @@
       "conditions": [
          {
             "osm_tags": {
-               "platform_lift": "yes",
+               "platform_lift": ["yes", "vertical"],
                "platform_lift:portable": "yes",
                "platform_lift:maxweight": false
             }
@@ -2260,9 +2260,11 @@
       "conditions": [
          {
             "osm_tags": {
-               "platform_lift": "yes",
+               "highway": "steps",
+               "platform_lift": ["yes", "vertical", "inclined"],
                "platform_lift:maxlength:physical": false
-            }
+            },
+            "osm_element": "OpenWay"
          }
       ]
    },
@@ -2335,9 +2337,11 @@
       "conditions": [
          {
             "osm_tags": {
-               "platform_lift": "yes",
+               "highway": "steps",
+               "platform_lift": ["yes", "vertical", "inclined"],
                "platform_lift:maxwidth:physical ": false
-            }
+            },
+            "osm_element": "OpenWay"
          }
       ]
    },
