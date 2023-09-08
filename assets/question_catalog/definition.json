@@ -503,8 +503,7 @@
          "text": "@stopCoveredAreaText",
          "image": [
             "assets/question_catalog/images/platform_shelter_1.jpg",
-            "assets/question_catalog/images/platform_shelter_2.jpg",
-            "assets/question_catalog/images/platform_shelter_3.jpg"
+            "assets/question_catalog/images/platform_shelter_2.jpg"
          ]
       },
       "answer": {
@@ -2558,6 +2557,7 @@
          {
             "osm_tags": {
                "highway": "steps",
+               "conveying": ["no", false],
                "tactile_paving": false
             },
             "osm_element": "OpenWay"
