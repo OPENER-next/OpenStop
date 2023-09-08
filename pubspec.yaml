@@ -5,7 +5,7 @@ description: 'Next Stop: Accessibility'
 publish_to: 'none'
 
 # Remember to create a new git tag (like so: v0.4.2) to trigger fdroid and github build scripts
-version: 0.4.4+14
+version: 0.5.0+15
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
