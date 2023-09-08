@@ -58,6 +58,7 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                   initialRotation: untracked(() => viewModel.storedMapRotation),
                   minZoom: viewModel.tileLayer.minZoom.toDouble(),
                   maxZoom: viewModel.tileLayer.maxZoom.toDouble(),
+                  backgroundColor: Theme.of(context).colorScheme.background,
                 ),
                 nonRotatedChildren: [
                   RepaintBoundary(
