@@ -58,7 +58,7 @@ class ServiceWorkerController<M> {
 
     final _Response response = await responsePort.first;
     if (response.type == _ResponseType.error) {
-      completer.completeError(response.data);
+      completer.completeError(response.data.$1, response.data.$2);
     }
     else {
       completer.complete(response.data);
@@ -158,10 +158,10 @@ abstract class ServiceWorker<M> {
         await messageHandler(message.data),
       ));
     }
-    catch(error) {
+    catch(error, stackTrace) {
       message.responsePort.send(_Response(
         _ResponseType.error,
-        error,
+        (error, stackTrace),
       ));
     }
   }
