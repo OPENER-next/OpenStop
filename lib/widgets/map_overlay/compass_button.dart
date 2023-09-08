@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter/material.dart';
 
 /// The rotation is expected in clockwise radians if not otherwise specified by the [isDegree] parameter.

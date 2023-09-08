@@ -580,11 +580,11 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
         rethrow;
       }
     }
-    on DioError catch (e) {
-      if (e.type == DioErrorType.connectionTimeout) {
+    on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout) {
         notifyUser(appLocale.queryMessageConnectionTimeoutError);
       }
-      else if (e.type == DioErrorType.receiveTimeout) {
+      else if (e.type == DioExceptionType.receiveTimeout) {
         notifyUser(appLocale.queryMessageReceiveTimeoutError);
       }
       else {
