@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:osm_api/osm_api.dart';
 
@@ -36,44 +37,33 @@ class OSMElementProcessor {
   ///
   /// Returns all added elements and marks whether they are new or pre-existed.
 
-  Iterable<({ProcessedElement element, bool isNew})> add(OSMElementBundle elements) {
-    // convert to list so lazy iterable is evaluated
-    final nodeRecords = _addNodes(elements.nodes)
-      .toList(growable: false);
-    final wayRecords = _addWays(elements.ways)
-      .toList(growable: false);
-    final relationRecords = _addRelations(elements.relations)
-      .toList(growable: false);
-
-    final newNodes = nodeRecords
-      .where((record) => record.isNew)
-      .map((record) => record.element);
-    final newWays = wayRecords
-      .where((record) => record.isNew)
-      .map((record) => record.element);
-    final newRelations = relationRecords
-      .where((record) => record.isNew)
-      .map((record) => record.element);
+  UnionSet<({ProcessedElement element, bool isNew})> add(OSMElementBundle elements) {
+    // convert to Set so lazy iterables are evaluated
+    // this is important since this adds the elements to the lookup tables
+    final nodeRecords = _addNodes(elements.nodes).toSet();
+    final wayRecords = _addWays(elements.ways).toSet();
+    final relationRecords = _addRelations(elements.relations).toSet();
 
     // resolve references AFTER all elements have been added
-    _resolveWays(newWays);
-    _resolveRelations(newRelations);
+    _resolveWays(wayRecords.map((item) => item.element));
+    _resolveRelations(relationRecords.map((item) => item.element));
 
     // geometry calculation depends on parent/children assignment
     // due to inner dependencies first process nodes, then ways and then relations
     // also remove any elements where geometry calculation failed
-    _calcGeometries(newNodes)
-      .forEach((e) => _nodesLookUp.remove(e.id));
-    _calcGeometries(newWays)
-      .forEach((e) => _waysLookUp.remove(e.id));
-    _calcGeometries(newRelations)
-      .forEach((e) => _relationsLookUp.remove(e.id));
+    nodeRecords.removeWhere(
+      (item) => _removeOnInvalidGeometry(item.element, _nodesLookUp),
+    );
+    wayRecords.removeWhere(
+      (item) => _removeOnInvalidGeometry(item.element, _waysLookUp),
+    );
+    relationRecords.removeWhere(
+      (item) => _removeOnInvalidGeometry(item.element, _relationsLookUp),
+    );
 
-    // don't use sync* and yield here so the above statements get evaluated even if the returned iterable isn't read
-    return nodeRecords
-      .cast<({ProcessedElement element, bool isNew})>()
-      .followedBy(wayRecords)
-      .followedBy(relationRecords);
+    return UnionSet({
+      nodeRecords, wayRecords, relationRecords,
+    }, disjoint: true);
   }
 
   /// Fast way to get an element by it's type and id.
@@ -157,20 +147,20 @@ class OSMElementProcessor {
     }
   }
 
-  /// Lazily calculates the geometry for every element.
+  /// Calculates the geometry for the given element and removes the element from the given lookup table on failure.
   ///
-  /// Return all elements whose geometry calculation failed.
+  /// Returns `true` if geometry calculation failed.
 
-  Iterable<T> _calcGeometries<T extends ProcessedElement>(Iterable<T> elements) sync* {
-    for (final element in elements) {
-      try {
-        element.calcGeometry();
-      }
-      // catch geometry calculation errors
-      catch(e) {
-        debugPrint(e.toString());
-        yield element;
-      }
+  bool _removeOnInvalidGeometry(ProcessedElement element, Map<int, ProcessedElement> lookupTable) {
+    try {
+      element.calcGeometry();
+      return false;
+    }
+    // catch geometry calculation errors
+    catch(e) {
+      debugPrint('Remove failed geometry: $element due to ${e.toString()}');
+      lookupTable.remove(element.id);
+      return true;
     }
   }
 }
