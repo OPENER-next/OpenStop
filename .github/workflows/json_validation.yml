@@ -5,16 +5,12 @@ on:
     paths:
       - '**/definition.json'
       - '**/question_catalog_schema.json'
-      - '**/map_feature_collection.json'
-      - '**/map_feature_collection_schema.json'
       - '**/osm_condition_schema.json'
       - '**/expression_schema.json'
   pull_request:
     paths:
       - '**/definition.json'
       - '**/question_catalog_schema.json'
-      - '**/map_feature_collection.json'
-      - '**/map_feature_collection_schema.json'
       - '**/osm_condition_schema.json'
       - '**/expression_schema.json'
 
@@ -39,6 +35,3 @@ jobs:
       
       - name: Validate advanced questions JSON
         run: jsonschema --instance 'assets/advanced_question_catalog/definition.json' 'assets/datasets/question_catalog_schema.json'
-
-      - name: Validate map features JSON
-        run: jsonschema --instance 'assets/datasets/map_feature_collection.json' 'assets/datasets/map_feature_collection_schema.json'
