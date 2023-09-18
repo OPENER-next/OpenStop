@@ -223,9 +223,7 @@ abstract final class MapFeatures {
       ],
     ), 
     MapFeatureDefinition(
-      label: (locale, tags) {
-        return locale.mapFeatureInformationPoint;
-      },
+      label: (locale, _) => locale.mapFeatureInformationPoint,
       icon: MdiIcons.informationVariant,
       conditions: const [
         ElementCondition([
@@ -238,9 +236,7 @@ abstract final class MapFeatures {
       ],
     ),
     MapFeatureDefinition(
-      label: (locale, tags) {
-        return locale.mapFeatureStationMap;
-      },
+      label: (locale, _) => locale.mapFeatureStationMap,
       icon: TemakiIcons.infoBoard,
       conditions: const [
         ElementCondition([
@@ -273,9 +269,7 @@ abstract final class MapFeatures {
       ],
     ),
     MapFeatureDefinition(
-      label: (locale, tags) {
-        return locale.mapFeatureParkingSpot;
-      },
+      label: (locale, _) => locale.mapFeatureParkingSpot,
       icon: MdiIcons.parking,
       conditions: const [
         ElementCondition([
@@ -294,9 +288,7 @@ abstract final class MapFeatures {
       ],
     ),
     MapFeatureDefinition(
-      label: (locale, tags) {
-        return locale.mapFeatureTaxiStand;
-      },
+      label: (locale, _) => locale.mapFeatureTaxiStand,
       icon: MdiIcons.taxi,
       conditions: const [
         ElementCondition([
@@ -308,9 +300,7 @@ abstract final class MapFeatures {
       ],
     ),
     MapFeatureDefinition(
-      label: (locale, tags) {
-        return locale.mapFeatureToilets;
-      },
+      label: (locale, _) => locale.mapFeatureToilets,
       icon: MdiIcons.humanMaleFemale,
       conditions: const [
         ElementCondition([
@@ -322,9 +312,7 @@ abstract final class MapFeatures {
       ],
     ),
     MapFeatureDefinition(
-      label: (locale, tags) {
-        return locale.mapFeatureLuggageLockers;
-      },
+      label: (locale, _) => locale.mapFeatureLuggageLockers,
       icon: TemakiIcons.vendingLockers,
       conditions: const [
         ElementCondition([
@@ -336,9 +324,7 @@ abstract final class MapFeatures {
       ],
     ),
     MapFeatureDefinition(
-      label: (locale, tags) {
-        return locale.mapFeatureLuggageTransport;
-      },
+      label: (locale, _) => locale.mapFeatureLuggageTransport,
       icon: MdiIcons.dolly,
       conditions: const [
         ElementCondition([
@@ -350,9 +336,7 @@ abstract final class MapFeatures {
       ],
     ),
     MapFeatureDefinition(
-      label: (locale, tags) {
-        return locale.mapFeatureInformationTerminal;
-      },
+      label: (locale, _) => locale.mapFeatureInformationTerminal,
       icon: MdiIcons.informationVariant,
       conditions: const [
         ElementCondition([
@@ -365,9 +349,7 @@ abstract final class MapFeatures {
       ],
     ),
     MapFeatureDefinition(
-      label: (locale, tags) {
-        return locale.mapFeatureInformationCallPoint;
-      },
+      label: (locale, _) => locale.mapFeatureInformationCallPoint,
       icon: MdiIcons.phoneMessage,
       conditions: const [
         ElementCondition([
@@ -380,9 +362,7 @@ abstract final class MapFeatures {
       ],
     ),
     MapFeatureDefinition(
-      label: (locale, tags) {
-        return locale.mapFeatureHelpPoint;
-      },
+      label: (locale, _) => locale.mapFeatureHelpPoint,
       icon: MdiIcons.phoneInTalk,
       conditions: const [
         ElementCondition([
@@ -396,9 +376,7 @@ abstract final class MapFeatures {
       ],
     ),
     MapFeatureDefinition(
-      label: (locale, tags) {
-        return locale.mapFeatureEmergencyCallPoint;
-      },
+      label: (locale, _) => locale.mapFeatureEmergencyCallPoint,
       icon: MdiIcons.phoneAlert,
       conditions: const [
         ElementCondition([
@@ -410,9 +388,7 @@ abstract final class MapFeatures {
       ],
     ),
     MapFeatureDefinition(
-      label: (locale, tags) {
-        return locale.mapFeatureEntrance;
-      },
+      label: (locale, _) => locale.mapFeatureEntrance,
       icon: MdiIcons.door,
       conditions: const [
         ElementCondition([
@@ -423,13 +399,20 @@ abstract final class MapFeatures {
         ]),
         ElementCondition([
           TagsSubCondition({
-            'door': MultiValueMatcher([StringValueMatcher('yes'), StringValueMatcher('hinged'), StringValueMatcher('revolving'), StringValueMatcher('sliding'), StringValueMatcher('folding')]),
+            'door': MultiValueMatcher([
+              StringValueMatcher('yes'), 
+              StringValueMatcher('hinged'), 
+              StringValueMatcher('revolving'), 
+              StringValueMatcher('sliding'), 
+              StringValueMatcher('folding')]),
           }),
           ElementTypeSubCondition([OSMElementType.node])
         ]),
         ElementCondition([
           TagsSubCondition({
-            'railway': MultiValueMatcher([StringValueMatcher('subway_entrance'), StringValueMatcher('train_station_entrance')]),
+            'railway': MultiValueMatcher([
+              StringValueMatcher('subway_entrance'), 
+              StringValueMatcher('train_station_entrance')]),
           }),
           ElementTypeSubCondition([OSMElementType.node])
         ]),
@@ -445,13 +428,20 @@ abstract final class MapFeatures {
       conditions: const [
         ElementCondition([
           TagsSubCondition({
-            'highway': MultiValueMatcher([StringValueMatcher('footway'), StringValueMatcher('path'), StringValueMatcher('cycle_way')]),
+            'highway': MultiValueMatcher([
+              StringValueMatcher('footway'), 
+              StringValueMatcher('path'), 
+              StringValueMatcher('cycle_way')]),
           }),
           ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
         ]),
         ElementCondition([
           TagsSubCondition({
-            'sidewalk': MultiValueMatcher([StringValueMatcher('yes'), StringValueMatcher('right'), StringValueMatcher('left'), StringValueMatcher('both')]),
+            'sidewalk': MultiValueMatcher([
+              StringValueMatcher('yes'), 
+              StringValueMatcher('right'), 
+              StringValueMatcher('left'), 
+              StringValueMatcher('both')]),
           }),
           ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
         ]),
@@ -476,9 +466,7 @@ abstract final class MapFeatures {
       ],
     ),
     MapFeatureDefinition(
-      label: (locale, tags) {
-        return locale.mapFeatureStairs;
-      },
+      label: (locale, _) => locale.mapFeatureStairs,
       icon: MdiIcons.stairs,
       conditions: const [
         ElementCondition([
@@ -490,9 +478,7 @@ abstract final class MapFeatures {
       ],
     ),
     MapFeatureDefinition(
-      label: (locale, tags) {
-        return locale.mapFeatureElevator;
-      },
+      label: (locale, _) => locale.mapFeatureElevator,
       icon: MdiIcons.elevatorPassenger,
       conditions: const [
         ElementCondition([
@@ -504,24 +490,24 @@ abstract final class MapFeatures {
       ],
     ),  
     MapFeatureDefinition(
-      label: (locale, tags) {
-        return locale.mapFeatureEscalator;
-      },
+      label: (locale, _) => locale.mapFeatureEscalator,
       icon: MdiIcons.escalator,
       conditions: const [
         ElementCondition([
           TagsSubCondition({
             'highway': StringValueMatcher('kerb'),
-            'conveying': MultiValueMatcher([StringValueMatcher('yes'), StringValueMatcher('forward'), StringValueMatcher('backward'), StringValueMatcher('reversible')]),
+            'conveying': MultiValueMatcher([
+              StringValueMatcher('yes'), 
+              StringValueMatcher('forward'), 
+              StringValueMatcher('backward'), 
+              StringValueMatcher('reversible')]),
           }),
           ElementTypeSubCondition([OSMElementType.openWay])
         ]),
       ],
     ),
     MapFeatureDefinition(
-      label: (locale, tags) {
-        return locale.mapFeatureCycleBarrier;
-      },
+      label: (locale, _) => locale.mapFeatureCycleBarrier,
       icon: TemakiIcons.cycleBarrier,
       conditions: const [
         ElementCondition([
@@ -533,9 +519,7 @@ abstract final class MapFeatures {
       ],
     ),
     MapFeatureDefinition(
-      label: (locale, tags) {
-        return locale.mapFeatureCrosswalk;
-      },
+      label: (locale, _) => locale.mapFeatureCrosswalk,
       icon: TemakiIcons.pedestrianCrosswalk,
       conditions: const [
         ElementCondition([
@@ -547,9 +531,7 @@ abstract final class MapFeatures {
       ],
     ),
     MapFeatureDefinition(
-      label: (locale, tags) {
-        return locale.mapFeaturePedestrianTrafficLights;
-      },
+      label: (locale, _) => locale.mapFeaturePedestrianTrafficLights,
       icon: TemakiIcons.trafficSignals,
       conditions: const [
         ElementCondition([
@@ -569,9 +551,7 @@ abstract final class MapFeatures {
       ],
     ),
     MapFeatureDefinition(
-      label: (locale, tags) {
-        return locale.mapFeatureTramCrossing;
-      },
+      label: (locale, _) => locale.mapFeatureTramCrossing,
       icon: TemakiIcons.crossingTramSolid,
       conditions: const [
         ElementCondition([
@@ -583,9 +563,7 @@ abstract final class MapFeatures {
       ],
     ),
     MapFeatureDefinition(
-      label: (locale, tags) {
-        return locale.mapFeatureRailroadCrossing;
-      },
+      label: (locale, _) => locale.mapFeatureRailroadCrossing,
       icon: TemakiIcons.crossingRailSolid,
       conditions: const [
         ElementCondition([
@@ -597,9 +575,7 @@ abstract final class MapFeatures {
       ],
     ),
     MapFeatureDefinition(
-      label: (locale, tags) {
-        return locale.mapFeatureCurb;
-      },
+      label: (locale, _) => locale.mapFeatureCurb,
       icon: TemakiIcons.kerbRaised,
       conditions: const [
         ElementCondition([
