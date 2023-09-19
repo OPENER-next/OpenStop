@@ -108,10 +108,10 @@ final _globalDefinitions = <MapFeatureDefinition>[
       final localRef = tags['local_ref'];
 
       if (name != null) {
-        return localRef != null ? '$name\nSteig: $localRef' : name;
+        return localRef != null ? '$name\n$locale.mapFeatureBusPlatformNumber: $localRef' : name;
       }
       else if (localRef != null) {
-        return 'Steig: $localRef';
+        return '$locale.mapFeatureBusPlatformNumber: $localRef';
       }
       else {
         return locale.mapFeatureBusStop;
@@ -144,10 +144,10 @@ final _globalDefinitions = <MapFeatureDefinition>[
       final localRef = tags['local_ref'];
 
       if (name != null) {
-        return localRef != null ? '$name\nSteig: $localRef' : name;
+        return localRef != null ? '$name\n$locale.mapFeatureBusPlatformNumber: $localRef' : name;
       }
       else if (localRef != null) {
-        return 'Steig: $localRef';
+        return '$locale.mapFeatureBusPlatformNumber: $localRef';
       }
       else {
         return locale.mapFeatureTramStop;
@@ -175,10 +175,10 @@ final _globalDefinitions = <MapFeatureDefinition>[
       final localRef = tags['local_ref'];
 
       if (name != null) {
-        return localRef != null ? '$name\nGleis: $localRef' : name;
+        return localRef != null ? '$name\n$locale.mapFeatureTrainPlatformNumber: $localRef' : name;
       }
       else if (localRef != null) {
-        return 'Steig: $localRef';
+        return '$locale.mapFeatureTrainPlatformNumber: $localRef';
       }
       else {
         return locale.mapFeatureTrainPlatform;

@@ -301,5 +301,9 @@
   "mapFeatureRailroadCrossing" : "Railroad Crossing",
   "@mapFeatureRailroadCrossing" : {},
   "mapFeatureCurb" : "Curb",
-  "@mapFeatureCurb" : {}
+  "@mapFeatureCurb" : {},
+  "mapFeatureBusPlatformNumber" : "Platform",
+  "@mapFeatureBusPlatformNumber" : {},
+  "mapFeatureTrainPlatformNumber" : "Platform",
+  "@mapFeatureTrainPlatformNumber" : {}
 }
