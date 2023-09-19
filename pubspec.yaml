@@ -71,7 +71,6 @@ flutter:
     - assets/images/
     - assets/images/onboarding/
     - assets/images/logos/
-    - assets/datasets/map_feature_collection.json
     - assets/question_catalog/
     - assets/question_catalog/locales/
     - assets/question_catalog/images/

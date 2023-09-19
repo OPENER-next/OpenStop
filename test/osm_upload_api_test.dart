@@ -5,9 +5,8 @@ import 'package:open_stop/api/osm_element_upload_api.dart';
 import 'package:open_stop/models/authenticated_user.dart';
 import 'package:open_stop/models/element_conditions/sub_condition_matcher.dart';
 import 'package:open_stop/models/element_variants/base_element.dart';
-import 'package:open_stop/models/map_feature.dart';
-import 'package:open_stop/models/map_feature_collection.dart';
 import 'package:open_stop/models/element_conditions/element_condition.dart';
+import 'package:open_stop/models/map_features/map_feature_definition.dart';
 import 'package:open_stop/models/osm_element_type.dart' as app;
 import 'package:open_stop/models/stop_area_processing/stop.dart';
 import 'package:open_stop/models/stop_area_processing/stop_area.dart';
@@ -62,9 +61,11 @@ void main() async {
   const tags03 = {'map_feature_3': 'map_feature_3_value'};
   const tags04 = {'map_feature_4': 'map_feature_4_value'};
 
-  final mapFeatureCollection = MapFeatureCollection([
-    MapFeature(
-      name: 'MapFeature1',
+  final mapFeatureCollection = <MapFeatureDefinition>[
+    MapFeatureDefinition(
+      label: (locale, tags) {
+        return 'MapFeature1';
+      },
       icon: Icons.close,
       conditions: [
         ElementCondition([
@@ -73,8 +74,10 @@ void main() async {
         ]),
       ],
     ),
-    MapFeature(
-      name: 'MapFeature2',
+    MapFeatureDefinition(
+      label: (locale, tags) {
+        return 'MapFeature2';
+      },
       icon: Icons.close,
       conditions: [
         ElementCondition([
@@ -83,8 +86,10 @@ void main() async {
         ]),
       ],
     ),
-    MapFeature(
-      name: 'MapFeature3',
+    MapFeatureDefinition(
+      label: (locale, tags) {
+        return 'MapFeature3';
+      },
       icon: Icons.close,
       conditions: [
         ElementCondition([
@@ -93,8 +98,10 @@ void main() async {
         ]),
       ],
     ),
-    MapFeature(
-      name: 'MapFeature4 with very long name that exceeds the 255 OSM character length. Looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong',
+    MapFeatureDefinition(
+      label: (locale, tags) {
+        return 'MapFeature4 with very long name that exceeds the 255 OSM character length. Looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong';
+      },
       icon: Icons.close,
       conditions: [
         ElementCondition([
@@ -103,7 +110,7 @@ void main() async {
         ]),
       ],
     ),
-  ]);
+  ];
 
   late final OSMAPI osmapi;
   late final List<OSMNode> nodes;
@@ -186,7 +193,6 @@ void main() async {
 
   test('Test osm element upload changeset generation/updating', () async {
     final uploadApi01 = OSMElementUploadAPI(
-      mapFeatureCollection: mapFeatureCollection,
       stopArea: simpleStopArea,
       authenticatedUser: user,
       endPoint: endPoint,
@@ -248,7 +254,6 @@ void main() async {
     // update way for double stop area
 
     final uploadApi02 = OSMElementUploadAPI(
-      mapFeatureCollection: mapFeatureCollection,
       stopArea: doubleStopArea,
       authenticatedUser: user,
       endPoint: endPoint,
@@ -274,7 +279,6 @@ void main() async {
     // update way for triple stop area
 
     final uploadApi03 = OSMElementUploadAPI(
-      mapFeatureCollection: mapFeatureCollection,
       stopArea: tripleStopArea,
       authenticatedUser: user,
       endPoint: endPoint,
@@ -322,7 +326,6 @@ void main() async {
     // update changeset with map feature and stop area of long name
 
     final uploadApi = OSMElementUploadAPI(
-      mapFeatureCollection: mapFeatureCollection,
       stopArea: stopAreaWithLongName,
       authenticatedUser: user,
       endPoint: endPoint,

@@ -1,6 +1,7 @@
 import 'dart:collection';
 
-import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:temaki_flutter/temaki_flutter.dart';
 
 import '/models/osm_element_type.dart';
 import '/models/element_conditions/element_condition.dart';
@@ -59,5 +60,531 @@ abstract final class MapFeatures {
   // TODO: make whole list const one day when https://github.com/dart-lang/language/issues/1048 is implemented
   static final _list = <MapFeatureDefinition>[
 
+    MapFeatureDefinition(
+      label: (locale, tags) {
+        final name = tags['name'];
+        final localRef = tags['local_ref'];
+
+        if (name != null) {
+          return localRef != null ? '$name\nSteig: $localRef' : name;
+        }
+        else if (localRef != null) {
+          return 'Steig: $localRef';
+        }
+        else {
+          return locale.mapFeatureBusStop;
+        }
+      },
+      icon: MdiIcons.bus,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'public_transport': StringValueMatcher('platform'),
+            'bus': StringValueMatcher('yes'),
+          }),
+        ]),
+        ElementCondition([
+          TagsSubCondition({
+            'public_transport': StringValueMatcher('platform'),
+            'highway': StringValueMatcher('bus_stop'),
+          }),
+        ]),
+        ElementCondition([
+          TagsSubCondition({
+            'highway': StringValueMatcher('platform'),
+          })
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, tags) {
+        final name = tags['name'];
+        final localRef = tags['local_ref'];
+
+        if (name != null) {
+          return localRef != null ? '$name\nSteig: $localRef' : name;
+        }
+        else if (localRef != null) {
+          return 'Steig: $localRef';
+        }
+        else {
+          return locale.mapFeatureTramStop;
+        }
+      },
+      icon: MdiIcons.tram,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'public_transport': StringValueMatcher('platform'),
+            'railway': StringValueMatcher('platform'),
+          }),
+        ]),
+        ElementCondition([
+          TagsSubCondition({
+            'public_transport': StringValueMatcher('platform'),
+            'tram': StringValueMatcher('yes'),
+          }),
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, tags) {
+        final name = tags['name'];
+        final localRef = tags['local_ref'];
+
+        if (name != null) {
+          return localRef != null ? '$name\nGleis: $localRef' : name;
+        }
+        else if (localRef != null) {
+          return 'Steig: $localRef';
+        }
+        else {
+          return locale.mapFeatureTrainPlatform;
+        }
+      },
+      icon: MdiIcons.train,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'public_transport': StringValueMatcher('platform'),
+            'railway': StringValueMatcher('platform'),
+            'train': StringValueMatcher('yes'),
+          })
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, tags) {
+        final name = tags['name'];
+        return name ?? locale.mapFeaturePlatform;
+      },
+      icon: MdiIcons.busStopCovered,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'public_transport': StringValueMatcher('platform'),
+          }),
+          ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay, OSMElementType.relation])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, tags) {
+        final name = tags['name'];
+        return name ?? locale.mapFeatureStopPole;
+      },
+      icon: MdiIcons.busStop,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'public_transport': StringValueMatcher('platform'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, tags) {
+        final name = tags['name'];
+        return name ?? locale.mapFeatureStation;
+      },
+      icon: MdiIcons.home,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'public_transport': StringValueMatcher('station'),
+            'railway': StringValueMatcher('station'),
+          })
+        ]),
+        ElementCondition([
+          TagsSubCondition({
+            'public_transport': StringValueMatcher('station'),
+            'amenity': StringValueMatcher('bus_station'),
+          })
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, tags) {
+        final operatorName = tags['operator:short'] ?? tags['operator'];
+        return operatorName != null
+          ? '$operatorName ${locale.mapFeatureTicketSalesPoint}'
+          : locale.mapFeatureTicketSalesPoint;
+      },
+      icon: TemakiIcons.ticket,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'shop': StringValueMatcher('ticket'),
+            'tickets:public_transport': StringValueMatcher('yes'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node])
+        ]),
+      ],
+    ), 
+    MapFeatureDefinition(
+      label: (locale, _) => locale.mapFeatureInformationPoint,
+      icon: MdiIcons.informationVariant,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'tourism': StringValueMatcher('information'),
+            'information': StringValueMatcher('office'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, _) => locale.mapFeatureStationMap,
+      icon: TemakiIcons.infoBoard,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'tourism': StringValueMatcher('information'),
+            'information': StringValueMatcher('map'),
+            'map_type': StringValueMatcher('public_transport'),
+            'map_size': StringValueMatcher('site'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, tags) {
+        final operatorName = tags['operator:short'] ?? tags['operator'];
+        return operatorName != null
+          ? '$operatorName ${locale.mapFeatureTicketMachine}'
+          : locale.mapFeatureTicketMachine;
+      },
+      icon: TemakiIcons.vendingTickets,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'amenity': StringValueMatcher('vending_machine'),
+            'vending': StringValueMatcher('public_transport_tickets'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, _) => locale.mapFeatureParkingSpot,
+      icon: MdiIcons.parking,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'amenity': StringValueMatcher('parking'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node, OSMElementType.closedWay])
+        ]),
+        ElementCondition([
+          TagsSubCondition({
+            'amenity': StringValueMatcher('parking'),
+            'type': StringValueMatcher('multipolygon'),
+          }),
+          ElementTypeSubCondition([OSMElementType.relation])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, _) => locale.mapFeatureTaxiStand,
+      icon: MdiIcons.taxi,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'amenity': StringValueMatcher('taxi'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, _) => locale.mapFeatureToilets,
+      icon: MdiIcons.humanMaleFemale,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'amenity': StringValueMatcher('toilets'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, _) => locale.mapFeatureLuggageLockers,
+      icon: TemakiIcons.vendingLockers,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'amenity': StringValueMatcher('luggage_locker'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, _) => locale.mapFeatureLuggageTransport,
+      icon: MdiIcons.dolly,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'amenity': StringValueMatcher('trolley_bay'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, _) => locale.mapFeatureInformationTerminal,
+      icon: MdiIcons.informationVariant,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'tourism': StringValueMatcher('information'),
+            'information': StringValueMatcher('terminal'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, _) => locale.mapFeatureInformationCallPoint,
+      icon: MdiIcons.phoneMessage,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'tourism': StringValueMatcher('information'),
+            'information': StringValueMatcher('phone'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, _) => locale.mapFeatureHelpPoint,
+      icon: MdiIcons.phoneInTalk,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'emergency': StringValueMatcher('phone'),
+            'tourism': StringValueMatcher('information'),
+            'information': StringValueMatcher('phone'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, _) => locale.mapFeatureEmergencyCallPoint,
+      icon: MdiIcons.phoneAlert,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'emergency': StringValueMatcher('phone'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, _) => locale.mapFeatureEntrance,
+      icon: MdiIcons.door,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'entrance': StringValueMatcher('true'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node])
+        ]),
+        ElementCondition([
+          TagsSubCondition({
+            'door': MultiValueMatcher([
+              StringValueMatcher('yes'), 
+              StringValueMatcher('hinged'), 
+              StringValueMatcher('revolving'), 
+              StringValueMatcher('sliding'), 
+              StringValueMatcher('folding')]),
+          }),
+          ElementTypeSubCondition([OSMElementType.node])
+        ]),
+        ElementCondition([
+          TagsSubCondition({
+            'railway': MultiValueMatcher([
+              StringValueMatcher('subway_entrance'), 
+              StringValueMatcher('train_station_entrance')]),
+          }),
+          ElementTypeSubCondition([OSMElementType.node])
+        ]),
+      
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, tags) {
+        final name = tags['name'];
+        return name ?? locale.mapFeatureFootpath;
+      },
+      icon: TemakiIcons.pedestrian,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'highway': MultiValueMatcher([
+              StringValueMatcher('footway'), 
+              StringValueMatcher('path'), 
+              StringValueMatcher('cycle_way')]),
+          }),
+          ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
+        ]),
+        ElementCondition([
+          TagsSubCondition({
+            'sidewalk': MultiValueMatcher([
+              StringValueMatcher('yes'), 
+              StringValueMatcher('right'), 
+              StringValueMatcher('left'), 
+              StringValueMatcher('both')]),
+          }),
+          ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
+        ]),
+        ElementCondition([
+          TagsSubCondition({
+            'sidewalk:left': StringValueMatcher('yes'),
+          }),
+          ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
+        ]),
+        ElementCondition([
+          TagsSubCondition({
+            'sidewalk:right': StringValueMatcher('yes'),
+          }),
+          ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
+        ]),
+        ElementCondition([
+          TagsSubCondition({
+            'sidewalk:both': StringValueMatcher('yes'),
+          }),
+          ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, _) => locale.mapFeatureStairs,
+      icon: MdiIcons.stairs,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'highway': StringValueMatcher('steps'),
+          }),
+          ElementTypeSubCondition([OSMElementType.openWay])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, _) => locale.mapFeatureElevator,
+      icon: MdiIcons.elevatorPassenger,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'highway': StringValueMatcher('elevator'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node])
+        ]),
+      ],
+    ),  
+    MapFeatureDefinition(
+      label: (locale, _) => locale.mapFeatureEscalator,
+      icon: MdiIcons.escalator,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'highway': StringValueMatcher('kerb'),
+            'conveying': MultiValueMatcher([
+              StringValueMatcher('yes'), 
+              StringValueMatcher('forward'), 
+              StringValueMatcher('backward'), 
+              StringValueMatcher('reversible')]),
+          }),
+          ElementTypeSubCondition([OSMElementType.openWay])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, _) => locale.mapFeatureCycleBarrier,
+      icon: TemakiIcons.cycleBarrier,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'barrier': StringValueMatcher('cycle_barrier'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, _) => locale.mapFeatureCrosswalk,
+      icon: TemakiIcons.pedestrianCrosswalk,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'highway': StringValueMatcher('crossing'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node, OSMElementType.openWay])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, _) => locale.mapFeaturePedestrianTrafficLights,
+      icon: TemakiIcons.trafficSignals,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'highway': StringValueMatcher('crossing'),
+            'crossing': StringValueMatcher('traffic_signals'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node, OSMElementType.openWay])
+        ]),
+        ElementCondition([
+          TagsSubCondition({
+            'highway': StringValueMatcher('crossing'),
+            'crossing:signals': StringValueMatcher('yes'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node, OSMElementType.openWay])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, _) => locale.mapFeatureTramCrossing,
+      icon: TemakiIcons.crossingTramSolid,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'railway': StringValueMatcher('tram_crossing'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, _) => locale.mapFeatureRailroadCrossing,
+      icon: TemakiIcons.crossingRailSolid,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'railway': StringValueMatcher('crossing'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node])
+        ]),
+      ],
+    ),
+    MapFeatureDefinition(
+      label: (locale, _) => locale.mapFeatureCurb,
+      icon: TemakiIcons.kerbRaised,
+      conditions: const [
+        ElementCondition([
+          TagsSubCondition({
+            'barrier': StringValueMatcher('kerb'),
+          }),
+          ElementTypeSubCondition([OSMElementType.node])
+        ]),
+      ],
+    ),
   ];
 }
