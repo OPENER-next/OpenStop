@@ -7,6 +7,7 @@ import 'package:open_stop/models/element_conditions/sub_condition_matcher.dart';
 import 'package:open_stop/models/element_variants/base_element.dart';
 import 'package:open_stop/models/element_conditions/element_condition.dart';
 import 'package:open_stop/models/map_features/map_feature_definition.dart';
+import 'package:open_stop/models/map_features/map_features.dart';
 import 'package:open_stop/models/osm_element_type.dart' as app;
 import 'package:open_stop/models/stop_area_processing/stop.dart';
 import 'package:open_stop/models/stop_area_processing/stop_area.dart';
@@ -61,7 +62,7 @@ void main() async {
   const tags03 = {'map_feature_3': 'map_feature_3_value'};
   const tags04 = {'map_feature_4': 'map_feature_4_value'};
 
-  final mapFeatureCollection = <MapFeatureDefinition>[
+  MapFeatures.mockDefinitions([
     MapFeatureDefinition(
       label: (locale, tags) {
         return 'MapFeature1';
@@ -110,7 +111,7 @@ void main() async {
         ]),
       ],
     ),
-  ];
+  ]);
 
   late final OSMAPI osmapi;
   late final List<OSMNode> nodes;
