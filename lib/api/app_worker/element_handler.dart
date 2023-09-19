@@ -233,5 +233,5 @@ class ElementUpdate {
   });
 
   ElementUpdate.derive(ProcessedElement element, {required this.action}) :
-    element = MapFeatures.representElement(element);
+    element = MapFeatures().representElement(element);
 }
