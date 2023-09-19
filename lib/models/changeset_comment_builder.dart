@@ -104,7 +104,7 @@ class ChangesetCommentBuilder {
     // use set to automatically remove duplicates
     return Set<String>.from(
       elements.map(
-        (element) => MapFeatures.representElement(element).genericLabel(deLocale),
+        (element) => MapFeatures().representElement(element).genericLabel(deLocale),
       ),
     );
   }
