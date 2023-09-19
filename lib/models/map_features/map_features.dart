@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:temaki_flutter/temaki_flutter.dart';
 
 import '/models/osm_element_type.dart';
@@ -221,7 +221,7 @@ abstract final class MapFeatures {
           ElementTypeSubCondition([OSMElementType.node])
         ]),
       ],
-    ), 
+    ),
     MapFeatureDefinition(
       label: (locale, _) => locale.mapFeatureInformationPoint,
       icon: MdiIcons.informationVariant,
@@ -400,10 +400,10 @@ abstract final class MapFeatures {
         ElementCondition([
           TagsSubCondition({
             'door': MultiValueMatcher([
-              StringValueMatcher('yes'), 
-              StringValueMatcher('hinged'), 
-              StringValueMatcher('revolving'), 
-              StringValueMatcher('sliding'), 
+              StringValueMatcher('yes'),
+              StringValueMatcher('hinged'),
+              StringValueMatcher('revolving'),
+              StringValueMatcher('sliding'),
               StringValueMatcher('folding')]),
           }),
           ElementTypeSubCondition([OSMElementType.node])
@@ -411,12 +411,12 @@ abstract final class MapFeatures {
         ElementCondition([
           TagsSubCondition({
             'railway': MultiValueMatcher([
-              StringValueMatcher('subway_entrance'), 
+              StringValueMatcher('subway_entrance'),
               StringValueMatcher('train_station_entrance')]),
           }),
           ElementTypeSubCondition([OSMElementType.node])
         ]),
-      
+
       ],
     ),
     MapFeatureDefinition(
@@ -429,8 +429,8 @@ abstract final class MapFeatures {
         ElementCondition([
           TagsSubCondition({
             'highway': MultiValueMatcher([
-              StringValueMatcher('footway'), 
-              StringValueMatcher('path'), 
+              StringValueMatcher('footway'),
+              StringValueMatcher('path'),
               StringValueMatcher('cycle_way')]),
           }),
           ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
@@ -438,9 +438,9 @@ abstract final class MapFeatures {
         ElementCondition([
           TagsSubCondition({
             'sidewalk': MultiValueMatcher([
-              StringValueMatcher('yes'), 
-              StringValueMatcher('right'), 
-              StringValueMatcher('left'), 
+              StringValueMatcher('yes'),
+              StringValueMatcher('right'),
+              StringValueMatcher('left'),
               StringValueMatcher('both')]),
           }),
           ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
@@ -488,7 +488,7 @@ abstract final class MapFeatures {
           ElementTypeSubCondition([OSMElementType.node])
         ]),
       ],
-    ),  
+    ),
     MapFeatureDefinition(
       label: (locale, _) => locale.mapFeatureEscalator,
       icon: MdiIcons.escalator,
@@ -497,9 +497,9 @@ abstract final class MapFeatures {
           TagsSubCondition({
             'highway': StringValueMatcher('kerb'),
             'conveying': MultiValueMatcher([
-              StringValueMatcher('yes'), 
-              StringValueMatcher('forward'), 
-              StringValueMatcher('backward'), 
+              StringValueMatcher('yes'),
+              StringValueMatcher('forward'),
+              StringValueMatcher('backward'),
               StringValueMatcher('reversible')]),
           }),
           ElementTypeSubCondition([OSMElementType.openWay])

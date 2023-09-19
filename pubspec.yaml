@@ -4,22 +4,24 @@ description: 'Next Stop: Accessibility'
 # Required in order to use git and path dependencies
 publish_to: 'none'
 
-# Remember to create a new git tag (like so: v0.4.2) to trigger fdroid and github build scripts
-version: 0.4.4+14
+# Remember:
+# Create a new git tag (like so: v0.4.2) to trigger F-Droid and GitHub build scripts
+# Create changelog file for F-Droid release
+version: 0.5.0+15
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
   # The Flutter version is read in different build scripts and is used to setup the appropriate flutter toolkit.
   # The build processes cannot handle range notations like >=2.17.1 <3.0.0 or ^3.7.0.
   # Therefore it is important to always specify a fixed flutter version in that format: [0-9]+.[0-9]+.[0-9]+
-  flutter: 3.10.2
+  flutter: 3.13.3
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  flutter_map: ^6.0.0-dev.2
+  flutter_map: ^6.0.0-dev.3
   geolocator: ^9.0.2
   latlong2: ^0.9.0
   vector_math: ^2.1.4
@@ -40,10 +42,10 @@ dependencies:
   collection: ^1.17.0
   dio: ^5.1.0
   shared_preferences: ^2.0.20
-  flutter_secure_storage: ^8.0.0
+  flutter_secure_storage: ^9.0.0
   url_launcher: ^6.0.17
   flutter_web_auth: ^0.5.0
-  material_design_icons_flutter: ^6.0.7096
+  flutter_material_design_icons: ^1.1.7296
   flutter_markdown: ^0.6.14
   flutter_mvvm_architecture:
     git:
@@ -56,7 +58,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.12.0
+  flutter_launcher_icons: ^0.13.1
   flutter_lints: ^2.0.0
   nock: ^1.2.1
   stack_trace: ^1.11.0

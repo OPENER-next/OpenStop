@@ -195,7 +195,7 @@ class MapLayerPositioned extends ParentDataWidget<_MapLayerParentData> {
     assert(renderObject.parentData is _MapLayerParentData);
     final _MapLayerParentData parentData = renderObject.parentData! as _MapLayerParentData;
     assert(renderObject.parent is RenderObject);
-    final targetParent = renderObject.parent! as RenderObject;
+    final targetParent = renderObject.parent!;
 
     if (parentData.size != size) {
       parentData.size = size;

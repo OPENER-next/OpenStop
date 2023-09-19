@@ -1,4 +1,4 @@
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter/material.dart';
 import '/commons/themes.dart';
 import '/widgets/hero_viewer.dart';

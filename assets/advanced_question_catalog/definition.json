@@ -59,7 +59,14 @@
                "public_transport": "platform",
                "ref:IFOPT": false,
                "noref:IFOPT": false
-            }
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
          }
       ]
    },

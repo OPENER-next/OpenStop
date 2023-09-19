@@ -568,11 +568,24 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
       // query elements from loaded stop areas
       await loadElements();
     }
-    on DioError catch (e) {
-      if (e.type == DioErrorType.connectionTimeout) {
+    on OSMUnknownException catch (e) {
+      if (e.errorCode == 503) {
+        debugPrint(e.toString());
+        notifyUser(appLocale.queryMessageServerUnavailableError);
+      }
+      else if (e.errorCode == 429) {
+        debugPrint(e.toString());
+        notifyUser(appLocale.queryMessageTooManyRequestsError);
+      }
+      else {
+        rethrow;
+      }
+    }
+    on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout) {
         notifyUser(appLocale.queryMessageConnectionTimeoutError);
       }
-      else if (e.type == DioErrorType.receiveTimeout) {
+      else if (e.type == DioExceptionType.receiveTimeout) {
         notifyUser(appLocale.queryMessageReceiveTimeoutError);
       }
       else {

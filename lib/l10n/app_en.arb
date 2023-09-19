@@ -153,6 +153,10 @@
   "uploadMessageUnknownConnectionError": "Unknown error during transmission.",
   "@uploadMessageUnknownConnectionError": {},
 
+  "queryMessageServerUnavailableError": "Server unavailable or overloaded. Try again later.",
+  "@queryMessageServerUnavailableError": {},
+  "queryMessageTooManyRequestsError": "Too many requests to the server.",
+  "@queryMessageTooManyRequestsError": {},
   "queryMessageConnectionTimeoutError": "Error: Server query timed out.",
   "@queryMessageConnectionTimeoutError": {},
   "queryMessageReceiveTimeoutError": "Error: Receiving data timed out.",

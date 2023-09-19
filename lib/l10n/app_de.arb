@@ -22,7 +22,7 @@
   "@aboutLicensePackageLabel": {},
   "aboutSourceCodeLabel": "Quellcode",
   "@aboutSourceCodeLabel": {},
-  
+
   "helpTitle": "Hilfe",
   "@helpTitle": {},
   "helpOnboardingLabel": "Einführung erneut anschauen",
@@ -77,7 +77,7 @@
   "@settingsThemeOptionLight": {},
   "settingsThemeOptionDark": "Dunkel",
   "@settingsThemeOptionDark": {},
-  
+
   "logoutDialogTitle": "Von OSM abmelden?",
   "@logoutDialogTitle": {},
   "logoutDialogDescription": "Wenn du dich abmeldest, kannst du keine Änderungen mehr zu OpenStreetMap hochladen.",
@@ -112,6 +112,10 @@
   "uploadMessageUnknownConnectionError": "Unbekannter Fehler bei der Übertragung.",
   "@uploadMessageUnknownConnectionError": {},
 
+  "queryMessageServerUnavailableError": "Der Server ist nicht verfügbar oder überlastet. Versuche es später noch einmal.",
+  "@queryMessageServerUnavailableError": {},
+  "queryMessageTooManyRequestsError": "Zu viele Serveranfragen.",
+  "@queryMessageTooManyRequestsError": {},
   "queryMessageConnectionTimeoutError": "Fehler: Zeitüberschreitung bei der Server-Abfrage.",
   "@queryMessageConnectionTimeoutError": {},
   "queryMessageReceiveTimeoutError": "Fehler: Zeitüberschreitung beim Datenempfang.",
