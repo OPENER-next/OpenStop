@@ -302,8 +302,20 @@
   "@mapFeatureRailroadCrossing" : {},
   "mapFeatureCurb" : "Curb",
   "@mapFeatureCurb" : {},
-  "mapFeatureBusPlatformNumber" : "Platform",
-  "@mapFeatureBusPlatformNumber" : {},
-  "mapFeatureTrainPlatformNumber" : "Platform",
-  "@mapFeatureTrainPlatformNumber" : {}
+  "mapFeatureBusPlatformNumber" : "Platform: {number}",
+  "@mapFeatureBusPlatformNumber" : {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureTrainPlatformNumber" : "Platform: {number}",
+  "@mapFeatureTrainPlatformNumber" : {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  }
 }
