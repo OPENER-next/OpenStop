@@ -230,5 +230,9 @@
   "mapFeatureRailroadCrossing" : "Bahnübergang",
   "@mapFeatureRailroadCrossing" : {},
   "mapFeatureCurb" : "Bordstein",
-  "@mapFeatureCurb" : {}
+  "@mapFeatureCurb" : {},
+  "mapFeatureBusPlatformNumber" : "Steig: {number}",
+  "@mapFeatureBusPlatformNumber" : {},
+  "mapFeatureTrainPlatformNumber" : "Gleis: {number}",
+  "@mapFeatureTrainPlatformNumber" : {}
 }
