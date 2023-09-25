@@ -11,19 +11,18 @@ import 'question_catalog.dart';
 ///
 /// If the class is no longer in use, it is required to call `dispose`.
 
-
 class QuestionCatalogReader with WidgetsBindingObserver {
 
   Iterable<String> _assetPaths;
 
-  String _defaultLocate;
+  String _defaultLocale;
 
   QuestionCatalogReader({
     required Iterable<String> assetPaths,
-    String defaultLocate = 'en',
+    String defaultLocale = 'en',
   }) :
     _assetPaths = assetPaths,
-    _defaultLocate = defaultLocate
+    _defaultLocale = defaultLocale
   {
     WidgetsBinding.instance.addObserver(this);
     _readAll(assetPaths).then((questionCatalog) {
@@ -33,7 +32,7 @@ class QuestionCatalogReader with WidgetsBindingObserver {
 
   Iterable<String> get assetPaths => _assetPaths;
 
-  String get defaultLocate => _defaultLocate;
+  String get defaultLocale => _defaultLocale;
 
   set assetPaths(Iterable<String> value) {
     _assetPaths = value;
@@ -42,14 +41,14 @@ class QuestionCatalogReader with WidgetsBindingObserver {
     });
   }
 
-  set defaultLocate(String value) {
-    _defaultLocate = value;
+  set defaultLocale(String value) {
+    _defaultLocale = value;
     _readAll(assetPaths).then((questionCatalog) {
       _streamController.add(QuestionCatalogChange(catalog: questionCatalog, change: QuestionCatalogChangeReason.definition));
     });
   }
 
-  Locale get _deviceLocale => PlatformDispatcher.instance.locale;
+  List<Locale> get _deviceLocales => PlatformDispatcher.instance.locales;
 
   final _streamController = StreamController<QuestionCatalogChange>();
 
@@ -71,36 +70,47 @@ class QuestionCatalogReader with WidgetsBindingObserver {
 
   Future<List<Map<String, dynamic>>> _readCatalog(String directory) async {
     final locales = await Future.wait([
-      _readFile('$directory/locales/$_deviceLocale.arb'),
-      _readFile('$directory/locales/${_deviceLocale.languageCode}.arb'),
-      _readFile('$directory/locales/$defaultLocate.arb')
+      ..._deviceLocales.expand((deviceLocale) sync* {
+        yield _readArbFile(directory, deviceLocale.toLanguageTag());
+        yield _readArbFile(directory, deviceLocale.languageCode);
+      }),
+      _readArbFile(directory, defaultLocale),
     ]);
 
-    final questionCatalog =
-        await _readFile('$directory/definition.json', (key, value) {
-      if (value is String) {
-        if (value.startsWith('@')) {
-          for (final languagefiles in locales) {
-            final localeString = languagefiles[value.substring(1)];
+    return (await _readJsonFile(
+      '$directory/definition.json',
+      fallback: const [],
+      reviver: (key, value) {
+        if (value is String && value.startsWith('@')) {
+          for (final locale in locales) {
+            final localeString = locale[value.substring(1)];
             if (localeString != null) {
               return localeString;
             }
           }
         }
-      }
-      return value;
-    });
-
-    return questionCatalog.cast<Map<String, dynamic>>();
+        return value;
+      },
+    )).cast<Map<String, dynamic>>();
   }
 
-  Future<dynamic> _readFile(String path,
-      [Object? Function(Object? key, Object? value)? reviver]) async {
+  Future<Map<String, dynamic>> _readArbFile(String directory, String localeCode) async {
+    return (await _readJsonFile(
+      '$directory/locales/$localeCode.arb',
+      fallback: const {},
+    )).cast<String, dynamic>();
+  }
+
+  Future<dynamic> _readJsonFile(String path, {
+    Object? Function(Object? key, Object? value)? reviver,
+    dynamic fallback,
+  }) async {
     try {
       final jsonData = await rootBundle.loadString(path);
       return json.decode(jsonData, reviver: reviver);
-    } catch (e) {
-      return const <String, dynamic>{};
+    }
+    catch (e) {
+      return fallback;
     }
   }
 
@@ -123,5 +133,5 @@ class QuestionCatalogChange {
   const QuestionCatalogChange({
     required this.catalog,
     required this.change,
-  });   
+  });
 }
