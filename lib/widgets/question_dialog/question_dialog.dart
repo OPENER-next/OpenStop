@@ -1,5 +1,4 @@
 import 'package:flutter_mvvm_architecture/base.dart';
-import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -155,7 +154,7 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         onPressed: viewModel.submitQuestionnaire,
                         child: Icon(
-                          MdiIcons.cloudUpload,
+                          Icons.cloud_upload_rounded,
                           color: Theme.of(context).colorScheme.onPrimary,
                         ),
                       )
