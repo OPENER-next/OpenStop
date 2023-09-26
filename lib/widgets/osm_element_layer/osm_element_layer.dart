@@ -82,7 +82,11 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
         _superCluster.load([]);
       }
       else if (change.action == ElementUpdateAction.update) {
-        if (_superCluster.containsPoint(change.element!)) {
+        // _superCluster.containsPoint() will not globally check whether a point
+        // has already been added.
+        // So if the point position has been modified it may not find it.
+        // Therefore use _superCluster.points.contains().
+        if (_superCluster.points.contains(change.element!)) {
           _superCluster.modifyPointData(change.element!, change.element!);
         }
         else {

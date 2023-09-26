@@ -68,9 +68,9 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
 
   /// Retrieves all stop areas in the given bounds and queries the elements for any unloaded stop area.
   ///
-  /// New elements will be added to the [elementStream].
+  /// All stop area elements will be added to the [elementStream].
 
-  Future<void> queryElements(LatLngBounds bounds) async {
+  Future<void> queryElements(LatLngBounds bounds) {
     final closeStopAreas = getStopAreasByBounds(bounds);
     final futures = <Future<void>>[];
 
@@ -91,8 +91,19 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
     }
     // used to only complete this function once all queries and processing is completed
     // and also to forward any errors (especially query errors)
-    await Future.wait(futures, eagerError: true);
+    return Future.wait(futures, eagerError: true);
   }
+
+  /// Returns all queried elements even elements that have already been queried
+  /// by other stop areas (even though we could easily filter them).
+  ///
+  /// This is important because we don't know whether an element has already passed
+  /// an area filter (in other words has already been added to the map) or not.
+  ///
+  /// For example an element could be queried because it is part of a relation
+  /// while not being inside the stop area which caused the query.
+  /// If this element is later re-queried from a different stop area in which it lies within,
+  /// then excluding it would be wrong because it hasn't yet been added to the map.
 
   Stream<ProcessedElement> _queryElementsByStopArea(StopArea stopArea) async* {
     if (stopAreaIsUnloaded(stopArea)) {
@@ -112,7 +123,6 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
         else {
           markStopArea(stopArea, StopAreaState.complete);
         }
-        // return new elements
         yield* Stream.fromIterable(stopAreaElements);
       }
       catch(e) {
