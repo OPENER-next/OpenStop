@@ -17,7 +17,7 @@ abstract class GeographicGeometry {
 }
 
 /// A simple node with latitude and longitude coordinates.
-/// This is basically just a class containing a single latLng object.
+/// This is basically just a class containing a single LatLng object.
 
 class GeographicPoint implements GeographicGeometry {
   @override
@@ -189,7 +189,7 @@ class GeographicPolygon implements GeographicGeometry {
   }
 
 
-  _latLngTo3DVector(LatLng coordinate) {
+  Vector3 _latLngTo3DVector(LatLng coordinate) {
     return Vector3(
       earthRadius * cos(coordinate.latitudeInRad) * cos(coordinate.longitudeInRad),
       earthRadius * cos(coordinate.latitudeInRad) * sin(coordinate.longitudeInRad),
@@ -291,4 +291,20 @@ class GeographicMultipolygon implements GeographicGeometry {
 
   @override
   LatLng get center => bounds.center;
+}
+
+/// A collection of arbitrary [GeographicGeometry]s.
+
+class GeographicCollection implements GeographicGeometry {
+  final List<GeographicGeometry> geometries;
+
+  const GeographicCollection(this.geometries);
+
+  @override
+  LatLng get center => bounds.center;
+
+  @override
+  LatLngBounds get bounds => geometries
+    .map((g) => g.bounds)
+    .reduce((a, b) => a..extendBounds(b));
 }

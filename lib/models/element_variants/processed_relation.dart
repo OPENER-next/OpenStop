@@ -26,19 +26,27 @@ class ProcessedRelation extends ProcessedElement<osmapi.OSMRelation, GeographicG
   ///
   /// Note: Other relations that this relation might contain are currently ignored.
   ///
-  /// This method throws for none multipolygon relations or unresolvable multipolygons.
+  /// For any relation other than of type "multipolygon" this will build a
+  /// [GeographicCollection] which may not contain all elements of the relation,
+  /// because its data may not be fetched entirely.
+  /// This happens for example for large relations like the boundary of germany.
+  ///
+  /// This method throws for unresolvable relations:
+  /// - for multipolygons when a child is missing
+  /// - for other relations when all children are missing
 
   @override
   void calcGeometry() {
     if (tags['type'] == 'multipolygon') {
       _geometry = _fromMultipolygonRelation();
     }
+    else if (children.isNotEmpty) {
+      _geometry = GeographicCollection([
+        for (final child in children) child.geometry,
+      ]);
+    }
     else {
-      // TODO: handle this case properly
-      throw 'Unhandled type "${tags['type']}" for relation $id';
-      // just calculate a single node based on all nodes above?
-      // or show create all elements that are part of this relation?
-      // ignore none multipolygons because their data is most likely not fetched entirely. For example a relation like germany
+      throw 'Geometry calculation failed because no children of relation $id have been loaded.';
     }
   }
 
