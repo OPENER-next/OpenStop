@@ -286,7 +286,7 @@
   "@cyclelineSurfaceDescription" : {},
   "stopLightName" : "Stop lighting",
   "@stopLightName" : {},
-  "stopLightText" : "Is this stop lighted at night?",
+  "stopLightText" : "Is this stop lit at night?",
   "@stopLightText" : {},
   "stopLightDescription" : "The stop doesn't need to have its own lighting. It is sufficient if it is sufficiently illuminated by surrounding lamps.",
   "@stopLightDescription" : {},
