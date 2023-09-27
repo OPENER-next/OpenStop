@@ -48,6 +48,7 @@ class GeometryLayer extends StatelessWidget {
         ).toList(),
       );
     }
+    // TODO: Render individual elements of GeographicCollections instead of only center point.
     else {
       layer = CircleLayer(
         circles: [

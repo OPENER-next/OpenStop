@@ -297,10 +297,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_map
-      sha256: "2bdff8fb467ab9d28fd815930160d0e815e459bc29da7d7a396ad5ce6f7fd7da"
+      sha256: "79a378f59b94bfdc2081779e18bc6031d1e6a245001c66f45c930fd285b44f87"
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.0-dev.3"
+    version: "6.0.0-dev.2"
   flutter_markdown:
     dependency: "direct main"
     description:
@@ -330,7 +330,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: a87f8e5d8f4bbd61e1eaba3bfed401ac1dc8c0f0
+      resolved-ref: "93742fb27d9906b4c2b657570475134a6939914b"
       url: "https://github.com/Robbendebiene/flutter-mvvm-architecture.git"
     source: git
     version: "0.0.1"

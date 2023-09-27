@@ -1,14 +1,13 @@
 import 'dart:async';
 
-import 'package:flutter/widgets.dart' hide ProxyElement;
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:osm_api/osm_api.dart' as osmapi;
 
+import '/models/map_features/map_features.dart';
+import '/models/map_features/map_feature_representation.dart';
 import '/models/question_catalog/question_catalog_reader.dart';
 import '/models/affected_elements_detector.dart';
 import '/models/element_variants/element_identifier.dart';
-import '/models/map_feature_collection.dart';
 import '/api/osm_element_query_api.dart';
 import '/api/osm_element_upload_api.dart';
 import '/api/app_worker/questionnaire_handler.dart';
@@ -19,7 +18,6 @@ import '/models/geographic_geometries.dart';
 import '/models/stop_area_processing/stop_area.dart';
 import '/utils/stream_utils.dart';
 import '/utils/service_worker.dart';
-import 'map_feature_handler.dart';
 import 'question_catalog_handler.dart';
 import 'stop_area_handler.dart';
 
@@ -27,7 +25,7 @@ import 'stop_area_handler.dart';
 ///
 /// All downloaded elements are cached in the [OSMElementProcessor].
 
-mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandler<M>, QuestionCatalogHandler<M> {
+mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalogHandler<M> {
   final _elementStreamController = StreamController<ElementUpdate>();
 
   /// A MultiStream that returns any existing elements on initial subscription.
@@ -41,13 +39,12 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
   /// non matching elements there is not a good idea, due to child/parent reference problems.
 
   late final elementStream = _elementStreamController.stream.makeMultiStreamAsync((controller) async {
-    final mfCollection = await mapFeatureCollection;
     final existingElements = _filterElements(
       _buildFiltersForStopAreas(loadedStopAreas),
       Stream.fromIterable(_elementPool.elements),
     );
     final elementUpdates = existingElements.map((element) => ElementUpdate.derive(
-      element, mfCollection, action: ElementUpdateAction.update,
+      element, action: ElementUpdateAction.update,
     ));
     return controller.addStream(elementUpdates);
   });
@@ -59,24 +56,22 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
   @override
   void updateQuestionCatalog(QuestionCatalogChange questionCatalogChange) async {
     super.updateQuestionCatalog(questionCatalogChange);
-    final mfCollection = await mapFeatureCollection;
     final existingElements = _filterElements(
       _buildFiltersForStopAreas(loadedStopAreas),
       Stream.fromIterable(_elementPool.elements),
     );
     _elementStreamController.add(const ElementUpdate(action: ElementUpdateAction.clear));
     existingElements
-      .map((element) => ElementUpdate.derive(element, mfCollection, action: ElementUpdateAction.update))
+      .map((element) => ElementUpdate.derive(element, action: ElementUpdateAction.update))
       .forEach(_elementStreamController.add);
   }
 
   /// Retrieves all stop areas in the given bounds and queries the elements for any unloaded stop area.
   ///
-  /// New elements will be added to the [elementStream].
+  /// All stop area elements will be added to the [elementStream].
 
-  Future<void> queryElements(LatLngBounds bounds) async {
+  Future<void> queryElements(LatLngBounds bounds) {
     final closeStopAreas = getStopAreasByBounds(bounds);
-    final mfCollection = await mapFeatureCollection;
     final futures = <Future<void>>[];
 
     for (final stopArea in closeStopAreas) {
@@ -87,7 +82,7 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
       );
       // construct element updates
       final elementUpdates = filteredElements.map((element) => ElementUpdate.derive(
-        element, mfCollection, action: ElementUpdateAction.update,
+        element, action: ElementUpdateAction.update,
       ));
       // add newly queried elements to stream
       futures.add(
@@ -96,8 +91,19 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
     }
     // used to only complete this function once all queries and processing is completed
     // and also to forward any errors (especially query errors)
-    await Future.wait(futures, eagerError: true);
+    return Future.wait(futures, eagerError: true);
   }
+
+  /// Returns all queried elements even elements that have already been queried
+  /// by other stop areas (even though we could easily filter them).
+  ///
+  /// This is important because we don't know whether an element has already passed
+  /// an area filter (in other words has already been added to the map) or not.
+  ///
+  /// For example an element could be queried because it is part of a relation
+  /// while not being inside the stop area which caused the query.
+  /// If this element is later re-queried from a different stop area in which it lies within,
+  /// then excluding it would be wrong because it hasn't yet been added to the map.
 
   Stream<ProcessedElement> _queryElementsByStopArea(StopArea stopArea) async* {
     if (stopAreaIsUnloaded(stopArea)) {
@@ -117,7 +123,6 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
         else {
           markStopArea(stopArea, StopAreaState.complete);
         }
-        // return new elements
         yield* Stream.fromIterable(stopAreaElements);
       }
       catch(e) {
@@ -140,14 +145,12 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
   /// Returns true if upload was successful, otherwise false.
 
   Future<bool> uploadElement(ProxyElement element, ElementUploadData uploadData) async {
-    final mfCollection = await mapFeatureCollection;
     final qCatalog = await questionCatalog;
 
     final stopArea = findCorrespondingStopArea(element);
 
     // upload with first StopArea occurrence
     final uploadAPI = OSMElementUploadAPI(
-      mapFeatureCollection: await mapFeatureCollection,
       stopArea: stopArea,
       authenticatedUser: uploadData.user,
       changesetLocale: uploadData.locale.languageCode,
@@ -175,7 +178,12 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
           matches: QuestionFilter(questionCatalog: qCatalog).matches(element),
         )])
         // send update messages to the main thread
-        .map((record) => ElementUpdate.derive(record.element, mfCollection, action: record.matches ? ElementUpdateAction.update : ElementUpdateAction.remove))
+        .map((record) => ElementUpdate.derive(
+          record.element,
+          action: record.matches
+            ? ElementUpdateAction.update
+            : ElementUpdateAction.remove,
+        ))
         .forEach(_elementStreamController.add);
 
       return true;
@@ -224,47 +232,16 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, MapFeatureHandl
 }
 
 
-class ElementRepresentation extends ElementIdentifier {
-  @override
-  final int id;
-
-  @override
-  final osmapi.OSMElementType type;
-
-  final GeographicGeometry geometry;
-  final String name;
-  final IconData icon;
-
-  const ElementRepresentation({
-    required this.id,
-    required this.type,
-    required this.name,
-    required this.icon,
-    required this.geometry,
-  });
-
-  factory ElementRepresentation.derive(ProcessedElement element, MapFeatureCollection mapFeatureCollection) {
-    final mapFeature = mapFeatureCollection.getMatchingFeature(element);
-    return ElementRepresentation(
-      id: element.id,
-      type: element.type,
-      geometry: element.geometry,
-      icon: mapFeature?.icon ?? MdiIcons.help,
-      name: mapFeature?.labelByElement(element) ?? mapFeature?.name ?? '',
-    );
-  }
-}
-
 enum ElementUpdateAction { update, remove, clear }
 
 class ElementUpdate {
-  final ElementRepresentation? element;
+  final MapFeatureRepresentation? element;
   final ElementUpdateAction action;
 
   const ElementUpdate({
     required this.action, this.element,
   });
 
-  ElementUpdate.derive(ProcessedElement element, MapFeatureCollection mapFeatureCollection, {required this.action}) :
-    element = ElementRepresentation.derive(element, mapFeatureCollection,);
+  ElementUpdate.derive(ProcessedElement element, {required this.action}) :
+    element = MapFeatures().representElement(element);
 }

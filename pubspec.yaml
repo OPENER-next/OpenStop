@@ -21,7 +21,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  flutter_map: ^6.0.0-dev.3
+  flutter_map: 6.0.0-dev.2
   geolocator: ^9.0.2
   latlong2: ^0.9.0
   vector_math: ^2.1.4
@@ -71,7 +71,6 @@ flutter:
     - assets/images/
     - assets/images/onboarding/
     - assets/images/logos/
-    - assets/datasets/map_feature_collection.json
     - assets/question_catalog/
     - assets/question_catalog/locales/
     - assets/question_catalog/images/

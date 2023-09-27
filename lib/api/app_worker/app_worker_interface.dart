@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:flutter_map/flutter_map.dart';
@@ -30,15 +29,6 @@ class AppWorkerInterface extends Service implements Disposable {
   static Future<AppWorkerInterface> spawn() async {
     final con = await ServiceWorkerController.spawn<AppWorkerMessage>(AppWorker.new);
     return AppWorkerInterface._(con);
-  }
-
-  // required due to flutter limitation (see main.dart)
-
-  Future<void> passAssets(List<ByteData> assets) {
-    return _worker.send<void>(AppWorkerMessage(
-      AppWorkerSubject.passAssets,
-      assets,
-    ));
   }
 
   // stop area related functions \\
@@ -146,7 +136,7 @@ class AppWorkerInterface extends Service implements Disposable {
   /// Close the service worker when un-registering this service.
 
   @override
-  FutureOr onDispose() {
-    _worker.send(AppWorkerMessage(AppWorkerSubject.dispose));
+  Future<void> onDispose() {
+    return _worker.send<void>(AppWorkerMessage(AppWorkerSubject.dispose));
   }
 }

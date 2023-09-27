@@ -46,12 +46,6 @@ Future <void> main() async {
     GetIt.I.get<AppWorkerInterface>().updateQuestionCatalog(questionCatalogChange);
   });
 
-  
-  // required because isolate cannot read assets
-  // https://github.com/flutter/flutter/issues/96895
-  Future.wait([rootBundle.load('assets/datasets/map_feature_collection.json')])
-      .then(GetIt.I.get<AppWorkerInterface>().passAssets);
-
   // This will clear all pending questionnaires
   reaction((p0) => GetIt.I.get<PreferencesService>().isProfessional, (value) async {
     questionCatalogReader.assetPaths = [

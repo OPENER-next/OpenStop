@@ -4,10 +4,11 @@ import 'package:latlong2/latlong.dart';
 import 'package:open_stop/api/osm_element_upload_api.dart';
 import 'package:open_stop/models/authenticated_user.dart';
 import 'package:open_stop/models/element_conditions/sub_condition_matcher.dart';
+import 'package:open_stop/models/element_processing/element_processor.dart';
 import 'package:open_stop/models/element_variants/base_element.dart';
-import 'package:open_stop/models/map_feature.dart';
-import 'package:open_stop/models/map_feature_collection.dart';
 import 'package:open_stop/models/element_conditions/element_condition.dart';
+import 'package:open_stop/models/map_features/map_feature_definition.dart';
+import 'package:open_stop/models/map_features/map_features.dart';
 import 'package:open_stop/models/osm_element_type.dart' as app;
 import 'package:open_stop/models/stop_area_processing/stop.dart';
 import 'package:open_stop/models/stop_area_processing/stop_area.dart';
@@ -62,9 +63,11 @@ void main() async {
   const tags03 = {'map_feature_3': 'map_feature_3_value'};
   const tags04 = {'map_feature_4': 'map_feature_4_value'};
 
-  final mapFeatureCollection = MapFeatureCollection([
-    MapFeature(
-      name: 'MapFeature1',
+  MapFeatures.mockDefinitions([
+    MapFeatureDefinition(
+      label: (locale, tags) {
+        return 'MapFeature1';
+      },
       icon: Icons.close,
       conditions: [
         ElementCondition([
@@ -73,8 +76,10 @@ void main() async {
         ]),
       ],
     ),
-    MapFeature(
-      name: 'MapFeature2',
+    MapFeatureDefinition(
+      label: (locale, tags) {
+        return 'MapFeature2';
+      },
       icon: Icons.close,
       conditions: [
         ElementCondition([
@@ -83,8 +88,10 @@ void main() async {
         ]),
       ],
     ),
-    MapFeature(
-      name: 'MapFeature3',
+    MapFeatureDefinition(
+      label: (locale, tags) {
+        return 'MapFeature3';
+      },
       icon: Icons.close,
       conditions: [
         ElementCondition([
@@ -93,8 +100,10 @@ void main() async {
         ]),
       ],
     ),
-    MapFeature(
-      name: 'MapFeature4 with very long name that exceeds the 255 OSM character length. Looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong',
+    MapFeatureDefinition(
+      label: (locale, tags) {
+        return 'MapFeature4 with very long name that exceeds the 255 OSM character limit. Looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong';
+      },
       icon: Icons.close,
       conditions: [
         ElementCondition([
@@ -106,9 +115,10 @@ void main() async {
   ]);
 
   late final OSMAPI osmapi;
-  late final List<OSMNode> nodes;
-  late final List<OSMWay> ways;
-  late final List<OSMRelation> relations;
+  final elementProcessor = OSMElementProcessor();
+  late final List<OSMNode> baseNodes;
+  late final List<OSMWay> baseWays;
+  late final List<OSMRelation> baseRelations;
   late final AuthenticatedUser user;
 
 
@@ -124,7 +134,7 @@ void main() async {
 
     // create some elements
 
-    nodes = await Future.wait([
+    baseNodes = await Future.wait([
       osmapi.createElement(
         OSMNode(10, 20, tags: Map.of(tags01)),
         changesetId
@@ -143,22 +153,28 @@ void main() async {
       )
     ]);
 
-    ways = await Future.wait([
+    baseWays = await Future.wait([
       osmapi.createElement(
-        OSMWay([nodes[2].id, nodes[3].id], tags: Map.of(tags03)),
+        OSMWay([baseNodes[2].id, baseNodes[3].id], tags: Map.of(tags03)),
         changesetId
       ),
     ]);
 
-    relations = await Future.wait([
+    baseRelations = await Future.wait([
       osmapi.createElement(
         OSMRelation(
-          [OSMMember(type: OSMElementType.way, ref: ways[0].id)],
+          [OSMMember(type: OSMElementType.way, ref: baseWays[0].id)],
           tags: Map.of(tags04),
         ),
         changesetId
       ),
     ]);
+
+    elementProcessor.add(OSMElementBundle(
+      nodes: baseNodes,
+      ways: baseWays,
+      relations: baseRelations,
+    ));
 
     await osmapi.closeChangeset(changesetId);
 
@@ -186,7 +202,6 @@ void main() async {
 
   test('Test osm element upload changeset generation/updating', () async {
     final uploadApi01 = OSMElementUploadAPI(
-      mapFeatureCollection: mapFeatureCollection,
       stopArea: simpleStopArea,
       authenticatedUser: user,
       endPoint: endPoint,
@@ -197,9 +212,12 @@ void main() async {
 
     // update first node for simple stop area
 
-    nodes[0].tags['bench'] = 'yes';
-    nodes[0].tags['height'] = '100';
-    await uploadApi01.updateOsmElement(ProcessedNode(nodes[0]), nodes[0]);
+    await ProxyElement(
+      elementProcessor.find(OSMElementType.node, baseNodes[0].id)!, additionalTags: {
+      'bench': 'yes',
+      'height': '100',
+    }).publish(uploadApi01);
+
     // check if one changeset of the currently open changesets contains the expected tags.
     final changesetTagList01 = (await osmapi.queryChangesets(
       open: true,
@@ -214,9 +232,12 @@ void main() async {
 
     // update second node for simple stop area
 
-    nodes[1].tags['bench'] = 'no';
-    nodes[1].tags['height'] = '10';
-    await uploadApi01.updateOsmElement(ProcessedNode(nodes[1]), nodes[1]);
+    await ProxyElement(
+      elementProcessor.find(OSMElementType.node, baseNodes[1].id)!, additionalTags: {
+      'bench': 'no',
+      'height': '10',
+    }).publish(uploadApi01);
+
     // check if one changeset of the currently open changesets contains the expected tags.
     final changesetTagList02 = (await osmapi.queryChangesets(
       open: true,
@@ -231,8 +252,11 @@ void main() async {
 
     // update first node again for simple stop area
 
-    nodes[0].tags['width'] = '20';
-    await uploadApi01.updateOsmElement(ProcessedNode(nodes[0]), nodes[0]);
+    await ProxyElement(
+      elementProcessor.find(OSMElementType.node, baseNodes[0].id)!, additionalTags: {
+      'width': '20',
+    }).publish(uploadApi01);
+
     // check if one changeset of the currently open changesets contains the expected tags.
     final changesetTagList03 = (await osmapi.queryChangesets(
       open: true,
@@ -248,7 +272,6 @@ void main() async {
     // update way for double stop area
 
     final uploadApi02 = OSMElementUploadAPI(
-      mapFeatureCollection: mapFeatureCollection,
       stopArea: doubleStopArea,
       authenticatedUser: user,
       endPoint: endPoint,
@@ -257,8 +280,11 @@ void main() async {
       changesetSource: changesetSource,
     );
 
-    ways[0].tags['width'] = '20';
-    await uploadApi02.updateOsmElement(ProcessedWay(ways[0]), ways[0]);
+    await ProxyElement(
+      elementProcessor.find(OSMElementType.way, baseWays[0].id)!, additionalTags: {
+      'width': '20',
+    }).publish(uploadApi02);
+
     // check if one changeset of the currently open changesets contains the expected tags.
     final changesetTagList04 = (await osmapi.queryChangesets(
       open: true,
@@ -274,7 +300,6 @@ void main() async {
     // update way for triple stop area
 
     final uploadApi03 = OSMElementUploadAPI(
-      mapFeatureCollection: mapFeatureCollection,
       stopArea: tripleStopArea,
       authenticatedUser: user,
       endPoint: endPoint,
@@ -283,8 +308,11 @@ void main() async {
       changesetSource: changesetSource,
     );
 
-    ways[0].tags['width'] = '10';
-    await uploadApi03.updateOsmElement(ProcessedWay(ways[0]), ways[0]);
+    await ProxyElement(
+      elementProcessor.find(OSMElementType.way, baseWays[0].id)!, additionalTags: {
+      'width': '10',
+    }).publish(uploadApi03);
+
     // check if one changeset of the currently open changesets contains the expected tags.
     final changesetTagList05 = (await osmapi.queryChangesets(
       open: true,
@@ -304,10 +332,10 @@ void main() async {
     expect(changesetTagList01.length, equals(changesetTagList05.length));
 
     // check if upload of the elements was successful by downloading the nodes from the server and checking them
-    final serverNodes = await osmapi.getNodes(nodes.map((node) => node.id));
-    expect(serverNodes, equals(nodes));
-    final serverWays = await osmapi.getWays(ways.map((way) => way.id));
-    expect(serverWays, equals(ways));
+    final serverNodes = await osmapi.getNodes(baseNodes.map((node) => node.id));
+    expect(serverNodes, equals(baseNodes));
+    final serverWays = await osmapi.getWays(baseWays.map((way) => way.id));
+    expect(serverWays, equals(baseWays));
   });
 
 
@@ -322,7 +350,6 @@ void main() async {
     // update changeset with map feature and stop area of long name
 
     final uploadApi = OSMElementUploadAPI(
-      mapFeatureCollection: mapFeatureCollection,
       stopArea: stopAreaWithLongName,
       authenticatedUser: user,
       endPoint: endPoint,
@@ -331,10 +358,11 @@ void main() async {
       changesetSource: changesetSource,
     );
 
-    final updatedElement = ProxyElement(ProcessedRelation(relations[0]), additionalTags: {
+    await ProxyElement(
+      elementProcessor.find(OSMElementType.relation, baseRelations[0].id)!, additionalTags: {
       'foo': 'bar',
-    });
-    await updatedElement.publish(uploadApi);
+    }).publish(uploadApi);
+
     // check if one changeset of the currently open changesets contains the expected tags.
     final changesetTagList = (await osmapi.queryChangesets(
       open: true,
@@ -350,7 +378,7 @@ void main() async {
     })));
 
     // check if upload of the relation was successful by downloading the relation from the server and comparing it
-    final serverRelations = await osmapi.getRelations(relations.map((rel) => rel.id));
-    expect(serverRelations, equals(relations));
+    final serverRelations = await osmapi.getRelations(baseRelations.map((rel) => rel.id));
+    expect(serverRelations, equals(baseRelations));
   });
 }
