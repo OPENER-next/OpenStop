@@ -84,7 +84,7 @@ class MapFeatures extends ListBase<MapFeatureDefinition> {
   }
 
   @override
-  operator [](int index) {
+  MapFeatureDefinition operator [](int index) {
     return _definitions[index];
   }
 

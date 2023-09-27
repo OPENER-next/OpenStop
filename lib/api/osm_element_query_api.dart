@@ -57,7 +57,7 @@ class OSMElementQueryAPI {
   /// A method to terminate the api client and cleanup any open connections.
   /// This should be called inside the widgets dispose callback.
 
-  dispose() {
+  void dispose() {
     _osmApi.dispose();
   }
 }
