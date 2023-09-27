@@ -98,7 +98,7 @@ class ChangesetCommentBuilder {
 
   Iterable<String> _getElementNames(Iterable<ProcessedElement> elements) {
     // Note: localization should not be the user UI or system language here
-    // instead it should the language of the country/region the changes are made in or english
+    // instead it should be the language of the country/region the changes are made in or english
     final deLocale = AppLocalizationsDe();
 
     // use set to automatically remove duplicates

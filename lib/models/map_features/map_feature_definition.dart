@@ -32,7 +32,7 @@ class MapFeatureDefinition {
   /// and a given [ProcessedElement].
 
   MapFeatureRepresentation resolve(ProcessedElement element) {
-    assert(matches(element), 'The resolved element do not match the conditions of this MapFeatureDefinition.');
+    assert(matches(element), 'The resolved element does not match the conditions of this MapFeatureDefinition.');
 
     return MapFeatureRepresentation.fromElement(
       element: element,

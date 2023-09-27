@@ -102,7 +102,7 @@ void main() async {
     ),
     MapFeatureDefinition(
       label: (locale, tags) {
-        return 'MapFeature4 with very long name that exceeds the 255 OSM character length. Looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong';
+        return 'MapFeature4 with very long name that exceeds the 255 OSM character limit. Looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong';
       },
       icon: Icons.close,
       conditions: [
