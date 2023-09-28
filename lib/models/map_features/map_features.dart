@@ -474,7 +474,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
           'highway': MultiValueMatcher([
             StringValueMatcher('footway'),
             StringValueMatcher('path'),
-            StringValueMatcher('cycle_way'),
+            StringValueMatcher('cycleway'),
           ]),
         }),
         ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
@@ -530,7 +530,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'highway': StringValueMatcher('elevator'),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node, OSMElementType.closedWay])
       ]),
     ],
   ),
