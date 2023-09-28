@@ -26,12 +26,12 @@ jobs:
 
       - name: Setup python
         uses: actions/setup-python@v4
-        
+
       - name: Install jsonschema validator
         run: pip install jsonschema
 
       - name: Validate questions JSON
-        run: jsonschema --instance 'assets/question_catalog/definition.json' 'assets/datasets/question_catalog_schema.json'
-      
+        run: jsonschema --instance 'assets/question_catalog/definition.json' 'schemas/question_catalog_schema.json'
+
       - name: Validate advanced questions JSON
-        run: jsonschema --instance 'assets/advanced_question_catalog/definition.json' 'assets/datasets/question_catalog_schema.json'
+        run: jsonschema --instance 'assets/advanced_question_catalog/definition.json' 'schemas/question_catalog_schema.json'

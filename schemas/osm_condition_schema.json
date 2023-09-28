@@ -6,16 +6,16 @@
     "type": "object",
     "properties": {
       "osm_tags": {
-        "$ref": "#/definitions/osm_tags"
+        "$ref": "#/$defs/osm_tags"
       },
       "!osm_tags": {
-        "$ref": "#/definitions/osm_tags"
+        "$ref": "#/$defs/osm_tags"
       },
       "osm_element": {
-        "$ref": "#/definitions/osm_element"
+        "$ref": "#/$defs/osm_element"
       },
       "!osm_element": {
-        "$ref": "#/definitions/osm_element"
+        "$ref": "#/$defs/osm_element"
       },
       "child": {
         "$ref": "#"
@@ -35,7 +35,7 @@
   },
   "minItems": 1,
 
-  "definitions": {
+  "$defs": {
     "osm_tags": {
       "type": "object",
       "description": "A key value map of OSM tags that define that osm feature.",
