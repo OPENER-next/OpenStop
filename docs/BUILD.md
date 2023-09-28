@@ -23,8 +23,6 @@ flutter run --dart-define THUNDERFOREST_API_KEY=${api key}
 ```
 You can also omit the entire API key parameter. In this case the underlying map tiles won't be available in your build.
 
-```
-
 ## Additional notes
 
 By default the app uses the [OpenStreetMap development server](https://master.apis.dev.openstreetmap.org) for login and upload. In order to use the live servers the custom parameter `--dart-define=IS_RELEASE=true` has to be set when running/building the app.
