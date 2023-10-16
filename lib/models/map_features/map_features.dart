@@ -111,7 +111,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
         return localRef != null ? '$name\n${locale.mapFeatureBusPlatformNumber(localRef)}' : name;
       }
       else if (localRef != null) {
-        return '$locale.mapFeatureBusPlatformNumber(localRef)';
+        return locale.mapFeatureBusPlatformNumber(localRef);
       }
       else {
         return locale.mapFeatureBusStop;
