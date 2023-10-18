@@ -130,10 +130,10 @@
 
   "stringInputPlaceholder": "在这里输入……",
   "@stringInputPlaceholder": {},
-  "stringInputValidationErrorMin": "Input too short",
+  "stringInputValidationErrorMin": "输入太短",
   "@stringInputValidationErrorMin": {},
 
-  "changesetCommentMessage": "Added details to {mapFeaturesString} in stop area {stopsString}.",
+  "changesetCommentMessage": "向位于停车区域 {stopsString}的{mapFeaturesString}增添细节.",
   "@changesetCommentMessage": {
     "placeholders": {
       "mapFeaturesString": {
@@ -144,29 +144,29 @@
       }
     }
   },
-  "changesetCommentConjunctionString": "and",
+  "changesetCommentConjunctionString": "和",
   "@changesetCommentConjunctionString": {},
-  "uploadMessageSuccess": "Changes successfully uploaded.",
+  "uploadMessageSuccess": "变更成功上传。",
   "@uploadMessageSuccess": {},
-  "uploadMessageServerConnectionError": "Error: No connection to the OSM server.",
+  "uploadMessageServerConnectionError": "错误：无法与OSM服务器连接。",
   "@uploadMessageServerConnectionError": {},
-  "uploadMessageUnknownConnectionError": "Unknown error during transmission.",
+  "uploadMessageUnknownConnectionError": "传输过程中未知错误。",
   "@uploadMessageUnknownConnectionError": {},
 
-  "queryMessageServerUnavailableError": "Server unavailable or overloaded. Try again later.",
+  "queryMessageServerUnavailableError": "服务器不可用或负荷过重，请稍后重试。",
   "@queryMessageServerUnavailableError": {},
-  "queryMessageTooManyRequestsError": "Too many requests to the server.",
+  "queryMessageTooManyRequestsError": "向服务器发送了过多请求。",
   "@queryMessageTooManyRequestsError": {},
-  "queryMessageConnectionTimeoutError": "Error: Server query timed out.",
+  "queryMessageConnectionTimeoutError": "错误：服务器查询超时。",
   "@queryMessageConnectionTimeoutError": {},
-  "queryMessageReceiveTimeoutError": "Error: Receiving data timed out.",
+  "queryMessageReceiveTimeoutError": "错误：接收数据超时。",
   "@queryMessageReceiveTimeoutError": {},
-  "queryMessageUnknownServerCommunicationError": "Unknown error during server communication.",
+  "queryMessageUnknownServerCommunicationError": "与服务器通信过程中未知错误。",
   "@queryMessageUnknownServerCommunicationError": {},
-  "queryMessageUnknownError": "Unknown error.",
+  "queryMessageUnknownError": "未知错误。",
   "@queryMessageUnknownError": {},
 
-  "questionnaireSummaryDedicatedMessage": "Thank you {userName} for your answers.\nPlease verify them before uploading.",
+  "questionnaireSummaryDedicatedMessage": "感谢{userName}作答。\n请在上传前检查他们。",
   "@questionnaireSummaryDedicatedMessage": {
     "placeholders": {
       "userName": {
@@ -174,28 +174,28 @@
       }
     }
   },
-  "questionnaireSummaryUndedicatedMessage": "Thank you for your answers.\nPlease verify them before uploading.",
+  "questionnaireSummaryUndedicatedMessage": "感谢您的作答\n请在上传前检查他们。",
   "@questionnaireSummaryUndedicatedMessage": {},
 
-  "back": "Back",
+  "back": "返回",
   "@back": {},
-  "next": "Next",
+  "next": "继续",
   "@next": {},
-  "cancel": "Cancel",
+  "cancel": "取消",
   "@cancel": {},
-  "confirm": "Confirm",
+  "confirm": "确认",
   "@confirm": {},
-  "finish": "Finish",
+  "finish": "完成",
   "@finish": {},
-  "login": "Log in",
+  "login": "登入",
   "@login": {},
-  "logout": "Log out",
+  "logout": "登出",
   "@logout": {},
-  "skip": "Skip",
+  "skip": "跳过",
   "@skip": {},
-  "yes": "Yes",
+  "yes": "是",
   "@yes": {},
-  "no": "No",
+  "no": "否",
   "@no": {},
   "days": "{day, plural, =1 {1 Day} other {{day} Days}}",
   "@days": {
@@ -205,7 +205,7 @@
       }
     }
   },
-  "hours": "{hour, plural, =1 {1 Hour} other {{hour} Hours}}",
+  "hours": "{hour, plural, =1 {1 小时} other {{hour} 小时}}",
   "@hours": {
     "placeholders": {
       "hour": {
@@ -213,7 +213,7 @@
       }
     }
   },
-  "minutes": "{minute, plural, =1 {1 Minute} other {{minute} Minutes}}",
+  "minutes": "{minute, plural, =1 {1 分钟} other {{minute} 分钟}}",
   "@minutes": {
     "placeholders": {
       "minute": {
@@ -221,7 +221,7 @@
       }
     }
   },
-  "seconds": "{second, plural, =1 {1 Second} other {{second} Seconds}}",
+  "seconds": "{second, plural, =1 {1 秒} other {{second} 秒}}",
   "@seconds": {
     "placeholders": {
       "second": {
@@ -230,43 +230,43 @@
     }
   },
 
-  "durationInputDaysLabel": "Days",
+  "durationInputDaysLabel": "天",
   "@durationInputDaysLabel": {},
-  "durationInputHoursLabel": "Hours",
+  "durationInputHoursLabel": "小时",
   "@durationInputHoursLabel": {},
-  "durationInputMinutesLabel": "Minutes",
+  "durationInputMinutesLabel": "分钟",
   "@durationInputMinutesLabel": {},
-  "durationInputSecondsLabel": "Seconds",
+  "durationInputSecondsLabel": "秒",
   "@durationInputSecondsLabel": {},
 
-  "osmCreditsText": "Data © OpenStreetMap-Contributors",
+  "osmCreditsText": "数据来源 © OpenStreetMap贡献者",
   "@osmCreditsText": {},
 
-  "mapFeatureBusStop" : "Bus stop",
+  "mapFeatureBusStop" : "公交车站",
   "@mapFeatureBusStop" : {},
-  "mapFeatureTramStop" : "Tram stop",
+  "mapFeatureTramStop" : "电车站",
   "@mapFeatureTramStop" : {},
-  "mapFeatureTrainPlatform" : "Train platform",
+  "mapFeatureTrainPlatform" : "火车站台",
   "@mapFeatureTrainPlatform" : {},
-  "mapFeaturePlatform" : "Platform",
+  "mapFeaturePlatform" : "站台",
   "@mapFeaturePlatform" : {},
-  "mapFeatureStopPole" : "Stop pole",
+  "mapFeatureStopPole" : "停车标",
   "@mapFeatureStopPole" : {},
-  "mapFeatureStation" : "Station",
+  "mapFeatureStation" : "车站",
   "@mapFeatureStation" : {},
-  "mapFeatureTicketSalesPoint" : "Ticket sales point",
+  "mapFeatureTicketSalesPoint" : "售票点",
   "@mapFeatureTicketSalesPoint" : {},
-  "mapFeatureInformationPoint" : "Information point",
+  "mapFeatureInformationPoint" : "问询点",
   "@mapFeatureInformationPoint" : {},
-  "mapFeatureStationMap" : "Station/Stop map",
+  "mapFeatureStationMap" : "车站地图",
   "@mapFeatureStationMap" : {},
-  "mapFeatureTicketMachine" : "Ticket machine",
+  "mapFeatureTicketMachine" : "售票机",
   "@mapFeatureTicketMachine" : {},
-  "mapFeatureParkingSpot" : "Parking spot",
+  "mapFeatureParkingSpot" : "停车位",
   "@mapFeatureParkingSpot" : {},
-  "mapFeatureTaxiStand" : "Taxi stand",
+  "mapFeatureTaxiStand" : "出租车停靠点",
   "@mapFeatureTaxiStand" : {},
-  "mapFeatureToilets" : "Toilets",
+  "mapFeatureToilets" : "卫生间",
   "@mapFeatureToilets" : {},
   "mapFeatureLuggageLockers" : "Luggage lockers",
   "@mapFeatureLuggageLockers" : {},
