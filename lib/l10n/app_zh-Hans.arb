@@ -1,0 +1,321 @@
+{
+  "@@locale": "zh-Hans",
+  "aboutTitle": "关于",
+  "@aboutTitle": {},
+  "aboutSlogan": "下一站：无障碍",
+  "@aboutSlogan": {},
+  "aboutVersionLabel": "版本",
+  "@aboutVersionLabel": {},
+  "aboutAuthorsLabel": "作者",
+  "@aboutAuthorsLabel": {},
+  "aboutAuthorsDescription": "{appName}贡献者",
+  "@aboutAuthorsDescription": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPrivacyPolicyLabel": "隐私政策",
+  "@aboutPrivacyPolicyLabel": {},
+  "aboutIdeaLabel": "想法",
+  "@aboutIdeaLabel": {},
+  "aboutIdeaDescription": "开姆尼茨工业大学\n电路与系统设计教职",
+  "@aboutIdeaDescription": {},
+  "aboutLicenseLabel": "许可证",
+  "@aboutLicenseLabel": {},
+  "aboutLicensePackageLabel": "所用的包的许可证",
+  "@aboutLicensePackageLabel": {},
+  "aboutSourceCodeLabel": "源代码",
+  "@aboutSourceCodeLabel": {},
+
+  "helpTitle": "帮助",
+  "@helpTitle": {},
+  "helpOnboardingLabel": "重新播放介绍",
+  "@helpOnboardingLabel": {},
+  "helpReportErrorLabel": "报告错误",
+  "@helpReportErrorLabel": {},
+
+  "onboardingGreetingTitle": "嘿！",
+  "@onboardingGreetingTitle": {},
+  "onboardingGreetingDescription": "We're glad you're here and want to do your part to improve public transport.",
+  "@onboardingGreetingDescription": {},
+  "onboardingGreetingButton": "Here's how it works",
+  "@onboardingGreetingButton": {},
+
+  "onboardingSurveyingTitle": "Take a look",
+  "@onboardingSurveyingTitle": {},
+  "onboardingSurveyingDescription": "Go to a nearby stop to survey its current state.",
+  "@onboardingSurveyingDescription": {},
+  "onboardingSurveyingButton": "I'll do it",
+  "@onboardingSurveyingButton": {},
+
+  "onboardingAnsweringTitle": "Now it's your turn",
+  "@onboardingAnsweringTitle": {},
+  "onboardingAnsweringDescription": "In order to collect data select a marker in the app and answer the displayed questions.",
+  "@onboardingAnsweringDescription": {},
+  "onboardingAnsweringButton": "Okay, got it",
+  "@onboardingAnsweringButton": {},
+
+  "onboardingContributingTitle": "Sharing is caring",
+  "@onboardingContributingTitle": {},
+  "onboardingContributingDescription": "Upload your answers to OpenStreetMap to share them with the whole world.",
+  "@onboardingContributingDescription": {},
+  "onboardingContributingButton": "我们开始吧！",
+  "@onboardingContributingButton": {},
+
+  "privacyPolicyTitle": "隐私政策",
+  "@privacyPolicyTitle": {},
+
+  "settingsTitle": "Settings",
+  "@settingsTitle": {},
+  "settingsProfessionalQuestionsLabel": "显示专业问题",
+  "@settingsProfessionalQuestionsLabel": {},
+  "settingsProfessionalQuestionsDescription": "For safety reasons only intended for professionals",
+  "@settingsProfessionalQuestionsDescription": {},
+  "settingsThemeLabel": "Color Scheme of the App",
+  "@settingsThemeLabel": {},
+  "settingsThemeDialogTitle": "Select theme",
+  "@settingsThemeDialogTitle": {},
+  "settingsThemeOptionSystem": "System Setting",
+  "@settingsThemeOptionSystem": {},
+  "settingsThemeOptionLight": "Light",
+  "@settingsThemeOptionLight": {},
+  "settingsThemeOptionDark": "Dark",
+  "@settingsThemeOptionDark": {},
+
+  "logoutDialogTitle": "Log out of OSM?",
+  "@logoutDialogTitle": {},
+  "logoutDialogDescription": "If you log out, you can no longer upload changes to OpenStreetMap.",
+  "@logoutDialogDescription": {},
+  "loginHint": "Log in with your OpenStreetMap account to upload your changes.",
+  "@loginHint": {},
+
+  "numberInputPlaceholder": "Enter here...",
+  "@numberInputPlaceholder": {},
+  "numberInputFallbackName": "Value",
+  "@numberInputFallbackName": {
+    "description": "Fallback value for nameString in numberInputValidationErrorMax"
+  },
+  "numberInputValidationError": "Invalid number",
+  "@numberInputValidationError": {},
+  "numberInputValidationErrorMax": "{nameString} must be less than {max}{unit}.",
+  "@numberInputValidationErrorMax": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "max": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "numberInputValidationErrorMin": "{nameString} must be greater than {min}{unit}.",
+  "@numberInputValidationErrorMin": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "min": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+
+  "stringInputPlaceholder": "Enter here...",
+  "@stringInputPlaceholder": {},
+  "stringInputValidationErrorMin": "Input too short",
+  "@stringInputValidationErrorMin": {},
+
+  "changesetCommentMessage": "Added details to {mapFeaturesString} in stop area {stopsString}.",
+  "@changesetCommentMessage": {
+    "placeholders": {
+      "mapFeaturesString": {
+        "type": "String"
+      },
+      "stopsString": {
+        "type": "String"
+      }
+    }
+  },
+  "changesetCommentConjunctionString": "and",
+  "@changesetCommentConjunctionString": {},
+  "uploadMessageSuccess": "Changes successfully uploaded.",
+  "@uploadMessageSuccess": {},
+  "uploadMessageServerConnectionError": "Error: No connection to the OSM server.",
+  "@uploadMessageServerConnectionError": {},
+  "uploadMessageUnknownConnectionError": "Unknown error during transmission.",
+  "@uploadMessageUnknownConnectionError": {},
+
+  "queryMessageServerUnavailableError": "Server unavailable or overloaded. Try again later.",
+  "@queryMessageServerUnavailableError": {},
+  "queryMessageTooManyRequestsError": "Too many requests to the server.",
+  "@queryMessageTooManyRequestsError": {},
+  "queryMessageConnectionTimeoutError": "Error: Server query timed out.",
+  "@queryMessageConnectionTimeoutError": {},
+  "queryMessageReceiveTimeoutError": "Error: Receiving data timed out.",
+  "@queryMessageReceiveTimeoutError": {},
+  "queryMessageUnknownServerCommunicationError": "Unknown error during server communication.",
+  "@queryMessageUnknownServerCommunicationError": {},
+  "queryMessageUnknownError": "Unknown error.",
+  "@queryMessageUnknownError": {},
+
+  "questionnaireSummaryDedicatedMessage": "Thank you {userName} for your answers.\nPlease verify them before uploading.",
+  "@questionnaireSummaryDedicatedMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "questionnaireSummaryUndedicatedMessage": "Thank you for your answers.\nPlease verify them before uploading.",
+  "@questionnaireSummaryUndedicatedMessage": {},
+
+  "back": "Back",
+  "@back": {},
+  "next": "Next",
+  "@next": {},
+  "cancel": "Cancel",
+  "@cancel": {},
+  "confirm": "Confirm",
+  "@confirm": {},
+  "finish": "Finish",
+  "@finish": {},
+  "login": "Log in",
+  "@login": {},
+  "logout": "Log out",
+  "@logout": {},
+  "skip": "Skip",
+  "@skip": {},
+  "yes": "Yes",
+  "@yes": {},
+  "no": "No",
+  "@no": {},
+  "days": "{day, plural, =1 {1 Day} other {{day} Days}}",
+  "@days": {
+    "placeholders": {
+      "day": {
+        "type": "num"
+      }
+    }
+  },
+  "hours": "{hour, plural, =1 {1 Hour} other {{hour} Hours}}",
+  "@hours": {
+    "placeholders": {
+      "hour": {
+        "type": "num"
+      }
+    }
+  },
+  "minutes": "{minute, plural, =1 {1 Minute} other {{minute} Minutes}}",
+  "@minutes": {
+    "placeholders": {
+      "minute": {
+        "type": "num"
+      }
+    }
+  },
+  "seconds": "{second, plural, =1 {1 Second} other {{second} Seconds}}",
+  "@seconds": {
+    "placeholders": {
+      "second": {
+        "type": "num"
+      }
+    }
+  },
+
+  "durationInputDaysLabel": "Days",
+  "@durationInputDaysLabel": {},
+  "durationInputHoursLabel": "Hours",
+  "@durationInputHoursLabel": {},
+  "durationInputMinutesLabel": "Minutes",
+  "@durationInputMinutesLabel": {},
+  "durationInputSecondsLabel": "Seconds",
+  "@durationInputSecondsLabel": {},
+
+  "osmCreditsText": "Data © OpenStreetMap-Contributors",
+  "@osmCreditsText": {},
+
+  "mapFeatureBusStop" : "Bus stop",
+  "@mapFeatureBusStop" : {},
+  "mapFeatureTramStop" : "Tram stop",
+  "@mapFeatureTramStop" : {},
+  "mapFeatureTrainPlatform" : "Train platform",
+  "@mapFeatureTrainPlatform" : {},
+  "mapFeaturePlatform" : "Platform",
+  "@mapFeaturePlatform" : {},
+  "mapFeatureStopPole" : "Stop pole",
+  "@mapFeatureStopPole" : {},
+  "mapFeatureStation" : "Station",
+  "@mapFeatureStation" : {},
+  "mapFeatureTicketSalesPoint" : "Ticket sales point",
+  "@mapFeatureTicketSalesPoint" : {},
+  "mapFeatureInformationPoint" : "Information point",
+  "@mapFeatureInformationPoint" : {},
+  "mapFeatureStationMap" : "Station/Stop map",
+  "@mapFeatureStationMap" : {},
+  "mapFeatureTicketMachine" : "Ticket machine",
+  "@mapFeatureTicketMachine" : {},
+  "mapFeatureParkingSpot" : "Parking spot",
+  "@mapFeatureParkingSpot" : {},
+  "mapFeatureTaxiStand" : "Taxi stand",
+  "@mapFeatureTaxiStand" : {},
+  "mapFeatureToilets" : "Toilets",
+  "@mapFeatureToilets" : {},
+  "mapFeatureLuggageLockers" : "Luggage lockers",
+  "@mapFeatureLuggageLockers" : {},
+  "mapFeatureLuggageTransport" : "Luggage transport",
+  "@mapFeatureLuggageTransport" : {},
+  "mapFeatureInformationTerminal" : "Information terminal",
+  "@mapFeatureInformationTerminal" : {},
+  "mapFeatureInformationCallPoint" : "Information column",
+  "@mapFeatureInformationCallPoint" : {},
+  "mapFeatureHelpPoint" : "Help point",
+  "@mapFeatureHelpPoint" : {},
+  "mapFeatureEmergencyCallPoint" : "Emergency call point",
+  "@mapFeatureEmergencyCallPoint" : {},
+  "mapFeatureEntrance" : "Entrance",
+  "@mapFeatureEntrance" : {},
+  "mapFeatureFootpath" : "Footpath",
+  "@mapFeatureFootpath" : {},
+  "mapFeatureStairs" : "Stairs",
+  "@mapFeatureStairs" : {},
+  "mapFeatureElevator" : "Elevator",
+  "@mapFeatureElevator" : {},
+  "mapFeatureEscalator" : "Escalator",
+  "@mapFeatureEscalator" : {},
+  "mapFeatureCycleBarrier" : "Cycle barrier",
+  "@mapFeatureCycleBarrier" : {},
+  "mapFeatureCrosswalk" : "Crosswalk",
+  "@mapFeatureCrosswalk" : {},
+  "mapFeaturePedestrianTrafficLights" : "Pedestrian traffic lights",
+  "@mapFeaturePedestrianTrafficLights" : {},
+  "mapFeatureTramCrossing" : "Tram crossing",
+  "@mapFeatureTramCrossing" : {},
+  "mapFeatureRailroadCrossing" : "Railroad crossing",
+  "@mapFeatureRailroadCrossing" : {},
+  "mapFeatureCurb" : "Curb",
+  "@mapFeatureCurb" : {},
+  "mapFeatureBusPlatformNumber" : "Platform: {number}",
+  "@mapFeatureBusPlatformNumber" : {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureTrainPlatformNumber" : "Platform: {number}",
+  "@mapFeatureTrainPlatformNumber" : {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  }
+}
