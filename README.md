@@ -19,7 +19,7 @@ Thanks and happy mapping!
     height="50">](https://f-droid.org/packages/de.tu_chemnitz.etit.sse.openstop/)
 
 ## Screenshots
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot01.png" alt="Screenshot with visualized POI" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot02.png" alt="Screenshot with bool question dialog" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot03.png" alt="Screenshot with bool question dialog and extended info box" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot04.png" alt="Screenshot with summary and upload dialog" width=150>
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot01.png" alt="Screenshot with map overview" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot02.png" alt="Screenshot with visualized POI" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot03.png" alt="Screenshot with multiple choice question dialog" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot04.png" alt="Screenshot with bool question dialog and extended info box" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot05.png" alt="Screenshot with summary and upload dialog" width=150>
 
 ## Contributing
 We are always happy, if you not only want to help us mapping, but also want to directly participate in the project. You can either open issues for enhancement suggestions and bug reports or help us developing the app further. A good starting point for the latter is to read the [build instructions](/docs/BUILD.md) for the app.
