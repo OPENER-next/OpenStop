@@ -240,15 +240,15 @@ class DurationAnswer extends Answer<DurationAnswerDefinition, Duration> {
   @override
   String toLocaleString(AppLocalizations appLocale) {
     final days = value.inDays;
-    final hours = value.inHours % 24;
-    final minutes = value.inMinutes % 60;
-    final seconds = value.inSeconds % 60;
+    final hours = value.inHours % Duration.hoursPerDay;
+    final minutes = value.inMinutes % Duration.minutesPerHour;
+    final seconds = value.inSeconds % Duration.secondsPerMinute;
 
     return () sync* {
       if (days > 0) yield appLocale.days(days);
       if (hours > 0) yield appLocale.hours(hours);
       if (minutes > 0) yield appLocale.minutes(minutes);
-      if (seconds > 0) yield appLocale.days(seconds);
+      if (seconds > 0) yield appLocale.seconds(seconds);
     }().join(' ');
   }
 }
