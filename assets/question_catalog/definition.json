@@ -2646,14 +2646,24 @@
       "answer": {
          "type": "Duration",
          "input": {
-            "max": 3,
-            "unit_step": {
-               "minutes": 1,
-               "seconds": 1
+            "max": 2,
+            "hours": {
+               "display": false,
+               "return": true
+            },
+            "minutes": {
+               "step": 1
+            },
+            "seconds": {
+               "step": 1
             }
          },
          "constructor": {
-            "duration": ["$input"]
+            "duration": [
+               "JOIN", ":", [
+                  "PAD", "0", "2", "$input"
+               ]
+            ]
          }
       },
       "conditions": [
