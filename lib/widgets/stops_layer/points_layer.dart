@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
 
@@ -52,6 +52,9 @@ class PointsLayer extends LeafRenderObjectWidget  {
   }
 
   Iterable<double> _localPoints(MapCamera mapCamera) sync* {
+    final relativePixelCenter = mapCamera.nonRotatedSize / 2;
+    final unrotatedPixelOrigin = mapCamera.project(mapCamera.center) - relativePixelCenter;
+
     for (final point in points) {
       final pxPoint = mapCamera.project(point);
 
@@ -61,7 +64,8 @@ class PointsLayer extends LeafRenderObjectWidget  {
       final isVisible = mapCamera.pixelBounds.containsPartialBounds(Bounds(sw, ne));
 
       if (isVisible) {
-        final pos = pxPoint - mapCamera.pixelOrigin.toDoublePoint();
+        final relativePos = pxPoint - unrotatedPixelOrigin;
+        final pos = mapCamera.rotatePoint(relativePixelCenter, relativePos, counterRotation: false);
         yield pos.x.toDouble();
         yield pos.y.toDouble();
       }
@@ -117,8 +121,7 @@ class RenderPointsLayer extends RenderBox {
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    // required for rotation
-    context.pushTransform(false, Offset.zero, Matrix4.translationValues(offset.dx, offset.dy, 0), (context, _) {
+    context.pushTransform(false, offset, Matrix4.identity(), (context, _) {
       context.canvas.drawRawPoints(PointMode.points, _points, _paint);
     });
   }
