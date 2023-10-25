@@ -940,6 +940,7 @@
          "input": [
             {
                "osm_tags": {
+                  "ramp": "yes",
                   "ramp:portable": "yes"
                }
             },
@@ -955,6 +956,7 @@
             "osm_tags": {
                "public_transport": "platform",
                "train": "yes",
+               "ramp": ["yes", false],
                "ramp:portable": false
             },
             "!parent": [
