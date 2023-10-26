@@ -946,8 +946,7 @@
             },
             {
                "osm_tags": {
-                  "ramp": "no",
-                  "ramp:portable": "yes"
+                  "ramp:portable": "no"
                }
             }
          ]
@@ -957,7 +956,8 @@
             "osm_tags": {
                "public_transport": "platform",
                "train": "yes",
-               "ramp": false
+               "ramp": ["yes", false],
+               "ramp:portable": false
             },
             "!parent": [
                {
@@ -988,7 +988,7 @@
             "unit": "@unitCentimeter"
          },
          "constructor": {
-            "ramp:length": [
+            "ramp:portable:length": [
                "REPLACE", "/\\.?0{1,2}$/", "", [
                   "INSERT", ".", "-2", [
                      "PAD", "0", "3", "$input"
@@ -1000,9 +1000,8 @@
       "conditions": [
          {
             "osm_tags": {
-               "ramp": "yes",
                "ramp:portable": "yes",
-               "ramp:length": false
+               "ramp:portable:length": false
             }
          }
       ]
@@ -1026,15 +1025,14 @@
             "unit": "@unitKilogram"
          },
          "constructor": {
-            "ramp:maxweight": ["CONCAT", "$input", " kg"]
+            "ramp:portable:maxweight": ["CONCAT", "$input", " kg"]
          }
       },
       "conditions": [
          {
             "osm_tags": {
-               "ramp": "yes",
                "ramp:portable": "yes",
-               "ramp:maxweight": false
+               "ramp:portable:maxweight": false
             }
          }
       ]
@@ -1060,8 +1058,7 @@
             },
             {
                "osm_tags": {
-                  "platform_lift": "no",
-                  "platform_lift:portable": "yes"
+                  "platform_lift": "no"
                }
             }
          ]
