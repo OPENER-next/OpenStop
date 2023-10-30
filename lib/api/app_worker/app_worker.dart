@@ -4,6 +4,7 @@ import '/api/app_worker/stop_area_handler.dart';
 import '/utils/service_worker.dart';
 
 import 'element_handler.dart';
+import 'locale_handler.dart';
 import 'question_catalog_handler.dart';
 import 'questionnaire_handler.dart';
 
@@ -16,7 +17,7 @@ import 'questionnaire_handler.dart';
 /// The isolate persists so it can cache any queried or processed data.
 
 class AppWorker extends ServiceWorker<AppWorkerMessage>
-  with QuestionCatalogHandler, StopAreaHandler, ElementHandler, QuestionnaireHandler {
+  with QuestionCatalogHandler, LocaleHandler, StopAreaHandler, ElementHandler, QuestionnaireHandler {
   AppWorker(super.sendPort);
 
   @override
@@ -47,6 +48,9 @@ class AppWorker extends ServiceWorker<AppWorkerMessage>
 
       case AppWorkerSubject.updateQuestionCatalog:
         return updateQuestionCatalog(message.data);
+
+      case AppWorkerSubject.updateLocales:
+        return updateLocales(message.data.$1, message.data.$2);
 
       case AppWorkerSubject.dispose:
         return exit();
@@ -92,6 +96,8 @@ enum AppWorkerSubject {
   jumpToQuestion,
 
   updateQuestionCatalog,
+
+  updateLocales,
 
   dispose,
 }

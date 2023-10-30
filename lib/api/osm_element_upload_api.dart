@@ -1,11 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:osm_api/osm_api.dart';
 
-import '/models/changeset_comment_builder.dart';
+import '/models/changeset_info_generator.dart';
 import '/models/element_processing/element_processor.dart';
 import '/models/element_variants/base_element.dart';
 import '/models/authenticated_user.dart';
-import '/commons/app_config.dart' as app_config;
 import '/commons/osm_config.dart' as osm_config;
 import '/models/stop_area_processing/stop_area.dart';
 
@@ -17,25 +16,13 @@ import '/models/stop_area_processing/stop_area.dart';
 
 
 class OSMElementUploadAPI {
-  final StopArea stopArea;
-
   AuthenticatedUser _authenticatedUser;
-
-  String changesetCreatedBy;
-
-  String changesetSource;
-
-  String changesetLocale;
 
   final OSMAPI _osmApi;
 
   OSMElementUploadAPI({
-    required this.stopArea,
     required AuthenticatedUser authenticatedUser,
     String endPoint = 'https://${osm_config.osmServer}/api/0.6',
-    this.changesetCreatedBy = '${app_config.appName} ${app_config.appVersion}',
-    this.changesetSource = 'survey',
-    this.changesetLocale = 'de'
   }) :
     _authenticatedUser = authenticatedUser,
     _osmApi = OSMAPI(
@@ -61,41 +48,28 @@ class OSMElementUploadAPI {
   ///
   /// This updates the element version on success.
 
-  Future<OSMElement> updateOsmElement(ProcessedElement processedElement, OSMElement originalElement) async {
-    final changesetId = await _createOrReuseChangeset(stopArea, processedElement);
+  Future<OSMElement> updateOsmElement(int changesetId, OSMElement originalElement) async {
     return _osmApi.updateElement(originalElement, changesetId);
   }
 
 
   /// Creates or retrieves (and updates) a suitable changeset for the given element and returns its id.
 
-  Future<int> _createOrReuseChangeset(StopArea stopArea, ProcessedElement newElement) async {
-    final changesetData = {
-      'created_by': changesetCreatedBy,
-      'source': changesetSource,
-      'locale': changesetLocale,
-    };
-    var changesetId = await _getReusableChangesetId(stopArea);
-
+  Future<int> createOrReuseChangeset(StopArea stopArea, ProcessedElement newElement, ChangesetInfoCallback generator) async {
+    var changesetId = await getReusableChangesetId(stopArea, generator);
     // update existing changeset tags
     if (changesetId != null) {
       // gather all previously modified elements of this changeset
-      final changesetElements = await _getChangesetElements(changesetId);
-      final changesetCommentBuilder = ChangesetCommentBuilder(
-        modifiedElements: [newElement, ...changesetElements],
-        stopArea: stopArea,
+      final changesetElements = await getChangesetElements(changesetId);
+      final changesetInfo = generator(
+        stopArea, [newElement, ...changesetElements],
       );
-      changesetData['comment'] = changesetCommentBuilder.toString();
-      await _osmApi.updateChangeset(changesetId, changesetData);
+      await _osmApi.updateChangeset(changesetId, changesetInfo.asMap());
     }
     // create new changeset
     else {
-      final changesetCommentBuilder = ChangesetCommentBuilder(
-        modifiedElements: [newElement],
-        stopArea: stopArea,
-      );
-      changesetData['comment'] = changesetCommentBuilder.toString();
-      changesetId = await _osmApi.createChangeset(changesetData);
+      final changesetInfo = generator(stopArea, [newElement]);
+      changesetId = await _osmApi.createChangeset(changesetInfo.asMap());
     }
 
     return changesetId;
@@ -104,7 +78,10 @@ class OSMElementUploadAPI {
 
   /// Get any open changeset that was created by our app and is inside the current stop area.
 
-  Future<int?> _getReusableChangesetId(StopArea stopArea) async {
+  Future<int?> getReusableChangesetId(StopArea stopArea, ChangesetInfoCallback generator) async {
+    // dummy changeset info
+    final changesetInfo = generator(stopArea, []);
+
     final bbox = stopArea.bounds;
     // get existing open changesets that was created by the user
     final changesets = await _osmApi.queryChangesets(
@@ -115,7 +92,7 @@ class OSMElementUploadAPI {
 
     try {
       return changesets.firstWhere((changeset) {
-        return changeset.tags['created_by'] == changesetCreatedBy;
+        return changeset.tags['created_by'] == changesetInfo.createdBy;
       }).id;
     }
     on StateError {
@@ -130,7 +107,7 @@ class OSMElementUploadAPI {
   /// relations which is required to create complete [ProcessedElement]s.
   /// However only the elements modified by the given changeset will be returned.
 
-  Future<Iterable<ProcessedElement>> _getChangesetElements(int changesetId) async {
+  Future<Iterable<ProcessedElement>> getChangesetElements(int changesetId) async {
     // gather all modified elements of this changeset
     final changes = await _osmApi.getChangesetChanges(changesetId);
     final changesWithChildren = await _queryFullElements(changes.modify);
@@ -182,3 +159,9 @@ class OSMElementUploadAPI {
     _osmApi.dispose();
   }
 }
+
+
+typedef ChangesetInfoCallback = ChangesetInfo Function(
+  StopArea stopArea,
+  Iterable<ProcessedElement> modifiedElements,
+);

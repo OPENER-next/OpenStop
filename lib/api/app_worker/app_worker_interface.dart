@@ -100,12 +100,8 @@ class AppWorkerInterface extends Service implements Disposable {
 
   Future<void> uploadQuestionnaire({
     required AuthenticatedUser user,
-    required Locale locale,
   }) {
-    return _worker.send<void>(AppWorkerMessage(AppWorkerSubject.uploadQuestionnaire, ElementUploadData(
-      user: user,
-      locale: locale,
-    )));
+    return _worker.send<void>(AppWorkerMessage(AppWorkerSubject.uploadQuestionnaire, user));
   }
 
   Future<void> nextQuestion() {
@@ -130,6 +126,12 @@ class AppWorkerInterface extends Service implements Disposable {
   Future<void> updateQuestionCatalog(QuestionCatalogChange questionCatalogChange) {
     return _worker.send<void>(AppWorkerMessage(
       AppWorkerSubject.updateQuestionCatalog, questionCatalogChange,
+    ));
+  }
+
+  Future<void> updateLocales(Locale appLocale, List<Locale> userLocales) {
+    return _worker.send<void>(AppWorkerMessage(
+      AppWorkerSubject.updateLocales, (appLocale, userLocales),
     ));
   }
 

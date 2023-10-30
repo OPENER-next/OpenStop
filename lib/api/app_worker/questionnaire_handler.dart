@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import '/models/question_catalog/question_catalog_reader.dart';
 import '/models/authenticated_user.dart';
@@ -117,12 +116,12 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
 
   /// This also automatically closes the questionnaire.
 
-  Future<void> uploadQuestionnaire(ElementUploadData data) async {
+  Future<void> uploadQuestionnaire(AuthenticatedUser user) async {
     final questionnaire = _activeQuestionnaire!;
     final element = _activeQuestionnaire!.workingElement;
     // close questionnaire before uploading
     closeQuestionnaire();
-    final success = await uploadElement(element, data);
+    final success = await uploadElement(element, user);
     if (success) {
       discardQuestionnaire(questionnaire);
     }
@@ -187,7 +186,7 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
       // Update all QuestionDefinition of all the stored questionnares
       final questionnaireList = _questionnaireStore.items;
 
-      for (final Questionnaire questionnaire in questionnaireList) { 
+      for (final Questionnaire questionnaire in questionnaireList) {
         questionnaire.updateQuestionCatalogLanguage(questionCatalogChange.catalog);
       }
       // Update current _activeQuestionnaire
@@ -200,7 +199,7 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
           ),
         );
       }
-    } 
+    }
     else {
       _questionnaireStore.clear();
       closeQuestionnaire();
@@ -226,15 +225,4 @@ class QuestionnaireRepresentation {
   QuestionnaireRepresentation.derive(Questionnaire questionnaire, {this.isCompleted = false}) :
     entries = questionnaire.entries,
     activeIndex = questionnaire.activeIndex;
-}
-
-class ElementUploadData {
-  final AuthenticatedUser user;
-
-  final Locale locale;
-
-  const ElementUploadData({
-    required this.user,
-    required this.locale,
-  });
 }

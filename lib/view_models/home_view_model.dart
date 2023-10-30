@@ -342,7 +342,6 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
         // this automatically closes the questionaire
         await _appWorker.uploadQuestionnaire(
           user: _userAccountService.authenticatedUser!,
-          locale: Localizations.localeOf(context)
         );
         notifyUser(appLocale.uploadMessageSuccess);
       }
