@@ -39,6 +39,9 @@ dependencies:
   temaki_flutter:
     git:
       url: https://github.com/OPENER-next/temaki_flutter.git
+  offline_geocoder:
+    git:
+      url: https://github.com/OPENER-next/offline_geocoder.git
   collection: ^1.17.0
   dio: ^5.1.0
   shared_preferences: ^2.0.20
