@@ -26,26 +26,28 @@ class QuestionSummary extends StatelessWidget {
         vertical: 25,
         horizontal: 20,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: 10,
-            ),
-            child: Text(
-              userName != null
-                ? AppLocalizations.of(context)!.questionnaireSummaryDedicatedMessage(userName!)
-                : AppLocalizations.of(context)!.questionnaireSummaryUndedicatedMessage,
-              style: const TextStyle(
-                height: 1.3,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+      child: MergeSemantics(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: 10,
+              ),
+              child: Text(
+                userName != null
+                  ? AppLocalizations.of(context)!.questionnaireSummaryDedicatedMessage(userName!)
+                  : AppLocalizations.of(context)!.questionnaireSummaryUndedicatedMessage,
+                style: const TextStyle(
+                  height: 1.3,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          ..._buildEntries(),
-        ],
+            ..._buildEntries(),
+          ],
+        ),
       ),
     );
   }
@@ -83,27 +85,30 @@ class QuestionSummary extends StatelessWidget {
             bottom: 15,
             right: 10,
           ),
-          child: Row(
-            children: [
-              const Icon(
-                Icons.chevron_left_rounded
-              ),
-              ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: 100, maxWidth: 200),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Text('$question:')
+          child: Semantics(
+            liveRegion: true,
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.chevron_left_rounded
                 ),
-              ),
-              Expanded(
-                child: Text(
-                  answer!,
-                  textAlign: TextAlign.right,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: 100, maxWidth: 200),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Text('$question:')
+                  ),
                 ),
-              ),
-            ],
+                Expanded(
+                  child: Text(
+                    answer!,
+                    textAlign: TextAlign.right,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

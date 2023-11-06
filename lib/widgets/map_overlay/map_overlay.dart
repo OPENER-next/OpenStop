@@ -31,6 +31,7 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
     // This is basically an in between layer, while widgets like dialogs or drawers
     // are rendered on the top layer/Overlay widget.
     // The map layer switcher makes use of this.
+    final appLocale = AppLocalizations.of(context)!;
     return Overlay(
       initialEntries: [
         OverlayEntry(
@@ -53,8 +54,11 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
                         child: FloatingActionButton.small(
                           heroTag: null,
                           onPressed: Scaffold.of(context).openDrawer,
-                          child: const Icon(
-                            Icons.menu,
+                          child: Semantics(
+                            label: appLocale.xxxNavigationMenuLabel,
+                            child: const Icon(
+                              Icons.menu,
+                            ),
                           ),
                         ),
                       ),

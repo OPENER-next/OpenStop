@@ -210,12 +210,15 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       scale: animation,
       alignment: Alignment.bottomCenter,
       filterQuality: FilterQuality.low,
-      child: OsmElementMarker(
+      child: Semantics (
+        label: marker.element.elementLabel(appLocale),
+        child: OsmElementMarker(
         onTap: () => widget.onOsmElementTap?.call(marker.element),
         active: isActive,
         icon: marker.element.icon,
         label: marker.element.elementLabel(appLocale),
-      )
+        ),
+      ),
     );
   }
 

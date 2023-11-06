@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MapLayerSwitcher<T> extends StatefulWidget {
   /// A callback function that gets
@@ -128,6 +129,7 @@ class _MapLayerSwitcherState<T> extends State<MapLayerSwitcher<T>> with SingleTi
 
 
   Widget _buildItem(int index, BuildContext context) {
+    final appLocale = AppLocalizations.of(context)!;
     final entry = widget.entries[index];
     final start = (widget.entries.length - (index + 1)) * _intervalOffset;
     final end = start + _intervalLength;
@@ -156,9 +158,12 @@ class _MapLayerSwitcherState<T> extends State<MapLayerSwitcher<T>> with SingleTi
               child: FloatingActionButton.small(
                 heroTag: null,
                 backgroundColor: isActive ? Theme.of(context).colorScheme.primary : null,
-                child: Icon(
-                  entry.icon,
-                  color: isActive ? Theme.of(context).colorScheme.onPrimary : null,
+                child: Semantics(
+                  label: appLocale.xxxMapLayerOptionLabel(entry.label),
+                  child: Icon(
+                    entry.icon,
+                    color: isActive ? Theme.of(context).colorScheme.onPrimary : null,
+                  ),
                 ),
                 onPressed: () {
                   if (widget.active != entry.id) {
@@ -201,16 +206,20 @@ class _MapLayerSwitcherState<T> extends State<MapLayerSwitcher<T>> with SingleTi
 
   @override
   Widget build(BuildContext context) {
+    final appLocale = AppLocalizations.of(context)!;
     return CompositedTransformTarget(
       link: _layerLink,
       child: FloatingActionButton.small(
         heroTag: null,
-        child: _isActive
-          ? const Icon(
-            Icons.layers_clear_rounded,
-          )
-          : const Icon(
-            Icons.layers_rounded,
+        child: Semantics(
+          label: appLocale.xxxMapLayerButtonLabel,
+          child: _isActive
+            ? const Icon(
+              Icons.layers_clear_rounded,
+            )
+            : const Icon(
+              Icons.layers_rounded,
+            ),
           ),
         onPressed: () {
           if (_controller.isDismissed) {

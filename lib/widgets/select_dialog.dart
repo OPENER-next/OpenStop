@@ -8,10 +8,13 @@ class SelectDialog<T> extends StatefulWidget {
 
   final Widget? title;
 
+  final String? semanticLabel;
+
   const SelectDialog({
     required this.valueLabelMap,
     this.value,
     this.title,
+    this.semanticLabel,
     Key? key
   }) : super(key: key);
 
@@ -32,37 +35,40 @@ class _SelectDialogState<T> extends State<SelectDialog<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      scrollable: true,
-      title: widget.title,
-      // Use column instead of ListView. See: https://github.com/flutter/flutter/issues/18108
-      content: Column(
-        children: List.generate(_entries.length, (index) {
-          final entry = _entries[index];
-          return RadioListTile<T>(
-            contentPadding: EdgeInsets.zero,
-            groupValue: _selectedValue,
-            visualDensity: VisualDensity.compact,
-            value: entry.key,
-            onChanged: (T? value) {
-              setState(() {
-                _selectedValue = value;
-              });
-            },
-            title: Text(entry.value),
-          );
-        }),
+    return Semantics(
+      label: widget.semanticLabel,
+      child: AlertDialog(
+        scrollable: true,
+        title: widget.title,
+        // Use column instead of ListView. See: https://github.com/flutter/flutter/issues/18108
+        content: Column(
+          children: List.generate(_entries.length, (index) {
+            final entry = _entries[index];
+            return RadioListTile<T>(
+              contentPadding: EdgeInsets.zero,
+              groupValue: _selectedValue,
+              visualDensity: VisualDensity.compact,
+              value: entry.key,
+              onChanged: (T? value) {
+                setState(() {
+                  _selectedValue = value;
+                });
+              },
+              title: Text(entry.value),
+            );
+          }),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(AppLocalizations.of(context)!.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, _selectedValue),
+            child: Text(AppLocalizations.of(context)!.confirm),
+          ),
+        ],
       ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(AppLocalizations.of(context)!.cancel),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(context, _selectedValue),
-          child: Text(AppLocalizations.of(context)!.confirm),
-        ),
-      ],
-    );
+    ); 
   }
 }

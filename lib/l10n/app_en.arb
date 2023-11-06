@@ -317,5 +317,89 @@
         "type": "String"
       }
     }
-  }
+  },
+
+  "xxxLoginHint" : "Press the button to log in to your account.",
+  "@xxxLoginHint" : {},
+  "xxxFlutterMapLabel" : "Open Stop map screen",
+  "@xxxFlutterMapLabel" : {},
+  "xxxDotsIndicatorLabel" : "Move to page {number}",
+  "@xxxDotsIndicatorLabel" : {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "xxxPageIndicatorsLabel" : "There are {number} number of pages to view",
+  "@xxxPageIndicatorsLabel" : {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "xxxIntroductionPageLabel" : "Introduction page {number} of {count}",
+  "@xxxIntroductionPageLabel" : {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      },
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "xxxMenuTitleLabel" : "Menu",
+  "@xxxMenuTitleLabel" : {},
+  "xxxMenuOptionsLabel" : "Options of the menu",
+  "@xxxMenuOptionsLabel" : {},
+  "xxxSloganLabel" : "Slogan",
+  "@xxxSloganLabel" : {},
+  "xxxOpenStopLogoLabel" : "OpenStop Logo",
+  "@xxxOpenStopLogoLabel" : {},
+  "xxxMFundImageLabel" : "Funder by mFUND",
+  "@xxxMFundImageLabel" : {},
+  "xxxFederalMinistryImageLabel" : "Funder by Federal Ministry of Transport and Digital Infrastructure",
+  "@xxxFederalMinistryImageLabel" : {},
+  "xxxSettingsDialogBoxLabel" : "Choose your preferred theme for the app.",
+  "@xxxSettingsDialogBoxLabel" : {},
+  "xxxNavigationMenuLabel" : "Navigation menu",
+  "@xxxNavigationMenuLabel" : {},
+  "xxxResetRotationButtonLabel" : "Reset map rotation to North.",
+  "@xxxResetRotationButtonLabel" : {},
+  "xxxCurrentLocationButtonLabel" : "Set map to current location.",
+  "@xxxCurrentLocationButtonLabel" : {},
+  "xxxZoomInButtonLabel" : "Zoom in map",
+  "@xxxZoomInButtonLabel" : {},
+  "xxxZoomOutButtonLabel" : "Zoom out map",
+  "@xxxZoomOutButtonLabel" : {},
+  "xxxMapLayerButtonLabel" : "Switch map layer",
+  "@xxxMapLayerButtonLabel" : {},
+  "xxxMapLayerOptionLabel" : "Layer option {name}",
+  "@xxxMapLayerOptionLabel" : {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "xxxQuestionSetenceLabel" : "Question to answer (Tap for further information)",
+  "@xxxQuestionSetenceLabel" : {},
+  "xxxOptionsListLabel" : "Answer options",
+  "@xxxOptionsListLabel" : {},
+  "xxxUploadQuestionsButtonLabel" : "Share your answers",
+  "@xxxUploadQuestionsButtonLabel" : {},
+  "xxxBackQuestionButtonLabel" : "Return to next question.",
+  "@xxxBackQuestionButtonLabel" : {},
+  "xxxNextQuestionButtonLabel" : "{option} question",
+  "@xxxNextQuestionButtonLabel" : {
+    "placeholders": {
+      "option": {
+        "type": "String"
+      }
+    }
+  },
+  "xxxFinishQuestionnaireButtonLabel" : "Finish questionnaire",
+  "@xxxFinishQuestionnaireButtonLabel" : {}
 }

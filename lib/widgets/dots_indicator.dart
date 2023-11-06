@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// An indicator showing the currently selected page of a PageController
 class DotsIndicator extends AnimatedWidget {
@@ -32,7 +33,8 @@ class DotsIndicator extends AnimatedWidget {
   /// The distance between the center of each dot
   static const double _dotSpacing = 25.0;
 
-  Widget _buildDot(int index) {
+  Widget _buildDot(int index, BuildContext context) {
+    final appLocale = AppLocalizations.of(context)!;
     final selectedness = Curves.easeOut.transform(
       max(
         0.0,
@@ -42,16 +44,19 @@ class DotsIndicator extends AnimatedWidget {
     final zoom = 1.0 + (_dotMaxZoom - 1.0) * selectedness;
     return SizedBox(
       width: _dotSpacing,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => onPageSelected(index),
-        child: Center(
-          child: Material(
-            color: color,
-            type: MaterialType.circle,
-            child: SizedBox(
-              width: _dotSize * zoom,
-              height: _dotSize * zoom,
+      child: Semantics(
+        label: appLocale.xxxDotsIndicatorLabel(index + 1),
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () => onPageSelected(index),
+          child: Center(
+            child: Material(
+              color: color,
+              type: MaterialType.circle,
+              child: SizedBox(
+                width: _dotSize * zoom,
+                height: _dotSize * zoom,
+              ),
             ),
           ),
         ),
@@ -61,9 +66,13 @@ class DotsIndicator extends AnimatedWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List<Widget>.generate(itemCount, _buildDot),
+    final appLocale = AppLocalizations.of(context)!;
+    return Semantics(
+      label: appLocale.xxxPageIndicatorsLabel(itemCount),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List<Widget>.generate(itemCount, (int index) => _buildDot(index, context)),
+      ),
     );
   }
 }

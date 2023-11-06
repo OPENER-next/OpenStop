@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QuestionNavigationBar extends StatelessWidget {
   final String? nextText;
   final String? backText;
-
+  final String? nextTextSemantics;
   final VoidCallback? onNext;
   final VoidCallback? onBack;
 
   const QuestionNavigationBar({
     this.nextText,
     this.backText,
+    this.nextTextSemantics,
     this.onBack,
     this.onNext,
     Key? key,
@@ -18,6 +20,7 @@ class QuestionNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocale = AppLocalizations.of(context)!;
     final disabledButtonStyle = ButtonStyle(
       foregroundColor: MaterialStatePropertyAll(Theme.of(context).disabledColor),
       overlayColor: const MaterialStatePropertyAll(Colors.transparent),
@@ -47,11 +50,14 @@ class QuestionNavigationBar extends StatelessWidget {
                   : _buttonStyle.merge(disabledButtonStyle),
                 // if button is disabled vibrate when pressed as additional feedback
                 onPressed: onBack ?? HapticFeedback.vibrate,
-                child: Row(
-                  children: [
-                    const Icon(Icons.chevron_left_rounded),
-                    Text(backText!),
-                  ],
+                child: Semantics(
+                  label: appLocale.xxxBackQuestionButtonLabel,
+                  child: Row(
+                    children: [
+                      const Icon(Icons.chevron_left_rounded),
+                      Text(backText!),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -69,12 +75,15 @@ class QuestionNavigationBar extends StatelessWidget {
                   : _buttonStyle.merge(disabledButtonStyle),
                 // if button is disabled vibrate when pressed as additional feedback
                 onPressed: onNext ?? HapticFeedback.vibrate,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(nextText!),
-                    const Icon(Icons.chevron_right_rounded),
-                  ],
+                child: Semantics(
+                  label: nextTextSemantics,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(nextText!),
+                      const Icon(Icons.chevron_right_rounded),
+                    ],
+                  ),
                 ),
               ),
             ),

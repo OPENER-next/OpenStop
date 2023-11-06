@@ -33,13 +33,17 @@ class AboutScreen extends StatelessWidget {
                 child: Image.asset(
                   'assets/images/app_icon_android.png',
                   height: 120,
+                  semanticLabel: appLocale.xxxOpenStopLogoLabel,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20.0),
-                child: Text(
-                  appLocale.aboutSlogan,
-                  style: const TextStyle(fontStyle: FontStyle.italic),
+                child: Semantics(
+                  label: appLocale.xxxSloganLabel,
+                  child: Text(
+                    appLocale.aboutSlogan,
+                    style: const TextStyle(fontStyle: FontStyle.italic),
+                  ),
                 ),
               ),
               CustomListTile(
@@ -103,6 +107,7 @@ class AboutScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Image.asset(
                           'assets/images/logos/BMDV_Fz_2021_Office_Farbe_de.png',
+                          semanticLabel: appLocale.xxxFederalMinistryImageLabel
                         ),
                       ),
                     ),
@@ -112,6 +117,7 @@ class AboutScreen extends StatelessWidget {
                         padding: const EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 50.0),
                         child: Image.asset(
                           'assets/images/logos/mFUND_Logo_sRGB.png',
+                          semanticLabel: appLocale.xxxMFundImageLabel
                         ),
                       ),
                     ),

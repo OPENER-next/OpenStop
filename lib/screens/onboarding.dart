@@ -41,38 +41,58 @@ class OnboardingScreen extends View<OnboardingViewModel> {
   Widget build(BuildContext context, viewModel) {
     final appLocale = AppLocalizations.of(context)!;
     final pages = [
-      OnboardingPage(
-        image: 'assets/images/onboarding/onboarding_1.png',
-        title: appLocale.onboardingGreetingTitle,
-        description: appLocale.onboardingGreetingDescription,
-        buttonText: appLocale.onboardingGreetingButton,
-        onButtonTap: viewModel.nextPage,
+      IndexedSemantics(index: 0, child: 
+        Semantics( // MergeSemactics could provide a better understanding but the user interaction is different
+          label: appLocale.xxxIntroductionPageLabel(1,4),
+          child: OnboardingPage(
+            image: 'assets/images/onboarding/onboarding_1.png',
+            title: appLocale.onboardingGreetingTitle,
+            description: appLocale.onboardingGreetingDescription,
+            buttonText: appLocale.onboardingGreetingButton,
+            onButtonTap: viewModel.nextPage,
+          ),
+        ),
       ),
-      OnboardingPage(
-        image: 'assets/images/onboarding/onboarding_2.png',
-        title: appLocale.onboardingSurveyingTitle,
-        description: appLocale.onboardingSurveyingDescription,
-        buttonText: appLocale.onboardingSurveyingButton,
-        onButtonTap: viewModel.nextPage,
+      IndexedSemantics(index: 1, child: 
+        Semantics(
+          label: appLocale.xxxIntroductionPageLabel(2,4),
+          child: OnboardingPage(
+            image: 'assets/images/onboarding/onboarding_2.png',
+            title: appLocale.onboardingSurveyingTitle,
+            description: appLocale.onboardingSurveyingDescription,
+            buttonText: appLocale.onboardingSurveyingButton,
+            onButtonTap: viewModel.nextPage,
+          ),
+        ),
       ),
-      OnboardingPage(
-        image: 'assets/images/onboarding/onboarding_3.png',
-        title: appLocale.onboardingAnsweringTitle,
-        description: appLocale.onboardingAnsweringDescription,
-        buttonText: appLocale.onboardingAnsweringButton,
-        onButtonTap: viewModel.nextPage,
+      IndexedSemantics(index: 2, child: 
+        Semantics(
+          label: appLocale.xxxIntroductionPageLabel(3,4),
+          child: OnboardingPage(
+            image: 'assets/images/onboarding/onboarding_3.png',
+            title: appLocale.onboardingAnsweringTitle,
+            description: appLocale.onboardingAnsweringDescription,
+            buttonText: appLocale.onboardingAnsweringButton,
+            onButtonTap: viewModel.nextPage,
+          ),
+        ),
       ),
-      OnboardingPage(
-        image: 'assets/images/onboarding/onboarding_4.png',
-        title: appLocale.onboardingContributingTitle,
-        description: appLocale.onboardingContributingDescription,
-        buttonText: appLocale.onboardingContributingButton,
-        onButtonTap: () {
-          viewModel.markOnboardingAsSeen();
-          // remove previous routes to start of with no duplicated home screen
-          // when re-visiting the onboarding screen
-          Navigator.of(context).pushAndRemoveUntil(Routes.home, (route) => false);
-        },
+      IndexedSemantics(index: 3, child: 
+        Semantics(
+          label: appLocale.xxxIntroductionPageLabel(4,4),
+          child: OnboardingPage(
+            image: 'assets/images/onboarding/onboarding_4.png',
+            title: appLocale.onboardingContributingTitle,
+            description: appLocale.onboardingContributingDescription,
+            buttonText: appLocale.onboardingContributingButton,
+            onButtonTap: () {
+              viewModel.markOnboardingAsSeen();
+              // remove previous routes to start of with no duplicated home screen
+              // when re-visiting the onboarding screen
+              Navigator.of(context).pushAndRemoveUntil(Routes.home, (route) => false);
+            },
+          ),
+        ),
       ),
     ];
 
@@ -121,13 +141,17 @@ class OnboardingScreen extends View<OnboardingViewModel> {
               child: Column(
                 children: [
                   Expanded(
-                    child: PageView(
-                      scrollBehavior: const ScrollBehavior().copyWith(overscroll: false),
-                      scrollDirection: Axis.horizontal,
-                      controller: viewModel.controller,
-                      physics: const ClampingScrollPhysics(),
-                      allowImplicitScrolling: true,
-                      children: pages,
+                    child: Semantics(
+                      onScrollRight: () => viewModel.controller.nextPage,
+                      onScrollLeft: () => viewModel.controller.previousPage,
+                      child: PageView(
+                        scrollBehavior: const ScrollBehavior().copyWith(overscroll: false),
+                        scrollDirection: Axis.horizontal,
+                        controller: viewModel.controller,
+                        physics: const ClampingScrollPhysics(),
+                        allowImplicitScrolling: false,
+                        children: pages,
+                      ),
                     ),
                   ),
                   Container(

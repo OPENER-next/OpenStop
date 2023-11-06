@@ -110,6 +110,11 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                             CompositedTransformTarget(
                               link: layerLink,
                               child: QuestionNavigationBar(
+                                nextTextSemantics: !!hasNextQuestion
+                                    ? appLocale.xxxFinishQuestionnaireButtonLabel
+                                    : currentIsValidAnswer
+                                      ? appLocale.xxxNextQuestionButtonLabel(appLocale.next)
+                                      : appLocale.xxxNextQuestionButtonLabel(appLocale.skip),
                                 nextText: showSummary
                                   ? null
                                   : !hasNextQuestion
@@ -153,9 +158,12 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                         shape: const CircleBorder(),
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         onPressed: viewModel.submitQuestionnaire,
-                        child: Icon(
+                        child: Semantics(
+                          label: appLocale.xxxUploadQuestionsButtonLabel,
+                          child: Icon(
                           Icons.cloud_upload_rounded,
                           color: Theme.of(context).colorScheme.onPrimary,
+                        ),
                         ),
                       )
                       : null

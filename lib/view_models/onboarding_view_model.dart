@@ -20,4 +20,11 @@ class OnboardingViewModel extends ViewModel {
       curve: Curves.ease,
     );
   }
+
+  void previousPage() {
+    controller.previousPage(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.ease,
+    );
+  }
 }

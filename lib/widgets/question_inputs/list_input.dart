@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/models/answer.dart';
 import '/models/question_catalog/answer_definition.dart';
@@ -14,18 +15,22 @@ class ListInput extends QuestionInputWidget<ListAnswerDefinition, ListAnswer> {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      runSpacing: 8.0,
-      children: List.generate(definition.input.length, (index) {
-        final item = definition.input[index];
-        return ListInputItem(
-          active: index == controller.answer?.value,
-          label: item.name,
-          description: item.description,
-          imagePath: item.image,
-          onTap: () => _handleChange(index),
-        );
-      }, growable: false),
+    final appLocale = AppLocalizations.of(context)!;
+    return Semantics(
+      label: appLocale.xxxOptionsListLabel,
+      child: Wrap(
+        runSpacing: 8.0,
+        children: List.generate(definition.input.length, (index) {
+          final item = definition.input[index];
+          return ListInputItem(
+            active: index == controller.answer?.value,
+            label: item.name,
+            description: item.description,
+            imagePath: item.image,
+            onTap: () => _handleChange(index),
+          );
+        }, growable: false),
+      ),
     );
   }
 
