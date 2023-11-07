@@ -533,7 +533,10 @@
                      "public_transport": "platform"
                   }
                }
-            ]
+            ],
+            "!osm_tags": {
+               "covered": "yes"
+            }
          }
       ]
    },
