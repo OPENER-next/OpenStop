@@ -14,7 +14,7 @@ const _thunderforestAPIKey = String.fromEnvironment('THUNDERFOREST_API_KEY', def
 const tileLayers = {
   TileLayerId.standard: TileLayerDefinition(
     name: 'Standard',
-    templateUrl: 'https://tile.thunderforest.com/atlas/{z}/{x}/{y}@2x.png?apikey=$_thunderforestAPIKey',
+    templateUrl: 'https://tile.thunderforest.com/atlas/{z}/{x}/{y}{r}.png?apikey=$_thunderforestAPIKey',
     creditsText: 'Maps © Thunderforest',
     creditsUrl: 'https://www.thunderforest.com',
     maxZoom: 22,
@@ -23,8 +23,8 @@ const tileLayers = {
   TileLayerId.publicTransport: TileLayerDefinition(
     name: 'ÖPNV',
     icon: Icons.directions_bus_rounded,
-    templateUrl: 'https://tile.thunderforest.com/transport/{z}/{x}/{y}@2x.png?apikey=$_thunderforestAPIKey',
-    darkVariantTemplateUrl: 'https://tile.thunderforest.com/transport-dark/{z}/{x}/{y}@2x.png?apikey=$_thunderforestAPIKey',
+    templateUrl: 'https://tile.thunderforest.com/transport/{z}/{x}/{y}{r}.png?apikey=$_thunderforestAPIKey',
+    darkVariantTemplateUrl: 'https://tile.thunderforest.com/transport-dark/{z}/{x}/{y}{r}.png?apikey=$_thunderforestAPIKey',
     creditsText: 'Maps © Thunderforest',
     creditsUrl: 'https://www.thunderforest.com',
     maxZoom: 22,
