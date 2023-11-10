@@ -308,9 +308,6 @@
   "@tactilePavingsStopText" : {},
   "tactilePavingsStopDescription" : "盲道是公共场所为视障人士提供信息、导向、指引和警示的地面元素。它们在触觉、视觉和可能的声学方面与相邻的地面材料形成强烈对比。",
   "@tactilePavingsStopDescription" : {},
-
-*** 下面的内容需要检查 ***
-
   "cycleBarrierTypeName" : "循环隔离栏类型",
   "@cycleBarrierTypeName" : {},
   "cycleBarrierTypeText" : "这是什么样的循环隔离栏？",
@@ -335,21 +332,18 @@
   "@cycleBarrierOpeningName" : {},
   "cycleBarrierOpeningText" : "循环隔离栏开口处或最窄处的宽度是多少？",
   "@cycleBarrierOpeningText" : {},
-  "cycleBarrierOpeningDescription" : "开口宽度指的是循环隔离栏入口处的宽度。如果开口宽度不同，则取最小宽度。",
+  "cycleBarrierOpeningDescription" : "开口宽度指的是循环隔离栏组入口处的宽度。如果开口宽度不同，则取最小宽度。",
   "@cycleBarrierOpeningDescription" : {},
   "cycleBarrierOpeningPlaceholder" : "宽度",
   "@cycleBarrierOpeningPlaceholder" : {},
-  "cycleBarrierSpacingName" : "隔离栏间距",
+  "cycleBarrierSpacingName" : "循环隔离栏间距",
   "@cycleBarrierSpacingName" : {},
-  "cycleBarrierSpacingText" : "循环隔离栏各部件之间的最小间距是多少？",
+  "cycleBarrierSpacingText" : "循环隔离栏各跨之间的最小间距是多少？",
   "@cycleBarrierSpacingText" : {},
-  "cycleBarrierSpacingDescription" : "间距描述了隔离栏元件之间的距离。如果间距不同，则取最小间距。",
+  "cycleBarrierSpacingDescription" : "间距描述了循环隔离栏组各跨之间的间距。如果间距不同，则取最小间距。",
   "@cycleBarrierSpacingDescription" : {},
   "cycleBarrierSpacingPlaceholder" : "间距",
   "@cycleBarrierSpacingPlaceholder" : {},
-
-*** 上面的内容需要检查 ***
-
   "stairLiftName" : "Stair lift",
   "@stairLiftName" : {},
   "stairLiftText" : "Is there a stair lift for wheelchair users?",
