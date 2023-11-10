@@ -67,6 +67,7 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                         'User-Agent': appUserAgent,
                       },
                     ),
+                    retinaMode: RetinaMode.isHighDensity(context),
                     evictErrorTileStrategy: EvictErrorTileStrategy.dispose,
                     urlTemplate: isDarkMode && viewModel.tileLayer.darkVariantTemplateUrl != null
                       ? viewModel.tileLayer.darkVariantTemplateUrl
