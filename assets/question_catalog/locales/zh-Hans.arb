@@ -82,6 +82,9 @@
   "@stopCoveredAreaName" : {},
   "stopCoveredAreaText" : "这个车站是否提供有棚等候区？",
   "@stopCoveredAreaText" : {},
+
+*** 下面的内容需要检查 ***
+
   "timetableDisplayName" : "时刻表显示",
   "@timetableDisplayName" : {},
   "timetableDisplayText" : "这个车站是否提供全站时刻表显示?",
@@ -112,6 +115,9 @@
   "@passengerInformationDisplaySpeechOutputText" : {},
   "passengerInformationDisplaySpeechOutputDescription" : "有些乘旅信息显示屏可根据需要（如通过按钮）播放所显示的信息。",
   "@passengerInformationDisplaySpeechOutputDescription" : {},
+
+*** 上面的内容需要检查 ***
+
   "announcementsName" : "公告",
   "@announcementsName" : {},
   "announcementsText" : "站台上是否有扬声器广播？",
@@ -170,6 +176,9 @@
   "@portableRampLoadCapacityDescription" : {},
   "portableRampLoadCapacityPlaceholder" : "承载量",
   "@portableRampLoadCapacityPlaceholder" : {},
+
+*** 下面的内容需要检查，我不太清楚什么是升降机 ***
+
   "portableLiftName" : "便携式升降机",
   "@portableLiftName" : {},
   "portableLiftText" : "是否有为轮椅使用者准备的便携式轮椅坡道？",
@@ -192,6 +201,9 @@
   "@portableLiftLoadCapacityDescription" : {},
   "portableLiftLoadCapacityPlaceholder" : "承载量",
   "@portableLiftLoadCapacityPlaceholder" : {},
+
+*** 上面的内容需要检查，我不太清楚什么是升降机 ***
+
   "doorName" : "门",
   "@doorName" : {},
   "doorText" : "这个入口有门吗？",
@@ -296,6 +308,9 @@
   "@tactilePavingsStopText" : {},
   "tactilePavingsStopDescription" : "盲道是公共场所为视障人士提供信息、导向、指引和警示的地面元素。它们在触觉、视觉和可能的声学方面与相邻的地面材料形成强烈对比。",
   "@tactilePavingsStopDescription" : {},
+
+*** 下面的内容需要检查 ***
+
   "cycleBarrierTypeName" : "循环隔离栏类型",
   "@cycleBarrierTypeName" : {},
   "cycleBarrierTypeText" : "这是什么样的循环隔离栏？",
@@ -332,6 +347,9 @@
   "@cycleBarrierSpacingDescription" : {},
   "cycleBarrierSpacingPlaceholder" : "间距",
   "@cycleBarrierSpacingPlaceholder" : {},
+
+*** 上面的内容需要检查 ***
+
   "stairLiftName" : "Stair lift",
   "@stairLiftName" : {},
   "stairLiftText" : "Is there a stair lift for wheelchair users?",
