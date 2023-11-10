@@ -60,34 +60,20 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                   maxZoom: viewModel.tileLayer.maxZoom.toDouble(),
                   backgroundColor: Theme.of(context).colorScheme.background,
                 ),
-                nonRotatedChildren: [
-                  RepaintBoundary(
-                    child: AnimatedSwitcher(
-                      switchInCurve: Curves.ease,
-                      switchOutCurve: Curves.ease,
-                      duration: const Duration(milliseconds: 300),
-                      child: !viewModel.hasQuestionnaire
-                        ? const MapOverlay()
-                        : null,
-                    ),
-                  ),
-                ],
                 children: [
                   TileLayer(
                     tileProvider: NetworkTileProvider(
-                      headers: const {
+                      headers: {
                         'User-Agent': appUserAgent,
                       },
                     ),
                     evictErrorTileStrategy: EvictErrorTileStrategy.dispose,
-                    backgroundColor: Colors.transparent,
                     urlTemplate: isDarkMode && viewModel.tileLayer.darkVariantTemplateUrl != null
                       ? viewModel.tileLayer.darkVariantTemplateUrl
                       : viewModel.tileLayer.templateUrl,
                     minZoom: viewModel.tileLayer.minZoom.toDouble(),
                     maxZoom: viewModel.tileLayer.maxZoom.toDouble(),
                   ),
-
                   Observer(
                     builder: (context) {
                       // "length" used to listen to changes
@@ -152,6 +138,16 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                         selectedElement: viewModel.selectedElement,
                       );
                     },
+                  ),
+                  RepaintBoundary(
+                    child: AnimatedSwitcher(
+                      switchInCurve: Curves.ease,
+                      switchOutCurve: Curves.ease,
+                      duration: const Duration(milliseconds: 300),
+                      child: !viewModel.hasQuestionnaire
+                        ? const MapOverlay()
+                        : null,
+                    ),
                   ),
                 ],
               ),

@@ -540,7 +540,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
     conditions: const [
       ElementCondition([
         TagsSubCondition({
-          'highway': StringValueMatcher('kerb'),
+          'highway': StringValueMatcher('steps'),
           'conveying': MultiValueMatcher([
             StringValueMatcher('yes'),
             StringValueMatcher('forward'),
