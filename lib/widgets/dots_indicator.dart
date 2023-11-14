@@ -45,7 +45,7 @@ class DotsIndicator extends AnimatedWidget {
     return SizedBox(
       width: _dotSpacing,
       child: Semantics(
-        label: appLocale.xxxDotsIndicatorLabel(index + 1),
+        label: appLocale.semanticsDotsIndicatorLabel(index + 1),
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () => onPageSelected(index),
@@ -68,7 +68,7 @@ class DotsIndicator extends AnimatedWidget {
   Widget build(BuildContext context) {
     final appLocale = AppLocalizations.of(context)!;
     return Semantics(
-      label: appLocale.xxxPageIndicatorsLabel(itemCount),
+      label: appLocale.semanticsPageIndicatorsLabel(itemCount),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List<Widget>.generate(itemCount, (int index) => _buildDot(index, context)),

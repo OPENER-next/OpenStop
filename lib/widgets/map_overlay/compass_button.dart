@@ -31,7 +31,7 @@ class CompassButton extends StatelessWidget {
       child: Transform.rotate(
         angle: rotation * (isDegree ? _piFraction : 1),
         child: Semantics(
-          label: appLocale.xxxResetRotationButtonLabel,
+          label: appLocale.semanticsResetRotationButtonLabel,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

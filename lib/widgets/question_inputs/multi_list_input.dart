@@ -18,7 +18,7 @@ class MultiListInput extends QuestionInputWidget<MultiListAnswerDefinition, Mult
   Widget build(BuildContext context) {
     final appLocale = AppLocalizations.of(context)!;
     return Semantics(
-      label: appLocale.xxxOptionsListLabel,
+      label: appLocale.semanticsOptionsListLabel,
       child: Wrap(
         runSpacing: 8.0,
         children: List.generate(definition.input.length, (index) {

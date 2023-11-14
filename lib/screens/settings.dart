@@ -30,7 +30,7 @@ class SettingsScreen extends View<SettingsViewModel> {
           scrollDirection: Axis.vertical,
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
           child: Semantics(
-            label: appLocale.xxxMenuOptionsLabel,
+            label: appLocale.semanticsMenuOptionsLabel,
             child: Column(
               children: [
                 CustomListTile(
@@ -42,7 +42,7 @@ class SettingsScreen extends View<SettingsViewModel> {
                       context: context,
                       builder: (BuildContext context) {
                         return SelectDialog(
-                          semanticLabel: appLocale.xxxSettingsDialogBoxLabel,
+                          semanticLabel: appLocale.semanticsSettingsDialogBoxLabel,
                           valueLabelMap: themeModesMap,
                           value: viewModel.themeMode,
                           title: Text(appLocale.settingsThemeDialogTitle),

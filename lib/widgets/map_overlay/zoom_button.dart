@@ -23,7 +23,7 @@ class ZoomButton extends StatelessWidget {
       child: Column(
         children: [
           Semantics(
-            label: appLocale.xxxZoomInButtonLabel,
+            label: appLocale.semanticsZoomInButtonLabel,
             child: SizedBox(
               height: (Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minHeight ?? 48.0) * 1.25,
               width: Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minWidth ?? 48.0,
@@ -42,7 +42,7 @@ class ZoomButton extends StatelessWidget {
             color: Theme.of(context).colorScheme.onPrimaryContainer.withOpacity(0.1),
           ),
           Semantics(
-            label: appLocale.xxxZoomOutButtonLabel,
+            label: appLocale.semanticsZoomOutButtonLabel,
             child: SizedBox(
               height: (Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minHeight ?? 48.0) * 1.25,
               width: Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minWidth ?? 48.0,

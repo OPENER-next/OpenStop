@@ -21,6 +21,7 @@ class QuestionSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocale = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 25,
@@ -36,8 +37,8 @@ class QuestionSummary extends StatelessWidget {
               ),
               child: Text(
                 userName != null
-                  ? AppLocalizations.of(context)!.questionnaireSummaryDedicatedMessage(userName!)
-                  : AppLocalizations.of(context)!.questionnaireSummaryUndedicatedMessage,
+                  ? appLocale.questionnaireSummaryDedicatedMessage(userName!)
+                  : appLocale.questionnaireSummaryUndedicatedMessage,
                 style: const TextStyle(
                   height: 1.3,
                   fontSize: 20,
@@ -45,7 +46,8 @@ class QuestionSummary extends StatelessWidget {
                 ),
               ),
             ),
-            ..._buildEntries(),
+            Semantics(label: appLocale.semanticsSummaryLabel),
+            ..._buildEntries(appLocale),
           ],
         ),
       ),
@@ -53,7 +55,7 @@ class QuestionSummary extends StatelessWidget {
   }
 
 
-  Iterable<Widget> _buildEntries() sync* {
+  Iterable<Widget> _buildEntries(AppLocalizations appLocale) sync* {
     for (int i = 0, j = 0; i < questions.length; i++) {
       // filter unanswered questions
       // use this extra method instead of .where and .map to get access to the correct index
@@ -87,6 +89,7 @@ class QuestionSummary extends StatelessWidget {
           ),
           child: Semantics(
             liveRegion: true,
+            focused: true, 
             child: Row(
               children: [
                 const Icon(

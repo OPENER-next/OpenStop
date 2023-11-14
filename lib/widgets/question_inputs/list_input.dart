@@ -17,7 +17,7 @@ class ListInput extends QuestionInputWidget<ListAnswerDefinition, ListAnswer> {
   Widget build(BuildContext context) {
     final appLocale = AppLocalizations.of(context)!;
     return Semantics(
-      label: appLocale.xxxOptionsListLabel,
+      label: appLocale.semanticsOptionsListLabel,
       child: Wrap(
         runSpacing: 8.0,
         children: List.generate(definition.input.length, (index) {
@@ -154,18 +154,21 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
             ),
           ),
           if (widget.imagePath != null)
-            Expanded(
-              flex: 2,
-              // HeroViewer cannot be wrapped around since the returned error widget
-              // represents a different widget wherefore the hero transition would fail.
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(0, widget.imagePadding, widget.imagePadding, widget.imagePadding),
-                child: ClipRRect(
-                  borderRadius: innerBorderRadius,
-                  // hero viewer cannot be used in frame builder
-                  // because the builder may be called after the page route transition starts
-                  child: HeroViewer(
-                    child: Image.asset(
+          Expanded(
+            flex: 2,
+            // HeroViewer cannot be wrapped around since the returned error widget
+            // represents a different widget wherefore the hero transition would fail.
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(0, widget.imagePadding, widget.imagePadding, widget.imagePadding),
+              child: ClipRRect(
+                borderRadius: innerBorderRadius,
+                // hero viewer cannot be used in frame builder
+                // because the builder may be called after the page route transition starts
+                child: ExcludeSemantics(
+                    child:
+                    HeroViewer(
+                  child: 
+                      Image.asset(
                       widget.imagePath!,
                       fit: BoxFit.cover,
                       // Static background color for better visibility of illustrations
@@ -181,10 +184,13 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                         );
                       },
                     ),
-                  ),
+                ),
+              ),
                 ),
               ),
             ),
+
+        
         ],
       ),
     );

@@ -159,7 +159,7 @@ class _MapLayerSwitcherState<T> extends State<MapLayerSwitcher<T>> with SingleTi
                 heroTag: null,
                 backgroundColor: isActive ? Theme.of(context).colorScheme.primary : null,
                 child: Semantics(
-                  label: appLocale.xxxMapLayerOptionLabel(entry.label),
+                  label: appLocale.semanticsMapLayerOptionLabel(entry.label),
                   child: Icon(
                     entry.icon,
                     color: isActive ? Theme.of(context).colorScheme.onPrimary : null,
@@ -212,7 +212,7 @@ class _MapLayerSwitcherState<T> extends State<MapLayerSwitcher<T>> with SingleTi
       child: FloatingActionButton.small(
         heroTag: null,
         child: Semantics(
-          label: appLocale.xxxMapLayerButtonLabel,
+          label: appLocale.semanticsMapLayerButtonLabel,
           child: _isActive
             ? const Icon(
               Icons.layers_clear_rounded,

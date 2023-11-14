@@ -43,7 +43,7 @@ class OnboardingScreen extends View<OnboardingViewModel> {
     final pages = [
       IndexedSemantics(index: 0, child: 
         Semantics( // MergeSemactics could provide a better understanding but the user interaction is different
-          label: appLocale.xxxIntroductionPageLabel(1,4),
+          label: appLocale.semanticsIntroductionPageLabel(1,4),
           child: OnboardingPage(
             image: 'assets/images/onboarding/onboarding_1.png',
             title: appLocale.onboardingGreetingTitle,
@@ -55,7 +55,7 @@ class OnboardingScreen extends View<OnboardingViewModel> {
       ),
       IndexedSemantics(index: 1, child: 
         Semantics(
-          label: appLocale.xxxIntroductionPageLabel(2,4),
+          label: appLocale.semanticsIntroductionPageLabel(2,4),
           child: OnboardingPage(
             image: 'assets/images/onboarding/onboarding_2.png',
             title: appLocale.onboardingSurveyingTitle,
@@ -67,7 +67,7 @@ class OnboardingScreen extends View<OnboardingViewModel> {
       ),
       IndexedSemantics(index: 2, child: 
         Semantics(
-          label: appLocale.xxxIntroductionPageLabel(3,4),
+          label: appLocale.semanticsIntroductionPageLabel(3,4),
           child: OnboardingPage(
             image: 'assets/images/onboarding/onboarding_3.png',
             title: appLocale.onboardingAnsweringTitle,
@@ -79,7 +79,7 @@ class OnboardingScreen extends View<OnboardingViewModel> {
       ),
       IndexedSemantics(index: 3, child: 
         Semantics(
-          label: appLocale.xxxIntroductionPageLabel(4,4),
+          label: appLocale.semanticsIntroductionPageLabel(4,4),
           child: OnboardingPage(
             image: 'assets/images/onboarding/onboarding_4.png',
             title: appLocale.onboardingContributingTitle,

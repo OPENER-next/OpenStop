@@ -24,7 +24,7 @@ class HelpScreen extends StatelessWidget {
           scrollDirection: Axis.vertical,
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
           child: Semantics(
-            label: appLocale.xxxMenuOptionsLabel,
+            label: appLocale.semanticsMenuOptionsLabel,
             child: Column(
               children: [
                 CustomListTile(

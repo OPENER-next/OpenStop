@@ -319,28 +319,28 @@
     }
   },
 
-  "xxxLoginHint" : "Press the button to log in to your account.",
-  "@xxxLoginHint" : {},
-  "xxxFlutterMapLabel" : "Open Stop map screen",
-  "@xxxFlutterMapLabel" : {},
-  "xxxDotsIndicatorLabel" : "Move to page {number}",
-  "@xxxDotsIndicatorLabel" : {
+  "semanticsLoginHint" : "Press the button to log in to your account.",
+  "@semanticsLoginHint" : {},
+  "semanticsFlutterMapLabel" : "Open Stop map screen",
+  "@semanticsFlutterMapLabel" : {},
+  "semanticsDotsIndicatorLabel" : "Move to page {number}",
+  "@semanticsDotsIndicatorLabel" : {
     "placeholders": {
       "number": {
         "type": "num"
       }
     }
   },
-  "xxxPageIndicatorsLabel" : "There are {number} number of pages to view",
-  "@xxxPageIndicatorsLabel" : {
+  "semanticsPageIndicatorsLabel" : "There are {number} introduction pages, select the one you would like to view.",
+  "@semanticsPageIndicatorsLabel" : {
     "placeholders": {
       "number": {
         "type": "num"
       }
     }
   },
-  "xxxIntroductionPageLabel" : "Introduction page {number} of {count}",
-  "@xxxIntroductionPageLabel" : {
+  "semanticsIntroductionPageLabel" : "Introduction page {number} of {count}",
+  "@semanticsIntroductionPageLabel" : {
     "placeholders": {
       "number": {
         "type": "num"
@@ -350,56 +350,76 @@
       }
     }
   },
-  "xxxMenuTitleLabel" : "Menu",
-  "@xxxMenuTitleLabel" : {},
-  "xxxMenuOptionsLabel" : "Options of the menu",
-  "@xxxMenuOptionsLabel" : {},
-  "xxxSloganLabel" : "Slogan",
-  "@xxxSloganLabel" : {},
-  "xxxOpenStopLogoLabel" : "OpenStop Logo",
-  "@xxxOpenStopLogoLabel" : {},
-  "xxxMFundImageLabel" : "Funder by mFUND",
-  "@xxxMFundImageLabel" : {},
-  "xxxFederalMinistryImageLabel" : "Funder by Federal Ministry of Transport and Digital Infrastructure",
-  "@xxxFederalMinistryImageLabel" : {},
-  "xxxSettingsDialogBoxLabel" : "Choose your preferred theme for the app.",
-  "@xxxSettingsDialogBoxLabel" : {},
-  "xxxNavigationMenuLabel" : "Navigation menu",
-  "@xxxNavigationMenuLabel" : {},
-  "xxxResetRotationButtonLabel" : "Reset map rotation to North.",
-  "@xxxResetRotationButtonLabel" : {},
-  "xxxCurrentLocationButtonLabel" : "Set map to current location.",
-  "@xxxCurrentLocationButtonLabel" : {},
-  "xxxZoomInButtonLabel" : "Zoom in map",
-  "@xxxZoomInButtonLabel" : {},
-  "xxxZoomOutButtonLabel" : "Zoom out map",
-  "@xxxZoomOutButtonLabel" : {},
-  "xxxMapLayerButtonLabel" : "Switch map layer",
-  "@xxxMapLayerButtonLabel" : {},
-  "xxxMapLayerOptionLabel" : "Layer option {name}",
-  "@xxxMapLayerOptionLabel" : {
+  "semanticsMenuTitleLabel" : "Menu",
+  "@semanticsMenuTitleLabel" : {},
+  "semanticsMenuOptionsLabel" : "Options of the menu",
+  "@semanticsMenuOptionsLabel" : {},
+  "semanticsSloganLabel" : "Slogan",
+  "@semanticsSloganLabel" : {},
+  "semanticsOpenStopLogoLabel" : "OpenStop Logo",
+  "@semanticsOpenStopLogoLabel" : {},
+  "semanticsMFundImageLabel" : "Funded by mFUND",
+  "@semanticsMFundImageLabel" : {},
+  "semanticsFederalMinistryImageLabel" : "Funded by Federal Ministry of Transport and Digital Infrastructure",
+  "@semanticsFederalMinistryImageLabel" : {},
+  "semanticsSettingsDialogBoxLabel" : "Choose your preferred theme for the app.",
+  "@semanticsSettingsDialogBoxLabel" : {},
+  "semanticsNavigationMenuLabel" : "Navigation menu",
+  "@semanticsNavigationMenuLabel" : {},
+  "semanticsResetRotationButtonLabel" : "Reset map rotation to North.",
+  "@semanticsResetRotationButtonLabel" : {},
+  "semanticsCurrentLocationButtonLabel" : "Set map to current location.",
+  "@semanticsCurrentLocationButtonLabel" : {},
+  "semanticsZoomInButtonLabel" : "Zoom in map",
+  "@semanticsZoomInButtonLabel" : {},
+  "semanticsZoomOutButtonLabel" : "Zoom out map",
+  "@semanticsZoomOutButtonLabel" : {},
+  "semanticsMapLayerButtonLabel" : "Switch map layer",
+  "@semanticsMapLayerButtonLabel" : {},
+  "semanticsMapLayerOptionLabel" : "Layer option {name}",
+  "@semanticsMapLayerOptionLabel" : {
     "placeholders": {
       "name": {
         "type": "String"
       }
     }
   },
-  "xxxQuestionSetenceLabel" : "Question to answer (Tap for further information)",
-  "@xxxQuestionSetenceLabel" : {},
-  "xxxOptionsListLabel" : "Answer options",
-  "@xxxOptionsListLabel" : {},
-  "xxxUploadQuestionsButtonLabel" : "Share your answers",
-  "@xxxUploadQuestionsButtonLabel" : {},
-  "xxxBackQuestionButtonLabel" : "Return to next question.",
-  "@xxxBackQuestionButtonLabel" : {},
-  "xxxNextQuestionButtonLabel" : "{option} question",
-  "@xxxNextQuestionButtonLabel" : {
+  "semanticsQuestionSentenceLabel" : "The question to answer is: ",
+  "@semanticsQuestionSentenceLabel" : {},
+  "semanticsFurtherInformationIcon" : "Tap for further information.",
+  "@semanticsFurtherInformationIcon" : {},
+  "semanticsOptionsListLabel" : "Answer options",
+  "@semanticsOptionsListLabel" : {},
+  "semanticsUploadQuestionsButtonLabel" : "Share your answers",
+  "@semanticsUploadQuestionsButtonLabel" : {},
+  "semanticsBackQuestionButtonLabel" : "Return to previous question.",
+  "@semanticsBackQuestionButtonLabel" : {},
+  "semanticsNextQuestionButtonLabel" : "{option} question",
+  "@semanticsNextQuestionButtonLabel" : {
     "placeholders": {
       "option": {
         "type": "String"
       }
     }
   },
-  "xxxFinishQuestionnaireButtonLabel" : "Finish questionnaire",
-  "@xxxFinishQuestionnaireButtonLabel" : {}
+  "semanticsFinishQuestionnaireButtonLabel" : "Finish questionnaire",
+  "@semanticsFinishQuestionnaireButtonLabel" : {},
+  "semanticsSummaryLabel" : "Summary",
+  "@semanticsSummaryLabel" : {},
+  "semanticsCloseNavigationMenuButton" : "Close navigation menu.",
+  "@semanticsCloseNavigationMenuButton" : {},
+  "semanticsContributorsCredits" : "Further information of our contributors.",
+  "@semanticsContributorsCredits" : {},
+  "semanticsCloseQuestionnaireAnnounce" : "Questionnaire is closed",
+  "@semanticsCloseQuestionnaireAnnounce": {},
+  "semanticsOpenQuestionnaireAnnounce" : "Questionnaire is open",
+  "@semanticsOpenQuestionnaireAnnounce" : {},
+  "semanticsDistanceReferenceAnnounce" : "{number} meters of distance from your current position",
+  "@semanticsDistanceReferenceAnnounce" : {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  }
 }

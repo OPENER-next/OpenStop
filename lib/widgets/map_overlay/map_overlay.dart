@@ -55,7 +55,7 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
                           heroTag: null,
                           onPressed: Scaffold.of(context).openDrawer,
                           child: Semantics(
-                            label: appLocale.xxxNavigationMenuLabel,
+                            label: appLocale.semanticsNavigationMenuLabel,
                             child: const Icon(
                               Icons.menu,
                             ),
@@ -92,22 +92,26 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
                               onSelection: (TileLayerId v) => viewModel.updateTileProvider([v]),
                             ),
                             Expanded(
-                              child: CreditText(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 10,
+                              child: Semantics(
+                                label: appLocale.semanticsContributorsCredits,
+                                child:
+                                  CreditText(
+                                    padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                  ),
+                                  children: [
+                                    CreditTextPart(
+                                      AppLocalizations.of(context)!.osmCreditsText,
+                                      url: osm_config.osmCreditsURL,
+                                    ),
+                                    CreditTextPart(
+                                      viewModel.tileLayer.creditsText,
+                                      url: viewModel.tileLayer.creditsUrl,
+                                    ),
+                                  ],
                                 ),
-                                children: [
-                                  CreditTextPart(
-                                    AppLocalizations.of(context)!.osmCreditsText,
-                                    url: osm_config.osmCreditsURL,
-                                  ),
-                                  CreditTextPart(
-                                    viewModel.tileLayer.creditsText,
-                                    url: viewModel.tileLayer.creditsUrl,
-                                  ),
-                                ],
                               ),
-                            ),
+                            ),   
                             Column(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [

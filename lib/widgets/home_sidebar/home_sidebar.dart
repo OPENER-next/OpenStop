@@ -47,7 +47,7 @@ class HomeSidebar extends ViewFragment<HomeViewModel> {
               ),
             ),
             Semantics(
-              label: appLocale.xxxMenuTitleLabel,
+              label: appLocale.semanticsMenuTitleLabel,
               child: CustomListTile(
                 leadingIcon: Icons.settings,
                 title: appLocale.settingsTitle,
@@ -55,7 +55,7 @@ class HomeSidebar extends ViewFragment<HomeViewModel> {
               ),
             ),
             Semantics(
-              label: appLocale.xxxMenuTitleLabel,
+              label: appLocale.semanticsMenuTitleLabel,
               child: CustomListTile(
                 leadingIcon: Icons.info,
                 title: appLocale.aboutTitle,
@@ -63,17 +63,23 @@ class HomeSidebar extends ViewFragment<HomeViewModel> {
               ),
             ),
             Semantics(
-              label: appLocale.xxxMenuTitleLabel,
+              label: appLocale.semanticsMenuTitleLabel,
               child: CustomListTile(
                 leadingIcon: Icons.help,
                 title: appLocale.helpTitle,
                 onTap: () => Navigator.push(context, Routes.help),
               ),
             ),
-            CustomListTile(//Only for testing
-              leadingIcon: Icons.arrow_back,
-              title: appLocale.back,
-              onTap: () => Navigator.pop(context),
+            Semantics(
+              label: appLocale.semanticsCloseNavigationMenuButton,
+              child: Opacity(
+                opacity: 0.0,
+                child: CustomListTile(
+                  leadingIcon: Icons.arrow_back,
+                  title: appLocale.back,
+                  onTap: () => Navigator.pop(context),
+                ),
+              ),
             ),
           ],
         ),

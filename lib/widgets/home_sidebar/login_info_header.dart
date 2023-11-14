@@ -39,7 +39,7 @@ class LoginInfoHeader extends StatelessWidget {
             height: 20,
           ),
           Semantics(
-            label: appLocale.xxxLoginHint,
+            label: appLocale.semanticsLoginHint,
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primaryContainer,

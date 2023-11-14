@@ -3,7 +3,8 @@ import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/widgets.dart' hide Action, ProxyElement;
+import 'package:flutter/material.dart' hide Action, ProxyElement;
+import 'package:flutter/semantics.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
@@ -12,6 +13,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:mobx/mobx.dart';
 import 'package:osm_api/osm_api.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 import '/api/app_worker/element_handler.dart';
 import '/models/map_features/map_feature_representation.dart';
 import '/models/question_catalog/question_definition.dart';
@@ -310,6 +312,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   /// This either reopens an existing questionnaire or creates a new one.
 
   void _openQuestionnaire(MapFeatureRepresentation element) {
+    final appLocale = AppLocalizations.of(context)!;
     if (_questionnaireState.value != null) {
       // store latest answer from previous questionnaire
       _updateQuestionnaireAnswer();
@@ -321,17 +324,25 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
     _appWorker.openQuestionnaire(element);
     runInAction(() => _selectedElement.value = element);
+    // semantic notification
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      SemanticsService.announce(appLocale.semanticsOpenQuestionnaireAnnounce, _gettextDirection());
+    });
   }
-
   /// Close the currently active questionnaire if any.
 
   void closeQuestionnaire() {
+    final appLocale = AppLocalizations.of(context)!;
     if (_questionnaireState.value != null) {
       // store latest answer from questionnaire
       _updateQuestionnaireAnswer();
       _appWorker.closeQuestionnaire();
       // deselect element
       runInAction(() => _selectedElement.value = null);
+      // semantic notification
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        SemanticsService.announce(appLocale.semanticsCloseQuestionnaireAnnounce, _gettextDirection());
+      });
     }
   }
 
@@ -468,6 +479,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   void onElementTap(MapFeatureRepresentation element) {
     // show questions if a new marker is selected, else hide the current one
     if (_selectedElement.value != element) {
+      semanticDistanceReference(element);
       _openQuestionnaire(element);
     }
     else {
@@ -617,5 +629,25 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     });
 
     super.dispose();
+  }
+
+  TextDirection _gettextDirection(){
+    final systemLocale = Localizations.localeOf(context).toString();
+    final baseLanguage = Intl.shortLocale(systemLocale);
+    final TextDirection textDirection =
+        Bidi.hasAnyRtl(baseLanguage) ? TextDirection.rtl : TextDirection.ltr;
+    return textDirection;
+  }
+
+  void semanticDistanceReference(MapFeatureRepresentation element) {
+    if (_userLocationService.state == LocationTrackingState.enabled) {
+      final appLocale = AppLocalizations.of(context)!;
+      final position = _userLocationService.position!;
+      final double distanceInMeters = Geolocator.distanceBetween(position.latitude, position.longitude, element.geometry.center.latitude, element.geometry.center.longitude);
+      // semantic notification
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      SemanticsService.announce(appLocale.semanticsDistanceReferenceAnnounce(distanceInMeters), _gettextDirection());
+    });
+    }
   }
 }

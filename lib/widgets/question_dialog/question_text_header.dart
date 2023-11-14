@@ -93,7 +93,7 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
     final hasAdditionalInfo = widget.details.isNotEmpty || widget.images.isNotEmpty;
 
     return Semantics(
-      label: appLocale.xxxQuestionSetenceLabel,
+      label: appLocale.semanticsQuestionSentenceLabel,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: !hasAdditionalInfo ? null : () {
@@ -126,26 +126,29 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                         ),
                       ),
                     ),
-                    if (hasAdditionalInfo) AnimatedBuilder(
-                      animation: _fillColorAnimation,
-                      builder: (context, child) {
-                        return Container(
-                          margin: const EdgeInsets.only(left: 10),
-                          padding: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: _fillColorAnimation.value!,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Theme.of(context).colorScheme.primary,
+                    if (hasAdditionalInfo) Semantics(
+                      label: appLocale.semanticsFurtherInformationIcon,
+                      child: AnimatedBuilder(
+                        animation: _fillColorAnimation,
+                        builder: (context, child) {
+                          return Container(
+                            margin: const EdgeInsets.only(left: 10),
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: _fillColorAnimation.value!,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Theme.of(context).colorScheme.primary,
+                              )
+                            ),
+                            child: Icon(
+                              MdiIcons.informationVariant,
+                              color: _iconColorAnimation.value!,
                             )
-                          ),
-                          child: Icon(
-                            MdiIcons.informationVariant,
-                            color: _iconColorAnimation.value!,
-                          )
-                        );
-                      },
-                    )
+                          );
+                        },
+                      ),
+                    ),
                   ]
                 )
               ),
@@ -204,14 +207,16 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                                   // hero viewer cannot be used in frame builder
                                   // because the builder may be called after the page route transition starts
                                   child: HeroViewer(
-                                    child: Image.asset(
-                                      widget.images[index],
-                                      errorBuilder: (context, _, __) {
-                                        return Image.asset(
-                                          'assets/images/placeholder_image.png',
-                                        );
-                                      },
-                                    ),
+                                    child: ExcludeSemantics(
+                                      child: Image.asset(
+                                        widget.images[index],
+                                        errorBuilder: (context, _, __) {
+                                          return Image.asset(
+                                            'assets/images/placeholder_image.png',
+                                          );
+                                        },
+                                      ),
+                                    ), 
                                   ),
                                 );
                               },

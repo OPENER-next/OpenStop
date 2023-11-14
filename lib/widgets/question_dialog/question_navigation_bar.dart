@@ -51,7 +51,7 @@ class QuestionNavigationBar extends StatelessWidget {
                 // if button is disabled vibrate when pressed as additional feedback
                 onPressed: onBack ?? HapticFeedback.vibrate,
                 child: Semantics(
-                  label: appLocale.xxxBackQuestionButtonLabel,
+                  label: appLocale.semanticsBackQuestionButtonLabel,
                   child: Row(
                     children: [
                       const Icon(Icons.chevron_left_rounded),
