@@ -4,8 +4,6 @@ import 'package:latlong2/latlong.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '/commons/tile_layers.dart';
-
 
 /// An interface around [SharedPreferences] with observable properties.
 
@@ -14,7 +12,6 @@ class PreferencesService extends Service {
   static const _defaultThemeMode = ThemeMode.system;
   static const _defaultProfessional = false;
   static const _defaultOnboarding = false;
-  static const _defaultTileLayerId = TileLayerId.standard;
   static const _defaultMapLocation = LatLng(50.8144951, 12.9295576);
   static const _defaultMapZoom = 15.0;
   static const _defaultMapRotation = 0.0;
@@ -63,22 +60,6 @@ class PreferencesService extends Service {
       newValue,
       isProfessional,
       () => _preferences.setBool('isProfessional', newValue),
-    );
-  }
-
-  final _tileLayerIdAtom = Atom(name: 'tileLayerIdPreference');
-  TileLayerId get tileLayerId {
-    _tileLayerIdAtom.reportRead();
-    final tileLayerIdIndex = _preferences.getInt('tileLayerId');
-    return tileLayerIdIndex != null && tileLayerIdIndex < TileLayerId.values.length
-        ? TileLayerId.values[tileLayerIdIndex]
-        : _defaultTileLayerId;
-  }
-  set tileLayerId(TileLayerId newTileLayerId) {
-    _tileLayerIdAtom.reportWrite<TileLayerId>(
-      newTileLayerId,
-      tileLayerId,
-      () => _preferences.setInt('tileLayerId', newTileLayerId.index),
     );
   }
 

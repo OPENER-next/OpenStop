@@ -7,6 +7,7 @@ import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:flutter_mvvm_architecture/extras.dart';
 import 'package:mobx/mobx.dart';
 
+import '/commons/tile_layers.dart';
 import '/view_models/home_view_model.dart';
 import '/commons/app_config.dart';
 import '/widgets/completed_area_layer/completed_area_layer.dart';
@@ -56,8 +57,8 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                   initialCenter: untracked(() => viewModel.storedMapLocation),
                   initialZoom: untracked(() => viewModel.storedMapZoom),
                   initialRotation: untracked(() => viewModel.storedMapRotation),
-                  minZoom: viewModel.tileLayer.minZoom.toDouble(),
-                  maxZoom: viewModel.tileLayer.maxZoom.toDouble(),
+                  minZoom: kTileLayerPublicTransport.minZoom.toDouble(),
+                  maxZoom: kTileLayerPublicTransport.maxZoom.toDouble(),
                   backgroundColor: Theme.of(context).colorScheme.background,
                 ),
                 children: [
@@ -69,11 +70,11 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                     ),
                     retinaMode: RetinaMode.isHighDensity(context),
                     evictErrorTileStrategy: EvictErrorTileStrategy.dispose,
-                    urlTemplate: isDarkMode && viewModel.tileLayer.darkVariantTemplateUrl != null
-                      ? viewModel.tileLayer.darkVariantTemplateUrl
-                      : viewModel.tileLayer.templateUrl,
-                    minZoom: viewModel.tileLayer.minZoom.toDouble(),
-                    maxZoom: viewModel.tileLayer.maxZoom.toDouble(),
+                    urlTemplate: isDarkMode && kTileLayerPublicTransport.darkVariantTemplateUrl != null
+                      ? kTileLayerPublicTransport.darkVariantTemplateUrl
+                      : kTileLayerPublicTransport.templateUrl,
+                    minZoom: kTileLayerPublicTransport.minZoom.toDouble(),
+                    maxZoom: kTileLayerPublicTransport.maxZoom.toDouble(),
                   ),
                   Observer(
                     builder: (context) {
