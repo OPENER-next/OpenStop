@@ -1,3 +1,6 @@
+import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
+
 import 'question_catalog/answer_definition.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -18,19 +21,19 @@ abstract class Answer<D extends AnswerDefinition, T> {
   final T value;
 
   /// The OSM tag to variable mapping.
-  /// This defines the values per tag used in the constructor for creating the final OSM tags.
+  /// This resolves the values for a given tag used in the constructor for creating the final OSM tags.
   ///
   /// The following example defines two values for the `operator` tag:
   /// `{ 'operator': [ 'value1', 'value2' ] }`
   ///
   /// Every answer needs to implement this.
 
-  Map<String, Iterable<String>> get _variables;
+  Iterable<String> _resolve(String key);
 
   /// Build OSM tags based on the given value.
 
   Map<String, String> toTagMap() {
-    return definition.constructor.construct(_variables);
+    return definition.constructor.construct(_resolve);
   }
 
   /// Whether the value of this answer is valid or not.
@@ -48,12 +51,8 @@ class StringAnswer extends Answer<StringAnswerDefinition, String> {
   });
 
   @override
-  Map<String, Iterable<String>> get _variables {
-    // assign every tag used in the constructor the input value of this answer
-    final keys = definition.constructor.tagConstructorDef.keys;
-    return <String, Iterable<String>>{
-      for (final key in keys) key : [ value ]
-    };
+  Iterable<String> _resolve(String key) sync* {
+    yield value;
   }
 
   @override
@@ -77,13 +76,9 @@ class NumberAnswer extends Answer<NumberAnswerDefinition, String> {
   });
 
   @override
-  Map<String, Iterable<String>> get _variables {
-    // assign every tag used in the constructor the input value of this answer
-    final keys = definition.constructor.tagConstructorDef.keys;
-    return <String, Iterable<String>>{
-      // replace decimal comma with period
-      for (final key in keys) key : [ value.replaceAll(',', '.') ]
-    };
+  Iterable<String> _resolve(String key) sync* {
+    // replace decimal comma with period
+    yield value.replaceAll(',', '.');
   }
 
   @override
@@ -134,12 +129,11 @@ class BoolAnswer extends Answer<BoolAnswerDefinition, bool> {
   });
 
   @override
-  Map<String, Iterable<String>> get _variables {
-    // transform all tags of the selected answer to the variable mapping structure
-    final tags = definition.input[_valueIndex].osmTags.entries;
-    return <String, Iterable<String>>{
-      for (final tag in tags) tag.key : [ tag.value ]
-    };
+  Iterable<String> _resolve(String key) sync* {
+    // return matching tag value of the selected answer if any
+    final tags = definition.input[_valueIndex].osmTags;
+    final tagValue = tags[key];
+    if (tagValue != null) yield tagValue;
   }
 
   @override
@@ -161,12 +155,11 @@ class ListAnswer extends Answer<ListAnswerDefinition, int> {
   });
 
   @override
-  Map<String, Iterable<String>> get _variables {
-    // transform all tags of the selected answer to the variable mapping structure
-    final tags = definition.input[value].osmTags.entries;
-    return <String, Iterable<String>>{
-      for (final tag in tags) tag.key : [ tag.value ]
-    };
+  Iterable<String> _resolve(String key) sync* {
+    // return matching tag value of the selected answer if any
+    final tags = definition.input[value].osmTags;
+    final tagValue = tags[key];
+    if (tagValue != null) yield tagValue;
   }
 
   @override
@@ -187,18 +180,12 @@ class MultiListAnswer extends Answer<ListAnswerDefinition, List<int>> {
   });
 
   @override
-  Map<String, Iterable<String>> get _variables {
-    // combine all tags of the selected answers
-    final map = <String, List<String>>{};
+  Iterable<String> _resolve(String key) sync* {
     for (final index in value) {
-      for (final tag in definition.input[index].osmTags.entries) {
-        map.update(tag.key,
-          (value) => value..add(tag.value),
-          ifAbsent: () => [ tag.value ],
-        );
-      }
+      final tags = definition.input[index].osmTags;
+      final tagValue = tags[key];
+      if (tagValue != null) yield tagValue;
     }
-    return map;
   }
 
   @override
@@ -219,19 +206,60 @@ class DurationAnswer extends Answer<DurationAnswerDefinition, Duration> {
   });
 
   @override
-  Map<String, Iterable<String>> get _variables {
-    // assign every tag used in the constructor the input value of this answer
-    final keys = definition.constructor.tagConstructorDef.keys;
-    return <String, Iterable<String>>{
-      for (final key in keys) key : [ _valueAsHMS() ]
-    };
-  }
+  Iterable<String> _resolve(String key) => _values.map((v){
+    final formatter = NumberFormat()
+      ..minimumFractionDigits = 0
+      ..maximumFractionDigits = 3;
+    return formatter.format(v);
+  });
 
-  String _valueAsHMS() {
-    final hours = value.inHours.toString().padLeft(2, '0');
-    final minutes = (value.inMinutes % 60).toString().padLeft(2, '0');
-    final seconds = (value.inSeconds % 60).toString().padLeft(2, '0');
-    return '$hours:$minutes:$seconds';
+  /// Returns days, hours, minutes and seconds in the specified order.
+  ///
+  /// Whether the duration part is returned depends on the DurationInputDefinition.
+
+  Iterable<num> get _values sync* {
+    var (fractionalDays, fractionalHours, fractionalMinutes) = (0.0, 0.0, 0.0);
+
+    // calculate remainder as decimal if any (result will be 0 if none is required)
+    // required to handle cases where input and output differs
+    // e.g. user is able to input hours, minutes, seconds, but the output is only in hours
+
+    if (definition.input.seconds.output) {
+      // noop
+    }
+    else if (definition.input.minutes.output) {
+      fractionalMinutes = (value.inSeconds % Duration.secondsPerMinute) / Duration.secondsPerMinute;
+    }
+    else if (definition.input.hours.output) {
+      fractionalHours = (value.inSeconds % Duration.secondsPerHour) / Duration.secondsPerHour;
+    }
+    else if (definition.input.days.output) {
+      fractionalDays = (value.inSeconds % Duration.secondsPerDay) / Duration.secondsPerDay;
+    }
+
+    // wrap duration parts according to the units present in the output
+
+    const maxInteger = kIsWeb ? 0x20000000000000 : 0x7FFFFFFFFFFFFFFF;
+    var (wrapHours, wrapMinutes, wrapSeconds) = (maxInteger, maxInteger, maxInteger);
+
+    if (definition.input.days.output) {
+      wrapHours = Duration.hoursPerDay;
+      wrapMinutes = Duration.minutesPerDay;
+      wrapSeconds = Duration.secondsPerDay;
+      yield value.inDays + fractionalDays;
+    }
+    if (definition.input.hours.output) {
+      wrapMinutes = Duration.minutesPerHour;
+      wrapSeconds = Duration.secondsPerHour;
+      yield (value.inHours % wrapHours) + fractionalHours;
+    }
+    if (definition.input.minutes.output) {
+      wrapSeconds = Duration.secondsPerMinute;
+      yield (value.inMinutes % wrapMinutes) + fractionalMinutes;
+    }
+    if (definition.input.seconds.output) {
+      yield value.inSeconds % wrapSeconds;
+    }
   }
 
   @override

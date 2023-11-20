@@ -95,25 +95,38 @@ Displays a small text input to the user which allows entering numbers only.
 
 #### `Duration` input
 
-Displays a number wheel for each specified time unit. Possible time units are `seconds`, `minutes`, `hours` and `days`.
+Displays a number wheel for each specified time unit. Possible time units are `days`, `hours`, `minutes` and `seconds`.
+
+The duration is always completely returned to the constructor, meaning no duration inputs are lost.
+If for example the input is in hours, minutes and seconds, but only hours is marked as a return value, the hours value will include the minutes and seconds in its representation (potentially in the fractional part). Make sure that the `constructor` only generates the permitted values of the corresponding tag.
+
+The `$input` variable will contain all duration values marked with `return: true` in the following order: `days`, `hours`, `minutes` and `seconds`. Therefore at least one duration value should have `return": true`.
 
 ```jsonc
 "answer": {
     "type": "Duration",
     "input": {
-      // Maximum allowed value for the biggest time unit.
+      // Maximum allowed input value for the biggest time unit with `display: true`.
       "max": 3,
-      // Defines which time units are available and their step size.
-      "unit_step": {
+      // Defines the usage of minutes
+      "minutes": {
           // The time segment/step size of the minutes number wheel.
-          "minutes": 1,
-          // The time segment/step size of the seconds number wheel.
-          "seconds": 1,
+          "step": 1,
+          // Whether a separate minutes input should be shown to the user.
+          // Defaults to true when the unit is defined otherwise false.
+          "display": true,
+          // Defines whether minutes should be returned as a separate value in the answer constructor.
+          // Defaults to true when the unit is defined otherwise false.
+          "return": true,
+      },
+      // Defines the usage of seconds
+      "seconds": {
           ...
-      }
+      },
+      ...
     },
     // Mandatory since the tags/keys cannot be derived.
-    // $input will contain the entered duration in the hh:mm:ss format.
+    // The duration will be split into a separate value for each unit with "return" set to true.
     "constructor": { }
 },
 ```
@@ -261,11 +274,12 @@ output: `operator=NULL`
 
 #### `INSERT` expression
 
-Inserts one String into another String at a certain position.
+Inserts one String into one or multiple other Strings at a certain position.
+*This expression can have multiple return values.*
 
 First argument represents the insertion String.
 Second argument specifies the position/index where the String should be inserted into the target String. Negative positions are treated as insertions starting at the end of the String. So -1 means insert before the last character of the target String. If the index exceeds the length of the target String, it will be returned without any modifications.
-Third argument resembles the target String.
+All succeeding arguments resemble the target Strings. For each target string a respective result value will be returned.
 
 **Examples:**
 - input: `[tag_value]`
@@ -280,11 +294,12 @@ output: `operator=tag_value`
 
 #### `PAD` expression
 
-Adds a given String to a target String for each time the target String length is less than a given width.
+Adds a given String to one or multiple other Strings for each time the target String length is less than the given width.
+*This expression can have multiple return values.*
 
 First argument represents the padding String.
 Second argument specifies the desired width. Positive values will prepend, negative values will append to the target String. Remember that the final String length may be greater than the desired width when the padding String contains more than one character.
-Third argument resembles the target String.
+All succeeding arguments resemble the target Strings. For each target string a respective result value will be returned.
 
 **Examples:**
 - input: `[1]`
@@ -299,11 +314,13 @@ output: `operator=XXXXXXvalue`
 
 #### `REPLACE` expression
 
-Replaces a given Pattern (either String or RegExp) in a target String by a given replacement String.
+Replaces a given Pattern (either String or RegExp) in one or multiple target Strings with a given replacement String.
+*This expression can have multiple return values.*
+
 RegExp are denoted by a `/` at the start and end of the String.
 First argument represents the Pattern the target String should be matched against.
 Second argument defines the replacement String.
-Third argument resembles the target String.
+All succeeding arguments resemble the target Strings. For each target string a respective result value will be returned.
 
 **Examples:**
 - input: `[sometimes]`
@@ -423,6 +440,32 @@ The example makes use of the 3 expressions PAD, INSERT and REPLACE to convert fr
                 "PAD", "0", "3", "$input"
             ]
           ]
+      ]
+    }
+}
+```
+
+#### Using expressions to write duration value according to ISO 8601 (HH:MM)
+The example will write the entered value in minutes to the *duration* tag in the format HH:MM, e.g. 72 minutes will become 01:12.
+**Explanation:** The `$input` variable will contain all values with `return` set to `true`. Single digit values will be padded with a leading zero and finally concatenated by the `JOIN` expression.
+
+```jsonc
+"answer": {
+    "type": "Duration",
+    "input": {
+      "max": 90,
+      "hours": {
+        "display": false
+      },
+      "minutes": {
+        "step": 1
+      }
+    },
+    "constructor": {
+      "duration": [
+        "JOIN", ":", [
+          "PAD", "0", "2", "$input"
+        ]
       ]
     }
 }

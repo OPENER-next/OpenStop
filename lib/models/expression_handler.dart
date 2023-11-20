@@ -6,7 +6,7 @@ typedef SubstitutionCallback = Iterable<String> Function(String variableName);
 /// Expressions must not throw an error.
 /// Instead they return a meaningful result if possible or null.
 
-typedef ExpressionCallback = String? Function(Iterable<String>);
+typedef ExpressionCallback = Iterable<String> Function(Iterable<String>);
 
 
 /// A utility class that can be mixed in to get expression support wherever needed.
@@ -16,7 +16,7 @@ typedef ExpressionCallback = String? Function(Iterable<String>);
 /// as arguments/parameters to the specific expression function.
 ///
 /// Expressions can also contain variables which are marked with a `$` symbol at the start.
-/// Variables may resolve into multiple values, but an expression has exactly one result.
+/// Variables and expressions may resolve into multiple values.
 ///
 /// Example:
 /// ```
@@ -45,7 +45,7 @@ mixin ExpressionHandler {
 
   /// Substitutes any variables (marked by $) and then executes the given expression array.
 
-  String? evaluateExpression(Iterable<dynamic> rawExpression, SubstitutionCallback substitutionCallback) {
+  Iterable<String> evaluateExpression(Iterable<dynamic> rawExpression, SubstitutionCallback substitutionCallback) {
     if (rawExpression.isEmpty) {
       throw const InvalidExpression('An expression list must not be empty.');
     }
@@ -87,10 +87,7 @@ mixin ExpressionHandler {
       }
       else if (arg is Iterable) {
         // evaluate nested expressions recursively
-        final result = evaluateExpression(arg, substitutionCallback);
-        if (result != null) {
-          yield result;
-        }
+        yield* evaluateExpression(arg, substitutionCallback);
       }
     }
   }
@@ -98,59 +95,87 @@ mixin ExpressionHandler {
 
 // expression functions
 
-String? _join(Iterable<String> args) {
-  if (args.isEmpty) return null;
+Iterable<String> _join(Iterable<String> args) sync* {
+  final iter = args.iterator;
 
-  final delimiter = args.first;
-  final values = args.skip(1);
-  return values.isEmpty ? null : values.join(delimiter);
+  if (!iter.moveNext()) return;
+  final delimiter = iter.current;
+
+  if (!iter.moveNext()) return;
+  final buffer = StringBuffer(iter.current);
+
+  while (iter.moveNext()) {
+    buffer
+      ..write(delimiter)
+      ..write(iter.current);
+  }
+  yield buffer.toString();
 }
 
 /// Returns the concatenation of all inputs.
 
-String? _concat(Iterable<String> args) {
-  return args.isEmpty ? null : args.join();
+Iterable<String> _concat(Iterable<String> args) sync* {
+  final iter = args.iterator;
+
+  if (!iter.moveNext()) return;
+  final buffer = StringBuffer(iter.current);
+
+  while (iter.moveNext()) {
+    buffer.write(iter.current);
+  }
+  yield buffer.toString();
 }
 
 /// Returns the first input and discards the others.
 
-String? _coalesce(Iterable<String> args) {
-  return args.isEmpty ? null : args.first;
+Iterable<String> _coalesce(Iterable<String> args) sync* {
+  final iter = args.iterator;
+  if (iter.moveNext()) yield iter.current;
 }
 
-/// Concatenates exactly two values. If less or more values are given this returns null.
+/// Concatenates exactly two values. If less or more values are given this returns empty.
 
-String? _couple(Iterable<String> args) {
-  // manually iterate and count, since using length property is more expensive on the given iterable
-  var i = 0;
-  final buffer = StringBuffer();
-  for (final arg in args) {
-    buffer.write(arg);
-    i++;
-  }
-  return (i != 2) ? null : buffer.toString();
+Iterable<String> _couple(Iterable<String> args) sync* {
+  final iter = args.iterator;
+
+  if (!iter.moveNext()) return;
+  final firstString = iter.current;
+
+  if (!iter.moveNext()) return;
+  final secondString = iter.current;
+
+  // empty return when more then 2 values are provided
+  if (iter.moveNext()) return;
+
+  yield firstString + secondString;
 }
 
 /// Adds a given String to a target String for each time the target String length is less than a given width.
 /// First arg is the padding String.
 /// Second arg is the desired width. Positive values will prepend, negative values will append to the target String.
-/// Third arg is the target String.
+/// Any following args are the target Strings.
 
-String? _pad(Iterable<String> args) {
+Iterable<String> _pad(Iterable<String> args) sync* {
   final iter = args.iterator;
-  if (!iter.moveNext()) return null;
 
+  if (!iter.moveNext()) return;
   final paddingString = iter.current;
-  if (!iter.moveNext()) return null;
 
+  if (!iter.moveNext()) return;
   final width = int.tryParse(iter.current);
-  if (!iter.moveNext() || width == null) return null;
 
-  final mainString = iter.current;
+  if (width == null) return;
 
-  return width.isNegative
-    ? mainString.padRight(width.abs(), paddingString)
-    : mainString.padLeft(width, paddingString);
+  if (width.isNegative) {
+    while (iter.moveNext()) {
+      yield iter.current.padRight(width.abs(), paddingString);
+    }
+  }
+  else {
+    while (iter.moveNext()) {
+      yield iter.current.padLeft(width, paddingString);
+    }
+  }
 }
 
 /// Inserts a given String into a target String.
@@ -159,38 +184,42 @@ String? _pad(Iterable<String> args) {
 /// Negative positions are treated as insertions starting at the end of the String.
 /// So -1 means insert before the last character of the target String.
 /// If the index exceeds the length of the target String, it will be returned without any modifications.
-/// Third arg is the target String.
+/// Any following args are the target Strings.
 
-String? _insert(Iterable<String> args) {
+Iterable<String> _insert(Iterable<String> args) sync* {
   final iter = args.iterator;
-  if (!iter.moveNext()) return null;
 
+  if (!iter.moveNext()) return;
   final insertionString = iter.current;
-  if (!iter.moveNext()) return null;
 
+  if (!iter.moveNext()) return;
   final position = int.tryParse(iter.current);
-  if (!iter.moveNext() || position == null) return null;
 
-  final mainString = iter.current;
-  if (mainString.length < position.abs()) return mainString;
+  if (position == null) return;
 
-  final index = position.isNegative
-    ? mainString.length + position
-    : position;
-
-  return mainString.replaceRange(index, index, insertionString);
+  while (iter.moveNext()) {
+    final mainString = iter.current;
+    if (mainString.length < position.abs()) {
+      yield mainString;
+    }
+    else {
+      final index = position.isNegative
+        ? mainString.length + position
+        : position;
+      yield mainString.replaceRange(index, index, insertionString);
+    }
+  }
 }
 
 /// Replaces a given Pattern (either String or RegExp) in a target String by a given replacement String.
 /// First arg is the Pattern the target String should be matched against.
 /// Second arg is the replacement String.
-/// Third arg is the target String.
+/// Any following args are the target Strings.
 
-String? _replace(Iterable<String> args) {
+Iterable<String> _replace(Iterable<String> args) sync* {
   final iter = args.iterator;
-  if (!iter.moveNext()) {
-    return null;
-  }
+
+  if (!iter.moveNext()) return;
   final Pattern pattern;
 
   // parse RegExp from String
@@ -199,21 +228,21 @@ String? _replace(Iterable<String> args) {
       pattern = RegExp(iter.current.substring(1, iter.current.length - 1));
     }
     on FormatException {
-      return null;
+      return;
     }
   }
   else {
     pattern = iter.current;
   }
-  if (!iter.moveNext()) return null;
 
+  if (!iter.moveNext()) return;
   final replacementString = iter.current;
-  if (!iter.moveNext()) return null;
 
-  final mainString = iter.current;
-
-  return mainString.replaceAll(pattern, replacementString);
+  while (iter.moveNext()) {
+    yield iter.current.replaceAll(pattern, replacementString);
+  }
 }
+
 
 /// Indicates that an expression is malformed.
 
