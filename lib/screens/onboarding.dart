@@ -213,6 +213,7 @@ class OnboardingPage extends StatelessWidget {
         ),
         Image.asset(image,
           fit: BoxFit.fitWidth,
+          excludeFromSemantics: true,
         ),
         Flexible(
           flex: 12,

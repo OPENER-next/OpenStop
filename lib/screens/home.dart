@@ -48,7 +48,9 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
           child: Stack( 
             children: [
               Semantics(
-                label: appLocale.semanticsFlutterMapLabel,
+                label: viewModel.hasQuestionnaire
+                  ? appLocale.semanticsReturnToMapLabel
+                  : appLocale.semanticsFlutterMapLabel,
                 child: FlutterMap(
                   mapController: viewModel.mapController,
                   options: MapOptions(
@@ -138,6 +140,7 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                           elements: viewModel.elements,
                           currentZoom: viewModel.mapZoomRound,
                           onOsmElementTap: viewModel.onElementTap,
+                          onFocusSemantic: viewModel.semanticDistanceReference,
                           selectedElement: viewModel.selectedElement,
                         );
                       },

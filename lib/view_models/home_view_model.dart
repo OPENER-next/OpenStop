@@ -646,7 +646,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
       final double distanceInMeters = Geolocator.distanceBetween(position.latitude, position.longitude, element.geometry.center.latitude, element.geometry.center.longitude);
       // semantic notification
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      SemanticsService.announce(appLocale.semanticsDistanceReferenceAnnounce(distanceInMeters), _gettextDirection());
+      SemanticsService.announce(appLocale.semanticsDistanceReferenceAnnounce(distanceInMeters.round()), _gettextDirection());
     });
     }
   }

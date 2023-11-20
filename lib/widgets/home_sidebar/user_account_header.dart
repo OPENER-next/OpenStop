@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserAccountHeader extends StatelessWidget {
   // taken from https://png-pixel.com/
@@ -34,6 +34,7 @@ class UserAccountHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final link = LayerLink();
+    final appLocale = AppLocalizations.of(context)!;
 
     return Container(
       width: double.infinity,
@@ -105,6 +106,7 @@ class UserAccountHeader extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 25, bottom: 10),
                 child: Text(
                   name,
+                  semanticsLabel: appLocale.semanticsUserLabel(name),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -144,6 +146,7 @@ class UserAccountActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocale = AppLocalizations.of(context)!;
     return IconButton(
       style: IconButton.styleFrom(
         foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -155,7 +158,7 @@ class UserAccountActionButton extends StatelessWidget {
         ),
       ),
       tooltip: tooltip,
-      icon: Icon(icon),
+      icon: Icon(icon, semanticLabel: appLocale.semanticsLogoutLabel,),
       onPressed: onTap,
     );
   }

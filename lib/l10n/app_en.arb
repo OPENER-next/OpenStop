@@ -321,8 +321,10 @@
 
   "semanticsLoginHint" : "Press the button to log in to your account.",
   "@semanticsLoginHint" : {},
-  "semanticsFlutterMapLabel" : "Open Stop map screen",
+  "semanticsFlutterMapLabel" : "Map screen",
   "@semanticsFlutterMapLabel" : {},
+  "semanticsReturnToMapLabel" : "Close questionnaire and return to map",
+  "@semanticsReturnToMapLabel" : {},
   "semanticsDotsIndicatorLabel" : "Move to page {number}",
   "@semanticsDotsIndicatorLabel" : {
     "placeholders": {
@@ -350,14 +352,8 @@
       }
     }
   },
-  "semanticsMenuTitleLabel" : "Menu",
-  "@semanticsMenuTitleLabel" : {},
-  "semanticsMenuOptionsLabel" : "Options of the menu",
-  "@semanticsMenuOptionsLabel" : {},
   "semanticsSloganLabel" : "Slogan",
   "@semanticsSloganLabel" : {},
-  "semanticsOpenStopLogoLabel" : "OpenStop Logo",
-  "@semanticsOpenStopLogoLabel" : {},
   "semanticsMFundImageLabel" : "Funded by mFUND",
   "@semanticsMFundImageLabel" : {},
   "semanticsFederalMinistryImageLabel" : "Funded by Federal Ministry of Transport and Digital Infrastructure",
@@ -384,12 +380,10 @@
       }
     }
   },
-  "semanticsQuestionSentenceLabel" : "The question to answer is: ",
+  "semanticsQuestionSentenceLabel" : "The question is: ",
   "@semanticsQuestionSentenceLabel" : {},
   "semanticsFurtherInformationIcon" : "Tap for further information.",
   "@semanticsFurtherInformationIcon" : {},
-  "semanticsOptionsListLabel" : "Answer options",
-  "@semanticsOptionsListLabel" : {},
   "semanticsUploadQuestionsButtonLabel" : "Share your answers",
   "@semanticsUploadQuestionsButtonLabel" : {},
   "semanticsBackQuestionButtonLabel" : "Return to previous question.",
@@ -408,8 +402,6 @@
   "@semanticsSummaryLabel" : {},
   "semanticsCloseNavigationMenuButton" : "Close navigation menu.",
   "@semanticsCloseNavigationMenuButton" : {},
-  "semanticsContributorsCredits" : "Further information of our contributors.",
-  "@semanticsContributorsCredits" : {},
   "semanticsCloseQuestionnaireAnnounce" : "Questionnaire is closed",
   "@semanticsCloseQuestionnaireAnnounce": {},
   "semanticsOpenQuestionnaireAnnounce" : "Questionnaire is open",
@@ -421,5 +413,21 @@
         "type": "num"
       }
     }
-  }
+  },
+  "semanticsUserLabel" : "User {username} tap to open browser profile",
+  "@semanticsUserLabel" : {
+    "username": {
+    "type": "String"
+    }
+  },
+  "semanticsLogoutLabel" : "Log out from your user account",
+  "@semanticsLogoutLabel" : {},
+  "semanticsClearFieldLabel" : "Clear field",
+  "@semanticsClearFieldLabel" : {},
+  "semanticsReviewQuestionLabel" : "Tab to return to question",
+  "@semanticsReviewQuestionLabel" : {},
+  "semanticsSelectedAnswerLabel" : "Selected",
+  "@semanticsSelectedAnswerLabel" : {},
+  "semanticsUnselectedAnswerLabel" : "Unselected",
+  "@semanticsSelectedAnswerLabel" : {}
 }

@@ -33,7 +33,7 @@ class AboutScreen extends StatelessWidget {
                 child: Image.asset(
                   'assets/images/app_icon_android.png',
                   height: 120,
-                  semanticLabel: appLocale.semanticsOpenStopLogoLabel,
+                  excludeFromSemantics: true,
                 ),
               ),
               Padding(

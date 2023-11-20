@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -51,6 +52,7 @@ class QuestionNavigationBar extends StatelessWidget {
                 // if button is disabled vibrate when pressed as additional feedback
                 onPressed: onBack ?? HapticFeedback.vibrate,
                 child: Semantics(
+                  sortKey: const OrdinalSortKey(2.0, name: 'orderButton'), //Test
                   label: appLocale.semanticsBackQuestionButtonLabel,
                   child: Row(
                     children: [

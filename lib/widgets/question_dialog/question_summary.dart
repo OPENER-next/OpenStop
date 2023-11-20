@@ -27,14 +27,17 @@ class QuestionSummary extends StatelessWidget {
         vertical: 25,
         horizontal: 20,
       ),
-      child: MergeSemantics(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                bottom: 10,
-              ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              bottom: 10,
+            ),
+            child: Semantics( 
+              liveRegion: true,
+              focused: true,
+              label:appLocale.semanticsSummaryLabel,
               child: Text(
                 userName != null
                   ? appLocale.questionnaireSummaryDedicatedMessage(userName!)
@@ -46,10 +49,9 @@ class QuestionSummary extends StatelessWidget {
                 ),
               ),
             ),
-            Semantics(label: appLocale.semanticsSummaryLabel),
-            ..._buildEntries(appLocale),
-          ],
-        ),
+          ),
+          ..._buildEntries(appLocale),
+        ],
       ),
     );
   }
@@ -67,13 +69,13 @@ class QuestionSummary extends StatelessWidget {
           );
         }
         j++;
-        yield _buildEntry(i);
+        yield _buildEntry(i, appLocale);
       }
     }
   }
 
 
-  Widget _buildEntry(int index) {
+  Widget _buildEntry(int index, AppLocalizations appLocale) {
     final question = questions[index];
     final answer = answers[index];
 
@@ -87,31 +89,28 @@ class QuestionSummary extends StatelessWidget {
             bottom: 15,
             right: 10,
           ),
-          child: Semantics(
-            liveRegion: true,
-            focused: true, 
-            child: Row(
-              children: [
-                const Icon(
-                  Icons.chevron_left_rounded
+          child: Row(
+            children: [
+              Icon(
+                Icons.chevron_left_rounded,
+                semanticLabel: appLocale.semanticsReviewQuestionLabel,
+              ),
+              ConstrainedBox(
+                constraints: const BoxConstraints(minWidth: 100, maxWidth: 200),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Text('$question:')
                 ),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(minWidth: 100, maxWidth: 200),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Text('$question:')
-                  ),
+              ),
+              Expanded(
+                child: Text(
+                  answer!,
+                  textAlign: TextAlign.right,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                Expanded(
-                  child: Text(
-                    answer!,
-                    textAlign: TextAlign.right,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

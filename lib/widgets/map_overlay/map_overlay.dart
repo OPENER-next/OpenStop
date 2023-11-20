@@ -77,62 +77,72 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
                       ),
                       Align(
                         alignment: Alignment.bottomCenter,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            MapLayerSwitcher(
-                              entries: tileLayers.entries.map((entry) =>
-                                MapLayerSwitcherEntry(
-                                  id: entry.key,
-                                  icon: entry.value.icon ?? Icons.map_rounded,
-                                  label: entry.value.name,
-                                ),
-                              ).toList(),
-                              active: viewModel.tileLayerId,
-                              onSelection: (TileLayerId v) => viewModel.updateTileProvider([v]),
-                            ),
-                            Expanded(
-                              child: Semantics(
-                                label: appLocale.semanticsContributorsCredits,
-                                child:
-                                  CreditText(
-                                    padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
+                            Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              MapLayerSwitcher(
+                                entries: tileLayers.entries.map((entry) =>
+                                  MapLayerSwitcherEntry(
+                                    id: entry.key,
+                                    icon: entry.value.icon ?? Icons.map_rounded,
+                                    label: entry.value.name,
                                   ),
-                                  children: [
-                                    CreditTextPart(
-                                      AppLocalizations.of(context)!.osmCreditsText,
-                                      url: osm_config.osmCreditsURL,
-                                    ),
-                                    CreditTextPart(
-                                      viewModel.tileLayer.creditsText,
-                                      url: viewModel.tileLayer.creditsUrl,
-                                    ),
-                                  ],
+                                ).toList(),
+                                active: viewModel.tileLayerId,
+                                onSelection: (TileLayerId v) => viewModel.updateTileProvider([v]),
+                              ),
+                              Expanded(
+                                child:Align(
+                                  alignment: Alignment.bottomRight,
+                                  child:   
+                                  Column(
+                                    children: [
+                                      LocationButton(
+                                        activeColor: Theme.of(context).colorScheme.primary,
+                                        activeIconColor: Theme.of(context).colorScheme.onPrimary,
+                                        color: Theme.of(context).colorScheme.primaryContainer,
+                                        iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                                        active: viewModel.cameraIsFollowingLocation,
+                                        onPressed: viewModel.toggleLocationFollowing,
+                                      ),
+                                      SizedBox (
+                                        height: buttonSpacing,
+                                      ),
+                                      ZoomButton(
+                                        onZoomInPressed: viewModel.zoomIn,
+                                        onZoomOutPressed: viewModel.zoomOut,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),   
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                            ],
+                          ),
+                            Row(
                               children: [
-                                LocationButton(
-                                  activeColor: Theme.of(context).colorScheme.primary,
-                                  activeIconColor: Theme.of(context).colorScheme.onPrimary,
-                                  color: Theme.of(context).colorScheme.primaryContainer,
-                                  iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
-                                  active: viewModel.cameraIsFollowingLocation,
-                                  onPressed: viewModel.toggleLocationFollowing,
+                                Expanded(
+                                  child: CreditText(
+                                    padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
                                 ),
-                                SizedBox (
-                                  height: buttonSpacing,
+                                    children: [
+                                      CreditTextPart(
+                                        AppLocalizations.of(context)!.osmCreditsText,
+                                        url: osm_config.osmCreditsURL,
+                                      ),
+                                      CreditTextPart(
+                                        viewModel.tileLayer.creditsText,
+                                        url: viewModel.tileLayer.creditsUrl,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                ZoomButton(
-                                  onZoomInPressed: viewModel.zoomIn,
-                                  onZoomOutPressed: viewModel.zoomOut,
-                                ),
-                              ],
+                              ]
                             ),
-                          ],
+                          ]
                         ),
                       ),
                     ],

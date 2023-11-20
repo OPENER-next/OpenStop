@@ -12,7 +12,17 @@ class CreditText extends StatefulWidget {
 
   final EdgeInsets padding;
 
-  static InlineSpan _defaultSeparatorBuilder (BuildContext context, int i) => const TextSpan(text: ', ');
+  static InlineSpan _defaultSeparatorBuilder(BuildContext context, int i) {
+    return const TextSpan(
+      children: [
+        WidgetSpan(
+          child: ExcludeSemantics(
+            child: Text(', '),
+          ),
+        ),
+      ],
+    );
+  }
 
   const CreditText({
     required this.children,

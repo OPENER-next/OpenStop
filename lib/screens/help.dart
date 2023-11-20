@@ -23,24 +23,21 @@ class HelpScreen extends StatelessWidget {
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-          child: Semantics(
-            label: appLocale.semanticsMenuOptionsLabel,
-            child: Column(
-              children: [
-                CustomListTile(
-                  leadingIcon: MdiIcons.headSync,
-                  trailingIcon: Icons.arrow_forward_ios_rounded,
-                  title: appLocale.helpOnboardingLabel,
-                  onTap: () => Navigator.push(context, Routes.onboarding),
-                ),
-                CustomListTile(
-                  leadingIcon: Icons.feedback,
-                  trailingIcon: Icons.open_in_new,
-                  title: appLocale.helpReportErrorLabel,
-                  onTap: () => launchUrl(_urlIssues),
-                ),
-              ],
-            ),
+          child: Column(
+            children: [
+              CustomListTile(
+                leadingIcon: MdiIcons.headSync,
+                trailingIcon: Icons.arrow_forward_ios_rounded,
+                title: appLocale.helpOnboardingLabel,
+                onTap: () => Navigator.push(context, Routes.onboarding),
+              ),
+              CustomListTile(
+                leadingIcon: Icons.feedback,
+                trailingIcon: Icons.open_in_new,
+                title: appLocale.helpReportErrorLabel,
+                onTap: () => launchUrl(_urlIssues),
+              ),
+            ],
           ),
         ),
       )

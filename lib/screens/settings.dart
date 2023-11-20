@@ -29,40 +29,37 @@ class SettingsScreen extends View<SettingsViewModel> {
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-          child: Semantics(
-            label: appLocale.semanticsMenuOptionsLabel,
-            child: Column(
-              children: [
-                CustomListTile(
-                  leadingIcon: Icons.palette,
-                  title: appLocale.settingsThemeLabel,
-                  subtitle: themeModesMap[viewModel.themeMode] ?? 'Unbekannt',
-                  onTap: () async {
-                    final selection = await showDialog<ThemeMode>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return SelectDialog(
-                          semanticLabel: appLocale.semanticsSettingsDialogBoxLabel,
-                          valueLabelMap: themeModesMap,
-                          value: viewModel.themeMode,
-                          title: Text(appLocale.settingsThemeDialogTitle),
-                        );
-                      }
-                    );
-                    if (selection != null) {
-                      viewModel.changeThemeMode([selection]);
+          child: Column(
+            children: [
+              CustomListTile(
+                leadingIcon: Icons.palette,
+                title: appLocale.settingsThemeLabel,
+                subtitle: themeModesMap[viewModel.themeMode] ?? 'Unbekannt',
+                onTap: () async {
+                  final selection = await showDialog<ThemeMode>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SelectDialog(
+                        semanticLabel: appLocale.semanticsSettingsDialogBoxLabel,
+                        valueLabelMap: themeModesMap,
+                        value: viewModel.themeMode,
+                        title: Text(appLocale.settingsThemeDialogTitle),
+                      );
                     }
-                  },
-                ),
-                CustomSwitchListTile(
-                  value: viewModel.isProfessional,
-                  leadingIcon: Icons.report_problem_rounded,
-                  title: appLocale.settingsProfessionalQuestionsLabel,
-                  subtitle: appLocale.settingsProfessionalQuestionsDescription,
-                  onChanged: (v) => viewModel.changeIsProfessional([v]),
-                ),
-              ],
-            ),
+                  );
+                  if (selection != null) {
+                    viewModel.changeThemeMode([selection]);
+                  }
+                },
+              ),
+              CustomSwitchListTile(
+                value: viewModel.isProfessional,
+                leadingIcon: Icons.report_problem_rounded,
+                title: appLocale.settingsProfessionalQuestionsLabel,
+                subtitle: appLocale.settingsProfessionalQuestionsDescription,
+                onChanged: (v) => viewModel.changeIsProfessional([v]),
+              ),
+            ],
           ),
         ),
       ),
