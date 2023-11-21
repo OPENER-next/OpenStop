@@ -32,14 +32,14 @@ class ProxyElement<T extends osmapi.OSMElement, G extends GeographicGeometry> ex
   /// This method may throw any upload/OSMAPI errors.
   /// In this case the changes to the underlying element are reverted.
 
-  Future<void> publish(OSMElementUploadAPI uploadAPI) async {
+  Future<void> publish(OSMElementUploadAPI uploadAPI, int changesetId) async {
     // create tag copy for rollback
     final tagCopy = Map.of(_osmElement.tags);
     // apply all tags to underlying OSM element
     _osmElement.tags.addAll(additionalTags);
     try {
       // trigger upload
-      await uploadAPI.updateOsmElement(this, _osmElement);
+      await uploadAPI.updateOsmElement(changesetId, _osmElement);
       // on success clear any added tags
       additionalTags.clear();
     }

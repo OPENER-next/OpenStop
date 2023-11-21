@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:osm_api/osm_api.dart' as osmapi;
 
+import '/models/changeset_info_generator.dart';
+import '/models/authenticated_user.dart';
 import '/models/map_features/map_features.dart';
 import '/models/map_features/map_feature_representation.dart';
 import '/models/question_catalog/question_catalog_reader.dart';
@@ -10,7 +12,6 @@ import '/models/affected_elements_detector.dart';
 import '/models/element_variants/element_identifier.dart';
 import '/api/osm_element_query_api.dart';
 import '/api/osm_element_upload_api.dart';
-import '/api/app_worker/questionnaire_handler.dart';
 import '/models/element_processing/element_filter.dart';
 import '/models/element_processing/element_processor.dart';
 import '/models/element_variants/base_element.dart';
@@ -18,6 +19,7 @@ import '/models/geographic_geometries.dart';
 import '/models/stop_area_processing/stop_area.dart';
 import '/utils/stream_utils.dart';
 import '/utils/service_worker.dart';
+import 'locale_handler.dart';
 import 'question_catalog_handler.dart';
 import 'stop_area_handler.dart';
 
@@ -25,7 +27,7 @@ import 'stop_area_handler.dart';
 ///
 /// All downloaded elements are cached in the [OSMElementProcessor].
 
-mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalogHandler<M> {
+mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalogHandler<M>, LocaleHandler<M> {
   final _elementStreamController = StreamController<ElementUpdate>();
 
   /// A MultiStream that returns any existing elements on initial subscription.
@@ -144,23 +146,31 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
   ///
   /// Returns true if upload was successful, otherwise false.
 
-  Future<bool> uploadElement(ProxyElement element, ElementUploadData uploadData) async {
+  Future<bool> uploadElement(ProxyElement element, AuthenticatedUser user) async {
     final qCatalog = await questionCatalog;
 
     final stopArea = findCorrespondingStopArea(element);
 
     // upload with first StopArea occurrence
     final uploadAPI = OSMElementUploadAPI(
-      stopArea: stopArea,
-      authenticatedUser: uploadData.user,
-      changesetLocale: uploadData.locale.languageCode,
+      authenticatedUser: user,
     );
 
     try {
       // upload element and detect elements that are affected by this change
       final diffDetector = AffectedElementsDetector(questionCatalog: qCatalog);
       diffDetector.takeSnapshot(element.original);
-      await element.publish(uploadAPI);
+      final changesetId = await uploadAPI.createOrReuseChangeset(stopArea, element, (stopArea, elements) {
+        return ChangesetInfo(
+          comment: ChangesetCommentGenerator.fromContext(
+            stopArea: stopArea,
+            modifiedElements: elements,
+            userLocales: userLocales
+          ).toString(),
+          locale: appLocale.toLanguageTag(),
+        );
+      });
+      await element.publish(uploadAPI, changesetId);
       final affectedElements = diffDetector.takeSnapshot(element.original);
 
       // update stop area state

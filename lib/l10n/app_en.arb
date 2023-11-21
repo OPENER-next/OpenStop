@@ -229,6 +229,12 @@
       }
     }
   },
+  "and": "and",
+  "@and": {},
+  "more": "more",
+  "@more": {},
+  "element": "element",
+  "@element": {},
 
   "durationInputDaysLabel": "Days",
   "@durationInputDaysLabel": {},
@@ -241,6 +247,26 @@
 
   "osmCreditsText": "Data © OpenStreetMap-Contributors",
   "@osmCreditsText": {},
+
+  "changesetWithStopNameText": "Added details to {elements} in the stop area {stopArea}.",
+  "@changesetWithStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      },
+      "stopArea": {
+        "type": "String"
+      }
+    }
+  },
+  "changesetWithoutStopNameText": "Added details to {elements} in the stop area.",
+  "@changesetWithoutStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      }
+    }
+  },
 
   "mapFeatureBusStop" : "Bus stop",
   "@mapFeatureBusStop" : {},

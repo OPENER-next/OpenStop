@@ -4,3 +4,9 @@ targets:
       build_version:
         options:
           output: lib/commons/version.g.dart
+
+      offline_geocoder:
+        options:
+          source_file: 'assets/ne_110m_admin_0_countries.geojson'
+          output_file: 'lib/api/offline_geocoder.g.dart'
+          extract_properties: { "ISO_A2": "String" }
