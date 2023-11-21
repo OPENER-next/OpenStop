@@ -188,7 +188,10 @@ class ChangesetCommentGenerator {
       final locale = Locale(language, country.isoA2);
       // use country locale if the language is supported by the app
       // and equals one of the user's UI languages (assuming the user speaks the language)
-      if (AppLocalizations.delegate.isSupported(locale) && userLocales.contains(locale)) {
+      final isUserLocale = userLocales.any(
+        (userLocale) => userLocale.languageCode == locale.languageCode,
+      );
+      if (AppLocalizations.delegate.isSupported(locale) && isUserLocale) {
         return lookupAppLocalizations(locale);
       }
     }
