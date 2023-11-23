@@ -14,7 +14,7 @@ flutter pub get
 ```
 ### 2. Create any generated code files
 ```console
-flutter pub run build_runner build --delete-conflicting-outputs
+dart run build_runner build --delete-conflicting-outputs
 ```
 Visit the [build_runner package](https://pub.dev/packages/build_runner#built-in-commands) for more information.
 ### 3. Build and run the app
@@ -30,7 +30,7 @@ By default the app uses the [OpenStreetMap development server](https://master.ap
 
 To build the app for a specific platform (apk, appbundle, ios, web) in its ultimate form (except code signing), use the following command:
 ```console
-flutter build ${platform} --release --dart-define=THUNDERFOREST_API_KEY=${api key} --dart-define=IS_RELEASE=true [--flavor standard]
+flutter build ${platform} --release --dart-define=THUNDERFOREST_API_KEY=${api key} --dart-define=IS_RELEASE=true
 ```
 
 The app uses a package to automatically generate icons for all platforms. If you modify the corresponding entries under `flutter_icons:` in `pubspec.yaml` or replace the icon images, you have to execute the following command for the modifications to take effect:
