@@ -73,8 +73,8 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                     urlTemplate: isDarkMode && kTileLayerPublicTransport.darkVariantTemplateUrl != null
                       ? kTileLayerPublicTransport.darkVariantTemplateUrl
                       : kTileLayerPublicTransport.templateUrl,
-                    minZoom: kTileLayerPublicTransport.minZoom.toDouble(),
-                    maxZoom: kTileLayerPublicTransport.maxZoom.toDouble(),
+                    minNativeZoom: kTileLayerPublicTransport.minZoom,
+                    maxNativeZoom: kTileLayerPublicTransport.maxZoom,
                   ),
                   Observer(
                     builder: (context) {
