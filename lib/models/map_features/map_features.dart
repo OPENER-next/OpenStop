@@ -141,6 +141,31 @@ final _globalDefinitions = <MapFeatureDefinition>[
   MapFeatureDefinition(
     label: (locale, tags) {
       final name = tags['name'];
+      final localRef = tags['local_ref'] ?? tags['ref'];
+
+      if (name != null) {
+        return localRef != null ? '$name\n${locale.mapFeatureTrainPlatformNumber(localRef)}' : name;
+      }
+      else if (localRef != null) {
+        return locale.mapFeatureTrainPlatformNumber(localRef);
+      }
+      else {
+        return locale.mapFeatureTrainPlatform;
+      }
+    },
+    icon: MdiIcons.train,
+    conditions: const [
+      ElementCondition([
+        TagsSubCondition({
+          'public_transport': StringValueMatcher('platform'),
+          'train': StringValueMatcher('yes'),
+        })
+      ]),
+    ],
+  ),
+  MapFeatureDefinition(
+    label: (locale, tags) {
+      final name = tags['name'];
       final localRef = tags['local_ref'];
 
       if (name != null) {
@@ -166,32 +191,6 @@ final _globalDefinitions = <MapFeatureDefinition>[
           'public_transport': StringValueMatcher('platform'),
           'tram': StringValueMatcher('yes'),
         }),
-      ]),
-    ],
-  ),
-  MapFeatureDefinition(
-    label: (locale, tags) {
-      final name = tags['name'];
-      final localRef = tags['local_ref'];
-
-      if (name != null) {
-        return localRef != null ? '$name\n${locale.mapFeatureTrainPlatformNumber(localRef)}' : name;
-      }
-      else if (localRef != null) {
-        return locale.mapFeatureTrainPlatformNumber(localRef);
-      }
-      else {
-        return locale.mapFeatureTrainPlatform;
-      }
-    },
-    icon: MdiIcons.train,
-    conditions: const [
-      ElementCondition([
-        TagsSubCondition({
-          'public_transport': StringValueMatcher('platform'),
-          'railway': StringValueMatcher('platform'),
-          'train': StringValueMatcher('yes'),
-        })
       ]),
     ],
   ),
