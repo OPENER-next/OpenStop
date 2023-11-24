@@ -9,7 +9,6 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:flutter_mvvm_architecture/extras.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:mobx/mobx.dart';
 import 'package:osm_api/osm_api.dart';
 import '/api/app_worker/element_handler.dart';

@@ -58,6 +58,12 @@ dependencies:
   flutter_mobx: ^2.0.6+5
   intl: ^0.18.0
 
+dependency_overrides:
+  flutter_map:
+    git:
+      url: https://github.com/fleaflet/flutter_map.git
+      ref: 2ba0c996b14d1bd989cc1211e514658613e3d5ac
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
