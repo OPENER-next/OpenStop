@@ -22,7 +22,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "5f33630bd2c40d6b55660b53de74b04e7e9c7ba3"
+      resolved-ref: a78ec94fa2528dee1df54ba70718e06684a8c692
       url: "https://github.com/OPENER-next/animated_location_indicator.git"
     source: git
     version: "1.0.0"
@@ -304,11 +304,12 @@ packages:
   flutter_map:
     dependency: "direct main"
     description:
-      name: flutter_map
-      sha256: e625957146c7d2e847da2cdefd893d6f5315ced6ee5228d2c05fec760cab3ad7
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.0.0"
+      path: "."
+      ref: "2ba0c996b14d1bd989cc1211e514658613e3d5ac"
+      resolved-ref: "2ba0c996b14d1bd989cc1211e514658613e3d5ac"
+      url: "https://github.com/fleaflet/flutter_map.git"
+    source: git
+    version: "6.0.1"
   flutter_markdown:
     dependency: "direct main"
     description:
@@ -701,7 +702,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "044ef56472ad07176daebf4747fffb33f1830f1e"
+      resolved-ref: "61cbb926c4ea4088c9b0cf620b7099033077e036"
       url: "https://github.com/OPENER-next/offline_geocoder.git"
     source: git
     version: "1.0.0"
