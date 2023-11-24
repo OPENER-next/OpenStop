@@ -46,6 +46,8 @@ class OnboardingScreen extends View<OnboardingViewModel> {
         title: appLocale.onboardingGreetingTitle,
         description: appLocale.onboardingGreetingDescription,
         buttonText: appLocale.onboardingGreetingButton,
+        buttonSemanticLabel: appLocale.semanticsNextStepOnboarding,
+        semanticLabel: appLocale.semanticsIntroductionPage(1,4),
         onButtonTap: viewModel.nextPage,
       ),
       OnboardingPage(
@@ -53,6 +55,8 @@ class OnboardingScreen extends View<OnboardingViewModel> {
         title: appLocale.onboardingSurveyingTitle,
         description: appLocale.onboardingSurveyingDescription,
         buttonText: appLocale.onboardingSurveyingButton,
+        buttonSemanticLabel: appLocale.semanticsNextStepOnboarding,
+        semanticLabel: appLocale.semanticsIntroductionPage(2,4),
         onButtonTap: viewModel.nextPage,
       ),
       OnboardingPage(
@@ -60,6 +64,8 @@ class OnboardingScreen extends View<OnboardingViewModel> {
         title: appLocale.onboardingAnsweringTitle,
         description: appLocale.onboardingAnsweringDescription,
         buttonText: appLocale.onboardingAnsweringButton,
+        buttonSemanticLabel: appLocale.semanticsNextStepOnboarding,
+        semanticLabel: appLocale.semanticsIntroductionPage(3,4),
         onButtonTap: viewModel.nextPage,
       ),
       OnboardingPage(
@@ -67,6 +73,8 @@ class OnboardingScreen extends View<OnboardingViewModel> {
         title: appLocale.onboardingContributingTitle,
         description: appLocale.onboardingContributingDescription,
         buttonText: appLocale.onboardingContributingButton,
+        buttonSemanticLabel: appLocale.semanticsFinishOnboarding,
+        semanticLabel: appLocale.semanticsIntroductionPage(4,4),
         onButtonTap: () {
           viewModel.markOnboardingAsSeen();
           // remove previous routes to start of with no duplicated home screen
@@ -126,7 +134,7 @@ class OnboardingScreen extends View<OnboardingViewModel> {
                       scrollDirection: Axis.horizontal,
                       controller: viewModel.controller,
                       physics: const ClampingScrollPhysics(),
-                      allowImplicitScrolling: true,
+                      allowImplicitScrolling: false,
                       children: pages,
                     ),
                   ),
@@ -164,7 +172,9 @@ class OnboardingPage extends StatelessWidget {
   final String title;
   final String description;
   final String? buttonText;
+  final String? buttonSemanticLabel;
   final IconData buttonIcon;
+  final String? semanticLabel;
   final void Function()? onButtonTap;
 
   const OnboardingPage({
@@ -172,7 +182,9 @@ class OnboardingPage extends StatelessWidget {
     required this.title,
     required this.description,
     this.buttonText,
+    this.buttonSemanticLabel,
     this.buttonIcon = Icons.chevron_right,
+    this.semanticLabel,
     this.onButtonTap,
     Key? key
   }) : super(key: key);
@@ -181,75 +193,79 @@ class OnboardingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
 
-    return Flex(
-      direction: isPortrait ? Axis.vertical : Axis.horizontal,
-      children: [
-        if (!isPortrait) const Spacer(
-          flex: 1,
-        ),
-        Image.asset(image,
-          fit: BoxFit.fitWidth,
-        ),
-        Flexible(
-          flex: 12,
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 40.0,
-              right: 40.0,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Flexible(
-                  flex: 2,
-                  child: Text(title,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(description,
+    return Semantics(
+      label: semanticLabel,
+      child: Flex(
+        direction: isPortrait ? Axis.vertical : Axis.horizontal,
+        children: [
+          if (!isPortrait) const Spacer(
+            flex: 1,
+          ),
+          Image.asset(image,
+            fit: BoxFit.fitWidth,
+            excludeFromSemantics: true,
+          ),
+          Flexible(
+            flex: 12,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 40.0,
+                right: 40.0,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(
+                    flex: 2,
+                    child: Text(title,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 16.0,
+                        fontSize: 30.0,
                         fontWeight: FontWeight.w300,
                       ),
                     ),
                   ),
-                ),
-                Spacer(
-                  flex: buttonText != null ? 1 : 3
-                ),
-                if (buttonText != null) Flexible(
-                  flex: 2,
-                  child: OutlinedButton(
-                    onPressed: onButtonTap,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(buttonText!),
-                        Icon(buttonIcon),
-                      ],
+                  Expanded(
+                    flex: 3,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(description,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  Spacer(
+                    flex: buttonText != null ? 1 : 3
+                  ),
+                  if (buttonText != null) Flexible(
+                    flex: 2,
+                    child: OutlinedButton(
+                      onPressed: onButtonTap,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(buttonText!, semanticsLabel: buttonSemanticLabel,),
+                          Icon(buttonIcon),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        if (!isPortrait) const Spacer(
-          flex: 1,
-        ),
-      ],
+          if (!isPortrait) const Spacer(
+            flex: 1,
+          ),
+        ],
+      ),
     );
   }
 }

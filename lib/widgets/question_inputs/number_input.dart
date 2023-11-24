@@ -72,7 +72,7 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
         suffixText: input.unit,
         suffixIcon: IconButton(
           onPressed: _handleChange,
-          icon: const Icon(Icons.clear_rounded),
+          icon: Icon(Icons.clear_rounded, semanticLabel: appLocale.semanticsClearField,),
           highlightColor: Colors.transparent,
         ),
         errorMaxLines: 2,

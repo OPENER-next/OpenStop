@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/models/answer.dart';
 import '/models/question_catalog/answer_definition.dart';
@@ -14,6 +16,7 @@ class ListInput extends QuestionInputWidget<ListAnswerDefinition, ListAnswer> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocale = AppLocalizations.of(context)!;
     return Wrap(
       runSpacing: 8.0,
       children: List.generate(definition.input.length, (index) {
@@ -23,13 +26,16 @@ class ListInput extends QuestionInputWidget<ListAnswerDefinition, ListAnswer> {
           label: item.name,
           description: item.description,
           imagePath: item.image,
-          onTap: () => _handleChange(index),
+          onTap: () => _handleChange(index, appLocale),
         );
       }, growable: false),
     );
   }
 
-  void _handleChange(int selectedIndex) {
+  void _handleChange(int selectedIndex, AppLocalizations appLocale) {
+     selectedIndex != controller.answer?.value
+       ? SemanticsService.announce(appLocale.semanticsSelectedAnswer, TextDirection.ltr)
+       : SemanticsService.announce(appLocale.semanticsUnselectedAnswer, TextDirection.ltr);
     controller.answer = selectedIndex != controller.answer?.value
       ? ListAnswer(
         definition: definition,
@@ -96,6 +102,7 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
+    final appLocale = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final buttonShape = theme.outlinedButtonTheme.style?.shape?.resolve({});
     final innerBorderRadius = buttonShape is RoundedRectangleBorder
@@ -118,9 +125,15 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                     right: 8.0,
                     bottom: 8.0,
                   ),
-                  child: Text(
-                    widget.label,
-                    textAlign: TextAlign.left,
+                  child: Semantics(
+                     hint: widget.active 
+                       ? appLocale.semanticsSelectedAnswer
+                       : appLocale.semanticsUnselectedAnswer,
+                    child: Text(
+                      semanticsLabel: '${widget.label} ${widget.description ?? ''}',
+                      widget.label,
+                      textAlign: TextAlign.left,
+                    ),
                   ),
                 ),
                 if (widget.description != null)
@@ -149,17 +162,18 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
             ),
           ),
           if (widget.imagePath != null)
-            Expanded(
-              flex: 2,
-              // HeroViewer cannot be wrapped around since the returned error widget
-              // represents a different widget wherefore the hero transition would fail.
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(0, widget.imagePadding, widget.imagePadding, widget.imagePadding),
-                child: ClipRRect(
-                  borderRadius: innerBorderRadius,
-                  // hero viewer cannot be used in frame builder
-                  // because the builder may be called after the page route transition starts
-                  child: HeroViewer(
+          Expanded(
+            flex: 2,
+            // HeroViewer cannot be wrapped around since the returned error widget
+            // represents a different widget wherefore the hero transition would fail.
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(0, widget.imagePadding, widget.imagePadding, widget.imagePadding),
+              child: ClipRRect(
+                borderRadius: innerBorderRadius,
+                // hero viewer cannot be used in frame builder
+                // because the builder may be called after the page route transition starts
+                child: ExcludeSemantics(
+                  child:HeroViewer(
                     child: Image.asset(
                       widget.imagePath!,
                       fit: BoxFit.cover,
@@ -180,6 +194,7 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                 ),
               ),
             ),
+          ),
         ],
       ),
     );

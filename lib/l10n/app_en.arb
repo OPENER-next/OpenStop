@@ -343,5 +343,119 @@
         "type": "String"
       }
     }
-  }
+  },
+
+  "semanticsLoginHint" : "Log in with your OpenStreetMap account to upload your changes.",
+  "@semanticsLoginHint" : {},
+  "semanticsFlutterMap" : "Map screen",
+  "@semanticsFlutterMap" : {},
+  "semanticsReturnToMap" : "Close questionnaire and return to map",
+  "@semanticsReturnToMap" : {},
+  "semanticsDotsIndicator" : "Page {number}",
+  "@semanticsDotsIndicator" : {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsPageIndicators" : "There are {number} introduction pages, select the one you would like to view.",
+  "@semanticsPageIndicators" : {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsIntroductionPage" : "Introduction page {number} of {count}",
+  "@semanticsIntroductionPage" : {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      },
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsSlogan" : "Slogan",
+  "@semanticsSlogan" : {},
+  "semanticsMFundImage" : "Funded by mFUND",
+  "@semanticsMFundImage" : {},
+  "semanticsFederalMinistryImage" : "Funded by Federal Ministry of Transport and Digital Infrastructure",
+  "@semanticsFederalMinistryImage" : {},
+  "semanticsSettingsDialogBox" : "Choose your preferred app theme",
+  "@semanticsSettingsDialogBox" : {},
+  "semanticsNavigationMenu" : "Navigation menu",
+  "@semanticsNavigationMenu" : {},
+  "semanticsResetRotationButton" : "Reset map rotation to North.",
+  "@semanticsResetRotationButton" : {},
+  "semanticsCurrentLocationButton" : "Set map to current location.",
+  "@semanticsCurrentLocationButton" : {},
+  "semanticsZoomInButton" : "Zoom in map",
+  "@semanticsZoomInButton" : {},
+  "semanticsZoomOutButton" : "Zoom out map",
+  "@semanticsZoomOutButton" : {},
+  "semanticsMapLayerButton" : "Switch map layer",
+  "@semanticsMapLayerButton" : {},
+  "semanticsMapLayerOption" : "Layer option {name}",
+  "@semanticsMapLayerOption" : {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "semanticsQuestionSentence" : "The question is: ",
+  "@semanticsQuestionSentence" : {},
+  "semanticsFurtherInformationIcon" : "Tap for further information.",
+  "@semanticsFurtherInformationIcon" : {},
+  "semanticsUploadQuestionsButton" : "Share your answers",
+  "@semanticsUploadQuestionsButton" : {},
+  "semanticsBackQuestionButton" : "Return to previous question.",
+  "@semanticsBackQuestionButton" : {},
+  "semanticsNextQuestionButton" : "Next question",
+  "@semanticsNextQuestionButton" : {},
+  "semanticsSkipQuestionButton" : "Skip question",
+  "@semanticsSkipQuestionButton" : {},
+  "semanticsFinishQuestionnaireButton" : "Finish questionnaire",
+  "@semanticsFinishQuestionnaireButton" : {},
+  "semanticsSummary" : "Summary",
+  "@semanticsSummary" : {},
+  "semanticsCloseNavigationMenuButton" : "Close navigation menu.",
+  "@semanticsCloseNavigationMenuButton" : {},
+  "semanticsCloseQuestionnaireAnnounce" : "Questionnaire is closed",
+  "@semanticsCloseQuestionnaireAnnounce": {},
+  "semanticsOpenQuestionnaireAnnounce" : "Questionnaire is open",
+  "@semanticsOpenQuestionnaireAnnounce" : {},
+  "semanticsDistanceReferenceAnnounce" : "{number} meters of distance from your current position",
+  "@semanticsDistanceReferenceAnnounce" : {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsUser" : "User {username} tap to open browser profile",
+  "@semanticsUser" : {
+    "username": {
+    "type": "String"
+    }
+  },
+  "semanticsLogout" : "Log out from your user account",
+  "@semanticsLogout" : {},
+  "semanticsClearField" : "Clear field",
+  "@semanticsClearField" : {},
+  "semanticsReviewQuestion" : "Tab to return to question",
+  "@semanticsReviewQuestion" : {},
+  "semanticsSelectedAnswer" : "Selected",
+  "@semanticsSelectedAnswer" : {},
+  "semanticsUnselectedAnswer" : "Unselected",
+  "@semanticsSelectedAnswer" : {},
+  "semanticsNextStepOnboarding" : "Next step",
+  "@semanticsNextStepOnboarding" : {},
+  "semanticsFinishOnboarding" : "Finish introduction",
+  "@semanticsFinishOnboarding" : {},
+  "semanticsCredits" : "Credits",
+  "@semanticsCredits" : {}
 }

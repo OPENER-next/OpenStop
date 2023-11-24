@@ -60,6 +60,19 @@ class HomeSidebar extends ViewFragment<HomeViewModel> {
             title: appLocale.helpTitle,
             onTap: () => Navigator.push(context, Routes.help),
           ),
+          Visibility(
+            visible: false,
+            maintainState: true,
+            maintainSemantics: true,
+            maintainSize: true,
+            maintainAnimation: true,
+            maintainInteractivity: true,
+            child: CustomListTile(
+              leadingIcon: Icons.arrow_back,
+              title: appLocale.semanticsCloseNavigationMenuButton,
+              onTap: () => Navigator.pop(context),
+            ),
+          ),
         ],
       ),
     );

@@ -40,9 +40,10 @@ class SettingsScreen extends View<SettingsViewModel> {
                     context: context,
                     builder: (BuildContext context) {
                       return SelectDialog(
+                        semanticLabel: appLocale.semanticsSettingsDialogBox,
                         valueLabelMap: themeModesMap,
                         value: viewModel.themeMode,
-                        title: Text(AppLocalizations.of(context)!.settingsThemeDialogTitle),
+                        title: Text(appLocale.settingsThemeDialogTitle),
                       );
                     }
                   );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
@@ -24,30 +25,33 @@ class LoginInfoHeader extends StatelessWidget {
         bottom: 25,
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            appLocale.loginHint,
-            style: TextStyle(
-              fontSize: 13,
-              color: theme.colorScheme.onPrimary,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ExcludeSemantics(
+              child: Text(
+                appLocale.loginHint,
+                style: TextStyle(
+                  fontSize: 13,
+                  color: theme.colorScheme.onPrimary,
+                ),
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-              foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+            const SizedBox(
+              height: 20,
             ),
-            onPressed: onLoginTap,
-            label: Text(appLocale.login),
-            icon: const Icon(Icons.login_rounded),
-          ),
-        ],
-      ),
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+              onPressed: onLoginTap,
+              label: Semantics(hint: appLocale.semanticsLoginHint, child: Text(appLocale.login),),
+              icon: const Icon(Icons.login_rounded),
+            ),
+          ],
+        ),
+
     );
   }
 }

@@ -215,7 +215,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
         active: isActive,
         icon: marker.element.icon,
         label: marker.element.elementLabel(appLocale),
-      )
+      ),
     );
   }
 

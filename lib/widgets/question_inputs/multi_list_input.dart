@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/models/answer.dart';
 import '/models/question_catalog/answer_definition.dart';
@@ -15,6 +17,7 @@ class MultiListInput extends QuestionInputWidget<MultiListAnswerDefinition, Mult
 
   @override
   Widget build(BuildContext context) {
+    final appLocale = AppLocalizations.of(context)!;
     return Wrap(
       runSpacing: 8.0,
       children: List.generate(definition.input.length, (index) {
@@ -24,15 +27,19 @@ class MultiListInput extends QuestionInputWidget<MultiListAnswerDefinition, Mult
           label: item.name,
           description: item.description,
           imagePath: item.image,
-          onTap: () => _handleChange(index),
+          onTap: () => _handleChange(index, appLocale),
         );
       }, growable: false),
     );
   }
 
-  void _handleChange(int selectedIndex) {
+  void _handleChange(int selectedIndex, AppLocalizations appLocale) {
     final List<int> newValue;
     final isSelected = controller.answer?.value.contains(selectedIndex) ?? false;
+
+    !isSelected
+      ? SemanticsService.announce(appLocale.semanticsSelectedAnswer, TextDirection.ltr)
+      : SemanticsService.announce(appLocale.semanticsUnselectedAnswer, TextDirection.ltr);
 
     if (isSelected) {
       newValue = controller.answer!.value

@@ -24,6 +24,7 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
 
   @override
   Widget build(BuildContext context, viewModel) {
+    final appLocale = AppLocalizations.of(context)!;
     return Padding(
       padding: MediaQuery.of(context).padding + EdgeInsets.all(buttonSpacing),
       child: Stack(
@@ -39,8 +40,9 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
             child: FloatingActionButton.small(
               heroTag: null,
               onPressed: Scaffold.of(context).openDrawer,
-              child: const Icon(
+              child: Icon(
                 Icons.menu,
+                semanticLabel: appLocale.semanticsNavigationMenu,
               ),
             ),
           ),

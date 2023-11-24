@@ -2,6 +2,7 @@
 // required till https://github.com/dart-lang/sdk/issues/48401 is resolved
 
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/models/answer.dart';
@@ -19,6 +20,7 @@ class BoolInput extends QuestionInputWidget<BoolAnswerDefinition, BoolAnswer> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final appLocale = AppLocalizations.of(context)!;
 
     return SizedBox(
       width: double.infinity,
@@ -27,9 +29,14 @@ class BoolInput extends QuestionInputWidget<BoolAnswerDefinition, BoolAnswer> {
         children: List.generate(2, (index) {
           final state = index == 0;
           return _BoolInputItem(
-            label:  Text(definition.input[index].name ?? 
-                    (state ? AppLocalizations.of(context)!.yes : AppLocalizations.of(context)!.no)),
-            onTap: () => _handleChange(state),
+            label: Semantics(
+              hint: controller.answer?.value == state 
+                ? appLocale.semanticsSelectedAnswer
+                : appLocale.semanticsUnselectedAnswer,
+              child: Text(definition.input[index].name ?? 
+                    (state ? appLocale.yes : appLocale.no)),
+            ),
+            onTap: () => _handleChange(state, appLocale),
             active: controller.answer?.value == state,
             backgroundColor: theme.colorScheme.primary.withOpacity(0),
             activeBackgroundColor: theme.colorScheme.primary,
@@ -41,7 +48,10 @@ class BoolInput extends QuestionInputWidget<BoolAnswerDefinition, BoolAnswer> {
     );
   }
 
-  void _handleChange(bool selectedState) {
+  void _handleChange(bool selectedState, AppLocalizations appLocale) {
+    controller.answer?.value != selectedState
+    ? SemanticsService.announce(appLocale.semanticsSelectedAnswer, TextDirection.ltr)
+    : SemanticsService.announce(appLocale.semanticsUnselectedAnswer, TextDirection.ltr);
     controller.answer = controller.answer?.value != selectedState
       ? BoolAnswer(
         definition: definition,
@@ -79,7 +89,7 @@ class _BoolInputItem extends ImplicitlyAnimatedWidget {
 
 class _BoolInputItemState extends AnimatedWidgetBaseState<_BoolInputItem> {
   ColorTween? _backgroundColorTween, _foregroundColorTween;
-
+  
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
     _backgroundColorTween = visitor(
