@@ -19,8 +19,6 @@ class OsmElementLayer extends StatefulWidget {
 
   final void Function(MapFeatureRepresentation osmElement)? onOsmElementTap;
 
-  final void Function(MapFeatureRepresentation osmElement)? onFocusSemantic;
-
   /// The maximum shift in duration between different markers.
 
   final Duration durationOffsetRange;
@@ -38,7 +36,6 @@ class OsmElementLayer extends StatefulWidget {
     required this.currentZoom,
     this.selectedElement,
     this.onOsmElementTap,
-    this.onFocusSemantic,
     this.durationOffsetRange = const Duration(milliseconds: 300),
     // TODO: currently changes to this won't update the super cluster
     this.zoomLowerLimit = 16,
@@ -213,15 +210,11 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       scale: animation,
       alignment: Alignment.bottomCenter,
       filterQuality: FilterQuality.low,
-      child: Semantics (
-        onDidGainAccessibilityFocus: () => widget.onFocusSemantic?.call(marker.element),
-        label: marker.element.elementLabel(appLocale),
-        child: OsmElementMarker(
+      child: OsmElementMarker(
         onTap: () => widget.onOsmElementTap?.call(marker.element),
         active: isActive,
         icon: marker.element.icon,
         label: marker.element.elementLabel(appLocale),
-        ),
       ),
     );
   }

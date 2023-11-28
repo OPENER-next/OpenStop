@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QuestionNavigationBar extends StatelessWidget {
   final String? nextText;
   final String? backText;
   final String? nextTextSemantics;
+  final String? backTextSemantics;
   final VoidCallback? onNext;
   final VoidCallback? onBack;
 
@@ -14,6 +14,7 @@ class QuestionNavigationBar extends StatelessWidget {
     this.nextText,
     this.backText,
     this.nextTextSemantics,
+    this.backTextSemantics,
     this.onBack,
     this.onNext,
     Key? key,
@@ -21,7 +22,6 @@ class QuestionNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appLocale = AppLocalizations.of(context)!;
     final disabledButtonStyle = ButtonStyle(
       foregroundColor: MaterialStatePropertyAll(Theme.of(context).disabledColor),
       overlayColor: const MaterialStatePropertyAll(Colors.transparent),
@@ -44,20 +44,20 @@ class QuestionNavigationBar extends StatelessWidget {
               duration: const Duration(milliseconds: 300),
               child: backText == null
               ? null
-              : TextButton(
-                // mimic disabled style
-                style: onBack != null
-                  ? _buttonStyle
-                  : _buttonStyle.merge(disabledButtonStyle),
-                // if button is disabled vibrate when pressed as additional feedback
-                onPressed: onBack ?? HapticFeedback.vibrate,
-                child: Semantics(
-                  sortKey: const OrdinalSortKey(2.0, name: 'orderButton'), //Test
-                  label: appLocale.semanticsBackQuestionButtonLabel,
+              : Semantics(
+                container: true,
+                sortKey: const OrdinalSortKey(2.0, name: 'questionDialog'),
+                child: TextButton(
+                  // mimic disabled style
+                  style: onBack != null
+                    ? _buttonStyle
+                    : _buttonStyle.merge(disabledButtonStyle),
+                  // if button is disabled vibrate when pressed as additional feedback
+                  onPressed: onBack ?? HapticFeedback.vibrate,
                   child: Row(
                     children: [
                       const Icon(Icons.chevron_left_rounded),
-                      Text(backText!),
+                      Text(backText!, semanticsLabel: backTextSemantics,),
                     ],
                   ),
                 ),
@@ -69,20 +69,22 @@ class QuestionNavigationBar extends StatelessWidget {
               duration: const Duration(milliseconds: 300),
               child: nextText == null
               ? null
-              : TextButton(
-                key: ValueKey(nextText),
-                // mimic disabled style
-                style: onNext != null
-                  ? _buttonStyle
-                  : _buttonStyle.merge(disabledButtonStyle),
-                // if button is disabled vibrate when pressed as additional feedback
-                onPressed: onNext ?? HapticFeedback.vibrate,
-                child: Semantics(
-                  label: nextTextSemantics,
+              : Semantics(
+                container: true,
+                sortKey: const OrdinalSortKey(1.0, name: 'questionDialog'),
+                child: TextButton(
+                  key: ValueKey(nextText),
+                  // mimic disabled style
+                  style: onNext != null
+                    ? _buttonStyle
+                    : _buttonStyle.merge(disabledButtonStyle),
+                  // if button is disabled vibrate when pressed as additional feedback
+                  onPressed: onNext, // ?? HapticFeedback.vibrate,
+                  isSemanticButton: true,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(nextText!),
+                      Text(nextText!, semanticsLabel: nextTextSemantics,),
                       const Icon(Icons.chevron_right_rounded),
                     ],
                   ),

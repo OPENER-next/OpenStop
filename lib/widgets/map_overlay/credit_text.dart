@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreditText extends StatefulWidget {
   final List<CreditTextPart> children;
@@ -88,18 +88,20 @@ class _CreditTextState extends State<CreditText> {
         fit: StackFit.passthrough,
         children: [
           // Stroked text as border.
-          RichText(
-            textAlign: widget.alignment,
-            text: TextSpan(
-              style: TextStyle(
-                fontSize: 10,
-                foreground: Paint()
-                  ..style = PaintingStyle.stroke
-                  ..strokeWidth = 4
-                  ..strokeJoin = StrokeJoin.round
-                  ..color = Theme.of(context).colorScheme.tertiary,
+          ExcludeSemantics(
+            child:RichText(
+              textAlign: widget.alignment,
+              text: TextSpan(
+                style: TextStyle(
+                  fontSize: 10,
+                  foreground: Paint()
+                    ..style = PaintingStyle.stroke
+                    ..strokeWidth = 4
+                    ..strokeJoin = StrokeJoin.round
+                    ..color = Theme.of(context).colorScheme.tertiary,
+                ),
+                children: creditTextParts
               ),
-              children: creditTextParts
             ),
           ),
           // Solid text as fill.
@@ -121,23 +123,39 @@ class _CreditTextState extends State<CreditText> {
 
   List<InlineSpan> _buildParts(BuildContext context) {
     final creditTextParts = <InlineSpan>[
-      if (widget.children.isNotEmpty) _buildPart(0)
+      if (widget.children.isNotEmpty) _buildPart(0, context)
     ];
     for (var i = 1; i < widget.children.length; i++) {
       final separator = widget.separatorBuilder?.call(context, i);
       if (separator != null) {
         creditTextParts.add(separator);
       }
-      creditTextParts.add(_buildPart(i));
+      creditTextParts.add(_buildPart(i, context));
     }
     return creditTextParts;
   }
 
 
-  TextSpan _buildPart(int index) {
+  TextSpan _buildPart(int index, BuildContext contex) {
+      final appLocale = AppLocalizations.of(context)!;
     return TextSpan(
-      text: widget.children[index].text,
-      recognizer: _gestureRecognizers[index]
+      recognizer: _gestureRecognizers[index],
+      children: [
+        WidgetSpan(
+          child: Semantics(
+            container: true,
+            label: appLocale.semanticsCredits,
+            link: true,
+            child: Text(
+              widget.children[index].text,
+              style: TextStyle(
+                fontSize: 10,
+                color: Theme.of(context).colorScheme.onTertiary
+              ),
+            ),
+          ),
+        ),
+      ]
     );
   }
 

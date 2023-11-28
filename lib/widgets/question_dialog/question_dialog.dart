@@ -36,16 +36,28 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
   @override
   Widget build(BuildContext context, viewModel) {
     final layerLink = LayerLink();
-
     final questionCount = questions.length;
     final activeIndex = showSummary ? questionCount : activeQuestionIndex;
     final hasPreviousQuestion = activeIndex > 0;
     final hasNextQuestion = activeQuestionIndex < questionCount - 1;
-
     final currentIsValidAnswer = answers[activeQuestionIndex].hasValidAnswer;
     final hasAnyValidAnswer = answers.any((controller) => controller.hasValidAnswer);
-
     final appLocale = AppLocalizations.of(context)!;
+    String? nextText;
+    String? nextTextSemantics;
+
+    if (!showSummary) {
+      if (!hasNextQuestion) {
+        nextTextSemantics = appLocale.semanticsFinishQuestionnaireButton;
+        nextText = appLocale.finish;
+      } else if (currentIsValidAnswer) {
+        nextTextSemantics = appLocale.semanticsNextQuestionButton;
+        nextText = appLocale.next;
+      } else {
+        nextTextSemantics = appLocale.semanticsSkipQuestionButton;
+        nextText = appLocale.skip;
+      }
+    }
 
     // Use WillPopScope with "false" to prevent that back button closes app instead of Question Dialog
     return WillPopScope(
@@ -111,23 +123,12 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                             CompositedTransformTarget(
                               link: layerLink,
                               child: QuestionNavigationBar(
-                                nextTextSemantics: showSummary
-                                  ? null
-                                  : !hasNextQuestion
-                                    ? appLocale.semanticsFinishQuestionnaireButtonLabel
-                                    : currentIsValidAnswer
-                                      ? appLocale.semanticsNextQuestionButtonLabel(appLocale.next)
-                                      : appLocale.semanticsNextQuestionButtonLabel(appLocale.skip),
-                                nextText: showSummary
-                                  ? null
-                                  : !hasNextQuestion
-                                    ? appLocale.finish
-                                    : currentIsValidAnswer
-                                      ? appLocale.next
-                                      : appLocale.skip,
+                                nextTextSemantics: nextTextSemantics,
+                                nextText: nextText,
                                 backText: hasPreviousQuestion
                                   ? appLocale.back
                                   : null,
+                                backTextSemantics: appLocale.semanticsBackQuestionButton,
                                 onNext: hasNextQuestion || hasAnyValidAnswer
                                   ? viewModel.goToNextQuestion
                                   : null,
@@ -162,12 +163,13 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         onPressed: viewModel.submitQuestionnaire,
                         child: Semantics(
-                          sortKey: const OrdinalSortKey(1.0, name: 'orderButton'), //Test
-                          label: appLocale.semanticsUploadQuestionsButtonLabel,
+                          container: true,
+                          sortKey:  const OrdinalSortKey(1.0),
                           child: Icon(
-                          Icons.cloud_upload_rounded,
-                          color: Theme.of(context).colorScheme.onPrimary,
-                        ),
+                            Icons.cloud_upload_rounded,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                            semanticLabel: appLocale.semanticsUploadQuestionsButton,
+                          ),
                         ),
                       )
                       : null

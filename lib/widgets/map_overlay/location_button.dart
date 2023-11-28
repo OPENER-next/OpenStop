@@ -53,12 +53,10 @@ class _LocationButtonState extends AnimatedWidgetBaseState<LocationButton> {
       heroTag: null,
       backgroundColor: _colorTween?.evaluate(animation),
       onPressed: widget.onPressed,
-      child: Semantics(
-        label: appLocale.semanticsCurrentLocationButtonLabel,
-        child: Icon(
-          Icons.my_location,
-          color: _iconColorTween?.evaluate(animation),
-        ),
+      child: Icon(
+        Icons.my_location,
+        color: _iconColorTween?.evaluate(animation),
+        semanticLabel: appLocale.semanticsCurrentLocationButton,
       ),
     );
   }

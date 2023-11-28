@@ -106,7 +106,7 @@ class UserAccountHeader extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 25, bottom: 10),
                 child: Text(
                   name,
-                  semanticsLabel: appLocale.semanticsUserLabel(name),
+                  semanticsLabel: appLocale.semanticsUser(name),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -158,7 +158,7 @@ class UserAccountActionButton extends StatelessWidget {
         ),
       ),
       tooltip: tooltip,
-      icon: Icon(icon, semanticLabel: appLocale.semanticsLogoutLabel,),
+      icon: Icon(icon, semanticLabel: appLocale.semanticsLogout,),
       onPressed: onTap,
     );
   }

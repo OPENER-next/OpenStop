@@ -39,7 +39,7 @@ class AboutScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 20.0),
                 child: Semantics(
-                  label: appLocale.semanticsSloganLabel,
+                  label: appLocale.semanticsSlogan,
                   child: Text(
                     appLocale.aboutSlogan,
                     style: const TextStyle(fontStyle: FontStyle.italic),
@@ -107,7 +107,7 @@ class AboutScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Image.asset(
                           'assets/images/logos/BMDV_Fz_2021_Office_Farbe_de.png',
-                          semanticLabel: appLocale.semanticsFederalMinistryImageLabel
+                          semanticLabel: appLocale.semanticsFederalMinistryImage
                         ),
                       ),
                     ),
@@ -117,7 +117,7 @@ class AboutScreen extends StatelessWidget {
                         padding: const EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 50.0),
                         child: Image.asset(
                           'assets/images/logos/mFUND_Logo_sRGB.png',
-                          semanticLabel: appLocale.semanticsMFundImageLabel
+                          semanticLabel: appLocale.semanticsMFundImage
                         ),
                       ),
                     ),

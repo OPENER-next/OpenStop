@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/models/answer.dart';
@@ -33,9 +32,6 @@ class ListInput extends QuestionInputWidget<ListAnswerDefinition, ListAnswer> {
   }
 
   void _handleChange(int selectedIndex, AppLocalizations appLocale) {
-    selectedIndex != controller.answer?.value
-      ? SemanticsService.announce(appLocale.semanticsSelectedAnswerLabel, TextDirection.ltr)
-      : SemanticsService.announce(appLocale.semanticsUnselectedAnswerLabel, TextDirection.ltr);
     controller.answer = selectedIndex != controller.answer?.value
       ? ListAnswer(
         definition: definition,
@@ -102,100 +98,100 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
-    final appLocale = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final buttonShape = theme.outlinedButtonTheme.style?.shape?.resolve({});
     final innerBorderRadius = buttonShape is RoundedRectangleBorder
         ? buttonShape.borderRadius.subtract(BorderRadius.circular(widget.imagePadding))
         : BorderRadius.zero;
-    return OutlinedButton(
-      style: _toggleStyle(widget.active),
-      onPressed: widget.onTap,
-      child: Row(
-        children: [
-          Flexible(
-            flex: 3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 16.0,
-                    top: 8.0,
-                    right: 8.0,
-                    bottom: 8.0,
-                  ),
-                  child: Semantics(
-                    hint: widget.active 
-                      ? appLocale.semanticsSelectedAnswerLabel
-                      : appLocale.semanticsUnselectedAnswerLabel,
-                    child: Text(
-                      semanticsLabel: '${widget.label} ${widget.description ?? ''}',
-                      widget.label,
-                      textAlign: TextAlign.left,
+    return MergeSemantics(
+      child: OutlinedButton(
+        style: _toggleStyle(widget.active),
+        onPressed: widget.onTap,
+        child: Row(
+          children: [
+            Flexible(
+              flex: 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 16.0,
+                      top: 8.0,
+                      right: 8.0,
+                      bottom: 8.0,
+                    ),
+                    child: Semantics(
+                      container: true,
+                      selected: widget.active, 
+                      child: Text(
+                        semanticsLabel: '${widget.label} ${widget.description ?? ''}',
+                        widget.label,
+                        textAlign: TextAlign.left,
+                      ),
                     ),
                   ),
-                ),
-                if (widget.description != null)
-                  SizeTransition(
-                    axisAlignment: -1,
-                    sizeFactor: _animation,
-                    child: FadeTransition(
-                      opacity: _animation,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 16.0,
-                          right: 8.0,
-                          bottom: 8.0,
-                        ),
-                        child: Text(
-                          widget.description!,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 12,
+                  if (widget.description != null)
+                    SizeTransition(
+                      axisAlignment: -1,
+                      sizeFactor: _animation,
+                      child: FadeTransition(
+                        opacity: _animation,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            left: 16.0,
+                            right: 8.0,
+                            bottom: 8.0,
+                          ),
+                          child: Text(
+                            widget.description!,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 12,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
-          ),
-          if (widget.imagePath != null)
-          Expanded(
-            flex: 2,
-            // HeroViewer cannot be wrapped around since the returned error widget
-            // represents a different widget wherefore the hero transition would fail.
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(0, widget.imagePadding, widget.imagePadding, widget.imagePadding),
-              child: ClipRRect(
-                borderRadius: innerBorderRadius,
-                // hero viewer cannot be used in frame builder
-                // because the builder may be called after the page route transition starts
-                child: ExcludeSemantics(
-                  child:HeroViewer(
-                    child: Image.asset(
-                      widget.imagePath!,
-                      fit: BoxFit.cover,
-                      // Static background color for better visibility of illustrations
-                      // with transparency, especially in dark mode
-                      colorBlendMode: BlendMode.dstOver,
-                      color: Colors.grey.shade100,
-                      height: 90,
-                      errorBuilder: (context, _, __) {
-                        return Image.asset(
-                          'assets/images/placeholder_image.png',
-                          fit: BoxFit.cover,
-                          height: 90,
-                        );
-                      },
+            if (widget.imagePath != null)
+            Expanded(
+              flex: 2,
+              // HeroViewer cannot be wrapped around since the returned error widget
+              // represents a different widget wherefore the hero transition would fail.
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(0, widget.imagePadding, widget.imagePadding, widget.imagePadding),
+                child: ClipRRect(
+                  borderRadius: innerBorderRadius,
+                  // hero viewer cannot be used in frame builder
+                  // because the builder may be called after the page route transition starts
+                  child: ExcludeSemantics(
+                    child:HeroViewer(
+                      child: Image.asset(
+                        widget.imagePath!,
+                        fit: BoxFit.cover,
+                        // Static background color for better visibility of illustrations
+                        // with transparency, especially in dark mode
+                        colorBlendMode: BlendMode.dstOver,
+                        color: Colors.grey.shade100,
+                        height: 90,
+                        errorBuilder: (context, _, __) {
+                          return Image.asset(
+                            'assets/images/placeholder_image.png',
+                            fit: BoxFit.cover,
+                            height: 90,
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

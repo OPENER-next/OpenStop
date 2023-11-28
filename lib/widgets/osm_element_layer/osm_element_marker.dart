@@ -60,73 +60,78 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
   Widget build(BuildContext context) {
     // add repaint boundary for performance improvement
     // this way a marker will only be redrawn if itself changes
-    return RepaintBoundary(
-      child: Center(
-        child: GestureDetector(
-          onTap: widget.onTap,
-          child: AnimatedBuilder(
-            animation: _animation,
-            builder: (_, __) => MarkerBubble(
-              shadowColor: Theme.of(context).colorScheme.shadow.withOpacity(0.4),
-              elevation: _animation.value * 2,
-              child: Padding(
-                padding: const EdgeInsets.all(3),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AspectRatio(
-                      aspectRatio: 1,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primary,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(7),
-                          child: FittedBox(
-                            child: Icon(widget.icon,
-                              color: Colors.white,
-                              shadows: const [
-                                Shadow(
-                                  color: Colors.black12,
-                                  blurRadius: 0,
-                                  offset: Offset(2, 2)
-                                ),
-                              ],
-                            ),
+    return Semantics(
+      label: widget.label,
+      child: RepaintBoundary(
+        child: Center(
+          child: GestureDetector(
+            onTap: widget.active ? null : widget.onTap,
+            child: AnimatedBuilder(
+              animation: _animation,
+              builder: (_, __) => MarkerBubble(
+                shadowColor: Theme.of(context).colorScheme.shadow.withOpacity(0.4),
+                elevation: _animation.value * 2,
+                child: Padding(
+                  padding: const EdgeInsets.all(3),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AspectRatio(
+                        aspectRatio: 1,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primary,
+                            shape: BoxShape.circle,
                           ),
-                        ),
-                      ),
-                    ),
-                    if (widget.label.isNotEmpty && !_animation.isDismissed) Flexible(
-                      // this is basically a custom version of SizeTransition
-                      // because it doesn't allow setting the cross axis alignment
-                      child: ClipRect(
-                        child: Align(
-                          alignment: AlignmentDirectional.centerEnd,
-                          widthFactor: _animation.value,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(widget.label,
-                              softWrap: true,
-                              maxLines: 2,
-                              style: TextStyle(
-                                color: Colors.grey.shade900,
-                                fontSize: 16,
-                                overflow: TextOverflow.ellipsis,
+                            padding: const EdgeInsets.all(7),
+                            child: FittedBox(
+                              child: Icon(widget.icon,
+                                color: Colors.white,
+                                shadows: const [
+                                  Shadow(
+                                    color: Colors.black12,
+                                    blurRadius: 0,
+                                    offset: Offset(2, 2)
+                                  ),
+                                ],
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                      if (widget.label.isNotEmpty && !_animation.isDismissed) Flexible(
+                        // this is basically a custom version of SizeTransition
+                        // because it doesn't allow setting the cross axis alignment
+                        child: ExcludeSemantics(
+                          child: ClipRect(
+                            child: Align(
+                              alignment: AlignmentDirectional.centerEnd,
+                              widthFactor: _animation.value,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                child: Text(widget.label,
+                                  softWrap: true,
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                    color: Colors.grey.shade900,
+                                    fontSize: 16,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
         ),
-      ),
+      )
     );
   }
 

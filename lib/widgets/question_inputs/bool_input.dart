@@ -2,7 +2,6 @@
 // required till https://github.com/dart-lang/sdk/issues/48401 is resolved
 
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/models/answer.dart';
@@ -28,30 +27,27 @@ class BoolInput extends QuestionInputWidget<BoolAnswerDefinition, BoolAnswer> {
         alignment: WrapAlignment.spaceBetween,
         children: List.generate(2, (index) {
           final state = index == 0;
-          return _BoolInputItem(
-            label: Semantics(
-              hint: controller.answer?.value == state 
-                ? appLocale.semanticsSelectedAnswerLabel
-                : appLocale.semanticsUnselectedAnswerLabel,
-              child: Text(definition.input[index].name ?? 
-                    (state ? appLocale.yes : appLocale.no)),
-            ),
+          return MergeSemantics(
+            child:_BoolInputItem(
+              label: Semantics(
+                container: true, 
+                selected: controller.answer?.value == state, 
+                child: Text(definition.input[index].name ?? 
+                  (state ? appLocale.yes : appLocale.no)),
+              ),
             onTap: () => _handleChange(state, appLocale),
             active: controller.answer?.value == state,
             backgroundColor: theme.colorScheme.primary.withOpacity(0),
             activeBackgroundColor: theme.colorScheme.primary,
             foregroundColor: theme.colorScheme.primary,
             activeForegroundColor: theme.colorScheme.onPrimary,
-          );
+          ),);
         }, growable: false),
       ),
     );
   }
 
   void _handleChange(bool selectedState, AppLocalizations appLocale) {
-    controller.answer?.value != selectedState
-    ? SemanticsService.announce(appLocale.semanticsSelectedAnswerLabel, TextDirection.ltr)
-    : SemanticsService.announce(appLocale.semanticsUnselectedAnswerLabel, TextDirection.ltr);
     controller.answer = controller.answer?.value != selectedState
       ? BoolAnswer(
         definition: definition,

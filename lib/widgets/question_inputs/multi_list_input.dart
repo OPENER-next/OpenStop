@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/models/answer.dart';
@@ -36,11 +35,6 @@ class MultiListInput extends QuestionInputWidget<MultiListAnswerDefinition, Mult
   void _handleChange(int selectedIndex, AppLocalizations appLocale) {
     final List<int> newValue;
     final isSelected = controller.answer?.value.contains(selectedIndex) ?? false;
-
-    !isSelected
-      ? SemanticsService.announce(appLocale.semanticsSelectedAnswerLabel, TextDirection.ltr)
-      : SemanticsService.announce(appLocale.semanticsUnselectedAnswerLabel, TextDirection.ltr);
-
     if (isSelected) {
       newValue = controller.answer!.value
         .where((index) => selectedIndex != index)

@@ -37,7 +37,7 @@ class QuestionSummary extends StatelessWidget {
             child: Semantics( 
               liveRegion: true,
               focused: true,
-              label:appLocale.semanticsSummaryLabel,
+              label:appLocale.semanticsSummary,
               child: Text(
                 userName != null
                   ? appLocale.questionnaireSummaryDedicatedMessage(userName!)
@@ -79,7 +79,8 @@ class QuestionSummary extends StatelessWidget {
     final question = questions[index];
     final answer = answers[index];
 
-    return Material(
+    return Semantics( hint: appLocale.semanticsReviewQuestion, child:
+Material(
       type: MaterialType.transparency,
       child: InkWell(
         onTap: () => onJump?.call(index),
@@ -91,9 +92,8 @@ class QuestionSummary extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.chevron_left_rounded,
-                semanticLabel: appLocale.semanticsReviewQuestionLabel,
               ),
               ConstrainedBox(
                 constraints: const BoxConstraints(minWidth: 100, maxWidth: 200),
@@ -114,6 +114,6 @@ class QuestionSummary extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ),);
   }
 }

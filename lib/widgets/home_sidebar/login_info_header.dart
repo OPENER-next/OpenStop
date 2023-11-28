@@ -23,36 +23,34 @@ class LoginInfoHeader extends StatelessWidget {
         right: 15,
         bottom: 25,
       ),
-      child: MergeSemantics(
-        child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            appLocale.loginHint,
-            style: TextStyle(
-              fontSize: 13,
-              color: theme.colorScheme.onPrimary,
+      child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ExcludeSemantics(
+              child: Text(
+                appLocale.loginHint,
+                style: TextStyle(
+                  fontSize: 13,
+                  color: theme.colorScheme.onPrimary,
+                ),
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Semantics(
-            label: appLocale.semanticsLoginHint,
-            child: ElevatedButton.icon(
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                 foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
               ),
               onPressed: onLoginTap,
-              label: Text(appLocale.login),
+              label: Semantics(hint: appLocale.semanticsLoginHint, child: Text(appLocale.login),),
               icon: const Icon(Icons.login_rounded),
             ),
-          ),
-        ],
+          ],
         ),
-      ),
+
     );
   }
 }

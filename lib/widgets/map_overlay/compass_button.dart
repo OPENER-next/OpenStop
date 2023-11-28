@@ -30,30 +30,28 @@ class CompassButton extends StatelessWidget {
       shape: const CircleBorder(),
       child: Transform.rotate(
         angle: rotation * (isDegree ? _piFraction : 1),
-        child: Semantics(
-          label: appLocale.semanticsResetRotationButtonLabel,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                MdiIcons.triangle,
-                color: Colors.red,
-                size: 9,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              MdiIcons.triangle,
+              color: Colors.red,
+              size: 9,
+              semanticLabel: appLocale.semanticsResetRotationButton,
+            ),
+            Text(
+              'N',
+              style: TextStyle(
+                height: 1.1,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+                letterSpacing: 0
               ),
-              Text(
-                'N',
-                style: TextStyle(
-                  height: 1.1,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                  letterSpacing: 0
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ), 
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }

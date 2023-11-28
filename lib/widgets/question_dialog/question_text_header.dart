@@ -1,3 +1,4 @@
+import 'package:flutter/semantics.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -96,12 +97,14 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
     return Semantics(
       liveRegion: true,
       focused: true,
-      label: appLocale.semanticsQuestionSentenceLabel,
+      label: appLocale.semanticsQuestionSentence,
+      blockUserActions: excludeAdditionalInfo,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: !hasAdditionalInfo ? null : () {
           _selected = !_selected;
           if (_selected) {
+            SemanticsService.announce(widget.details, Directionality.of(context));
             _animationController.forward();
           }
           else {
@@ -130,7 +133,6 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                       ),
                     ),
                     if (hasAdditionalInfo) ExcludeSemantics(
-                      excluding: excludeAdditionalInfo,
                       child: AnimatedBuilder(
                         animation: _fillColorAnimation,
                         builder: (context, child) {
@@ -157,7 +159,6 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                 )
               ),
               if (hasAdditionalInfo) ExcludeSemantics(
-                excluding: excludeAdditionalInfo,
                 child: SizeTransition(
                   axisAlignment: -1,
                   sizeFactor: _sizeAnimation,
@@ -179,40 +180,40 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                               )
                             )
                           ),
-                          if (widget.images.isNotEmpty) ConstrainedBox(
-                            constraints: const BoxConstraints(
-                              maxHeight: 90
-                            ),
-                            child: ShaderMask(
-                              blendMode: BlendMode.dstOut,
-                              shaderCallback: (Rect bounds) {
-                                final leftProportion = horizontalPadding.left / bounds.width;
-                                final rightProportion = horizontalPadding.right / bounds.width;
-                                return LinearGradient(
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                  stops: [0, leftProportion, 1 - rightProportion, 1],
-                                  colors: const [
-                                    Colors.white,
-                                    Colors.transparent,
-                                    Colors.transparent,
-                                    Colors.white,
-                                  ],
-                                ).createShader(bounds);
-                              },
-                              child: ListView.separated(
-                                padding: horizontalPadding,
-                                clipBehavior: Clip.none,
-                                physics: const BouncingScrollPhysics(),
-                                scrollDirection: Axis.horizontal,
-                                itemCount: widget.images.length,
-                                separatorBuilder: (context, index) => const SizedBox(width: 10),
-                                itemBuilder: (context, index) {
-                                  return ClipRRect(
-                                    borderRadius: BorderRadius.circular(Default.borderRadius),
-                                    // hero viewer cannot be used in frame builder
-                                    // because the builder may be called after the page route transition starts
-                                    child: ExcludeSemantics(
+                          if (widget.images.isNotEmpty) ExcludeSemantics(
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(
+                                maxHeight: 90
+                              ),
+                              child: ShaderMask(
+                                blendMode: BlendMode.dstOut,
+                                shaderCallback: (Rect bounds) {
+                                  final leftProportion = horizontalPadding.left / bounds.width;
+                                  final rightProportion = horizontalPadding.right / bounds.width;
+                                  return LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    stops: [0, leftProportion, 1 - rightProportion, 1],
+                                    colors: const [
+                                      Colors.white,
+                                      Colors.transparent,
+                                      Colors.transparent,
+                                      Colors.white,
+                                    ],
+                                  ).createShader(bounds);
+                                },
+                                child: ListView.separated(
+                                  padding: horizontalPadding,
+                                  clipBehavior: Clip.none,
+                                  physics: const BouncingScrollPhysics(),
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: widget.images.length,
+                                  separatorBuilder: (context, index) => const SizedBox(width: 10),
+                                  itemBuilder: (context, index) {
+                                    return ClipRRect(
+                                      borderRadius: BorderRadius.circular(Default.borderRadius),
+                                      // hero viewer cannot be used in frame builder
+                                      // because the builder may be called after the page route transition starts
                                       child: HeroViewer(
                                         child: Image.asset(
                                           widget.images[index],
@@ -223,12 +224,12 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                                           },
                                         ),
                                       ), 
-                                    ),
-                                  );
-                                },
-                              ),
-                            )
-                          )
+                                    );
+                                  },
+                                ),
+                              )
+                            ),
+                          ),
                         ],
                       )
                     )

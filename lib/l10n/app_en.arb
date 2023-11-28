@@ -345,30 +345,30 @@
     }
   },
 
-  "semanticsLoginHint" : "Press the button to log in to your account.",
+  "semanticsLoginHint" : "Log in with your OpenStreetMap account to upload your changes.",
   "@semanticsLoginHint" : {},
-  "semanticsFlutterMapLabel" : "Map screen",
-  "@semanticsFlutterMapLabel" : {},
-  "semanticsReturnToMapLabel" : "Close questionnaire and return to map",
-  "@semanticsReturnToMapLabel" : {},
-  "semanticsDotsIndicatorLabel" : "Move to page {number}",
-  "@semanticsDotsIndicatorLabel" : {
+  "semanticsFlutterMap" : "Map screen",
+  "@semanticsFlutterMap" : {},
+  "semanticsReturnToMap" : "Close questionnaire and return to map",
+  "@semanticsReturnToMap" : {},
+  "semanticsDotsIndicator" : "Page {number}",
+  "@semanticsDotsIndicator" : {
     "placeholders": {
       "number": {
         "type": "num"
       }
     }
   },
-  "semanticsPageIndicatorsLabel" : "There are {number} introduction pages, select the one you would like to view.",
-  "@semanticsPageIndicatorsLabel" : {
+  "semanticsPageIndicators" : "There are {number} introduction pages, select the one you would like to view.",
+  "@semanticsPageIndicators" : {
     "placeholders": {
       "number": {
         "type": "num"
       }
     }
   },
-  "semanticsIntroductionPageLabel" : "Introduction page {number} of {count}",
-  "@semanticsIntroductionPageLabel" : {
+  "semanticsIntroductionPage" : "Introduction page {number} of {count}",
+  "@semanticsIntroductionPage" : {
     "placeholders": {
       "number": {
         "type": "num"
@@ -378,54 +378,50 @@
       }
     }
   },
-  "semanticsSloganLabel" : "Slogan",
-  "@semanticsSloganLabel" : {},
-  "semanticsMFundImageLabel" : "Funded by mFUND",
-  "@semanticsMFundImageLabel" : {},
-  "semanticsFederalMinistryImageLabel" : "Funded by Federal Ministry of Transport and Digital Infrastructure",
-  "@semanticsFederalMinistryImageLabel" : {},
-  "semanticsSettingsDialogBoxLabel" : "Choose your preferred theme for the app.",
-  "@semanticsSettingsDialogBoxLabel" : {},
-  "semanticsNavigationMenuLabel" : "Navigation menu",
-  "@semanticsNavigationMenuLabel" : {},
-  "semanticsResetRotationButtonLabel" : "Reset map rotation to North.",
-  "@semanticsResetRotationButtonLabel" : {},
-  "semanticsCurrentLocationButtonLabel" : "Set map to current location.",
-  "@semanticsCurrentLocationButtonLabel" : {},
-  "semanticsZoomInButtonLabel" : "Zoom in map",
-  "@semanticsZoomInButtonLabel" : {},
-  "semanticsZoomOutButtonLabel" : "Zoom out map",
-  "@semanticsZoomOutButtonLabel" : {},
-  "semanticsMapLayerButtonLabel" : "Switch map layer",
-  "@semanticsMapLayerButtonLabel" : {},
-  "semanticsMapLayerOptionLabel" : "Layer option {name}",
-  "@semanticsMapLayerOptionLabel" : {
+  "semanticsSlogan" : "Slogan",
+  "@semanticsSlogan" : {},
+  "semanticsMFundImage" : "Funded by mFUND",
+  "@semanticsMFundImage" : {},
+  "semanticsFederalMinistryImage" : "Funded by Federal Ministry of Transport and Digital Infrastructure",
+  "@semanticsFederalMinistryImage" : {},
+  "semanticsSettingsDialogBox" : "Choose your preferred app theme",
+  "@semanticsSettingsDialogBox" : {},
+  "semanticsNavigationMenu" : "Navigation menu",
+  "@semanticsNavigationMenu" : {},
+  "semanticsResetRotationButton" : "Reset map rotation to North.",
+  "@semanticsResetRotationButton" : {},
+  "semanticsCurrentLocationButton" : "Set map to current location.",
+  "@semanticsCurrentLocationButton" : {},
+  "semanticsZoomInButton" : "Zoom in map",
+  "@semanticsZoomInButton" : {},
+  "semanticsZoomOutButton" : "Zoom out map",
+  "@semanticsZoomOutButton" : {},
+  "semanticsMapLayerButton" : "Switch map layer",
+  "@semanticsMapLayerButton" : {},
+  "semanticsMapLayerOption" : "Layer option {name}",
+  "@semanticsMapLayerOption" : {
     "placeholders": {
       "name": {
         "type": "String"
       }
     }
   },
-  "semanticsQuestionSentenceLabel" : "The question is: ",
-  "@semanticsQuestionSentenceLabel" : {},
+  "semanticsQuestionSentence" : "The question is: ",
+  "@semanticsQuestionSentence" : {},
   "semanticsFurtherInformationIcon" : "Tap for further information.",
   "@semanticsFurtherInformationIcon" : {},
-  "semanticsUploadQuestionsButtonLabel" : "Share your answers",
-  "@semanticsUploadQuestionsButtonLabel" : {},
-  "semanticsBackQuestionButtonLabel" : "Return to previous question.",
-  "@semanticsBackQuestionButtonLabel" : {},
-  "semanticsNextQuestionButtonLabel" : "{option} question",
-  "@semanticsNextQuestionButtonLabel" : {
-    "placeholders": {
-      "option": {
-        "type": "String"
-      }
-    }
-  },
-  "semanticsFinishQuestionnaireButtonLabel" : "Finish questionnaire",
-  "@semanticsFinishQuestionnaireButtonLabel" : {},
-  "semanticsSummaryLabel" : "Summary",
-  "@semanticsSummaryLabel" : {},
+  "semanticsUploadQuestionsButton" : "Share your answers",
+  "@semanticsUploadQuestionsButton" : {},
+  "semanticsBackQuestionButton" : "Return to previous question.",
+  "@semanticsBackQuestionButton" : {},
+  "semanticsNextQuestionButton" : "Next question",
+  "@semanticsNextQuestionButton" : {},
+  "semanticsSkipQuestionButton" : "Skip question",
+  "@semanticsSkipQuestionButton" : {},
+  "semanticsFinishQuestionnaireButton" : "Finish questionnaire",
+  "@semanticsFinishQuestionnaireButton" : {},
+  "semanticsSummary" : "Summary",
+  "@semanticsSummary" : {},
   "semanticsCloseNavigationMenuButton" : "Close navigation menu.",
   "@semanticsCloseNavigationMenuButton" : {},
   "semanticsCloseQuestionnaireAnnounce" : "Questionnaire is closed",
@@ -440,20 +436,22 @@
       }
     }
   },
-  "semanticsUserLabel" : "User {username} tap to open browser profile",
-  "@semanticsUserLabel" : {
+  "semanticsUser" : "User {username} tap to open browser profile",
+  "@semanticsUser" : {
     "username": {
     "type": "String"
     }
   },
-  "semanticsLogoutLabel" : "Log out from your user account",
-  "@semanticsLogoutLabel" : {},
-  "semanticsClearFieldLabel" : "Clear field",
-  "@semanticsClearFieldLabel" : {},
-  "semanticsReviewQuestionLabel" : "Tab to return to question",
-  "@semanticsReviewQuestionLabel" : {},
-  "semanticsSelectedAnswerLabel" : "Selected",
-  "@semanticsSelectedAnswerLabel" : {},
-  "semanticsUnselectedAnswerLabel" : "Unselected",
-  "@semanticsSelectedAnswerLabel" : {}
+  "semanticsLogout" : "Log out from your user account",
+  "@semanticsLogout" : {},
+  "semanticsClearField" : "Clear field",
+  "@semanticsClearField" : {},
+  "semanticsReviewQuestion" : "Tab to return to question",
+  "@semanticsReviewQuestion" : {},
+  "semanticsNextStepOnboarding" : "Next step",
+  "@semanticsNextStepOnboarding" : {},
+  "semanticsFinishOnboarding" : "Finish introduction",
+  "@semanticsFinishOnboarding" : {},
+  "semanticsCredits" : "Credits",
+  "@semanticsCredits" : {}
 }
