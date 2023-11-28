@@ -1,0 +1,11 @@
+Localization:
+  - App can now be translated into other languages
+  - Fully translated into English
+Network traffic:
+  - Only load high resolution tiles on high resolution displays
+  - Fixed map tile caching - due to a dependency bug map tiles were not cached in memory leading to unnecessary traffic.
+Miscellaneous:
+  - Removed map layer switcher and set to public transport layer
+  - Fixed wrong tags for platform lifts and ramps
+  - Minor bug fixes
+  - Minor spelling corrections
