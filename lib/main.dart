@@ -12,6 +12,7 @@ import '/commons/routes.dart';
 import '/api/preferences_service.dart';
 import '/api/app_worker/app_worker_interface.dart';
 import '/models/question_catalog/question_catalog_reader.dart';
+import 'widgets/locale_change_notifier.dart';
 
 Future <void> main() async {
   // this is required to run flutter dependent code before runApp is called
@@ -74,6 +75,10 @@ class MyApp extends StatelessObserverWidget {
       // used instead of home: because otherwise no pop page transition to the first screen will be applied
       onGenerateRoute: (settings) => hasSeenOnboarding ? Routes.home : Routes.onboarding,
       theme: lightTheme,
+      builder: (context, child) => LocaleChangeNotifier(
+        onChange: GetIt.I.get<AppWorkerInterface>().updateLocales,
+        child: child,
+      ),
       darkTheme: darkTheme,
       highContrastTheme: highContrastLightTheme,
       highContrastDarkTheme: highContrastDarkTheme,

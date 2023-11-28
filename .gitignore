@@ -46,4 +46,4 @@ app.*.map.json
 /android/app/release
 
 # Auto-generated files
-lib/commons/version.g.dart
+lib/**/*.g.dart

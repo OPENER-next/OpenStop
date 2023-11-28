@@ -23,7 +23,6 @@ import '/widgets/question_inputs/question_input_widget.dart';
 import '/api/user_account_service.dart';
 import '/api/preferences_service.dart';
 import '/api/user_location_service.dart';
-import '/commons/tile_layers.dart';
 import '/utils/geo_utils.dart';
 import '/utils/map_utils.dart';
 import '/api/app_worker/app_worker_interface.dart';
@@ -159,19 +158,9 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   /// Preferences properties ///
   //////////////////////////////
 
-  TileLayerId get tileLayerId => _preferencesService.tileLayerId;
-
-  TileLayerDefinition get tileLayer => tileLayers[tileLayerId]!;
-
   LatLng get storedMapLocation => _preferencesService.mapLocation;
   double get storedMapRotation => _preferencesService.mapRotation;
   double get storedMapZoom => _preferencesService.mapZoom;
-
-  /// Store and apply selected tile layer id.
-
-  late final updateTileProvider = Action(
-    (TileLayerId value) => _preferencesService.tileLayerId = value,
-  );
 
   //////////////////////
   /// Map properties ///
@@ -364,7 +353,6 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
         // this automatically closes the questionaire
         await _appWorker.uploadQuestionnaire(
           user: _userAccountService.authenticatedUser!,
-          locale: Localizations.localeOf(context)
         );
         notifyUser(appLocale.uploadMessageSuccess);
       }

@@ -158,6 +158,12 @@
   "@minutes": {},
   "seconds": "{second, plural, =1 {1 Sekunde} other {{second} Sekunden}}",
   "@seconds": {},
+  "and": "und",
+  "@and": {},
+  "more": "mehr",
+  "@more": {},
+  "element": "Element",
+  "@element": {},
 
   "durationInputDaysLabel": "Tage",
   "@durationInputDaysLabel": {},
@@ -170,6 +176,11 @@
 
   "osmCreditsText": "Data © OpenStreetMap-Mitwirkende",
   "@osmCreditsText": {},
+
+  "changesetWithStopNameText": "Details zu {elements} im Haltestellenbereich {stopArea} hinzugefügt.",
+  "@changesetWithStopNameText": {},
+  "changesetWithoutStopNameText": "Details zu {elements} im Haltestellenbereich hinzugefügt.",
+  "@changesetWithoutStopNameText": {},
 
   "mapFeatureBusStop" : "Bus-Haltestelle",
   "@mapFeatureBusStop" : {},

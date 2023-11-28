@@ -1,5 +1,8 @@
 import '/models/expression_handler.dart';
 
+
+typedef TagValuesResolver = Iterable<String> Function (String key);
+
 /// This class handles the OSM tags construction.
 ///
 /// It contains an OSM tag to expression mapping. The final OSM tags can be retrieved by calling the [construct] method.
@@ -24,21 +27,22 @@ class AnswerConstructor with ExpressionHandler {
   ///
   /// Tags with an expression that evaluates to `null` will **not** be written.
 
-  Map<String, String> construct(Map<String, Iterable<String>> tagVariables) {
+  Map<String, String> construct(TagValuesResolver resolver) {
     final map = <String, String>{};
 
     for (final entry in tagConstructorDef.entries) {
       final result = evaluateExpression(entry.value, (varName) sync* {
         if (varName == 'input') {
-          final values = tagVariables[entry.key];
-          if (values != null) {
-            yield* values;
-          }
+          final values = resolver(entry.key);
+          yield* values;
         }
       });
-      // write osm tag if the expression did not return null
-      if (result != null) {
-        map[entry.key] = result;
+      // write first value of expression to osm tag
+      try {
+        map[entry.key] = result.first;
+      }
+      on StateError {
+        // no osm tag will be written
       }
     }
     return map;
