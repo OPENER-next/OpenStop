@@ -21,10 +21,10 @@ runs:
         echo "result=$(yq -r .environment.flutter pubspec.yaml)" >> $GITHUB_OUTPUT
 
     - name: Setup Flutter
-      uses: subosito/flutter-action@v2.10.0
+      uses: subosito/flutter-action@v2
       with:
         flutter-version: ${{ steps.flutterVersion.outputs.result }}
-        channel: 'stable'
+        channel: 'master'
         
     - name: Check Flutter version
       shell: bash
