@@ -24,7 +24,9 @@ runs:
       uses: subosito/flutter-action@v2
       with:
         flutter-version: ${{ steps.flutterVersion.outputs.result }}
-        channel: 'stable'
+        # use master to directly download from git instead of stable which downloads from flutter archive host
+        # also the fdroid build script downloads flutter via git so this ensures reproducibility
+        channel: 'master'
         
     - name: Check Flutter version
       shell: bash
