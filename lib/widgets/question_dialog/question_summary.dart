@@ -35,8 +35,6 @@ class QuestionSummary extends StatelessWidget {
               bottom: 10,
             ),
             child: Semantics( 
-              liveRegion: true,
-              focused: true,
               label:appLocale.semanticsSummary,
               child: Text(
                 userName != null
@@ -79,41 +77,43 @@ class QuestionSummary extends StatelessWidget {
     final question = questions[index];
     final answer = answers[index];
 
-    return Semantics( hint: appLocale.semanticsReviewQuestion, child:
-Material(
-      type: MaterialType.transparency,
-      child: InkWell(
-        onTap: () => onJump?.call(index),
-        child: Padding(
-          padding: const EdgeInsets.only(
-            top: 15,
-            bottom: 15,
-            right: 10,
-          ),
-          child: Row(
-            children: [
-              const Icon(
-                Icons.chevron_left_rounded,
-              ),
-              ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: 100, maxWidth: 200),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Text('$question:')
+    return Semantics( 
+      hint: appLocale.semanticsReviewQuestion, 
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: () => onJump?.call(index),
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 15,
+              bottom: 15,
+              right: 10,
+            ),
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.chevron_left_rounded,
                 ),
-              ),
-              Expanded(
-                child: Text(
-                  answer!,
-                  textAlign: TextAlign.right,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: 100, maxWidth: 200),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Text('$question:')
+                  ),
                 ),
-              ),
-            ],
+                Expanded(
+                  child: Text(
+                    answer!,
+                    textAlign: TextAlign.right,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
-    ),);
+    );
   }
 }

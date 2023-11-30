@@ -62,10 +62,12 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
     // this way a marker will only be redrawn if itself changes
     return Semantics(
       label: widget.label,
+      excludeSemantics: widget.active ? true : false,
+      blockUserActions: widget.active ? true : false,
       child: RepaintBoundary(
         child: Center(
           child: GestureDetector(
-            onTap: widget.active ? null : widget.onTap,
+            onTap: widget.onTap,
             child: AnimatedBuilder(
               animation: _animation,
               builder: (_, __) => MarkerBubble(

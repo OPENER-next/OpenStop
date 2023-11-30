@@ -80,8 +80,8 @@ class _CreditTextState extends State<CreditText> {
 
   @override
   Widget build(BuildContext context) {
-    final creditTextParts = _buildParts(context);
-
+    final creditTextParts = _buildParts();
+    final appLocale = AppLocalizations.of(context)!;
     return Padding(
       padding: widget.padding,
       child: Stack(
@@ -105,14 +105,18 @@ class _CreditTextState extends State<CreditText> {
             ),
           ),
           // Solid text as fill.
-          RichText(
-            textAlign: widget.alignment,
-            text: TextSpan(
-              style: TextStyle(
-                fontSize: 10,
-                color: Theme.of(context).colorScheme.onTertiary,
+          Semantics(
+            container: true,
+            label: appLocale.semanticsCredits,
+            child: RichText(
+              textAlign: widget.alignment,
+              text: TextSpan(
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Theme.of(context).colorScheme.onTertiary,
+                ),
+                children: creditTextParts
               ),
-              children: creditTextParts
             ),
           ),
         ],
@@ -121,41 +125,26 @@ class _CreditTextState extends State<CreditText> {
   }
 
 
-  List<InlineSpan> _buildParts(BuildContext context) {
+  List<InlineSpan> _buildParts() {
     final creditTextParts = <InlineSpan>[
-      if (widget.children.isNotEmpty) _buildPart(0, context)
+      if (widget.children.isNotEmpty) _buildPart(0)
     ];
     for (var i = 1; i < widget.children.length; i++) {
       final separator = widget.separatorBuilder?.call(context, i);
       if (separator != null) {
         creditTextParts.add(separator);
       }
-      creditTextParts.add(_buildPart(i, context));
+      creditTextParts.add(_buildPart(i));
     }
     return creditTextParts;
   }
 
 
-  TextSpan _buildPart(int index, BuildContext contex) {
-      final appLocale = AppLocalizations.of(context)!;
+  TextSpan _buildPart(int index) {
     return TextSpan(
-      recognizer: _gestureRecognizers[index],
-      children: [
-        WidgetSpan(
-          child: Semantics(
-            container: true,
-            label: appLocale.semanticsCredits,
-            link: true,
-            child: Text(
-              widget.children[index].text,
-              style: TextStyle(
-                fontSize: 10,
-                color: Theme.of(context).colorScheme.onTertiary
-              ),
-            ),
-          ),
-        ),
-      ]
+      semanticsLabel: widget.children[index].text,
+      text: widget.children[index].text,
+      recognizer: _gestureRecognizers[index]
     );
   }
 

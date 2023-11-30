@@ -79,7 +79,7 @@ class QuestionNavigationBar extends StatelessWidget {
                     ? _buttonStyle
                     : _buttonStyle.merge(disabledButtonStyle),
                   // if button is disabled vibrate when pressed as additional feedback
-                  onPressed: onNext, // ?? HapticFeedback.vibrate,
+                  onPressed: onNext ?? HapticFeedback.vibrate,
                   isSemanticButton: true,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,

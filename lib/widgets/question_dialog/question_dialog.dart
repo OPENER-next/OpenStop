@@ -164,7 +164,7 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                         onPressed: viewModel.submitQuestionnaire,
                         child: Semantics(
                           container: true,
-                          sortKey:  const OrdinalSortKey(1.0),
+                          sortKey: const OrdinalSortKey(1.0,),
                           child: Icon(
                             Icons.cloud_upload_rounded,
                             color: Theme.of(context).colorScheme.onPrimary,

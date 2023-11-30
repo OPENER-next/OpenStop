@@ -359,7 +359,7 @@
       }
     }
   },
-  "semanticsPageIndicators" : "There are {number} introduction pages, select the one you would like to view.",
+  "semanticsPageIndicators" : "There are {number} introduction pages, select the one you would like to hear.",
   "@semanticsPageIndicators" : {
     "placeholders": {
       "number": {
@@ -396,16 +396,6 @@
   "@semanticsZoomInButton" : {},
   "semanticsZoomOutButton" : "Zoom out map",
   "@semanticsZoomOutButton" : {},
-  "semanticsMapLayerButton" : "Switch map layer",
-  "@semanticsMapLayerButton" : {},
-  "semanticsMapLayerOption" : "Layer option {name}",
-  "@semanticsMapLayerOption" : {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "semanticsQuestionSentence" : "The question is: ",
   "@semanticsQuestionSentence" : {},
   "semanticsFurtherInformationIcon" : "Tap for further information.",
@@ -428,14 +418,6 @@
   "@semanticsCloseQuestionnaireAnnounce": {},
   "semanticsOpenQuestionnaireAnnounce" : "Questionnaire is open",
   "@semanticsOpenQuestionnaireAnnounce" : {},
-  "semanticsDistanceReferenceAnnounce" : "{number} meters of distance from your current position",
-  "@semanticsDistanceReferenceAnnounce" : {
-    "placeholders": {
-      "number": {
-        "type": "num"
-      }
-    }
-  },
   "semanticsUser" : "User {username} tap to open browser profile",
   "@semanticsUser" : {
     "username": {

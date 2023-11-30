@@ -123,7 +123,7 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                     ),
                     child: Semantics(
                       container: true,
-                      selected: widget.active, 
+                      selected: widget.active,
                       child: Text(
                         semanticsLabel: '${widget.label} ${widget.description ?? ''}',
                         widget.label,
