@@ -7,7 +7,7 @@ publish_to: 'none'
 # Remember:
 # Create a new git tag (like so: v0.4.2) to trigger F-Droid and GitHub build scripts
 # Create changelog file for F-Droid release
-version: 0.5.0+15
+version: 0.6.1+17
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -57,6 +57,12 @@ dependencies:
   mobx: ^2.2.0
   flutter_mobx: ^2.0.6+5
   intl: ^0.18.0
+
+dependency_overrides:
+  flutter_map:
+    git:
+      url: https://github.com/fleaflet/flutter_map.git
+      ref: 2ba0c996b14d1bd989cc1211e514658613e3d5ac
 
 dev_dependencies:
   flutter_test:
