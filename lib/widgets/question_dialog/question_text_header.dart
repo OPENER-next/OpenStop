@@ -100,7 +100,6 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
         onTap: !hasAdditionalInfo ? null : () {
           _selected = !_selected;
           if (_selected) {
-            _animationController.reverse();
             _animationController.forward();
           }
           else {
