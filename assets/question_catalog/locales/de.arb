@@ -248,7 +248,7 @@
   "@doorWidthName" : {},
   "doorWidthText" : "Wie breit ist der Durchgang?",
   "@doorWidthText" : {},
-  "doorWidthDescription" : "Die Durchgangsbreite wird erfasst, um festzustellen ob Rollstühle, Kinderwagen etc. Den Durchgang passieren können. Es ist lediglich die nutzbare Türöffnung (Innenmaße der geöffneten Tür) zu messen.",
+  "doorWidthDescription" : "Die Durchgangsbreite wird erfasst, um festzustellen ob Rollstühle, Kinderwagen etc. den Durchgang passieren können. Es ist lediglich die nutzbare Türöffnung (Innenmaße der geöffneten Tür) zu messen.",
   "@doorWidthDescription" : {},
   "doorWidthPlaceholder" : "Breite",
   "@doorWidthPlaceholder" : {},
