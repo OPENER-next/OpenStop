@@ -71,6 +71,8 @@ class QuestionNavigationBar extends StatelessWidget {
               ? null
               : Semantics(
                 container: true,
+                button: true,
+                enabled: onNext != null,
                 sortKey: const OrdinalSortKey(1.0, name: 'questionDialog'),
                 child: TextButton(
                   key: ValueKey(nextText),

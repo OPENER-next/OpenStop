@@ -398,8 +398,6 @@
   "@semanticsZoomOutButton" : {},
   "semanticsQuestionSentence" : "The question is: ",
   "@semanticsQuestionSentence" : {},
-  "semanticsFurtherInformationIcon" : "Tap for further information.",
-  "@semanticsFurtherInformationIcon" : {},
   "semanticsUploadQuestionsButton" : "Share your answers",
   "@semanticsUploadQuestionsButton" : {},
   "semanticsBackQuestionButton" : "Return to previous question.",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart' hide View;
+import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:animated_location_indicator/animated_location_indicator.dart';
@@ -181,13 +182,37 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                       );
                     },
                     child: viewModel.hasQuestionnaire
-                      ? QuestionDialog(
-                        activeQuestionIndex: viewModel.currentQuestionnaireIndex!,
-                        questions: viewModel.questionnaireQuestions,
-                        answers: viewModel.questionnaireAnswers,
-                        showSummary: viewModel.questionnaireIsFinished,
-                        key: viewModel.selectedElementKey,
-                      )
+                      ? BlockSemantics(
+                          child: Stack(
+                            children: [
+                              Semantics(
+                              sortKey: const OrdinalSortKey(2.0, name: 'QuestionSheet'),
+                               child: Visibility(
+                                visible: false,
+                                maintainState: true,
+                                maintainSemantics: true,
+                                maintainSize: true,
+                                maintainAnimation: true,
+                                maintainInteractivity: true,
+                                child: ModalBarrier(
+                                  onDismiss: () => viewModel.closeQuestionnaire(),
+                                  semanticsLabel: appLocale.semanticsCloseNavigationMenuButton,
+                                ),
+                              ),
+                              ),
+                               Semantics(
+                              sortKey: const OrdinalSortKey(1.0, name: 'QuestionSheet'),
+                               child: QuestionDialog(
+
+                                activeQuestionIndex: viewModel.currentQuestionnaireIndex!,
+                                questions: viewModel.questionnaireQuestions,
+                                answers: viewModel.questionnaireAnswers,
+                                showSummary: viewModel.questionnaireIsFinished,
+                                key: viewModel.selectedElementKey,
+                              ),),
+                             ]
+                          ),
+                        )
                       : null
                   );
                 },

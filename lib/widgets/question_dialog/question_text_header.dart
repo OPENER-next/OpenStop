@@ -90,11 +90,11 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
     const horizontalPadding = EdgeInsets.symmetric(horizontal: 20);
     final appLocale = AppLocalizations.of(context)!;
     final hasAdditionalInfo = widget.details.isNotEmpty || widget.images.isNotEmpty;
-    final excludeAdditionalInfo = widget.details.isEmpty;
-    
+
     return Semantics(
       label: appLocale.semanticsQuestionSentence,
-      blockUserActions: excludeAdditionalInfo,
+      hint: widget.details,
+      blockUserActions: true,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: !hasAdditionalInfo ? null : () {
@@ -127,8 +127,7 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                         ),
                       ),
                     ),
-                    if (hasAdditionalInfo) Semantics(
-                      excludeSemantics: excludeAdditionalInfo ? true : _selected ? true : false,
+                    if (hasAdditionalInfo) ExcludeSemantics(
                       child: AnimatedBuilder(
                         animation: _fillColorAnimation,
                         builder: (context, child) {
@@ -145,7 +144,6 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                             child: Icon(
                               MdiIcons.informationVariant,
                               color: _iconColorAnimation.value!,
-                              semanticLabel: appLocale.semanticsFurtherInformationIcon,
                             )
                           );
                         },
@@ -154,82 +152,82 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                   ]
                 )
               ),
-              if (hasAdditionalInfo) SizeTransition(
-                axisAlignment: -1,
-                sizeFactor: _sizeAnimation,
-                child: FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (widget.details.isNotEmpty) Padding(
-                          padding: widget.images.isNotEmpty
-                            ? horizontalPadding + const EdgeInsets.only(bottom: 10)
-                            : horizontalPadding,
-                          child: Text(
-                            widget.details,
-                            style: const TextStyle(
-                              fontSize: 12,
-                            )
-                          )
-                        ),
-                        if (widget.images.isNotEmpty) ExcludeSemantics(
-                          child: ConstrainedBox(
-                            constraints: const BoxConstraints(
-                              maxHeight: 90
-                            ),
-                            child: ShaderMask(
-                              blendMode: BlendMode.dstOut,
-                              shaderCallback: (Rect bounds) {
-                                final leftProportion = horizontalPadding.left / bounds.width;
-                                final rightProportion = horizontalPadding.right / bounds.width;
-                                return LinearGradient(
-                                  begin: Alignment.centerLeft,
-                                  end: Alignment.centerRight,
-                                  stops: [0, leftProportion, 1 - rightProportion, 1],
-                                  colors: const [
-                                    Colors.white,
-                                    Colors.transparent,
-                                    Colors.transparent,
-                                    Colors.white,
-                                  ],
-                                ).createShader(bounds);
-                              },
-                              child: ListView.separated(
-                                padding: horizontalPadding,
-                                clipBehavior: Clip.none,
-                                physics: const BouncingScrollPhysics(),
-                                scrollDirection: Axis.horizontal,
-                                itemCount: widget.images.length,
-                                separatorBuilder: (context, index) => const SizedBox(width: 10),
-                                itemBuilder: (context, index) {
-                                  return ClipRRect(
-                                    borderRadius: BorderRadius.circular(Default.borderRadius),
-                                    // hero viewer cannot be used in frame builder
-                                    // because the builder may be called after the page route transition starts
-                                    child: HeroViewer(
-                                      child: Image.asset(
-                                        widget.images[index],
-                                        errorBuilder: (context, _, __) {
-                                          return Image.asset(
-                                            'assets/images/placeholder_image.png',
-                                          );
-                                        },
-                                      ),
-                                    ), 
-                                  );
-                                },
-                              ),
+              if (hasAdditionalInfo) ExcludeSemantics(
+                child: SizeTransition(
+                  axisAlignment: -1,
+                  sizeFactor: _sizeAnimation,
+                  child: FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (widget.details.isNotEmpty) Padding(
+                            padding: widget.images.isNotEmpty
+                              ? horizontalPadding + const EdgeInsets.only(bottom: 10)
+                              : horizontalPadding,
+                            child: Text(
+                              widget.details,
+                              style: const TextStyle(
+                                fontSize: 12,
+                              )
                             )
                           ),
-                        ),
-                      ],
+                          if (widget.images.isNotEmpty) ConstrainedBox(
+                              constraints: const BoxConstraints(
+                                maxHeight: 90
+                              ),
+                              child: ShaderMask(
+                                blendMode: BlendMode.dstOut,
+                                shaderCallback: (Rect bounds) {
+                                  final leftProportion = horizontalPadding.left / bounds.width;
+                                  final rightProportion = horizontalPadding.right / bounds.width;
+                                  return LinearGradient(
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                    stops: [0, leftProportion, 1 - rightProportion, 1],
+                                    colors: const [
+                                      Colors.white,
+                                      Colors.transparent,
+                                      Colors.transparent,
+                                      Colors.white,
+                                    ],
+                                  ).createShader(bounds);
+                                },
+                                child: ListView.separated(
+                                  padding: horizontalPadding,
+                                  clipBehavior: Clip.none,
+                                  physics: const BouncingScrollPhysics(),
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: widget.images.length,
+                                  separatorBuilder: (context, index) => const SizedBox(width: 10),
+                                  itemBuilder: (context, index) {
+                                    return ClipRRect(
+                                      borderRadius: BorderRadius.circular(Default.borderRadius),
+                                      // hero viewer cannot be used in frame builder
+                                      // because the builder may be called after the page route transition starts
+                                      child: HeroViewer(
+                                        child: Image.asset(
+                                          widget.images[index],
+                                          errorBuilder: (context, _, __) {
+                                            return Image.asset(
+                                              'assets/images/placeholder_image.png',
+                                            );
+                                          },
+                                        ),
+                                      ), 
+                                    );
+                                  },
+                                ),
+                              )
+                            ),
+                        ],
+                      )
                     )
                   )
-                )
-              ),
+                ),
+              ), 
             ],
           )
         ),
