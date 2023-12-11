@@ -26,6 +26,7 @@ class ListInput extends QuestionInputWidget<ListAnswerDefinition, ListAnswer> {
           description: item.description,
           imagePath: item.image,
           onTap: () => _handleChange(index, appLocale),
+          isMultiList: false,
         );
       }, growable: false),
     );
@@ -49,10 +50,12 @@ class ListInputItem extends StatefulWidget {
   final double imagePadding;
   final bool active;
   final VoidCallback onTap;
+  final bool isMultiList;
 
   const ListInputItem({
     required this.label,
     required this.onTap,
+    required this.isMultiList,
     this.active = false,
     this.description,
     this.imagePath,
@@ -123,7 +126,9 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                     ),
                     child: Semantics(
                       container: true,
-                      selected: widget.active,
+                      inMutuallyExclusiveGroup: widget.isMultiList ? true : null,
+                      checked: widget.active,
+                      selected: widget.isMultiList ? widget.active : null,
                       child: Text(
                         semanticsLabel: '${widget.label} ${widget.description ?? ''}',
                         widget.label,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ZoomButton extends StatelessWidget {
@@ -26,8 +25,6 @@ class ZoomButton extends StatelessWidget {
         child: Column(
           children: [
             Semantics( 
-              container: true,
-              sortKey: const OrdinalSortKey(1.0, name: 'ZoomButton'),
               child: SizedBox(
                 height: (Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minHeight ?? 48.0) * 1.25,
                 width: Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minWidth ?? 48.0,
@@ -47,8 +44,6 @@ class ZoomButton extends StatelessWidget {
               color: Theme.of(context).colorScheme.onPrimaryContainer.withOpacity(0.1),
             ),
             Semantics(
-              container: true,
-              sortKey: const OrdinalSortKey(2.0, name: 'ZoomButton'),
               child: SizedBox(
                 height: (Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minHeight ?? 48.0) * 1.25,
                 width: Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minWidth ?? 48.0,

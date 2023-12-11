@@ -31,17 +31,19 @@ class BoolInput extends QuestionInputWidget<BoolAnswerDefinition, BoolAnswer> {
             child:_BoolInputItem(
               label: Semantics(
                 container: true, 
+                checked: controller.answer?.value == state, 
                 selected: controller.answer?.value == state, 
                 child: Text(definition.input[index].name ?? 
                   (state ? appLocale.yes : appLocale.no)),
               ),
-            onTap: () => _handleChange(state, appLocale),
-            active: controller.answer?.value == state,
-            backgroundColor: theme.colorScheme.primary.withOpacity(0),
-            activeBackgroundColor: theme.colorScheme.primary,
-            foregroundColor: theme.colorScheme.primary,
-            activeForegroundColor: theme.colorScheme.onPrimary,
-          ),);
+              onTap: () => _handleChange(state, appLocale),
+              active: controller.answer?.value == state,
+              backgroundColor: theme.colorScheme.primary.withOpacity(0),
+              activeBackgroundColor: theme.colorScheme.primary,
+              foregroundColor: theme.colorScheme.primary,
+              activeForegroundColor: theme.colorScheme.onPrimary,
+            ),
+          );
         }, growable: false),
       ),
     );

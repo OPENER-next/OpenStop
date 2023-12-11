@@ -70,27 +70,29 @@ class QuestionNavigationBar extends StatelessWidget {
               child: nextText == null
               ? null
               : Semantics(
-                container: true,
-                button: true,
-                enabled: onNext != null,
-                sortKey: const OrdinalSortKey(1.0, name: 'questionDialog'),
-                child: TextButton(
-                  key: ValueKey(nextText),
-                  // mimic disabled style
-                  style: onNext != null
-                    ? _buttonStyle
-                    : _buttonStyle.merge(disabledButtonStyle),
-                  // if button is disabled vibrate when pressed as additional feedback
-                  onPressed: onNext ?? HapticFeedback.vibrate,
-                  isSemanticButton: true,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(nextText!, semanticsLabel: nextTextSemantics,),
-                      const Icon(Icons.chevron_right_rounded),
-                    ],
+                  container: true,
+                  sortKey: const OrdinalSortKey(1.0, name: 'questionDialog'),
+                  child: TextButton(
+                    key: ValueKey(nextText),
+                    // mimic disabled style
+                    style: onNext != null
+                      ? _buttonStyle
+                      : _buttonStyle.merge(disabledButtonStyle),
+                    // if button is disabled vibrate when pressed as additional feedback
+                    onPressed: onNext ?? HapticFeedback.vibrate,
+                    isSemanticButton: false,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Semantics(
+                          button: true,
+                          enabled: onNext != null,
+                          child: Text(nextText!, semanticsLabel: nextTextSemantics,),
+                        ),
+                        const Icon(Icons.chevron_right_rounded),
+                      ],
+                    ),
                   ),
-                ),
               ),
             ),
           ),

@@ -27,6 +27,7 @@ class MultiListInput extends QuestionInputWidget<MultiListAnswerDefinition, Mult
           description: item.description,
           imagePath: item.image,
           onTap: () => _handleChange(index, appLocale),
+          isMultiList: true,
         );
       }, growable: false),
     );

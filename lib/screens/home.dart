@@ -47,177 +47,164 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
             actionText: request.actionLabel,
             actionCallback: request.action,
           ),
-          child: Stack(
-            children: [
-              Semantics(
-                label: viewModel.hasQuestionnaire
-                  ? appLocale.semanticsReturnToMap
-                  : appLocale.semanticsFlutterMap,
-                child: FlutterMap(
-                  mapController: viewModel.mapController,
-                  options: MapOptions(
-                    onTap: (_, __) => viewModel.closeQuestionnaire(),
-                    interactionOptions: const InteractionOptions(
-                      enableMultiFingerGestureRace: true,
-                    ),
-                    initialCenter: untracked(() => viewModel.storedMapLocation),
-                    initialZoom: untracked(() => viewModel.storedMapZoom),
-                    initialRotation: untracked(() => viewModel.storedMapRotation),
-                    minZoom: kTileLayerPublicTransport.minZoom.toDouble(),
-                    maxZoom: kTileLayerPublicTransport.maxZoom.toDouble(),
-                    backgroundColor: Theme.of(context).colorScheme.background,
-                  ),
-                  children: [
-                    TileLayer(
-                      tileProvider: NetworkTileProvider(
-                        headers: {
-                          'User-Agent': appUserAgent,
-                        },
-                      ),
-                      retinaMode: RetinaMode.isHighDensity(context),
-                      evictErrorTileStrategy: EvictErrorTileStrategy.dispose,
-                      urlTemplate: isDarkMode && kTileLayerPublicTransport.darkVariantTemplateUrl != null
-                        ? kTileLayerPublicTransport.darkVariantTemplateUrl
-                        : kTileLayerPublicTransport.templateUrl,
-                      minNativeZoom: kTileLayerPublicTransport.minZoom,
-                      maxNativeZoom: kTileLayerPublicTransport.maxZoom,
-                    ),
-                    Observer(
-                      builder: (context) {
-                        // "length" used to listen to changes
-                        viewModel.loadingStopAreas.length;
-                        return LoadingAreaLayer(
-                          areas: viewModel.loadingStopAreas,
-                        );
-                      },
-                    ),
-                    Observer(
-                      builder: (context) {
-                        // "length" used to listen to changes
-                        viewModel.completeStopAreas.length;
-                        return CompletedAreaLayer(
-                          currentZoom: viewModel.mapZoomRound,
-                          locations: viewModel.completeStopAreas.map((s) => s.stops.first.location),
-                        );
-                      },
-                    ),
-                    Observer(
-                      builder: (context) {
-                        // "length" used to listen to changes
-                        viewModel
-                        ..unloadedStopAreas.length
-                        ..incompleteStopAreas.length
-                        ..completeStopAreas.length;
-
-                        return StopsLayer(
-                          currentZoom: viewModel.mapZoomRound,
-                          unloadedStops: viewModel.unloadedStopAreas.map((s) => s.stops.first.location),
-                          incompleteStops: viewModel.incompleteStopAreas.map((s) => s.stops.first.location),
-                          completedStops: viewModel.completeStopAreas.map((s) => s.stops.first.location),
-                        );
-                      },
-                    ),
-                    Observer(
-                      builder: (context) {
-                        return AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 300),
-                          child: (viewModel.hasSelectedElement)
-                            ? GeometryLayer(
-                              geometry: viewModel.selectedElement!.geometry,
-                              key: viewModel.selectedElementKey,
-                            )
-                            : null,
-                        );
-                      },
-                    ),
-                    Observer(
-                      builder: (context) {
-                        // rebuild location indicator when location access is granted
-                        viewModel.userLocationState;
-                        return const AnimatedLocationLayer();
-                      },
-                    ),
-                    Observer(
-                      builder: (context) {
-                        return OsmElementLayer(
-                          elements: viewModel.elements,
-                          currentZoom: viewModel.mapZoomRound,
-                          onOsmElementTap: viewModel.onElementTap,
-                          selectedElement: viewModel.selectedElement,
-                        );
-                      },
-                    ),
-                    RepaintBoundary(
-                      child: AnimatedSwitcher(
-                        switchInCurve: Curves.ease,
-                        switchOutCurve: Curves.ease,
-                        duration: const Duration(milliseconds: 300),
-                        child: !viewModel.hasQuestionnaire
-                          ? const MapOverlay()
-                          : null,
-                      ),
-                    ),
-                  ],
+          child: Semantics(
+            container: true,
+            sortKey: const OrdinalSortKey(2.0, name: 'mapLayer'),
+            label: viewModel.hasQuestionnaire
+              ? appLocale.semanticsReturnToMap
+              : appLocale.semanticsFlutterMap,
+            child: FlutterMap(
+              mapController: viewModel.mapController,
+              options: MapOptions(
+                onTap: (_, __) => viewModel.closeQuestionnaire(),
+                interactionOptions: const InteractionOptions(
+                  enableMultiFingerGestureRace: true,
                 ),
+                initialCenter: untracked(() => viewModel.storedMapLocation),
+                initialZoom: untracked(() => viewModel.storedMapZoom),
+                initialRotation: untracked(() => viewModel.storedMapRotation),
+                minZoom: kTileLayerPublicTransport.minZoom.toDouble(),
+                maxZoom: kTileLayerPublicTransport.maxZoom.toDouble(),
+                backgroundColor: Theme.of(context).colorScheme.background,
               ),
-              // place sheet on extra stack above map so map pan events won't pass through
-              Observer(
-                builder: (context) {
-                  return AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 500),
-                    reverseDuration: const Duration(milliseconds: 300),
-                    switchInCurve: Curves.easeInOutCubicEmphasized,
-                    switchOutCurve: Curves.ease,
-                    transitionBuilder: (child, animation) {
-                      final offsetAnimation = Tween<Offset>(
-                        begin: const Offset(0, 1),
-                        end: Offset.zero,
-                      ).animate(animation);
-                      return SlideTransition(
-                        position: offsetAnimation,
-                        child: FadeTransition(
-                          opacity: animation,
-                          child: child,
-                        )
-                      );
+              children: [
+                TileLayer(
+                  tileProvider: NetworkTileProvider(
+                    headers: {
+                      'User-Agent': appUserAgent,
                     },
-                    child: viewModel.hasQuestionnaire
-                      ? BlockSemantics(
-                          child: Stack(
-                            children: [
-                              Semantics(
-                              sortKey: const OrdinalSortKey(2.0, name: 'QuestionSheet'),
-                               child: Visibility(
-                                visible: false,
-                                maintainState: true,
-                                maintainSemantics: true,
-                                maintainSize: true,
-                                maintainAnimation: true,
-                                maintainInteractivity: true,
-                                child: ModalBarrier(
-                                  onDismiss: () => viewModel.closeQuestionnaire(),
-                                  semanticsLabel: appLocale.semanticsCloseNavigationMenuButton,
-                                ),
-                              ),
-                              ),
-                               Semantics(
-                              sortKey: const OrdinalSortKey(1.0, name: 'QuestionSheet'),
-                               child: QuestionDialog(
+                  ),
+                  retinaMode: RetinaMode.isHighDensity(context),
+                  evictErrorTileStrategy: EvictErrorTileStrategy.dispose,
+                  urlTemplate: isDarkMode && kTileLayerPublicTransport.darkVariantTemplateUrl != null
+                    ? kTileLayerPublicTransport.darkVariantTemplateUrl
+                    : kTileLayerPublicTransport.templateUrl,
+                  minNativeZoom: kTileLayerPublicTransport.minZoom,
+                  maxNativeZoom: kTileLayerPublicTransport.maxZoom,
+                ),
+                Observer(
+                  builder: (context) {
+                    // "length" used to listen to changes
+                    viewModel.loadingStopAreas.length;
+                    return LoadingAreaLayer(
+                      areas: viewModel.loadingStopAreas,
+                    );
+                  },
+                ),
+                Observer(
+                  builder: (context) {
+                    // "length" used to listen to changes
+                    viewModel.completeStopAreas.length;
+                    return CompletedAreaLayer(
+                      currentZoom: viewModel.mapZoomRound,
+                      locations: viewModel.completeStopAreas.map((s) => s.stops.first.location),
+                    );
+                  },
+                ),
+                Observer(
+                  builder: (context) {
+                    // "length" used to listen to changes
+                    viewModel
+                    ..unloadedStopAreas.length
+                    ..incompleteStopAreas.length
+                    ..completeStopAreas.length;
 
-                                activeQuestionIndex: viewModel.currentQuestionnaireIndex!,
-                                questions: viewModel.questionnaireQuestions,
-                                answers: viewModel.questionnaireAnswers,
-                                showSummary: viewModel.questionnaireIsFinished,
-                                key: viewModel.selectedElementKey,
-                              ),),
-                             ]
-                          ),
+                    return StopsLayer(
+                      currentZoom: viewModel.mapZoomRound,
+                      unloadedStops: viewModel.unloadedStopAreas.map((s) => s.stops.first.location),
+                      incompleteStops: viewModel.incompleteStopAreas.map((s) => s.stops.first.location),
+                      completedStops: viewModel.completeStopAreas.map((s) => s.stops.first.location),
+                    );
+                  },
+                ),
+                Observer(
+                  builder: (context) {
+                    return AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: (viewModel.hasSelectedElement)
+                        ? GeometryLayer(
+                          geometry: viewModel.selectedElement!.geometry,
+                          key: viewModel.selectedElementKey,
                         )
-                      : null
-                  );
-                },
-              ),
-            ],
+                        : null,
+                    );
+                  },
+                ),
+                Observer(
+                  builder: (context) {
+                    // rebuild location indicator when location access is granted
+                    viewModel.userLocationState;
+                    return const AnimatedLocationLayer();
+                  },
+                ),
+                Semantics(
+                  container: true,
+                  sortKey: const OrdinalSortKey(1.0, name: 'mapLayer'),
+                  child: BlockSemantics(
+                    blocking: viewModel.hasQuestionnaire,
+                    child: Stack(
+                      children: [
+                        // PERHAPS REQUIRES RE-ORDERING
+                        Observer(
+                          builder: (context) {
+                            return OsmElementLayer(
+                              elements: viewModel.elements,
+                              currentZoom: viewModel.mapZoomRound,
+                              onOsmElementTap: viewModel.onElementTap,
+                              selectedElement: viewModel.selectedElement,
+                            );
+                          },
+                        ),
+                        RepaintBoundary(
+                          child: AnimatedSwitcher(
+                            switchInCurve: Curves.ease,
+                            switchOutCurve: Curves.ease,
+                            duration: const Duration(milliseconds: 300),
+                            child: !viewModel.hasQuestionnaire
+                              ? const MapOverlay()
+                              : null,
+                          ),
+                        ),
+                        // WILL PROBABLY REQUIRE ABSORBING POINTERS to solve comment below
+                        // place sheet on extra stack above map so map pan events won't pass through
+                        Observer(
+                          builder: (context) {
+                            return AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 500),
+                              reverseDuration: const Duration(milliseconds: 300),
+                              switchInCurve: Curves.easeInOutCubicEmphasized,
+                              switchOutCurve: Curves.ease,
+                              transitionBuilder: (child, animation) {
+                                final offsetAnimation = Tween<Offset>(
+                                  begin: const Offset(0, 1),
+                                  end: Offset.zero,
+                                ).animate(animation);
+                                return SlideTransition(
+                                  position: offsetAnimation,
+                                  child: FadeTransition(
+                                    opacity: animation,
+                                    child: child,
+                                  )
+                                );
+                              },
+                              child: viewModel.hasQuestionnaire
+                                ? QuestionDialog(
+                                  activeQuestionIndex: viewModel.currentQuestionnaireIndex!,
+                                  questions: viewModel.questionnaireQuestions,
+                                  answers: viewModel.questionnaireAnswers,
+                                  showSummary: viewModel.questionnaireIsFinished,
+                                  key: viewModel.selectedElementKey,
+                                )
+                                : null
+                            );
+                          },
+                        ),
+                      ]
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

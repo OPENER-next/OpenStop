@@ -61,9 +61,9 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
     // add repaint boundary for performance improvement
     // this way a marker will only be redrawn if itself changes
     return Semantics(
-      label: widget.label,
       excludeSemantics: widget.active ? true : false,
       blockUserActions: widget.active ? true : false,
+      label: widget.active ? null : widget.label,
       child: RepaintBoundary(
         child: Center(
           child: GestureDetector(
