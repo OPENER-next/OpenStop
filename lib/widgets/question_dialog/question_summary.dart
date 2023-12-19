@@ -35,7 +35,7 @@ class QuestionSummary extends StatelessWidget {
               bottom: 10,
             ),
             child: Semantics( 
-              label:appLocale.semanticsSummary,
+              hint: appLocale.semanticsSummary,
               child: Text(
                 userName != null
                   ? appLocale.questionnaireSummaryDedicatedMessage(userName!)

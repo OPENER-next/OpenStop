@@ -126,9 +126,9 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                     ),
                     child: Semantics(
                       container: true,
-                      inMutuallyExclusiveGroup: widget.isMultiList ? true : null,
+                      inMutuallyExclusiveGroup: widget.isMultiList ? null : true,
                       checked: widget.active,
-                      selected: widget.isMultiList ? widget.active : null,
+                      selected: widget.isMultiList ? null : widget.active,
                       child: Text(
                         semanticsLabel: '${widget.label} ${widget.description ?? ''}',
                         widget.label,
@@ -137,7 +137,8 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                     ),
                   ),
                   if (widget.description != null)
-                    SizeTransition(
+                    ExcludeSemantics(
+                    child: SizeTransition(
                       axisAlignment: -1,
                       sizeFactor: _animation,
                       child: FadeTransition(
@@ -158,6 +159,7 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                         ),
                       ),
                     ),
+                  ),
                 ],
               ),
             ),

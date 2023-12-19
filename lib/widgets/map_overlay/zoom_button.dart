@@ -21,20 +21,18 @@ class ZoomButton extends StatelessWidget {
       shadowColor: Theme.of(context).colorScheme.shadow,
       clipBehavior: Clip.antiAlias,
       child: Semantics(
-        container: true, 
+        container: true, // Necessary to read Semantically the buttons together
         child: Column(
           children: [
-            Semantics( 
-              child: SizedBox(
-                height: (Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minHeight ?? 48.0) * 1.25,
-                width: Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minWidth ?? 48.0,
-                child: InkWell(
-                  onTap: onZoomInPressed,
-                  child: Icon(
-                    Icons.add,
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    semanticLabel: appLocale.semanticsZoomInButton,
-                  ),
+            SizedBox(
+              height: (Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minHeight ?? 48.0) * 1.25,
+              width: Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minWidth ?? 48.0,
+              child: InkWell(
+                onTap: onZoomInPressed,
+                child: Icon(
+                  Icons.add,
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  semanticLabel: appLocale.semanticsZoomInButton,
                 ),
               ),
             ),
@@ -43,17 +41,15 @@ class ZoomButton extends StatelessWidget {
               width: Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minWidth,
               color: Theme.of(context).colorScheme.onPrimaryContainer.withOpacity(0.1),
             ),
-            Semantics(
-              child: SizedBox(
-                height: (Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minHeight ?? 48.0) * 1.25,
-                width: Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minWidth ?? 48.0,
-                child: InkWell(
-                  onTap: onZoomOutPressed,
-                  child: Icon(
-                    Icons.remove,
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    semanticLabel: appLocale.semanticsZoomOutButton,
-                  ),
+            SizedBox(
+              height: (Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minHeight ?? 48.0) * 1.25,
+              width: Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minWidth ?? 48.0,
+              child: InkWell(
+                onTap: onZoomOutPressed,
+                child: Icon(
+                  Icons.remove,
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  semanticLabel: appLocale.semanticsZoomOutButton,
                 ),
               ),
             ),

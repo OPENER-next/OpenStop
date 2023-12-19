@@ -31,6 +31,7 @@ class BoolInput extends QuestionInputWidget<BoolAnswerDefinition, BoolAnswer> {
             child:_BoolInputItem(
               label: Semantics(
                 container: true, 
+                inMutuallyExclusiveGroup: true,
                 checked: controller.answer?.value == state, 
                 selected: controller.answer?.value == state, 
                 child: Text(definition.input[index].name ?? 

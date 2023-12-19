@@ -398,7 +398,7 @@
   "@semanticsZoomOutButton" : {},
   "semanticsQuestionSentence" : "The question is: ",
   "@semanticsQuestionSentence" : {},
-  "semanticsUploadQuestionsButton" : "Share your answers",
+  "semanticsUploadQuestionsButton" : "Upload answers",
   "@semanticsUploadQuestionsButton" : {},
   "semanticsBackQuestionButton" : "Return to previous question.",
   "@semanticsBackQuestionButton" : {},

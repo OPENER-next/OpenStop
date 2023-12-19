@@ -1,6 +1,5 @@
 import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/view_models/home_view_model.dart';
@@ -162,14 +161,10 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                         shape: const CircleBorder(),
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         onPressed: viewModel.submitQuestionnaire,
-                        child: Semantics(
-                          container: true,
-                          sortKey: const OrdinalSortKey(1.0,),
-                          child: Icon(
-                            Icons.cloud_upload_rounded,
-                            color: Theme.of(context).colorScheme.onPrimary,
-                            semanticLabel: appLocale.semanticsUploadQuestionsButton,
-                          ),
+                        child: Icon(
+                          Icons.cloud_upload_rounded,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                          semanticLabel: appLocale.semanticsUploadQuestionsButton,
                         ),
                       )
                       : null

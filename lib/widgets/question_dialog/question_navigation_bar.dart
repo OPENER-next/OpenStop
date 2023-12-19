@@ -46,7 +46,7 @@ class QuestionNavigationBar extends StatelessWidget {
               ? null
               : Semantics(
                 container: true,
-                sortKey: const OrdinalSortKey(2.0, name: 'questionDialog'),
+                sortKey: const OrdinalSortKey(2.0, name: 'questionNavigation'),
                 child: TextButton(
                   // mimic disabled style
                   style: onBack != null
@@ -71,7 +71,7 @@ class QuestionNavigationBar extends StatelessWidget {
               ? null
               : Semantics(
                   container: true,
-                  sortKey: const OrdinalSortKey(1.0, name: 'questionDialog'),
+                  sortKey: const OrdinalSortKey(1.0, name: 'questionNavigation'),
                   child: TextButton(
                     key: ValueKey(nextText),
                     // mimic disabled style
