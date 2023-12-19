@@ -82,17 +82,19 @@ class _QuestionListState extends State<QuestionList> with SingleTickerProviderSt
         final isActive = index == widget.index;
         final isFollowing = widget.index < index;
         final child = widget.children[index];
-
-        return IgnorePointer(
-          // add child widget key on top to preserve state if needed
-          key: child.key,
-          ignoring: !isActive,
-          child: AnimatedOpacity(
-            opacity: isActive || isFollowing ? 1 : 0,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInOutCubicEmphasized,
-            child: child,
-          )
+        return ExcludeSemantics(
+          excluding: !isActive,
+          child: IgnorePointer(
+            // add child widget key on top to preserve state if needed
+            key: child.key,
+            ignoring: !isActive,
+            child: AnimatedOpacity(
+              opacity: isActive || isFollowing ? 1 : 0,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOutCubicEmphasized,
+              child: child,
+            )
+          ),
         );
       }, growable: false)
     );

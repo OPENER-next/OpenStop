@@ -21,6 +21,7 @@ class QuestionSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocale = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 25,
@@ -33,25 +34,28 @@ class QuestionSummary extends StatelessWidget {
             padding: const EdgeInsets.only(
               bottom: 10,
             ),
-            child: Text(
-              userName != null
-                ? AppLocalizations.of(context)!.questionnaireSummaryDedicatedMessage(userName!)
-                : AppLocalizations.of(context)!.questionnaireSummaryUndedicatedMessage,
-              style: const TextStyle(
-                height: 1.3,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+            child: Semantics( 
+              hint: appLocale.semanticsSummary,
+              child: Text(
+                userName != null
+                  ? appLocale.questionnaireSummaryDedicatedMessage(userName!)
+                  : appLocale.questionnaireSummaryUndedicatedMessage,
+                style: const TextStyle(
+                  height: 1.3,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
-          ..._buildEntries(),
+          ..._buildEntries(appLocale),
         ],
       ),
     );
   }
 
 
-  Iterable<Widget> _buildEntries() sync* {
+  Iterable<Widget> _buildEntries(AppLocalizations appLocale) sync* {
     for (int i = 0, j = 0; i < questions.length; i++) {
       // filter unanswered questions
       // use this extra method instead of .where and .map to get access to the correct index
@@ -63,47 +67,50 @@ class QuestionSummary extends StatelessWidget {
           );
         }
         j++;
-        yield _buildEntry(i);
+        yield _buildEntry(i, appLocale);
       }
     }
   }
 
 
-  Widget _buildEntry(int index) {
+  Widget _buildEntry(int index, AppLocalizations appLocale) {
     final question = questions[index];
     final answer = answers[index];
 
-    return Material(
-      type: MaterialType.transparency,
-      child: InkWell(
-        onTap: () => onJump?.call(index),
-        child: Padding(
-          padding: const EdgeInsets.only(
-            top: 15,
-            bottom: 15,
-            right: 10,
-          ),
-          child: Row(
-            children: [
-              const Icon(
-                Icons.chevron_left_rounded
-              ),
-              ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: 100, maxWidth: 200),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Text('$question:')
+    return Semantics( 
+      hint: appLocale.semanticsReviewQuestion, 
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: () => onJump?.call(index),
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 15,
+              bottom: 15,
+              right: 10,
+            ),
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.chevron_left_rounded,
                 ),
-              ),
-              Expanded(
-                child: Text(
-                  answer!,
-                  textAlign: TextAlign.right,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: 100, maxWidth: 200),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Text('$question:')
+                  ),
                 ),
-              ),
-            ],
+                Expanded(
+                  child: Text(
+                    answer!,
+                    textAlign: TextAlign.right,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

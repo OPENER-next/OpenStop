@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 
@@ -24,6 +25,7 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
 
   @override
   Widget build(BuildContext context, viewModel) {
+    final appLocale = AppLocalizations.of(context)!;
     return Padding(
       padding: MediaQuery.of(context).padding + EdgeInsets.all(buttonSpacing),
       child: Stack(
@@ -39,8 +41,9 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
             child: FloatingActionButton.small(
               heroTag: null,
               onPressed: Scaffold.of(context).openDrawer,
-              child: const Icon(
+              child: Icon(
                 Icons.menu,
+                semanticLabel: appLocale.semanticsNavigationMenu,
               ),
             ),
           ),
@@ -59,48 +62,58 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Expanded(
-                  child: CreditText(
-                    alignment: TextAlign.left,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
+            child: Semantics(
+              container: true,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: Semantics(
+                    container: true,
+                    sortKey: const OrdinalSortKey(2.0),
+                    child: CreditText(
+                      alignment: TextAlign.left,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                      ),
+                      children: [
+                        CreditTextPart(
+                          AppLocalizations.of(context)!.osmCreditsText,
+                          url: osm_config.osmCreditsURL,
+                        ),
+                        CreditTextPart(
+                          kTileLayerPublicTransport.creditsText,
+                          url: kTileLayerPublicTransport.creditsUrl,
+                        ),
+                      ],
                     ),
-                    children: [
-                      CreditTextPart(
-                        AppLocalizations.of(context)!.osmCreditsText,
-                        url: osm_config.osmCreditsURL,
-                      ),
-                      CreditTextPart(
-                        kTileLayerPublicTransport.creditsText,
-                        url: kTileLayerPublicTransport.creditsUrl,
-                      ),
-                    ],
+                  ),),
+                  Semantics(
+                    container: true,
+                    sortKey: const OrdinalSortKey(1.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        LocationButton(
+                          activeColor: Theme.of(context).colorScheme.primary,
+                          activeIconColor: Theme.of(context).colorScheme.onPrimary,
+                          color: Theme.of(context).colorScheme.primaryContainer,
+                          iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
+                          active: viewModel.cameraIsFollowingLocation,
+                          onPressed: viewModel.toggleLocationFollowing,
+                        ),
+                        SizedBox (
+                          height: buttonSpacing,
+                        ),
+                        ZoomButton(
+                          onZoomInPressed: viewModel.zoomIn,
+                          onZoomOutPressed: viewModel.zoomOut,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    LocationButton(
-                      activeColor: Theme.of(context).colorScheme.primary,
-                      activeIconColor: Theme.of(context).colorScheme.onPrimary,
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                      iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
-                      active: viewModel.cameraIsFollowingLocation,
-                      onPressed: viewModel.toggleLocationFollowing,
-                    ),
-                    SizedBox (
-                      height: buttonSpacing,
-                    ),
-                    ZoomButton(
-                      onZoomInPressed: viewModel.zoomIn,
-                      onZoomOutPressed: viewModel.zoomOut,
-                    ),
-                  ],
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

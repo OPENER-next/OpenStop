@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreditText extends StatefulWidget {
   final List<CreditTextPart> children;
@@ -12,7 +12,17 @@ class CreditText extends StatefulWidget {
 
   final EdgeInsets padding;
 
-  static InlineSpan _defaultSeparatorBuilder (BuildContext context, int i) => const TextSpan(text: ', ');
+  static InlineSpan _defaultSeparatorBuilder(BuildContext context, int i) {
+    return const TextSpan(
+      children: [
+        WidgetSpan(
+          child: ExcludeSemantics(
+            child: Text(', '),
+          ),
+        ),
+      ],
+    );
+  }
 
   const CreditText({
     required this.children,
@@ -70,37 +80,43 @@ class _CreditTextState extends State<CreditText> {
 
   @override
   Widget build(BuildContext context) {
-    final creditTextParts = _buildParts(context);
-
+    final creditTextParts = _buildParts();
+    final appLocale = AppLocalizations.of(context)!;
     return Padding(
       padding: widget.padding,
       child: Stack(
         fit: StackFit.passthrough,
         children: [
           // Stroked text as border.
-          RichText(
-            textAlign: widget.alignment,
-            text: TextSpan(
-              style: TextStyle(
-                fontSize: 10,
-                foreground: Paint()
-                  ..style = PaintingStyle.stroke
-                  ..strokeWidth = 4
-                  ..strokeJoin = StrokeJoin.round
-                  ..color = Theme.of(context).colorScheme.tertiary,
+          ExcludeSemantics(
+            child:RichText(
+              textAlign: widget.alignment,
+              text: TextSpan(
+                style: TextStyle(
+                  fontSize: 10,
+                  foreground: Paint()
+                    ..style = PaintingStyle.stroke
+                    ..strokeWidth = 4
+                    ..strokeJoin = StrokeJoin.round
+                    ..color = Theme.of(context).colorScheme.tertiary,
+                ),
+                children: creditTextParts
               ),
-              children: creditTextParts
             ),
           ),
           // Solid text as fill.
-          RichText(
-            textAlign: widget.alignment,
-            text: TextSpan(
-              style: TextStyle(
-                fontSize: 10,
-                color: Theme.of(context).colorScheme.onTertiary,
+          Semantics(
+            container: true,
+            label: appLocale.semanticsCredits,
+            child: RichText(
+              textAlign: widget.alignment,
+              text: TextSpan(
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Theme.of(context).colorScheme.onTertiary,
+                ),
+                children: creditTextParts
               ),
-              children: creditTextParts
             ),
           ),
         ],
@@ -109,7 +125,7 @@ class _CreditTextState extends State<CreditText> {
   }
 
 
-  List<InlineSpan> _buildParts(BuildContext context) {
+  List<InlineSpan> _buildParts() {
     final creditTextParts = <InlineSpan>[
       if (widget.children.isNotEmpty) _buildPart(0)
     ];
@@ -126,6 +142,7 @@ class _CreditTextState extends State<CreditText> {
 
   TextSpan _buildPart(int index) {
     return TextSpan(
+      semanticsLabel: widget.children[index].text,
       text: widget.children[index].text,
       recognizer: _gestureRecognizers[index]
     );

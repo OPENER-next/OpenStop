@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 class QuestionNavigationBar extends StatelessWidget {
   final String? nextText;
   final String? backText;
-
+  final String? nextTextSemantics;
+  final String? backTextSemantics;
   final VoidCallback? onNext;
   final VoidCallback? onBack;
 
   const QuestionNavigationBar({
     this.nextText,
     this.backText,
+    this.nextTextSemantics,
+    this.backTextSemantics,
     this.onBack,
     this.onNext,
     Key? key,
@@ -40,18 +44,22 @@ class QuestionNavigationBar extends StatelessWidget {
               duration: const Duration(milliseconds: 300),
               child: backText == null
               ? null
-              : TextButton(
-                // mimic disabled style
-                style: onBack != null
-                  ? _buttonStyle
-                  : _buttonStyle.merge(disabledButtonStyle),
-                // if button is disabled vibrate when pressed as additional feedback
-                onPressed: onBack ?? HapticFeedback.vibrate,
-                child: Row(
-                  children: [
-                    const Icon(Icons.chevron_left_rounded),
-                    Text(backText!),
-                  ],
+              : Semantics(
+                container: true,
+                sortKey: const OrdinalSortKey(2.0, name: 'questionNavigation'),
+                child: TextButton(
+                  // mimic disabled style
+                  style: onBack != null
+                    ? _buttonStyle
+                    : _buttonStyle.merge(disabledButtonStyle),
+                  // if button is disabled vibrate when pressed as additional feedback
+                  onPressed: onBack ?? HapticFeedback.vibrate,
+                  child: Row(
+                    children: [
+                      const Icon(Icons.chevron_left_rounded),
+                      Text(backText!, semanticsLabel: backTextSemantics,),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -61,21 +69,30 @@ class QuestionNavigationBar extends StatelessWidget {
               duration: const Duration(milliseconds: 300),
               child: nextText == null
               ? null
-              : TextButton(
-                key: ValueKey(nextText),
-                // mimic disabled style
-                style: onNext != null
-                  ? _buttonStyle
-                  : _buttonStyle.merge(disabledButtonStyle),
-                // if button is disabled vibrate when pressed as additional feedback
-                onPressed: onNext ?? HapticFeedback.vibrate,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(nextText!),
-                    const Icon(Icons.chevron_right_rounded),
-                  ],
-                ),
+              : Semantics(
+                  container: true,
+                  sortKey: const OrdinalSortKey(1.0, name: 'questionNavigation'),
+                  child: TextButton(
+                    key: ValueKey(nextText),
+                    // mimic disabled style
+                    style: onNext != null
+                      ? _buttonStyle
+                      : _buttonStyle.merge(disabledButtonStyle),
+                    // if button is disabled vibrate when pressed as additional feedback
+                    onPressed: onNext ?? HapticFeedback.vibrate,
+                    isSemanticButton: false,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Semantics(
+                          button: true,
+                          enabled: onNext != null,
+                          child: Text(nextText!, semanticsLabel: nextTextSemantics,),
+                        ),
+                        const Icon(Icons.chevron_right_rounded),
+                      ],
+                    ),
+                  ),
               ),
             ),
           ),
