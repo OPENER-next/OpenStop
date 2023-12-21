@@ -3217,10 +3217,18 @@
       "conditions": [
          {
             "osm_tags": {
-               "railway": ["crossing", "tram_crossing"],
+               "railway": "crossing",
                "crossing:light": false
             },
             "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "railway": "tram_crossing",
+               "crossing:signals": "no",
+               "crossing:light": false
+            },
+            "osm_element": "Node"            
          }
       ]
    },
