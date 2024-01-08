@@ -18,6 +18,7 @@ import '/widgets/stops_layer/stop_area_layer.dart';
 import '/widgets/osm_element_layer/osm_element_layer.dart';
 import '/widgets/question_dialog/question_dialog.dart';
 import '/widgets/map_overlay/map_overlay.dart';
+import '/widgets/map_overlay/shimmer.dart';
 import '/widgets/home_sidebar/home_sidebar.dart';
 
 class HomeScreen extends View<HomeViewModel> with PromptHandler {
@@ -140,6 +141,17 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                         selectedElement: viewModel.selectedElement,
                       );
                     },
+                  ),
+                  IgnorePointer(
+                    ignoring: true,
+                    child: Shimmer(
+                      isLoading: viewModel.isLoadingStopAreas,
+                      child: Container(
+                        color: Colors.transparent,
+                        width: MediaQuery.of(context).size.width, 
+                        height: MediaQuery.of(context).size.height,
+                      ),
+                    ),
                   ),
                   RepaintBoundary(
                     child: AnimatedSwitcher(
