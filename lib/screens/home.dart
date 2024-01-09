@@ -142,15 +142,13 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                       );
                     },
                   ),
-                  IgnorePointer(
-                    ignoring: true,
-                    child: Shimmer(
-                      isLoading: viewModel.isLoadingStopAreas,
-                      child: Container(
-                        color: Colors.transparent,
-                        width: MediaQuery.of(context).size.width, 
-                        height: MediaQuery.of(context).size.height,
-                      ),
+                  Shimmer(
+                    active: viewModel.isLoadingStopAreas,
+                    color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
+                    child: Container(
+                      color: Colors.transparent,
+                      width: MediaQuery.of(context).size.width, 
+                      height: MediaQuery.of(context).size.height,
                     ),
                   ),
                   RepaintBoundary(
