@@ -9,13 +9,7 @@
   "aboutAuthorsLabel": "Équipe",
   "@aboutAuthorsLabel": {},
   "aboutAuthorsDescription": "Équipe de {appName}",
-  "@aboutAuthorsDescription": {
-    "placeholders": {
-      "appName": {
-        "type": "String"
-      }
-    }
-  },
+  "@aboutAuthorsDescription": {},
   "aboutPrivacyPolicyLabel": "Vie privée",
   "@aboutPrivacyPolicyLabel": {},
   "aboutIdeaLabel": "Idée",
@@ -94,39 +88,13 @@
   "numberInputPlaceholder": "Entrer ici…",
   "@numberInputPlaceholder": {},
   "numberInputFallbackName": "Valeur",
-  "@numberInputFallbackName": {
-    "description": "Valeur par défaut pour nameString dans numberInputValidationErrorMax"
-  },
+  "@numberInputFallbackName": {},
   "numberInputValidationError": "Nombre invalide",
   "@numberInputValidationError": {},
   "numberInputValidationErrorMax": "{nameString} doit être inférieur à {max}{unit}.",
-  "@numberInputValidationErrorMax": {
-    "placeholders": {
-      "nameString": {
-        "type": "String"
-      },
-      "max": {
-        "type": "num"
-      },
-      "unit": {
-        "type": "String"
-      }
-    }
-  },
+  "@numberInputValidationErrorMax": {},
   "numberInputValidationErrorMin": "{nameString} doit être supérieur à {min}{unit}.",
-  "@numberInputValidationErrorMin": {
-    "placeholders": {
-      "nameString": {
-        "type": "String"
-      },
-      "min": {
-        "type": "num"
-      },
-      "unit": {
-        "type": "String"
-      }
-    }
-  },
+  "@numberInputValidationErrorMin": {},
 
   "stringInputPlaceholder": "Entrer ici…",
   "@stringInputPlaceholder": {},
@@ -134,16 +102,7 @@
   "@stringInputValidationErrorMin": {},
 
   "changesetCommentMessage": "Ajout de détails sur {mapFeaturesString} à l'arrêt {stopsString}.",
-  "@changesetCommentMessage": {
-    "placeholders": {
-      "mapFeaturesString": {
-        "type": "String"
-      },
-      "stopsString": {
-        "type": "String"
-      }
-    }
-  },
+  "@changesetCommentMessage": {},
   "changesetCommentConjunctionString": "et",
   "@changesetCommentConjunctionString": {},
   "uploadMessageSuccess": "Partage des modifications réussi.",
@@ -167,13 +126,7 @@
   "@queryMessageUnknownError": {},
 
   "questionnaireSummaryDedicatedMessage": "Merci pour ton aide {userName}.\nVérifie les données avant de les diffuser.",
-  "@questionnaireSummaryDedicatedMessage": {
-    "placeholders": {
-      "userName": {
-        "type": "String"
-      }
-    }
-  },
+  "@questionnaireSummaryDedicatedMessage": {},
   "questionnaireSummaryUndedicatedMessage": "Merci pour ton aide.\nVérifie les données avant de les diffuser.",
   "@questionnaireSummaryUndedicatedMessage": {},
 
@@ -198,37 +151,13 @@
   "no": "Non",
   "@no": {},
   "days": "{day, plural, =1 {1 Jour} other {{day} Jours}}",
-  "@days": {
-    "placeholders": {
-      "day": {
-        "type": "num"
-      }
-    }
-  },
+  "@days": {},
   "hours": "{hour, plural, =1 {1 Heure} other {{hour} Heures}}",
-  "@hours": {
-    "placeholders": {
-      "hour": {
-        "type": "num"
-      }
-    }
-  },
+  "@hours": {},
   "minutes": "{minute, plural, =1 {1 Minute} other {{minute} Minutes}}",
-  "@minutes": {
-    "placeholders": {
-      "minute": {
-        "type": "num"
-      }
-    }
-  },
+  "@minutes": {},
   "seconds": "{second, plural, =1 {1 Seconde} other {{second} Secondes}}",
-  "@seconds": {
-    "placeholders": {
-      "second": {
-        "type": "num"
-      }
-    }
-  },
+  "@seconds": {},
   "and": "et",
   "@and": {},
   "more": "plus",
@@ -249,24 +178,9 @@
   "@osmCreditsText": {},
 
   "changesetWithStopNameText": "Ajout de détails sur {elements} à l'arrêt {stopArea}.",
-  "@changesetWithStopNameText": {
-    "placeholders": {
-      "elements": {
-        "type": "String"
-      },
-      "stopArea": {
-        "type": "String"
-      }
-    }
-  },
+  "@changesetWithStopNameText": {},
   "changesetWithoutStopNameText": "Ajout de détails sur {elements} à l'arrêt.",
-  "@changesetWithoutStopNameText": {
-    "placeholders": {
-      "elements": {
-        "type": "String"
-      }
-    }
-  },
+  "@changesetWithoutStopNameText": {},
 
   "mapFeatureBusStop" : "Arrêt de bus",
   "@mapFeatureBusStop" : {},
@@ -329,19 +243,7 @@
   "mapFeatureCurb" : "Bordure",
   "@mapFeatureCurb" : {},
   "mapFeatureBusPlatformNumber" : "Quai : {number}",
-  "@mapFeatureBusPlatformNumber" : {
-    "placeholders": {
-      "number": {
-        "type": "String"
-      }
-    }
-  },
+  "@mapFeatureBusPlatformNumber" : {},
   "mapFeatureTrainPlatformNumber" : "Quai: {number}",
-  "@mapFeatureTrainPlatformNumber" : {
-    "placeholders": {
-      "number": {
-        "type": "String"
-      }
-    }
-  }
+  "@mapFeatureTrainPlatformNumber" : {}
 }
