@@ -1,19 +1,22 @@
+
 import 'package:flutter/material.dart';
 
 class Shimmer extends StatefulWidget {
   final bool active;
   final Color color;
-  final Widget child;
+  final Widget? child;
   final Duration animationDuration;
+  final Duration animationDelay;
   final double min;
   final double max;
   final BlendMode blendMode;
 
   const Shimmer({
-    required this.child, 
+    this.child, 
     this.active = true,
     this.color = const Color(0xFFF4F4F4),
     this.animationDuration = const Duration(milliseconds: 1500),
+    this.animationDelay = const Duration(milliseconds: 50),
     this.min = -1.5,
     this.max = 1.5,
     this.blendMode = BlendMode.color,
@@ -26,39 +29,35 @@ class Shimmer extends StatefulWidget {
 
 class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
-
+  late final Animation<double> ratio;
+  late final Duration totalDuration; 
+  
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController.unbounded(vsync: this)
-    ..repeat(min: widget.min, max: widget.max, period: widget.animationDuration);
+    totalDuration = widget.animationDuration + widget.animationDelay;
+    final begin = widget.min - ((widget.animationDelay.inMilliseconds * (widget.max - widget.min))/ totalDuration.inMilliseconds);
+    _controller = AnimationController(
+      vsync: this,
+      duration: totalDuration,
+    );
+    ratio = _controller.drive(Tween<double>(begin: begin, end: widget.max));
   }
 
   @override
   void didUpdateWidget(covariant Shimmer oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.active != widget.active && oldWidget.active == true) {
-      void listener() {
-        final totalDuration = _controller.lastElapsedDuration;
-        if (totalDuration != null) {
-          final double numberRepetition = double.parse(((totalDuration.inMilliseconds / widget.animationDuration.inMilliseconds) + 0.005).toStringAsFixed(3));
-          final remainder = numberRepetition % 1; 
-          if (remainder == 0) {
+    if (oldWidget.active != widget.active) {
+      if (oldWidget.active == true) {
+        _controller.forward(from: _controller.value).whenComplete(()
+          {
             _controller.stop();
-            _controller.value = 0.0;
-            _controller.removeListener(listener);
             setState(() {});
           }
-        }
+        );
       }
-      _controller.addListener(listener);
+      else { _controller.repeat();}
     }
-      else {
-        if (!_controller.isAnimating) {
-          _controller.repeat(min: widget.min, max: widget.max, period: widget.animationDuration);
-        }
-        setState(() {});
-      }
   }
 
   @override
@@ -68,16 +67,16 @@ class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
   }
 
   LinearGradient get gradient => LinearGradient(
-    colors: [Colors.transparent, widget.color, Colors.transparent,],
+    colors: [ widget.color.withOpacity(0.0), widget.color, widget.color.withOpacity(0.0),],
     stops: const [ 0.1, 0.3, 0.4,],
     begin: const Alignment(-1.0, -0.3),
     end: const Alignment(1.0, 0.3),
-    transform:_SlidingGradientTransform(ratio: _controller.value),
+    transform:_SlidingGradientTransform(ratio: ratio.value),
   );
   
   @override
   Widget build(BuildContext context) {
-    if (widget.active) {
+    if (_controller.isAnimating) {
       return IgnorePointer(
         ignoring: true,
         child: AnimatedBuilder(
@@ -93,7 +92,7 @@ class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
       );
     } 
     else {
-      return widget.child;
+      return const SizedBox();
     }
   }
 }

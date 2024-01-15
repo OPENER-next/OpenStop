@@ -144,7 +144,7 @@ class HeroViewerRoute<T> extends PageRoute<T> {
     required this.transitionBuilder,
     this.transitionDuration = const Duration(milliseconds: 300),
     this.maintainState = true,
-    this.opaque = true,
+    this.opaque = false,
     this.barrierColor,
     this.barrierDismissible = true,
     this.barrierLabel
