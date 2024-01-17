@@ -3264,14 +3264,6 @@
                "crossing:light": false
             },
             "osm_element": "Node"
-         },
-         {
-            "osm_tags": {
-               "railway": "tram_crossing",
-               "crossing:signals": "no",
-               "crossing:light": false
-            },
-            "osm_element": "Node"            
          }
       ]
    },
