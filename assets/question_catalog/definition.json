@@ -2976,6 +2976,49 @@
    },
    {
       "question": {
+         "name": "@tramCrossingTrafficSignalsName",
+         "text": "@tramCrossingTrafficSignalsText"
+      },
+      "answer": {
+         "type": "List",
+         "input": [
+            {
+               "name": "@tramCrossingTrafficSignalsRedOption",
+               "image": "assets/question_catalog/images/tram_crossing_traffic_signals_double_red.png",
+               "osm_tags": {
+                  "crossing:signals": "yes",
+                  "crossing:light": "no"
+               }
+            },
+            {
+               "name": "@tramCrossingTrafficSignalsYellowOption",
+               "image": "assets/question_catalog/images/tram_crossing_traffic_signals_yellow.png",
+               "osm_tags": {
+                  "crossing:signals": "no",
+                  "crossing:light": "yes"
+               }
+            },
+            {
+               "name": "@tramCrossingTrafficSignalsNoneOption",
+               "image": "assets/question_catalog/images/tram_crossing_traffic_signals_none.png",
+               "osm_tags": {
+                  "crossing:signals": "no",
+                  "crossing:light": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "railway": "tram_crossing"
+            },
+            "osm_element": ["Node", "OpenWay"]
+         }
+      ]
+   },
+   {
+      "question": {
          "name": "@curbTypeName",
          "text": "@curbTypeText"
       },
