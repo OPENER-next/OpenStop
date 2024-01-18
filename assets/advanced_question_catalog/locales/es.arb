@@ -31,5 +31,5 @@
  "platformNarrowsDescription" : "Las paredes de las marquesinas o los mástiles crean a menudo espacios estrechos. Este valor es importante, entre otras cosas, para que los usuarios de sillas de ruedas sepan si su silla de ruedas puede alcanzar toda la plataforma.",
  "@platformNarrowsDescription" : {},
  "platformNarrowsPlaceholder" : "Ancho",
- "@platformNarrowsPlaceholder" :{},
+ "@platformNarrowsPlaceholder" :{}
 }
