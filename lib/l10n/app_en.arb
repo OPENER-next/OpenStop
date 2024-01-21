@@ -28,45 +28,38 @@
   "@aboutLicensePackageLabel": {},
   "aboutSourceCodeLabel": "Source code",
   "@aboutSourceCodeLabel": {},
-
   "helpTitle": "Help",
   "@helpTitle": {},
   "helpOnboardingLabel": "Watch the introduction again",
   "@helpOnboardingLabel": {},
   "helpReportErrorLabel": "Report an error",
   "@helpReportErrorLabel": {},
-
   "onboardingGreetingTitle": "Hey!",
   "@onboardingGreetingTitle": {},
   "onboardingGreetingDescription": "We're glad you're here and want to do your part to improve public transport.",
   "@onboardingGreetingDescription": {},
   "onboardingGreetingButton": "Here's how it works",
   "@onboardingGreetingButton": {},
-
   "onboardingSurveyingTitle": "Take a look",
   "@onboardingSurveyingTitle": {},
   "onboardingSurveyingDescription": "Go to a nearby stop to survey its current state.",
   "@onboardingSurveyingDescription": {},
   "onboardingSurveyingButton": "I'll do it",
   "@onboardingSurveyingButton": {},
-
   "onboardingAnsweringTitle": "Now it's your turn",
   "@onboardingAnsweringTitle": {},
   "onboardingAnsweringDescription": "In order to collect data select a marker in the app and answer the displayed questions.",
   "@onboardingAnsweringDescription": {},
   "onboardingAnsweringButton": "Okay, got it",
   "@onboardingAnsweringButton": {},
-
   "onboardingContributingTitle": "Sharing is caring",
   "@onboardingContributingTitle": {},
   "onboardingContributingDescription": "Upload your answers to OpenStreetMap to share them with the whole world.",
   "@onboardingContributingDescription": {},
   "onboardingContributingButton": "Here we go",
   "@onboardingContributingButton": {},
-
   "privacyPolicyTitle": "Privacy Policy",
   "@privacyPolicyTitle": {},
-
   "settingsTitle": "Settings",
   "@settingsTitle": {},
   "settingsProfessionalQuestionsLabel": "Display Professional Questions",
@@ -83,14 +76,12 @@
   "@settingsThemeOptionLight": {},
   "settingsThemeOptionDark": "Dark",
   "@settingsThemeOptionDark": {},
-
   "logoutDialogTitle": "Log out of OSM?",
   "@logoutDialogTitle": {},
   "logoutDialogDescription": "If you log out, you can no longer upload changes to OpenStreetMap.",
   "@logoutDialogDescription": {},
   "loginHint": "Log in with your OpenStreetMap account to upload your changes.",
   "@loginHint": {},
-
   "numberInputPlaceholder": "Enter here...",
   "@numberInputPlaceholder": {},
   "numberInputFallbackName": "Value",
@@ -127,12 +118,10 @@
       }
     }
   },
-
   "stringInputPlaceholder": "Enter here...",
   "@stringInputPlaceholder": {},
   "stringInputValidationErrorMin": "Input too short",
   "@stringInputValidationErrorMin": {},
-
   "changesetCommentMessage": "Added details to {mapFeaturesString} in stop area {stopsString}.",
   "@changesetCommentMessage": {
     "placeholders": {
@@ -152,7 +141,6 @@
   "@uploadMessageServerConnectionError": {},
   "uploadMessageUnknownConnectionError": "Unknown error during transmission.",
   "@uploadMessageUnknownConnectionError": {},
-
   "queryMessageServerUnavailableError": "Server unavailable or overloaded. Try again later.",
   "@queryMessageServerUnavailableError": {},
   "queryMessageTooManyRequestsError": "Too many requests to the server.",
@@ -165,7 +153,6 @@
   "@queryMessageUnknownServerCommunicationError": {},
   "queryMessageUnknownError": "Unknown error.",
   "@queryMessageUnknownError": {},
-
   "questionnaireSummaryDedicatedMessage": "Thank you {userName} for your answers.\nPlease verify them before uploading.",
   "@questionnaireSummaryDedicatedMessage": {
     "placeholders": {
@@ -176,7 +163,6 @@
   },
   "questionnaireSummaryUndedicatedMessage": "Thank you for your answers.\nPlease verify them before uploading.",
   "@questionnaireSummaryUndedicatedMessage": {},
-
   "back": "Back",
   "@back": {},
   "next": "Next",
@@ -235,7 +221,6 @@
   "@more": {},
   "element": "element",
   "@element": {},
-
   "durationInputDaysLabel": "Days",
   "@durationInputDaysLabel": {},
   "durationInputHoursLabel": "Hours",
@@ -244,10 +229,8 @@
   "@durationInputMinutesLabel": {},
   "durationInputSecondsLabel": "Seconds",
   "@durationInputSecondsLabel": {},
-
   "osmCreditsText": "Data © OpenStreetMap-Contributors",
   "@osmCreditsText": {},
-
   "changesetWithStopNameText": "Added details to {elements} in the stop area {stopArea}.",
   "@changesetWithStopNameText": {
     "placeholders": {
@@ -267,7 +250,6 @@
       }
     }
   },
-
   "mapFeatureBusStop": "Bus stop",
   "@mapFeatureBusStop": {},
   "mapFeatureTramStop": "Tram stop",

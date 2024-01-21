@@ -1,0 +1,11 @@
+Lozalizzazione:
+  -L'app può essere tradotta in altre lingue
+  -Completamente tradotta in inglese
+Traffico di rete:
+  -Carica tile ad alta risoluzione solo su schermi ad alta risoluzione
+  -Corretto il caching - a causa di un bug, le tile non erano salvate nella cache creando traffico superfluo.
+Varie:
+  -Rimosso variatore di livello e impostato livello del trasporto pubblico
+  -Corretti tag errati per gli ascensori e le rampe delle fermate
+  -Corretti bug minori
+  -Corretti errori di spelling

@@ -28,7 +28,7 @@
   "@platformNarrowsName": {},
   "platformNarrowsText": "How wide is the narrowest part of the platform?",
   "@platformNarrowsText": {},
-  "platformNarrowsDescription": "The walls of shelters or the mast often create narrows. This value is important, among other things, so that wheelchair users know whether their wheelchair can reach the entire platform.",
+  "platformNarrowsDescription": "The walls of shelters or the mast often create narrows. This value is important, among other things, so that wheelchair users know whether they can reach the entire platform.",
   "@platformNarrowsDescription": {},
   "platformNarrowsPlaceholder": "Width",
   "@platformNarrowsPlaceholder": {}
