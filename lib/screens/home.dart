@@ -14,6 +14,7 @@ import '/widgets/completed_area_layer/completed_area_layer.dart';
 import '/widgets/loading_area_layer/loading_area_layer.dart';
 import '/widgets/geometry_layer.dart';
 import '/widgets/custom_snackbar.dart';
+import '/widgets/download_indicator.dart';
 import '/widgets/stops_layer/stop_area_layer.dart';
 import '/widgets/osm_element_layer/osm_element_layer.dart';
 import '/widgets/question_dialog/question_dialog.dart';
@@ -75,6 +76,9 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                       : kTileLayerPublicTransport.templateUrl,
                     minNativeZoom: kTileLayerPublicTransport.minZoom,
                     maxNativeZoom: kTileLayerPublicTransport.maxZoom,
+                  ),
+                  DownloadIndicator(
+                    active: viewModel.isLoadingStopAreas,
                   ),
                   Observer(
                     builder: (context) {
