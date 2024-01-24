@@ -8,7 +8,6 @@ import '/commons/osm_config.dart' as osm_config;
 import 'location_button.dart';
 import 'compass_button.dart';
 import 'zoom_button.dart';
-import 'loading_indicator.dart';
 import 'credit_text.dart';
 
 
@@ -28,12 +27,6 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
       padding: MediaQuery.of(context).padding + EdgeInsets.all(buttonSpacing),
       child: Stack(
         children: [
-          Align(
-            alignment: Alignment.topCenter,
-            child: LoadingIndicator(
-              active: viewModel.isLoadingStopAreas,
-            ),
-          ),
           Align(
             alignment: Alignment.topLeft,
             child: FloatingActionButton.small(
