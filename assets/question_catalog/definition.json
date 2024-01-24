@@ -2976,14 +2976,15 @@
    },
    {
       "question": {
-         "name": "@tramCrossingTrafficSignalsName",
-         "text": "@tramCrossingTrafficSignalsText"
+         "name": "@tramCrossingTrafficSignalName",
+         "text": "@tramCrossingTrafficSignalText"
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "@tramCrossingTrafficSignalsRedOption",
+               "name": "@tramCrossingTrafficSignalStopOption",
+               "description": "@tramCrossingTrafficSignalStopOptionDescription",
                "image": "assets/question_catalog/images/tram_crossing_traffic_signals_double_red.png",
                "osm_tags": {
                   "crossing:signals": "yes",
@@ -2991,7 +2992,8 @@
                }
             },
             {
-               "name": "@tramCrossingTrafficSignalsYellowOption",
+               "name": "@tramCrossingTrafficSignalWarningOption",
+               "description": "@tramCrossingTrafficSignalWarningOptionDescription",
                "image": "assets/question_catalog/images/tram_crossing_traffic_signals_yellow.png",
                "osm_tags": {
                   "crossing:signals": "no",
@@ -2999,7 +3001,7 @@
                }
             },
             {
-               "name": "@tramCrossingTrafficSignalsNoneOption",
+               "name": "@tramCrossingTrafficSignalNoneOption",
                "image": "assets/question_catalog/images/tram_crossing_traffic_signals_none.png",
                "osm_tags": {
                   "crossing:signals": "no",
