@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 /// Function to substitute variables found in an expression.
 /// Returns zero to multiple values for a given variable.
 

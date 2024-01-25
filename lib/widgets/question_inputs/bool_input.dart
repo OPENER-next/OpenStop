@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 // ignore_for_file: unused_element
 // required till https://github.com/dart-lang/sdk/issues/48401 is resolved
 

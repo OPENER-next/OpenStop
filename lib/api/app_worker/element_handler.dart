@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import 'dart:async';
 
 import 'package:flutter_map/flutter_map.dart';

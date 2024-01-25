@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:osm_api/osm_api.dart';

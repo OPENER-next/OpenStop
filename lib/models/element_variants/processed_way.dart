@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 part of 'base_element.dart';
 
 /// Concrete implementation of [ProcessedElement] for OSM ways.

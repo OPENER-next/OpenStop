@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import 'dart:async';
 
 extension InitMultiStreamExtension<T> on Stream<T> {

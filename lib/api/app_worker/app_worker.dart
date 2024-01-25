@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import 'dart:async';
 
 import '/api/app_worker/stop_area_handler.dart';

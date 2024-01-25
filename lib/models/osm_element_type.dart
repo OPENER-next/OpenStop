@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 /// This [enum] is a representation of the 4 OSM element types defined in the `question_catalog_schema.json`.
 
 enum OSMElementType {

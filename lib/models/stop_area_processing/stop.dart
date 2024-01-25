@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import 'package:latlong2/latlong.dart';
 
 /// A basic representation of a public transport stop/halt.

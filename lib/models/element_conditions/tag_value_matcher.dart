@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import 'element_condition.dart';
 
 /// Matcher base class for OSM tag values.

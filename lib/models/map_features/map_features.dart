@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import 'dart:collection';
 
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';

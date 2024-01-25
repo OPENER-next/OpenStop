@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import 'package:flutter/foundation.dart';
 
 import '/models/element_conditions/tag_value_matcher.dart';

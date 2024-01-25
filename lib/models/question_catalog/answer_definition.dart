@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import 'answer_constructor.dart';
 
 /// A base class that describes the answer input and the ultimately written OSM tags.

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 part of 'base_element.dart';
 
 /// A wrapper class to modify the tags of [OSMElement]s without changing or exposing them.

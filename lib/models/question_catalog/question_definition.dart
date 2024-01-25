@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import '/models/element_conditions/element_condition.dart';
 import 'answer_definition.dart';
 

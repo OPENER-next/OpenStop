@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import 'package:flutter/widgets.dart';
 
 /// This is only needed to forward the locale from the PlatformDispatcher instance

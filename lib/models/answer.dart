@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 import 'package:osm_api/osm_api.dart' as osmapi;
 
 /// Base class in order to identify and compare OSM elements.

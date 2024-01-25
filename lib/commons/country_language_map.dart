@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 /// Country codes (ISO 3166-1) to official language codes (ISO 639-1) mapping.
 ///
 /// Created from the following SPARQL wikidata query:
