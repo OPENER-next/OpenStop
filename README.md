@@ -29,7 +29,7 @@ You can either open issues for enhancement suggestions and bug reports or help u
 You can also help translating the app at [Weblate](https://hosted.weblate.org/projects/openstop/).
 
 ## License
-This app is released under the terms of the [GNU General Public License](/LICENSE).
+This app is released under the terms of the [GNU General Public License](/LICENSES/GPL-3.0-or-later.txt).
 
 ## Funding
 <img src="assets/images/logos/BMDV_Fz_2021_Office_Farbe_de.png" alt="Logo of the German Federal Ministry of Digital Affairs and Transport" width=150> <img src="assets/images/logos/mFUND_Logo_sRGB.png" alt="Logo of the mFUND innovation initiative" width=150>
