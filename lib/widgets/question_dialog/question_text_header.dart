@@ -1,5 +1,6 @@
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter/material.dart';
+import '/widgets/gallery_viewer.dart';
 import '/commons/themes.dart';
 import '/widgets/hero_viewer.dart';
 
@@ -201,6 +202,17 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                                 // hero viewer cannot be used in frame builder
                                 // because the builder may be called after the page route transition starts
                                 child: HeroViewer(
+                                  secondChild: SingleChildScrollView(
+                                    child: 
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width, 
+                                      height: MediaQuery.of(context).size.height,
+                                      child: GalleryViewer(
+                                        images: widget.images,
+                                        initialIndex: index,
+                                      ),
+                                    ),
+                                  ),
                                   child: Image.asset(
                                     widget.images[index],
                                     errorBuilder: (context, _, __) {

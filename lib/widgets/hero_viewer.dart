@@ -40,6 +40,8 @@ class HeroViewer extends StatefulWidget {
 
   final Widget child;
 
+  final Widget? secondChild;
+
   /// A custom builder to add additional widgets around or beneath the hero child.
   /// The child given in this function will already be wrapped inside the respective hero widget.
   /// Note: the returned widget tree needs to contain the given child widget at some point in the hierarchy.
@@ -62,6 +64,7 @@ class HeroViewer extends StatefulWidget {
 
   const HeroViewer({
     required this.child,
+    this.secondChild = null,
     this.pageBuilder = HeroViewer.imageViewerBuilder,
     this.openOn = InteractionTrigger.tap,
     this.closeOn = InteractionTrigger.tap,
@@ -103,7 +106,7 @@ class _HeroViewerState extends State<HeroViewer> {
           builder: widget.pageBuilder,
           tag: _uniqueTag,
           trigger: widget.closeOn,
-          child: widget.child
+          child: widget.secondChild ?? widget.child
         ),
         transitionBuilder: widget.routeTransitionsBuilder,
         transitionDuration: widget.routeTransitionDuration,
@@ -144,7 +147,7 @@ class HeroViewerRoute<T> extends PageRoute<T> {
     required this.transitionBuilder,
     this.transitionDuration = const Duration(milliseconds: 300),
     this.maintainState = true,
-    this.opaque = true,
+    this.opaque = false,
     this.barrierColor,
     this.barrierDismissible = true,
     this.barrierLabel
