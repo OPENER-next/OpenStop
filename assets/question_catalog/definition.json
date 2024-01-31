@@ -2994,7 +2994,7 @@
             {
                "name": "@tramCrossingTrafficSignalWarningOption",
                "description": "@tramCrossingTrafficSignalWarningOptionDescription",
-               "image": "assets/question_catalog/images/traffic_signals_stop.png",
+               "image": "assets/question_catalog/images/traffic_signals_warning.png",
                "osm_tags": {
                   "crossing:signals": "no",
                   "crossing:light": "yes"
