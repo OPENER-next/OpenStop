@@ -22,10 +22,14 @@ Thanks and happy mapping!
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot01.png" alt="Screenshot with map overview" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot02.png" alt="Screenshot with visualized POI" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot03.png" alt="Screenshot with multiple choice question dialog" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot04.png" alt="Screenshot with bool question dialog and extended info box" width=150> <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/screenshot05.png" alt="Screenshot with summary and upload dialog" width=150>
 
 ## Contributing
-We are always happy, if you not only want to help us mapping, but also want to directly participate in the project. You can either open issues for enhancement suggestions and bug reports or help us developing the app further. A good starting point for the latter is to read the [build instructions](/docs/BUILD.md) for the app.
+We are always happy, if you not only want to help us mapping, but also want to directly participate in the project.
+
+You can either open issues for enhancement suggestions and bug reports or help us developing the app further. A good starting point for the latter is to read the [build instructions](/docs/BUILD.md) for the app.
+
+You can also help translating the app at [Weblate](https://hosted.weblate.org/projects/openstop/).
 
 ## License
-This app is released under the terms of the [GNU General Public License](/LICENSE).
+This app is released under the terms of the [GNU General Public License v3.0 or later (GPL-3.0-or-later)](/LICENSE).
 
 ## Funding
 <img src="assets/images/logos/BMDV_Fz_2021_Office_Farbe_de.png" alt="Logo of the German Federal Ministry of Digital Affairs and Transport" width=150> <img src="assets/images/logos/mFUND_Logo_sRGB.png" alt="Logo of the mFUND innovation initiative" width=150>
