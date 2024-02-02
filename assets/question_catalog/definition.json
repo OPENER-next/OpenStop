@@ -2976,32 +2976,32 @@
    },
    {
       "question": {
-         "name": "@tramCrossingTrafficSignalName",
-         "text": "@tramCrossingTrafficSignalText"
+         "name": "@tramCrossingSignalLightsName",
+         "text": "@tramCrossingSignalLightsText"
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "@tramCrossingTrafficSignalStopOption",
-               "description": "@tramCrossingTrafficSignalStopOptionDescription",
-               "image": "assets/question_catalog/images/traffic_signals_stop.png",
+               "name": "@tramCrossingSignalLightsStopOption",
+               "description": "@tramCrossingSignalLightsStopOptionDescription",
+               "image": "assets/question_catalog/images/tram_signal_lights_stop.png",
                "osm_tags": {
                   "crossing:signals": "yes",
                   "crossing:light": "no"
                }
             },
             {
-               "name": "@tramCrossingTrafficSignalWarningOption",
-               "description": "@tramCrossingTrafficSignalWarningOptionDescription",
-               "image": "assets/question_catalog/images/traffic_signals_warning.png",
+               "name": "@tramCrossingSignalLightsWarningOption",
+               "description": "@tramCrossingSignalLightsWarningOptionDescription",
+               "image": "assets/question_catalog/images/tram_signal_lights_warning.png",
                "osm_tags": {
                   "crossing:signals": "no",
                   "crossing:light": "yes"
                }
             },
             {
-               "name": "@tramCrossingTrafficSignalNoneOption",
+               "name": "@tramCrossingSignalLightsNoneOption",
                "osm_tags": {
                   "crossing:signals": "no",
                   "crossing:light": "no"
