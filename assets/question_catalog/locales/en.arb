@@ -448,7 +448,7 @@
   "@pedestrianLightsTactileArrowText": {},
   "pedestrianLightsTactileArrowDescription": "Blind people can use a tactile arrow to feel the direction in which they need to cross the street.",
   "@pedestrianLightsTactileArrowDescription": {},
-  "pedestrianLightsAcousticSignalName": "Traffic light acoustic signal",
+  "pedestrianLightsAcousticSignalName": "Pedestrian lights acoustic signal",
   "@pedestrianLightsAcousticSignalName": {},
   "pedestrianLightsAcousticSignalText": "Are there acoustic signals for blind people at the pedestrian lights?",
   "@pedestrianLightsAcousticSignalText": {},
