@@ -1,7 +1,0 @@
-Lo scopo dell'app è, col tuo aiuto, di collezionare dati sulle barriere del trasporto pubblico e metterle a disposizione su OpenStreetMap così che CHIUNQUE possa beneficiarne.
-
-Ponendo semplici domande sulle fermate, i cittadini verranno potranno collezionare dati nelle loro vicinanze in modo semplice.
-
-I dati che collezioni formeranno le basi per informazioni di viaggio migliori, specialmente per le persone con disabilità e guideranno il miglioramento delle fermate degli autobus.
-
-Grazie per aver reso migliore il trasporto pubblico locale.

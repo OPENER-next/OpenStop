@@ -576,7 +576,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
     ],
   ),
   MapFeatureDefinition(
-    label: (locale, _) => locale.mapFeaturePedestrianLights,
+    label: (locale, _) => locale.mapFeaturePedestrianTrafficLights,
     icon: TemakiIcons.trafficSignals,
     conditions: const [
       ElementCondition([

@@ -1,7 +1,0 @@
-El objetivo de la aplicación es, con tu ayuda, recopilar datos sobre las barreras de transporte público y ponerlos a disposición en OpenStreetMap para que TODOS puedan beneficiarse de ellos.
-
-Haciendo preguntas sencillas sobre las paradas, los ciudadanos podrán recopilar datos en sus proximidades de forma accesible.
-
-Los datos que recopilen sentarán las bases de una mejor información sobre los viajes, especialmente para las personas con discapacidad física, y guiarán el proceso de mejora de las paradas de autobús.
-
-Gracias por su contribución a un mejor transporte público local.

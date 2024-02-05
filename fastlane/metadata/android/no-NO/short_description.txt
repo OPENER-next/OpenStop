@@ -1,1 +1,0 @@
-Programmet for innsamling av forhindringer i offentlig transport.

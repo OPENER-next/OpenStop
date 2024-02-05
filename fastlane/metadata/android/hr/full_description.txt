@@ -1,7 +1,0 @@
-Cilj aplikacije je, uz vašu pomoć, prikupiti podatke o pristupačnosti javnog prijevoza i učiniti ih dostupnima na OpenStreetMap-u tako da SVI mogu imati koristi od toga.
-
-Postavljanjem jednostavnih pitanja o stajalištima građanima će se omogućiti prikupljanje podataka u njihovoj blizini na jednostavan način.
-
-Podaci koje prikupite izgradit će temelje za bolje informacije o putovanjima, posebno za osobe s tjelesnim oštećenjima, i pomoći procesu nadogradnje autobusnih stajališta.
-
-Hvala vam na vašem doprinosu boljem lokalnom javnom prijevozu.

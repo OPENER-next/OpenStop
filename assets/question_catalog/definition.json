@@ -2732,9 +2732,9 @@
    },
    {
       "question": {
-         "name": "@pedestrianLightsButtonName",
-         "text": "@pedestrianLightsButtonText",
-         "description": "@pedestrianLightsButtonDescription",
+         "name": "@trafficLightButtonName",
+         "text": "@trafficLightButtonText",
+         "description": "@trafficLightButtonDescription",
          "image": [
             "assets/question_catalog/images/traffic_signals_pushbutton_1.jpg",
             "assets/question_catalog/images/traffic_signals_pushbutton_2.jpg"
@@ -2792,9 +2792,9 @@
    },
    {
       "question": {
-         "name": "@pedestrianLightsTactileArrowName",
-         "text": "@pedestrianLightsTactileArrowText",
-        "description": "@pedestrianLightsTactileArrowDescription",
+         "name": "@trafficLightTactileArrowName",
+         "text": "@trafficLightTactileArrowText",
+        "description": "@trafficLightTactileArrowDescription",
         "image": [
             "assets/question_catalog/images/traffic_signals_arrow.jpg"
          ]
@@ -2851,9 +2851,9 @@
    },
    {
       "question": {
-         "name": "@pedestrianLightsAcousticSignalName",
-         "text": "@pedestrianLightsAcousticSignalText",
-         "description": "@pedestrianLightsAcousticSignalDescription",
+         "name": "@trafficLightAcousticSignalName",
+         "text": "@trafficLightAcousticSignalText",
+         "description": "@trafficLightAcousticSignalDescription",
          "image": [
             "assets/question_catalog/images/traffic_signals_blind.jpg",
             "assets/question_catalog/images/traffic_signals_blind_pushbutton_1.jpg",
@@ -2864,15 +2864,15 @@
          "type": "List",
          "input": [
             {
-               "name": "@pedestrianLightsAcousticSignalYesOption",
-               "description": "@pedestrianLightsAcousticSignalYesOptionDescription",
+               "name": "@trafficLightAcousticSignalYesOption",
+               "description": "@trafficLightAcousticSignalYesOptionDescription",
                "osm_tags": {
                   "traffic_signals:sound": "yes"
                }
             },
             {
-               "name": "@pedestrianLightsAcousticSignalNoOption",
-               "description": "@pedestrianLightsAcousticSignalNoOptionDescription",
+               "name": "@trafficLightAcousticSignalNoOption",
+               "description": "@trafficLightAcousticSignalNoOptionDescription",
                "osm_tags": {
                   "traffic_signals:sound": "no"
                }
@@ -2916,9 +2916,9 @@
    },
    {
       "question": {
-         "name": "@pedestrianLightsVibrationSignalName",
-         "text": "@pedestrianLightsVibrationSignalText",
-         "description": "@pedestrianLightsVibrationSignalDescription",
+         "name": "@trafficLightVibrationSignalName",
+         "text": "@trafficLightVibrationSignalText",
+         "description": "@trafficLightVibrationSignalDescription",
          "image": [
             "assets/question_catalog/images/traffic_signals_blind_pushbutton_1.jpg",
             "assets/question_catalog/images/traffic_signals_blind_pushbutton_2.jpg"
@@ -3323,7 +3323,7 @@
       "conditions": [
          {
             "osm_tags": {
-               "railway": "crossing",
+               "railway": ["crossing", "tram_crossing"],
                "crossing:barrier": "no",
                "crossing:light": "no",
                "crossing:bell": "no",
