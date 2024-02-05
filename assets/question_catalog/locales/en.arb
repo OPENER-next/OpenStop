@@ -468,7 +468,7 @@
   "@pedestrianLightsVibrationSignalText": {},
   "pedestrianLightsVibrationSignalDescription": "Like the acoustic signal, the vibration signal must usually be requested by pressing a button. When this button vibrates, it signals blind people that they can safely cross the street.",
   "@pedestrianLightsVibrationSignalDescription": {},
-  "tramCrossingSignalLightsName": "Tram crossing traffic signal",
+  "tramCrossingSignalLightsName": "Tram crossing signal lights",
   "@tramCrossingSignalLightsName": {},
   "tramCrossingSignalLightsText": "Are there signal lights at this tram crossing?",
   "@tramCrossingSignalLightsText": {},
