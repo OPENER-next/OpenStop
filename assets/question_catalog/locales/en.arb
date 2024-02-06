@@ -520,7 +520,7 @@
   "@railroadWarningLightName": {},
   "railroadWarningLightText": "Is there a warning light at this railroad crossing?",
   "@railroadWarningLightText": {},
-  "railroadWarningLightDescription": "The warning light signals the passage of a train. The warning light can be located at the beginning or end of the crossing.",
+  "railroadWarningLightDescription": "The warning light signals the passage of a train.",
   "@railroadWarningLightDescription": {},
   "tramAcousticWarningSignalName": "Acoustic warning for tram crossings",
   "@tramAcousticWarningSignalName": {},
