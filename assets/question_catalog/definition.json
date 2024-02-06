@@ -2976,6 +2976,50 @@
    },
    {
       "question": {
+         "name": "@tramCrossingSignalLightsName",
+         "text": "@tramCrossingSignalLightsText"
+      },
+      "answer": {
+         "type": "List",
+         "input": [
+            {
+               "name": "@tramCrossingSignalLightsStopOption",
+               "description": "@tramCrossingSignalLightsStopOptionDescription",
+               "image": "assets/question_catalog/images/tram_signal_lights_stop.png",
+               "osm_tags": {
+                  "crossing:signals": "yes",
+                  "crossing:light": "no"
+               }
+            },
+            {
+               "name": "@tramCrossingSignalLightsWarningOption",
+               "description": "@tramCrossingSignalLightsWarningOptionDescription",
+               "image": "assets/question_catalog/images/tram_signal_lights_warning.png",
+               "osm_tags": {
+                  "crossing:signals": "no",
+                  "crossing:light": "yes"
+               }
+            },
+            {
+               "name": "@tramCrossingSignalLightsNoneOption",
+               "osm_tags": {
+                  "crossing:signals": "no",
+                  "crossing:light": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "railway": "tram_crossing"
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
          "name": "@curbTypeName",
          "text": "@curbTypeText"
       },
@@ -3217,7 +3261,7 @@
       "conditions": [
          {
             "osm_tags": {
-               "railway": ["crossing", "tram_crossing"],
+               "railway": "crossing",
                "crossing:light": false
             },
             "osm_element": "Node"
@@ -3279,7 +3323,7 @@
       "conditions": [
          {
             "osm_tags": {
-               "railway": "crossing",
+               "railway": ["crossing", "tram_crossing"],
                "crossing:barrier": "no",
                "crossing:light": "no",
                "crossing:bell": "no",
