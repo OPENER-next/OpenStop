@@ -3014,7 +3014,7 @@
             "osm_tags": {
                "railway": "tram_crossing"
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": "Node"
          }
       ]
    },
