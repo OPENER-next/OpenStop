@@ -2196,7 +2196,8 @@
          "name": "@stairLiftName",
          "text": "@stairLiftText",
          "image": [
-            "assets/question_catalog/images/steps_wheelchair_lift.jpg"
+            "assets/question_catalog/images/stair_lift_1.jpg",
+            "assets/question_catalog/images/stair_lift_2.jpg"
          ]
       },
       "answer": {
@@ -2233,7 +2234,7 @@
          "name": "@stairLiftLengthName",
          "text": "@stairLiftLengthText",
          "image": [
-            "assets/question_catalog/images/2093a.jpg"
+            "assets/question_catalog/images/stair_lift_length.png"
          ],
          "description": "@stairLiftLengthDescription"
       },
@@ -2310,7 +2311,7 @@
          "name": "@stairLiftWidthName",
          "text": "@stairLiftWidthText",
          "image": [
-            "assets/question_catalog/images/2094a.jpg"
+            "assets/question_catalog/images/stair_lift_width.png"
          ],
          "description": "@stairLiftWidthDescription"
       },
