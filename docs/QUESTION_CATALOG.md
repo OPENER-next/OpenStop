@@ -200,7 +200,7 @@ Displays a list of multiple options and allows the selection of one option (`Lis
 The constructor is defined as a mapping of OSM keys to expressions, while an expression is like a function which eventually computes the value of the tag.
 
 ```jsonc
-constructor: {
+"constructor": {
   "my_tag": ["EXPRESSION"]
 }
 ```
