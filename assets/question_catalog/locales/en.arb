@@ -30,7 +30,7 @@
   "@parkingTypeUndergroundOption": {},
   "parkingTypeBayOption": "Parking bay",
   "@parkingTypeBayOption": {},
-  "parkingTypeMultiStoreyOption": "Parking garage",
+  "parkingTypeMultiStoreyOption": "Multi-story parking garage",
   "@parkingTypeMultiStoreyOption": {},
   "disabledParkingName": "Disabled parking",
   "@disabledParkingName": {},
