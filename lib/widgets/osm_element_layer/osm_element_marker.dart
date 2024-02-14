@@ -107,7 +107,8 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
                           widthFactor: _animation.value,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(widget.label,
+                            child: Text(widget.label, 
+                              textWidthBasis: TextWidthBasis.longestLine,
                               softWrap: true,
                               maxLines: 2,
                               style: TextStyle(
