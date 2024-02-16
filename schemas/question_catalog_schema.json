@@ -9,6 +9,10 @@
     "required": [ "question", "answer", "conditions" ],
     "additionalProperties": false,
     "properties": {
+      "$comment": {
+        "type": "string",
+        "description": "For documentation purpose only. Used to note hints, explanations, reasoning or exceptions for other programmers and your future self. Do not underestimate the power and fun of documentation C_C"
+      },
 
       "question": {
         "type": "object",
