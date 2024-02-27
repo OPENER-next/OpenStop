@@ -61,7 +61,7 @@ class GalleryNavigator extends StatefulWidget {
   const GalleryNavigator({
     required this.images,
     required this.imagesKeys,
-    this.initialIndex = 0, 
+    this.initialIndex = 0,
     super.key,}
   );
 
@@ -70,40 +70,64 @@ class GalleryNavigator extends StatefulWidget {
 }
 
 class _GalleryNavigatorState extends State<GalleryNavigator>{
-  bool _pagingEnabled = true;
   int _pointerCount = 0;
+
   late final PageController _pageController;
   late final DerivedAnimation<PageController, double> _rightAnimation ;
   late final DerivedAnimation<PageController, double> _leftAnimation;
+
+  final List<TransformationController> _transformationControllers = [];
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: widget.initialIndex);
     _leftAnimation = DerivedAnimation<PageController, double>(notifier: _pageController, transformer: (controller) {
-      if (controller.hasClients && controller.page != null) {
-        return controller.page!.clamp(0,1);
-      } 
-      else if (controller.initialPage == 0) {
-        return 0.0;
-      }
-      else {
-        return 1.0;
-      }
+      return fractionalIndex.clamp(0, 1).toDouble();
     });
     _rightAnimation = DerivedAnimation<PageController, double>(notifier: _pageController, transformer: (controller) {
-      if (controller.hasClients && controller.page != null) {
-        final penultimate = widget.images.length - 2;
-        return (controller.page!.clamp(penultimate, widget.images.length -1) - penultimate).toDouble();
-      }
-      if (controller.initialPage < widget.images.length - 1 && widget.images.length > 1) {
-        return 0.0;
-      }
-      else {
-        return 1.0;
+      final lastIndex = widget.images.length - 1;
+      return (lastIndex - fractionalIndex.clamp(lastIndex - 1, lastIndex)).toDouble();
+    });
+    _pageController.addListener(() {
+      if (fractionalIndex == index) {
+        // reset invisible controllers
+        for (int i = 0; i < index; i++) {
+          _transformationControllers[i].value.setIdentity();
+        }
+        for (int i = index + 1; i < _transformationControllers.length; i++) {
+          _transformationControllers[i].value.setIdentity();
+        }
       }
     });
+    _processTransformationControllers();
   }
+
+  @override
+  void didUpdateWidget(covariant GalleryNavigator oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _processTransformationControllers();
+  }
+
+  void _processTransformationControllers() {
+    int diff = widget.images.length - _transformationControllers.length;
+    for (; diff > 0; diff--) {
+      _transformationControllers.add(TransformationController());
+    }
+    for (; diff < 0; diff++) {
+      final controller = _transformationControllers.removeLast();
+      controller.dispose();
+    }
+  }
+
+  num get fractionalIndex => _pageController.hasClients && _pageController.page != null
+    ? _pageController.page!
+    : _pageController.initialPage;
+
+  int get index => fractionalIndex.round();
+
+  bool get pagingDisabled =>
+    _pointerCount > 1  || _transformationControllers[index].value.getMaxScaleOnAxis() > 1;
 
   void goToPreviousImage() {
     _pageController.previousPage(
@@ -122,6 +146,9 @@ class _GalleryNavigatorState extends State<GalleryNavigator>{
   @override
   void dispose() {
     _pageController.dispose();
+    for (final controller in _transformationControllers) {
+      controller.dispose();
+    }
     super.dispose();
   }
 
@@ -131,29 +158,40 @@ class _GalleryNavigatorState extends State<GalleryNavigator>{
       alignment: Alignment.center,
       children: [
         Positioned.fill(
+          // Workaround for scale and drag interference. See:
+          // https://github.com/flutter/flutter/issues/137189
+          // https://github.com/flutter/flutter/issues/68594
+          // https://github.com/flutter/flutter/issues/65006
           child: Listener(
             behavior: HitTestBehavior.deferToChild,
             onPointerDown: (event) {
-              _pointerCount++;
-              if (_pointerCount >= 2) {
-                setState(() { _pagingEnabled = false; });
-              }
+              setState(() => _pointerCount++ );
             },
             onPointerUp: (event) {
-              _pointerCount = 0;
-              setState(() { _pagingEnabled = true; });
+              setState(() => _pointerCount-- );
             },
             child: PageView.custom(
               controller: _pageController,
               scrollDirection: Axis.horizontal,
-              physics: _pagingEnabled ? const PageScrollPhysics() : const NeverScrollableScrollPhysics(),
+              // required to prevent panning when the user actually wants to pinch zoom
+              // paging is also disabled when the image is scaled/zoomed in
+              physics: pagingDisabled
+                ? const NeverScrollableScrollPhysics()
+                : const PageScrollPhysics(),
+                onPageChanged: (value) {
+                  setState(() {
+                    // used to trigger a rebuild because pagingDisabled can change
+                    // when the index changes (e.g. on arrow tap)
+                  });
+                },
               childrenDelegate: SliverChildBuilderDelegate((context, index) {
-                return  InteractiveViewer(
+                return InteractiveViewer(
+                  transformationController: _transformationControllers[index],
                   maxScale: 3,
                   child: FittedBox(
                     fit: BoxFit.contain,
                     child: Hero(
-                      tag:  widget.imagesKeys[index],
+                      tag: widget.imagesKeys[index],
                       child: Image.asset(
                         widget.images[index],
                         errorBuilder: (context, _, __) {
@@ -167,7 +205,9 @@ class _GalleryNavigatorState extends State<GalleryNavigator>{
                 );
               },
               childCount: widget.images.length,
-              addAutomaticKeepAlives: false, //Necessary to guarantee only the Hero animation execute for the last viewed image
+              // This will dispose images/widgets that are out of view
+              // Necessary so only get Hero animations for visible images
+              addAutomaticKeepAlives: false,
               ),
             ),
           ),
@@ -175,15 +215,25 @@ class _GalleryNavigatorState extends State<GalleryNavigator>{
         Positioned(
           left: 0,
           child: SafeArea(
-            child: SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(-1.0, 0.0),
-                end: Offset.zero,
-              ).animate(_leftAnimation),
-              child: IconButton(
-                onPressed: goToPreviousImage,
-                color: Theme.of(context).colorScheme.primary,
-                icon: const Icon(Icons.arrow_circle_left, size: 30.0),
+            child: FadeTransition(
+              opacity: _leftAnimation,
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(-1.0, 0.0),
+                  end: Offset.zero,
+                ).animate(_leftAnimation),
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: goToPreviousImage,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  icon: Icon(
+                    Icons.navigate_before_rounded,
+                    size: 40.0,
+                    shadows: [
+                      Shadow(color: Theme.of(context).colorScheme.shadow, blurRadius: 25),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
@@ -191,15 +241,25 @@ class _GalleryNavigatorState extends State<GalleryNavigator>{
         Positioned(
           right: 0,
           child: SafeArea(
-            child: SlideTransition(
-            position: Tween<Offset>(
-                begin: Offset.zero,
-                end: const Offset(1.0, 0.0),
-              ).animate(_rightAnimation),
-              child: IconButton(
-                onPressed: goToNextImage,
-                color: Theme.of(context).colorScheme.primary,
-                icon: const Icon(Icons.arrow_circle_right, size: 30.0),
+            child: FadeTransition(
+              opacity: _rightAnimation,
+              child: SlideTransition(
+              position: Tween<Offset>(
+                  begin: const Offset(1.0, 0.0),
+                  end: Offset.zero,
+                ).animate(_rightAnimation),
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: goToNextImage,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  icon: Icon(
+                    Icons.navigate_next_rounded,
+                    size: 40.0,
+                    shadows: [
+                      Shadow(color: Theme.of(context).colorScheme.shadow, blurRadius: 25),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
