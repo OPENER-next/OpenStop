@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 
+/// Adapter class to turn a [ChangeNotifier] into an [Animation].
+///
+/// This forwards the notifications of the [ChangeNotifier] and derives
+/// the [Animation.value] using the provided [transformer] callback.
+///
+/// This is almost identical to https://api.flutter.dev/flutter/animation/Animation/Animation.fromValueListenable.html
+
 class DerivedAnimation<T extends ChangeNotifier,V> extends Animation<V> {
   final T _notifier;
   final V Function(T) _transformer;
@@ -7,7 +14,7 @@ class DerivedAnimation<T extends ChangeNotifier,V> extends Animation<V> {
   DerivedAnimation({
     required T notifier,
     required V Function(T) transformer,
-  }) : 
+  }) :
   _notifier = notifier,
   _transformer = transformer;
 
