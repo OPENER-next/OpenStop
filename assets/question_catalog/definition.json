@@ -2693,12 +2693,14 @@
          "input": [
             {
                "name": "@crossingMarkingsNoneOption",
+               "image": "assets/question_catalog/images/crossing_markings_none.png",
                "osm_tags": {
                   "crossing:markings": "no"
                }
             },
             {
                "name": "@crossingMarkingsFootwayOption",
+               "image": "assets/question_catalog/images/crossing_markings_foot.png",
                "osm_tags": {
                   "footway:crossing:markings": "yes",
                   "cycleway:crossing:markings": "no"
@@ -2706,6 +2708,7 @@
             },
             {
                "name": "@crossingMarkingsCyclewayOption",
+               "image": "assets/question_catalog/images/crossing_markings_cycle.png",
                "osm_tags": {
                   "footway:crossing:markings": "no",
                   "cycleway:crossing:markings": "yes"
@@ -2713,12 +2716,14 @@
             },
             {
                "name": "@crossingMarkingsSharedOption",
+               "image": "assets/question_catalog/images/crossing_markings_shared.png",
                "osm_tags": {
                   "crossing:markings": "yes"
                }
             },
             {
-               "name": "@crossingMarkingsDifferentOption",
+               "name": "@crossingMarkingsSeparateOption",
+               "image": "assets/question_catalog/images/crossing_markings_separate.png",
                "osm_tags": {
                   "footway:crossing:markings": "yes",
                   "cycleway:crossing:markings": "yes"
@@ -3123,42 +3128,49 @@
          "input": [
             {
                "name": "@crossingMarkingsTypeZebraOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_zebra.png",
                "osm_tags": {
                   "crossing:markings": "zebra"
                }
             },
             {
                "name": "@crossingMarkingsTypeLinesOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_lines.png",
                "osm_tags": {
                   "crossing:markings": "lines"
                }
             },
             {
                "name": "@crossingMarkingsTypeLadderOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_ladder.png",
                "osm_tags": {
                   "crossing:markings": "ladder"
                }
             },
             {
                "name": "@crossingMarkingsTypeDashesOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_dashes.png",
                "osm_tags": {
                   "crossing:markings": "dashes"
                }
             },
             {
                "name": "@crossingMarkingsTypeDotsOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_dots.png",
                "osm_tags": {
                   "crossing:markings": "dots"
                }
             },
             {
                "name": "@crossingMarkingsTypeSurfaceOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_surface.png",
                "osm_tags": {
                   "crossing:markings": "surface"
                }
             },
             {
                "name": "@crossingMarkingsTypePictogramsOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_pictograms.png",
                "osm_tags": {
                   "crossing:markings": "pictograms"
                }
@@ -3216,42 +3228,49 @@
          "input": [
             {
                "name": "@crossingMarkingsTypeZebraOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_zebra.png",
                "osm_tags": {
                   "cycleway:crossing:markings": "zebra"
                }
             },
             {
                "name": "@crossingMarkingsTypeLinesOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_lines.png",
                "osm_tags": {
                   "cycleway:crossing:markings": "lines"
                }
             },
             {
                "name": "@crossingMarkingsTypeLadderOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_ladder.png",
                "osm_tags": {
                   "cycleway:crossing:markings": "ladder"
                }
             },
             {
                "name": "@crossingMarkingsTypeDashesOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_dashes.png",
                "osm_tags": {
                   "cycleway:crossing:markings": "dashes"
                }
             },
             {
                "name": "@crossingMarkingsTypeDotsOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_dots.png",
                "osm_tags": {
                   "cycleway:crossing:markings": "dots"
                }
             },
             {
                "name": "@crossingMarkingsTypeSurfaceOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_surface.png",
                "osm_tags": {
                   "cycleway:crossing:markings": "surface"
                }
             },
             {
                "name": "@crossingMarkingsTypePictogramsOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_pictograms.png",
                "osm_tags": {
                   "cycleway:crossing:markings": "pictograms"
                }
@@ -3292,42 +3311,49 @@
          "input": [
             {
                "name": "@crossingMarkingsTypeZebraOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_zebra.png",
                "osm_tags": {
                   "footway:crossing:markings": "zebra"
                }
             },
             {
                "name": "@crossingMarkingsTypeLinesOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_lines.png",
                "osm_tags": {
                   "footway:crossing:markings": "lines"
                }
             },
             {
                "name": "@crossingMarkingsTypeLadderOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_ladder.png",
                "osm_tags": {
                   "footway:crossing:markings": "ladder"
                }
             },
             {
                "name": "@crossingMarkingsTypeDashesOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_dashes.png",
                "osm_tags": {
                   "footway:crossing:markings": "dashes"
                }
             },
             {
                "name": "@crossingMarkingsTypeDotsOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_dots.png",
                "osm_tags": {
                   "footway:crossing:markings": "dots"
                }
             },
             {
                "name": "@crossingMarkingsTypeSurfaceOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_surface.png",
                "osm_tags": {
                   "footway:crossing:markings": "surface"
                }
             },
             {
                "name": "@crossingMarkingsTypePictogramsOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_pictograms.png",
                "osm_tags": {
                   "footway:crossing:markings": "pictograms"
                }
