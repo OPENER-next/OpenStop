@@ -142,7 +142,7 @@
   "@platformWidthDescription": {},
   "platformWidthPlaceholder": "Platform width",
   "@platformWidthPlaceholder": {},
-  "approachAidName": "Access ramp",
+  "approachAidName": "Approach aid",
   "@approachAidName": {},
   "approachAidText": "Does the stop have a special curb with an approach aid for buses?",
   "@approachAidText": {},
