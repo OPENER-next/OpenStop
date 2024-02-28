@@ -2735,7 +2735,7 @@
          {
             "osm_tags": {
                "railway": ["crossing", "tram_crossing"],
-               "crossing": [false, "island", "traffic_signal"],
+               "crossing": [false, "island", "traffic_signals"],
                "foot": false,
                "bicycle": false,
                "crossing:markings": false,
@@ -2767,7 +2767,7 @@
          {
             "osm_tags": {
                "railway": ["crossing", "tram_crossing"],
-               "crossing": [false, "island", "traffic_signal"],
+               "crossing": [false, "island", "traffic_signals"],
                "foot": ["yes", "designated"],
                "bicycle": ["yes", "designated"],
                "crossing:markings": false,
@@ -2799,7 +2799,7 @@
          {
             "osm_tags": {
                "highway": "crossing",
-               "crossing": [false, "island", "traffic_signal"],
+               "crossing": [false, "island", "traffic_signals"],
                "foot": false,
                "bicycle": false,
                "crossing:markings": false,
@@ -2831,7 +2831,7 @@
          {
             "osm_tags": {
                "highway": "crossing",
-               "crossing": [false, "island", "traffic_signal"],
+               "crossing": [false, "island", "traffic_signals"],
                "foot": ["yes", "designated"],
                "bicycle": ["yes", "designated"],
                "crossing:markings": false,
@@ -2864,7 +2864,7 @@
             "osm_tags": {
                "highway": "footway",
                "footway": "crossing",
-               "crossing": [false, "island", "traffic_signal"],
+               "crossing": [false, "island", "traffic_signals"],
                "foot": [false, "yes", "designated"],
                "bicycle": ["yes", "designated"],
                "crossing:markings": false,
@@ -2878,7 +2878,7 @@
             "osm_tags": {
                "highway": "cycleway",
                "cycleway": "crossing",
-               "crossing": [false, "island", "traffic_signal"],
+               "crossing": [false, "island", "traffic_signals"],
                "foot": ["yes", "designated"],
                "bicycle": [false, "yes", "designated"],
                "crossing:markings": false,
@@ -2892,7 +2892,7 @@
             "osm_tags": {
                "highway": "path",
                "path": "crossing",
-               "crossing": [false, "island", "traffic_signal"],
+               "crossing": [false, "island", "traffic_signals"],
                "foot": ["yes", "designated"],
                "bicycle": ["yes", "designated"],
                "crossing:markings": false,
@@ -2930,7 +2930,7 @@
             "osm_tags": {
                "highway": "footway",
                "footway": "crossing",
-               "crossing": [false, "island", "traffic_signal"],
+               "crossing": [false, "island", "traffic_signals"],
                "crossing:markings": false,
                "bicycle": [false, "no"],
                "segregated": [false, "no"]
@@ -2940,7 +2940,7 @@
          {
             "osm_tags": {
                "highway": "crossing",
-               "crossing": [false, "island", "traffic_signal"],
+               "crossing": [false, "island", "traffic_signals"],
                "crossing:markings": false,
                "bicycle": [false, "no"],
                "foot": ["yes", "designated"]
@@ -2971,7 +2971,7 @@
             "osm_tags": {
                "highway": "path",
                "path": "crossing",
-               "crossing": [false, "island", "traffic_signal"],
+               "crossing": [false, "island", "traffic_signals"],
                "foot": ["yes", "designated"],
                "bicycle": [false, "no"],
                "crossing:markings": false,
@@ -2982,7 +2982,7 @@
          {
             "osm_tags": {
                "railway": ["crossing", "tram_crossing"],
-               "crossing": [false, "island", "traffic_signal"],
+               "crossing": [false, "island", "traffic_signals"],
                "foot": ["yes", "designated"],
                "bicycle": [false, "no"],
                "crossing:markings": false
@@ -3036,7 +3036,7 @@
             "osm_tags": {
                "highway": "cycleway",
                "cycleway": "crossing",
-               "crossing": [false, "island", "traffic_signal"],
+               "crossing": [false, "island", "traffic_signals"],
                "crossing:markings": false,
                "foot": [false, "no"],
                "segregated": [false, "no"]
@@ -3046,7 +3046,7 @@
          {
             "osm_tags": {
                "highway": "crossing",
-               "crossing": [false, "island", "traffic_signal"],
+               "crossing": [false, "island", "traffic_signals"],
                "crossing:markings": false,
                "foot": [false, "no"],
                "bicycle": ["yes", "designated"]
@@ -3077,7 +3077,7 @@
             "osm_tags": {
                "highway": "path",
                "path": "crossing",
-               "crossing": [false, "island", "traffic_signal"],
+               "crossing": [false, "island", "traffic_signals"],
                "bicycle": ["yes", "designated"],
                "foot": [false, "no"],
                "crossing:markings": false,
@@ -3088,7 +3088,7 @@
          {
             "osm_tags": {
                "railway": ["crossing", "tram_crossing"],
-               "crossing": [false, "island", "traffic_signal"],
+               "crossing": [false, "island", "traffic_signals"],
                "bicycle": ["yes", "designated"],
                "foot": [false, "no"],
                "crossing:markings": false
