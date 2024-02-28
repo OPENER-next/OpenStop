@@ -40,6 +40,8 @@ class HeroViewer extends StatefulWidget {
 
   final Widget child;
 
+  final Object? tag;
+
   /// A custom builder to add additional widgets around or beneath the hero child.
   /// The child given in this function will already be wrapped inside the respective hero widget.
   /// Note: the returned widget tree needs to contain the given child widget at some point in the hierarchy.
@@ -67,7 +69,8 @@ class HeroViewer extends StatefulWidget {
     this.closeOn = InteractionTrigger.tap,
     this.routeTransitionsBuilder = HeroViewer.defaultRouteTransitionsBuilder,
     this.routeTransitionDuration = const Duration(milliseconds: 300),
-    Key? key,
+    this.tag,
+    Key? key, 
   }) : super(key: key);
 
   @override
@@ -89,7 +92,7 @@ class _HeroViewerState extends State<HeroViewer> {
       onDoubleTap: widget.openOn == InteractionTrigger.doubleTap ? showViewer : null,
       onLongPress: widget.openOn == InteractionTrigger.longPress ? showViewer : null,
       child: Hero(
-        tag: _uniqueTag,
+        tag: widget.tag ?? _uniqueTag,
         child: widget.child
       ),
     );
@@ -101,9 +104,9 @@ class _HeroViewerState extends State<HeroViewer> {
       HeroViewerRoute(
         child: _HeroViewerPage(
           builder: widget.pageBuilder,
-          tag: _uniqueTag,
+          tag: widget.tag ?? _uniqueTag,
           trigger: widget.closeOn,
-          child: widget.child
+          child: widget.child,
         ),
         transitionBuilder: widget.routeTransitionsBuilder,
         transitionDuration: widget.routeTransitionDuration,
@@ -144,7 +147,8 @@ class HeroViewerRoute<T> extends PageRoute<T> {
     required this.transitionBuilder,
     this.transitionDuration = const Duration(milliseconds: 300),
     this.maintainState = true,
-    this.opaque = true,
+    // This attribute is false to avoid rebuild the previous route/reaload images. See: https://github.com/flutter/flutter/issues/124382
+    this.opaque = false, 
     this.barrierColor,
     this.barrierDismissible = true,
     this.barrierLabel

@@ -1,7 +1,6 @@
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter/material.dart';
-import '/commons/themes.dart';
-import '/widgets/hero_viewer.dart';
+import '/widgets/gallery_viewer.dart';
 
 class QuestionTextHeader extends StatefulWidget {
   final String question;
@@ -188,30 +187,8 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                               ],
                             ).createShader(bounds);
                           },
-                          child: ListView.separated(
-                            padding: horizontalPadding,
-                            clipBehavior: Clip.none,
-                            physics: const BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            itemCount: widget.images.length,
-                            separatorBuilder: (context, index) => const SizedBox(width: 10),
-                            itemBuilder: (context, index) {
-                              return ClipRRect(
-                                borderRadius: BorderRadius.circular(Default.borderRadius),
-                                // hero viewer cannot be used in frame builder
-                                // because the builder may be called after the page route transition starts
-                                child: HeroViewer(
-                                  child: Image.asset(
-                                    widget.images[index],
-                                    errorBuilder: (context, _, __) {
-                                      return Image.asset(
-                                        'assets/images/placeholder_image.png',
-                                      );
-                                    },
-                                  ),
-                                ),
-                              );
-                            },
+                          child: GalleryViewer(
+                            images: widget.images
                           ),
                         )
                       )
