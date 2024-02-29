@@ -2692,10 +2692,18 @@
          "type": "List",
          "input": [
             {
-               "name": "@crossingMarkingsNoneOption",
-               "image": "assets/question_catalog/images/crossing_markings_none.png",
+               "name": "@crossingMarkingsSharedOption",
+               "image": "assets/question_catalog/images/crossing_markings_shared.png",
                "osm_tags": {
-                  "crossing:markings": "no"
+                  "crossing:markings": "yes"
+               }
+            },
+            {
+               "name": "@crossingMarkingsSeparateOption",
+               "image": "assets/question_catalog/images/crossing_markings_separate.png",
+               "osm_tags": {
+                  "footway:crossing:markings": "yes",
+                  "cycleway:crossing:markings": "yes"
                }
             },
             {
@@ -2715,18 +2723,10 @@
                }
             },
             {
-               "name": "@crossingMarkingsSharedOption",
-               "image": "assets/question_catalog/images/crossing_markings_shared.png",
+               "name": "@crossingMarkingsNoneOption",
+               "image": "assets/question_catalog/images/crossing_markings_none.png",
                "osm_tags": {
-                  "crossing:markings": "yes"
-               }
-            },
-            {
-               "name": "@crossingMarkingsSeparateOption",
-               "image": "assets/question_catalog/images/crossing_markings_separate.png",
-               "osm_tags": {
-                  "footway:crossing:markings": "yes",
-                  "cycleway:crossing:markings": "yes"
+                  "crossing:markings": "no"
                }
             }
          ]
@@ -3124,7 +3124,7 @@
          "description": "@crossingMarkingsTypeDescription"
       },
       "answer": {
-         "type": "List",
+         "type": "MultiList",
          "input": [
             {
                "name": "@crossingMarkingsTypeZebraOption",
@@ -3224,7 +3224,7 @@
          "description": "@crossingMarkingsTypeDescription"
       },
       "answer": {
-         "type": "List",
+         "type": "MultiList",
          "input": [
             {
                "name": "@crossingMarkingsTypeZebraOption",
@@ -3307,7 +3307,7 @@
          "description": "@crossingMarkingsTypeDescription"
       },
       "answer": {
-         "type": "List",
+         "type": "MultiList",
          "input": [
             {
                "name": "@crossingMarkingsTypeZebraOption",
