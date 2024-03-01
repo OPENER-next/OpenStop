@@ -3177,7 +3177,7 @@
             }
          ],
          "constructor": {
-            "operator": ["JOIN", ";", "$input"]
+            "crossing:markings": ["JOIN", ";", "$input"]
          }
       },
       "conditions": [
@@ -3280,7 +3280,7 @@
             }
          ],
          "constructor": {
-            "operator": ["JOIN", ";", "$input"]
+            "cycleway:crossing:markings": ["JOIN", ";", "$input"]
          }
       },
       "conditions": [
@@ -3366,7 +3366,7 @@
             }
          ],
          "constructor": {
-            "operator": ["JOIN", ";", "$input"]
+            "footway:crossing:markings": ["JOIN", ";", "$input"]
          }
       },
       "conditions": [
@@ -3413,6 +3413,7 @@
             }
          ]
       },
+      "$comment": "According to the OSM wiki, 'crossing=traffic_signals' should be tagged, if traffic signals are present. Hence, if 'crossing' has any other value, one can assume that 'crossing:signals=no', because 'traffic_signals' takes precedence over the other values.",
       "conditions": [
          {
             "osm_tags": {
