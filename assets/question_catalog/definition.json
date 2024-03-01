@@ -2684,39 +2684,764 @@
    },
    {
       "question": {
-         "name": "@crosswalkTypeName",
-         "text": "@crosswalkTypeText",
-         "description": "@crosswalkTypeDescription"
+         "name": "@crossingMarkingsName",
+         "text": "@crossingMarkingsText",
+         "description": "@crossingMarkingsDescription"
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "@crosswalkTypePedestrianOption",
-               "image": "assets/question_catalog/images/crossing_traffic_signals.png",
+               "name": "@crossingMarkingsSharedOption",
+               "image": "assets/question_catalog/images/crossing_markings_shared.png",
                "osm_tags": {
-                  "crossing": "traffic_signals"
+                  "crossing:markings": "yes"
                }
             },
             {
-               "name": "@crosswalkTypeZebraOption",
-               "image": "assets/question_catalog/images/crossing_zebra.png",
+               "name": "@crossingMarkingsSeparateOption",
+               "image": "assets/question_catalog/images/crossing_markings_separate.png",
                "osm_tags": {
-                  "crossing": "zebra"
+                  "footway:crossing:markings": "yes",
+                  "cycleway:crossing:markings": "yes"
                }
             },
             {
-               "name": "@crosswalkTypeMarkedOption",
-               "image": "assets/question_catalog/images/crossing_marked.png",
+               "name": "@crossingMarkingsFootwayOption",
+               "image": "assets/question_catalog/images/crossing_markings_foot.png",
                "osm_tags": {
-                  "crossing": "marked"
+                  "footway:crossing:markings": "yes",
+                  "cycleway:crossing:markings": "no"
                }
             },
             {
-               "name": "@crosswalkTypeUnmarkedOption",
-               "image": "assets/question_catalog/images/crossing_unmarked.png",
+               "name": "@crossingMarkingsCyclewayOption",
+               "image": "assets/question_catalog/images/crossing_markings_cycle.png",
                "osm_tags": {
-                  "crossing": "unmarked"
+                  "footway:crossing:markings": "no",
+                  "cycleway:crossing:markings": "yes"
+               }
+            },
+            {
+               "name": "@crossingMarkingsNoneOption",
+               "image": "assets/question_catalog/images/crossing_markings_none.png",
+               "osm_tags": {
+                  "crossing:markings": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "railway": ["crossing", "tram_crossing"],
+               "crossing": [false, "island", "traffic_signals"],
+               "foot": false,
+               "bicycle": false,
+               "crossing:markings": false,
+               "cycleway:crossing:markings": false,
+               "footway:crossing:markings": false
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "highway": "footway",
+                     "footway": "crossing"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "highway": "cycleway",
+                     "cycleway": "crossing"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "highway": "path",
+                     "path": "crossing"
+                  }
+               }
+            ],
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "railway": ["crossing", "tram_crossing"],
+               "crossing": [false, "island", "traffic_signals"],
+               "foot": ["yes", "designated"],
+               "bicycle": ["yes", "designated"],
+               "crossing:markings": false,
+               "cycleway:crossing:markings": false,
+               "footway:crossing:markings": false
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "highway": "footway",
+                     "footway": "crossing"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "highway": "cycleway",
+                     "cycleway": "crossing"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "highway": "path",
+                     "path": "crossing"
+                  }
+               }
+            ],
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "highway": "crossing",
+               "crossing": [false, "island", "traffic_signals"],
+               "foot": false,
+               "bicycle": false,
+               "crossing:markings": false,
+               "cycleway:crossing:markings": false,
+               "footway:crossing:markings": false
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "highway": "footway",
+                     "footway": "crossing"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "highway": "cycleway",
+                     "cycleway": "crossing"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "highway": "path",
+                     "path": "crossing"
+                  }
+               }
+            ],
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "highway": "crossing",
+               "crossing": [false, "island", "traffic_signals"],
+               "foot": ["yes", "designated"],
+               "bicycle": ["yes", "designated"],
+               "crossing:markings": false,
+               "cycleway:crossing:markings": false,
+               "footway:crossing:markings": false
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "highway": "footway",
+                     "footway": "crossing"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "highway": "cycleway",
+                     "cycleway": "crossing"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "highway": "path",
+                     "path": "crossing"
+                  }
+               }
+            ],
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "highway": "footway",
+               "footway": "crossing",
+               "crossing": [false, "island", "traffic_signals"],
+               "foot": [false, "yes", "designated"],
+               "bicycle": ["yes", "designated"],
+               "crossing:markings": false,
+               "cycleway:crossing:markings": false,
+               "footway:crossing:markings": false,
+               "segregated": [false, "yes"]
+            },
+            "osm_element": "OpenWay"
+         },
+         {
+            "osm_tags": {
+               "highway": "cycleway",
+               "cycleway": "crossing",
+               "crossing": [false, "island", "traffic_signals"],
+               "foot": ["yes", "designated"],
+               "bicycle": [false, "yes", "designated"],
+               "crossing:markings": false,
+               "cycleway:crossing:markings": false,
+               "footway:crossing:markings": false,
+               "segregated": [false, "yes"]
+            },
+            "osm_element": "OpenWay"
+         },
+         {
+            "osm_tags": {
+               "highway": "path",
+               "path": "crossing",
+               "crossing": [false, "island", "traffic_signals"],
+               "foot": ["yes", "designated"],
+               "bicycle": ["yes", "designated"],
+               "crossing:markings": false,
+               "cycleway:crossing:markings": false,
+               "footway:crossing:markings": false,
+               "segregated": [false, "yes"]
+            },
+            "osm_element": "OpenWay"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "@crossingFootwayMarkingsName",
+         "text": "@crossingFootwayMarkingsText",
+         "description": "@crossingMarkingsDescription"
+      },
+      "answer": {
+         "type": "Bool",
+         "input": [
+            {
+               "osm_tags": {
+                  "crossing:markings": "yes"
+               }
+            },
+            {
+               "osm_tags": {
+                  "crossing:markings": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "footway",
+               "footway": "crossing",
+               "crossing": [false, "island", "traffic_signals"],
+               "crossing:markings": false,
+               "bicycle": [false, "no"],
+               "segregated": [false, "no"]
+            },
+            "osm_element": "OpenWay"
+         },
+         {
+            "osm_tags": {
+               "highway": "crossing",
+               "crossing": [false, "island", "traffic_signals"],
+               "crossing:markings": false,
+               "bicycle": [false, "no"],
+               "foot": ["yes", "designated"]
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "highway": "footway",
+                     "footway": "crossing"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "highway": "cycleway",
+                     "cycleway": "crossing"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "highway": "path",
+                     "path": "crossing"
+                  }
+               }
+            ],
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "highway": "path",
+               "path": "crossing",
+               "crossing": [false, "island", "traffic_signals"],
+               "foot": ["yes", "designated"],
+               "bicycle": [false, "no"],
+               "crossing:markings": false,
+               "segregated": [false, "no"]
+            },
+            "osm_element": "OpenWay"
+         },
+         {
+            "osm_tags": {
+               "railway": ["crossing", "tram_crossing"],
+               "crossing": [false, "island", "traffic_signals"],
+               "foot": ["yes", "designated"],
+               "bicycle": [false, "no"],
+               "crossing:markings": false
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "highway": "footway",
+                     "footway": "crossing"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "highway": "cycleway",
+                     "cycleway": "crossing"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "highway": "path",
+                     "path": "crossing"
+                  }
+               }
+            ],
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "@crossingCyclewayMarkingsName",
+         "text": "@crossingCyclewayMarkingsText"
+      },
+      "answer": {
+         "type": "Bool",
+         "input": [
+            {
+               "osm_tags": {
+                  "crossing:markings": "yes"
+               }
+            },
+            {
+               "osm_tags": {
+                  "crossing:markings": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "cycleway",
+               "cycleway": "crossing",
+               "crossing": [false, "island", "traffic_signals"],
+               "crossing:markings": false,
+               "foot": [false, "no"],
+               "segregated": [false, "no"]
+            },
+            "osm_element": "OpenWay"
+         },
+         {
+            "osm_tags": {
+               "highway": "crossing",
+               "crossing": [false, "island", "traffic_signals"],
+               "crossing:markings": false,
+               "foot": [false, "no"],
+               "bicycle": ["yes", "designated"]
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "highway": "footway",
+                     "footway": "crossing"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "highway": "cycleway",
+                     "cycleway": "crossing"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "highway": "path",
+                     "path": "crossing"
+                  }
+               }
+            ],
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "highway": "path",
+               "path": "crossing",
+               "crossing": [false, "island", "traffic_signals"],
+               "bicycle": ["yes", "designated"],
+               "foot": [false, "no"],
+               "crossing:markings": false,
+               "segregated": [false, "no"]
+            },
+            "osm_element": "OpenWay"
+         },
+         {
+            "osm_tags": {
+               "railway": ["crossing", "tram_crossing"],
+               "crossing": [false, "island", "traffic_signals"],
+               "bicycle": ["yes", "designated"],
+               "foot": [false, "no"],
+               "crossing:markings": false
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "highway": "footway",
+                     "footway": "crossing"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "highway": "cycleway",
+                     "cycleway": "crossing"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "highway": "path",
+                     "path": "crossing"
+                  }
+               }
+            ],
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "@crossingMarkingsTypeName",
+         "text": "@crossingMarkingsTypeText",
+         "description": "@crossingMarkingsTypeDescription"
+      },
+      "answer": {
+         "type": "MultiList",
+         "input": [
+            {
+               "name": "@crossingMarkingsTypeZebraOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_zebra.png",
+               "osm_tags": {
+                  "crossing:markings": "zebra"
+               }
+            },
+            {
+               "name": "@crossingMarkingsTypeLinesOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_lines.png",
+               "osm_tags": {
+                  "crossing:markings": "lines"
+               }
+            },
+            {
+               "name": "@crossingMarkingsTypeLadderOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_ladder.png",
+               "osm_tags": {
+                  "crossing:markings": "ladder"
+               }
+            },
+            {
+               "name": "@crossingMarkingsTypeDashesOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_dashes.png",
+               "osm_tags": {
+                  "crossing:markings": "dashes"
+               }
+            },
+            {
+               "name": "@crossingMarkingsTypeDotsOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_dots.png",
+               "osm_tags": {
+                  "crossing:markings": "dots"
+               }
+            },
+            {
+               "name": "@crossingMarkingsTypeSurfaceOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_surface.png",
+               "osm_tags": {
+                  "crossing:markings": "surface"
+               }
+            },
+            {
+               "name": "@crossingMarkingsTypePictogramsOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_pictograms.png",
+               "osm_tags": {
+                  "crossing:markings": "pictograms"
+               }
+            }
+         ],
+         "constructor": {
+            "crossing:markings": ["JOIN", ";", "$input"]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "crossing:markings": "yes"
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "crossing:markings": true
+                  }
+               }
+            ],
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "crossing": ["marked", "uncontrolled"],
+               "foot": ["yes", "designated"],
+               "bicycle": ["yes", "designated"],
+               "segregated": [false, "no"],
+               "crossing:markings": [false, "yes"]
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "crossing:markings": true
+                  }
+               }
+            ],
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "highway": ["path", "cycleway", "footway"],
+               "crossing:markings": "yes"
+            },
+            "osm_element": "OpenWay"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "@crossingCyclewayMarkingsTypeName",
+         "text": "@crossingCyclewayMarkingsTypeText",
+         "description": "@crossingMarkingsTypeDescription"
+      },
+      "answer": {
+         "type": "MultiList",
+         "input": [
+            {
+               "name": "@crossingMarkingsTypeZebraOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_zebra.png",
+               "osm_tags": {
+                  "cycleway:crossing:markings": "zebra"
+               }
+            },
+            {
+               "name": "@crossingMarkingsTypeLinesOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_lines.png",
+               "osm_tags": {
+                  "cycleway:crossing:markings": "lines"
+               }
+            },
+            {
+               "name": "@crossingMarkingsTypeLadderOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_ladder.png",
+               "osm_tags": {
+                  "cycleway:crossing:markings": "ladder"
+               }
+            },
+            {
+               "name": "@crossingMarkingsTypeDashesOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_dashes.png",
+               "osm_tags": {
+                  "cycleway:crossing:markings": "dashes"
+               }
+            },
+            {
+               "name": "@crossingMarkingsTypeDotsOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_dots.png",
+               "osm_tags": {
+                  "cycleway:crossing:markings": "dots"
+               }
+            },
+            {
+               "name": "@crossingMarkingsTypeSurfaceOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_surface.png",
+               "osm_tags": {
+                  "cycleway:crossing:markings": "surface"
+               }
+            },
+            {
+               "name": "@crossingMarkingsTypePictogramsOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_pictograms.png",
+               "osm_tags": {
+                  "cycleway:crossing:markings": "pictograms"
+               }
+            }
+         ],
+         "constructor": {
+            "cycleway:crossing:markings": ["JOIN", ";", "$input"]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "cycleway:crossing:markings": "yes"
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "cycleway:crossing:markings": true
+                  }
+               }
+            ],
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "highway": ["path", "cycleway", "footway"],
+               "cycleway:crossing:markings": "yes"
+            },
+            "osm_element": "OpenWay"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "@crossingFootwayMarkingsTypeName",
+         "text": "@crossingFootwayMarkingsTypeText",
+         "description": "@crossingMarkingsTypeDescription"
+      },
+      "answer": {
+         "type": "MultiList",
+         "input": [
+            {
+               "name": "@crossingMarkingsTypeZebraOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_zebra.png",
+               "osm_tags": {
+                  "footway:crossing:markings": "zebra"
+               }
+            },
+            {
+               "name": "@crossingMarkingsTypeLinesOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_lines.png",
+               "osm_tags": {
+                  "footway:crossing:markings": "lines"
+               }
+            },
+            {
+               "name": "@crossingMarkingsTypeLadderOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_ladder.png",
+               "osm_tags": {
+                  "footway:crossing:markings": "ladder"
+               }
+            },
+            {
+               "name": "@crossingMarkingsTypeDashesOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_dashes.png",
+               "osm_tags": {
+                  "footway:crossing:markings": "dashes"
+               }
+            },
+            {
+               "name": "@crossingMarkingsTypeDotsOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_dots.png",
+               "osm_tags": {
+                  "footway:crossing:markings": "dots"
+               }
+            },
+            {
+               "name": "@crossingMarkingsTypeSurfaceOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_surface.png",
+               "osm_tags": {
+                  "footway:crossing:markings": "surface"
+               }
+            },
+            {
+               "name": "@crossingMarkingsTypePictogramsOption",
+               "image": "assets/question_catalog/images/crossing_markings_type_pictograms.png",
+               "osm_tags": {
+                  "footway:crossing:markings": "pictograms"
+               }
+            }
+         ],
+         "constructor": {
+            "footway:crossing:markings": ["JOIN", ";", "$input"]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "footway:crossing:markings": "yes"
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "footway:crossing:markings": true
+                  }
+               }
+            ],
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "highway": ["path", "cycleway", "footway"],
+               "footway:crossing:markings": "yes"
+            },
+            "osm_element": "OpenWay"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "@crossingSignalsName",
+         "text": "@crossingSignalsText",
+         "description": "@crossingSignalsDescription"
+      },
+      "answer": {
+         "type": "Bool",
+         "input": [
+            {
+               "osm_tags": {
+                  "crossing:signals": "yes"
+               }
+            },
+            {
+               "osm_tags": {
+                  "crossing:signals": "no"
+               }
+            }
+         ]
+      },
+      "$comment": "According to the OSM wiki, 'crossing=traffic_signals' should be tagged, if traffic signals are present. Hence, if 'crossing' has any other value, one can assume that 'crossing:signals=no', because 'traffic_signals' takes precedence over the other values.",
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "crossing",
+               "crossing": [false, "island"],
+               "crossing:signal": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "@crossingIslandName",
+         "text": "@crossingIslandText",
+         "description": "@crossingIslandDescription"
+      },
+      "answer": {
+         "type": "Bool",
+         "input": [
+            {
+               "osm_tags": {
+                  "crossing:island": "yes"
+               }
+            },
+            {
+               "osm_tags": {
+                  "crossing:island": "no"
                }
             }
          ]
@@ -2725,8 +3450,25 @@
          {
             "osm_tags": {
                "highway": "crossing",
-               "crossing": false
+               "crossing:island": false
             },
+            "!osm_tags": {
+               "crossing": "island"
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "footway": ["crossing", "traffic_island"]
+                  },
+                  "osm_element": "OpenWay"
+               },
+               {
+                  "osm_tags": {
+                     "oneway": ["yes"]
+                  },
+                  "osm_element": "OpenWay"
+               }
+            ],
             "osm_element": "Node"
          }
       ]
@@ -2763,7 +3505,7 @@
                "crossing": "traffic_signals",
                "button_operated": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -2771,7 +3513,7 @@
                "crossing:signals": "yes",
                "button_operated": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -2779,7 +3521,7 @@
                "crossing": "traffic_signals",
                "button_operated": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -2787,7 +3529,7 @@
                "crossing:signals": "yes",
                "button_operated": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          }
       ]
    },
@@ -2822,7 +3564,7 @@
                "crossing": "traffic_signals",
                "traffic_signals:arrow": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -2830,7 +3572,7 @@
                "crossing:signals": "yes",
                "traffic_signals:arrow": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -2838,7 +3580,7 @@
                "crossing": "traffic_signals",
                "traffic_signals:arrow": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -2846,7 +3588,7 @@
                "crossing:signals": "yes",
                "traffic_signals:arrow": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          }
       ]
    },
@@ -2887,7 +3629,7 @@
                "crossing": "traffic_signals",
                "traffic_signals:sound": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -2895,7 +3637,7 @@
                "crossing:signals": "yes",
                "traffic_signals:sound": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -2903,7 +3645,7 @@
                "crossing": "traffic_signals",
                "traffic_signals:sound": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -2911,7 +3653,7 @@
                "crossing:signals": "yes",
                "traffic_signals:sound": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          }
       ]
    },
@@ -2947,7 +3689,7 @@
                "crossing": "traffic_signals",
                "traffic_signals:vibration": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -2955,7 +3697,7 @@
                "crossing:signals": "yes",
                "traffic_signals:vibration": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -2963,7 +3705,7 @@
                "crossing": "traffic_signals",
                "traffic_signals:vibration": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -2971,7 +3713,7 @@
                "crossing:signals": "yes",
                "traffic_signals:vibration": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          }
       ]
    },
@@ -3096,14 +3838,14 @@
    },
    {
       "question": {
-         "name": "@crosswalkBarrierName",
-         "text": "@crosswalkBarrierText"
+         "name": "@crossingBarrierName",
+         "text": "@crossingBarrierText"
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "@crosswalkBarrierOption",
+               "name": "@crossingBarrierOption",
                "image": "assets/question_catalog/images/crossing_barrier_full.png",
                "osm_tags": {
                   "crossing:barrier": "full",
@@ -3111,7 +3853,7 @@
                }
             },
             {
-               "name": "@crosswalkBarrierChicaneOption",
+               "name": "@crossingBarrierChicaneOption",
                "image": "assets/question_catalog/images/crossing_chicane.png",
                "osm_tags": {
                   "crossing:chicane": "yes",
@@ -3119,7 +3861,7 @@
                }
             },
             {
-               "name": "@crosswalkBarrierGateOption",
+               "name": "@crossingBarrierGateOption",
                "image": "assets/question_catalog/images/crossing_barrier_gate.png",
                "osm_tags": {
                   "crossing:barrier": "gate",
@@ -3127,7 +3869,7 @@
                }
             },
             {
-               "name": "@crosswalkBarrierChainOption",
+               "name": "@crossingBarrierChainOption",
                "image": "assets/question_catalog/images/crossing_barrier_chain.png",
                "osm_tags": {
                   "crossing:barrier": "chain",
@@ -3135,7 +3877,7 @@
                }
             },
             {
-               "name": "@crosswalkBarrierUnsecuredOption",
+               "name": "@crossingBarrierUnsecuredOption",
                "image": "assets/question_catalog/images/crossing_barrier_no.png",
                "osm_tags": {
                   "crossing:barrier": "no",
@@ -3157,35 +3899,35 @@
    },
    {
       "question": {
-         "name": "@crosswalkBarrierName",
-         "text": "@crosswalkBarrierText"
+         "name": "@crossingBarrierName",
+         "text": "@crossingBarrierText"
       },
       "answer": {
          "type": "List",
          "input": [
             {
-               "name": "@crosswalkBarrierOption",
+               "name": "@crossingBarrierOption",
                "image": "assets/question_catalog/images/crossing_barrier_full.png",
                "osm_tags": {
                   "crossing:barrier": "full"
                }
             },
             {
-               "name": "@crosswalkBarrierGateOption",
+               "name": "@crossingBarrierGateOption",
                "image": "assets/question_catalog/images/crossing_barrier_gate.png",
                "osm_tags": {
                   "crossing:barrier": "gate"
                }
             },
             {
-               "name": "@crosswalkBarrierChainOption",
+               "name": "@crossingBarrierChainOption",
                "image": "assets/question_catalog/images/crossing_barrier_chain.png",
                "osm_tags": {
                   "crossing:barrier": "chain"
                }
             },
             {
-               "name": "@crosswalkBarrierUnsecuredOption",
+               "name": "@crossingBarrierUnsecuredOption",
                "image": "assets/question_catalog/images/crossing_barrier_no.png",
                "osm_tags": {
                   "crossing:barrier": "no"

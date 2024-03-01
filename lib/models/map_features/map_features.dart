@@ -564,32 +564,12 @@ final _globalDefinitions = <MapFeatureDefinition>[
     ],
   ),
   MapFeatureDefinition(
-    label: (locale, _) => locale.mapFeatureCrosswalk,
-    icon: TemakiIcons.pedestrianCrosswalk,
+    label: (locale, _) => locale.mapFeatureCrossing,
+    icon: TemakiIcons.pedCyclistCrosswalk,
     conditions: const [
       ElementCondition([
         TagsSubCondition({
           'highway': StringValueMatcher('crossing'),
-        }),
-        ElementTypeSubCondition([OSMElementType.node, OSMElementType.openWay])
-      ]),
-    ],
-  ),
-  MapFeatureDefinition(
-    label: (locale, _) => locale.mapFeaturePedestrianLights,
-    icon: TemakiIcons.trafficSignals,
-    conditions: const [
-      ElementCondition([
-        TagsSubCondition({
-          'highway': StringValueMatcher('crossing'),
-          'crossing': StringValueMatcher('traffic_signals'),
-        }),
-        ElementTypeSubCondition([OSMElementType.node, OSMElementType.openWay])
-      ]),
-      ElementCondition([
-        TagsSubCondition({
-          'highway': StringValueMatcher('crossing'),
-          'crossing:signals': StringValueMatcher('yes'),
         }),
         ElementTypeSubCondition([OSMElementType.node, OSMElementType.openWay])
       ]),
@@ -620,6 +600,59 @@ final _globalDefinitions = <MapFeatureDefinition>[
     ],
   ),
   MapFeatureDefinition(
+    label: (locale, _) => locale.mapFeatureFootwayCrossing,
+    icon: TemakiIcons.pedestrianCrosswalk,
+    conditions: const [
+      ElementCondition([
+        TagsSubCondition({
+          'highway': StringValueMatcher('footway'),
+          'footway': StringValueMatcher('crossing'),
+        }),
+      ]),
+      ElementCondition([
+        TagsSubCondition({
+          'highway': StringValueMatcher('path'),
+          'path': StringValueMatcher('crossing'),
+          'foot': MultiValueMatcher([
+            StringValueMatcher('yes'),
+            StringValueMatcher('designated'),
+          ]),
+          'bicycle': MultiValueMatcher([
+            EmptyValueMatcher(),
+            StringValueMatcher('no'),
+          ]),
+        }),
+      ]),
+    ],
+  ),
+  MapFeatureDefinition(
+    label: (locale, _) => locale.mapFeatureCyclewayCrossing,
+    icon: TemakiIcons.cyclistCrosswalk,
+    conditions: const [
+      ElementCondition([
+        TagsSubCondition({
+          'highway': StringValueMatcher('cycleway'),
+          'cycleway': StringValueMatcher('crossing'),
+        }),
+      ]),
+      ElementCondition([
+        TagsSubCondition({
+          'highway': StringValueMatcher('path'),
+          'path': StringValueMatcher('crossing'),
+          'bicycle': MultiValueMatcher([
+            StringValueMatcher('yes'),
+            StringValueMatcher('designated'),
+          ]),
+          'foot': MultiValueMatcher([
+            EmptyValueMatcher(),
+            StringValueMatcher('no'),
+          ]),
+        }),
+        ElementTypeSubCondition([OSMElementType.openWay])
+      ]),
+    ],
+  ),
+  MapFeatureDefinition(
     label: (locale, _) => locale.mapFeatureCurb,
     icon: TemakiIcons.kerbRaised,
     conditions: const [
@@ -628,6 +661,26 @@ final _globalDefinitions = <MapFeatureDefinition>[
           'barrier': StringValueMatcher('kerb'),
         }),
         ElementTypeSubCondition([OSMElementType.node])
+      ]),
+    ],
+  ),
+  MapFeatureDefinition(
+    label: (locale, _) => locale.mapFeaturePedestrianLights,
+    icon: TemakiIcons.trafficSignals,
+    conditions: const [
+      ElementCondition([
+        TagsSubCondition({
+          'highway': StringValueMatcher('crossing'),
+          'crossing': StringValueMatcher('traffic_signals'),
+        }),
+        ElementTypeSubCondition([OSMElementType.node, OSMElementType.openWay])
+      ]),
+      ElementCondition([
+        TagsSubCondition({
+          'highway': StringValueMatcher('crossing'),
+          'crossing:signals': StringValueMatcher('yes'),
+        }),
+        ElementTypeSubCondition([OSMElementType.node, OSMElementType.openWay])
       ]),
     ],
   ),
