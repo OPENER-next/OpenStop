@@ -3175,7 +3175,10 @@
                   "crossing:markings": "pictograms"
                }
             }
-         ]
+         ],
+         "constructor": {
+            "operator": ["JOIN", ";", "$input"]
+         }
       },
       "conditions": [
          {
@@ -3275,7 +3278,10 @@
                   "cycleway:crossing:markings": "pictograms"
                }
             }
-         ]
+         ],
+         "constructor": {
+            "operator": ["JOIN", ";", "$input"]
+         }
       },
       "conditions": [
          {
@@ -3358,7 +3364,10 @@
                   "footway:crossing:markings": "pictograms"
                }
             }
-         ]
+         ],
+         "constructor": {
+            "operator": ["JOIN", ";", "$input"]
+         }
       },
       "conditions": [
          {
