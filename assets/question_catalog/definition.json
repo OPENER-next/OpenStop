@@ -3495,7 +3495,7 @@
                "crossing": "traffic_signals",
                "button_operated": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -3503,7 +3503,7 @@
                "crossing:signals": "yes",
                "button_operated": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -3511,7 +3511,7 @@
                "crossing": "traffic_signals",
                "button_operated": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -3519,7 +3519,7 @@
                "crossing:signals": "yes",
                "button_operated": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          }
       ]
    },
@@ -3554,7 +3554,7 @@
                "crossing": "traffic_signals",
                "traffic_signals:arrow": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -3562,7 +3562,7 @@
                "crossing:signals": "yes",
                "traffic_signals:arrow": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -3570,7 +3570,7 @@
                "crossing": "traffic_signals",
                "traffic_signals:arrow": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -3578,7 +3578,7 @@
                "crossing:signals": "yes",
                "traffic_signals:arrow": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          }
       ]
    },
@@ -3619,7 +3619,7 @@
                "crossing": "traffic_signals",
                "traffic_signals:sound": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -3627,7 +3627,7 @@
                "crossing:signals": "yes",
                "traffic_signals:sound": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -3635,7 +3635,7 @@
                "crossing": "traffic_signals",
                "traffic_signals:sound": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -3643,7 +3643,7 @@
                "crossing:signals": "yes",
                "traffic_signals:sound": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          }
       ]
    },
@@ -3679,7 +3679,7 @@
                "crossing": "traffic_signals",
                "traffic_signals:vibration": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -3687,7 +3687,7 @@
                "crossing:signals": "yes",
                "traffic_signals:vibration": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -3695,7 +3695,7 @@
                "crossing": "traffic_signals",
                "traffic_signals:vibration": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          },
          {
             "osm_tags": {
@@ -3703,7 +3703,7 @@
                "crossing:signals": "yes",
                "traffic_signals:vibration": false
             },
-            "osm_element": ["Node", "OpenWay"]
+            "osm_element": ["Node"]
          }
       ]
    },
