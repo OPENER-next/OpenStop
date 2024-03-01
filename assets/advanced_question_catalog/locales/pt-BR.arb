@@ -1,0 +1,12 @@
+{
+  "platformHeightDescription": "Se esta altura variar dentro de uma plataforma, deverá ser determinado o valor típico para o ponto de entrada habitual para utilizadores de cadeiras de rodas.",
+  "@platformHeightDescription": {},
+  "platformHeightName": "Altura da plataforma",
+  "@platformHeightName": {},
+  "platformHeightText": "Qual é a diferença de altura entre a plataforma e a estrada, respectivamente, a borda superior do trilho?",
+  "@platformHeightText": {},
+  "unitCentimeter": "Centímetro",
+  "@unitCentimeter": {},
+  "platformHeightPlaceholder": "Altura da plataforma",
+  "@platformHeightPlaceholder": {}
+}
