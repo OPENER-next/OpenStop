@@ -183,7 +183,7 @@
   "@yes": {},
   "no": "No",
   "@no": {},
-  "days": "{day, plural, =1 {1 Day} other {{day} Days}}",
+  "days": "{day, plural, =1 {1 day} other {{day} days}}",
   "@days": {
     "placeholders": {
       "day": {
@@ -191,7 +191,7 @@
       }
     }
   },
-  "hours": "{hour, plural, =1 {1 Hour} other {{hour} Hours}}",
+  "hours": "{hour, plural, =1 {1 hour} other {{hour} hours}}",
   "@hours": {
     "placeholders": {
       "hour": {
@@ -199,7 +199,7 @@
       }
     }
   },
-  "minutes": "{minute, plural, =1 {1 Minute} other {{minute} Minutes}}",
+  "minutes": "{minute, plural, =1 {1 minute} other {{minute} minutes}}",
   "@minutes": {
     "placeholders": {
       "minute": {
@@ -207,7 +207,7 @@
       }
     }
   },
-  "seconds": "{second, plural, =1 {1 Second} other {{second} Seconds}}",
+  "seconds": "{second, plural, =1 {1 second} other {{second} seconds}}",
   "@seconds": {
     "placeholders": {
       "second": {
@@ -221,15 +221,15 @@
   "@more": {},
   "element": "element",
   "@element": {},
-  "durationInputDaysLabel": "Days",
+  "durationInputDaysLabel": "days",
   "@durationInputDaysLabel": {},
-  "durationInputHoursLabel": "Hours",
+  "durationInputHoursLabel": "hours",
   "@durationInputHoursLabel": {},
-  "durationInputMinutesLabel": "Minutes",
+  "durationInputMinutesLabel": "minutes",
   "@durationInputMinutesLabel": {},
-  "durationInputSecondsLabel": "Seconds",
+  "durationInputSecondsLabel": "seconds",
   "@durationInputSecondsLabel": {},
-  "osmCreditsText": "Data © OpenStreetMap-Contributors",
+  "osmCreditsText": "Data © OpenStreetMap contributors",
   "@osmCreditsText": {},
   "changesetWithStopNameText": "Added details to {elements} in the stop area {stopArea}.",
   "@changesetWithStopNameText": {

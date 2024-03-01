@@ -68,7 +68,7 @@
   "@toiletAccessibilityEveryoneOptionDescription": {},
   "toiletAccessibilityNoWheelchairOptionName": "Not wheelchair-accessible",
   "@toiletAccessibilityNoWheelchairOptionName": {},
-  "toiletAccessibilityNoWheelchairOptionDescription": "The toilets are not wheelchair-accessible. Wheelchair users have no access.",
+  "toiletAccessibilityNoWheelchairOptionDescription": "The toilets are not accessible by wheelchair.",
   "@toiletAccessibilityNoWheelchairOptionDescription": {},
   "toiletFeesName": "Toilet fees",
   "@toiletFeesName": {},
@@ -562,10 +562,10 @@
   "@transportationModesMonorailOptionName": {},
   "transportationModesMonorailOptionDescription": "A monorail mostly runs above street level and has no visible wheels.",
   "@transportationModesMonorailOptionDescription": {},
-  "unitCentimeter": "Centimeter",
+  "unitCentimeter": "centimeter",
   "@unitCentimeter": {},
-  "unitMeter": "Meter",
+  "unitMeter": "meter",
   "@unitMeter": {},
-  "unitKilogram": "Kilogram",
+  "unitKilogram": "kilogram",
   "@unitKilogram": {}
 }
