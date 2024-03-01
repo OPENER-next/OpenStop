@@ -1,0 +1,296 @@
+{
+  "aboutTitle": "Sobre",
+  "@aboutTitle": {},
+  "aboutVersionLabel": "Versão",
+  "@aboutVersionLabel": {},
+  "aboutAuthorsDescription": "{appName} contribuidores",
+  "@aboutAuthorsDescription": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "onboardingGreetingButton": "Veja como funciona",
+  "@onboardingGreetingButton": {},
+  "onboardingSurveyingTitle": "Dê uma olhada",
+  "@onboardingSurveyingTitle": {},
+  "onboardingSurveyingDescription": "Vá até uma parada próxima para avaliar seu estado atual.",
+  "@onboardingSurveyingDescription": {},
+  "onboardingAnsweringDescription": "Para coletar dados selecione um marcador no app e responda às perguntas exibidas.",
+  "@onboardingAnsweringDescription": {},
+  "onboardingAnsweringButton": "Ok, entendi",
+  "@onboardingAnsweringButton": {},
+  "onboardingContributingTitle": "Compartilhar é se importar",
+  "@onboardingContributingTitle": {},
+  "onboardingContributingButton": "Aqui vamos nós",
+  "@onboardingContributingButton": {},
+  "numberInputFallbackName": "Valor",
+  "@numberInputFallbackName": {
+    "description": "Fallback value for nameString in numberInputValidationErrorMax"
+  },
+  "numberInputValidationError": "Número inválido",
+  "@numberInputValidationError": {},
+  "numberInputValidationErrorMax": "{nameString} deve ser menor que {max}{unit}.",
+  "@numberInputValidationErrorMax": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "max": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "numberInputValidationErrorMin": "{nameString} deve ser maior que {min}{unit}.",
+  "@numberInputValidationErrorMin": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "min": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "stringInputPlaceholder": "Entre aqui...",
+  "@stringInputPlaceholder": {},
+  "stringInputValidationErrorMin": "Muito curta",
+  "@stringInputValidationErrorMin": {},
+  "changesetCommentConjunctionString": "e",
+  "@changesetCommentConjunctionString": {},
+  "uploadMessageSuccess": "Alterações enviadas com sucesso.",
+  "@uploadMessageSuccess": {},
+  "uploadMessageServerConnectionError": "Erro: Sem conexão com o servidor OSM.",
+  "@uploadMessageServerConnectionError": {},
+  "queryMessageServerUnavailableError": "Servidor indisponível ou sobrecarregado. Tente mais tarde.",
+  "@queryMessageServerUnavailableError": {},
+  "queryMessageTooManyRequestsError": "Muitas solicitações ao servidor.",
+  "@queryMessageTooManyRequestsError": {},
+  "queryMessageConnectionTimeoutError": "Erro: A consulta do servidor expirou.",
+  "@queryMessageConnectionTimeoutError": {},
+  "queryMessageReceiveTimeoutError": "Erro: O tempo limite de recebimento de dados expirou.",
+  "@queryMessageReceiveTimeoutError": {},
+  "queryMessageUnknownServerCommunicationError": "Erro desconhecido durante a comunicação do servidor.",
+  "@queryMessageUnknownServerCommunicationError": {},
+  "questionnaireSummaryDedicatedMessage": "Obrigado {userName} pelas suas respostas.\nPor favor, verifique-os antes de fazer o upload.",
+  "@questionnaireSummaryDedicatedMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "questionnaireSummaryUndedicatedMessage": "Obrigado por suas respostas.\nPor favor, verifique-os antes de fazer o upload.",
+  "@questionnaireSummaryUndedicatedMessage": {},
+  "back": "Voltar",
+  "@back": {},
+  "next": "Próximo",
+  "@next": {},
+  "cancel": "Cancelar",
+  "@cancel": {},
+  "confirm": "Confirmar",
+  "@confirm": {},
+  "finish": "Finalizar",
+  "@finish": {},
+  "login": "Entrar",
+  "@login": {},
+  "logout": "Sair",
+  "@logout": {},
+  "skip": "Pular",
+  "@skip": {},
+  "yes": "Sim",
+  "@yes": {},
+  "no": "Não",
+  "@no": {},
+  "and": "e",
+  "@and": {},
+  "more": "mais",
+  "@more": {},
+  "element": "elemento",
+  "@element": {},
+  "durationInputDaysLabel": "Dias",
+  "@durationInputDaysLabel": {},
+  "durationInputHoursLabel": "Horas",
+  "@durationInputHoursLabel": {},
+  "durationInputMinutesLabel": "Minutos",
+  "@durationInputMinutesLabel": {},
+  "durationInputSecondsLabel": "Segundos",
+  "@durationInputSecondsLabel": {},
+  "osmCreditsText": "Data © contribuidores do OpenStreetMap",
+  "@osmCreditsText": {},
+  "mapFeatureTicketSalesPoint": "Ponto de venda de ingressos",
+  "@mapFeatureTicketSalesPoint": {},
+  "mapFeatureInformationPoint": "Ponto de informação",
+  "@mapFeatureInformationPoint": {},
+  "mapFeatureStationMap": "Mapa de estações/paradas",
+  "@mapFeatureStationMap": {},
+  "mapFeatureTicketMachine": "Máquina de bilhetes",
+  "@mapFeatureTicketMachine": {},
+  "mapFeatureParkingSpot": "Vaga de estacionamento",
+  "@mapFeatureParkingSpot": {},
+  "mapFeatureTaxiStand": "Ponto de taxi",
+  "@mapFeatureTaxiStand": {},
+  "mapFeatureToilets": "Banheiros",
+  "@mapFeatureToilets": {},
+  "mapFeatureLuggageLockers": "Armários de bagagem",
+  "@mapFeatureLuggageLockers": {},
+  "mapFeatureLuggageTransport": "Transporte de bagagem",
+  "@mapFeatureLuggageTransport": {},
+  "mapFeatureHelpPoint": "Ponto de ajuda",
+  "@mapFeatureHelpPoint": {},
+  "mapFeatureEmergencyCallPoint": "Ponto de chamada de emergência",
+  "@mapFeatureEmergencyCallPoint": {},
+  "mapFeatureEntrance": "Entrada",
+  "@mapFeatureEntrance": {},
+  "mapFeatureStairs": "Escadaria",
+  "@mapFeatureStairs": {},
+  "mapFeatureFootpath": "Caminho",
+  "@mapFeatureFootpath": {},
+  "mapFeatureElevator": "Elevador",
+  "@mapFeatureElevator": {},
+  "mapFeatureEscalator": "Escada rolante",
+  "@mapFeatureEscalator": {},
+  "mapFeatureCycleBarrier": "Barreira de bicicletas",
+  "@mapFeatureCycleBarrier": {},
+  "mapFeatureCrosswalk": "Faixa de pedestre",
+  "@mapFeatureCrosswalk": {},
+  "mapFeaturePedestrianLights": "Luzes para pedestres",
+  "@mapFeaturePedestrianLights": {},
+  "mapFeatureRailroadCrossing": "Cruzamento de linha férrea",
+  "@mapFeatureRailroadCrossing": {},
+  "mapFeatureCurb": "Meio-fio",
+  "@mapFeatureCurb": {},
+  "mapFeatureBusPlatformNumber": "Plataforma: {number}",
+  "@mapFeatureBusPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureTrainPlatformNumber": "Plataforma: {number}",
+  "@mapFeatureTrainPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutSlogan": "Próxima parada: Acessibilidade",
+  "@aboutSlogan": {},
+  "aboutAuthorsLabel": "Autores",
+  "@aboutAuthorsLabel": {},
+  "aboutIdeaLabel": "Ideia",
+  "@aboutIdeaLabel": {},
+  "aboutPrivacyPolicyLabel": "política de Privacidade",
+  "@aboutPrivacyPolicyLabel": {},
+  "aboutIdeaDescription": "Universidade de Tecnologia de Chemnitz\nProfessor de Circuito e Design de Sistemas",
+  "@aboutIdeaDescription": {},
+  "aboutLicenseLabel": "Licença",
+  "@aboutLicenseLabel": {},
+  "aboutLicensePackageLabel": "Licenças de pacotes usados",
+  "@aboutLicensePackageLabel": {},
+  "aboutSourceCodeLabel": "Código fonte",
+  "@aboutSourceCodeLabel": {},
+  "helpTitle": "Ajuda",
+  "@helpTitle": {},
+  "helpOnboardingLabel": "Assista a introdução novamente",
+  "@helpOnboardingLabel": {},
+  "onboardingAnsweringTitle": "Agora é sua vez",
+  "@onboardingAnsweringTitle": {},
+  "helpReportErrorLabel": "Reportar um erro",
+  "@helpReportErrorLabel": {},
+  "onboardingGreetingTitle": "Olá!",
+  "@onboardingGreetingTitle": {},
+  "onboardingGreetingDescription": "Estamos felizes por você estar aqui e querer fazer a sua parte para melhorar o transporte público.",
+  "@onboardingGreetingDescription": {},
+  "onboardingSurveyingButton": "Eu vou fazer isso",
+  "@onboardingSurveyingButton": {},
+  "onboardingContributingDescription": "Faça o upload de suas respostas no OpenStreetMap para compartilhá-las com o mundo inteiro.",
+  "@onboardingContributingDescription": {},
+  "privacyPolicyTitle": "política de Privacidade",
+  "@privacyPolicyTitle": {},
+  "settingsTitle": "Configurações",
+  "@settingsTitle": {},
+  "settingsProfessionalQuestionsLabel": "Exibir perguntas profissionais",
+  "@settingsProfessionalQuestionsLabel": {},
+  "settingsProfessionalQuestionsDescription": "Por razões de segurança destinado apenas a profissionais",
+  "@settingsProfessionalQuestionsDescription": {},
+  "settingsThemeLabel": "Esquema de cores do app",
+  "@settingsThemeLabel": {},
+  "settingsThemeDialogTitle": "Selecione o tema",
+  "@settingsThemeDialogTitle": {},
+  "settingsThemeOptionSystem": "Padrão",
+  "@settingsThemeOptionSystem": {},
+  "settingsThemeOptionLight": "Claro",
+  "@settingsThemeOptionLight": {},
+  "settingsThemeOptionDark": "Escuro",
+  "@settingsThemeOptionDark": {},
+  "logoutDialogTitle": "Sair do OSM?",
+  "@logoutDialogTitle": {},
+  "logoutDialogDescription": "Se você sair, não poderá mais enviar alterações para o OpenStreetMap.",
+  "@logoutDialogDescription": {},
+  "loginHint": "Faça login com sua conta OpenStreetMap para enviar suas alterações.",
+  "@loginHint": {},
+  "numberInputPlaceholder": "Entre aqui...",
+  "@numberInputPlaceholder": {},
+  "changesetCommentMessage": "Detalhes adicionados {mapFeaturesString} na área de parada {stopsString}.",
+  "@changesetCommentMessage": {
+    "placeholders": {
+      "mapFeaturesString": {
+        "type": "String"
+      },
+      "stopsString": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadMessageUnknownConnectionError": "Erro desconhecido durante a transmissão.",
+  "@uploadMessageUnknownConnectionError": {},
+  "queryMessageUnknownError": "Erro desconhecido.",
+  "@queryMessageUnknownError": {},
+  "changesetWithStopNameText": "Adicionados detalhes a {elements} na área de parada {stopArea}.",
+  "@changesetWithStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      },
+      "stopArea": {
+        "type": "String"
+      }
+    }
+  },
+  "changesetWithoutStopNameText": "Adicionados detalhes a {elements} na área de parada.",
+  "@changesetWithoutStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureBusStop": "Ponto de ônibus",
+  "@mapFeatureBusStop": {},
+  "mapFeatureTramStop": "Parada de bonde",
+  "@mapFeatureTramStop": {},
+  "mapFeatureTrainPlatform": "Plataforma de trem",
+  "@mapFeatureTrainPlatform": {},
+  "mapFeatureStation": "Estação",
+  "@mapFeatureStation": {},
+  "mapFeaturePlatform": "Plataforma",
+  "@mapFeaturePlatform": {},
+  "mapFeatureStopPole": "Poste de parada",
+  "@mapFeatureStopPole": {},
+  "mapFeatureInformationTerminal": "Terminal de informações",
+  "@mapFeatureInformationTerminal": {},
+  "mapFeatureInformationCallPoint": "Coluna de informações",
+  "@mapFeatureInformationCallPoint": {},
+  "mapFeatureTramCrossing": "Travessia de bonde",
+  "@mapFeatureTramCrossing": {}
+}
