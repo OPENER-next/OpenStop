@@ -3755,7 +3755,9 @@
       "conditions": [
          {
             "osm_tags": {
-               "railway": "tram_crossing"
+               "railway": "tram_crossing",
+               "crossing:signals": false,
+               "crossing:light": false
             },
             "osm_element": "Node"
          }
