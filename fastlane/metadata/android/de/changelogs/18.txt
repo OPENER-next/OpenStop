@@ -1,0 +1,14 @@
+Lokalisierung:
+ - Übersetzen ist jetzt mit Weblate möglich
+ - Übersetzungen (teilw.) in 10 Sprachen verfügbar
+UI/UX:
+ - Ladeanimation für Haltestellenbereiche ersetzt
+ - Lücke in Marker bei langen Namen korrigiert
+ - Galerie für Infobilder hinzugefügt
+Fragen:
+ - Frage zu "tram signal lights" hinzugefügt
+ - Fragen zu Kreuzungen (bzgl. Markierungen, Inseln, Signale) angepasst
+ - Nicht nach "crossing:whistle" an Straßenbahnkreuzungen fragen
+Sonstiges:
+ - Lizenz: GPLv3+
+ - Rechtschreibkorrektur
