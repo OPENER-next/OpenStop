@@ -68,7 +68,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.13.1
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
   nock: ^1.2.1
   stack_trace: ^1.11.0
   build_runner: ^2.3.3
