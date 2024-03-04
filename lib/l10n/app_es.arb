@@ -214,8 +214,6 @@
   "@mapFeatureEscalator": {},
   "mapFeatureCycleBarrier": "Barrera para bicicleta",
   "@mapFeatureCycleBarrier": {},
-  "mapFeatureCrosswalk": "Paso de peatones",
-  "@mapFeatureCrosswalk": {},
   "mapFeaturePedestrianLights": "Semáforo para peatones",
   "@mapFeaturePedestrianLights": {},
   "mapFeatureTramCrossing": "Cruce de tranvía",
@@ -227,5 +225,11 @@
   "mapFeatureBusPlatformNumber": "Plataforma: {number}",
   "@mapFeatureBusPlatformNumber": {},
   "mapFeatureTrainPlatformNumber": "Plataforma: {number}",
-  "@mapFeatureTrainPlatformNumber": {}
+  "@mapFeatureTrainPlatformNumber": {},
+  "mapFeatureCrossing": "Paso",
+  "@mapFeatureCrossing": {},
+  "mapFeatureFootwayCrossing": "Paso de peatones",
+  "@mapFeatureFootwayCrossing": {},
+  "mapFeatureCyclewayCrossing": "Paso de bicicletas",
+  "@mapFeatureCyclewayCrossing": {}
 }

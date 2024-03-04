@@ -115,13 +115,13 @@
   "@more": {},
   "element": "elemento",
   "@element": {},
-  "durationInputDaysLabel": "Dias",
+  "durationInputDaysLabel": "dias",
   "@durationInputDaysLabel": {},
-  "durationInputHoursLabel": "Horas",
+  "durationInputHoursLabel": "horas",
   "@durationInputHoursLabel": {},
-  "durationInputMinutesLabel": "Minutos",
+  "durationInputMinutesLabel": "minutos",
   "@durationInputMinutesLabel": {},
-  "durationInputSecondsLabel": "Segundos",
+  "durationInputSecondsLabel": "segundos",
   "@durationInputSecondsLabel": {},
   "osmCreditsText": "Data © contribuidores do OpenStreetMap",
   "@osmCreditsText": {},
@@ -159,8 +159,6 @@
   "@mapFeatureEscalator": {},
   "mapFeatureCycleBarrier": "Barreira de bicicletas",
   "@mapFeatureCycleBarrier": {},
-  "mapFeatureCrosswalk": "Faixa de pedestre",
-  "@mapFeatureCrosswalk": {},
   "mapFeaturePedestrianLights": "Luzes para pedestres",
   "@mapFeaturePedestrianLights": {},
   "mapFeatureRailroadCrossing": "Cruzamento de linha férrea",
@@ -292,5 +290,29 @@
   "mapFeatureInformationCallPoint": "Coluna de informações",
   "@mapFeatureInformationCallPoint": {},
   "mapFeatureTramCrossing": "Travessia de bonde",
-  "@mapFeatureTramCrossing": {}
+  "@mapFeatureTramCrossing": {},
+  "hours": "{hour, plural, =1 {1 hora} other {{hour} horas}}",
+  "@hours": {
+    "placeholders": {
+      "hour": {
+        "type": "num"
+      }
+    }
+  },
+  "minutes": "{minute, plural, =1 {1 minuto} other {{minute} minutos}}",
+  "@minutes": {
+    "placeholders": {
+      "minute": {
+        "type": "num"
+      }
+    }
+  },
+  "seconds": "{second, plural, =1 {1 segundo} other {{second} segundos}}",
+  "@seconds": {
+    "placeholders": {
+      "second": {
+        "type": "num"
+      }
+    }
+  }
 }

@@ -17,8 +17,6 @@
   "@mapFeatureEscalator": {},
   "mapFeatureCycleBarrier": "自行车障碍",
   "@mapFeatureCycleBarrier": {},
-  "mapFeatureCrosswalk": "人行横道",
-  "@mapFeatureCrosswalk": {},
   "mapFeatureTramCrossing": "电车平交道口",
   "@mapFeatureTramCrossing": {},
   "mapFeatureRailroadCrossing": "铁路平交道口",

@@ -141,9 +141,9 @@
   "@more": {},
   "element": "elemento",
   "@element": {},
-  "durationInputDaysLabel": "Giorni",
+  "durationInputDaysLabel": "giorni",
   "@durationInputDaysLabel": {},
-  "durationInputHoursLabel": "Ore",
+  "durationInputHoursLabel": "ore",
   "@durationInputHoursLabel": {},
   "changesetWithStopNameText": "Aggiunti dettagli a {elements} alla fermata {stopArea}.",
   "@changesetWithStopNameText": {
@@ -190,8 +190,6 @@
   "@mapFeatureEscalator": {},
   "mapFeatureCycleBarrier": "Barriera per biciclette",
   "@mapFeatureCycleBarrier": {},
-  "mapFeatureCrosswalk": "Attraversamento",
-  "@mapFeatureCrosswalk": {},
   "mapFeaturePedestrianLights": "Semaforo pedonale",
   "@mapFeaturePedestrianLights": {},
   "mapFeatureRailroadCrossing": "Attraversamento ferroviario",
@@ -293,11 +291,11 @@
       }
     }
   },
-  "durationInputMinutesLabel": "Minuti",
+  "durationInputMinutesLabel": "minuti",
   "@durationInputMinutesLabel": {},
-  "durationInputSecondsLabel": "Secondi",
+  "durationInputSecondsLabel": "secondi",
   "@durationInputSecondsLabel": {},
-  "osmCreditsText": "Dati © OpenStreetMap-Contributors",
+  "osmCreditsText": "Dati © Collaboratori di OpenStreetMap",
   "@osmCreditsText": {},
   "changesetWithoutStopNameText": "Aggiunti dettagli a {elements} nella fermata.",
   "@changesetWithoutStopNameText": {
@@ -324,5 +322,11 @@
   "mapFeatureInformationTerminal": "Terminale per informazioni",
   "@mapFeatureInformationTerminal": {},
   "mapFeatureTramCrossing": "Attraversamento tranviario",
-  "@mapFeatureTramCrossing": {}
+  "@mapFeatureTramCrossing": {},
+  "mapFeatureFootwayCrossing": "Attraversamento pedonale",
+  "@mapFeatureFootwayCrossing": {},
+  "mapFeatureCrossing": "Attraversamento",
+  "@mapFeatureCrossing": {},
+  "mapFeatureCyclewayCrossing": "Attraversamento ciclabile",
+  "@mapFeatureCyclewayCrossing": {}
 }
