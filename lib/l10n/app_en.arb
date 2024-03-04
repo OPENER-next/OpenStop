@@ -82,7 +82,7 @@
   "@logoutDialogDescription": {},
   "loginHint": "Log in with your OpenStreetMap account to upload your changes.",
   "@loginHint": {},
-  "numberInputPlaceholder": "Enter here...",
+  "numberInputPlaceholder": "Enter here…",
   "@numberInputPlaceholder": {},
   "numberInputFallbackName": "Value",
   "@numberInputFallbackName": {
@@ -118,7 +118,7 @@
       }
     }
   },
-  "stringInputPlaceholder": "Enter here...",
+  "stringInputPlaceholder": "Enter here…",
   "@stringInputPlaceholder": {},
   "stringInputValidationErrorMin": "Input too short",
   "@stringInputValidationErrorMin": {},
