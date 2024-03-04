@@ -11,6 +11,7 @@ class HelpScreen extends StatelessWidget {
   const HelpScreen({Key? key}) : super(key: key);
 
   static final _urlIssues = Uri.parse('${app_config.appProjectUrl}/issues');
+  static final _urlTranslation = Uri.parse('https://hosted.weblate.org/engage/openstop/');
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,12 @@ class HelpScreen extends StatelessWidget {
                 trailingIcon: Icons.open_in_new,
                 title: appLocale.helpReportErrorLabel,
                 onTap: () => launchUrl(_urlIssues),
+              ),
+              CustomListTile(
+                leadingIcon: Icons.translate,
+                trailingIcon: Icons.open_in_new,
+                title: appLocale.helpImproveTranslationLabel,
+                onTap: () => launchUrl(_urlTranslation),
               ),
             ],
           ),
