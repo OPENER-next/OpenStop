@@ -14,9 +14,9 @@ class StopArea extends Circle {
 
   StopArea(
     Iterable<Stop> stops,
-    LatLng center,
-    double radius,
-  ) : stops = Set.unmodifiable(stops), super(center, radius);
+    super.center,
+    super.radius,
+  ) : stops = Set.unmodifiable(stops);
 
   double get diameter => radius + radius;
 

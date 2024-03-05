@@ -8,7 +8,7 @@ import '/commons/app_config.dart' as app_config;
 import '/commons/routes.dart';
 
 class HelpScreen extends StatelessWidget {
-  const HelpScreen({Key? key}) : super(key: key);
+  const HelpScreen({super.key});
 
   static final _urlIssues = Uri.parse('${app_config.appProjectUrl}/issues');
   static final _urlTranslation = Uri.parse('https://hosted.weblate.org/engage/openstop/');

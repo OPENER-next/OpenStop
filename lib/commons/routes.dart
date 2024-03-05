@@ -39,9 +39,9 @@ abstract class WidgetPageRoute<T> extends PageRoute<T> {
   Widget get page;
 
   WidgetPageRoute({
-    RouteSettings? settings,
-    bool fullscreenDialog = false
-  }): super(settings: settings, fullscreenDialog: fullscreenDialog);
+    super.settings,
+    super.fullscreenDialog
+  });
 }
 
 
@@ -55,9 +55,9 @@ class SlideInOutPageRoute<T> extends WidgetPageRoute<T> {
   final Widget page;
 
   SlideInOutPageRoute(this.page, {
-    RouteSettings? settings,
-    bool fullscreenDialog = false,
-  }) : super(settings: settings, fullscreenDialog: fullscreenDialog);
+    super.settings,
+    super.fullscreenDialog,
+  });
 
   @override
   Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {

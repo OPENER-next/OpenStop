@@ -17,9 +17,9 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
   final double buttonSpacing;
 
   const MapOverlay({
-    Key? key,
+    super.key,
     this.buttonSpacing = 10.0,
-   }) : super(key: key);
+   });
 
   @override
   Widget build(BuildContext context, viewModel) {
@@ -82,7 +82,7 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
                       color: Theme.of(context).colorScheme.primaryContainer,
                       iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
                       active: viewModel.cameraIsFollowingLocation,
-                      onPressed: viewModel.toggleLocationFollowing,
+                      onPressed: viewModel.toggleLocationFollowing.call,
                     ),
                     SizedBox (
                       height: buttonSpacing,

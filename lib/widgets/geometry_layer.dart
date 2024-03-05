@@ -10,8 +10,8 @@ class GeometryLayer extends StatelessWidget {
 
   const GeometryLayer({
     required this.geometry,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

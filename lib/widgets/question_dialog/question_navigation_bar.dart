@@ -13,8 +13,8 @@ class QuestionNavigationBar extends StatelessWidget {
     this.backText,
     this.onBack,
     this.onNext,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

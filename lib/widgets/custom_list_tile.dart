@@ -15,8 +15,8 @@ class CustomListTile extends StatelessWidget {
     this.trailingIcon,
     this.onTap,
     this.isThreeLine = false,
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
 
   @override
@@ -60,8 +60,8 @@ class CustomSwitchListTile extends StatelessWidget {
     this.leadingIcon,
     this.onChanged,
     this.isThreeLine = false,
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
 
   @override

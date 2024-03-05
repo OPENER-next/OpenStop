@@ -19,8 +19,8 @@ class CreditText extends StatefulWidget {
     this.separatorBuilder = _defaultSeparatorBuilder,
     this.alignment = TextAlign.center,
     this.padding = EdgeInsets.zero,
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
   State<CreditText> createState() => _CreditTextState();

@@ -14,6 +14,7 @@
 /// GROUP BY ?ISO_Country
 /// ORDER BY (?ISO_Country)
 /// ```
+library;
 
 const countryToLanguageMapping = {
   'AD': {'ca'},

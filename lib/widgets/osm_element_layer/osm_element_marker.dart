@@ -12,13 +12,13 @@ class OsmElementMarker extends StatefulWidget {
   final String label;
 
   const OsmElementMarker({
-    Key? key,
+    super.key,
     this.onTap,
     this.icon = Icons.block,
     this.backgroundColor,
     this.active = false,
     this.label = '',
-  }) : super(key: key);
+  });
 
   @override
   State<OsmElementMarker> createState() => _OsmElementMarkerState();

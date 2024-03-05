@@ -81,7 +81,7 @@ extension AnimationUtils on MapController {
 class LatLngTween extends Tween<LatLng> {
   static const piDoubled = pi * 2;
 
-  LatLngTween({ LatLng? begin, LatLng? end }) : super(begin: begin, end: end);
+  LatLngTween({ super.begin, super.end });
 
   @override
   LatLng lerp(double t) {
@@ -107,7 +107,7 @@ class LatLngTween extends Tween<LatLng> {
 /// Interpolate radians values in the direction of the shortest rotation delta / rotation angle.
 
 class RotationTween extends Tween<double> {
-  RotationTween({ double? begin, double? end }) : super(begin: begin, end: end);
+  RotationTween({ super.begin, super.end });
 
   @override
   double lerp(double t) {

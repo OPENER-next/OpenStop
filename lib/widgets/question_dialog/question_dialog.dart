@@ -27,10 +27,9 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
     required this.questions,
     required this.answers,
     this.showSummary = false,
-    Key? key
+    super.key
   }) :
-    assert(questions.length == answers.length, 'Every question should have a corresponding answer controller.'),
-    super(key: key);
+    assert(questions.length == answers.length, 'Every question should have a corresponding answer controller.');
 
   @override
   Widget build(BuildContext context, viewModel) {
