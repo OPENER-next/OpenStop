@@ -65,5 +65,5 @@ class CellCache<T> {
 /// An index the [CellCache] represented by two integer values x and y
 
 class CellIndex extends Point<int> {
-  CellIndex(x, y) : super(x, y);
+  CellIndex(super.x, super.y);
 }

@@ -9,8 +9,8 @@ class QuestionList extends StatefulWidget {
   const QuestionList({
     required this.children,
     this.index = 0,
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
   State<QuestionList> createState() => _QuestionListState();

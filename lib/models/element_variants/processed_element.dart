@@ -19,7 +19,7 @@ abstract class ProcessedElement<T extends osmapi.OSMElement, G extends Geographi
   final _parents = HashSet<ParentElement>();
   final _children = HashSet<ChildElement>();
 
-  ProcessedElement(T osmElement): super(osmElement);
+  ProcessedElement(super.osmElement);
 
   G get geometry {
     if (_geometry == null) {

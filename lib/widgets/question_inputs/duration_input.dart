@@ -159,8 +159,8 @@ class TimeScroller extends StatefulWidget {
     required this.limit,
     required this.onChange,
     required this.value,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<TimeScroller> createState() => _TimeScrollerState();

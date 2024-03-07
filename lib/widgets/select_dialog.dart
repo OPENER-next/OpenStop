@@ -12,8 +12,8 @@ class SelectDialog<T> extends StatefulWidget {
     required this.valueLabelMap,
     this.value,
     this.title,
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
   State<SelectDialog<T>> createState() => _SelectDialogState<T>();

@@ -39,8 +39,8 @@ class OsmElementLayer extends StatefulWidget {
     this.durationOffsetRange = const Duration(milliseconds: 300),
     // TODO: currently changes to this won't update the super cluster
     this.zoomLowerLimit = 16,
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
   State<OsmElementLayer> createState() => _OsmElementLayerState();

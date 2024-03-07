@@ -8,16 +8,16 @@ class LocationButton extends ImplicitlyAnimatedWidget {
   final Color? color, activeColor, iconColor, activeIconColor;
 
   const LocationButton({
-    Key? key,
+    super.key,
     this.active = false,
     this.onPressed,
     this.color = Colors.white,
     this.activeColor = Colors.black,
     this.iconColor = Colors.black,
     this.activeIconColor = Colors.white,
-    Duration duration = const Duration(milliseconds: 300),
-    Curve curve = Curves.ease,
-  }) : super(key: key, duration: duration, curve: curve);
+    super.duration = const Duration(milliseconds: 300),
+    super.curve = Curves.ease,
+  });
 
 
   @override

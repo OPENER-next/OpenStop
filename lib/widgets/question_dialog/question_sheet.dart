@@ -9,8 +9,8 @@ class QuestionSheet extends StatelessWidget {
   const QuestionSheet({
     required this.child,
     this.elevate = false,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

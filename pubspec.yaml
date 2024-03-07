@@ -14,7 +14,7 @@ environment:
   # The Flutter version is read in different build scripts and is used to setup the appropriate flutter toolkit.
   # The build processes cannot handle range notations like >=2.17.1 <3.0.0 or ^3.7.0.
   # Therefore it is important to always specify a fixed flutter version in that format: [0-9]+.[0-9]+.[0-9]+
-  flutter: 3.16.9
+  flutter: 3.19.2
 
 dependencies:
   flutter:
@@ -49,14 +49,14 @@ dependencies:
   url_launcher: ^6.0.17
   flutter_web_auth: ^0.5.0
   flutter_material_design_icons: ^1.1.7296
-  flutter_markdown: ^0.6.14
+  flutter_markdown: ^0.6.21
   flutter_mvvm_architecture:
     git:
       url: https://github.com/Robbendebiene/flutter-mvvm-architecture.git
   get_it: ^7.6.0
   mobx: ^2.2.0
   flutter_mobx: ^2.0.6+5
-  intl: ^0.18.0
+  intl: any
 
 dependency_overrides:
   flutter_map:
@@ -68,7 +68,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.13.1
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
   nock: ^1.2.1
   stack_trace: ^1.11.0
   build_runner: ^2.3.3

@@ -9,7 +9,7 @@ class CustomSnackBar extends SnackBar{
   CustomSnackBar(String text, {
     String? actionText,
     VoidCallback? actionCallback,
-    Key? key,
+    super.key,
   }) : super(
       content: Text(text),
       action: actionText != null && actionCallback != null
@@ -21,7 +21,6 @@ class CustomSnackBar extends SnackBar{
       behavior: SnackBarBehavior.floating,
       margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
       dismissDirection: DismissDirection.none,
-      key: key,
 
   );
 }

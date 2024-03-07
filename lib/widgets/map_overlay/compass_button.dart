@@ -17,8 +17,8 @@ class CompassButton extends StatelessWidget {
     required this.rotation,
     required this.onPressed,
     this.isDegree = false,
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) {

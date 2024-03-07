@@ -13,8 +13,8 @@ class QuestionTextHeader extends StatefulWidget {
     required this.question,
     required this.details,
     this.images = const [],
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
   State<QuestionTextHeader> createState() => _QuestionTextHeaderState();

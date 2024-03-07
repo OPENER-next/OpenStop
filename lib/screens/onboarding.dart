@@ -174,8 +174,8 @@ class OnboardingPage extends StatelessWidget {
     this.buttonText,
     this.buttonIcon = Icons.chevron_right,
     this.onButtonTap,
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) {

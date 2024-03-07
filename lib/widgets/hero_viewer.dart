@@ -70,8 +70,8 @@ class HeroViewer extends StatefulWidget {
     this.routeTransitionsBuilder = HeroViewer.defaultRouteTransitionsBuilder,
     this.routeTransitionDuration = const Duration(milliseconds: 300),
     this.tag,
-    Key? key, 
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<HeroViewer> createState() => _HeroViewerState();
@@ -174,9 +174,8 @@ class _HeroViewerPage extends StatelessWidget {
     required this.child,
     required this.builder,
     required this.tag,
-    required this.trigger,
-    Key? key,
-  }) : super(key: key);
+    required this.trigger
+  });
 
   @override
   Widget build(BuildContext context) {
