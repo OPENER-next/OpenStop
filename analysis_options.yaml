@@ -22,3 +22,4 @@ linter:
     use_setters_to_change_properties: true
     no_leading_underscores_for_local_identifiers: true
     always_declare_return_types: true
+    dangling_library_doc_comments: false

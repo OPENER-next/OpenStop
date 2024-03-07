@@ -49,14 +49,14 @@ dependencies:
   url_launcher: ^6.0.17
   flutter_web_auth: ^0.5.0
   flutter_material_design_icons: ^1.1.7296
-  flutter_markdown: ^0.6.14
+  flutter_markdown: ^0.6.21
   flutter_mvvm_architecture:
     git:
       url: https://github.com/Robbendebiene/flutter-mvvm-architecture.git
   get_it: ^7.6.0
   mobx: ^2.2.0
   flutter_mobx: ^2.0.6+5
-  intl: ^0.18.0
+  intl: any
 
 dependency_overrides:
   flutter_map:
