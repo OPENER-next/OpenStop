@@ -76,7 +76,7 @@
   "@logoutDialogDescription": {},
   "loginHint": "Iniciar sesión con tu cuenta OpenStreetMap para cargar tus cambios.",
   "@loginHint": {},
-  "numberInputPlaceholder": "Introduce aquí...",
+  "numberInputPlaceholder": "Introducir aquí…",
   "@numberInputPlaceholder": {},
   "numberInputFallbackName": "Valor",
   "@numberInputFallbackName": {},
@@ -86,7 +86,7 @@
   "@numberInputValidationErrorMax": {},
   "numberInputValidationErrorMin": "{nameString} debe ser mayor que {min} {unit}.",
   "@numberInputValidationErrorMin": {},
-  "stringInputPlaceholder": "Introduce aquí...",
+  "stringInputPlaceholder": "Entrar aquí…",
   "@stringInputPlaceholder": {},
   "stringInputValidationErrorMin": "Entrada demasiado corta",
   "@stringInputValidationErrorMin": {},
@@ -231,5 +231,7 @@
   "mapFeatureFootwayCrossing": "Paso de peatones",
   "@mapFeatureFootwayCrossing": {},
   "mapFeatureCyclewayCrossing": "Paso de bicicletas",
-  "@mapFeatureCyclewayCrossing": {}
+  "@mapFeatureCyclewayCrossing": {},
+  "helpImproveTranslationLabel": "Mejorar la traducción",
+  "@helpImproveTranslationLabel": {}
 }

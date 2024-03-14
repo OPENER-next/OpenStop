@@ -1,0 +1,14 @@
+Localización:
+ - La traducción ahora es posible usando Weblate
+ - Traducciones (parcialmente) disponibles en 10 idiomas
+UI/UX:
+ - Reemplace el indicador de carga del área de parada
+ - Fijar el espaciado en la burbuja del marcador con nombres largos
+ - Añadir visor de galería para imágenes de información
+Preguntas:
+ - Añadir las luces de señal de tranvía pregunta
+ - Añadir/Reemplazar preguntas de cruce (sobre marcas, islas, señales)
+ - No pida "cruzar: silbato" en los cruces de tranvía
+Varios:
+ - Aclarar la licencia GPLv3+
+ - Correcciones de errores y correcciones ortográficas
