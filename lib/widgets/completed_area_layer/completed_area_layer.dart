@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart' hide Path;
 
 import '/widgets/loading_area_layer/map_layer.dart';
-import 'animated_path.dart';
+import '/widgets/animated_path.dart';
 
 
 /// Layer to highlight completed stop areas.
