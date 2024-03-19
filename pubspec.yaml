@@ -21,7 +21,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  flutter_map: ^6.0.0
+  flutter_map: ^6.1.0
   geolocator: ^9.0.2
   latlong2: ^0.9.0
   vector_math: ^2.1.4
@@ -57,12 +57,6 @@ dependencies:
   mobx: ^2.2.0
   flutter_mobx: ^2.0.6+5
   intl: any
-
-dependency_overrides:
-  flutter_map:
-    git:
-      url: https://github.com/fleaflet/flutter_map.git
-      ref: 2ba0c996b14d1bd989cc1211e514658613e3d5ac
 
 dev_dependencies:
   flutter_test:
