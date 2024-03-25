@@ -19,10 +19,7 @@ class QuestionSheet extends StatelessWidget {
         color: Theme.of(context).colorScheme.background,
         boxShadow: !elevate ? null : kElevationToShadow[4]
       ),
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: child
-      )
+      child: child,
     );
   }
 }

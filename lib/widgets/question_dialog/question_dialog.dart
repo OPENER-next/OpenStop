@@ -183,15 +183,20 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
             details: question.description,
             images: question.images,
           ),
-          Padding(
-            padding: const EdgeInsets.only(
-              right: 20,
-              left: 20,
-              bottom: 30,
-            ),
-            child: QuestionInputWidget.fromAnswerDefinition(
-              definition: question.answer,
-              controller: answers[index],
+          Flexible(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  right: 20,
+                  left: 20,
+                  bottom: 30,
+                ),
+                child: QuestionInputWidget.fromAnswerDefinition(
+                  definition: question.answer,
+                  controller: answers[index],
+                ),
+              ),
             ),
           ),
         ],
