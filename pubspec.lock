@@ -304,12 +304,11 @@ packages:
   flutter_map:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "2ba0c996b14d1bd989cc1211e514658613e3d5ac"
-      resolved-ref: "2ba0c996b14d1bd989cc1211e514658613e3d5ac"
-      url: "https://github.com/fleaflet/flutter_map.git"
-    source: git
-    version: "6.0.1"
+      name: flutter_map
+      sha256: cda8d72135b697f519287258b5294a57ce2f2a5ebf234f0e406aad4dc14c9399
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.0"
   flutter_markdown:
     dependency: "direct main"
     description:
