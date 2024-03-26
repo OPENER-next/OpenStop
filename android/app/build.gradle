@@ -47,12 +47,6 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
-    // Workaround required to build apks
-    // see: https://github.com/flutter/flutter/issues/58247
-    lintOptions {
-        checkReleaseBuilds false
-    }
-
     defaultConfig {
         applicationId "de.tu_chemnitz.etit.sse.openstop"
         minSdkVersion 23
@@ -80,8 +74,4 @@ android {
 
 flutter {
     source '../..'
-}
-
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
