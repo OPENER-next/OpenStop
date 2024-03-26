@@ -49,7 +49,6 @@ class Default {
 
 // Default theme for all common theme settings
 final ThemeData defaultTheme = ThemeData(
-  useMaterial3: true,
   appBarTheme: AppBarTheme(
     elevation: Default.elevation,
     shadowColor: Default.shadow,
@@ -115,7 +114,6 @@ final ThemeData defaultTheme = ThemeData(
 );
 
 final ThemeData lightTheme = ThemeData(
-  useMaterial3: true,
   colorScheme: ThemeData.light().colorScheme.copyWith(
     primary: Default.primary,
     onPrimary: Default.onPrimary,
@@ -152,7 +150,6 @@ final ThemeData lightTheme = ThemeData(
 );
 
 final ThemeData darkTheme = ThemeData(
-  useMaterial3: true,
   colorScheme: ThemeData.dark().colorScheme.copyWith(
     primary: Default.primary,
     onPrimary: Default.onPrimary,
