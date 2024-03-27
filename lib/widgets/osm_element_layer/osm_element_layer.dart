@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:animated_marker_layer/animated_marker_layer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
+import '/widgets/osm_element_layer/upload_animation.dart';
 import 'package:supercluster/supercluster.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -210,15 +212,23 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       scale: animation,
       alignment: Alignment.bottomCenter,
       filterQuality: FilterQuality.low,
-      child: OsmElementMarker(
-        onTap: () => widget.onOsmElementTap?.call(marker.element),
-        active: isActive,
-        icon: marker.element.icon,
-        label: marker.element.elementLabel(appLocale),
+      child: UploadAnimation(
+        emitDuration: 700,
+        scaleSize: 4.0,
+        animationHeight: 25,
+        padding: 110,
+        active: marker.element.uploadStatus,
+        initialX: 50,
+        color: Theme.of(context).colorScheme.primary,
+        child: OsmElementMarker(
+          onTap: () => widget.onOsmElementTap?.call(marker.element),
+          active: isActive,
+          icon: marker.element.icon,
+          label: marker.element.elementLabel(appLocale),
+        ),
       )
     );
   }
-
 
   AnimatedMarker _createMinimizedMarker(MapFeatureRepresentation element) {
     return AnimatedMarker(
@@ -268,7 +278,7 @@ class _OsmElementMarker extends AnimatedMarker {
     // its equality doesn't change when its tags or version changes
     key: ValueKey(element),
     point: element.geometry.center,
-    size: const Size(260, 60),
+    size: const Size(260, 85),
     anchor: Alignment.bottomCenter,
     animateInCurve: Curves.elasticOut,
     animateOutCurve: Curves.easeOutBack,

@@ -57,6 +57,7 @@ dependencies:
   mobx: ^2.2.0
   flutter_mobx: ^2.0.6+5
   intl: any
+  newton_particles: ^0.1.7
 
 dev_dependencies:
   flutter_test:
