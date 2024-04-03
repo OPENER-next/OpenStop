@@ -2809,20 +2809,37 @@
             "!parent": [
                {
                   "osm_tags": {
-                     "highway": "footway",
                      "footway": "crossing"
                   }
                },
                {
                   "osm_tags": {
-                     "highway": "cycleway",
                      "cycleway": "crossing"
                   }
                },
                {
                   "osm_tags": {
-                     "highway": "path",
                      "path": "crossing"
+                  }
+               }
+            ],
+            "parent": [
+               {
+                  "osm_tags": {
+                     "highway": "footway",
+                     "bicycle": ["designated", "dismount", "yes"]
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "highway": "cycleway",
+                     "foot": ["designated", "yes"]
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "bicycle": ["designated", "dismount", "yes"],
+                     "foot": ["designated", "yes"]
                   }
                }
             ],
@@ -2969,6 +2986,42 @@
          },
          {
             "osm_tags": {
+               "highway": "crossing",
+               "crossing": [false, "island", "traffic_signals"],
+               "crossing:markings": false,
+               "bicycle": [false, "no"]
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "footway": "crossing"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "cycleway": "crossing"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "path": "crossing"
+                  }
+               }
+            ],
+            "parent": [
+               {
+                  "osm_tags": {
+                     "highway": "footway"
+                  },
+                  "!osm_tags": {
+                     "bicycle": ["yes", "dismount", "designated"]
+                  }
+               }
+            ],
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
                "highway": "path",
                "path": "crossing",
                "crossing": [false, "island", "traffic_signals"],
@@ -3068,6 +3121,42 @@
                   "osm_tags": {
                      "highway": "path",
                      "path": "crossing"
+                  }
+               }
+            ],
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "highway": "crossing",
+               "crossing": [false, "island", "traffic_signals"],
+               "crossing:markings": false,
+               "foot": [false, "no"]
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "footway": "crossing"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "cycleway": "crossing"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "path": "crossing"
+                  }
+               }
+            ],
+            "parent": [
+               {
+                  "osm_tags": {
+                     "highway": "cycleway"
+                  },
+                  "!osm_tags": {
+                     "foot": ["yes", "designated"]
                   }
                }
             ],

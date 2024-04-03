@@ -640,6 +640,25 @@ final _globalDefinitions = <MapFeatureDefinition>[
           ]),
         }),
       ]),
+      ElementCondition([
+        TagsSubCondition({
+          'highway': StringValueMatcher('crossing'),
+        }),
+        ParentSubCondition([
+          ElementCondition([
+            TagsSubCondition({
+              'highway': StringValueMatcher('footway')
+            }),
+            NegatedSubCondition(TagsSubCondition({
+              'bicycle': MultiValueMatcher([
+                StringValueMatcher('yes'),
+                StringValueMatcher('designated'),
+              ]),
+            }))
+          ])
+        ]),
+        ElementTypeSubCondition([OSMElementType.node])
+      ])
     ],
   ),
   MapFeatureDefinition(
@@ -667,6 +686,25 @@ final _globalDefinitions = <MapFeatureDefinition>[
         }),
         ElementTypeSubCondition([OSMElementType.openWay])
       ]),
+      ElementCondition([
+        TagsSubCondition({
+          'highway': StringValueMatcher('crossing'),
+        }),
+        ParentSubCondition([
+          ElementCondition([
+            TagsSubCondition({
+              'highway': StringValueMatcher('cycleway')
+            }),
+            NegatedSubCondition(TagsSubCondition({
+              'foot': MultiValueMatcher([
+                StringValueMatcher('yes'),
+                StringValueMatcher('designated'),
+              ]),
+            }))
+          ])
+        ]),
+        ElementTypeSubCondition([OSMElementType.node])
+      ]),
     ],
   ),
   MapFeatureDefinition(
@@ -680,25 +718,5 @@ final _globalDefinitions = <MapFeatureDefinition>[
         ElementTypeSubCondition([OSMElementType.node])
       ]),
     ],
-  ),
-  MapFeatureDefinition(
-    label: (locale, _) => locale.mapFeaturePedestrianLights,
-    icon: TemakiIcons.trafficSignals,
-    conditions: const [
-      ElementCondition([
-        TagsSubCondition({
-          'highway': StringValueMatcher('crossing'),
-          'crossing': StringValueMatcher('traffic_signals'),
-        }),
-        ElementTypeSubCondition([OSMElementType.node, OSMElementType.openWay])
-      ]),
-      ElementCondition([
-        TagsSubCondition({
-          'highway': StringValueMatcher('crossing'),
-          'crossing:signals': StringValueMatcher('yes'),
-        }),
-        ElementTypeSubCondition([OSMElementType.node, OSMElementType.openWay])
-      ]),
-    ],
-  ),
+  )
 ];
