@@ -70,23 +70,16 @@ class MapFeatures extends ListBase<MapFeatureDefinition> {
 
   int _calcConditionScore(ElementCondition condition) {
     return condition.characteristics.fold<int>(0, (value, cond) {
+      if (cond is NegatedSubCondition) {
+        cond = cond.characteristics;
+      }
+
       if (cond is TagsSubCondition) {
         return value + cond.characteristics.length;
       }
       else if (cond is ParentSubCondition || cond is ChildSubCondition) {
         for (final ElementCondition subcond in cond.characteristics) {
           return value + _calcConditionScore(subcond);
-        }
-      }
-      else if (cond is NegatedSubCondition) {
-        final nestedcond = cond.characteristics;
-        if (nestedcond is TagsSubCondition) {
-          return value + nestedcond.characteristics.length;
-        }
-        else if (nestedcond is ParentSubCondition || nestedcond is ChildSubCondition) {
-          for (final ElementCondition subcond in nestedcond.characteristics) {
-            return value + _calcConditionScore(subcond);
-          }
         }
       }
       return value;
