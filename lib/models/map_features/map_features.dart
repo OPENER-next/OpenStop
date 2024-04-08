@@ -77,7 +77,7 @@ class MapFeatures extends ListBase<MapFeatureDefinition> {
       if (cond is TagsSubCondition) {
         return value + cond.characteristics.length;
       }
-      else if (cond is ParentSubCondition || cond is ChildSubCondition) {
+      if (cond is ParentSubCondition || cond is ChildSubCondition) {
         for (final ElementCondition subcond in cond.characteristics) {
           return value + _calcConditionScore(subcond);
         }
