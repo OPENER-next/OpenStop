@@ -66,7 +66,7 @@ class MapFeatures extends ListBase<MapFeatureDefinition> {
   }
 
   /// Calculate a simple score for a condition in order to prioritize one map feature over another.
-  /// Currently this only counts the number of tags the main tag condition has.
+  /// The score is based on the number of matching tags.
 
   int _calcConditionScore(ElementCondition condition) {
     return condition.characteristics.fold<int>(0, (value, cond) {
@@ -79,7 +79,7 @@ class MapFeatures extends ListBase<MapFeatureDefinition> {
       }
       if (cond is ParentSubCondition || cond is ChildSubCondition) {
         for (final ElementCondition subcond in cond.characteristics) {
-          return value + _calcConditionScore(subcond);
+          value += _calcConditionScore(subcond);
         }
       }
       return value;
