@@ -2325,7 +2325,7 @@
             "unit": "@unitCentimeter"
          },
          "constructor": {
-            "platform_lift:maxwidth:physical ": [
+            "platform_lift:maxwidth:physical": [
                "REPLACE", "/\\.?0{1,2}$/", "", [
                   "INSERT", ".", "-2", [
                      "PAD", "0", "3", "$input"
@@ -2339,7 +2339,7 @@
             "osm_tags": {
                "highway": "steps",
                "platform_lift": ["yes", "vertical", "inclined"],
-               "platform_lift:maxwidth:physical ": false
+               "platform_lift:maxwidth:physical": false
             },
             "osm_element": "OpenWay"
          }
