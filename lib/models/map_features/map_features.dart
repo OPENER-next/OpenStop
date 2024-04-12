@@ -66,11 +66,28 @@ class MapFeatures extends ListBase<MapFeatureDefinition> {
   }
 
   /// Calculate a simple score for a condition in order to prioritize one map feature over another.
-  /// Currently this only counts the number of tags the main tag condition has.
+  /// The score is based on the number of matching tags.
+  // TODO: Score calculation not flawless: counts all parent/child subconditions
+  // Possible solutions:
+  // - drop score calculation and add priority value to MapFeature (flexible, with potential performance improvement if all MapFeatures would be sorted by priority)
+  // - drop score calculation and prioritize MapFeatures based on list order/rank (inflexible, but improves average performance as not all MapFeatures always have to be evaluated)
+  // - return details about matched parent/child conditions in matching function to correctly calculate the score (hard since nesting is technically unlimited; probably not worth the effort; hard to understand/predict)
 
   int _calcConditionScore(ElementCondition condition) {
     return condition.characteristics.fold<int>(0, (value, cond) {
-      if (cond is TagsSubCondition) return value + cond.characteristics.length;
+      if (cond is NegatedSubCondition) {
+        cond = cond.characteristics;
+      }
+
+      if (cond is TagsSubCondition) {
+        return value + cond.characteristics.length;
+      }
+      if (cond is ParentSubCondition || cond is ChildSubCondition) {
+        /// Currently counts all sub conditions of an parent/child element and not only the one that actually matches
+        for (final ElementCondition subcond in cond.characteristics) {
+          value += _calcConditionScore(subcond);
+        }
+      }
       return value;
     });
   }
