@@ -67,7 +67,7 @@ class MapFeatures extends ListBase<MapFeatureDefinition> {
 
   /// Calculate a simple score for a condition in order to prioritize one map feature over another.
   /// The score is based on the number of matching tags.
-  // TODO: Score calculation not flawless: counts all parent/child sub conditions
+  // TODO: Score calculation not flawless: counts all parent/child subconditions
   // Possible solutions:
   // - drop score calculation and add priority value to MapFeature (flexible, with potential performance improvement if all MapFeatures would be sorted by priority)
   // - drop score calculation and prioritize MapFeatures based on list order/rank (inflexible, but improves average performance as not all MapFeatures always have to be evaluated)
