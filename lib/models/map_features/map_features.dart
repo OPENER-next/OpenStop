@@ -68,7 +68,10 @@ class MapFeatures extends ListBase<MapFeatureDefinition> {
   /// Calculate a simple score for a condition in order to prioritize one map feature over another.
   /// The score is based on the number of matching tags.
   // TODO: Score calculation not flawless: counts all parent/child sub conditions
-  // TODO: Possible solutions: 1. priority value 2. rank order 3. details about matched parent/child condition
+  // Possible solutions:
+  // - drop score calculation and add priority value to MapFeature (flexible, with potential performance improvement if all MapFeatures would be sorted by priority)
+  // - drop score calculation and prioritize MapFeatures based on list order/rank (inflexible, but improves average performance as not all MapFeatures always have to be evaluated)
+  // - return details about matched parent/child conditions in matching function to correctly calculate the score (hard since nesting is technically unlimited; probably not worth the effort; hard to understand/predict)
 
   int _calcConditionScore(ElementCondition condition) {
     return condition.characteristics.fold<int>(0, (value, cond) {
