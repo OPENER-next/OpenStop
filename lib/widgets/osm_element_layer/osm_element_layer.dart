@@ -213,12 +213,12 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       alignment: Alignment.bottomCenter,
       filterQuality: FilterQuality.low,
       child: UploadAnimation(
-        emitDuration: 700,
+        emitDuration: 400,
         scaleSize: 4.0,
         animationHeight: 25,
         padding: 110,
         active: marker.element.uploadStatus,
-        initialX: 50,
+        initialX: -30,
         color: Theme.of(context).colorScheme.primary,
         child: OsmElementMarker(
           onTap: () => widget.onOsmElementTap?.call(marker.element),
@@ -226,7 +226,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
           icon: marker.element.icon,
           label: marker.element.elementLabel(appLocale),
         ),
-      )
+      ),
     );
   }
 
