@@ -1,5 +1,6 @@
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter/material.dart';
+import '/widgets/edge_feather.dart';
 import '/widgets/gallery_viewer.dart';
 
 class QuestionTextHeader extends StatefulWidget {
@@ -103,8 +104,8 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
       },
       child: Padding(
         padding: const EdgeInsets.only(
-          top: 25,
-          bottom: 20
+          top: 20,
+          bottom: 10,
         ),
         child: Column(
           children: [
@@ -170,23 +171,8 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                         constraints: const BoxConstraints(
                           maxHeight: 90
                         ),
-                        child: ShaderMask(
-                          blendMode: BlendMode.dstOut,
-                          shaderCallback: (Rect bounds) {
-                            final leftProportion = horizontalPadding.left / bounds.width;
-                            final rightProportion = horizontalPadding.right / bounds.width;
-                            return LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              stops: [0, leftProportion, 1 - rightProportion, 1],
-                              colors: const [
-                                Colors.white,
-                                Colors.transparent,
-                                Colors.transparent,
-                                Colors.white,
-                              ],
-                            ).createShader(bounds);
-                          },
+                        child: EdgeFeather(
+                          edges: horizontalPadding,
                           child: GalleryViewer(
                             images: widget.images
                           ),

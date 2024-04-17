@@ -1,7 +1,9 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '/widgets/edge_feather.dart';
 import '/view_models/home_view_model.dart';
 import '/models/question_catalog/question_definition.dart';
 import '/widgets/question_inputs/question_input_widget.dart';
@@ -70,32 +72,35 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                           ...Iterable<Widget>.generate(
                             questionCount, _buildQuestion,
                           ),
-                          QuestionSheet(
+                          QuestionSummary(
                             elevate: showSummary,
-                            child: QuestionSummary(
-                              questions: questions.map(
+                            questions: questions
+                              .whereIndexed(
+                                (index, _) => answers[index].hasValidAnswer,
+                              ).map(
                                 (question) => question.name
-                              ).toList(),
-                              answers: answers.map((controller) => controller.hasValidAnswer
-                                ? controller.answer?.toLocaleString(appLocale)
-                                : null
-                              ).toList(),
-                              onJump: viewModel.jumpToQuestion,
-                              userName: viewModel.userName,
-                            ),
+                              ).toList(growable: false),
+                            answers: answers
+                              .where(
+                                (controller) => controller.hasValidAnswer,
+                              ).map(
+                                (controller) => controller.answer!.toLocaleString(appLocale)
+                              ).toList(growable: false),
+                            onJump: viewModel.jumpToQuestion,
+                            userName: viewModel.userName,
                           ),
-                      ],
-                    ),
-                  ),
-                  // Clip widget shadow vertically to prevent overlapping
-                  ClipRect(
-                    clipper: ClipSymmetric(
-                      mediaQuery: MediaQuery.of(context)
-                    ),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        boxShadow: kElevationToShadow[4],
+                        ],
                       ),
+                    ),
+                    // Clip widget shadow vertically to prevent overlapping
+                    ClipRect(
+                      clipper: ClipSymmetric(
+                        mediaQuery: MediaQuery.of(context)
+                      ),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          boxShadow: kElevationToShadow[4],
+                        ),
                         child: Column(
                           children: [
                             QuestionProgressBar(
@@ -175,31 +180,26 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
       elevate: isActive,
       // important otherwise animation will fail
       key: ValueKey(question),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          QuestionTextHeader(
-            question: question.question,
-            details: question.description,
-            images: question.images,
+      header: QuestionTextHeader(
+        question: question.question,
+        details: question.description,
+        images: question.images,
+      ),
+      body: EdgeFeather(
+        edges: const EdgeInsets.only(top: 10),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.only(
+            top: 10,
+            right: 20,
+            left: 20,
+            bottom: 25,
           ),
-          Flexible(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  right: 20,
-                  left: 20,
-                  bottom: 30,
-                ),
-                child: QuestionInputWidget.fromAnswerDefinition(
-                  definition: question.answer,
-                  controller: answers[index],
-                ),
-              ),
-            ),
+          child: QuestionInputWidget.fromAnswerDefinition(
+            definition: question.answer,
+            controller: answers[index],
           ),
-        ],
+        ),
       ),
     );
   }
