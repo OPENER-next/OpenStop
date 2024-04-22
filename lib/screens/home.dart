@@ -142,6 +142,7 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                         currentZoom: viewModel.mapZoomRound,
                         onOsmElementTap: viewModel.onElementTap,
                         selectedElement: viewModel.selectedElement,
+                        uploadQueue: viewModel.uploadQueue,
                       );
                     },
                   ),

@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:animated_marker_layer/animated_marker_layer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import '/widgets/osm_element_layer/upload_animation.dart';
 import 'package:supercluster/supercluster.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -21,6 +20,8 @@ class OsmElementLayer extends StatefulWidget {
 
   final void Function(MapFeatureRepresentation osmElement)? onOsmElementTap;
 
+  final Set<MapFeatureRepresentation> uploadQueue;
+
   /// The maximum shift in duration between different markers.
 
   final Duration durationOffsetRange;
@@ -36,6 +37,7 @@ class OsmElementLayer extends StatefulWidget {
   const OsmElementLayer({
     required this.elements,
     required this.currentZoom,
+    required this.uploadQueue,
     this.selectedElement,
     this.onOsmElementTap,
     this.durationOffsetRange = const Duration(milliseconds: 300),
@@ -213,20 +215,19 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       alignment: Alignment.bottomCenter,
       filterQuality: FilterQuality.low,
       child: UploadAnimation(
-        emitDuration: 400,
-        scaleSize: 4.0,
-        animationHeight: 25,
-        padding: 110,
-        active: marker.element.uploadStatus,
-        initialX: -30,
-        color: Theme.of(context).colorScheme.primary,
+        active: widget.uploadQueue.contains(marker.element),
+        particlesEmitRate: 400,
+        particleSize: const Size(8, 16),
+        particleOverflow: 25,
+        particleColor: Theme.of(context).colorScheme.primary,
+        particleLanes: 4,
         child: OsmElementMarker(
           onTap: () => widget.onOsmElementTap?.call(marker.element),
           active: isActive,
           icon: marker.element.icon,
           label: marker.element.elementLabel(appLocale),
         ),
-      ),
+      )
     );
   }
 

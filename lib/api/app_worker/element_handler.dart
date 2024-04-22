@@ -147,10 +147,6 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
   /// Returns true if upload was successful, otherwise false.
 
   Future<bool> uploadElement(ProxyElement element, AuthenticatedUser user) async {
-
-    //Update status
-    _elementStreamController.add(ElementUpdate(element: ElementUpdate.derive(element.original, action: ElementUpdateAction.update).element!.copyWith(uploadStatus: true), action: ElementUpdateAction.update));
-
     final qCatalog = await questionCatalog;
 
     final stopArea = findCorrespondingStopArea(element);
@@ -207,7 +203,6 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
     }
     // this is always executed, before the returns
     finally {
-      _elementStreamController.add(ElementUpdate(element: ElementUpdate.derive(element.original, action: ElementUpdateAction.update).element!.copyWith(uploadStatus: false), action: ElementUpdateAction.update));
       uploadAPI.dispose();
     }
   }

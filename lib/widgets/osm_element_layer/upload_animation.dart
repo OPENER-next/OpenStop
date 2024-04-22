@@ -4,25 +4,27 @@ import 'package:newton_particles/newton_particles.dart';
 
 class UploadAnimation extends StatefulWidget {
   final bool active;
-  final int emitDuration;
-  final int particlesPerEmit;
-  final double animationHeight;
-  final double scaleSize;
-  final double padding;
-  final double initialX;
-  final Color color;
+  final int particlesEmitRate;
+  final int particlesDuration;
+  final double particleOverflow;
+  final Size particleSize;
+  final double particleGap;
+  final Offset particleOffset;
+  final Color particleColor;
+  final int particleLanes;
   final Widget child;
 
   const UploadAnimation({
     required this.active,
     required this.child,
-    this.emitDuration = 200,
-    this.particlesPerEmit = 1,
-    this.animationHeight = 50,
-    this.scaleSize = 3.0,
-    this.padding = 0,
-    this.initialX = 0,
-    this.color = Colors.white,
+    this.particlesEmitRate = 200, // Duration between particle emissions in milliseconds
+    this.particlesDuration = 4000, // Particle animation duration in milliseconds
+    this.particleOverflow = 50, // Heigh size of the area use by the animation
+    this.particleGap = 5.0, // Space between particles
+    this.particleSize = const Size(50.0, 100.0), // Size of the particle
+    this.particleLanes = 1, // Number of effect's columns
+    this.particleOffset = Offset.zero, // Shift the initial position of the particle
+    this.particleColor = Colors.white,
     super.key,
   });
 
@@ -32,39 +34,41 @@ class UploadAnimation extends StatefulWidget {
 
 class _UploadAnimationState extends State<UploadAnimation> {
   final _newtonKey = GlobalKey<NewtonState>();
+  ui.Image? _image;
   late Effect _effect;
 
   @override
   void initState() {
+    _initializeEffect();
     super.initState();
+  }
 
+  void _initializeEffect(){
     _generateImage().then((ui.Image image) {
       setState(() {
+        _image = image;
         final effectConfiguration = EffectConfiguration(
-          emitDuration: widget.emitDuration,
-          particlesPerEmit: widget.particlesPerEmit,
-          minBeginScale: widget.scaleSize,
-          maxBeginScale: widget.scaleSize,
-          minEndScale: widget.scaleSize,
-          maxEndScale: widget.scaleSize,
+          emitDuration: widget.particlesEmitRate,
+          minEndScale: 1,
+          maxEndScale: 1,
           maxDistance: 200,
-          minDuration: 4000,
-          maxDuration: 4000,
+          minDuration: widget.particlesDuration,
+          maxDuration: widget.particlesDuration,
           minFadeOutThreshold: 0.6,
           maxFadeOutThreshold: 0.8,
         );
-
         _effect = CustomEffect(
           particleConfiguration: ParticleConfiguration(
-            shape: ImageShape(image),
-            size: Size(widget.scaleSize, widget.scaleSize),
-            color: SingleParticleColor(color: widget.color),
+            shape: ImageShape(_image!),
+            size: widget.particleSize,
+            color: SingleParticleColor(color: widget.particleColor),
           ),
           effectConfiguration: effectConfiguration,
-          offset: Offset(0, widget.initialX),
-          lanes: 4
+          offset: widget.particleOffset,
+          lanes: widget.particleLanes,
+          particleGap: widget.particleGap,
         );
-
+        _newtonKey.currentState?.clearEffects;
         _newtonKey.currentState?.addEffect(_effect);
         widget.active ? _effect.start() : _effect.stop();
       });
@@ -75,20 +79,20 @@ class _UploadAnimationState extends State<UploadAnimation> {
     final pictureRecorder = ui.PictureRecorder();
     final canvas = Canvas(pictureRecorder);
     final paint = Paint()
-      ..color = widget.color
+      ..color = widget.particleColor
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.fill;
 
-    const width = 50;
-    const height = 100;
-    const radius = height / 2;
+    final width = widget.particleSize.width;
+    final height = widget.particleSize.height;
+    final radius = height / 2;
     final rect = Offset.zero & Size(width.toDouble(), height.toDouble());
 
     canvas.drawRRect(
-      RRect.fromRectAndRadius(rect, const Radius.circular(radius)),
+      RRect.fromRectAndRadius(rect, Radius.circular(radius)),
       paint,
     );
-    return pictureRecorder.endRecording().toImage(width, height);
+    return pictureRecorder.endRecording().toImage(width.toInt(), height.toInt());
   }
 
   @override
@@ -97,10 +101,9 @@ class _UploadAnimationState extends State<UploadAnimation> {
     if (widget.active != oldWidget.active) {
       widget.active ? _effect.start() : _effect.stop();
     }
-    // TODO make checks for other properties and update _effect accordingly
-    // if () {
-
-    // }
+    if (widget.particleSize != oldWidget.particleSize){
+      _initializeEffect();
+    }
   }
 
   @override
@@ -108,21 +111,29 @@ class _UploadAnimationState extends State<UploadAnimation> {
     return Newton(
       key: _newtonKey,
       child: Padding(
-        padding: EdgeInsets.only(top: widget.animationHeight),
+        padding: EdgeInsets.only(top: widget.particleOverflow),
         child: widget.child,
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _image?.dispose();
+    super.dispose();
   }
 }
 
 class CustomEffect extends Effect<AnimatedParticle> {
   final Offset offset;
   final List<int> _lanes;
+  final double particleGap;
   int _index = -1;
 
   CustomEffect({
     required super.particleConfiguration,
     required super.effectConfiguration,
+    required this.particleGap,
     required int lanes,
     this.offset = Offset.zero,
   }) : _lanes = List.generate(lanes, (i) => i, growable: false);
@@ -162,13 +173,13 @@ class CustomEffect extends Effect<AnimatedParticle> {
 
   Offset _calcParticlePosition(Size surfaceSize) {
     final particleWidth = particleConfiguration.size.width;
-    final particleGap = 10;
     // total width all lanes including gaps will require
     final particleSpan = _lanes.length * (particleGap + particleWidth) - particleGap;
     // move origin to the bottom left of the centered particleSpan
     final origin = Offset(surfaceSize.width/2 - particleSpan/2 + particleWidth/2, surfaceSize.height);
     // position by lane index times the sum of gap and particle width
     final position = Offset(_lanes[_index] * (particleGap + particleWidth), 0);
+
     return origin + offset + position;
   }
 }
