@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 
 
 class QuestionSheet extends StatelessWidget {
-  final Widget child;
+  final Widget header;
+
+  final Widget body;
 
   final bool elevate;
 
   const QuestionSheet({
-    required this.child,
+    required this.header,
+    required this.body,
     this.elevate = false,
     super.key,
   });
@@ -19,10 +22,16 @@ class QuestionSheet extends StatelessWidget {
         color: Theme.of(context).colorScheme.background,
         boxShadow: !elevate ? null : kElevationToShadow[4]
       ),
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: child
-      )
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          header,
+          Flexible(
+            child: body,
+          ),
+        ],
+      ),
     );
   }
 }
