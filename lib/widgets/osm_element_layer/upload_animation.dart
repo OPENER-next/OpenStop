@@ -143,7 +143,7 @@ class CustomEffect extends Effect<AnimatedParticle> {
     return AnimatedParticle(
       particle: _nextParticle(surfaceSize),
       pathTransformation: StraightPathTransformation(
-        distance: surfaceSize.height,
+        distance: surfaceSize.height + offset.dy,
         angle: -90,
       ),
       startTime: totalElapsed,

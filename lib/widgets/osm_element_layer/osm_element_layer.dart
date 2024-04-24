@@ -221,6 +221,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
         particleOverflow: 25,
         particleColor: Theme.of(context).colorScheme.primary,
         particleLanes: 4,
+        particleOffset: const Offset(0, -45),
         child: OsmElementMarker(
           onTap: () => widget.onOsmElementTap?.call(marker.element),
           active: isActive,
