@@ -4,26 +4,33 @@ import 'package:newton_particles/newton_particles.dart';
 
 class UploadAnimation extends StatefulWidget {
   final bool active;
-  final int particlesEmitRate;
-  final int particlesDuration;
+  /// Duration between particle emissions in milliseconds
+  final int particleEmitRate;
+  /// Particle animation duration in milliseconds
+  final int particleDuration; 
+  /// Heigh size of the area use by the animation
   final double particleOverflow;
-  final Size particleSize;
+  /// Size of the particle
+  final Size particleSize; 
+  /// Space between particles
   final double particleGap;
+  /// Shift the initial position of the particle
   final Offset particleOffset;
   final Color particleColor;
-  final int particleLanes;
+  /// Number of effect's columns
+  final int particleLanes; 
   final Widget child;
 
   const UploadAnimation({
     required this.active,
     required this.child,
-    this.particlesEmitRate = 200, // Duration between particle emissions in milliseconds
-    this.particlesDuration = 4000, // Particle animation duration in milliseconds
-    this.particleOverflow = 50, // Heigh size of the area use by the animation
-    this.particleGap = 5.0, // Space between particles
-    this.particleSize = const Size(50.0, 100.0), // Size of the particle
-    this.particleLanes = 1, // Number of effect's columns
-    this.particleOffset = Offset.zero, // Shift the initial position of the particle
+    this.particleEmitRate = 200, 
+    this.particleDuration = 4000,
+    this.particleOverflow = 50,
+    this.particleGap = 5.0,
+    this.particleSize = const Size(50.0, 100.0),
+    this.particleLanes = 1,
+    this.particleOffset = Offset.zero,
     this.particleColor = Colors.white,
     super.key,
   });
@@ -47,28 +54,7 @@ class _UploadAnimationState extends State<UploadAnimation> {
     _generateImage().then((ui.Image image) {
       setState(() {
         _image = image;
-        final effectConfiguration = EffectConfiguration(
-          emitDuration: widget.particlesEmitRate,
-          minEndScale: 1,
-          maxEndScale: 1,
-          maxDistance: 200,
-          minDuration: widget.particlesDuration,
-          maxDuration: widget.particlesDuration,
-          minFadeOutThreshold: 0.6,
-          maxFadeOutThreshold: 0.8,
-        );
-        _effect = CustomEffect(
-          particleConfiguration: ParticleConfiguration(
-            shape: ImageShape(_image!),
-            size: widget.particleSize,
-            color: SingleParticleColor(color: widget.particleColor),
-          ),
-          effectConfiguration: effectConfiguration,
-          offset: widget.particleOffset,
-          lanes: widget.particleLanes,
-          particleGap: widget.particleGap,
-        );
-        _newtonKey.currentState?.clearEffects;
+        _effect = _createEffect(_image!);
         _newtonKey.currentState?.addEffect(_effect);
         widget.active ? _effect.start() : _effect.stop();
       });
@@ -79,30 +65,60 @@ class _UploadAnimationState extends State<UploadAnimation> {
     final pictureRecorder = ui.PictureRecorder();
     final canvas = Canvas(pictureRecorder);
     final paint = Paint()
-      ..color = widget.particleColor
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.fill;
 
-    final width = widget.particleSize.width;
-    final height = widget.particleSize.height;
+    final width = widget.particleSize.width.toInt();
+    final height = widget.particleSize.height.toInt();
     final radius = height / 2;
-    final rect = Offset.zero & Size(width.toDouble(), height.toDouble());
+    final rect = Offset.zero & widget.particleSize;
 
     canvas.drawRRect(
       RRect.fromRectAndRadius(rect, Radius.circular(radius)),
       paint,
     );
-    return pictureRecorder.endRecording().toImage(width.toInt(), height.toInt());
+    return pictureRecorder.endRecording().toImage(width, height);
+  }
+
+  CustomEffect _createEffect(ui.Image image) {
+    final effectConfiguration = EffectConfiguration(
+      emitDuration: widget.particleEmitRate,
+      minEndScale: 1,
+      maxEndScale: 1,
+      maxDistance: 200,
+      minDuration: widget.particleDuration,
+      maxDuration: widget.particleDuration,
+      minFadeOutThreshold: 0.6,
+      maxFadeOutThreshold: 0.8,
+    );
+    return CustomEffect(
+      particleConfiguration: ParticleConfiguration(
+        shape: ImageShape(_image!),
+        size: widget.particleSize,
+        color: SingleParticleColor(color: widget.particleColor),
+      ),
+      effectConfiguration: effectConfiguration,
+      offset: widget.particleOffset,
+      lanes: widget.particleLanes,
+      particleGap: widget.particleGap,
+    );
   }
 
   @override
   void didUpdateWidget(covariant UploadAnimation oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.active != oldWidget.active) {
-      widget.active ? _effect.start() : _effect.stop();
-    }
-    if (widget.particleSize != oldWidget.particleSize){
-      _initializeEffect();
+    super.didUpdateWidget(oldWidget); 
+    if (widget.active != oldWidget.active || widget.particleColor != oldWidget.particleColor || widget.particleDuration != oldWidget.particleDuration || widget.particleEmitRate != oldWidget.particleEmitRate || widget.particleGap != oldWidget.particleGap || widget.particleLanes != oldWidget.particleLanes || widget.particleOffset!= oldWidget.particleOffset || widget.particleOverflow!= oldWidget.particleOverflow || widget.particleSize != oldWidget.particleSize){
+      setState(() {
+        if (_image != null ) {
+          _effect = _createEffect(_image!);
+          _newtonKey.currentState?.clearEffects();
+          _newtonKey.currentState?.addEffect(_effect);
+          widget.active ? _effect.start() : _effect.stop();
+        }
+        else if (widget.active != oldWidget.active) {
+          widget.active ? _effect.start() : _effect.stop();
+        }
+      });
     }
   }
 

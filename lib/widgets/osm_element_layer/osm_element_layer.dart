@@ -216,7 +216,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       filterQuality: FilterQuality.low,
       child: UploadAnimation(
         active: widget.uploadQueue.contains(marker.element),
-        particlesEmitRate: 400,
+        particleEmitRate: 400,
         particleSize: const Size(8, 16),
         particleOverflow: 25,
         particleColor: Theme.of(context).colorScheme.primary,
@@ -228,7 +228,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
           icon: marker.element.icon,
           label: marker.element.elementLabel(appLocale),
         ),
-      )
+      ),
     );
   }
 

@@ -327,6 +327,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
   void submitQuestionnaire() async {
     final appLocale = AppLocalizations.of(context)!;
+    final alteredElement = selectedElement;
 
     if (_userAccountService.isLoggedOut) {
       // wait till the user login process finishes
@@ -336,7 +337,6 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     // check if mounted to ensure context is valid
     if (_userAccountService.isLoggedIn && mounted) {
       try {
-        final alteredElement = selectedElement;
         _uploadQueue.add(alteredElement!);
         // deselect element
         runInAction(() => _selectedElement.value = null);
@@ -344,7 +344,6 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
         await _appWorker.uploadQuestionnaire(
           user: _userAccountService.authenticatedUser!,
         );
-       _uploadQueue.remove(alteredElement);
       }
       on OSMConnectionException {
         notifyUser(appLocale.uploadMessageServerConnectionError);
@@ -352,6 +351,9 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
       catch(e) {
         debugPrint(e.toString());
         notifyUser(appLocale.uploadMessageUnknownConnectionError);
+      }
+      finally {
+        _uploadQueue.remove(alteredElement);
       }
     }
   }
