@@ -49,7 +49,7 @@ class _UploadAnimationState extends State<UploadAnimation> {
     _initializeEffect();
     super.initState();
   }
-
+  
   void _initializeEffect(){
     _generateImage().then((ui.Image image) {
       setState(() {
@@ -60,7 +60,6 @@ class _UploadAnimationState extends State<UploadAnimation> {
       });
     });
   }
-
   Future<ui.Image> _generateImage() async {
     final pictureRecorder = ui.PictureRecorder();
     final canvas = Canvas(pictureRecorder);
@@ -107,18 +106,20 @@ class _UploadAnimationState extends State<UploadAnimation> {
   @override
   void didUpdateWidget(covariant UploadAnimation oldWidget) {
     super.didUpdateWidget(oldWidget); 
-    if (widget.active != oldWidget.active || widget.particleColor != oldWidget.particleColor || widget.particleDuration != oldWidget.particleDuration || widget.particleEmitRate != oldWidget.particleEmitRate || widget.particleGap != oldWidget.particleGap || widget.particleLanes != oldWidget.particleLanes || widget.particleOffset!= oldWidget.particleOffset || widget.particleOverflow!= oldWidget.particleOverflow || widget.particleSize != oldWidget.particleSize){
-      setState(() {
-        if (_image != null ) {
-          _effect = _createEffect(_image!);
-          _newtonKey.currentState?.clearEffects();
-          _newtonKey.currentState?.addEffect(_effect);
-          widget.active ? _effect.start() : _effect.stop();
-        }
-        else if (widget.active != oldWidget.active) {
-          widget.active ? _effect.start() : _effect.stop();
-        }
-      });
+    if (
+      widget.active != oldWidget.active || 
+      widget.particleColor != oldWidget.particleColor || 
+      widget.particleDuration != oldWidget.particleDuration || 
+      widget.particleEmitRate != oldWidget.particleEmitRate || 
+      widget.particleGap != oldWidget.particleGap || 
+      widget.particleLanes != oldWidget.particleLanes || 
+      widget.particleOffset!= oldWidget.particleOffset || 
+      widget.particleOverflow!= oldWidget.particleOverflow || 
+      widget.particleSize != oldWidget.particleSize
+    ){
+      _newtonKey.currentState?.clearEffects();
+      _image?.dispose();
+      _initializeEffect();
     }
   }
 
