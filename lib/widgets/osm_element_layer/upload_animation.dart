@@ -52,12 +52,14 @@ class _UploadAnimationState extends State<UploadAnimation> {
   
   void _initializeEffect(){
     _generateImage().then((ui.Image image) {
-      setState(() {
-        _image = image;
-        _effect = _createEffect(_image!);
-        _newtonKey.currentState?.addEffect(_effect);
-        widget.active ? _effect.start() : _effect.stop();
-      });
+      if (_image != null) {
+        _newtonKey.currentState?.clearEffects();
+        _image?.dispose();
+      }
+      _image = image;
+      _effect = _createEffect(_image!);
+      _newtonKey.currentState?.addEffect(_effect);
+      widget.active ? _effect.start() : _effect.stop();
     });
   }
   Future<ui.Image> _generateImage() async {
@@ -106,20 +108,25 @@ class _UploadAnimationState extends State<UploadAnimation> {
   @override
   void didUpdateWidget(covariant UploadAnimation oldWidget) {
     super.didUpdateWidget(oldWidget); 
-    if (
-      widget.active != oldWidget.active || 
+    if (widget.particleSize != oldWidget.particleSize){
+      _initializeEffect();
+    }
+    else if (
       widget.particleColor != oldWidget.particleColor || 
       widget.particleDuration != oldWidget.particleDuration || 
       widget.particleEmitRate != oldWidget.particleEmitRate || 
       widget.particleGap != oldWidget.particleGap || 
       widget.particleLanes != oldWidget.particleLanes || 
       widget.particleOffset!= oldWidget.particleOffset || 
-      widget.particleOverflow!= oldWidget.particleOverflow || 
-      widget.particleSize != oldWidget.particleSize
-    ){
+      widget.particleOverflow!= oldWidget.particleOverflow) 
+    {
       _newtonKey.currentState?.clearEffects();
-      _image?.dispose();
-      _initializeEffect();
+      _effect = _createEffect(_image!);
+      _newtonKey.currentState?.addEffect(_effect);
+      widget.active ? _effect.start() : _effect.stop();
+    }
+    else if (widget.active != oldWidget.active) {
+      widget.active ? _effect.start() : _effect.stop();
     }
   }
 

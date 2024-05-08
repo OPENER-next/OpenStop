@@ -137,6 +137,8 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                   ),
                   Observer(
                     builder: (context) {
+                      // "length" used to listen to changes
+                      viewModel.uploadQueue.length;
                       return OsmElementLayer(
                         elements: viewModel.elements,
                         currentZoom: viewModel.mapZoomRound,
