@@ -16,6 +16,7 @@ import '/api/app_worker/element_handler.dart';
 import '/models/map_features/map_feature_representation.dart';
 import '/models/question_catalog/question_definition.dart';
 import '/models/questionnaire.dart';
+import '/models/stop_area/stop_area.dart';
 import '/utils/debouncer.dart';
 import '/widgets/question_inputs/question_input_widget.dart';
 import '/api/user_account_service.dart';
@@ -25,7 +26,6 @@ import '/utils/geo_utils.dart';
 import '/utils/map_utils.dart';
 import '/api/app_worker/app_worker_interface.dart';
 import '/api/app_worker/stop_area_handler.dart';
-import '/models/stop_area_processing/stop_area.dart';
 
 
 class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, NotificationMediator {

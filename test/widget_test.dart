@@ -84,11 +84,11 @@ void main() {
 
     // mock overpass requests
     nock.get('https://overpass-api.de/api/interpreter')
-      ..query({'data': anything, 'bbox': anything})
+      ..query({'data': anything})
       ..reply(200, overpassReply, headers: { 'Content-Type': 'application/json' })
       ..persist();
     nock.get('https://overpass.kumi.systems/api/interpreter')
-      ..query({'data': anything, 'bbox': anything})
+      ..query({'data': anything})
       ..reply(200, overpassReply, headers: { 'Content-Type': 'application/json' })
       ..persist();
     // mock osm api requests

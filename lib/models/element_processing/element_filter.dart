@@ -1,4 +1,4 @@
-import 'package:latlong2/latlong.dart';
+import 'package:flutter_map/flutter_map.dart';
 
 import '/models/element_conditions/element_condition.dart';
 import '/models/element_variants/base_element.dart';
@@ -15,25 +15,21 @@ abstract class ElementFilter<F> extends Matcher<F, ProcessedElement> {
 }
 
 
-/// Filter for elements which geometric center is inside the given [Circle].
+/// Filter for elements which bbox intersect with the given [LatLngBounds].
 
-class AreaFilter extends ElementFilter<Circle> {
-  AreaFilter({
-    required Circle area,
-  }) : super(area);
+class AreaOverlapFilter extends ElementFilter<LatLngBounds> {
+  AreaOverlapFilter(super.area);
 
   @override
   bool matches(ProcessedElement sample) =>
-    characteristics.isPointInside(sample.geometry.center);
+    characteristics.isOverlapping(sample.geometry.bounds);
 }
 
 
 /// Filter for elements which match at least one question from a given [QuestionCatalog].
 
 class QuestionFilter extends ElementFilter<QuestionCatalog> {
-  QuestionFilter({
-    required QuestionCatalog questionCatalog,
-  }) : super(questionCatalog);
+  QuestionFilter(super.questionCatalog);
 
   @override
   bool matches(ProcessedElement sample) {
@@ -49,9 +45,7 @@ class QuestionFilter extends ElementFilter<QuestionCatalog> {
 /// Meta filter to "OR" combine multiple other element filters.
 
 class AnyFilter extends ElementFilter<Iterable<ElementFilter>> {
-  AnyFilter({
-    required Iterable<ElementFilter> filters,
-  }) : super(filters);
+  AnyFilter(super.filters);
 
   @override
   bool matches(ProcessedElement sample) =>
