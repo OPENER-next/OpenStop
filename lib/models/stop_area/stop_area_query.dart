@@ -23,7 +23,6 @@ class StopAreaQuery extends OverpassQuery<Iterable<StopArea>> {
   static String _buildQuery (int mergeRadius) =>
     // get all platforms
     'nwr[public_transport=platform]->.remaining_platforms;'
-    // return all bboxes of stop aras and platforms not part of stop areas
     // loop over every single platform element
     'foreach.remaining_platforms {'
       // make intersection of current platform (default set ._) and .remaining_platforms

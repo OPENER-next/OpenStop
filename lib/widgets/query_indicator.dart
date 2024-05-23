@@ -1,18 +1,22 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
-class DownloadIndicator extends StatefulWidget {
+import '/commons/custom_icons/custom_icons_icons.dart';
+
+class QueryIndicator extends StatefulWidget {
   final bool active;
 
-  const DownloadIndicator({
+  const QueryIndicator({
     required this.active,
     super.key,
   });
 
   @override
-  State<DownloadIndicator> createState() => _DownloadIndicatorState();
+  State<QueryIndicator> createState() => _QueryIndicatorState();
 }
 
-class _DownloadIndicatorState extends State<DownloadIndicator> with SingleTickerProviderStateMixin {
+class _QueryIndicatorState extends State<QueryIndicator> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<Offset> _animation;
 
@@ -21,27 +25,21 @@ class _DownloadIndicatorState extends State<DownloadIndicator> with SingleTicker
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 3),
     );
-    _animation = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ).drive(Tween<Offset>(
-      begin: Offset.zero,
-      end: const Offset(0, 0.1),
-    ));
+    _animation = _controller.drive(_CircleTween(0.15));
     _triggerBounce();
   }
 
   @override
-  void didUpdateWidget(covariant DownloadIndicator oldWidget) {
+  void didUpdateWidget(covariant QueryIndicator oldWidget) {
     super.didUpdateWidget(oldWidget);
     _triggerBounce();
   }
 
   void _triggerBounce() {
     if (widget.active && !_controller.isAnimating) {
-      _controller.repeat(reverse: true);
+      _controller.repeat();
     }
   }
 
@@ -67,13 +65,12 @@ class _DownloadIndicatorState extends State<DownloadIndicator> with SingleTicker
           // because if it is fully transparent it is only applied to the Icon painting rect
           // might be related to https://github.com/flutter/flutter/pull/72526#issuecomment-749185938
           color: const Color.fromARGB(1, 255, 255, 255),
-          padding: const EdgeInsets.all(40),
+          padding: const EdgeInsets.all(70),
           child: FittedBox(
-            alignment: const Alignment(0, -0.75),
             child: SlideTransition(
               position: _animation,
               child: const Icon(
-                Icons.cloud_download_rounded,
+                CustomIcons.magnifierFilled,
                 color: Colors.white,
               ),
             ),
@@ -88,4 +85,17 @@ class _DownloadIndicatorState extends State<DownloadIndicator> with SingleTicker
     _controller.dispose();
     super.dispose();
   }
+}
+
+
+class _CircleTween extends Tween<Offset> {
+  final double distance;
+
+  _CircleTween(this.distance) : super(
+    begin: Offset.zero,
+    end: Offset.fromDirection(2 * pi, distance)
+  );
+
+  @override
+  Offset lerp(t) => Offset.fromDirection(2 * pi * t, distance);
 }
