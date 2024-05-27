@@ -11,8 +11,7 @@ import 'package:open_stop/models/element_conditions/element_condition.dart';
 import 'package:open_stop/models/map_features/map_feature_definition.dart';
 import 'package:open_stop/models/map_features/map_features.dart';
 import 'package:open_stop/models/osm_element_type.dart' as app;
-import 'package:open_stop/models/stop_area_processing/stop.dart';
-import 'package:open_stop/models/stop_area_processing/stop_area.dart';
+import 'package:open_stop/models/stop_area/stop_area.dart';
 import 'package:osm_api/osm_api.dart';
 
 void main() async {
@@ -37,38 +36,23 @@ void main() async {
     source: changesetSource,
   );
 
-  final simpleStopArea = StopArea(const [
-    Stop(
-      location: LatLng(10.00001, 20.00001),
-      name: 'Stop1'
-    )
-  ], const LatLng(10.00001, 20.00001), 200);
+  final simpleStopArea = StopArea(
+    const LatLng(9.8241, 19.6779),
+    const LatLng(10.2136, 20.3240),
+    name: 'Stop1',
+  );
 
-  final doubleStopArea = StopArea(const [
-    Stop(
-      location: LatLng(10.00001, 20.00001),
-      name: 'Stop1'
-    ),
-    Stop(
-      location: LatLng(10.00002, 20.00002),
-      name: 'Stop2'
-    )
-  ], const LatLng(10.00001, 20.00001), 200);
+  final doubleStopArea = StopArea(
+    const LatLng(9.8241, 19.6779),
+    const LatLng(10.2136, 20.3240),
+    name: 'Stop1',
+  );
 
-  final tripleStopArea = StopArea(const [
-    Stop(
-      location: LatLng(10.00001, 20.00001),
-      name: 'Stop1'
-    ),
-    Stop(
-      location: LatLng(10.00002, 20.00002),
-      name: 'Stop2'
-    ),
-    Stop(
-      location: LatLng(10.00003, 20.00003),
-      name: 'Stop2'
-    )
-  ], const LatLng(10.00001, 20.00001), 200);
+  final tripleStopArea = StopArea(
+    const LatLng(9.8241, 19.6779),
+    const LatLng(10.2136, 20.3240),
+    name: 'Stop2',
+  );
 
   const tags01 = {'map_feature_1': 'map_feature_1_value'};
   const tags02 = {'map_feature_2': 'map_feature_2_value'};
@@ -351,12 +335,11 @@ void main() async {
 
 
   test('Test osm element upload with changeset comment exceeding max length', () async {
-    final stopAreaWithLongName = StopArea(const [
-      Stop(
-        location: LatLng(10.00001, 20.00001),
-        name: 'Stop area with name longer than 255 characters - loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong'
-      ),
-    ], const LatLng(10.00001, 20.00001), 200);
+    final stopAreaWithLongName = StopArea(
+      const LatLng(9.8241, 19.6779),
+      const LatLng(10.2136, 20.3240),
+      name: 'Stop area with name longer than 255 characters - loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong'
+    );
 
     // update changeset with map feature and stop area of long name
     final element = ProxyElement(

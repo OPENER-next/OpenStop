@@ -16,7 +16,7 @@ import '/models/element_processing/element_filter.dart';
 import '/models/element_processing/element_processor.dart';
 import '/models/element_variants/base_element.dart';
 import '/models/geographic_geometries.dart';
-import '/models/stop_area_processing/stop_area.dart';
+import '/models/stop_area/stop_area.dart';
 import '/utils/stream_utils.dart';
 import '/utils/service_worker.dart';
 import 'locale_handler.dart';
@@ -113,7 +113,7 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
       markStopArea(stopArea, StopAreaState.loading);
       try {
         // query elements by stop areas bbox
-        final elementBundle = await _osmElementQueryHandler.queryByBBox(stopArea.bounds);
+        final elementBundle = await _osmElementQueryHandler.queryByBBox(stopArea);
         // process stop area elements
         final stopAreaElements = _elementPool
           .add(elementBundle)
@@ -185,7 +185,7 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
         // add the element itself to the affected elements
         .followedBy([AffectedElementsRecord(
           element: element.original,
-          matches: QuestionFilter(questionCatalog: qCatalog).matches(element),
+          matches: QuestionFilter(qCatalog).matches(element),
         )])
         // send update messages to the main thread
         .map((record) => ElementUpdate.derive(
@@ -224,13 +224,13 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
   }
 
   Stream<ElementFilter> _buildFiltersForStopArea(StopArea stopArea) async* {
-    yield QuestionFilter(questionCatalog: await questionCatalog);
-    yield AreaFilter(area: stopArea);
+    yield QuestionFilter(await questionCatalog);
+    yield AreaOverlapFilter(stopArea);
   }
 
   Stream<ElementFilter> _buildFiltersForStopAreas(Iterable<StopArea> stopAreas) async* {
-    yield QuestionFilter(questionCatalog: await questionCatalog);
-    yield AnyFilter(filters: stopAreas.map((s) => AreaFilter(area: s)));
+    yield QuestionFilter(await questionCatalog);
+    yield AnyFilter(stopAreas.map(AreaOverlapFilter.new));
   }
 
   @override

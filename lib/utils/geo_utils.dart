@@ -37,4 +37,19 @@ extension LatLngBoundsExtensions on LatLngBounds {
 
     return LatLngBounds(newNorthWest, newSouthEast);
   }
+
+  /// Enlarges/inflates the bbox by a given distance in meters.
+  ///
+  /// Creates and returns a new [LatLngBounds].
+
+  LatLngBounds pad(double padding) {
+    final diagonal = _rootOf2 * padding;
+    const geo = Distance();
+    return LatLngBounds(
+      geo.offset(southWest, diagonal, 225),
+      geo.offset(northEast, diagonal, 45),
+    );
+  }
+
+  static final _rootOf2 = sqrt(2);
 }

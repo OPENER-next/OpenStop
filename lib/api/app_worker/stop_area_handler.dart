@@ -1,14 +1,14 @@
 import 'dart:async';
-import 'dart:collection';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
+import '/models/stop_area/stop_area.dart';
+import '/models/stop_area/stop_area_query.dart';
 import '/models/element_variants/base_element.dart';
-import '/models/stop_area_processing/stop_area.dart';
-import '/models/stop_area_processing/stop_area_generator.dart';
-import '/api/stop_query_api.dart';
+import '/api/overpass_query_api.dart';
 import '/utils/stream_utils.dart';
 import '/utils/cell_cache.dart';
 import '/utils/service_worker.dart';
@@ -27,8 +27,8 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
   final _stopAreasStreamController = StreamController<StopAreaUpdate>();
   final _loadingCellsStreamController = StreamController<int>();
 
-  final _stopAPI = StopQueryAPI();
-  static const _stopAreaGenerator = StopAreaGenerator();
+  final _overpassAPI = OverpassQueryAPI();
+  final _stopAreaQuery = StopAreaQuery();
 
   final _stopAreaCache = CellCache<Set<StopArea>>();
 
@@ -120,8 +120,10 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
           final northEast = LatLng(southWest.latitude + _cellSize, southWest.longitude + _cellSize);
 
           try {
-            final stops = await _stopAPI.queryByBBox(southWest, northEast);
-            final stopAreas = _stopAreaGenerator.generateFromStops(stops).toSet();
+            final stopAreas = (await _overpassAPI.query(
+              _stopAreaQuery,
+              bbox: LatLngBounds(southWest, northEast)
+            )).toSet();
             _stopAreaCache.add(cellIndex, stopAreas);
 
             for (final stopArea in stopAreas) {
@@ -141,26 +143,22 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
     }
   }
 
-  /// Find [StopArea]s which contain at least one [Stop] that lies inside a given bounding box.
+  /// Find [StopArea]s which intersects with the given bounding box.
 
-  Iterable<StopArea> getStopAreasByBounds(LatLngBounds bounds) sync* {
-    final closeCellIndexes = _bboxToCellIndexes(bounds);
-
-    for (final cellIndex in closeCellIndexes) {
-      final stopAreas = _stopAreaCache.get(cellIndex) ?? const Iterable<StopArea>.empty();
-      for (final stopArea in stopAreas) {
-        if (stopArea.stops.any((stop) => bounds.contains(stop.location))) {
-          yield stopArea;
-        }
-      }
-    }
+  Iterable<StopArea> getStopAreasByBounds(LatLngBounds bounds) {
+    return _bboxToCellIndexes(bounds)
+      .map(_stopAreaCache.get)
+      .whereNotNull()
+      .expand((stopAreas) => stopAreas.where(
+        (stopArea) => stopArea.isOverlapping(bounds),
+      ));
   }
 
-  /// Finds a stop area a given element lies within.
+  /// Finds a stop area a given element overlaps with.
 
   StopArea findCorrespondingStopArea(ProcessedElement element) {
     return _loadedStopAreas.firstWhere(
-      (stopArea) => stopArea.isPointInside(element.geometry.center),
+      (stopArea) => stopArea.isOverlapping(element.geometry.bounds),
       orElse: () => throw StateError('No surrounding stop area found for ${element.type} ${element.id}.'),
     );
   }
@@ -177,7 +175,7 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
   void exit() {
     _stopAreasStreamController.close();
     _loadingCellsStreamController.close();
-    _stopAPI.dispose();
+    _overpassAPI.dispose();
     super.exit();
   }
 

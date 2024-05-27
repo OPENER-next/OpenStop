@@ -23,7 +23,7 @@ class OSMElementQueryAPI {
   /// This limit exists to prevent querying overly large relations, such as country boundaries.
   /// This method will throw [OSMAPI] connection errors.
 
-  Future<OSMElementBundle> queryByBBox(LatLngBounds bbox, { relationMemberLimit = 50 }) async {
+  Future<OSMElementBundle> queryByBBox(LatLngBounds bbox, { int relationMemberLimit = 50 }) async {
     final bboxElementBundle = await _osmApi.getElementsByBoundingBox(
       BoundingBox(
         bbox.west, bbox.south, bbox.east, bbox.north

@@ -14,7 +14,7 @@ import '/widgets/completed_area_layer/completed_area_layer.dart';
 import '/widgets/loading_area_layer/loading_area_layer.dart';
 import '/widgets/geometry_layer.dart';
 import '/widgets/custom_snackbar.dart';
-import '/widgets/download_indicator.dart';
+import '/widgets/query_indicator.dart';
 import '/widgets/stops_layer/stop_area_layer.dart';
 import '/widgets/osm_element_layer/osm_element_layer.dart';
 import '/widgets/question_dialog/question_dialog.dart';
@@ -77,7 +77,7 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                     minNativeZoom: kTileLayerPublicTransport.minZoom,
                     maxNativeZoom: kTileLayerPublicTransport.maxZoom,
                   ),
-                  DownloadIndicator(
+                  QueryIndicator(
                     active: viewModel.isLoadingStopAreas,
                   ),
                   Observer(
@@ -85,7 +85,7 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                       // "length" used to listen to changes
                       viewModel.loadingStopAreas.length;
                       return LoadingAreaLayer(
-                        areas: viewModel.loadingStopAreas,
+                        areas: viewModel.loadingStopAreas.map((s) => s.circumcircle),
                       );
                     },
                   ),
@@ -95,7 +95,7 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                       viewModel.completeStopAreas.length;
                       return CompletedAreaLayer(
                         currentZoom: viewModel.mapZoomRound,
-                        locations: viewModel.completeStopAreas.map((s) => s.stops.first.location),
+                        locations: viewModel.completeStopAreas.map((s) => s.center),
                       );
                     },
                   ),
@@ -109,9 +109,9 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
 
                       return StopsLayer(
                         currentZoom: viewModel.mapZoomRound,
-                        unloadedStops: viewModel.unloadedStopAreas.map((s) => s.stops.first.location),
-                        incompleteStops: viewModel.incompleteStopAreas.map((s) => s.stops.first.location),
-                        completedStops: viewModel.completeStopAreas.map((s) => s.stops.first.location),
+                        unloadedStops: viewModel.unloadedStopAreas.map((s) => s.center),
+                        incompleteStops: viewModel.incompleteStopAreas.map((s) => s.center),
+                        completedStops: viewModel.completeStopAreas.map((s) => s.center),
                       );
                     },
                   ),

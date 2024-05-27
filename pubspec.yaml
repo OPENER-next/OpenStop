@@ -84,6 +84,11 @@ flutter:
   uses-material-design: true
   generate: true
 
+  fonts:
+    - family:  CustomIcons
+      fonts:
+      - asset: lib/commons/custom_icons/fonts/CustomIcons.ttf
+
 flutter_icons:
   image_path_android: 'assets/images/app_icon_android.png'
   image_path_ios: 'assets/images/app_icon_ios.png'

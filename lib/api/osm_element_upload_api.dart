@@ -6,7 +6,7 @@ import '/models/element_processing/element_processor.dart';
 import '/models/element_variants/base_element.dart';
 import '/models/authenticated_user.dart';
 import '/commons/osm_config.dart' as osm_config;
-import '/models/stop_area_processing/stop_area.dart';
+import '/models/stop_area/stop_area.dart';
 
 
 // NOTE:
@@ -82,12 +82,11 @@ class OSMElementUploadAPI {
     // dummy changeset info
     final changesetInfo = generator(stopArea, []);
 
-    final bbox = stopArea.bounds;
     // get existing open changesets that was created by the user
     final changesets = await _osmApi.queryChangesets(
       open: true,
       uid: _authenticatedUser.id,
-      bbox: BoundingBox(bbox.west, bbox.south, bbox.east, bbox.north)
+      bbox: BoundingBox(stopArea.west, stopArea.south, stopArea.east, stopArea.north)
     );
 
     try {
