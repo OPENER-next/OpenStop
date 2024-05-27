@@ -75,18 +75,22 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                           QuestionSummary(
                             elevate: showSummary,
                             questions: questions
-                              .whereIndexed(
-                                (index, _) => answers[index].hasValidAnswer,
-                              ).map(
-                                (question) => question.name
-                              ).toList(growable: false),
+                              .whereIndexed((index, _) => answers[index].hasValidAnswer)
+                              .map((question) => question.name)
+                              .toList(growable: false),
                             answers: answers
-                              .where(
-                                (controller) => controller.hasValidAnswer,
-                              ).map(
-                                (controller) => controller.answer!.toLocaleString(appLocale)
-                              ).toList(growable: false),
-                            onJump: viewModel.jumpToQuestion,
+                              .where((controller) => controller.hasValidAnswer)
+                              .map((controller) => controller.answer!.toLocaleString(appLocale))
+                              .toList(growable: false),
+                            onJump: (index) {
+                              // we get the filtered index so we need to convert it to the original index
+                              // otherwise we jump to the wrong question/answer
+                              final originalIndex = answers
+                                .mapIndexed((i, controller) => controller.hasValidAnswer ? i : -1)
+                                .where((i) => i != -1)
+                                .elementAt(index);
+                              viewModel.jumpToQuestion(originalIndex);
+                            },
                             userName: viewModel.userName,
                           ),
                         ],
