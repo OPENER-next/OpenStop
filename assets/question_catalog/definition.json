@@ -3419,7 +3419,7 @@
             "osm_tags": {
                "highway": "crossing",
                "crossing": [false, "island"],
-               "crossing:signal": false
+               "crossing:signals": false
             },
             "osm_element": "Node"
          }
