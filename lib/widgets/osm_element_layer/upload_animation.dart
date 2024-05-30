@@ -7,28 +7,28 @@ class UploadAnimation extends StatefulWidget {
   /// Duration between particle emissions in milliseconds
   final int particleEmitRate;
   /// Particle animation duration in milliseconds
-  final int particleDuration; 
+  final int particleDuration;
   /// Heigh size of the area use by the animation
   final double particleOverflow;
   /// Size of the particle
-  final Size particleSize; 
+  final Size particleSize;
   /// Space between particles
   final double particleGap;
   /// Shift the initial position of the particle
   final Offset particleOffset;
   final Color particleColor;
   /// Number of effect's columns
-  final int particleLanes; 
+  final int particleLanes;
   final Widget child;
 
   const UploadAnimation({
     required this.active,
     required this.child,
-    this.particleEmitRate = 200, 
+    this.particleEmitRate = 200,
     this.particleDuration = 4000,
     this.particleOverflow = 50,
     this.particleGap = 5.0,
-    this.particleSize = const Size(50.0, 100.0),
+    this.particleSize = const Size(8, 16),
     this.particleLanes = 1,
     this.particleOffset = Offset.zero,
     this.particleColor = Colors.white,
@@ -40,29 +40,31 @@ class UploadAnimation extends StatefulWidget {
 }
 
 class _UploadAnimationState extends State<UploadAnimation> {
-  final _newtonKey = GlobalKey<NewtonState>();
   ui.Image? _image;
-  late Effect _effect;
+  List<Effect> _effects = [];
 
   @override
   void initState() {
     _initializeEffect();
     super.initState();
   }
-  
+
   void _initializeEffect(){
-    _generateImage().then((ui.Image image) {
+    _createImage().then((ui.Image image) {
       if (_image != null) {
-        _newtonKey.currentState?.clearEffects();
-        _image?.dispose();
+        _image!.dispose();
       }
-      _image = image;
-      _effect = _createEffect(_image!);
-      _newtonKey.currentState?.addEffect(_effect);
-      widget.active ? _effect.start() : _effect.stop();
+      if (mounted) {
+        setState(() {
+          _image = image;
+          _effects = [_createEffect(image)];
+          _toggleEffect();
+        });
+      }
     });
   }
-  Future<ui.Image> _generateImage() async {
+
+  Future<ui.Image> _createImage() async {
     final pictureRecorder = ui.PictureRecorder();
     final canvas = Canvas(pictureRecorder);
     final paint = Paint()
@@ -89,12 +91,12 @@ class _UploadAnimationState extends State<UploadAnimation> {
       maxDistance: 200,
       minDuration: widget.particleDuration,
       maxDuration: widget.particleDuration,
-      minFadeOutThreshold: 0.6,
+      minFadeOutThreshold: 0,
       maxFadeOutThreshold: 0.8,
     );
     return CustomEffect(
       particleConfiguration: ParticleConfiguration(
-        shape: ImageShape(_image!),
+        shape: ImageShape(image),
         size: widget.particleSize,
         color: SingleParticleColor(color: widget.particleColor),
       ),
@@ -105,39 +107,56 @@ class _UploadAnimationState extends State<UploadAnimation> {
     );
   }
 
+  void _toggleEffect() {
+    if (widget.active) {
+      for (final effect in _effects) {effect.start();}
+    }
+    else {
+      for (final effect in _effects) {effect.stop();}
+    }
+  }
+
   @override
   void didUpdateWidget(covariant UploadAnimation oldWidget) {
-    super.didUpdateWidget(oldWidget); 
+    super.didUpdateWidget(oldWidget);
+
     if (widget.particleSize != oldWidget.particleSize){
       _initializeEffect();
     }
     else if (
-      widget.particleColor != oldWidget.particleColor || 
-      widget.particleDuration != oldWidget.particleDuration || 
-      widget.particleEmitRate != oldWidget.particleEmitRate || 
-      widget.particleGap != oldWidget.particleGap || 
-      widget.particleLanes != oldWidget.particleLanes || 
-      widget.particleOffset!= oldWidget.particleOffset || 
-      widget.particleOverflow!= oldWidget.particleOverflow) 
+      widget.particleColor != oldWidget.particleColor ||
+      widget.particleDuration != oldWidget.particleDuration ||
+      widget.particleEmitRate != oldWidget.particleEmitRate ||
+      widget.particleGap != oldWidget.particleGap ||
+      widget.particleLanes != oldWidget.particleLanes ||
+      widget.particleOffset!= oldWidget.particleOffset ||
+      widget.particleOverflow != oldWidget.particleOverflow)
     {
-      _newtonKey.currentState?.clearEffects();
-      _effect = _createEffect(_image!);
-      _newtonKey.currentState?.addEffect(_effect);
-      widget.active ? _effect.start() : _effect.stop();
+      if (_image != null) {
+        _effects = [_createEffect(_image!)];
+      }
     }
     else if (widget.active != oldWidget.active) {
-      widget.active ? _effect.start() : _effect.stop();
+      _toggleEffect();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Newton(
-      key: _newtonKey,
-      child: Padding(
-        padding: EdgeInsets.only(top: widget.particleOverflow),
-        child: widget.child,
-      ),
+    // stack required because when using Newton via nesting it blocks pointer events
+    return Stack(
+      children: [
+        IgnorePointer(
+          child: Newton(
+            // important: Newton will only update the effects if we pass in a NEW list
+            activeEffects: _effects,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: widget.particleOverflow),
+          child: widget.child,
+        ),
+      ],
     );
   }
 
@@ -164,6 +183,8 @@ class CustomEffect extends Effect<AnimatedParticle> {
 
   @override
   AnimatedParticle instantiateParticle(Size surfaceSize) {
+    // TODO: sometimes surfaceSize is zero causing wrong particles to be emitted
+    // probably a newton bug
     return AnimatedParticle(
       particle: _nextParticle(surfaceSize),
       pathTransformation: StraightPathTransformation(

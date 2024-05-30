@@ -209,23 +209,25 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
     final appLocale = AppLocalizations.of(context)!;
     marker as _OsmElementMarker;
     final isActive = widget.selectedElement == marker.element;
+    final isUploading = widget.uploadQueue.contains(marker.element);
 
     return ScaleTransition(
       scale: animation,
       alignment: Alignment.bottomCenter,
       filterQuality: FilterQuality.low,
       child: UploadAnimation(
-        active: widget.uploadQueue.contains(marker.element),
-        particleEmitRate: 400,
-        particleSize: const Size(8, 16),
-        particleOverflow: 25,
+        active: isUploading,
+        particleDuration: 1000,
+        particleOverflow: 40,
         particleColor: Theme.of(context).colorScheme.primary,
         particleLanes: 4,
         particleOffset: const Offset(0, -45),
         child: OsmElementMarker(
           onTap: () => widget.onOsmElementTap?.call(marker.element),
           active: isActive,
-          icon: marker.element.icon,
+          icon: isUploading
+            ? Icons.cloud_upload_rounded
+            : marker.element.icon,
           label: marker.element.elementLabel(appLocale),
         ),
       ),
@@ -280,7 +282,7 @@ class _OsmElementMarker extends AnimatedMarker {
     // its equality doesn't change when its tags or version changes
     key: ValueKey(element),
     point: element.geometry.center,
-    size: const Size(260, 85),
+    size: const Size(260, 100),
     anchor: Alignment.bottomCenter,
     animateInCurve: Curves.elasticOut,
     animateOutCurve: Curves.easeOutBack,

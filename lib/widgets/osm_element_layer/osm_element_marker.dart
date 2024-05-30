@@ -76,23 +76,42 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
                   children: [
                     AspectRatio(
                       aspectRatio: 1,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
+                      child: ClipOval(
+                        child: ColoredBox(
                           color: Theme.of(context).colorScheme.primary,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(7),
-                          child: FittedBox(
-                            child: Icon(widget.icon,
-                              color: Colors.white,
-                              shadows: const [
-                                Shadow(
-                                  color: Colors.black12,
-                                  blurRadius: 0,
-                                  offset: Offset(2, 2)
+                          child: Padding(
+                            padding: const EdgeInsets.all(7),
+                            child: FittedBox(
+                              child: AnimatedSwitcher(
+                                duration: const Duration(seconds: 1),
+                                switchInCurve: Curves.elasticInOut,
+                                switchOutCurve: Curves.elasticInOut,
+                                transitionBuilder: (child, animation) {
+                                  // detect in/out animation
+                                  final y = child.key == ValueKey(widget.icon)
+                                    ? 1.2 : -1.2;
+                                  return SlideTransition(
+                                    position: animation.drive(
+                                      Tween<Offset>(
+                                        begin: Offset(0, y),
+                                        end: Offset.zero,
+                                      ),
+                                    ),
+                                    child: child, //
+                                  );
+                                },
+                                child: Icon(widget.icon,
+                                  key: ValueKey(widget.icon),
+                                  color: Colors.white,
+                                  shadows: const [
+                                    Shadow(
+                                      color: Colors.black12,
+                                      blurRadius: 0,
+                                      offset: Offset(2, 2)
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
                           ),
                         ),
@@ -107,7 +126,7 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
                           widthFactor: _animation.value,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(widget.label, 
+                            child: Text(widget.label,
                               textWidthBasis: TextWidthBasis.longestLine,
                               softWrap: true,
                               maxLines: 2,
