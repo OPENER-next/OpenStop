@@ -704,6 +704,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  newton_particles:
+    dependency: "direct main"
+    description:
+      name: newton_particles
+      sha256: ce6ad2ea38075b82ae891970f1387726a400443a585ff3905b68ddda50c68315
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.7"
   nock:
     dependency: "direct dev"
     description:

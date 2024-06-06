@@ -328,6 +328,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
   void submitQuestionnaire() async {
     final appLocale = AppLocalizations.of(context)!;
+    final alteredElement = selectedElement;
 
     if (_userAccountService.isLoggedOut) {
       // wait till the user login process finishes
@@ -337,13 +338,13 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     // check if mounted to ensure context is valid
     if (_userAccountService.isLoggedIn && mounted) {
       try {
+        _uploadQueue.add(alteredElement!);
         // deselect element
         runInAction(() => _selectedElement.value = null);
         // this automatically closes the questionaire
         await _appWorker.uploadQuestionnaire(
           user: _userAccountService.authenticatedUser!,
         );
-        notifyUser(appLocale.uploadMessageSuccess);
       }
       on OSMConnectionException {
         notifyUser(appLocale.uploadMessageServerConnectionError);
@@ -351,6 +352,9 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
       catch(e) {
         debugPrint(e.toString());
         notifyUser(appLocale.uploadMessageUnknownConnectionError);
+      }
+      finally {
+        _uploadQueue.remove(alteredElement);
       }
     }
   }
@@ -438,6 +442,9 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
       return _appWorker.queryElements(mapController.camera.visibleBounds);
     }
   }
+
+  final ObservableSet<MapFeatureRepresentation> _uploadQueue = ObservableSet<MapFeatureRepresentation>();
+  late final Set<MapFeatureRepresentation> uploadQueue = UnmodifiableSetView(_uploadQueue);
 
   final _selectedElement = Observable<MapFeatureRepresentation?>(null);
   MapFeatureRepresentation? get selectedElement => _selectedElement.value;

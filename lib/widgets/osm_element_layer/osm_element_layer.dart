@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:animated_marker_layer/animated_marker_layer.dart';
 import 'package:flutter/material.dart';
+import '/widgets/osm_element_layer/upload_animation.dart';
 import 'package:supercluster/supercluster.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -19,6 +20,8 @@ class OsmElementLayer extends StatefulWidget {
 
   final void Function(MapFeatureRepresentation osmElement)? onOsmElementTap;
 
+  final Set<MapFeatureRepresentation> uploadQueue;
+
   /// The maximum shift in duration between different markers.
 
   final Duration durationOffsetRange;
@@ -34,6 +37,7 @@ class OsmElementLayer extends StatefulWidget {
   const OsmElementLayer({
     required this.elements,
     required this.currentZoom,
+    required this.uploadQueue,
     this.selectedElement,
     this.onOsmElementTap,
     this.durationOffsetRange = const Duration(milliseconds: 300),
@@ -205,20 +209,30 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
     final appLocale = AppLocalizations.of(context)!;
     marker as _OsmElementMarker;
     final isActive = widget.selectedElement == marker.element;
+    final isUploading = widget.uploadQueue.contains(marker.element);
 
     return ScaleTransition(
       scale: animation,
       alignment: Alignment.bottomCenter,
       filterQuality: FilterQuality.low,
-      child: OsmElementMarker(
-        onTap: () => widget.onOsmElementTap?.call(marker.element),
-        active: isActive,
-        icon: marker.element.icon,
-        label: marker.element.elementLabel(appLocale),
-      )
+      child: UploadAnimation(
+        active: isUploading,
+        particleDuration: 1000,
+        particleOverflow: 40,
+        particleColor: Theme.of(context).colorScheme.primary,
+        particleLanes: 4,
+        particleOffset: const Offset(0, -45),
+        child: OsmElementMarker(
+          onTap: () => widget.onOsmElementTap?.call(marker.element),
+          active: isActive,
+          icon: isUploading
+            ? Icons.cloud_upload_rounded
+            : marker.element.icon,
+          label: marker.element.elementLabel(appLocale),
+        ),
+      ),
     );
   }
-
 
   AnimatedMarker _createMinimizedMarker(MapFeatureRepresentation element) {
     return AnimatedMarker(
@@ -268,7 +282,7 @@ class _OsmElementMarker extends AnimatedMarker {
     // its equality doesn't change when its tags or version changes
     key: ValueKey(element),
     point: element.geometry.center,
-    size: const Size(260, 60),
+    size: const Size(260, 100),
     anchor: Alignment.bottomCenter,
     animateInCurve: Curves.elasticOut,
     animateOutCurve: Curves.easeOutBack,
