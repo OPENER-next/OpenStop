@@ -144,9 +144,9 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
   /// Uploads a given element.
   /// Sends update events for the given element and its dependents.
   ///
-  /// Returns true if upload was successful, otherwise false.
+  /// Throws if the upload fails.
 
-  Future<bool> uploadElement(ProxyElement element, AuthenticatedUser user) async {
+  Future<void> uploadElement(ProxyElement element, AuthenticatedUser user) async {
     final qCatalog = await questionCatalog;
 
     final stopArea = findCorrespondingStopArea(element);
@@ -195,13 +195,7 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
             : ElementUpdateAction.remove,
         ))
         .forEach(_elementStreamController.add);
-
-      return true;
     }
-    catch(e) {
-      return false;
-    }
-    // this is always executed, before the returns
     finally {
       uploadAPI.dispose();
     }
