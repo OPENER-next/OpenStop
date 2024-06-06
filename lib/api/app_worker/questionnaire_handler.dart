@@ -121,10 +121,10 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
     final element = _activeQuestionnaire!.workingElement;
     // close questionnaire before uploading
     closeQuestionnaire();
-    final success = await uploadElement(element, user);
-    if (success) {
-      discardQuestionnaire(questionnaire);
-    }
+
+    await uploadElement(element, user);
+    // if uploadElement throws the questionnaire will not be discarded
+    discardQuestionnaire(questionnaire);
   }
 
   void previousQuestion() {

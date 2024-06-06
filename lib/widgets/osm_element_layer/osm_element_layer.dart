@@ -19,6 +19,8 @@ class OsmElementLayer extends StatefulWidget {
 
   final void Function(MapFeatureRepresentation osmElement)? onOsmElementTap;
 
+  final Map<MapFeatureRepresentation, Future> uploadQueue;
+
   /// The maximum shift in duration between different markers.
 
   final Duration durationOffsetRange;
@@ -34,6 +36,7 @@ class OsmElementLayer extends StatefulWidget {
   const OsmElementLayer({
     required this.elements,
     required this.currentZoom,
+    required this.uploadQueue,
     this.selectedElement,
     this.onOsmElementTap,
     this.durationOffsetRange = const Duration(milliseconds: 300),
@@ -215,10 +218,10 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
         active: isActive,
         icon: marker.element.icon,
         label: marker.element.elementLabel(appLocale),
-      )
+        uploadState: widget.uploadQueue[marker.element],
+      ),
     );
   }
-
 
   AnimatedMarker _createMinimizedMarker(MapFeatureRepresentation element) {
     return AnimatedMarker(

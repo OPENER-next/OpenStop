@@ -328,6 +328,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
   void submitQuestionnaire() async {
     final appLocale = AppLocalizations.of(context)!;
+    final alteredElement = selectedElement;
 
     if (_userAccountService.isLoggedOut) {
       // wait till the user login process finishes
@@ -340,10 +341,11 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
         // deselect element
         runInAction(() => _selectedElement.value = null);
         // this automatically closes the questionaire
-        await _appWorker.uploadQuestionnaire(
+        final uploading = _appWorker.uploadQuestionnaire(
           user: _userAccountService.authenticatedUser!,
         );
-        notifyUser(appLocale.uploadMessageSuccess);
+        _uploadQueue[alteredElement!] = uploading;
+        await uploading;
       }
       on OSMConnectionException {
         notifyUser(appLocale.uploadMessageServerConnectionError);
@@ -351,6 +353,9 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
       catch(e) {
         debugPrint(e.toString());
         notifyUser(appLocale.uploadMessageUnknownConnectionError);
+      }
+      finally {
+        _uploadQueue.remove(alteredElement);
       }
     }
   }
@@ -438,6 +443,9 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
       return _appWorker.queryElements(mapController.camera.visibleBounds);
     }
   }
+
+  final _uploadQueue = ObservableMap<MapFeatureRepresentation, Future>();
+  late final uploadQueue = UnmodifiableMapView(_uploadQueue);
 
   final _selectedElement = Observable<MapFeatureRepresentation?>(null);
   MapFeatureRepresentation? get selectedElement => _selectedElement.value;

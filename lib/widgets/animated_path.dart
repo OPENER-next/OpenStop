@@ -20,6 +20,8 @@ class AnimatedPath extends LeafRenderObjectWidget {
 
   final StrokeJoin strokeJoin;
 
+  final List<Shadow> shadows;
+
   const AnimatedPath({
     required this.animation,
     required this.pathBuilder,
@@ -28,6 +30,7 @@ class AnimatedPath extends LeafRenderObjectWidget {
     this.style = PaintingStyle.stroke,
     this.strokeCap = StrokeCap.round,
     this.strokeJoin = StrokeJoin.round,
+    this.shadows = const [],
     super.key,
   });
 
@@ -41,6 +44,7 @@ class AnimatedPath extends LeafRenderObjectWidget {
       style,
       strokeCap,
       strokeJoin,
+      shadows,
     );
   }
 
@@ -53,7 +57,8 @@ class AnimatedPath extends LeafRenderObjectWidget {
     ..color = color
     ..style = style
     ..strokeCap = strokeCap
-    ..strokeJoin = strokeJoin;
+    ..strokeJoin = strokeJoin
+    ..shadows = shadows;
   }
 }
 
@@ -73,6 +78,7 @@ class RenderAnimatedPath extends RenderBox {
     PaintingStyle style,
     StrokeCap strokeCap,
     StrokeJoin strokeJoin,
+    this._shadows,
   ) {
     _animation.addListener(markNeedsPaint);
     _paint
@@ -141,6 +147,15 @@ class RenderAnimatedPath extends RenderBox {
     }
   }
 
+  List<Shadow> _shadows;
+  List<Shadow> get shadows => _shadows;
+  set shadows(List<Shadow> value) {
+    if (value != _shadows) {
+      _shadows = value;
+      markNeedsPaint();
+    }
+  }
+
   @override
   bool get sizedByParent => true;
 
@@ -157,12 +172,25 @@ class RenderAnimatedPath extends RenderBox {
 
     final currentLength = totalLength * _animation.value;
     final currentPath = _extractPathUntilLength(pathMetrics, currentLength);
+
+    for (final shadow in _shadows) {
+      final shadowPaint = shadow.toPaint()
+          ..style = style
+          ..strokeWidth = strokeWidth
+          ..strokeCap = strokeCap
+          ..strokeJoin = strokeJoin;
+      context.canvas.drawPath(currentPath.shift(offset + shadow.offset), shadowPaint);
+    }
     context.canvas.drawPath(currentPath.shift(offset), _paint);
   }
 
   Path _extractPathUntilLength(Iterable<PathMetric> pathMetrics, double length) {
     var currentLength = 0.0;
     final path = Path();
+
+    if (length == 0) {
+      return path;
+    }
 
     for (final metric in pathMetrics) {
       final nextLength = currentLength + metric.length;

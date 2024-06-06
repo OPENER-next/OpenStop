@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import 'upload_indicator.dart';
+
 
 class OsmElementMarker extends StatefulWidget {
   final VoidCallback? onTap;
@@ -10,6 +12,7 @@ class OsmElementMarker extends StatefulWidget {
   final Color? backgroundColor;
   final bool active;
   final String label;
+  final Future? uploadState;
 
   const OsmElementMarker({
     super.key,
@@ -18,6 +21,7 @@ class OsmElementMarker extends StatefulWidget {
     this.backgroundColor,
     this.active = false,
     this.label = '',
+    this.uploadState,
   });
 
   @override
@@ -76,20 +80,17 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
                   children: [
                     AspectRatio(
                       aspectRatio: 1,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
+                      child: ClipOval(
+                        child: ColoredBox(
                           color: Theme.of(context).colorScheme.primary,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(7),
-                          child: FittedBox(
+                          child: UploadIndicator(
+                            trigger: widget.uploadState,
+                            padding: const EdgeInsets.all(7),
                             child: Icon(widget.icon,
                               color: Colors.white,
                               shadows: const [
                                 Shadow(
                                   color: Colors.black12,
-                                  blurRadius: 0,
                                   offset: Offset(2, 2)
                                 ),
                               ],
@@ -107,7 +108,7 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
                           widthFactor: _animation.value,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(widget.label, 
+                            child: Text(widget.label,
                               textWidthBasis: TextWidthBasis.longestLine,
                               softWrap: true,
                               maxLines: 2,
