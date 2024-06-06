@@ -208,17 +208,20 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
     final appLocale = AppLocalizations.of(context)!;
     marker as _OsmElementMarker;
     final isActive = widget.selectedElement == marker.element;
+    final uploadState = widget.uploadQueue[marker.element];
 
     return ScaleTransition(
       scale: animation,
       alignment: Alignment.bottomCenter,
       filterQuality: FilterQuality.low,
       child: OsmElementMarker(
-        onTap: () => widget.onOsmElementTap?.call(marker.element),
+        onTap: () => uploadState == null
+          ? widget.onOsmElementTap?.call(marker.element)
+          : null,
         active: isActive,
         icon: marker.element.icon,
         label: marker.element.elementLabel(appLocale),
-        uploadState: widget.uploadQueue[marker.element],
+        uploadState: uploadState,
       ),
     );
   }
