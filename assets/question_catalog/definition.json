@@ -913,10 +913,7 @@
          {
             "osm_tags": {
                "public_transport": "platform",
-               "kerb": [
-                  "raised",
-                  "yes"
-               ],
+               "kerb": "raised",
                "kerb:approach_aid": false
             },
             "!parent": [
