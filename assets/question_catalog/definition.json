@@ -4065,7 +4065,7 @@
       "conditions": [
          {
             "osm_tags": {
-               "railway": ["crossing", "tram_crossing"],
+               "railway": "crossing",
                "crossing:barrier": "no",
                "crossing:light": "no",
                "crossing:bell": "no",
