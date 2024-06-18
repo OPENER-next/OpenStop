@@ -1,0 +1,1 @@
+A aplicação para recolher dados sobre barreiras nos transportes públicos locais.

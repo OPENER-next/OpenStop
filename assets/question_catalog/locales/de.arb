@@ -480,12 +480,6 @@
   "@railroadWarningLightText": {},
   "railroadWarningLightDescription": "Das Warnlicht signalisiert die Durchfahrt einer Bahn.",
   "@railroadWarningLightDescription": {},
-  "tramAcousticWarningSignalName": "Straßenbahn-Akustisches-Warnsignal",
-  "@tramAcousticWarningSignalName": {},
-  "tramAcousticWarningSignalText": "Gibt es ein akustisches Warnsignal bei Durchfahrt der Straßenbahn?",
-  "@tramAcousticWarningSignalText": {},
-  "tramAcousticWarningSignalDescription": "Das Warnsignal ertönt durch ein stationären Signalgeber. Das Klingeln durch Triebfahrzeugführer gehört nicht dazu.",
-  "@tramAcousticWarningSignalDescription": {},
   "railroadAcousticWarningName": "Bahn-Akustisches-Warnsignal",
   "@railroadAcousticWarningName": {},
   "railroadAcousticWarningText": "Gibt die Bahn bei Durchfahrt ein akustisches Warnsignal?",
@@ -617,5 +611,11 @@
   "crossingMarkingsTypeDashesOption": "Striche",
   "@crossingMarkingsTypeDashesOption": {},
   "crossingIslandDescription": "Bei Fußgängerinseln muss der Fußgänger jeweils nur in eine Richtung auf den ankommenden Verkehr achten, was die Überquerung bei stark befahrenen Straßen erleichtert.",
-  "@crossingIslandDescription": {}
+  "@crossingIslandDescription": {},
+  "crossingAcousticWarningSignalName": "Akustisches Warnsignal am Bahnübergang",
+  "@crossingAcousticWarningSignalName": {},
+  "crossingAcousticWarningSignalText": "Gibt es ein akustisches Signal, das vor der Durchfahrt einer Bahn warnt?",
+  "@crossingAcousticWarningSignalText": {},
+  "crossingAcousticWarningSignalDescription": "Das Warnsignal ertönt durch ein stationären Signalgeber und nicht durch das Triebfahrzeug.",
+  "@crossingAcousticWarningSignalDescription": {}
 }

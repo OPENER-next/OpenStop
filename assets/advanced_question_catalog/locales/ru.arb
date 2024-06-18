@@ -1,0 +1,10 @@
+{
+  "platformHeightName": "Высота платформы",
+  "@platformHeightName": {},
+  "platformHeightPlaceholder": "Высота платформы",
+  "@platformHeightPlaceholder": {},
+  "unitCentimeter": "сантиметр",
+  "@unitCentimeter": {},
+  "platformNarrowsPlaceholder": "Ширина",
+  "@platformNarrowsPlaceholder": {}
+}

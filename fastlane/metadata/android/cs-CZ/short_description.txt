@@ -1,0 +1,1 @@
+Aplikace pro sběr dat o bariérách v místní veřejné dopravě.

@@ -1,0 +1,334 @@
+{
+  "aboutSlogan": "Další zastávka: Přístupnost",
+  "@aboutSlogan": {},
+  "aboutTitle": "O aplikaci",
+  "@aboutTitle": {},
+  "onboardingGreetingTitle": "Ahoj!",
+  "@onboardingGreetingTitle": {},
+  "onboardingContributingTitle": "Sdílet znamená pečovat",
+  "@onboardingContributingTitle": {},
+  "onboardingContributingDescription": "Nahrajte své odpovědi na OpenStreetMap a podělte se o ně s celým světem.",
+  "@onboardingContributingDescription": {},
+  "onboardingContributingButton": "Jdeme na to",
+  "@onboardingContributingButton": {},
+  "privacyPolicyTitle": "Zásady ochrany osobních údajů",
+  "@privacyPolicyTitle": {},
+  "settingsTitle": "Nastavení",
+  "@settingsTitle": {},
+  "settingsProfessionalQuestionsLabel": "Zobrazit odborné otázky",
+  "@settingsProfessionalQuestionsLabel": {},
+  "settingsProfessionalQuestionsDescription": "Z bezpečnostních důvodů určeno pouze pro profesionály",
+  "@settingsProfessionalQuestionsDescription": {},
+  "settingsThemeLabel": "Barevné schéma aplikace",
+  "@settingsThemeLabel": {},
+  "settingsThemeDialogTitle": "Zvolte téma",
+  "@settingsThemeDialogTitle": {},
+  "settingsThemeOptionSystem": "Nastavení systému",
+  "@settingsThemeOptionSystem": {},
+  "settingsThemeOptionLight": "Světlé",
+  "@settingsThemeOptionLight": {},
+  "settingsThemeOptionDark": "Tmavé",
+  "@settingsThemeOptionDark": {},
+  "logoutDialogTitle": "Odhlášení z OSM?",
+  "@logoutDialogTitle": {},
+  "logoutDialogDescription": "Pokud se odhlásíte, nemůžete již do OpenStreetMap nahrávat změny.",
+  "@logoutDialogDescription": {},
+  "loginHint": "Přihlaste se pomocí svého účtu OpenStreetMap a nahrajte své změny.",
+  "@loginHint": {},
+  "numberInputPlaceholder": "Zadejte zde…",
+  "@numberInputPlaceholder": {},
+  "numberInputFallbackName": "Hodnota",
+  "@numberInputFallbackName": {
+    "description": "Fallback value for nameString in numberInputValidationErrorMax"
+  },
+  "numberInputValidationError": "Neplatné číslo",
+  "@numberInputValidationError": {},
+  "numberInputValidationErrorMax": "{nameString} musí být menší než {max}{unit}.",
+  "@numberInputValidationErrorMax": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "max": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "numberInputValidationErrorMin": "{nameString} musí být větší než {min}{unit}.",
+  "@numberInputValidationErrorMin": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "min": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "queryMessageTooManyRequestsError": "Příliš mnoho požadavků na server.",
+  "@queryMessageTooManyRequestsError": {},
+  "queryMessageConnectionTimeoutError": "Chyba: Vypršel časový limit dotazu serveru.",
+  "@queryMessageConnectionTimeoutError": {},
+  "queryMessageReceiveTimeoutError": "Chyba: Časový limit příjmu dat vypršel.",
+  "@queryMessageReceiveTimeoutError": {},
+  "queryMessageUnknownServerCommunicationError": "Neznámá chyba během komunikace se serverem.",
+  "@queryMessageUnknownServerCommunicationError": {},
+  "queryMessageUnknownError": "Neznámá chyba.",
+  "@queryMessageUnknownError": {},
+  "questionnaireSummaryUndedicatedMessage": "Děkuji za vaše odpovědi.\nPřed nahráním je prosím ověřte.",
+  "@questionnaireSummaryUndedicatedMessage": {},
+  "back": "Zpět",
+  "@back": {},
+  "next": "Další",
+  "@next": {},
+  "cancel": "Zrušit",
+  "@cancel": {},
+  "confirm": "Potvrdit",
+  "@confirm": {},
+  "finish": "Dokončit",
+  "@finish": {},
+  "yes": "Ano",
+  "@yes": {},
+  "no": "Ne",
+  "@no": {},
+  "and": "a",
+  "@and": {},
+  "osmCreditsText": "Data © přispěvatelé OpenStreetMap",
+  "@osmCreditsText": {},
+  "changesetWithStopNameText": "Přidány podrobnosti k {elements} v oblasti zastavení {stopArea}.",
+  "@changesetWithStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      },
+      "stopArea": {
+        "type": "String"
+      }
+    }
+  },
+  "changesetWithoutStopNameText": "Přidány podrobnosti k {elements} v oblasti zastávky.",
+  "@changesetWithoutStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureBusStop": "Autobusová zastávka",
+  "@mapFeatureBusStop": {},
+  "mapFeatureTramStop": "Tramvajová zastávka",
+  "@mapFeatureTramStop": {},
+  "durationInputDaysLabel": "dny",
+  "@durationInputDaysLabel": {},
+  "durationInputHoursLabel": "hodiny",
+  "@durationInputHoursLabel": {},
+  "durationInputMinutesLabel": "minuty",
+  "@durationInputMinutesLabel": {},
+  "durationInputSecondsLabel": "sekundy",
+  "@durationInputSecondsLabel": {},
+  "more": "více",
+  "@more": {},
+  "element": "element",
+  "@element": {},
+  "mapFeatureTrainPlatform": "Vlakové nástupiště",
+  "@mapFeatureTrainPlatform": {},
+  "mapFeaturePlatform": "Nástupiště",
+  "@mapFeaturePlatform": {},
+  "mapFeatureStation": "Stanice",
+  "@mapFeatureStation": {},
+  "mapFeatureTicketSalesPoint": "Prodej lístků",
+  "@mapFeatureTicketSalesPoint": {},
+  "mapFeatureInformationPoint": "Informační centrum",
+  "@mapFeatureInformationPoint": {},
+  "mapFeatureStationMap": "Mapa stanic a zastávek",
+  "@mapFeatureStationMap": {},
+  "mapFeatureTicketMachine": "Automat na jízdenky",
+  "@mapFeatureTicketMachine": {},
+  "mapFeatureParkingSpot": "Parkovací místo",
+  "@mapFeatureParkingSpot": {},
+  "mapFeatureTaxiStand": "Stanoviště taxi",
+  "@mapFeatureTaxiStand": {},
+  "mapFeatureToilets": "Toalety",
+  "@mapFeatureToilets": {},
+  "mapFeatureLuggageLockers": "Skříňky na zavazadla",
+  "@mapFeatureLuggageLockers": {},
+  "mapFeatureLuggageTransport": "Přeprava zavazadel",
+  "@mapFeatureLuggageTransport": {},
+  "mapFeatureInformationTerminal": "Informační terminál",
+  "@mapFeatureInformationTerminal": {},
+  "mapFeatureInformationCallPoint": "Informační sloupek",
+  "@mapFeatureInformationCallPoint": {},
+  "mapFeatureEmergencyCallPoint": "Místo tísňového volání",
+  "@mapFeatureEmergencyCallPoint": {},
+  "mapFeatureEntrance": "Vstup",
+  "@mapFeatureEntrance": {},
+  "mapFeatureStairs": "Schody",
+  "@mapFeatureStairs": {},
+  "mapFeatureElevator": "Výtah",
+  "@mapFeatureElevator": {},
+  "mapFeatureEscalator": "Eskalátor",
+  "@mapFeatureEscalator": {},
+  "mapFeatureCycleBarrier": "Bariéra pro cyklisty",
+  "@mapFeatureCycleBarrier": {},
+  "mapFeatureCrossing": "Přechod",
+  "@mapFeatureCrossing": {},
+  "mapFeatureTramCrossing": "Tramvajový přejezd",
+  "@mapFeatureTramCrossing": {},
+  "mapFeatureRailroadCrossing": "Železniční přejezd",
+  "@mapFeatureRailroadCrossing": {},
+  "mapFeatureFootwayCrossing": "Přechod pro chodce",
+  "@mapFeatureFootwayCrossing": {},
+  "mapFeatureCurb": "Obrubník",
+  "@mapFeatureCurb": {},
+  "mapFeatureBusPlatformNumber": "Nástupiště: {number}",
+  "@mapFeatureBusPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureTrainPlatformNumber": "Nástupiště: {number}",
+  "@mapFeatureTrainPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureStopPole": "Zastávka sloupek",
+  "@mapFeatureStopPole": {},
+  "aboutVersionLabel": "Verze",
+  "@aboutVersionLabel": {},
+  "aboutAuthorsLabel": "Autoři",
+  "@aboutAuthorsLabel": {},
+  "aboutAuthorsDescription": "{appName} přispěvatelé",
+  "@aboutAuthorsDescription": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPrivacyPolicyLabel": "Zásady ochrany osobních údajů",
+  "@aboutPrivacyPolicyLabel": {},
+  "aboutIdeaLabel": "Nápady",
+  "@aboutIdeaLabel": {},
+  "aboutIdeaDescription": "Technická univerzita Chemnitz\nProfesorský okruh a systémový design",
+  "@aboutIdeaDescription": {},
+  "aboutLicenseLabel": "Licence",
+  "@aboutLicenseLabel": {},
+  "aboutSourceCodeLabel": "Zdrojový kód",
+  "@aboutSourceCodeLabel": {},
+  "aboutLicensePackageLabel": "Licence použitých balíčků",
+  "@aboutLicensePackageLabel": {},
+  "helpTitle": "Pomoc",
+  "@helpTitle": {},
+  "helpOnboardingLabel": "Podívat se znovu na úvod",
+  "@helpOnboardingLabel": {},
+  "helpReportErrorLabel": "Nahlásit chybu",
+  "@helpReportErrorLabel": {},
+  "helpImproveTranslationLabel": "Vylepšení překladu",
+  "@helpImproveTranslationLabel": {},
+  "onboardingGreetingDescription": "Jsme rádi, že jste tady a chcete přispět ke zlepšení veřejné dopravy.",
+  "@onboardingGreetingDescription": {},
+  "onboardingGreetingButton": "Tady je návod, jak to funguje",
+  "@onboardingGreetingButton": {},
+  "onboardingSurveyingTitle": "Podívejte se",
+  "@onboardingSurveyingTitle": {},
+  "onboardingSurveyingDescription": "Jděte na blízkou zastávku a prohlédněte si její aktuální stav.",
+  "@onboardingSurveyingDescription": {},
+  "onboardingSurveyingButton": "Udělám to",
+  "@onboardingSurveyingButton": {},
+  "onboardingAnsweringTitle": "Nyní jste na řadě vy",
+  "@onboardingAnsweringTitle": {},
+  "onboardingAnsweringDescription": "Chcete-li shromáždit údaje, vyberte v aplikaci značku a odpovězte na zobrazené otázky.",
+  "@onboardingAnsweringDescription": {},
+  "onboardingAnsweringButton": "Dobře, rozumím",
+  "@onboardingAnsweringButton": {},
+  "stringInputPlaceholder": "Vložit zde…",
+  "@stringInputPlaceholder": {},
+  "stringInputValidationErrorMin": "Vstup je příliš krátký",
+  "@stringInputValidationErrorMin": {},
+  "changesetCommentMessage": "Přidány podrobnosti do {mapFeaturesString} v oblasti zastávky {stopsString}.",
+  "@changesetCommentMessage": {
+    "placeholders": {
+      "mapFeaturesString": {
+        "type": "String"
+      },
+      "stopsString": {
+        "type": "String"
+      }
+    }
+  },
+  "changesetCommentConjunctionString": "a",
+  "@changesetCommentConjunctionString": {},
+  "uploadMessageSuccess": "Změny byly úspěšně nahrány.",
+  "@uploadMessageSuccess": {},
+  "uploadMessageServerConnectionError": "Chyba: Žádné připojení k serveru OSM.",
+  "@uploadMessageServerConnectionError": {},
+  "uploadMessageUnknownConnectionError": "Neznámá chyba během přenosu.",
+  "@uploadMessageUnknownConnectionError": {},
+  "queryMessageServerUnavailableError": "Server je nedostupný nebo přetížený. Zkuste to později znovu.",
+  "@queryMessageServerUnavailableError": {},
+  "questionnaireSummaryDedicatedMessage": "Děkujeme {userName} za vaše odpovědi.\nPřed nahráním je prosím ověřte.",
+  "@questionnaireSummaryDedicatedMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "login": "Přihlásit se",
+  "@login": {},
+  "logout": "Odhlásit se",
+  "@logout": {},
+  "skip": "Přeskočit",
+  "@skip": {},
+  "days": "{day, plural, =1 {1 den} other {{day} dny}}",
+  "@days": {
+    "placeholders": {
+      "day": {
+        "type": "num"
+      }
+    }
+  },
+  "hours": "{hour, plural, =1 {1 hodina} other {{hour} hodiny}}",
+  "@hours": {
+    "placeholders": {
+      "hour": {
+        "type": "num"
+      }
+    }
+  },
+  "minutes": "{minute, plural, =1 {1 minuta} other {{minute} minuty}}",
+  "@minutes": {
+    "placeholders": {
+      "minute": {
+        "type": "num"
+      }
+    }
+  },
+  "seconds": "{second, plural, =1 {1 sekunda} other {{second} sekundy}}",
+  "@seconds": {
+    "placeholders": {
+      "second": {
+        "type": "num"
+      }
+    }
+  },
+  "mapFeatureHelpPoint": "Bod pomoci",
+  "@mapFeatureHelpPoint": {},
+  "mapFeatureFootpath": "Chodník pro pěší",
+  "@mapFeatureFootpath": {},
+  "mapFeatureCyclewayCrossing": "Přechod přes cyklostezku",
+  "@mapFeatureCyclewayCrossing": {},
+  "mapFeaturePedestrianLights": "Semafory pro chodce",
+  "@mapFeaturePedestrianLights": {}
+}

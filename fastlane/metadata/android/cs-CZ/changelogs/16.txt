@@ -1,0 +1,11 @@
+Lokalizace:
+  - Aplikaci lze nyní přeložit do dalších jazyků
+  - Plně přeloženo do češtiny
+Síťový provoz:
+  - Na displeji s vysokým rozlišením se načítají pouze dlaždice s vysokým rozlišením.
+  - Opraveno ukládání dlaždic mapy do mezipaměti 
+Různé:
+  - Odstraněn přepínač mapových vrstev a nastaven na vrstvu veřejné dopravy
+  - Opraveny chybné značky pro výtahy a rampy na nástupištích
+  - Opravy drobných chyb
+  - Drobné pravopisné opravy
