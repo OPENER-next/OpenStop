@@ -1,0 +1,7 @@
+O objetivo da aplicação é, com a sua ajuda, recolher dados sobre barreiras de transportes públicos e disponibilizá-los no OpenStreetMap para que TODOS possam beneficiar deles.
+
+Ao fazer perguntas simples sobre paragens, os cidadãos estarão em posição de recolher dados nas suas proximidades de uma forma acessível.
+
+Os dados recolhidos servirão de base para uma melhor informação de viagem, especialmente para pessoas com deficiências físicas, e orientarão o processo de modernização das paragens de autocarro.
+
+Obrigado pela sua contribuição para um melhor transporte público local.

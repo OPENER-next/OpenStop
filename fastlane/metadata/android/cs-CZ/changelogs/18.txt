@@ -1,0 +1,14 @@
+Lokalizace:
+ - Překlad je nyní možný pomocí Weblate
+ - Překlady (částečně) dostupné v 10 jazycích
+UI/UX:
+ - Nahrazení indikátoru načítání oblasti stop
+ - Oprava mezer ve značce s dlouhými názvy
+ - Přidání prohlížeče galerie pro informační obrázky
+Otázky:
+ - Přidat otázku týkající se světel tramvajové signalizace
+ - Přidat/nahradit otázky týkající se křižovatek 
+ - Neptat se na "přechod" u tramvajových přechodů
+Různé:
+ - Upřesněte licenci GPLv3+
+ - Opravy chyb a pravopisné opravy

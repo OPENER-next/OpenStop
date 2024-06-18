@@ -1,0 +1,7 @@
+Cílem aplikace je s vaší pomocí shromažďovat data o bariérách ve veřejné dopravě a zpřístupnit je na OpenStreetMap, aby je mohl využívat KAŽDÝ.
+
+Prostřednictvím jednoduchých otázek týkajících se zastávek se občanům umožní přístupným způsobem shromažďovat data v jejich okolí.
+
+Shromážděná data vytvoří základ pro lepší informace o cestování, zejména pro tělesně postižené, a budou vodítkem pro proces modernizace autobusových zastávek.
+
+Děkujeme vám za váš příspěvek k lepší místní veřejné dopravě.
