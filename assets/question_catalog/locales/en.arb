@@ -577,7 +577,7 @@
   "crossingAcousticWarningSignalText": "Is there an acoustic signal that warns of passing trams or trains?",
   "@crossingAcousticWarningSignalText": {},
   "crossingAcousticWarningSignalDescription": "The acoustic warning is given by a stationary signaling device. Ringing by tram drivers does not count.",
-  "@tramAcousticWarningSignalDescription": {},
+  "@crossingAcousticWarningSignalDescription": {},
   "railroadAcousticWarningName": "Railroad acoustic warning signal",
   "@railroadAcousticWarningName": {},
   "railroadAcousticWarningText": "Does the train emit an acoustic warning signal when passing through?",
