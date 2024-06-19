@@ -1,0 +1,16 @@
+Major:
+- Rework stop area query
+- Improve stop area generation and element matching
+UI/UX:
+- Change download indicator to magnifier
+- Add upload indicator, remove toast message
+- Make question sheet header static
+- Fix rotating checkmark marker
+Questions:
+- Fix conditions for approach aid, whistle
+- Fix questions for acoustic warning signal, crossing signal, stair lift width
+Miscellaneous:
+- Improve MapFeature matching
+- Fix query error
+Localization:
+- Update and add new languages
