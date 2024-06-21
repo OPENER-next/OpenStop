@@ -17,6 +17,8 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Workaround until the default backgroundColor is not defined by the deprecated colorScheme.background anymore
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.privacyPolicyTitle),
       ),

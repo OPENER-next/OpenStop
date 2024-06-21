@@ -19,7 +19,7 @@ class QuestionSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.background,
+        color: Theme.of(context).colorScheme.surface,
         boxShadow: !elevate ? null : kElevationToShadow[4]
       ),
       child: Column(
