@@ -21,10 +21,30 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Run shared environment setup steps
-        uses: ./.github/actions/environment_setup
-
+        
+      - name: Install yq
+        shell: bash
+        run: pip3 install yq
+  
+      - name: Read Flutter version from pubspec.yaml
+        id: flutterVersion
+        shell: bash
+        working-directory: ${{ inputs.path }}
+        run: |
+          echo "result=$(yq -r .environment.flutter pubspec.yaml)" >> $GITHUB_OUTPUT
+  
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.flutterVersion.outputs.result }}
+          # use master to directly download from git instead of stable which downloads from flutter archive host
+          # also the fdroid build script downloads flutter via git so this ensures reproducibility
+          channel: 'master'
+          
+      - name: Check Flutter version
+        shell: bash
+        run: flutter --version
+  
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
@@ -45,30 +65,6 @@ jobs:
           keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
           storeFile=$(readlink -f key.jks)" >> android/key.properties
 
-      - name: Build App Bundle
-        run: >-
-          flutter build appbundle
-          --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
-          --dart-define=IS_RELEASE=true
-
-      - name: Build APK
-        run: >-
-          flutter build apk
-          --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
-          --dart-define=IS_RELEASE=true
-
-      - name: Upload AAB artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: aab
-          path: build/app/outputs/bundle/release/app-release.aab
-
-      - name: Upload APK artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: apk
-          path: build/app/outputs/flutter-apk/app-release.apk
-
       # F-Droid Build
 
       - name: Override dependencies in pubspec.yaml to be FLOSS
@@ -77,6 +73,11 @@ jobs:
 
       - name: Download pub dependencies
         run: flutter pub get
+
+      - name: Run build_runner
+        shell: bash
+        working-directory: ${{ inputs.path }}
+        run: flutter pub run build_runner build --delete-conflicting-outputs
 
       - name: Build F-Droid APK
         run: >-
@@ -99,165 +100,3 @@ jobs:
         with:
           name: apk-fdroid
           path: build/app/outputs/flutter-apk/app-release.apk
-
-  build_ios:
-    name: Build for iOS
-    runs-on: macos-13
-
-    env:
-      BUILD_CERTIFICATE_BASE64: ${{ secrets.APPLE_DISTRIBUTION_CERT_BASE64 }}
-      P12_PASSWORD: ${{ secrets.APPLE_DISTRIBUTION_CERT_PASSWORD }}
-      BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.APPLE_MOBILEPROVISION_BASE64 }}
-      KEYCHAIN_PASSWORD: ${{ secrets.APPLE_KEYCHAIN_PASSWORD }}
-      BUILD_EXPORTOPTIONS_BASE64: ${{ secrets.APPLE_EXPORTOPTIONS_BASE64 }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Run shared environment setup steps
-        uses: ./.github/actions/environment_setup
-
-      - name: Install Apple certificate and provisioning profile
-        run: |
-          # Create variables
-          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
-          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
-          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
-
-          # Import certificate and provisioning profile
-          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode > $CERTIFICATE_PATH
-          echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode > $PP_PATH
-
-          # Create temporary keychain
-          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-
-          # Import certificate to keychain
-          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
-          security list-keychain -d user -s $KEYCHAIN_PATH
-
-          # Apply provisioning profile
-          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-
-      - name: Create IPA
-        run: |
-          # Set path to and import ExportOptions.plist
-          EXPORTOPTIONS_PATH=$RUNNER_TEMP/ExportOptions.plist
-          echo -n "$BUILD_EXPORTOPTIONS_BASE64" | base64 --decode > $EXPORTOPTIONS_PATH
-
-          # Build IPA
-          flutter build ipa \
-          --release \
-          --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }} \
-          --dart-define=IS_RELEASE=true \
-          --export-options-plist=$EXPORTOPTIONS_PATH
-
-      - name: Upload IPA artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ipa
-          path: build/ios/ipa/*.ipa
-
-      - name: Clean up keychain and provisioning profile
-        if: ${{ always() }}
-        run: |
-          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
-          rm ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
-
-  release_app:
-    name: Release App
-    runs-on: ubuntu-latest
-    needs: [ build_android, build_ios ]
-
-    steps:
-      - name: Collect artifacts
-        id: download
-        uses: actions/download-artifact@v3
-        with:
-          path: app
-
-      - name: Rename Android Standard APK
-        run: >-
-          mv app/apk/app-release.apk
-          app/OpenStop_${{ github.ref_name }}.apk
-
-      - name: Rename Android F-Droid APK
-        run: >-
-          mv app/apk-fdroid/app-release.apk
-          app/OpenStop_fdroid_${{ github.ref_name }}.apk
-
-      - name: Rename App Bundle
-        run: >-
-          mv app/aab/app-release.aab
-          app/OpenStop_${{ github.ref_name }}.aab
-
-      - name: Rename IPA
-        run: >-
-          mv app/ipa/OpenStop.ipa 
-          app/OpenStop_${{ github.ref_name }}.ipa
-
-      - name: Upload AAB, APK, IPA to draft release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ github.ref }}
-          name: OpenStop ${{ github.ref_name }}
-          files: |
-            app/OpenStop_${{ github.ref_name }}.apk
-            app/OpenStop_fdroid_${{ github.ref_name }}.apk
-            app/OpenStop_${{ github.ref_name }}.aab
-            app/OpenStop_${{ github.ref_name }}.ipa
-          draft: true
-
-  build_web:
-    name: Build for Web
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Run shared environment setup steps
-        uses: ./.github/actions/environment_setup
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v2
-
-      - name: Build web
-        run: >-
-          flutter build web
-          --dart-define=THUNDERFOREST_API_KEY=${{ secrets.THUNDERFOREST_API_KEY }}
-          --dart-define=IS_RELEASE=true
-
-      # This step is mainly required because Google considers a link to a Github markdown file as "editable" which violates their policy.
-      # Therefore we convert the markdown file to HTML and publish it together with the App via Github pages here.
-      - name: Convert Privacy Policy to HTML
-        uses: BaileyJM02/markdown-to-pdf@v1.2.0
-        with:
-          input_path: PRIVACY_POLICY.md
-          output_dir: build/web/
-          build_html: true
-          build_pdf: false
-
-      - name: Upload web artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: 'build/web'
-
-  deploy_web:
-    name: Deploy Webpage
-    # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build_web
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1
