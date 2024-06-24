@@ -975,7 +975,7 @@
          "text": "@portableRampLengthText",
          "description": "@portableRampLengthDescription",
          "image": [
-            "assets/question_catalog/images/wheelchair_ramp_1.jpg"
+            "assets/question_catalog/images/wheelchair_ramp_length.png"
          ]
       },
       "answer": {
@@ -1002,6 +1002,43 @@
             "osm_tags": {
                "ramp:portable": "yes",
                "ramp:portable:length": false
+            }
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "@portableRampWidthName",
+         "text": "@portableRampWidthText",
+         "description": "@portableRampWidthDescription",
+         "image": [
+            "assets/question_catalog/images/wheelchair_ramp_width.png"
+         ]
+      },
+      "answer": {
+         "type": "Number",
+         "input": {
+            "placeholder": "@portableRampWidthPlaceholder",
+            "decimals": 0,
+            "min": 20,
+            "max": 200,
+            "unit": "@unitCentimeter"
+         },
+         "constructor": {
+            "ramp:portable:maxwidth:physical": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "ramp:portable": "yes",
+               "ramp:portable:maxwidth:physical": false
             }
          }
       ]
