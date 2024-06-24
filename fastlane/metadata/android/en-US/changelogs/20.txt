@@ -1,0 +1,2 @@
+Build procedure:
+- Ensure reproducibility between GitHub and F-Droid by changing the used JAVA version in GitHub build action to 17
