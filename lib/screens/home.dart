@@ -132,7 +132,8 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                     builder: (context) {
                       // rebuild location indicator when location access is granted
                       viewModel.userLocationState;
-                      return const AnimatedLocationLayer();
+                      // ignore: prefer_const_constructors
+                      return AnimatedLocationLayer();
                     },
                   ),
                   Observer(
