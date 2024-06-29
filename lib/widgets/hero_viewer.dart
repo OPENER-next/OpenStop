@@ -19,7 +19,7 @@ class HeroViewer extends StatefulWidget {
 
   static Widget imageViewerBuilder(BuildContext context, Widget child) {
     return ColoredBox(
-      color: Theme.of(context).colorScheme.background,
+      color: Theme.of(context).colorScheme.surface,
       child: InteractiveViewer(
         maxScale: 3,
         child: FittedBox(

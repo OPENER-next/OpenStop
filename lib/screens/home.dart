@@ -60,7 +60,7 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                   initialRotation: untracked(() => viewModel.storedMapRotation),
                   minZoom: kTileLayerPublicTransport.minZoom.toDouble(),
                   maxZoom: kTileLayerPublicTransport.maxZoom.toDouble(),
-                  backgroundColor: Theme.of(context).colorScheme.background,
+                  backgroundColor: Theme.of(context).colorScheme.surface,
                 ),
                 children: [
                   TileLayer(

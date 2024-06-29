@@ -47,14 +47,14 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
+  flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
   flutter_sensors: dc6eed3291e7724bf8f4138d7d14c4071b42bd29
   flutter_web_auth: c25208760459cec375a3c39f6a8759165ca0fa4d
-  geolocator_apple: 9157311f654584b9bb72686c55fc02a97b73f461
-  path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
-  shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
-  url_launcher_ios: 6116280ddcfe98ab8820085d8d76ae7449447586
+  geolocator_apple: 6cbaf322953988e009e5ecb481f07efece75c450
+  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
+  shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
+  url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
 
 PODFILE CHECKSUM: 0e7df49a070ca6a0600383e3ff3158cb74cc9dbf
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.15.2

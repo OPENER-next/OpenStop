@@ -19,15 +19,15 @@ class QuestionNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final disabledButtonStyle = ButtonStyle(
-      foregroundColor: MaterialStatePropertyAll(Theme.of(context).disabledColor),
-      overlayColor: const MaterialStatePropertyAll(Colors.transparent),
-      mouseCursor: const MaterialStatePropertyAll(SystemMouseCursors.forbidden),
+      foregroundColor: WidgetStatePropertyAll(Theme.of(context).disabledColor),
+      overlayColor: const WidgetStatePropertyAll(Colors.transparent),
+      mouseCursor: const WidgetStatePropertyAll(SystemMouseCursors.forbidden),
       splashFactory: NoSplash.splashFactory,
       enableFeedback: false,
     );
 
     return Container(
-      color: Theme.of(context).colorScheme.background,
+      color: Theme.of(context).colorScheme.surface,
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).padding.bottom
       ),
@@ -85,16 +85,16 @@ class QuestionNavigationBar extends StatelessWidget {
   }
 
   static const _buttonStyle = ButtonStyle(
-    textStyle: MaterialStatePropertyAll(
+    textStyle: WidgetStatePropertyAll(
       TextStyle(
         fontSize: 13,
       ),
     ),
-    padding: MaterialStatePropertyAll(
+    padding: WidgetStatePropertyAll(
       EdgeInsets.all(20),
     ),
     alignment: Alignment.centerLeft,
-    shape: MaterialStatePropertyAll(
+    shape: WidgetStatePropertyAll(
       RoundedRectangleBorder(
         borderRadius: BorderRadius.zero,
       ),

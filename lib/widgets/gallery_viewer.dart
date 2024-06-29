@@ -29,7 +29,7 @@ class GalleryViewer extends StatelessWidget {
           child: HeroViewer(
             pageBuilder: (BuildContext context, Widget child){
               return ColoredBox(
-                color: Theme.of(context).colorScheme.background,
+                color: Theme.of(context).colorScheme.surface,
                 child: GalleryNavigator(
                   images: images,
                   imagesKeys: imagesKeys,

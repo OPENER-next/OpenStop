@@ -19,7 +19,7 @@ class HomeSidebar extends ViewFragment<HomeViewModel> {
     final appLocale = AppLocalizations.of(context)!;
     return Drawer(
       width: min(MediaQuery.of(context).size.width * 0.65, 300),
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       shape: const Border(),
       child: ListView(
         physics: const ClampingScrollPhysics(),

@@ -17,6 +17,8 @@ class HelpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final appLocale = AppLocalizations.of(context)!;
     return Scaffold(
+      // Workaround until the default backgroundColor is not defined by the deprecated colorScheme.background anymore
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         title: Text(appLocale.helpTitle),
       ),
