@@ -7,6 +7,11 @@ on:
   # Allow running this workflow manually from the Actions tab
   workflow_dispatch:
 
+# Allow only one concurrent code validation workflow
+concurrency:
+  group: "code_validation"
+  cancel-in-progress: true
+
 jobs:
   validate:
     runs-on: ubuntu-latest
