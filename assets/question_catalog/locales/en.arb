@@ -632,7 +632,7 @@
   "@elevatorHeightName": {},
   "elevatorHeightText": "How tall is the inner cabin of this elevator?",
   "@elevatorHeightText": {},
-  "elevatorHeightPlaceholder": "Height of the cabin in meters"
+  "elevatorHeightPlaceholder": "Height of the cabin in meters",
   "@elevatorHeightPlaceholder": {},
   "elevatorDiameterName": "Elevator diameter",
   "@elevatorDiameterName": {},
