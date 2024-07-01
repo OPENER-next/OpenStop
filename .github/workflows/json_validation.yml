@@ -20,6 +20,7 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    # Trigger an action on push OR pull request but not both. The second event will be skipped.
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
     steps:
       - name: Checkout
