@@ -1702,6 +1702,144 @@
       ]
    },
    {
+      "question":{
+         "name": "@doorOpenName",
+         "text": "@doorOpenText",
+         "description": "@doorOpenDescription"
+      },
+      "answer": {
+         "type": "List",
+         "input": [
+            {
+               "name": "@doorOpenNoOption",
+               "image": "assets/question_catalog/images/door_open_no.jpg",
+               "osm_tags": {
+                  "open": "no"
+               }
+            },
+            {
+               "name": "@doorOpenFullOption",
+               "image": "assets/question_catalog/images/door_open_full.jpg",
+               "osm_tags": {
+                  "open": "full"
+               }
+            },
+            {
+               "name": "@doorOpenPartialOption",
+               "image": "assets/question_catalog/images/door_open_partial.jpg",
+               "osm_tags": {
+                  "open": "partial"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "railway": ["subway_entrance", "train_station_entrance"],
+               "door": true,
+               "open": false
+            },
+            "!osm_tags": {
+               "door": ["no", "revolving"],
+               "automatic_door": "continuous"
+               
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "access": ["yes", "customers", false],
+               "level": true,
+               "door": true,
+               "open": false
+            },
+            "!osm_tags": {
+               "door": ["no", "revolving"],
+               "automatic_door": "continuous"
+               
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "indoor": "door",
+               "access": ["yes", "customers", false],
+               "door": true,
+               "open": false
+            },
+            "!osm_tags": {
+               "door": ["no", "revolving"],
+               "automatic_door": "continuous" 
+            },
+            "osm_element": "Node"
+         },
+         {
+            "osm_tags": {
+               "access": ["yes", "customers", false],
+               "door": true,
+               "open": false
+            },
+            "!osm_tags": {
+               "door": ["no", "revolving"],
+               "automatic_door": "continuous"
+               
+            },
+            "osm_element": "Node",
+            "parent": [
+               {
+                  "osm_tags": {
+                     "building": ["train_station", "transportation", "toilets", "parking"]
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "public_transport": "station"
+                  }
+               },
+               {
+                  "osm_tags": {
+                     "level": true
+                  }
+               }
+            ]
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "@doorOpeningName",
+         "text": "@doorOpeningText",
+         "description": "@doorOpeningDescription",
+         "image": [
+            "assets/question_catalog/images/door_opening.jpg"
+         ]
+      },
+      "answer": {
+         "type": "Number",
+         "input": {
+            "placeholder": "@doorOpeningPlaceholder",
+            "decimals": 2,
+            "min": 0,
+            "max": 10,
+            "unit": "@unitMeter"
+         },
+         "constructor": {
+            "opening": ["$input"]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "door": true,
+               "open": "partial",
+               "opening": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
       "question": {
          "name": "@waySegregatedName",
          "text": "@waySegregatedText",
