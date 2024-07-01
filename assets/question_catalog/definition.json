@@ -2297,6 +2297,7 @@
          {
             "osm_tags": {
                "highway": "elevator",
+               "shape": "rectangular",
                "length": false
             },
             "osm_element": "Node"
@@ -2374,6 +2375,7 @@
          {
             "osm_tags": {
                "highway": "elevator",
+               "shape": "rectangular",
                "width": false
             },
             "osm_element": "Node"
@@ -4115,6 +4117,183 @@
             },
             "osm_element": "Node"
          }
+      ]
+   },
+   {
+      "question": {
+         "name": "@elevatorShapeName",
+         "text": "@elevatorShapeText"
+      },
+      "answer": {
+         "type": "List",
+         "input": [
+            {
+               "name": "@elevatorShapeRectangularOption",
+               "image": "assets/question_catalog/images/elevator_rectangular.jpg",
+               "osm_tags": {
+                  "shape": "circular"
+               }
+            },
+            {
+               "name": "@elevatorCircleOption",
+               "image": "assets/question_catalog/images/elevator_circle.jpg",
+               "osm_tags": {
+                  "shape": "rectangular"
+               }
+            },
+            {
+               "name": "@elevatorShapeCustomOption",
+               "image": "assets/question_catalog/images/elevator_custom.jpg",
+               "osm_tags": {
+                  "shape": "custom"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "elevator",
+               "shape": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "@elevatorHeightName",
+         "text": "@elevatorHeightText"
+      },
+      "answer": {
+         "type": "Number",
+         "input": {
+            "placeholder": "@elevatorHeightPlaceholder",
+            "decimals": 1,
+            "min": 1,
+            "max": 4,
+            "unit": "@unitMeter"
+         },
+         "constructor": {
+            "height": ["$input"]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "elevator",
+               "height": false
+            }
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "@elevatorDiameterName",
+         "text": "@elevatorDiameterText"
+      },
+      "answer": {
+         "type": "Number",
+         "input": {
+            "placeholder": "@elevatorDiameterPlaceholder",
+            "decimals": 1,
+            "min": 1,
+            "max": 4,
+            "unit": "@unitMeter"
+         },
+         "constructor": {
+            "diameter": ["CONCAT", "$input", "m"]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "elevator",
+               "shape": "circular",
+               "diameter": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "@elevatorDoorWidthName",
+         "text": "@elevatorDoorWidthText",
+         "description": "@elevatorDoorWidthDescription"
+      },
+      "answer": {
+         "type": "Number",
+         "input": {
+            "placeholder": "@elevatorDoorWidthPlaceholder",
+            "decimals": 1,
+            "min": 1,
+            "max": 4,
+            "unit": "@unitMeter"
+         },
+         "constructor": {
+            "door:width": ["$input"]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "elevator",
+               "door:width": false
+            }
+         },
+         {
+            "!parent": [
+              {
+                "child": [
+                  {
+                    "osm_tags": {
+                      "indoor": "door"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+      ]
+   },
+   {
+      "question":{
+         "name": "@elevatorDoorHeightName",
+         "text": "@elevatorDoorHeightText",
+         "description": "@elevatorDoorHeightDescription"
+      },
+      "answer": {
+         "type": "Number",
+         "input": {
+            "placeholder": "@elevatorDoorHeightPlaceholder",
+            "decimals": 1,
+            "min": 1,
+            "max": 4,
+            "unit": "@unitMeter"
+         },
+         "constructor": {
+            "door:height": ["$input"]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "elevator",
+               "door:height": false
+            },
+            "!parent": [
+              {
+                "child": [
+                  {
+                    "osm_tags": {
+                      "indoor": "door"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
       ]
    }
 ]
