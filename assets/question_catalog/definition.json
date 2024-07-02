@@ -4129,21 +4129,18 @@
          "input": [
             {
                "name": "@elevatorShapeRectangularOption",
-               "image": "assets/question_catalog/images/elevator_rectangular.jpg",
                "osm_tags": {
                   "shape": "circular"
                }
             },
             {
                "name": "@elevatorCircleOption",
-               "image": "assets/question_catalog/images/elevator_circle.jpg",
                "osm_tags": {
                   "shape": "rectangular"
                }
             },
             {
                "name": "@elevatorShapeCustomOption",
-               "image": "assets/question_catalog/images/elevator_custom.jpg",
                "osm_tags": {
                   "shape": "custom"
                }
