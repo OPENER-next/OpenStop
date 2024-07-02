@@ -1712,21 +1712,18 @@
          "input": [
             {
                "name": "@doorOpenNoOption",
-               "image": "assets/question_catalog/images/door_open_no.jpg",
                "osm_tags": {
                   "open": "no"
                }
             },
             {
                "name": "@doorOpenFullOption",
-               "image": "assets/question_catalog/images/door_open_full.jpg",
                "osm_tags": {
                   "open": "full"
                }
             },
             {
                "name": "@doorOpenPartialOption",
-               "image": "assets/question_catalog/images/door_open_partial.jpg",
                "osm_tags": {
                   "open": "partial"
                }
@@ -1811,9 +1808,6 @@
          "name": "@doorOpeningName",
          "text": "@doorOpeningText",
          "description": "@doorOpeningDescription",
-         "image": [
-            "assets/question_catalog/images/door_opening.jpg"
-         ]
       },
       "answer": {
          "type": "Number",
