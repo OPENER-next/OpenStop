@@ -1807,7 +1807,7 @@
       "question": {
          "name": "@doorOpeningName",
          "text": "@doorOpeningText",
-         "description": "@doorOpeningDescription",
+         "description": "@doorOpeningDescription"
       },
       "answer": {
          "type": "Number",
