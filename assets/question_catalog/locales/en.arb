@@ -620,7 +620,7 @@
   "@unitKilogram": {},
   "elevatorShapeName": "Elevator shape",
   "@elevatorShapeName": {},
-  "elevatorShapeText": "What shape does this elevator have?",
+  "elevatorShapeText": "What is the shape of this elevator?",
   "@elevatorShapeText": {},
   "elevatorShapeRectangularOption": "Rectangular",
   "@elevatorShapeRectangularOption": {},
