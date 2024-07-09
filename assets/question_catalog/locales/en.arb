@@ -630,7 +630,7 @@
   "@elevatorShapeCustomOption": {},
   "elevatorHeightName": "Elevator height",
   "@elevatorHeightName": {},
-  "elevatorHeightText": "How tall is the inner cabin of this elevator?",
+  "elevatorHeightText": "What is the height of the elevator cabin?",
   "@elevatorHeightText": {},
   "elevatorHeightPlaceholder": "Height of the cabin",
   "@elevatorHeightPlaceholder": {},
