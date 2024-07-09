@@ -254,7 +254,7 @@
   "@doorWidthPlaceholder": {},
   "doorOpenName": "Door usually open",
   "@doorOpenName": {},
-  "doorOpenText": "Is the door permanently open?",
+  "doorOpenText": "Is the door usually open?",
   "@doorOpenText": {},
   "doorOpenDescription": "This is important so that wheelchair users know if they need to open a door or if they can just pass through. The question should be skipped if it is hard to assess.",
   "@doorOpenDescription": {},
