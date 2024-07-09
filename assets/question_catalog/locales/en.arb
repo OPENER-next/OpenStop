@@ -636,7 +636,7 @@
   "@elevatorHeightPlaceholder": {},
   "elevatorDiameterName": "Elevator diameter",
   "@elevatorDiameterName": {},
-  "elevatorDiameterText": "What's the diameter of this elevator?",
+  "elevatorDiameterText": "What is the diameter of this elevator?",
   "@elevatorDiameterText": {},
   "elevatorDiameterPlaceholder": "Diameter of the cabin",
   "@elevatorDiameterPlaceholder": {},
