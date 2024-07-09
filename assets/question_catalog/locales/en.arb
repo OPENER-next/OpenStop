@@ -650,7 +650,7 @@
   "@elevatorDoorWidthPlaceholder": {},
   "elevatorDoorHeightName": "Elevator door height",
   "@elevatorDoorHeightName": {},
-  "elevatorDoorHeightText": "How tall is the door of this elevator?",
+  "elevatorDoorHeightText": "What is the height of the elevator door?",
   "@elevatorDoorHeightText": {},
   "elevatorDoorHeightDescription": "This means the inner clearance from the bottom of the door to the top, not the height of the frame"
   "@elevatorDoorHeightDescription": {},
