@@ -4128,13 +4128,13 @@
          "type": "List",
          "input": [
             {
-               "name": "@elevatorShapeRectangularOption",
+               "name": "@elevatorShapeCircularOption",
                "osm_tags": {
                   "shape": "circular"
                }
             },
             {
-               "name": "@elevatorShapeCircularOption",
+               "name": "@elevatorShapeRectangularOption",
                "osm_tags": {
                   "shape": "rectangular"
                }
