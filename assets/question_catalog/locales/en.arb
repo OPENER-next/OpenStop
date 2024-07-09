@@ -626,7 +626,7 @@
   "@elevatorShapeRectangularOption": {},
   "elevatorShapeCircularOption": "Circular",
   "@elevatorShapeCircularOption": {},
-  "elevatorShapeCustomOption": "Something else",
+  "elevatorShapeCustomOption": "Complex",
   "@elevatorShapeCustomOption": {},
   "elevatorHeightName": "Elevator height",
   "@elevatorHeightName": {},
