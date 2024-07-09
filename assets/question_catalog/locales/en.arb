@@ -632,13 +632,13 @@
   "@elevatorHeightName": {},
   "elevatorHeightText": "How tall is the inner cabin of this elevator?",
   "@elevatorHeightText": {},
-  "elevatorHeightPlaceholder": "Height of the cabin in meters",
+  "elevatorHeightPlaceholder": "Height of the cabin",
   "@elevatorHeightPlaceholder": {},
   "elevatorDiameterName": "Elevator diameter",
   "@elevatorDiameterName": {},
   "elevatorDiameterText": "What's the diameter of this elevator?",
   "@elevatorDiameterText": {},
-  "elevatorDiameterPlaceholder": "Diameter of the cabin in meters",
+  "elevatorDiameterPlaceholder": "Diameter of the cabin",
   "@elevatorDiameterPlaceholder": {},
   "elevatorDoorWidthName": "Elevator door width",
   "@elevatorDoorWidthName": {},
@@ -646,7 +646,7 @@
   "@elevatorDoorWidthText": {},
   "elevatorDoorWidthDescription": "This means the inner clearance from one side of the door to the other, not the width of the frame",
   "@elevatorDoorWidthDescription": {},
-  "elevatorDoorWidthPlaceholder": "Clearance in meters",
+  "elevatorDoorWidthPlaceholder": "Clearance",
   "@elevatorDoorWidthPlaceholder": {},
   "elevatorDoorHeightName": "Elevator door height",
   "@elevatorDoorHeightName": {},
@@ -654,6 +654,6 @@
   "@elevatorDoorHeightText": {},
   "elevatorDoorHeightDescription": "This means the inner clearance from the bottom of the door to the top, not the height of the frame"
   "@elevatorDoorHeightDescription": {},
-  "elevatorDoorHeightPlaceholder": "Clearance in meters",
+  "elevatorDoorHeightPlaceholder": "Clearance",
   "@elevatorDoorHeightPlaceholder": {}
 }
