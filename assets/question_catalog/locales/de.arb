@@ -315,7 +315,10 @@
   "cycleBarrierWidthDescription": "Die Durchgangsbreite, auch lichte Breite genannt, beschreibt die maximal zulässige Breite, um eine Sperre passieren zu können.",
   "@cycleBarrierWidthDescription": {},
   "cycleBarrierWidthPlaceholder": "Breite",
-  "@cycleBarrierWidthPlaceholder": {},
+  "@cycleBarrierWidthPlaceho,
+         {
+
+          }lder": {},
   "cycleBarrierOpeningName": "Umlaufsperren-Zugangsbreite",
   "@cycleBarrierOpeningName": {},
   "cycleBarrierOpeningText": "Wie breit ist der (schmalste) Zugang der Umlaufsperre?",
@@ -618,11 +621,11 @@
   "@crossingAcousticWarningSignalText": {},
   "crossingAcousticWarningSignalDescription": "Das Warnsignal ertönt durch ein stationären Signalgeber und nicht durch das Triebfahrzeug.",
   "@crossingAcousticWarningSignalDescription": {},
-    "elevatorShapeName": "Fahrstuhl-Form",
+  "elevatorShapeName": "Fahrstuhl-Form",
   "@elevatorShapeName": {},
   "elevatorShapeText": "Welche Form hat dieser Fahrstuhl?",
   "@elevatorShapeText": {},
-  "elevatorShapeRectangularOption": "Rechteckig"
+  "elevatorShapeRectangularOption": "Rechteckig",
   "@elevatorShapeRectangularOption": {},
   "elevatorShapeCircularOption": "Rund",
   "@elevatorShapeCircularOption": {},
