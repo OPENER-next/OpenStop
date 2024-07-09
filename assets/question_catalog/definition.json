@@ -4169,7 +4169,7 @@
             "decimals": 1,
             "min": 1.5,
             "max": 4,
-            "unit": "@unitMeter"
+            "unit": "@unitCentimeter"
          },
          "constructor": {
             "height": ["$input"]
@@ -4196,7 +4196,7 @@
             "decimals": 1,
             "min": 1.5,
             "max": 4,
-            "unit": "@unitMeter"
+            "unit": "@unitCentimeter"
          },
          "constructor": {
             "diameter": ["CONCAT", "$input", "m"]
@@ -4226,7 +4226,7 @@
             "decimals": 1,
             "min": 1,
             "max": 4,
-            "unit": "@unitMeter"
+            "unit": "@unitCentimeter"
          },
          "constructor": {
             "door:width": ["$input"]
@@ -4265,7 +4265,7 @@
             "decimals": 1,
             "min": 2,
             "max": 4,
-            "unit": "@unitMeter"
+            "unit": "@unitCentimeter"
          },
          "constructor": {
             "door:height": ["$input"]
