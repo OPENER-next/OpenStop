@@ -622,7 +622,7 @@
   "@elevatorShapeName": {},
   "elevatorShapeText": "What shape does this elevator have?",
   "@elevatorShapeText": {},
-  "elevatorShapeRectangularOption": "Rectangular"
+  "elevatorShapeRectangularOption": "Rectangular",
   "@elevatorShapeRectangularOption": {},
   "elevatorShapeCircularOption": "Circular",
   "@elevatorShapeCircularOption": {},
