@@ -4134,7 +4134,7 @@
                }
             },
             {
-               "name": "@elevatorCircleOption",
+               "name": "@elevatorShapeCircularOption",
                "osm_tags": {
                   "shape": "rectangular"
                }
