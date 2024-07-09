@@ -642,7 +642,7 @@
   "@elevatorDiameterPlaceholder": {},
   "elevatorDoorWidthName": "Elevator door width",
   "@elevatorDoorWidthName": {},
-  "elevatorDoorWidthText": "How wide is the door of this elevator?",
+  "elevatorDoorWidthText": "What is the width of the elevator door?",
   "@elevatorDoorWidthText": {},
   "elevatorDoorWidthDescription": "This means the inner clearance from one side of the door to the other, not the width of the frame",
   "@elevatorDoorWidthDescription": {},
