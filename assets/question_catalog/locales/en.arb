@@ -624,7 +624,7 @@
   "@elevatorShapeText": {},
   "elevatorShapeRectangularOption": "Rectangular",
   "@elevatorShapeRectangularOption": {},
-  "elevatorShapeCircularOption": "Circular",
+  "elevatorShapeCircularOption": "Round",
   "@elevatorShapeCircularOption": {},
   "elevatorShapeCustomOption": "Complex",
   "@elevatorShapeCustomOption": {},
