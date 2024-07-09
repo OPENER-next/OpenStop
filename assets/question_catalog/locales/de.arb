@@ -272,7 +272,7 @@
   "@doorOpeningDegreeText": {},
   "doorOpeningName": "Breite der Türöffnung",
   "@doorOpeningName": {},
-  "doorOpeningText": "Was ist die Breite des geöffneten Anteils der Tür?",
+  "doorOpeningText": "Was ist die Durchgangsbreite der teilweise geöffneten Tür?",
   "@doorOpeningText": {},
   "doorOpeningDescription": "Gemeint ist die lichte Breite, die zur Verfügung steht, wenn die Tür zu dem grad geöffnet ist, wie sie es normalerweise ist.",
   "@doorOpeningDescription": {},
