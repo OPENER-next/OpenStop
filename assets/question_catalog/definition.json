@@ -4237,21 +4237,19 @@
             "osm_tags": {
                "highway": "elevator",
                "door:width": false
-            }
-         },
-         {
+            },
             "!parent": [
-              {
-                "child": [
-                  {
-                    "osm_tags": {
-                      "indoor": "door"
-                    }
-                  }
-                ]
-              }
-            ]
-          }
+               {
+                 "child": [
+                   {
+                     "osm_tags": {
+                       "indoor": "door"
+                     }
+                   }
+                 ]
+               }
+             ]
+         }
       ]
    },
    {
