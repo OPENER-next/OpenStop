@@ -4263,7 +4263,7 @@
          "input": {
             "placeholder": "@elevatorDoorHeightPlaceholder",
             "decimals": 1,
-            "min": 1,
+            "min": 2,
             "max": 4,
             "unit": "@unitMeter"
          },
