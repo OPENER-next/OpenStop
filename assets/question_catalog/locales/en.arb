@@ -654,6 +654,6 @@
   "@elevatorDoorHeightText": {},
   "elevatorDoorHeightDescription": "This means the inner clearance from the bottom of the door to the top, not the height of the frame"
   "@elevatorDoorHeightDescription": {},
-  "elevatorDoorHeightPlaceholder": "Clearance",
+  "elevatorDoorHeightPlaceholder": "Height",
   "@elevatorDoorHeightPlaceholder": {}
 }
