@@ -276,7 +276,7 @@
   "@doorOpeningText": {},
   "doorOpeningDescription": "Gemeint ist die lichte Breite, wenn die Tür in ihrer üblichen Position geöffnet ist. Dies ist wichtig, damit Rollstuhlfahrende wissen, ob sie hindurch passen.",
   "@doorOpeningDescription": {},
-  "doorOpeningPlaceholder": "Breite",
+  "doorOpeningPlaceholder": "Durchgangsbreite",
   "@doorOpeningPlaceholder": {},
   "waySegregatedName": "Fuß-/Radweg-Verlauf",
   "@waySegregatedName": {},
