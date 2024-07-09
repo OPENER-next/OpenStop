@@ -4167,7 +4167,7 @@
          "input": {
             "placeholder": "@elevatorHeightPlaceholder",
             "decimals": 1,
-            "min": 1,
+            "min": 1.5,
             "max": 4,
             "unit": "@unitMeter"
          },
