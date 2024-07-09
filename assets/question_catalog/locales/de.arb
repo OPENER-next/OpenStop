@@ -623,7 +623,7 @@
   "@crossingAcousticWarningSignalDescription": {},
   "elevatorShapeName": "Fahrstuhl-Form",
   "@elevatorShapeName": {},
-  "elevatorShapeText": "Welche Form hat dieser Fahrstuhl?",
+  "elevatorShapeText": "Welche Form hat die Kabine von diesem Fahrstuhl?",
   "@elevatorShapeText": {},
   "elevatorShapeRectangularOption": "Rechteckig",
   "@elevatorShapeRectangularOption": {},
