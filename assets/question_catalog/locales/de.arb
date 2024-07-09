@@ -270,7 +270,7 @@
   "@doorOpeningDegreeName": {},
   "doorOpeningDegreeText": "Wie weit ist die Tür geöffnet?",
   "@doorOpeningDegreeText": {},
-  "doorOpeningName": "Türöffnungsbreite",
+  "doorOpeningName": "Breite der Türöffnung",
   "@doorOpeningName": {},
   "doorOpeningText": "Was ist die Breite des geöffneten Anteils der Tür?",
   "@doorOpeningText": {},
