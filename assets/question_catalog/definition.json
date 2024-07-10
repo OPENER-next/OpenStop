@@ -4166,13 +4166,19 @@
          "type": "Number",
          "input": {
             "placeholder": "@elevatorHeightPlaceholder",
-            "decimals": 1,
-            "min": 1.5,
-            "max": 4,
+            "decimals": 0,
+            "min": 200,
+            "max": 400,
             "unit": "@unitCentimeter"
          },
          "constructor": {
-            "height": ["$input"]
+            "width": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
          }
       },
       "conditions": [
@@ -4193,13 +4199,22 @@
          "type": "Number",
          "input": {
             "placeholder": "@elevatorDiameterPlaceholder",
-            "decimals": 1,
-            "min": 1.5,
-            "max": 4,
+            "decimals": 0,
+            "min": 150,
+            "max": 1000,
             "unit": "@unitCentimeter"
          },
          "constructor": {
-            "diameter": ["CONCAT", "$input", "m"]
+            "diameter": [
+
+               "CONCAT", [
+                  "REPLACE", "/\\.?0{1,2}$/", "", [
+                     "INSERT", ".", "-2", [
+                        "PAD", "0", "3", "$input"
+                     ]
+                  ]
+               ], "m"
+            ]
          }
       },
       "conditions": [
@@ -4223,13 +4238,19 @@
          "type": "Number",
          "input": {
             "placeholder": "@elevatorDoorWidthPlaceholder",
-            "decimals": 1,
-            "min": 1,
-            "max": 4,
+            "decimals": 0,
+            "min": 150,
+            "max": 400,
             "unit": "@unitCentimeter"
          },
          "constructor": {
-            "door:width": ["$input"]
+            "door:width": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
          }
       },
       "conditions": [
@@ -4262,13 +4283,19 @@
          "type": "Number",
          "input": {
             "placeholder": "@elevatorDoorHeightPlaceholder",
-            "decimals": 1,
-            "min": 2,
-            "max": 4,
+            "decimals": 0,
+            "min": 200,
+            "max": 400,
             "unit": "@unitCentimeter"
          },
          "constructor": {
-            "door:height": ["$input"]
+            "width": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
          }
       },
       "conditions": [
