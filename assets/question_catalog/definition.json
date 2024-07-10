@@ -1846,7 +1846,7 @@
             "decimals": 2,
             "min": 0,
             "max": 10,
-            "unit": "@unitMeter"
+            "unit": "@unitCentimeter"
          },
          "constructor": {
             "opening": ["$input"]
