@@ -632,7 +632,7 @@
   "@elevatorHeightName": {},
   "elevatorHeightText": "What is the height of the elevator cabin?",
   "@elevatorHeightText": {},
-  "elevatorHeightPlaceholder": "Height of the cabin",
+  "elevatorHeightPlaceholder": "Cabin height",
   "@elevatorHeightPlaceholder": {},
   "elevatorDiameterName": "Elevator diameter",
   "@elevatorDiameterName": {},
