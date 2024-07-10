@@ -268,7 +268,7 @@
   "@doorOpeningDegreePartialOption": {},
   "doorOpeningDegreeName": "Door opening",
   "@doorOpeningDegreeName": {},
-  "doorOpeningDegreeText": "How wide open is the door?",
+  "doorOpeningDegreeText": "How wide is the door open?",
   "@doorOpeningDegreeText": {},
   "doorOpeningText": "What is the clearance width of the partially open door?",
   "@doorOpeningText": {},
