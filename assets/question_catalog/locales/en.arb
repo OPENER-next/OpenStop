@@ -644,7 +644,7 @@
   "@elevatorDoorWidthName": {},
   "elevatorDoorWidthText": "What is the width of the elevator door?",
   "@elevatorDoorWidthText": {},
-  "elevatorDoorWidthDescription": "This means the inner clearance from one side of the door to the other, not the width of the frame",
+  "elevatorDoorWidthDescription": "The clearance width is the inner measurement from one side of the door to the other, not the outer width of the door frame.",
   "@elevatorDoorWidthDescription": {},
   "elevatorDoorWidthPlaceholder": "Clearance width",
   "@elevatorDoorWidthPlaceholder": {},
