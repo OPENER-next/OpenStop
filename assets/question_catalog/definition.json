@@ -2297,8 +2297,10 @@
          {
             "osm_tags": {
                "highway": "elevator",
-               "shape": "rectangular",
                "length": false
+            },
+            "!osm_tags": {
+               "shape": "circular"
             },
             "osm_element": "Node"
          }
@@ -2375,8 +2377,10 @@
          {
             "osm_tags": {
                "highway": "elevator",
-               "shape": "rectangular",
                "width": false
+            },
+            "!osm_tags": {
+               "shape": "circular"
             },
             "osm_element": "Node"
          }
@@ -4114,44 +4118,6 @@
             "osm_tags": {
                "highway": "crossing",
                "tactile_paving": false
-            },
-            "osm_element": "Node"
-         }
-      ]
-   },
-   {
-      "question": {
-         "name": "@elevatorShapeName",
-         "text": "@elevatorShapeText"
-      },
-      "answer": {
-         "type": "List",
-         "input": [
-            {
-               "name": "@elevatorShapeCircularOption",
-               "osm_tags": {
-                  "shape": "circular"
-               }
-            },
-            {
-               "name": "@elevatorShapeRectangularOption",
-               "osm_tags": {
-                  "shape": "rectangular"
-               }
-            },
-            {
-               "name": "@elevatorShapeCustomOption",
-               "osm_tags": {
-                  "shape": "custom"
-               }
-            }
-         ]
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "highway": "elevator",
-               "shape": false
             },
             "osm_element": "Node"
          }
