@@ -12,6 +12,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:mobx/mobx.dart';
 import 'package:osm_api/osm_api.dart';
+import 'package:animated_location_indicator/animated_location_indicator.dart';
 import '/api/app_worker/element_handler.dart';
 import '/models/map_features/map_feature_representation.dart';
 import '/models/question_catalog/question_definition.dart';
@@ -21,7 +22,6 @@ import '/utils/debouncer.dart';
 import '/widgets/question_inputs/question_input_widget.dart';
 import '/api/user_account_service.dart';
 import '/api/preferences_service.dart';
-import '/api/user_location_service.dart';
 import '/utils/geo_utils.dart';
 import '/utils/map_utils.dart';
 import '/api/app_worker/app_worker_interface.dart';
@@ -35,8 +35,6 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   AppWorkerInterface get _appWorker => getService<AppWorkerInterface>();
 
   PreferencesService get _preferencesService => getService<PreferencesService>();
-
-  final _userLocationService = UserLocationService();
 
   final _userAccountService = UserAccountService();
 
@@ -57,16 +55,6 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   @override
   void init() {
     super.init();
-    // one time reaction when user location state settles
-    _reactionDisposers.add(when(
-      (p0) => _userLocationService.state != LocationTrackingState.pending,
-      _onInitialLocationTracking,
-    ));
-    // request user position tracking
-    // since the map controller needs to be assigned first
-    // this cannot be called in the constructor
-    _userLocationService.startLocationTracking();
-
     // one time reaction when the first stop areas are available,
     // then try to load its elements
     _reactionDisposers.add(when(
@@ -134,23 +122,57 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   /// User Location properties ///
   ////////////////////////////////
 
-  LocationTrackingState get userLocationState => _userLocationService.state;
+  final locationIndicatorController = AnimatedLocationController();
 
-  bool get cameraIsFollowingLocation => _userLocationService.isFollowingLocation;
+  final _cameraIsFollowingLocation = Observable<bool>(false);
+  bool get cameraIsFollowingLocation => _cameraIsFollowingLocation.value;
 
   /// Activate or deactivate location following depending on its current state.
 
-  late final toggleLocationFollowing = Action(() {
-    // if location tracking is disabled always enable tracking and following
-    if (_userLocationService.state == LocationTrackingState.disabled) {
-      _userLocationService.shouldFollowLocation = true;
-      _userLocationService.startLocationTracking();
+  void toggleLocationFollowing() async {
+    if (cameraIsFollowingLocation == false) {
+      final location = await _acquireUserLocation();
+      if (location != null) {
+        locationIndicatorController.activate();
+        await mapController.animateTo(
+          ticker: this,
+          location: LatLng(location.latitude, location.longitude),
+          id: 'KeepCameraTracking',
+        );
+      }
     }
-    else if (_userLocationService.state == LocationTrackingState.enabled) {
-      _userLocationService.shouldFollowLocation = !_userLocationService.shouldFollowLocation;
-      _onPositionChange(_userLocationService.position);
+    runInAction(() {
+      _cameraIsFollowingLocation.value = !cameraIsFollowingLocation;
+    });
+  }
+
+  /// This function will automatically request permissions if not already granted
+  /// as well as the activation of the device's location service if not already activated.
+
+  Future<Position?> _acquireUserLocation() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // permissions are denied don't continue
+        return null;
+      }
     }
-  });
+    else if (permission == LocationPermission.deniedForever) {
+      // permissions are denied forever don't continue
+      return null;
+    }
+    // if permissions are granted try to access the position of the device
+    // on android the user will be automatically asked if he wants to enable the location service if it is disabled
+    try {
+      // if no previous position is known automatically try to get the current one
+      return await Geolocator.getCurrentPosition();
+    }
+    on LocationServiceDisabledException {
+      return null;
+    }
+  }
+
 
   //////////////////////////////
   /// Preferences properties ///
@@ -201,14 +223,22 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
   void zoomIn() {
     // round zoom level so zoom will always stick to integer levels
-    mapController.animateTo(ticker: this, zoom: mapController.camera.zoom.roundToDouble() + 1);
+    mapController.animateTo(
+      ticker: this,
+      zoom: mapController.camera.zoom.roundToDouble() + 1,
+      id: 'KeepCameraTracking',
+    );
   }
 
   /// Zoom out of the map view.
 
   void zoomOut() {
     // round zoom level so zoom will always stick to integer levels
-    mapController.animateTo(ticker: this, zoom: mapController.camera.zoom.roundToDouble() - 1);
+    mapController.animateTo(
+      ticker: this,
+      zoom: mapController.camera.zoom.roundToDouble() - 1,
+      id: 'KeepCameraTracking',
+    );
   }
 
   /// Reset the map rotation.
@@ -498,52 +528,14 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   }
 
 
-  void _onInitialLocationTracking() {
-    // if location tracking is enabled
-    // jump to user position and enable camera tracking
-    if (_userLocationService.state == LocationTrackingState.enabled) {
-      final position = _userLocationService.position!;
-      mapController.move(
-        LatLng(position.latitude, position.longitude),
-        mapController.camera.zoom,
-        id: 'CameraTracker'
-      );
-      _userLocationService.shouldFollowLocation = true;
-    }
-    // load stop areas of current viewport location
-    loadStopAreas();
-    // add on position change handler after initial location code is finished
-    _reactionDisposers.add(
-      reaction((p0) => _userLocationService.position, _onPositionChange),
-    );
-  }
-
-
-  void _onPositionChange(Position? position) {
-    if (position != null) {
-      // move camera to current user location
-      if (_userLocationService.isFollowingLocation) {
-        mapController.animateTo(
-          ticker: this,
-          location: LatLng(position.latitude, position.longitude),
-          // zoom close to user position if the camera isn't already zoomed in
-          // because location following doesn't make much sense for lower zoom levels
-          zoom: max(mapController.camera.zoom, 17),
-          duration: const Duration(milliseconds: 200),
-          id: 'CameraTracker'
-        );
-      }
-    }
-  }
-
-
   void _onMapEvent(MapEvent? event) {
     // cancel tracking on user interaction or any map move not caused by the camera tracker
-    if (
-      (event is MapEventDoubleTapZoomStart) ||
-      (event is MapEventMove && event.id != 'CameraTracker' && event.camera.center != event.oldCamera.center)
-    ) {
-      _userLocationService.shouldFollowLocation = false;
+    if (!(event is MapEventMove && (
+          event.id == 'KeepCameraTracking' ||
+          event.id == 'AnimatedLocationLayerCameraTracking' ||
+          event.camera.center == event.oldCamera.center
+    ))) {
+      runInAction(() => _cameraIsFollowingLocation.value = false);
     }
   }
 
@@ -599,8 +591,6 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   @override
   void dispose() {
     _stopAreaSubscription.cancel();
-
-    _userLocationService.onDispose();
 
     _questionnaireState.close();
     _answerInputDebouncer.cancel();
