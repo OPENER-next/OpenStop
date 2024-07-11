@@ -1708,20 +1708,24 @@
          "description": "@doorOpenDescription"
       },
       "answer": {
-         "type": "Bool",
+         "type": "List",
          "input": [
             {
                "name": "@doorOpenNoOption",
-               "image": "assets/question_catalog/images/door_open_no.jpg",
                "osm_tags": {
                   "open": "no"
                }
             },
             {
-               "name": "@doorOpenYesOption",
-               "image": "assets/question_catalog/images/door_open_yes.jpg",
+               "name": "@doorOpenFullOption",
                "osm_tags": {
-                  "open": "yes"
+                  "open": "full"
+               }
+            },
+            {
+               "name": "@doorOpenPartialOption",
+               "osm_tags": {
+                  "open": "partial"
                }
             }
          ]
@@ -1796,40 +1800,6 @@
                   }
                }
             ]
-         }
-      ]
-   },
-   {
-      "question": {
-         "name": "@doorOpeningDegreeName",
-         "text": "@doorOpeningDegreeText",
-         "description": "@doorOpeningDegreeDescription"
-      },
-      "answer": {
-         "type": "List",
-         "input": [
-            {
-               "name": "@doorOpeningDegreeFullOption",
-               "image": "assets/question_catalog/images/door_opening_full.jpg",
-               "osm_tags": {
-                  "open": "full"
-               }
-            },
-            {
-               "name": "@doorOpeningDegreePartialOption",
-               "image": "assets/question_catalog/images/door_opening_partial.jpg",
-               "osm_tags": {
-                  "open": "partial"
-               }
-            }
-         ]
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "open": "yes"
-            },
-            "osm_element": "Node"
          }
       ]
    },
