@@ -1813,9 +1813,9 @@
          "type": "Number",
          "input": {
             "placeholder": "@doorOpeningPlaceholder",
-            "decimals": 2,
-            "min": 0,
-            "max": 10,
+            "decimals": 0,
+            "min": 50,
+            "max": 400,
             "unit": "@unitCentimeter"
          },
          "constructor": {
