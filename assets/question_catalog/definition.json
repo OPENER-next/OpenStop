@@ -1717,15 +1717,15 @@
                }
             },
             {
-               "name": "@doorOpenFullOption",
-               "osm_tags": {
-                  "open": "full"
-               }
-            },
-            {
                "name": "@doorOpenPartialOption",
                "osm_tags": {
                   "open": "partial"
+               }
+            },
+            {
+               "name": "@doorOpenFullOption",
+               "osm_tags": {
+                  "open": "full"
                }
             }
          ]
