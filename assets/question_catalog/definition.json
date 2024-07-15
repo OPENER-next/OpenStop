@@ -4283,6 +4283,7 @@
               }
             ]
           }
-      ]   
+      ],
+      "$comment": "The condition is trying to make sure that there is no separately mapped elevator door by excluding the question if another door with elevator-door-like properties is on the same footway as the elevator."
    }
 ]
