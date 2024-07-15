@@ -4133,7 +4133,7 @@
          "input": {
             "placeholder": "@elevatorHeightPlaceholder",
             "decimals": 0,
-            "min": 200,
+            "min": 150,
             "max": 400,
             "unit": "@unitCentimeter"
          },
@@ -4204,8 +4204,8 @@
          "input": {
             "placeholder": "@elevatorDoorWidthPlaceholder",
             "decimals": 0,
-            "min": 150,
-            "max": 400,
+            "min": 80,
+            "max": 300,
             "unit": "@unitCentimeter"
          },
          "constructor": {
@@ -4249,7 +4249,7 @@
          "input": {
             "placeholder": "@elevatorDoorHeightPlaceholder",
             "decimals": 0,
-            "min": 200,
+            "min": 150,
             "max": 400,
             "unit": "@unitCentimeter"
          },
@@ -4274,13 +4274,15 @@
                 "child": [
                   {
                     "osm_tags": {
-                      "indoor": "door"
+                      "indoor": "door",
+                      "door":"sliding",
+                      "automatic_door": ["yes", "button"]
                     }
                   }
                 ]
               }
             ]
           }
-      ]
+      ]   
    }
 ]
