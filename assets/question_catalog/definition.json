@@ -1819,7 +1819,13 @@
             "unit": "@unitCentimeter"
          },
          "constructor": {
-            "opening": ["$input"]
+            "width": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
          }
       },
       "conditions": [
