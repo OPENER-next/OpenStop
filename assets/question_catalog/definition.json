@@ -4225,16 +4225,18 @@
                "door:width": false
             },
             "!parent": [
-               {
-                 "child": [
-                   {
-                     "osm_tags": {
-                       "indoor": "door"
-                     }
-                   }
-                 ]
-               }
-             ]
+              {
+                "child": [
+                  {
+                    "osm_tags": {
+                      "indoor": "door",
+                      "door":"sliding",
+                      "automatic_door": ["yes", "button"]
+                    }
+                  }
+                ]
+              }
+            ]
          }
       ]
    },
