@@ -1738,9 +1738,7 @@
                "open": false
             },
             "!osm_tags": {
-               "door": ["no", "revolving"],
-               "automatic_door": "continuous"
-               
+               "door": ["no", "revolving"]      
             },
             "osm_element": "Node"
          },
@@ -1752,9 +1750,7 @@
                "open": false
             },
             "!osm_tags": {
-               "door": ["no", "revolving"],
-               "automatic_door": "continuous"
-               
+               "door": ["no", "revolving"]
             },
             "osm_element": "Node"
          },
@@ -1766,8 +1762,7 @@
                "open": false
             },
             "!osm_tags": {
-               "door": ["no", "revolving"],
-               "automatic_door": "continuous" 
+               "door": ["no", "revolving"]
             },
             "osm_element": "Node"
          },
@@ -1778,9 +1773,7 @@
                "open": false
             },
             "!osm_tags": {
-               "door": ["no", "revolving"],
-               "automatic_door": "continuous"
-               
+               "door": ["no", "revolving"] 
             },
             "osm_element": "Node",
             "parent": [
