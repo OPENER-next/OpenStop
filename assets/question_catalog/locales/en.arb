@@ -264,6 +264,8 @@
   "@doorOpenFullOption": {},
   "doorOpenPartialOption": "Partially open",
   "@doorOpenPartialOption": {},
+  "doorOpeningName": "Door opening width",
+  "@doorOpeningName": {},
   "doorOpeningText": "How wide is the opening of the partially open door?",
   "@doorOpeningText": {},
   "doorOpeningDescription": "The extent (clearance width) to which the door is currently open.",
