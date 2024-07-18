@@ -4224,8 +4224,10 @@
                "highway": "elevator",
                "door:width": false
             },
+            "osm_element": ["Node", "ClosedWay"],
             "!parent": [
               {
+                "osm_element": ["OpenWay", "ClosedWay"],
                 "child": [
                   {
                     "osm_tags": {
@@ -4236,9 +4238,17 @@
                   }
                 ]
               }
+            ],
+            "!child": [
+              {
+                "osm_tags": {
+                  "door": ["yes", "sliding"]
+                }
+              }
             ]
-         }
-      ]
+          }
+      ],
+      "$comment": "The condition is trying to make sure that there is no separately mapped elevator door by excluding the question if another door with elevator-door-like properties is on the same footway as the elevator. It also excludes children of the elevator object in case the door is mapped as a node on the elevator way."
    },
    {
       "question":{
@@ -4271,8 +4281,10 @@
                "highway": "elevator",
                "door:height": false
             },
+            "osm_element": ["Node", "ClosedWay"],
             "!parent": [
               {
+                "osm_element": ["OpenWay", "ClosedWay"],
                 "child": [
                   {
                     "osm_tags": {
@@ -4283,9 +4295,16 @@
                   }
                 ]
               }
+            ],
+            "!child": [
+              {
+                "osm_tags": {
+                  "door": ["yes", "sliding"]
+                }
+              }
             ]
           }
       ],
-      "$comment": "The condition is trying to make sure that there is no separately mapped elevator door by excluding the question if another door with elevator-door-like properties is on the same footway as the elevator."
+      "$comment": "The condition is trying to make sure that there is no separately mapped elevator door by excluding the question if another door with elevator-door-like properties is on the same footway as the elevator. It also excludes children of the elevator object in case the door is mapped as a node on the elevator way."
    }
 ]
