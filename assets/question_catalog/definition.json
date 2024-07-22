@@ -4227,7 +4227,7 @@
             "osm_element": ["Node", "ClosedWay"],
             "!parent": [
               {
-                "osm_element": ["OpenWay", "ClosedWay"],
+                "osm_element": "OpenWay",
                 "child": [
                   {
                     "osm_tags": {
