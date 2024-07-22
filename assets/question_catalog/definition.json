@@ -2388,6 +2388,190 @@
    },
    {
       "question": {
+         "name": "@elevatorHeightName",
+         "text": "@elevatorHeightText"
+      },
+      "answer": {
+         "type": "Number",
+         "input": {
+            "placeholder": "@elevatorHeightPlaceholder",
+            "decimals": 0,
+            "min": 150,
+            "max": 400,
+            "unit": "@unitCentimeter"
+         },
+         "constructor": {
+            "width": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "elevator",
+               "height": false
+            }
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "@elevatorDiameterName",
+         "text": "@elevatorDiameterText"
+      },
+      "answer": {
+         "type": "Number",
+         "input": {
+            "placeholder": "@elevatorDiameterPlaceholder",
+            "decimals": 0,
+            "min": 150,
+            "max": 1000,
+            "unit": "@unitCentimeter"
+         },
+         "constructor": {
+            "diameter": [
+               "CONCAT", [
+                  "REPLACE", "/\\.?0{1,2}$/", "", [
+                     "INSERT", ".", "-2", [
+                        "PAD", "0", "3", "$input"
+                     ]
+                  ]
+               ], " m"
+            ]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "elevator",
+               "shape": "circular",
+               "diameter": false
+            },
+            "osm_element": "Node"
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "@elevatorDoorWidthName",
+         "text": "@elevatorDoorWidthText",
+         "description": "@elevatorDoorWidthDescription"
+      },
+      "answer": {
+         "type": "Number",
+         "input": {
+            "placeholder": "@elevatorDoorWidthPlaceholder",
+            "decimals": 0,
+            "min": 80,
+            "max": 300,
+            "unit": "@unitCentimeter"
+         },
+         "constructor": {
+            "door:width": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "elevator",
+               "door:width": false
+            },
+            "osm_element": ["Node", "ClosedWay"],
+            "!parent": [
+              {
+                "osm_element": "OpenWay",
+                "child": [
+                  {
+                    "osm_tags": {
+                      "indoor": "door",
+                      "door":"sliding",
+                      "automatic_door": ["yes", "button"]
+                    }
+                  }
+                ]
+              }
+            ],
+            "!child": [
+              {
+                "osm_tags": {
+                  "door": ["yes", "sliding"]
+                }
+              }
+            ]
+          }
+      ],
+      "$comment": "The condition is trying to make sure that there is no separately mapped elevator door by excluding the question if another door with elevator-door-like properties is on the same footway as the elevator. It also excludes children of the elevator object in case the door is mapped as a node on the elevator way."
+   },
+   {
+      "question":{
+         "name": "@elevatorDoorHeightName",
+         "text": "@elevatorDoorHeightText",
+         "description": "@elevatorDoorHeightDescription"
+      },
+      "answer": {
+         "type": "Number",
+         "input": {
+            "placeholder": "@elevatorDoorHeightPlaceholder",
+            "decimals": 0,
+            "min": 150,
+            "max": 400,
+            "unit": "@unitCentimeter"
+         },
+         "constructor": {
+            "width": [
+               "REPLACE", "/\\.?0{1,2}$/", "", [
+                  "INSERT", ".", "-2", [
+                     "PAD", "0", "3", "$input"
+                  ]
+               ]
+            ]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "highway": "elevator",
+               "door:height": false
+            },
+            "osm_element": ["Node", "ClosedWay"],
+            "!parent": [
+              {
+                "osm_element": "OpenWay",
+                "child": [
+                  {
+                    "osm_tags": {
+                      "indoor": "door",
+                      "door":"sliding",
+                      "automatic_door": ["yes", "button"]
+                    }
+                  }
+                ]
+              }
+            ],
+            "!child": [
+              {
+                "osm_tags": {
+                  "door": ["yes", "sliding"]
+                }
+              }
+            ]
+          }
+      ],
+      "$comment": "The condition is trying to make sure that there is no separately mapped elevator door by excluding the question if another door with elevator-door-like properties is on the same footway as the elevator. It also excludes children of the elevator object in case the door is mapped as a node on the elevator way."
+   },
+   {
+      "question": {
          "name": "@elevatorTactileWritingName",
          "text": "@elevatorTactileWritingText",
          "image": [
@@ -4122,189 +4306,5 @@
             "osm_element": "Node"
          }
       ]
-   },
-   {
-      "question": {
-         "name": "@elevatorHeightName",
-         "text": "@elevatorHeightText"
-      },
-      "answer": {
-         "type": "Number",
-         "input": {
-            "placeholder": "@elevatorHeightPlaceholder",
-            "decimals": 0,
-            "min": 150,
-            "max": 400,
-            "unit": "@unitCentimeter"
-         },
-         "constructor": {
-            "width": [
-               "REPLACE", "/\\.?0{1,2}$/", "", [
-                  "INSERT", ".", "-2", [
-                     "PAD", "0", "3", "$input"
-                  ]
-               ]
-            ]
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "highway": "elevator",
-               "height": false
-            }
-         }
-      ]
-   },
-   {
-      "question": {
-         "name": "@elevatorDiameterName",
-         "text": "@elevatorDiameterText"
-      },
-      "answer": {
-         "type": "Number",
-         "input": {
-            "placeholder": "@elevatorDiameterPlaceholder",
-            "decimals": 0,
-            "min": 150,
-            "max": 1000,
-            "unit": "@unitCentimeter"
-         },
-         "constructor": {
-            "diameter": [
-               "CONCAT", [
-                  "REPLACE", "/\\.?0{1,2}$/", "", [
-                     "INSERT", ".", "-2", [
-                        "PAD", "0", "3", "$input"
-                     ]
-                  ]
-               ], " m"
-            ]
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "highway": "elevator",
-               "shape": "circular",
-               "diameter": false
-            },
-            "osm_element": "Node"
-         }
-      ]
-   },
-   {
-      "question": {
-         "name": "@elevatorDoorWidthName",
-         "text": "@elevatorDoorWidthText",
-         "description": "@elevatorDoorWidthDescription"
-      },
-      "answer": {
-         "type": "Number",
-         "input": {
-            "placeholder": "@elevatorDoorWidthPlaceholder",
-            "decimals": 0,
-            "min": 80,
-            "max": 300,
-            "unit": "@unitCentimeter"
-         },
-         "constructor": {
-            "door:width": [
-               "REPLACE", "/\\.?0{1,2}$/", "", [
-                  "INSERT", ".", "-2", [
-                     "PAD", "0", "3", "$input"
-                  ]
-               ]
-            ]
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "highway": "elevator",
-               "door:width": false
-            },
-            "osm_element": ["Node", "ClosedWay"],
-            "!parent": [
-              {
-                "osm_element": "OpenWay",
-                "child": [
-                  {
-                    "osm_tags": {
-                      "indoor": "door",
-                      "door":"sliding",
-                      "automatic_door": ["yes", "button"]
-                    }
-                  }
-                ]
-              }
-            ],
-            "!child": [
-              {
-                "osm_tags": {
-                  "door": ["yes", "sliding"]
-                }
-              }
-            ]
-          }
-      ],
-      "$comment": "The condition is trying to make sure that there is no separately mapped elevator door by excluding the question if another door with elevator-door-like properties is on the same footway as the elevator. It also excludes children of the elevator object in case the door is mapped as a node on the elevator way."
-   },
-   {
-      "question":{
-         "name": "@elevatorDoorHeightName",
-         "text": "@elevatorDoorHeightText",
-         "description": "@elevatorDoorHeightDescription"
-      },
-      "answer": {
-         "type": "Number",
-         "input": {
-            "placeholder": "@elevatorDoorHeightPlaceholder",
-            "decimals": 0,
-            "min": 150,
-            "max": 400,
-            "unit": "@unitCentimeter"
-         },
-         "constructor": {
-            "width": [
-               "REPLACE", "/\\.?0{1,2}$/", "", [
-                  "INSERT", ".", "-2", [
-                     "PAD", "0", "3", "$input"
-                  ]
-               ]
-            ]
-         }
-      },
-      "conditions": [
-         {
-            "osm_tags": {
-               "highway": "elevator",
-               "door:height": false
-            },
-            "osm_element": ["Node", "ClosedWay"],
-            "!parent": [
-              {
-                "osm_element": "OpenWay",
-                "child": [
-                  {
-                    "osm_tags": {
-                      "indoor": "door",
-                      "door":"sliding",
-                      "automatic_door": ["yes", "button"]
-                    }
-                  }
-                ]
-              }
-            ],
-            "!child": [
-              {
-                "osm_tags": {
-                  "door": ["yes", "sliding"]
-                }
-              }
-            ]
-          }
-      ],
-      "$comment": "The condition is trying to make sure that there is no separately mapped elevator door by excluding the question if another door with elevator-door-like properties is on the same footway as the elevator. It also excludes children of the elevator object in case the door is mapped as a node on the elevator way."
    }
 ]
