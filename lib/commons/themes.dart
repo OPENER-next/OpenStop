@@ -2,45 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class Default {
+  // Scaffold Header Background
   static const Color primary = Color(0xFFEC7C72);
 
-  // Foreground Selected (FloatingAction)Button / Account Background, Border, Text
+  // (FloatingAction)Button Foreground Selected / Account Background, Border, Text
   static Color onPrimary = Colors.grey.shade100;
 
-  // Background Unselected FloatingActionButton
+  // FloatingActionButton Background Unselected
   static Color primaryContainerLight = Colors.grey.shade100;
   static const Color primaryContainerDark = Color(0xFF002020);
 
-  // Foreground Unselected (FloatingAction)Button
+  // (FloatingAction)Button Foreground Unselected
   static Color onPrimaryContainerLight = Colors.grey.shade900;
   static Color onPrimaryContainerDark = Colors.grey.shade50;
 
-  // Mixed with Background Header Scaffold when scrolled / Transparent so no color change is visible
+  // Mixed with Background Header Scaffold when scrolled > Transparent so no color change is visible
   static const Color surfaceTint = Colors.transparent;
 
-  // Background Header Scaffold / Background Body Drawer (default)
-  static const Color surface = Color(0xFFEC7C72);
+  // QuestionDialog Background / Scaffold Body Background (Licenses only) / Map Background / Drawer Body Background
+  static Color surfaceLight = Colors.grey.shade100;
+  static const Color surfaceDark = Color(0xFF002020);
 
-  // Background Body Scaffold, Background QuestionDialog, Background Body Drawer, Background Map
-  static Color backgroundLight = Colors.grey.shade100;
-  static const Color backgroundDark = Color(0xFF002020);
-
-  // Foreground QuestionDialog (Border, Lines)
-  static Color onBackgroundLight = Colors.grey.shade300;
-  static const Color onBackgroundDark = Color(0xFF003144);
+  // QuestionDialog Foreground (Input Border, Progressbar Line) / Divider
+  static Color outlineVariantLight = Colors.grey.shade300;
+  static const Color outlineVariantDark = Color(0xFF003144);
 
   // Shadow for Material Widgets (Zoom button, Loading indicator)
   static const shadow = Colors.black;
-
-  // Unselected Switch Track
-  static Color surfaceVariantLight = Colors.grey.shade300;
-  static Color surfaceVariantDark = Colors.grey.shade800;
-
-  // Unselected Switch Outline
-  static Color outline = Colors.grey.shade500;
-
-  // Divider
-  static Color outlineVariant = Colors.grey.shade600.withOpacity(0.2);
 
   static const double borderRadius = 12.0;
   static const double padding = 12.0;
@@ -51,8 +39,11 @@ class Default {
 final ThemeData defaultTheme = ThemeData(
   appBarTheme: AppBarTheme(
     elevation: Default.elevation,
+    scrolledUnderElevation: Default.elevation,
     shadowColor: Default.shadow,
+    backgroundColor: Default.primary,
     foregroundColor: Default.onPrimary,
+    surfaceTintColor: Colors.transparent,
     systemOverlayStyle: const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.light,
@@ -87,7 +78,7 @@ final ThemeData defaultTheme = ThemeData(
   ),
   iconButtonTheme: IconButtonThemeData(
     style: ButtonStyle(
-      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+      shape: WidgetStateProperty.all(RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Default.borderRadius),
         )
       )
@@ -119,16 +110,11 @@ final ThemeData lightTheme = ThemeData(
     onPrimary: Default.onPrimary,
     primaryContainer: Default.primaryContainerLight,
     onPrimaryContainer: Default.onPrimaryContainerLight,
-    surface: Default.surface,
-    surfaceVariant: Default.surfaceVariantLight,
-    background: Default.backgroundLight,
-    onBackground: Default.onBackgroundLight,
+    surface: Default.surfaceLight,
     tertiary: Colors.white,
     onTertiary: Colors.black,
     shadow: Default.shadow,
-    surfaceTint: Default.surfaceTint,
-    outline: Default.outline,
-    outlineVariant: Default.outlineVariant,
+    outlineVariant: Default.outlineVariantLight,
   ),
   appBarTheme: defaultTheme.appBarTheme,
   floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
@@ -138,15 +124,15 @@ final ThemeData lightTheme = ThemeData(
     border: defaultTheme.inputDecorationTheme.border!,
     enabledBorder: defaultTheme.inputDecorationTheme.border!.copyWith(
       borderSide: defaultTheme.inputDecorationTheme.border!.borderSide.copyWith(
-        color: Default.onBackgroundLight
+        color: Default.outlineVariantLight,
       )
     )
   ),
   snackBarTheme: defaultTheme.snackBarTheme.copyWith(
     backgroundColor: Colors.grey.shade900,
   ),
-  // To have the same background color for licenses as for every other scaffold
-  cardColor: Default.backgroundLight,
+  // Workaround until the default backgroundColor for Scaffold uses colorScheme.surface (https://github.com/flutter/flutter/pull/149772)
+  scaffoldBackgroundColor: Default.surfaceLight
 );
 
 final ThemeData darkTheme = ThemeData(
@@ -155,16 +141,11 @@ final ThemeData darkTheme = ThemeData(
     onPrimary: Default.onPrimary,
     primaryContainer: Default.primaryContainerDark,
     onPrimaryContainer: Default.onPrimaryContainerDark,
-    surface: Default.surface,
-    surfaceVariant: Default.surfaceVariantDark,
-    background: Default.backgroundDark,
-    onBackground: Default.onBackgroundDark,
+    surface: Default.surfaceDark,
     tertiary: Colors.black,
     onTertiary: Colors.white,
     shadow: Default.shadow,
-    surfaceTint: Default.surfaceTint,
-    outline: Default.outline,
-    outlineVariant: Default.outlineVariant,
+    outlineVariant: Default.outlineVariantDark,
   ),
   appBarTheme: defaultTheme.appBarTheme,
   floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
@@ -174,13 +155,12 @@ final ThemeData darkTheme = ThemeData(
     border: defaultTheme.inputDecorationTheme.border!,
     enabledBorder: defaultTheme.inputDecorationTheme.border!.copyWith(
       borderSide: defaultTheme.inputDecorationTheme.border!.borderSide.copyWith(
-        color: Default.onBackgroundDark
+        color: Default.outlineVariantDark,
       )
     )
   ),
-  snackBarTheme: defaultTheme.snackBarTheme,
-  // To have the same background color for licenses as for every other scaffold
-  cardColor: Default.backgroundDark,
+  // Workaround until the default backgroundColor for Scaffold uses colorScheme.surface (https://github.com/flutter/flutter/pull/149772)
+  scaffoldBackgroundColor: Default.surfaceDark
 );
 
 final ThemeData highContrastDarkTheme = ThemeData.dark().copyWith(

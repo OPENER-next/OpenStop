@@ -111,7 +111,7 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                               minHeight: 1,
                               color: Theme.of(context).colorScheme.primary,
                               value: activeIndex / questionCount,
-                              backgroundColor: Theme.of(context).colorScheme.onBackground,
+                              backgroundColor: Theme.of(context).colorScheme.outlineVariant,
                             ),
                             CompositedTransformTarget(
                               link: layerLink,
