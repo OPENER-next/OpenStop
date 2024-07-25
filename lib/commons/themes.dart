@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class Default {
-  // Sacffold Header Background
+  // Scaffold Header Background
   static const Color primary = Color(0xFFEC7C72);
 
   // (FloatingAction)Button Foreground Selected / Account Background, Border, Text
@@ -130,7 +130,9 @@ final ThemeData lightTheme = ThemeData(
   ),
   snackBarTheme: defaultTheme.snackBarTheme.copyWith(
     backgroundColor: Colors.grey.shade900,
-  )
+  ),
+  // Workaround until the default backgroundColor for Scaffold uses colorScheme.surface (https://github.com/flutter/flutter/pull/149772)
+  scaffoldBackgroundColor: Default.surfaceLight
 );
 
 final ThemeData darkTheme = ThemeData(
@@ -156,7 +158,9 @@ final ThemeData darkTheme = ThemeData(
         color: Default.outlineVariantDark,
       )
     )
-  )
+  ),
+  // Workaround until the default backgroundColor for Scaffold uses colorScheme.surface (https://github.com/flutter/flutter/pull/149772)
+  scaffoldBackgroundColor: Default.surfaceDark
 );
 
 final ThemeData highContrastDarkTheme = ThemeData.dark().copyWith(

@@ -22,8 +22,6 @@ class SettingsScreen extends View<SettingsViewModel> {
       ThemeMode.dark: appLocale.settingsThemeOptionDark,
     };
     return Scaffold(
-      // Workaround until the default backgroundColor is not defined by the deprecated colorScheme.background anymore
-      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         title: Text(appLocale.settingsTitle),
       ),
