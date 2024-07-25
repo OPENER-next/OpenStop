@@ -50,6 +50,11 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     );
 
     _stopAreaSubscription = _appWorker.subscribeStopAreas().listen(_markStopArea);
+
+    // request location permissions and service on startup
+    _acquireUserLocation().then((pos) {
+      if (pos != null) locationIndicatorController.activate();
+    });
   }
 
   @override
