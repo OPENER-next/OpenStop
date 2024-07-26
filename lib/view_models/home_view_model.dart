@@ -52,8 +52,8 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     _stopAreaSubscription = _appWorker.subscribeStopAreas().listen(_markStopArea);
 
     // request location permissions and service on startup
-    _acquireUserLocation().then((pos) {
-      if (pos != null) locationIndicatorController.activate();
+    _requestLocationPermission().then((granted) {
+      if (granted) locationIndicatorController.activate();
     });
   }
 
@@ -135,15 +135,26 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   /// Activate or deactivate location following depending on its current state.
 
   void toggleLocationFollowing() async {
-    if (cameraIsFollowingLocation == false) {
-      final location = await _acquireUserLocation();
-      if (location != null) {
+    if (!(await _requestLocationPermission())) {
+      return runInAction(() {
+        _cameraIsFollowingLocation.value = false;
+      });
+    }
+    else if (cameraIsFollowingLocation == false) {
+      if (!locationIndicatorController.isActive) {
         locationIndicatorController.activate();
+      }
+      // if no location permission was granted the initial location is unset, so we need to wait for it
+      await _locationIsInitialized;
+      try {
         await mapController.animateTo(
           ticker: this,
-          location: LatLng(location.latitude, location.longitude),
+          location: locationIndicatorController.rawLocation,
           id: 'KeepCameraTracking',
-        );
+        ).orCancel;
+      }
+      on TickerCanceled {
+        return;
       }
     }
     runInAction(() {
@@ -151,33 +162,25 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     });
   }
 
-  /// This function will automatically request permissions if not already granted
-  /// as well as the activation of the device's location service if not already activated.
-
-  Future<Position?> _acquireUserLocation() async {
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        // permissions are denied don't continue
-        return null;
+  Future<void> get _locationIsInitialized async {
+    if (locationIndicatorController.rawLocation == null) {
+      final completer = Completer<void>();
+      void complete() {
+        if (locationIndicatorController.rawLocation != null) {
+          locationIndicatorController.removeRawListener(complete);
+          completer.complete();
+        }
       }
-    }
-    else if (permission == LocationPermission.deniedForever) {
-      // permissions are denied forever don't continue
-      return null;
-    }
-    // if permissions are granted try to access the position of the device
-    // on android the user will be automatically asked if he wants to enable the location service if it is disabled
-    try {
-      // if no previous position is known automatically try to get the current one
-      return await Geolocator.getCurrentPosition();
-    }
-    on LocationServiceDisabledException {
-      return null;
+      locationIndicatorController.addRawListener(complete);
+      return completer.future;
     }
   }
 
+  Future<bool> _requestLocationPermission() async {
+    final permission = await Geolocator.requestPermission();
+    return permission == LocationPermission.always ||
+           permission == LocationPermission.whileInUse;
+  }
 
   //////////////////////////////
   /// Preferences properties ///
