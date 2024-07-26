@@ -600,6 +600,8 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   void dispose() {
     _stopAreaSubscription.cancel();
 
+    locationIndicatorController.dispose();
+
     _questionnaireState.close();
     _answerInputDebouncer.cancel();
     // dispose all answer controllers
