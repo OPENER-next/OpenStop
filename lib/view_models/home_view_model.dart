@@ -234,7 +234,6 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     mapController.animateTo(
       ticker: this,
       zoom: mapController.camera.zoom.roundToDouble() + 1,
-      id: 'KeepCameraTracking',
     );
   }
 
@@ -245,7 +244,6 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     mapController.animateTo(
       ticker: this,
       zoom: mapController.camera.zoom.roundToDouble() - 1,
-      id: 'KeepCameraTracking',
     );
   }
 
