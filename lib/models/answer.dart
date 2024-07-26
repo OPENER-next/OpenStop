@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
 import 'question_catalog/answer_definition.dart';
@@ -239,7 +238,7 @@ class DurationAnswer extends Answer<DurationAnswerDefinition, Duration> {
 
     // wrap duration parts according to the units present in the output
 
-    const maxInteger = kIsWeb ? 0x20000000000000 : 0x7FFFFFFFFFFFFFFF;
+    final maxInteger = double.maxFinite.toInt();
     var (wrapHours, wrapMinutes, wrapSeconds) = (maxInteger, maxInteger, maxInteger);
 
     if (definition.input.days.output) {
