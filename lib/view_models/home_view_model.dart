@@ -536,7 +536,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
   void _onMapEvent(MapEvent? event) {
     // cancel tracking on user interaction or any map move not caused by the camera tracker
-    if (!(event is MapEventMove && (
+    if (!(event is MapEventRotate || event is MapEventMove && (
           event.id == 'KeepCameraTracking' ||
           event.id == 'AnimatedLocationLayerCameraTracking' ||
           event.camera.center == event.oldCamera.center
