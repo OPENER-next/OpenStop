@@ -256,7 +256,7 @@
   "@doorOpenName": {},
   "doorOpenText": "Steht diese Tür dauerhaft offen?",
   "@doorOpenText": {},
-  "doorOpenDescription": "Das ist wichtig damit Rollstuhlfahrende wissen, ob sie die Tür selbst öffnen müssen oder ob sie einfach hindurch können. Wenn es nicht einschätzbar ist, sollte die Frage übersprungen werden.",
+  "doorOpenDescription": "Das ist wichtig, damit Rollstuhlfahrende wissen, ob sie die Tür selbst öffnen müssen oder ob sie einfach hindurch können. Wenn es nicht einschätzbar ist, sollte die Frage übersprungen werden.",
   "@doorOpenDescription": {},
   "doorOpenNoOption": "Nein",
   "@doorOpenNoOption": {},
