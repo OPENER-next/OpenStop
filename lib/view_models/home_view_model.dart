@@ -127,7 +127,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   /// User Location properties ///
   ////////////////////////////////
 
-  final locationIndicatorController = AnimatedLocationController();
+  late final locationIndicatorController = AnimatedLocationController(vsync: this);
 
   final _cameraIsFollowingLocation = Observable<bool>(false);
   bool get cameraIsFollowingLocation => _cameraIsFollowingLocation.value;
@@ -144,12 +144,10 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
       if (!locationIndicatorController.isActive) {
         locationIndicatorController.activate();
       }
-      // if no location permission was granted the initial location is unset, so we need to wait for it
-      await _locationIsInitialized;
       try {
         await mapController.animateTo(
           ticker: this,
-          location: locationIndicatorController.rawLocation,
+          location: await _incomingLocation,
           id: 'KeepCameraTracking',
         ).orCancel;
       }
@@ -162,18 +160,20 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     });
   }
 
-  Future<void> get _locationIsInitialized async {
-    if (locationIndicatorController.rawLocation == null) {
-      final completer = Completer<void>();
+  // if no location permission was granted the initial location is unset, so we need to wait for it
+  Future<LatLng> get _incomingLocation async {
+    if (locationIndicatorController.location == null) {
+      final completer = Completer<LatLng>();
       void complete() {
-        if (locationIndicatorController.rawLocation != null) {
-          locationIndicatorController.removeRawListener(complete);
-          completer.complete();
+        if (locationIndicatorController.location != null) {
+          locationIndicatorController.removeListener(complete);
+          completer.complete(locationIndicatorController.location);
         }
       }
-      locationIndicatorController.addRawListener(complete);
+      locationIndicatorController.addListener(complete);
       return completer.future;
     }
+    return locationIndicatorController.location!;
   }
 
   Future<bool> _requestLocationPermission() async {
