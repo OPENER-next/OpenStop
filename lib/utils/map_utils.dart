@@ -16,29 +16,32 @@ extension AnimationUtils on MapController {
     Duration duration = const Duration(milliseconds: 500),
     String? id,
   }) {
-    location ??= camera.center;
-    zoom ??= camera.zoom;
-    rotation ??= camera.rotation;
-
-    final positionTween = LatLngTween(begin: camera.center, end: location);
-    final zoomTween = Tween<double>(begin: camera.zoom, end: zoom);
-    final rotationTween = RotationTween(begin: camera.rotation, end: rotation);
+    final positionTween = location != null
+      ? LatLngTween(begin: camera.center, end: location)
+      : null;
+    final zoomTween = zoom != null
+      ? Tween<double>(begin: camera.zoom, end: zoom)
+      : null;
+    final rotationTween = rotation != null
+      ? RotationTween(begin: camera.rotation, end: rotation)
+      : null;
 
     final controller = AnimationController(
       duration: duration,
-      vsync: ticker
+      vsync: ticker,
     );
     final animation = CurvedAnimation(
-        parent: controller,
-        curve: curve
+      parent: controller,
+      curve: curve,
     );
 
     animation.addListener(() {
       moveAndRotate(
-        positionTween.evaluate(animation),
-        zoomTween.evaluate(animation),
-        rotationTween.evaluate(animation),
-        id: id
+        // use most up to date camera value if no tween/animation was specified
+        positionTween?.evaluate(animation) ?? camera.center,
+        zoomTween?.evaluate(animation) ?? camera.zoom,
+        rotationTween?.evaluate(animation) ?? camera.rotation,
+        id: id,
       );
     });
 
