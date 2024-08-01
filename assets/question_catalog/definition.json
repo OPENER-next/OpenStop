@@ -2402,7 +2402,7 @@
          "name": "@elevatorLengthName",
          "text": "@elevatorLengthText",
          "image": [
-            "assets/question_catalog/images/2093b.jpg"
+            "assets/question_catalog/images/elevator_length.png"
          ],
          "description": "@elevatorLengthDescription"
       },
@@ -2482,6 +2482,7 @@
          "name": "@elevatorWidthName",
          "text": "@elevatorWidthText",
          "image": [
+            "assets/question_catalog/images/elevator_width.png",
             "assets/question_catalog/images/lift.jpg"
          ],
          "description": "@elevatorWidthDescription"
@@ -2521,7 +2522,10 @@
    {
       "question": {
          "name": "@elevatorHeightName",
-         "text": "@elevatorHeightText"
+         "text": "@elevatorHeightText",
+         "image": [
+            "assets/question_catalog/images/elevator_height.png"
+         ]
       },
       "answer": {
          "type": "Number",
@@ -2592,6 +2596,9 @@
       "question": {
          "name": "@elevatorDoorWidthName",
          "text": "@elevatorDoorWidthText",
+         "image": [
+            "assets/question_catalog/images/elevator_door_width.png"
+         ],
          "description": "@elevatorDoorWidthDescription"
       },
       "answer": {
@@ -2649,6 +2656,9 @@
       "question":{
          "name": "@elevatorDoorHeightName",
          "text": "@elevatorDoorHeightText",
+         "image": [
+            "assets/question_catalog/images/elevator_door_height.png"
+         ],
          "description": "@elevatorDoorHeightDescription"
       },
       "answer": {
