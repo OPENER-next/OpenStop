@@ -2482,8 +2482,7 @@
          "name": "@elevatorWidthName",
          "text": "@elevatorWidthText",
          "image": [
-            "assets/question_catalog/images/elevator_width.png",
-            "assets/question_catalog/images/lift.jpg"
+            "assets/question_catalog/images/elevator_width.png"
          ],
          "description": "@elevatorWidthDescription"
       },
