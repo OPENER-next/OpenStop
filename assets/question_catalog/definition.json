@@ -1713,18 +1713,21 @@
          "input": [
             {
                "name": "@doorOpenNoOption",
+               "image": "assets/question_catalog/images/door_open_no.png",
                "osm_tags": {
                   "open": "no"
                }
             },
             {
                "name": "@doorOpenPartialOption",
+               "image": "assets/question_catalog/images/door_open_partial.png",
                "osm_tags": {
                   "open": "partial"
                }
             },
             {
                "name": "@doorOpenFullOption",
+               "image": "assets/question_catalog/images/door_open_full.png",
                "osm_tags": {
                   "open": "full"
                }
