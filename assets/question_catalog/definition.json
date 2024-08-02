@@ -1736,6 +1736,7 @@
             "osm_tags": {
                "railway": ["subway_entrance", "train_station_entrance"],
                "door": true,
+               "automatic_door": ["no", false],
                "open": false
             },
             "!osm_tags": {
@@ -1748,6 +1749,7 @@
                "access": ["yes", "customers", false],
                "level": true,
                "door": true,
+               "automatic_door": ["no", false],
                "open": false
             },
             "!osm_tags": {
@@ -1760,6 +1762,7 @@
                "indoor": "door",
                "access": ["yes", "customers", false],
                "door": true,
+               "automatic_door": ["no", false],
                "open": false
             },
             "!osm_tags": {
@@ -1771,6 +1774,7 @@
             "osm_tags": {
                "access": ["yes", "customers", false],
                "door": true,
+               "automatic_door": ["no", false],
                "open": false
             },
             "!osm_tags": {
