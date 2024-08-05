@@ -62,21 +62,22 @@ void main() {
 
     // mock geolocator
     tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
-      const MethodChannel('flutter.baseflow.com/geolocator'), (methodCall) async {
+      const MethodChannel('flutter.baseflow.com/geolocator'), (methodCall) {
         if (methodCall.method == 'isLocationServiceEnabled') {
-          return false;
+          return Future.value(false);
         }
-        if (methodCall.method == 'checkPermission') {
-          return 1;
+        if (methodCall.method == 'requestPermission') {
+          // results in deniedForever
+          return Future.value(1);
         }
         return null;
       }
     );
     // mock sensors
     tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
-      const MethodChannel('flutter_sensors'), (methodCall) async {
+      const MethodChannel('flutter_sensors'), (methodCall) {
         if (methodCall.method == 'is_sensor_available') {
-          return false;
+          return Future.value(false);
         }
         return null;
       }
