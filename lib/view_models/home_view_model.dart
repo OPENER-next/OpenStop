@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/widgets.dart' hide Action, ProxyElement;
+import 'package:flutter/widgets.dart' hide Action, ProxyElement, Notification;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
@@ -267,7 +267,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
   void logout() async {
     final appLocale = AppLocalizations.of(context)!;
-    final choice = await promptUserInput(
+    final choice = await promptUserInput(Prompt(
       title: appLocale.logoutDialogTitle,
       message: appLocale.logoutDialogDescription,
       choices: {
@@ -275,7 +275,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
         appLocale.cancel: false,
       },
       isDismissible: true,
-    );
+    ));
 
     if (choice == true) {
       _userAccountService.logout();
@@ -384,11 +384,11 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
         await uploading;
       }
       on OSMConnectionException {
-        notifyUser(appLocale.uploadMessageServerConnectionError);
+        notifyUser(Notification(appLocale.uploadMessageServerConnectionError));
       }
       catch(e) {
         debugPrint(e.toString());
-        notifyUser(appLocale.uploadMessageUnknownConnectionError);
+        notifyUser(Notification(appLocale.uploadMessageUnknownConnectionError));
       }
       finally {
         _uploadQueue.remove(alteredElement);
@@ -565,11 +565,11 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     on OSMUnknownException catch (e) {
       if (e.errorCode == 503) {
         debugPrint(e.toString());
-        notifyUser(appLocale.queryMessageServerUnavailableError);
+        notifyUser(Notification(appLocale.queryMessageServerUnavailableError));
       }
       else if (e.errorCode == 429) {
         debugPrint(e.toString());
-        notifyUser(appLocale.queryMessageTooManyRequestsError);
+        notifyUser(Notification(appLocale.queryMessageTooManyRequestsError));
       }
       else {
         rethrow;
@@ -577,19 +577,19 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     }
     on DioException catch (e) {
       if (e.type == DioExceptionType.connectionTimeout) {
-        notifyUser(appLocale.queryMessageConnectionTimeoutError);
+        notifyUser(Notification(appLocale.queryMessageConnectionTimeoutError));
       }
       else if (e.type == DioExceptionType.receiveTimeout) {
-        notifyUser(appLocale.queryMessageReceiveTimeoutError);
+        notifyUser(Notification(appLocale.queryMessageReceiveTimeoutError));
       }
       else {
         debugPrint(e.toString());
-        notifyUser(appLocale.queryMessageUnknownServerCommunicationError);
+        notifyUser(Notification(appLocale.queryMessageUnknownServerCommunicationError));
       }
     }
     catch(e) {
       debugPrint(e.toString());
-      notifyUser(appLocale.queryMessageUnknownError);
+      notifyUser(Notification(appLocale.queryMessageUnknownError));
     }
   }
 
