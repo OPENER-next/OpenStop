@@ -33,17 +33,17 @@ jobs:
 
     - name: Build and start OSM website docker
       run: |
-        docker-compose up -d --build
+        docker compose up -d --build
         sleep 15 # let the DB warm up a little
       working-directory: ./osm-website
 
     - name: Prepare OSM website Database
       run: |
-        docker-compose run --rm web bundle exec rails db:migrate
-        docker-compose run --rm web bundle exec rails i18n:js:export
+        docker compose run --rm web bundle exec rails db:migrate
+        docker compose run --rm web bundle exec rails i18n:js:export
       # The command below populates the db with some test data
       # However this somehow doesn't update the unique key counter, wherefore the creation of new elements will fail due to a duplicate key value violation
-      # docker-compose run --rm web osmosis --rx docker/null-island.osm.xml --wd host=db database=openstreetmap user=openstreetmap password=openstreetmap validateSchemaVersion=no
+      # docker compose run --rm web osmosis --rx docker/null-island.osm.xml --wd host=db database=openstreetmap user=openstreetmap password=openstreetmap validateSchemaVersion=no
       working-directory: ./osm-website
 
     - name: Test basic OSM website
@@ -55,7 +55,7 @@ jobs:
     # derived from https://github.com/openstreetmap/openstreetmap-website/issues/3136
     - name: Create test OSM user account
       run: |
-        docker-compose run --rm web bundle exec rails runner '
+        docker compose run --rm web bundle exec rails runner '
         pass_crypt, pass_salt = PasswordHash.create("testpass");
         user = User.find_or_create_by(
         :email => "testuser@osm.org",
@@ -89,5 +89,5 @@ jobs:
 
     - name: Check OSM website logs
       if: failure()
-      run: docker-compose logs web
+      run: docker compose logs web
       working-directory: ./osm-website
