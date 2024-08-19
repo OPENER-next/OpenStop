@@ -59,7 +59,7 @@
       }
     }
   },
-  "stringInputPlaceholder": "Entre aqui...",
+  "stringInputPlaceholder": "Introduzir aqui…",
   "@stringInputPlaceholder": {},
   "stringInputValidationErrorMin": "Muito curta",
   "@stringInputValidationErrorMin": {},
@@ -237,7 +237,7 @@
   "@logoutDialogDescription": {},
   "loginHint": "Faça login com sua conta OpenStreetMap para enviar suas alterações.",
   "@loginHint": {},
-  "numberInputPlaceholder": "Entre aqui...",
+  "numberInputPlaceholder": "Introduzir aqui…",
   "@numberInputPlaceholder": {},
   "changesetCommentMessage": "Detalhes adicionados {mapFeaturesString} na área de parada {stopsString}.",
   "@changesetCommentMessage": {
@@ -311,6 +311,22 @@
   "@seconds": {
     "placeholders": {
       "second": {
+        "type": "num"
+      }
+    }
+  },
+  "helpImproveTranslationLabel": "Melhorar a tradução",
+  "@helpImproveTranslationLabel": {},
+  "mapFeatureCrossing": "Travessia",
+  "@mapFeatureCrossing": {},
+  "mapFeatureFootwayCrossing": "Travessia de pedestres",
+  "@mapFeatureFootwayCrossing": {},
+  "mapFeatureCyclewayCrossing": "Travessia de bicicletas",
+  "@mapFeatureCyclewayCrossing": {},
+  "days": "{day, plural, =1 {1 dia} other {{day} dias}}",
+  "@days": {
+    "placeholders": {
+      "day": {
         "type": "num"
       }
     }
