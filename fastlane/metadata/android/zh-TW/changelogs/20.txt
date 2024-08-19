@@ -1,0 +1,2 @@
+建構流程：
+- 透過將 GitHub 建構動作中使用的 Java 版本變更為 17，確保 GitHub 與 F-Droid 之間的可重複性
