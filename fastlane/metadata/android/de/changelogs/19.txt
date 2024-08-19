@@ -1,0 +1,16 @@
+Hauptänderungen:
+- Überarbeitung der Abfrage für Haltestellenbereiche
+- Verbesserung der Erstellung von Haltestellenbereichen und der Elementzuordnung
+UI/UX:
+- Ändern des Download-Indikators zu einer Lupe
+- Upload-Indikator hinzufügen, Toast-Nachricht entfernen
+- Kopfzeile des Fragebogens statisch machen
+- Drehsymbol für Häkchen fixieren
+Fragen:
+- Bedingungen für Anflughilfe und Pfeifsignal beheben
+- Fragen zu akustischem Warnsignal, Kreuzungssignal und Treppenliftbreite korrigieren
+Sonstiges:
+- Verbesserung der MapFeature-Zuordnung
+- Abfragefehler beheben
+Lokalisierung:
+- Sprachen aktualisieren und neue hinzufügen
