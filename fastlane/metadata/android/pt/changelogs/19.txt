@@ -1,0 +1,11 @@
+Principal:
+- Reform. consulta da área de paragem
+- Melhorar geração da área de paragem e correspondência de elementos
+UI:
+- Alterar indicador de transferência para lupa
+- Adicionar indicador de carregamento, remover mensagem de brinde
+- Tornar estático o cabeçalho da folha de perguntas
+- Corrigir marcador de verificação rotativo
+Perguntas:
+- Corrigir condições para o auxílio de aproximação, apito
+- Corrigir perguntas p/sinal de aviso acústico, sinal de travessia, largura do elevador de escadas
