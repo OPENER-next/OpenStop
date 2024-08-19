@@ -1,0 +1,16 @@
+Hlavní:
+- Revize dotazu na oblast zastávky
+- Zlepšení vytváření oblasti zastávek a přiřazování prvků
+UI/UX:
+- Změna indikátor stahování na lupu
+- Přidán indikátor nahrávání, odstranění vyskakovací zprávy
+- Statické záhlaví listu s otázkami
+- Oprava rotující značky zaškrtnutí
+Otázky:
+- Oprava podmínek pro pomoc při přiblížení a signál píšťalky
+- Oprava otázky týkající se zvukového výstražného signálu, signálu přechodu a šířky výtahu.
+Různé:
+- Zlepšené přiřazení funkce MapFeature
+- Oprava chyby dotazu
+Lokalizace:
+- Aktualizace a přidané nové jazyky
