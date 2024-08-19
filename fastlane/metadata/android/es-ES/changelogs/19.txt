@@ -1,0 +1,16 @@
+Mayor:
+- Revisión de la consulta de áreas de parada
+- Mejora de la generación de áreas de parada y de la coincidencia de elementos
+UI/UX:
+- Cambio del indicador de descarga por una lupa
+- Añadir indicador de carga, eliminar mensaje de tostado
+- Hacer estático el encabezado de la hoja de preguntas
+- Corregir el marcador de verificación giratorio
+Preguntas:
+- Arreglar condiciones para ayuda de aproximación, silbato
+- Arreglar preguntas para señal de advertencia acústica, señal de cruce, anchura de salvaescaleras
+Varios:
+- Mejora de la correspondencia MapFeature
+- Corrección de errores de consulta
+Localización:
+- Actualizar y añadir nuevos idiomas
