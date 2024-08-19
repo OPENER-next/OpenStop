@@ -335,7 +335,7 @@
   "cycleBarrierWidthDescription": "Die Durchgangsbreite, auch lichte Breite genannt, beschreibt die maximal zulässige Breite, um eine Sperre passieren zu können.",
   "@cycleBarrierWidthDescription": {},
   "cycleBarrierWidthPlaceholder": "Breite",
-  "@cycleBarrierWidthPlaceho}lder": {},
+  "@cycleBarrierWidthPlaceholder": {},
   "cycleBarrierOpeningName": "Umlaufsperren-Zugangsbreite",
   "@cycleBarrierOpeningName": {},
   "cycleBarrierOpeningText": "Wie breit ist der (schmalste) Zugang der Umlaufsperre?",
