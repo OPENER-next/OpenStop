@@ -1,0 +1,2 @@
+Procedimiento de compilación:
+- Garantizar la reproducibilidad entre GitHub y F-Droid cambiando la versión de JAVA utilizada en la acción de compilación de GitHub a 17
