@@ -158,7 +158,7 @@
   "@portableRampLengthName": {},
   "portableRampLengthText": "Wie lang ist die bewegbare Rollstuhl-Rampe?",
   "@portableRampLengthText": {},
-  "portableRampLengthDescription": "Bewegbare Rampen helfen Rollstuhlfahrenden bei der Überwindung eines Spalts bzw. von Stufen (beim Ein- und Ausstieg).",
+  "portableRampLengthDescription": "Die Länge einer (ausgeklappten oder maximal ausgezogenen) tragbaren Rampe ist wichtig für Rollstuhlfahrer, da man in Kombination mit anderen Faktoren die mögliche Neigung der Rampe im Gebrauch bestimmen kann.",
   "@portableRampLengthDescription": {},
   "portableRampLengthPlaceholder": "Rampenlänge",
   "@portableRampLengthPlaceholder": {},
@@ -665,5 +665,13 @@
   "elevatorDoorHeightDescription": "Die lichte Höhe ist das Innenmaß von der Unterseite der Tür bis zur Oberseite, nicht die Außenhöhe des Türrahmens.",
   "@elevatorDoorHeightDescription": {},
   "elevatorDoorHeightPlaceholder": "Höhe",
-  "@elevatorDoorHeightPlaceholder": {}
+  "@elevatorDoorHeightPlaceholder": {},
+  "portableRampWidthName": "Breite der Rampe",
+  "@portableRampWidthName": {},
+  "portableRampWidthText": "Wie breit ist die tragbare Rollstuhlrampe?",
+  "@portableRampWidthText": {},
+  "portableRampWidthDescription": "Die maximal nutzbare Breite einer (ausgeklappten) tragbaren Rampe ist für Rollstuhlfahrer wichtig zu wissen, da sie einer der entscheidenden Faktoren ist, ob sie die Rampe benutzen können.",
+  "@portableRampWidthDescription": {},
+  "portableRampWidthPlaceholder": "Breite der Rampe",
+  "@portableRampWidthPlaceholder": {}
 }
