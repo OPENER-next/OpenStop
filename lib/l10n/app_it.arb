@@ -328,5 +328,7 @@
   "mapFeatureCrossing": "Attraversamento",
   "@mapFeatureCrossing": {},
   "mapFeatureCyclewayCrossing": "Attraversamento ciclabile",
-  "@mapFeatureCyclewayCrossing": {}
+  "@mapFeatureCyclewayCrossing": {},
+  "helpImproveTranslationLabel": "Migliora la traduzione",
+  "@helpImproveTranslationLabel": {}
 }
