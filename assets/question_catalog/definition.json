@@ -701,9 +701,6 @@
                "passenger_information_display": "yes",
                "passenger_information_display:speech_output": false
             },
-            "!osm_tags": {
-               "departures_board": "realtime"
-            },
             "!parent": [
                {
                   "osm_tags": {
