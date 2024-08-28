@@ -701,6 +701,50 @@
                "passenger_information_display": "yes",
                "passenger_information_display:speech_output": false
             },
+            "!osm_tags": {
+               "departures_board": "realtime"
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
+         }
+      ]
+   },
+   {
+      "question": {
+         "name": "@passengerInformationDisplaySpeechOutputName",
+         "text": "@passengerInformationDisplaySpeechOutputText",
+         "description": "@passengerInformationDisplaySpeechOutputDescription",
+         "image": [
+            "assets/question_catalog/images/passenger_information_display_speech_output.jpg"
+         ]
+      },
+      "answer": {
+         "type": "Bool",
+         "input": [
+            {
+               "osm_tags": {
+                  "departures_board:speech_output": "yes"
+               }
+            },
+            {
+               "osm_tags": {
+                  "departures_board:speech_output": "no"
+               }
+            }
+         ]
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "departures_board": "realtime",
+               "departures_board:speech_output": false
+            },
             "!parent": [
                {
                   "osm_tags": {
