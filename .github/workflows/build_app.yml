@@ -92,6 +92,7 @@ jobs:
           --ks-key-alias ${{ secrets.ANDROID_KEY_ALIAS }}
           --ks-pass pass:"${{ secrets.ANDROID_KEYSTORE_PASSWORD }}"
           --ks key.jks
+          --alignment-preserved true
           build/app/outputs/flutter-apk/app-release.apk
 
       - name: Upload F-Droid APK artifact
