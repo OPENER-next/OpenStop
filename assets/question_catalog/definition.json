@@ -739,6 +739,7 @@
          {
             "osm_tags": {
                "public_transport": "platform",
+               "passenger_information_display": false,
                "departures_board": "realtime",
                "departures_board:speech_output": false
             },
