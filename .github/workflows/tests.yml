@@ -69,7 +69,9 @@ jobs:
         :pass_salt => pass_salt
         );
         user.save
-        user.activate!'
+        user.activate!
+        puts create(:oauth_access_token, :resource_owner_id => user.id, :scopes => Oauth::SCOPES).token
+        '
       working-directory: ./osm-website
 
     # App checkout, setup and final tests
