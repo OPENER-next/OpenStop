@@ -56,7 +56,6 @@ jobs:
     - name: Create test OSM user account
       run: |
         docker compose run --rm web bundle exec rails runner '
-        require "test/test_helper" # contains the "create" method
         pass_crypt, pass_salt = PasswordHash.create("testpass");
         user = User.find_or_create_by(
         :email => "testuser@osm.org",
@@ -71,7 +70,7 @@ jobs:
         );
         user.save
         user.activate!
-        puts create(:oauth_access_token, :resource_owner_id => user.id, :scopes => Oauth::SCOPES).token
+        puts FactoryBot.create(:oauth_access_token, :resource_owner_id => user.id, :scopes => Oauth::SCOPES).token
         '
       working-directory: ./osm-website
 
