@@ -1,15 +1,14 @@
 import 'dart:ui';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:latlong2/latlong.dart';
 
 import '/api/offline_geocoder.g.dart';
+import '/commons/app_config.dart' as app_config;
 import '/commons/country_language_map.dart';
 import 'element_variants/base_element.dart';
 import 'map_features/map_features.dart';
 import 'stop_area/stop_area.dart';
-import '/commons/app_config.dart' as app_config;
-
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 /// Holds any desired changeset information.

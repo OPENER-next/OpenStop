@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class LocationButton extends ImplicitlyAnimatedWidget {
   final bool active;
 
-  final Function()? onPressed;
+  final void Function()? onPressed;
 
   final Color? color, activeColor, iconColor, activeIconColor;
 

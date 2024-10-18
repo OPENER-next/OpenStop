@@ -147,10 +147,10 @@ class NumberTextInputFormatter extends TextInputFormatter {
 
   @override
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
-    final allowRegexStringBuilder = StringBuffer(r'^');
+    final allowRegexStringBuilder = StringBuffer('^');
     // match negative numbers
     if (negativeAllowed) {
-      allowRegexStringBuilder.write(r'-?');
+      allowRegexStringBuilder.write('-?');
     }
     // match either a single 0, a number not starting with 0, or nothing
     allowRegexStringBuilder.write(r'(0|[1-9]\d*)?');
@@ -160,7 +160,7 @@ class NumberTextInputFormatter extends TextInputFormatter {
     }
     // match a specific amount of decimal places
     else if (decimals! > 0) {
-      allowRegexStringBuilder..write(r'([,.]\d{0,')..write(decimals)..write(r'})?');
+      allowRegexStringBuilder..write(r'([,.]\d{0,')..write(decimals)..write('})?');
     }
     allowRegexStringBuilder.write(r'$');
 

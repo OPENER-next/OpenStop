@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
 import '/commons/themes.dart';
-import '/widgets/hero_viewer.dart';
 import '/widgets/derived_animation.dart';
+import '/widgets/hero_viewer.dart';
 
 class GalleryViewer extends StatelessWidget {
 
@@ -12,7 +13,7 @@ class GalleryViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const horizontalPadding = EdgeInsets.symmetric(horizontal: 20);
-    final List<UniqueKey> imagesKeys = List.generate(images.length, (index) => UniqueKey());
+    final imagesKeys = List<UniqueKey>.generate(images.length, (index) => UniqueKey());
 
     return ListView.separated(
       padding: horizontalPadding,
@@ -92,10 +93,10 @@ class _GalleryNavigatorState extends State<GalleryNavigator>{
     _pageController.addListener(() {
       if (fractionalIndex == index) {
         // reset invisible controllers
-        for (int i = 0; i < index; i++) {
+        for (var i = 0; i < index; i++) {
           _transformationControllers[i].value.setIdentity();
         }
-        for (int i = index + 1; i < _transformationControllers.length; i++) {
+        for (var i = index + 1; i < _transformationControllers.length; i++) {
           _transformationControllers[i].value.setIdentity();
         }
       }
@@ -110,7 +111,7 @@ class _GalleryNavigatorState extends State<GalleryNavigator>{
   }
 
   void _processTransformationControllers() {
-    int diff = widget.images.length - _transformationControllers.length;
+    var diff = widget.images.length - _transformationControllers.length;
     for (; diff > 0; diff--) {
       _transformationControllers.add(TransformationController());
     }

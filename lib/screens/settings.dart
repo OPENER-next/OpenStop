@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart' hide View;
-import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_mvvm_architecture/base.dart';
 
 import '/view_models/settings_view_model.dart';
-import '/widgets/select_dialog.dart';
 import '/widgets/custom_list_tile.dart';
+import '/widgets/select_dialog.dart';
 
 class SettingsScreen extends View<SettingsViewModel> {
 
@@ -16,7 +16,7 @@ class SettingsScreen extends View<SettingsViewModel> {
   Widget build(BuildContext context, viewModel) {
     final appLocale = AppLocalizations.of(context)!;
 
-    final Map<ThemeMode, String> themeModesMap = {
+    final themeModesMap = <ThemeMode, String>{
       ThemeMode.system: appLocale.settingsThemeOptionSystem,
       ThemeMode.light: appLocale.settingsThemeOptionLight,
       ThemeMode.dark: appLocale.settingsThemeOptionDark,

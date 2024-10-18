@@ -15,9 +15,9 @@ extension InitMultiStreamExtension<T> on Stream<T> {
       final sub = broadcastStream.listen(events.add);
       // wait till init is done
       await init(controller);
-      sub.cancel();
+      unawaited(sub.cancel());
       events.forEach(controller.addSync);
-      controller.addStream(broadcastStream);
+      unawaited(controller.addStream(broadcastStream));
     });
   }
 

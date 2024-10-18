@@ -101,7 +101,7 @@ class _HeroViewerState extends State<HeroViewer> {
   void showViewer() {
     Navigator.push(
       context,
-      HeroViewerRoute(
+      HeroViewerRoute<void>(
         child: _HeroViewerPage(
           builder: widget.pageBuilder,
           tag: widget.tag ?? _uniqueTag,
@@ -148,7 +148,7 @@ class HeroViewerRoute<T> extends PageRoute<T> {
     this.transitionDuration = const Duration(milliseconds: 300),
     this.maintainState = true,
     // This attribute is false to avoid rebuild the previous route/reaload images. See: https://github.com/flutter/flutter/issues/124382
-    this.opaque = false, 
+    this.opaque = false,
     this.barrierColor,
     this.barrierDismissible = true,
     this.barrierLabel

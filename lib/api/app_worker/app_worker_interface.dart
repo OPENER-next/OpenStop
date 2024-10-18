@@ -5,10 +5,10 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:get_it/get_it.dart';
 
-import '/models/question_catalog/question_catalog_reader.dart';
-import '/models/element_variants/element_identifier.dart';
-import '/models/authenticated_user.dart';
 import '/models/answer.dart';
+import '/models/authenticated_user.dart';
+import '/models/element_variants/element_identifier.dart';
+import '/models/question_catalog/question_catalog_reader.dart';
 import '/utils/service_worker.dart';
 import 'app_worker.dart';
 import 'element_handler.dart';

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:animated_location_indicator/animated_location_indicator.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart' hide Action, ProxyElement, Notification;
@@ -12,20 +13,20 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:mobx/mobx.dart';
 import 'package:osm_api/osm_api.dart';
-import 'package:animated_location_indicator/animated_location_indicator.dart';
+
+import '/api/app_worker/app_worker_interface.dart';
 import '/api/app_worker/element_handler.dart';
+import '/api/app_worker/stop_area_handler.dart';
+import '/api/preferences_service.dart';
+import '/api/user_account_service.dart';
 import '/models/map_features/map_feature_representation.dart';
 import '/models/question_catalog/question_definition.dart';
 import '/models/questionnaire.dart';
 import '/models/stop_area/stop_area.dart';
 import '/utils/debouncer.dart';
-import '/widgets/question_inputs/question_input_widget.dart';
-import '/api/user_account_service.dart';
-import '/api/preferences_service.dart';
 import '/utils/geo_utils.dart';
 import '/utils/map_utils.dart';
-import '/api/app_worker/app_worker_interface.dart';
-import '/api/app_worker/stop_area_handler.dart';
+import '/widgets/question_inputs/question_input_widget.dart';
 
 
 class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, NotificationMediator {
@@ -88,19 +89,15 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
       case StopAreaState.unloaded:
         _loadingStopAreas.remove(stopArea) || _incompleteStopAreas.remove(stopArea) || _completeStopAreas.remove(stopArea);
         _unloadedStopAreas.add(stopArea);
-      break;
       case StopAreaState.loading:
         _unloadedStopAreas.remove(stopArea) || _incompleteStopAreas.remove(stopArea) || _completeStopAreas.remove(stopArea);
         _loadingStopAreas.add(stopArea);
-      break;
       case StopAreaState.complete:
         _unloadedStopAreas.remove(stopArea) || _loadingStopAreas.remove(stopArea) || _incompleteStopAreas.remove(stopArea);
         _completeStopAreas.add(stopArea);
-      break;
       case StopAreaState.incomplete:
         _unloadedStopAreas.remove(stopArea) || _loadingStopAreas.remove(stopArea) || _completeStopAreas.remove(stopArea);
         _incompleteStopAreas.add(stopArea);
-      break;
     }
   }
 
@@ -117,9 +114,9 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   /// This should be called on camera position changes and will trigger a database query if necessary.
   /// The query results can be accessed via the specific "stop areas" property.
 
-  void loadStopAreas() async {
+  Future<void> loadStopAreas() async {
     if (mapController.camera.zoom > 11) {
-      _appWorker.queryStopAreas(mapController.camera.visibleBounds);
+      return _appWorker.queryStopAreas(mapController.camera.visibleBounds);
     }
   }
 
@@ -134,13 +131,13 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
   /// Activate or deactivate location following depending on its current state.
 
-  void toggleLocationFollowing() async {
+  Future<void> toggleLocationFollowing() async {
     if (!(await _requestLocationPermission())) {
       return runInAction(() {
         _cameraIsFollowingLocation.value = false;
       });
     }
-    else if (cameraIsFollowingLocation == false) {
+    else if (!cameraIsFollowingLocation) {
       if (!locationIndicatorController.isActive) {
         locationIndicatorController.activate();
       }
@@ -265,7 +262,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
   void login() => _userAccountService.login();
 
-  void logout() async {
+  Future<void> logout() async {
     final appLocale = AppLocalizations.of(context)!;
     final choice = await promptUserInput(Prompt(
       title: appLocale.logoutDialogTitle,
@@ -278,7 +275,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     ));
 
     if (choice == true) {
-      _userAccountService.logout();
+      return _userAccountService.logout();
     }
   }
 
@@ -362,7 +359,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
   /// Upload the changes made by this questionnaire with the current authenticated user.
 
-  void submitQuestionnaire() async {
+  Future<void> submitQuestionnaire() async {
     final appLocale = AppLocalizations.of(context)!;
     final alteredElement = selectedElement;
 
@@ -391,7 +388,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
         notifyUser(Notification(appLocale.uploadMessageUnknownConnectionError));
       }
       finally {
-        _uploadQueue.remove(alteredElement);
+        _uploadQueue.remove(alteredElement)?.ignore();
       }
     }
   }
@@ -546,7 +543,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   }
 
 
-  void _onDebouncedMapEvent([MapEvent? event]) async {
+  Future<void> _onDebouncedMapEvent([MapEvent? event]) async {
      final appLocale = AppLocalizations.of(context)!;
 
     // store map location on map move events
@@ -555,12 +552,13 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
       ..mapZoom = mapController.camera.zoom
       ..mapRotation = mapController.camera.rotation;
 
-    // query stop areas on map interactions
-    loadStopAreas();
-
     try {
-      // query elements from loaded stop areas
-      await loadElements();
+      await Future.wait([
+        // query elements from loaded stop areas
+        loadElements(),
+        // query stop areas on map interactions
+        loadStopAreas().then((a) => loadElements()),
+      ]);
     }
     on OSMUnknownException catch (e) {
       if (e.errorCode == 503) {

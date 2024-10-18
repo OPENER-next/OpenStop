@@ -52,7 +52,7 @@ class OSMAuthenticationAPI {
     final code = Uri.parse(result).queryParameters['code'];
 
     final dio = Dio();
-    final tokenResponse = await dio.post(
+    final tokenResponse = await dio.post<Map<String, String>>(
       Uri.https(osm_config.osmServer, _tokenEndpoint).toString(),
       data: {
         'client_id': osm_config.oAuth2ClientId,
@@ -66,14 +66,18 @@ class OSMAuthenticationAPI {
     );
     dio.close();
 
-    final accessToken = tokenResponse.data['access_token'] as String;
-    final tokenType = tokenResponse.data['token_type'] as String;
+    final accessToken = tokenResponse.data?['access_token'];
+    final tokenType = tokenResponse.data?['token_type'];
+
+    if (accessToken == null || tokenType == null) {
+      throw Exception('Failed to retrieve OAuth2 access token.');
+    }
 
     await _secureStorage.write(key: 'accessToken', value: accessToken);
 
     return OAuth2(
       accessToken: accessToken,
-      tokenType: tokenType
+      tokenType: tokenType,
     );
   }
 
@@ -110,7 +114,7 @@ class OSMAuthenticationAPI {
           // revoke the token from the osm server
           // this way any granted permissions by the user are revoked
           // the user has to authorize the app again on the next login
-          dio.post(
+          dio.post<void>(
             Uri.https(osm_config.osmServer, _revokeEndpoint).toString(),
             data: {
               'token': accessToken,

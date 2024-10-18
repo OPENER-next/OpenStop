@@ -34,16 +34,21 @@ class QuestionDefinition {
   });
 
 
-  QuestionDefinition.fromJSON(this.runtimeId, Map<String, dynamic> json) :
-    name = json['question']['name'],
-    description = json['question']['description'] ?? '',
-    images = json['question']['image']?.cast<String>() ?? [],
-    question = json['question']['text'],
-    conditions = json['conditions']
-      ?.cast<Map<String, dynamic>>()
-      .map<ElementCondition>(ElementCondition.fromJSON)
-      .toList(growable: false) ?? [],
-    answer = AnswerDefinition.fromJSON(json['answer']);
+  factory QuestionDefinition.fromJSON(int runtimeId, Map<String, dynamic> json) {
+      final Map<String, dynamic> question = json['question'];
+      return QuestionDefinition(
+        runtimeId: runtimeId,
+        name: question['name'],
+        description: question['description'] ?? '',
+        images: (question['image'] as List?)?.cast<String>() ?? [],
+        question: question['text'],
+        conditions: (json['conditions'] as List)
+          .cast<Map<String, dynamic>>()
+          .map<ElementCondition>(ElementCondition.fromJSON)
+          .toList(growable: false),
+        answer: AnswerDefinition.fromJSON(json['answer'])
+      );
+    }
 
 
   @override

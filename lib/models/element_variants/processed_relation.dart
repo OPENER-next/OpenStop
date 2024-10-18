@@ -46,7 +46,7 @@ class ProcessedRelation extends ProcessedElement<osmapi.OSMRelation, GeographicG
       ]);
     }
     else {
-      throw 'Geometry calculation failed because no children of relation $id have been loaded.';
+      throw Exception('Geometry calculation failed because no children of relation $id have been loaded.');
     }
   }
 
@@ -61,13 +61,13 @@ class ProcessedRelation extends ProcessedElement<osmapi.OSMRelation, GeographicG
       'OSM relation $id referenced ways that cannot be found in the provided way data set.'
     );
 
-    final List<GeographicPolyline> outerClosedPolylines = [];
-    final List<GeographicPolyline> innerClosedPolylines = [];
+    final outerClosedPolylines = <GeographicPolyline>[];
+    final innerClosedPolylines = <GeographicPolyline>[];
 
     // Only extract ids where role is "inner", we will later assume that all ways/ids not extracted here have "outer".
     // This means that if a wrong role or nothing is set we will always fallback to "outer".
     // This assumption should also lead to a little performance boost.
-    final Set<int> innerWayIds = {};
+    final innerWayIds = <int>{};
     for (final member in _osmElement.members) {
       if (member.role == 'inner' && member.type == osmapi.OSMElementType.way) {
         innerWayIds.add(member.ref);

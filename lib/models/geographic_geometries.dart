@@ -201,12 +201,12 @@ class GeographicPolygon implements GeographicGeometry {
   double _det(Vector3 v1, Vector3 v2, Vector3 v3) {
     return v1.dot( v2.cross(v3) );
   }
-  bool _straddles(line1StartV, line1EndV, line2StartV, line2EndV) {
+  bool _straddles(Vector3 line1StartV, Vector3 line1EndV, Vector3 line2StartV, Vector3 line2EndV) {
     return _det(
       line1StartV, line2StartV, line2EndV) * _det(line1EndV, line2StartV, line2EndV
     ) < 0;
   }
-  bool _intersects(line1StartV, line1EndV, line2StartV, line2EndV) {
+  bool _intersects(Vector3 line1StartV, Vector3 line1EndV, Vector3 line2StartV, Vector3 line2EndV) {
     return _straddles(line1StartV, line1EndV, line2StartV, line2EndV) &&
            _straddles(line2StartV, line2EndV, line1StartV, line1EndV);
   }

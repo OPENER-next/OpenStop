@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:osm_api/osm_api.dart';
 
+import '/commons/osm_config.dart' as osm_config;
+import '/models/authenticated_user.dart';
 import '/models/changeset_info_generator.dart';
 import '/models/element_processing/element_processor.dart';
 import '/models/element_variants/base_element.dart';
-import '/models/authenticated_user.dart';
-import '/commons/osm_config.dart' as osm_config;
 import '/models/stop_area/stop_area.dart';
 
 
@@ -140,7 +140,7 @@ class OSMElementUploadAPI {
     // wait till all requests are resolved
     // handle them in a stream in order to catch individual errors
     await Stream.fromFutures(requestQueue)
-      .handleError((e) {
+      .handleError((Object e) {
         // catch any errors and ignore these elements
         // for example the element or its children might be deleted by now
         debugPrint('Could not query element of existing changeset: $e');

@@ -58,7 +58,8 @@ class ServiceWorkerController<M> {
 
     final _Response response = await responsePort.first;
     if (response.type == _ResponseType.error) {
-      completer.completeError(response.data.$1, response.data.$2);
+      final (Object error, StackTrace stackTrace) = response.data;
+      completer.completeError(error, stackTrace);
     }
     else {
       completer.complete(response.data);
@@ -89,8 +90,11 @@ class ServiceWorkerController<M> {
       },
     );
 
-    // required due to self reference
+    // late final required due to self reference
     // see: https://stackoverflow.com/questions/44450758/cancel-stream-ondata
+
+    // can be ignored because the subscription depends on responsePort which we close
+    // ignore: cancel_subscriptions
     late final StreamSubscription subscription;
     subscription = responsePort.listen(
       (message) {
@@ -98,16 +102,15 @@ class ServiceWorkerController<M> {
         sendPortCompleter.complete(message);
         // rewrite response handler after initial response
         subscription.onData((message) {
+          message as _Response;
           switch (message.type) {
             case _ResponseType.message:
               streamController.add(message.data);
-            break;
             case _ResponseType.error:
-              streamController.addError(message.data);
-            break;
+              final (Object error, StackTrace stackTrace) = message.data;
+              streamController.addError(error, stackTrace);
             case _ResponseType.done:
-              streamController.close();
-            break;
+              responsePort.close();
           }
         });
       },
@@ -151,7 +154,7 @@ abstract class ServiceWorker<M> {
   @mustCallSuper
   void exit() => _receivePort.close();
 
-  void _messageHandler(_Message<M> message) async {
+  Future<void> _messageHandler(_Message<M> message) async {
     try {
       message.responsePort.send(_Response(
         _ResponseType.message,
@@ -166,7 +169,7 @@ abstract class ServiceWorker<M> {
     }
   }
 
-  void _subscriptionHandler(_Message<M> message) async {
+  Future<void> _subscriptionHandler(_Message<M> message) async {
     final receivePort = ReceivePort();
     // initially send a SendPort to receive stream state changes
     message.responsePort.send(receivePort.sendPort);
@@ -176,11 +179,11 @@ abstract class ServiceWorker<M> {
       (event) {
         message.responsePort.send(_Response(_ResponseType.message, event));
       },
-      onError: (Object error) {
-        message.responsePort.send(_Response(_ResponseType.error, error));
+      onError: (Object error, StackTrace stackTrace) {
+        message.responsePort.send(_Response(_ResponseType.error, (error, stackTrace)));
       },
       onDone: () {
-        message.responsePort.send(const _Response(_ResponseType.error, null));
+        message.responsePort.send(const _Response(_ResponseType.done, null));
       },
     );
 
@@ -188,13 +191,10 @@ abstract class ServiceWorker<M> {
       switch (event) {
         case _StreamSubscriptionChange.cancel:
           subscription.cancel();
-        break;
         case _StreamSubscriptionChange.pause:
           subscription.pause();
-        break;
         case _StreamSubscriptionChange.resume:
           subscription.resume();
-        break;
       }
     });
   }

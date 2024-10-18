@@ -5,13 +5,13 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
+import '/api/overpass_query_api.dart';
+import '/models/element_variants/base_element.dart';
 import '/models/stop_area/stop_area.dart';
 import '/models/stop_area/stop_area_query.dart';
-import '/models/element_variants/base_element.dart';
-import '/api/overpass_query_api.dart';
-import '/utils/stream_utils.dart';
 import '/utils/cell_cache.dart';
 import '/utils/service_worker.dart';
+import '/utils/stream_utils.dart';
 import 'element_handler.dart';
 
 /// Handles [Stop] querying and [StopArea] generation by a given view box.

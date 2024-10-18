@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 
 import '/models/answer.dart';
 import '/models/question_catalog/answer_definition.dart';
-import '/widgets/question_inputs/string_input.dart';
 import '/widgets/question_inputs/bool_input.dart';
 import '/widgets/question_inputs/duration_input.dart';
 import '/widgets/question_inputs/list_input.dart';
-import '/widgets/question_inputs/number_input.dart';
 import '/widgets/question_inputs/multi_list_input.dart';
+import '/widgets/question_inputs/number_input.dart';
+import '/widgets/question_inputs/string_input.dart';
 
 
 /// The base widget for all question input fields.

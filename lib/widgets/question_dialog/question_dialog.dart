@@ -1,14 +1,14 @@
 import 'package:collection/collection.dart';
-import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_mvvm_architecture/base.dart';
 
-import '/widgets/edge_feather.dart';
-import '/view_models/home_view_model.dart';
 import '/models/question_catalog/question_definition.dart';
-import '/widgets/question_inputs/question_input_widget.dart';
-import '/widgets/question_dialog/question_summary.dart';
 import '/utils/ui_utils.dart';
+import '/view_models/home_view_model.dart';
+import '/widgets/edge_feather.dart';
+import '/widgets/question_dialog/question_summary.dart';
+import '/widgets/question_inputs/question_input_widget.dart';
 import 'question_list.dart';
 import 'question_navigation_bar.dart';
 import 'question_progress_bar.dart';
@@ -50,7 +50,7 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
     // Use WillPopScope with "false" to prevent that back button closes app instead of Question Dialog
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) => viewModel.closeQuestionnaire(),
+      onPopInvokedWithResult: (_, __) => viewModel.closeQuestionnaire(),
       child: SafeArea(
         minimum: MediaQuery.of(context).viewInsets,
         bottom: false,

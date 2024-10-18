@@ -3,11 +3,11 @@ import 'dart:collection';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:temaki_flutter/temaki_flutter.dart';
 
-import '/models/osm_element_type.dart';
 import '/models/element_conditions/element_condition.dart';
 import '/models/element_conditions/sub_condition_matcher.dart';
 import '/models/element_conditions/tag_value_matcher.dart';
 import '/models/element_variants/base_element.dart';
+import '/models/osm_element_type.dart';
 import 'map_feature_definition.dart';
 import 'map_feature_representation.dart';
 
@@ -42,9 +42,9 @@ class MapFeatures extends ListBase<MapFeatureDefinition> {
 
   MapFeatureRepresentation representElement(ProcessedElement osmElement) {
     MapFeatureDefinition? bestMatch;
-    int score = 0;
+    var score = 0;
 
-    for (final MapFeatureDefinition mapFeature in _definitions) {
+    for (final mapFeature in _definitions) {
       final matchingCondition = mapFeature.matchesBy(osmElement);
       if (matchingCondition != null) {
         // Check if the newly matched map feature has more matching tags than the previously matched map feature

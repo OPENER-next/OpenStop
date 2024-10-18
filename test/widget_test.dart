@@ -9,10 +9,10 @@ import 'package:nock/nock.dart';
 import 'package:open_stop/api/app_worker/app_worker_interface.dart';
 import 'package:open_stop/api/preferences_service.dart';
 import 'package:open_stop/main.dart';
+import 'package:open_stop/models/question_catalog/question_catalog_reader.dart';
 import 'package:open_stop/screens/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stack_trace/stack_trace.dart';
-import 'package:open_stop/models/question_catalog/question_catalog_reader.dart';
 
 const overpassReply = {
   'version': 0.6,
@@ -21,7 +21,7 @@ const overpassReply = {
     'timestamp_osm_base': '',
     'copyright': ''
   },
-  'elements': []
+  'elements': <void>[]
 };
 
 const osmPermissionReply = '{"version":"0.6","generator":"OpenStreetMap server","permissions":[]}';

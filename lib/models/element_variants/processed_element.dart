@@ -24,7 +24,7 @@ abstract class ProcessedElement<T extends osmapi.OSMElement, G extends Geographi
   G get geometry {
     if (_geometry == null) {
       calcGeometry();
-      if (_geometry == null) throw 'Geometry of ${type.name} $id cannot be calculated.';
+      if (_geometry == null) throw Exception('Geometry of ${type.name} $id cannot be calculated.');
     }
     return _geometry!;
   }

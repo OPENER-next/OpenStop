@@ -283,9 +283,8 @@ class _UploadIndicatorState<T> extends State<UploadIndicator<T>> with SingleTick
 
 class _RepeatingSimulation extends Simulation {
   _RepeatingSimulation(this.min, this.max, Duration period)
-      : _periodInSeconds = period.inMicroseconds / Duration.microsecondsPerSecond {
-    assert(_periodInSeconds > 0.0);
-  }
+    : assert(period.inMicroseconds > 0, 'Period should not be 0.'),
+      _periodInSeconds = period.inMicroseconds / Duration.microsecondsPerSecond;
 
   final double min;
   final double max;

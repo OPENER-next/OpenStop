@@ -121,7 +121,7 @@ final ThemeData lightTheme = ThemeData(
   outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
   iconButtonTheme: defaultTheme.iconButtonTheme,
   inputDecorationTheme: defaultTheme.inputDecorationTheme.copyWith(
-    border: defaultTheme.inputDecorationTheme.border!,
+    border: defaultTheme.inputDecorationTheme.border,
     enabledBorder: defaultTheme.inputDecorationTheme.border!.copyWith(
       borderSide: defaultTheme.inputDecorationTheme.border!.borderSide.copyWith(
         color: Default.outlineVariantLight,
@@ -152,7 +152,7 @@ final ThemeData darkTheme = ThemeData(
   outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
   iconButtonTheme: defaultTheme.iconButtonTheme,
   inputDecorationTheme: defaultTheme.inputDecorationTheme.copyWith(
-    border: defaultTheme.inputDecorationTheme.border!,
+    border: defaultTheme.inputDecorationTheme.border,
     enabledBorder: defaultTheme.inputDecorationTheme.border!.copyWith(
       borderSide: defaultTheme.inputDecorationTheme.border!.borderSide.copyWith(
         color: Default.outlineVariantDark,

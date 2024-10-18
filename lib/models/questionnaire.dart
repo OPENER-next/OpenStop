@@ -1,8 +1,8 @@
 import 'dart:collection';
 
+import '/models/answer.dart';
 import '/models/question_catalog/question_catalog.dart';
 import '/models/question_catalog/question_definition.dart';
-import '/models/answer.dart';
 import 'element_variants/base_element.dart';
 
 class Questionnaire {

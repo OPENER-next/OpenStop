@@ -14,35 +14,41 @@ abstract class AnswerDefinition<T> {
   });
 
   static AnswerDefinition fromJSON(Map<String, dynamic> json) {
-    final type = json['type'];
+    final type = json['type'] as String;
     final input = json['input'];
+    final constructor = (
+      json['constructor'] as Map<String, dynamic>?
+    )?.cast<String, List>();
 
     switch (type) {
-      case 'String': return StringAnswerDefinition(
-        input: StringInputDefinition(
-          min: input['min'],
-          max: input['max'],
-          placeholder: input['placeholder'],
-        ),
-        constructor: AnswerConstructor(json['constructor']
-          .cast<String, List<dynamic>>()),
+      case 'String':
+        input as Map<String, dynamic>;
+        return StringAnswerDefinition(
+          input: StringInputDefinition(
+            min: input['min'],
+            max: input['max'],
+            placeholder: input['placeholder'],
+          ),
+          constructor: AnswerConstructor(constructor!),
       );
-      case 'Number': return NumberAnswerDefinition(
-        input: NumberInputDefinition(
-          decimals: input['decimals'],
-          min: input['min'],
-          max: input['max'],
-          placeholder: input['placeholder'],
-          unit: input['unit'],
-        ),
-        constructor: AnswerConstructor(json['constructor']
-          .cast<String, List<dynamic>>()),
+      case 'Number':
+        input as Map<String, dynamic>;
+        return NumberAnswerDefinition(
+          input: NumberInputDefinition(
+            decimals: input['decimals'],
+            min: input['min'],
+            max: input['max'],
+            placeholder: input['placeholder'],
+            unit: input['unit'],
+          ),
+          constructor: AnswerConstructor(constructor!),
       );
       case 'Duration':
-        final days = input['days'];
-        final hours = input['hours'];
-        final minutes = input['minutes'];
-        final seconds = input['seconds'];
+        input as Map<String, dynamic>;
+        final Map<String, dynamic>? days = input['days'];
+        final Map<String, dynamic>? hours = input['hours'];
+        final Map<String, dynamic>? minutes = input['minutes'];
+        final Map<String, dynamic>? seconds = input['seconds'];
 
         return DurationAnswerDefinition(
           input: DurationInputDefinition(
@@ -68,46 +74,54 @@ abstract class AnswerDefinition<T> {
             ),
             max: input['max'],
           ),
-          constructor: AnswerConstructor(json['constructor']
-            .cast<String, List<dynamic>>()),
+          constructor: AnswerConstructor(constructor!),
         );
-      case 'Bool': return BoolAnswerDefinition(
-        input: input.map<BoolInputDefinition>((item) {
-          return BoolInputDefinition(
-            osmTags: item['osm_tags'].cast<String, String>(),
-            name: item['name']
-          );
-        }),
-        constructor: json['constructor'] != null
-          ? AnswerConstructor(json['constructor'].cast<String, List<dynamic>>())
-          : null,
-      );
-      case 'List': return ListAnswerDefinition(
-        input: input.map<ListInputDefinition>((item) {
-          return ListInputDefinition(
-            osmTags: item['osm_tags'].cast<String, String>(),
-            name: item['name'],
-            description: item['description'],
-            image: item['image'],
-          );
-        }),
-        constructor: json['constructor'] != null
-          ? AnswerConstructor(json['constructor'].cast<String, List<dynamic>>())
-          : null,
-      );
-      case 'MultiList': return MultiListAnswerDefinition(
-        input: input.map<ListInputDefinition>((item) {
-          return ListInputDefinition(
-            osmTags: item['osm_tags'].cast<String, String>(),
-            name: item['name'],
-            description: item['description'],
-            image: item['image'],
-          );
-        }),
-        constructor: json['constructor'] != null
-          ? AnswerConstructor(json['constructor'].cast<String, List<dynamic>>())
-          : null,
-      );
+      case 'Bool':
+        input as List;
+        return BoolAnswerDefinition(
+          input: input.map<BoolInputDefinition>((item) {
+            item as Map<String, dynamic>;
+            return BoolInputDefinition(
+              osmTags: (item['osm_tags'] as Map<String, dynamic>).cast<String, String>(),
+              name: item['name']
+            );
+          }),
+          constructor: constructor != null
+            ? AnswerConstructor(constructor)
+            : null,
+        );
+      case 'List':
+        input as List;
+        return ListAnswerDefinition(
+          input: input.map<ListInputDefinition>((item) {
+            item as Map<String, dynamic>;
+            return ListInputDefinition(
+              osmTags: (item['osm_tags'] as Map<String, dynamic>).cast<String, String>(),
+              name: item['name'],
+              description: item['description'],
+              image: item['image'],
+            );
+          }),
+          constructor:constructor != null
+            ? AnswerConstructor(constructor)
+            : null,
+        );
+      case 'MultiList':
+        input as List;
+        return MultiListAnswerDefinition(
+          input: input.map<ListInputDefinition>((item) {
+            item as Map<String, dynamic>;
+            return ListInputDefinition(
+              osmTags: (item['osm_tags'] as Map<String, dynamic>).cast<String, String>(),
+              name: item['name'],
+              description: item['description'],
+              image: item['image'],
+            );
+          }),
+          constructor: constructor != null
+            ? AnswerConstructor(constructor)
+            : null,
+        );
       default:
         throw UnsupportedError('The question input type "$type" is not supported.');
     }

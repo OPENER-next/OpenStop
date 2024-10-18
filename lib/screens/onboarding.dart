@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart' hide View;
 import 'package:flutter/services.dart';
-import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_mvvm_architecture/base.dart';
 
+import '/commons/routes.dart';
 import '/view_models/onboarding_view_model.dart';
 import '/widgets/dots_indicator.dart';
-import '/commons/routes.dart';
 
 
 class OnboardingScreen extends View<OnboardingViewModel> {

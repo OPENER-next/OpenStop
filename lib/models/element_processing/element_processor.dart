@@ -158,7 +158,7 @@ class OSMElementProcessor {
     }
     // catch geometry calculation errors
     catch(e) {
-      debugPrint('Remove failed geometry: $element due to ${e.toString()}');
+      debugPrint('Remove failed geometry: $element due to $e');
       lookupTable.remove(element.id);
       return true;
     }

@@ -104,7 +104,7 @@ class LatLngTween extends Tween<LatLng> {
     return LatLng(latitude, longitude);
   }
 
-  double _wrapDegrees(v) => (v + 180) % 360 - 180;
+  double _wrapDegrees(num v) => (v + 180) % 360 - 180;
 }
 
 

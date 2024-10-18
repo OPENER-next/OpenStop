@@ -1,5 +1,6 @@
-import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
+
 import '/widgets/edge_feather.dart';
 import '/widgets/gallery_viewer.dart';
 
@@ -130,7 +131,7 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                         margin: const EdgeInsets.only(left: 10),
                         padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                          color: _fillColorAnimation.value!,
+                          color: _fillColorAnimation.value,
                           shape: BoxShape.circle,
                           border: Border.all(
                             color: Theme.of(context).colorScheme.primary,
@@ -138,7 +139,7 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                         ),
                         child: Icon(
                           MdiIcons.informationVariant,
-                          color: _iconColorAnimation.value!,
+                          color: _iconColorAnimation.value,
                         )
                       );
                     },

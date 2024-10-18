@@ -49,8 +49,7 @@ class CustomSwitchListTile extends StatelessWidget {
   final String title;
   final String? subtitle;
   final IconData? leadingIcon;
-  // ignore: avoid_positional_boolean_parameters
-  final void Function(bool)? onChanged;
+  final ValueChanged<bool>? onChanged;
   final bool isThreeLine;
 
   const CustomSwitchListTile({
@@ -60,7 +59,7 @@ class CustomSwitchListTile extends StatelessWidget {
     this.leadingIcon,
     this.onChanged,
     this.isThreeLine = false,
-    super.key
+    super.key,
   });
 
 
