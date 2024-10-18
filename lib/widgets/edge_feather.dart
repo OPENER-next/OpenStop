@@ -15,7 +15,7 @@ class EdgeFeather extends StatelessWidget {
     required this.edges,
     required this.child,
     super.key,
-  }) : assert(edges.isNonNegative),
+  }) : assert(edges.isNonNegative, 'The EdgeInsets of the edges argument are not allowed to be negative.'),
        assert(
         !(edges.vertical > 0 && edges.horizontal > 0),
         'Only one axis (horizontal or vertical) can be faded.',

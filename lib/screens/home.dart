@@ -1,25 +1,25 @@
+import 'package:animated_location_indicator/animated_location_indicator.dart';
 import 'package:flutter/material.dart' hide View;
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:animated_location_indicator/animated_location_indicator.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:flutter_mvvm_architecture/extras.dart';
 import 'package:mobx/mobx.dart';
 
+import '/commons/app_config.dart';
 import '/commons/tile_layers.dart';
 import '/view_models/home_view_model.dart';
-import '/commons/app_config.dart';
 import '/widgets/completed_area_layer/completed_area_layer.dart';
-import '/widgets/loading_area_layer/loading_area_layer.dart';
-import '/widgets/geometry_layer.dart';
 import '/widgets/custom_snackbar.dart';
-import '/widgets/query_indicator.dart';
-import '/widgets/stops_layer/stop_area_layer.dart';
-import '/widgets/osm_element_layer/osm_element_layer.dart';
-import '/widgets/question_dialog/question_dialog.dart';
-import '/widgets/map_overlay/map_overlay.dart';
+import '/widgets/geometry_layer.dart';
 import '/widgets/home_sidebar/home_sidebar.dart';
+import '/widgets/loading_area_layer/loading_area_layer.dart';
+import '/widgets/map_overlay/map_overlay.dart';
+import '/widgets/osm_element_layer/osm_element_layer.dart';
+import '/widgets/query_indicator.dart';
+import '/widgets/question_dialog/question_dialog.dart';
+import '/widgets/stops_layer/stop_area_layer.dart';
 
 class HomeScreen extends View<HomeViewModel> with PromptHandler {
   const HomeScreen({super.key}) : super(create: HomeViewModel.new);

@@ -50,7 +50,8 @@ class AppWorker extends ServiceWorker<AppWorkerMessage>
         return updateQuestionCatalog(message.data);
 
       case AppWorkerSubject.updateLocales:
-        return updateLocales(message.data.$1, message.data.$2);
+        final (appLocale, userLocales) = message.data;
+        return updateLocales(appLocale, userLocales);
 
       case AppWorkerSubject.dispose:
         return exit();

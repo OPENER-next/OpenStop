@@ -3,22 +3,22 @@ import 'dart:async';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:osm_api/osm_api.dart' as osmapi;
 
-import '/models/changeset_info_generator.dart';
-import '/models/authenticated_user.dart';
-import '/models/map_features/map_features.dart';
-import '/models/map_features/map_feature_representation.dart';
-import '/models/question_catalog/question_catalog_reader.dart';
-import '/models/affected_elements_detector.dart';
-import '/models/element_variants/element_identifier.dart';
 import '/api/osm_element_query_api.dart';
 import '/api/osm_element_upload_api.dart';
+import '/models/affected_elements_detector.dart';
+import '/models/authenticated_user.dart';
+import '/models/changeset_info_generator.dart';
 import '/models/element_processing/element_filter.dart';
 import '/models/element_processing/element_processor.dart';
 import '/models/element_variants/base_element.dart';
+import '/models/element_variants/element_identifier.dart';
 import '/models/geographic_geometries.dart';
+import '/models/map_features/map_feature_representation.dart';
+import '/models/map_features/map_features.dart';
+import '/models/question_catalog/question_catalog_reader.dart';
 import '/models/stop_area/stop_area.dart';
-import '/utils/stream_utils.dart';
 import '/utils/service_worker.dart';
+import '/utils/stream_utils.dart';
 import 'locale_handler.dart';
 import 'question_catalog_handler.dart';
 import 'stop_area_handler.dart';
@@ -56,14 +56,14 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
   final _osmElementQueryHandler = OSMElementQueryAPI();
 
   @override
-  void updateQuestionCatalog(QuestionCatalogChange questionCatalogChange) async {
+  Future<void> updateQuestionCatalog(QuestionCatalogChange questionCatalogChange) async {
     super.updateQuestionCatalog(questionCatalogChange);
     final existingElements = _filterElements(
       _buildFiltersForStopAreas(loadedStopAreas),
       Stream.fromIterable(_elementPool.elements),
     );
     _elementStreamController.add(const ElementUpdate(action: ElementUpdateAction.clear));
-    existingElements
+    return existingElements
       .map((element) => ElementUpdate.derive(element, action: ElementUpdateAction.update))
       .forEach(_elementStreamController.add);
   }

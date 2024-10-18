@@ -4,9 +4,9 @@ import 'package:mobx/mobx.dart';
 import 'package:osm_api/osm_api.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '/models/authenticated_user.dart';
 import '/api/osm_authentication_api.dart';
 import '/commons/osm_config.dart' as osm_config;
+import '/models/authenticated_user.dart';
 
 
 /// Provides login/logout method and details about the currently authenticated user.
@@ -21,7 +21,7 @@ class UserAccountService extends Service {
     _init();
   }
 
-  void _init() async {
+  Future<void> _init() async {
     final authentication = await _osmAuthenticationApi.restore();
     if (authentication != null) {
       try {

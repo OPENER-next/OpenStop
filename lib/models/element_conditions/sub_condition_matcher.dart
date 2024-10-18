@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 
 import '/models/element_conditions/tag_value_matcher.dart';
-import '/models/osm_element_type.dart';
 import '/models/element_variants/base_element.dart';
+import '/models/osm_element_type.dart';
 import 'element_condition.dart';
 
 
@@ -127,7 +127,7 @@ class ParentSubCondition extends SubCondition<List<ElementCondition>> {
 
 /// Check whether a certain condition part does **not** match the given element.
 
-class NegatedSubCondition extends SubCondition<SubCondition> {
+class NegatedSubCondition<T extends SubCondition> extends SubCondition<T> {
   const NegatedSubCondition(super.characteristics);
 
   @override

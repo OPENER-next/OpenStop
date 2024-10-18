@@ -94,7 +94,7 @@ class RenderMapLayer extends RenderBox
 
   @override
   void performLayout() {
-    RenderBox? child = firstChild;
+    var child = firstChild;
     while (child != null) {
       final childParentData = child.parentData! as _MapLayerParentData;
       _layoutChild(child);
@@ -169,11 +169,10 @@ class RenderMapLayer extends RenderBox
     while (child != null) {
       final offset = _computeRelativeChildPosition(child);
       final childParentData = child.parentData! as _MapLayerParentData;
-      final bool isHit = result.addWithPaintOffset(
+      final isHit = result.addWithPaintOffset(
         offset: offset,
         position: position,
         hitTest: (BoxHitTestResult result, Offset transformed) {
-          assert(transformed == position - offset);
           return child!.hitTest(result, position: transformed);
         },
       );
@@ -242,9 +241,9 @@ class MapLayerPositioned extends ParentDataWidget<_MapLayerParentData> {
 
   @override
   void applyParentData(RenderObject renderObject) {
-    assert(renderObject.parentData is _MapLayerParentData);
-    final _MapLayerParentData parentData = renderObject.parentData! as _MapLayerParentData;
-    assert(renderObject.parent is RenderObject);
+    assert(renderObject.parentData is _MapLayerParentData, 'RenderObject parentData is not of type _MapLayerParentData');
+    final parentData = renderObject.parentData! as _MapLayerParentData;
+    assert(renderObject.parent is RenderObject, 'RenderObject parent is not of type RenderObject');
     final targetParent = renderObject.parent!;
 
     if (parentData.size != size) {

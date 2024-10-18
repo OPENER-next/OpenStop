@@ -1,7 +1,7 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
 import 'question_catalog/answer_definition.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// A container class that holds answers for a specific question type in a readable form.
 /// This is needed since parsing the answer solely from the OSM tags can lead to inconsistencies.
@@ -93,7 +93,7 @@ class NumberAnswer extends Answer<NumberAnswerDefinition, String> {
     // match a specific amount of decimal places
     else if (definition.input.decimals! > 0) {
       allowRegexStringBuilder
-      ..write(r'|-?\d+\.\d{1,')..write(definition.input.decimals)..write(r'}');
+      ..write(r'|-?\d+\.\d{1,')..write(definition.input.decimals)..write('}');
     }
     allowRegexStringBuilder.write(r')$');
     if (!RegExp(allowRegexStringBuilder.toString()).hasMatch(value)) {

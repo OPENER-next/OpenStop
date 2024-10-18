@@ -1,5 +1,5 @@
-import 'sub_condition_matcher.dart';
 import '/models/element_variants/base_element.dart';
+import 'sub_condition_matcher.dart';
 
 /// Interface for classes that implement a matching functionality.
 ///
@@ -37,12 +37,12 @@ class ElementCondition extends Matcher<List<SubCondition>, ProcessedElement> {
       yield ElementTypeSubCondition.fromJson(pOsmElement);
     }
 
-    final pChild = json['child']?.cast<Map<String, dynamic>>();
+    final pChild = (json['child'] as List?)?.cast<Map<String, dynamic>>();
     if (pChild != null) {
       yield ChildSubCondition.fromJson(pChild);
     }
 
-    final pParent = json['parent']?.cast<Map<String, dynamic>>();
+    final pParent = (json['parent'] as List?)?.cast<Map<String, dynamic>>();
     if (pParent != null) {
       yield ParentSubCondition.fromJson(pParent);
     }
@@ -51,22 +51,22 @@ class ElementCondition extends Matcher<List<SubCondition>, ProcessedElement> {
 
     final nTags = json['!osm_tags'];
     if (nTags != null) {
-      yield NegatedSubCondition(TagsSubCondition.fromJson(nTags));
+      yield NegatedSubCondition<TagsSubCondition>(TagsSubCondition.fromJson(nTags));
     }
 
     final nOsmElement = json['!osm_element'];
     if (nOsmElement != null) {
-      yield NegatedSubCondition(ElementTypeSubCondition.fromJson(nOsmElement));
+      yield NegatedSubCondition<ElementTypeSubCondition>(ElementTypeSubCondition.fromJson(nOsmElement));
     }
 
-    final nChild = json['!child']?.cast<Map<String, dynamic>>();
+    final nChild = (json['!child'] as List?)?.cast<Map<String, dynamic>>();
     if (nChild != null) {
-      yield NegatedSubCondition(ChildSubCondition.fromJson(nChild));
+      yield NegatedSubCondition<ChildSubCondition>(ChildSubCondition.fromJson(nChild));
     }
 
-    final nParent = json['!parent']?.cast<Map<String, dynamic>>();
+    final nParent = (json['!parent'] as List?)?.cast<Map<String, dynamic>>();
     if (nParent != null) {
-      yield NegatedSubCondition(ParentSubCondition.fromJson(nParent));
+      yield NegatedSubCondition<ParentSubCondition>(ParentSubCondition.fromJson(nParent));
     }
   }
 

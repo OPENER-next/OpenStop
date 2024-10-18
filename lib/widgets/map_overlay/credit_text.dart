@@ -138,7 +138,7 @@ class _CreditTextState extends State<CreditText> {
     if (!await launchUrl(
       url,
       mode: LaunchMode.externalApplication,
-    )) throw '$url kann nicht aufgerufen werden';
+    )) throw Exception('$url kann nicht aufgerufen werden');
   }
 
 

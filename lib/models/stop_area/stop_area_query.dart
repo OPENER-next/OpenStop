@@ -57,17 +57,18 @@ class StopAreaQuery extends OverpassQuery<Iterable<StopArea>> {
 
   @override
   Iterable<StopArea> responseTransformer(Map<String, dynamic>? response) sync* {
-    final List<dynamic>? elements = response?['elements'];
+    final elements = response?['elements'] as List?;
     if (elements != null) {
-      for (final element in elements) {
-        final points = (element['geometry']['coordinates'] as List<dynamic>)
-          .map<LatLng>(
-            (p) => LatLng(p[1].toDouble(), p[0].toDouble()),
-          )
+      for (final Map<String, dynamic> element in elements) {
+        final geometry = element['geometry'] as Map<String, dynamic>;
+        final tags = element['tags'] as Map<String, dynamic>?;
+        final points = (geometry['coordinates'] as List)
+          .cast<List>()
+          .map<LatLng>((p) => LatLng(p[1], p[0]))
           .toList(growable: false);
         // inflate bbox by 50 meters in each direction
         final bbox = LatLngBounds.fromPoints(points).pad(padding);
-        String? name = element['tags']?['name'];
+        String? name = tags?['name'];
         if (name?.isEmpty == true) name = null;
         yield StopArea(bbox.southWest, bbox.northEast, name: name);
       }

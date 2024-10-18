@@ -3,11 +3,11 @@ import 'dart:math';
 
 import 'package:animated_marker_layer/animated_marker_layer.dart';
 import 'package:flutter/material.dart';
-import 'package:supercluster/supercluster.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:supercluster/supercluster.dart';
 
-import '/models/map_features/map_feature_representation.dart';
 import '/api/app_worker/element_handler.dart';
+import '/models/map_features/map_feature_representation.dart';
 import '/widgets/osm_element_layer/osm_element_marker.dart';
 
 
@@ -89,7 +89,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
         // has already been added.
         // So if the point position has been modified it may not find it.
         // Therefore use _superCluster.points.contains().
-        if (_superCluster.points.contains(change.element!)) {
+        if (_superCluster.points.contains(change.element)) {
           _superCluster.modifyPointData(change.element!, change.element!);
         }
         else {
@@ -176,7 +176,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 
   Iterable<MapFeatureRepresentation> _elementsFromCluster(MutableLayerElement<MapFeatureRepresentation> cluster) sync* {
     if (cluster is MutableLayerCluster<MapFeatureRepresentation>) {
-      yield* (cluster.clusterData as _ClusterLeafs).elements;
+      yield* (cluster.clusterData! as _ClusterLeafs).elements;
     }
     else if (cluster is MutableLayerPoint<MapFeatureRepresentation>) {
       yield cluster.originalPoint;

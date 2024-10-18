@@ -195,6 +195,7 @@ class _RenderMarkerBubble extends RenderProxyBoxWithHitTestBehavior {
     this._tipSize,
   ) : super(behavior: HitTestBehavior.opaque);
 
+  Color get color => _color;
   set color(Color value) {
     if (value != _color) {
       _color = value;
@@ -202,6 +203,7 @@ class _RenderMarkerBubble extends RenderProxyBoxWithHitTestBehavior {
     }
   }
 
+  Color get shadowColor => _shadowColor;
   set shadowColor(Color value) {
     if (value != _shadowColor) {
       _shadowColor = value;
@@ -209,6 +211,7 @@ class _RenderMarkerBubble extends RenderProxyBoxWithHitTestBehavior {
     }
   }
 
+  double get elevation => _elevation;
   set elevation(double value) {
     if (value != _elevation) {
       _elevation = value;
@@ -216,6 +219,7 @@ class _RenderMarkerBubble extends RenderProxyBoxWithHitTestBehavior {
     }
   }
 
+  Size get tipSize => _tipSize;
   set tipSize(Size value) {
     if (value != _tipSize) {
       _tipSize = value;

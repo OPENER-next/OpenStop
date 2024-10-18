@@ -90,12 +90,11 @@ class AffectedElementsDetector {
           takeChildren = false;
           conditions = subCond.characteristics;
         }
-        // required for NegatedSubConditions that contain parent/child sub conditions
-        else if (subCond.characteristics is ParentSubCondition) {
+        else if (subCond is NegatedSubCondition<ParentSubCondition>) {
           takeChildren = true;
           conditions = subCond.characteristics.characteristics;
         }
-        else if (subCond.characteristics is ChildSubCondition) {
+        else if (subCond is NegatedSubCondition<ChildSubCondition>) {
           takeChildren = false;
           conditions = subCond.characteristics.characteristics;
         }
