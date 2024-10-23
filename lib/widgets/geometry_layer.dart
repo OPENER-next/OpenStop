@@ -41,7 +41,6 @@ class GeometryLayer extends StatelessWidget {
             points: polygon.outerShape.path,
             holePointsList: polygon.innerShapes.map((item) => item.path).toList(),
             color: color,
-            isFilled: true,
             borderStrokeWidth: 8,
             borderColor: color,
           ),
