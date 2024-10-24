@@ -25,16 +25,20 @@ packages:
   animated_location_indicator:
     dependency: "direct main"
     description:
-      path: "../animated_location_indicator"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "2bfc361cf569f8d815f92c08d5272547340e3fe3"
+      url: "https://github.com/OPENER-next/animated_location_indicator.git"
+    source: git
     version: "1.0.0"
   animated_marker_layer:
     dependency: "direct main"
     description:
-      path: "../animated_marker_layer"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "0f8dc49c7a64c964fda08927f0ccca768475b78b"
+      url: "https://github.com/OPENER-next/animated_marker_layer.git"
+    source: git
     version: "0.0.1"
   archive:
     dependency: transitive
