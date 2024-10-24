@@ -52,7 +52,7 @@ class OSMAuthenticationAPI {
     final code = Uri.parse(result).queryParameters['code'];
 
     final dio = Dio();
-    final tokenResponse = await dio.post<Map<String, String>>(
+    final tokenResponse = await dio.post<Map<String, dynamic>>(
       Uri.https(osm_config.osmServer, _tokenEndpoint).toString(),
       data: {
         'client_id': osm_config.oAuth2ClientId,
