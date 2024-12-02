@@ -479,48 +479,108 @@ final _globalDefinitions = <MapFeatureDefinition>[
     ],
   ),
   MapFeatureDefinition(
-    label: (locale, tags) {
-      final name = tags['name'];
-      return name ?? locale.mapFeatureFootpath;
-    },
+    label: (locale, tags) => tags['name'] ?? locale.mapFeatureFootpath,
     icon: TemakiIcons.pedestrian,
     conditions: const [
       ElementCondition([
         TagsSubCondition({
-          'highway': MultiValueMatcher([
-            StringValueMatcher('footway'),
-            StringValueMatcher('path'),
-            StringValueMatcher('cycleway'),
+          'highway': StringValueMatcher('footway'),
+          'bicycle': MultiValueMatcher([
+            StringValueMatcher('no'),
+            EmptyValueMatcher(),
           ]),
         }),
         ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
       ]),
       ElementCondition([
         TagsSubCondition({
-          'sidewalk': MultiValueMatcher([
+          'highway': StringValueMatcher('path'),
+          'foot': MultiValueMatcher([
             StringValueMatcher('yes'),
-            StringValueMatcher('right'),
-            StringValueMatcher('left'),
-            StringValueMatcher('both'),
+            StringValueMatcher('designated'),
+          ]),
+          'bicycle': MultiValueMatcher([
+            StringValueMatcher('no'),
+            EmptyValueMatcher(),
+          ]),
+        }),
+        ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
+      ]),
+    ],
+  ),
+  MapFeatureDefinition(
+    label: (locale, tags) => tags['name'] ?? locale.mapFeatureCyclePath,
+    icon: MdiIcons.bike,
+    conditions: const [
+      ElementCondition([
+        TagsSubCondition({
+          'highway': StringValueMatcher('cycleway'),
+          'foot': MultiValueMatcher([
+            StringValueMatcher('no'),
+            EmptyValueMatcher(),
           ]),
         }),
         ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
       ]),
       ElementCondition([
         TagsSubCondition({
-          'sidewalk:left': StringValueMatcher('yes'),
+          'highway': StringValueMatcher('path'),
+          'bicycle': MultiValueMatcher([
+            StringValueMatcher('yes'),
+            StringValueMatcher('designated'),
+          ]),
+          'foot': MultiValueMatcher([
+            StringValueMatcher('no'),
+            EmptyValueMatcher(),
+          ]),
+        }),
+        ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
+      ]),
+    ],
+  ),
+  MapFeatureDefinition(
+    label: (locale, tags) => tags['name'] ?? locale.mapFeatureFootAndCyclePath,
+    icon: TemakiIcons.pedestrianAndCyclist,
+    conditions: const [
+      ElementCondition([
+        TagsSubCondition({
+          'highway': StringValueMatcher('footway'),
+          'bicycle': MultiValueMatcher([
+            StringValueMatcher('yes'),
+            StringValueMatcher('designated'),
+          ]),
         }),
         ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
       ]),
       ElementCondition([
         TagsSubCondition({
-          'sidewalk:right': StringValueMatcher('yes'),
+          'highway': StringValueMatcher('cycleway'),
+          'foot': MultiValueMatcher([
+            StringValueMatcher('yes'),
+            StringValueMatcher('designated'),
+          ]),
         }),
         ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
       ]),
       ElementCondition([
         TagsSubCondition({
-          'sidewalk:both': StringValueMatcher('yes'),
+          'highway': StringValueMatcher('path'),
+          'bicycle': MultiValueMatcher([
+            StringValueMatcher('yes'),
+            StringValueMatcher('designated'),
+          ]),
+          'foot': MultiValueMatcher([
+            StringValueMatcher('yes'),
+            StringValueMatcher('designated'),
+          ]),
+        }),
+        ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
+      ]),
+      ElementCondition([
+        TagsSubCondition({
+          'highway': StringValueMatcher('path'),
+          'bicycle': EmptyValueMatcher(),
+          'foot': EmptyValueMatcher(),
         }),
         ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
       ]),
