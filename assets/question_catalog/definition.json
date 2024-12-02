@@ -1825,7 +1825,7 @@
                "open": false
             },
             "!osm_tags": {
-               "door": ["no", "revolving"]      
+               "door": ["no", "revolving"]
             },
             "osm_element": "Node"
          },
@@ -1863,7 +1863,7 @@
                "open": false
             },
             "!osm_tags": {
-               "door": ["no", "revolving"] 
+               "door": ["no", "revolving"]
             },
             "osm_element": "Node",
             "parent": [
@@ -2102,9 +2102,9 @@
    },
    {
       "question": {
-         "name": "@cyclelineSurfaceName",
-         "text": "@cyclelineSurfaceText",
-         "description": "@cyclelineSurfaceDescription"
+         "name": "@cyclePathSurfaceName",
+         "text": "@cyclePathSurfaceText",
+         "description": "@cyclePathSurfaceDescription"
       },
       "answer": {
          "type": "List",
