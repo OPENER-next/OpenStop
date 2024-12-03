@@ -620,7 +620,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'highway': StringValueMatcher('crossing'),
         }),
-        ElementTypeSubCondition([OSMElementType.node, OSMElementType.openWay])
+        ElementTypeSubCondition([OSMElementType.node])
       ]),
     ],
   ),
@@ -657,6 +657,10 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'highway': StringValueMatcher('footway'),
           'footway': StringValueMatcher('crossing'),
+          'bicycle': MultiValueMatcher([
+            EmptyValueMatcher(),
+            StringValueMatcher('no'),
+          ]),
         }),
       ]),
       ElementCondition([
@@ -684,6 +688,10 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'highway': StringValueMatcher('cycleway'),
           'cycleway': StringValueMatcher('crossing'),
+          'foot': MultiValueMatcher([
+            EmptyValueMatcher(),
+            StringValueMatcher('no'),
+          ]),
         }),
       ]),
       ElementCondition([
@@ -697,6 +705,50 @@ final _globalDefinitions = <MapFeatureDefinition>[
           'foot': MultiValueMatcher([
             EmptyValueMatcher(),
             StringValueMatcher('no'),
+          ]),
+        }),
+        ElementTypeSubCondition([OSMElementType.openWay])
+      ]),
+    ],
+  ),
+  MapFeatureDefinition(
+    priority: 1,
+    label: (locale, _) => locale.mapFeatureCrossing,
+    icon: TemakiIcons.pedCyclistCrosswalk,
+    conditions: const [
+      ElementCondition([
+        TagsSubCondition({
+          'highway': StringValueMatcher('cycleway'),
+          'cycleway': StringValueMatcher('crossing'),
+          'foot': MultiValueMatcher([
+            StringValueMatcher('yes'),
+            StringValueMatcher('designated'),
+          ]),
+        }),
+        ElementTypeSubCondition([OSMElementType.openWay])
+      ]),
+      ElementCondition([
+        TagsSubCondition({
+          'highway': StringValueMatcher('footway'),
+          'footway': StringValueMatcher('crossing'),
+          'bicycle': MultiValueMatcher([
+            StringValueMatcher('yes'),
+            StringValueMatcher('designated'),
+          ]),
+        }),
+        ElementTypeSubCondition([OSMElementType.openWay])
+      ]),
+      ElementCondition([
+        TagsSubCondition({
+          'highway': StringValueMatcher('path'),
+          'path': StringValueMatcher('crossing'),
+          'bicycle': MultiValueMatcher([
+            StringValueMatcher('yes'),
+            StringValueMatcher('designated'),
+          ]),
+          'foot': MultiValueMatcher([
+            StringValueMatcher('yes'),
+            StringValueMatcher('designated'),
           ]),
         }),
         ElementTypeSubCondition([OSMElementType.openWay])
