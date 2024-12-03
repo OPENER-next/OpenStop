@@ -45,7 +45,8 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
   /// The cell size in degrees.
   /// Some reference values can be found here: https://en.wikipedia.org/wiki/Decimal_degrees
 
-  final double _cellSize = 0.1;
+  // This has been reduced due to long loading times in urban areas, see: https://github.com/OPENER-next/OpenStop/issues/293
+  final double _cellSize = 0.02;
 
   /// A MultiStream that returns the number of currently loading cells on initial subscription.
   ///
