@@ -39,16 +39,27 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+<!--            <intent-filter android:autoVerify="true">-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                <data android:scheme="http" />-->
+<!--                <data android:scheme="https" />-->
+<!--                <data android:host="openstop.app" />-->
+<!--            </intent-filter>-->
         </activity>
 
-        <activity android:name="com.linusu.flutter_web_auth.CallbackActivity" android:exported="true">
+        <activity android:name="com.linusu.flutter_web_auth.CallbackActivity" android:launchMode="singleInstance" android:exported="true">
             <intent-filter android:label="flutter_web_auth" android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http" />
+
                 <data android:scheme="https" />
+                <data android:scheme="https" />
+
                 <data android:host="openstop.app" />
+<!--                <data android:path="/oauth2" />-->
             </intent-filter>
         </activity>
 
