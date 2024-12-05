@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 
 import '/models/answer.dart';
 import '/models/question_catalog/answer_definition.dart';
@@ -54,11 +58,24 @@ class DurationInput extends QuestionInputWidget<DurationAnswerDefinition, Durati
 
   @override
   Widget build(BuildContext context) {
+    final showStopWatch =
+      !definition.input.days.display &&
+      !definition.input.hours.display &&
+      !definition.input.minutes.display &&
+      definition.input.seconds.display &&
+      definition.input.seconds.step == 1;
+
     return Column(
       children: [
         SizedBox(
           height: 130,
-          child: Row(
+          child: showStopWatch
+          ? StopWatchScroller(
+            limit: _maxSeconds,
+            value: _remainingSeconds,
+            onChange: (value) => _handleChange(seconds: value),
+          )
+          : Row(
             children: _intersperse(
               _timeScrollerWidgets().map(
                 (child) => Flexible(child: child),
@@ -267,6 +284,101 @@ class _TimeScrollerState extends State<TimeScroller> {
   @override
   void dispose() {
     _scrollController.dispose();
+    super.dispose();
+  }
+}
+
+
+class StopWatchScroller extends TimeScroller {
+  const StopWatchScroller({
+    required super.limit,
+    required super.onChange,
+    required super.value,
+    super.key
+  }) : super(step: 1);
+
+  @override
+  State<TimeScroller> createState() => _StopWatchScrollerState();
+}
+
+class _StopWatchScrollerState extends _TimeScrollerState {
+  Timer? _timer;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        IconButton.outlined(
+          onPressed: widget.value != 0 ? reset : null,
+          icon: const Icon(MdiIcons.timerRefreshOutline),
+        ),
+        Expanded(
+          child: NotificationListener<UserScrollNotification>(
+            child: super.build(context),
+            onNotification: (notification) {
+              if (notification.direction != ScrollDirection.idle) {
+                pause();
+              }
+              return true;
+            },
+          ),
+        ),
+        IconButton.outlined(
+          isSelected: isActive,
+          onPressed: isActive ? pause : start,
+          selectedIcon: const Icon(MdiIcons.timerPauseOutline),
+          icon: const Icon(MdiIcons.timerPlayOutline),
+        ),
+      ],
+    );
+  }
+
+  bool get isActive => _timer?.isActive == true;
+
+  void start() {
+    setState(() {
+      _clearTimer();
+      _timer = Timer.periodic(const Duration(seconds: 1), _handleTick);
+    });
+  }
+
+  void pause() {
+    setState(_clearTimer);
+  }
+
+  void reset() {
+    setState(() {
+      _clearTimer();
+      _tick(0);
+    });
+  }
+
+  void _tick(int index) {
+    _scrollController.animateToItem(index,
+      duration: const Duration(seconds: 1),
+      curve: Curves.easeInOutCubicEmphasized,
+    );
+  }
+
+  void _clearTimer() {
+    if (_timer != null){
+      _timer!.cancel();
+      _timer = null;
+    }
+  }
+
+  void _handleTick(Timer timer) {
+    final nextSecond = _scrollController.selectedItem - 1;
+    _tick(nextSecond);
+    // stop timer when reaching 0
+    if (_indexToValue(nextSecond) == 0) {
+      pause();
+    }
+  }
+
+  @override
+  void dispose() {
+    _clearTimer();
     super.dispose();
   }
 }

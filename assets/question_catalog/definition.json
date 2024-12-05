@@ -3064,13 +3064,14 @@
       "answer": {
          "type": "Duration",
          "input": {
-            "max": 2,
+            "max": 180,
             "hours": {
                "display": false,
                "return": true
             },
             "minutes": {
-               "step": 1
+               "display": false,
+               "return": true
             },
             "seconds": {
                "step": 1
