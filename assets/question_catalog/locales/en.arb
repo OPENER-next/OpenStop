@@ -444,7 +444,7 @@
   "@stairsHandrailName": {},
   "stairsHandrailText": "Do the stairs have a handrail?",
   "@stairsHandrailText": {},
-  "escalatorDurationName": "Escalator ride duration",
+  "escalatorDurationName": "Ride duration",
   "@escalatorDurationName": {},
   "escalatorDurationText": "How long does the escalator/moving sidewalk ride take?",
   "@escalatorDurationText": {},
