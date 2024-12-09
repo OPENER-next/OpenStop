@@ -436,7 +436,7 @@
   "@stairsHandrailName": {},
   "stairsHandrailText": "Hat die Treppe einen Handlauf?",
   "@stairsHandrailText": {},
-  "escalatorDurationName": "Rolltreppen-Fahrtdauer",
+  "escalatorDurationName": "Fahrtdauer",
   "@escalatorDurationName": {},
   "escalatorDurationText": "Wie lange dauert die Fahrt mit der Rolltreppe bzw. dem Laufband?",
   "@escalatorDurationText": {},
