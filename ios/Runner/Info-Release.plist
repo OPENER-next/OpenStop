@@ -33,6 +33,26 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+		<key>LSApplicationQueriesSchemes</key>
+  	<array>
+  		<string>https</string>
+  		<string>http</string>
+  	</array>
+	<key>FlutterDeepLinkingEnabled</key>
+	<true/>
+		<key>CFBundleURLTypes</key>
+  	<array>
+  		<dict>
+  		<key>CFBundleTypeRole</key>
+  		<string>Editor</string>
+  		<key>CFBundleURLName</key>
+  		<string>openstop.app</string>
+  		<key>CFBundleURLSchemes</key>
+  		<array>
+  		<string>https</string>
+  		</array>
+  		</dict>
+  	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
