@@ -1825,7 +1825,7 @@
                "open": false
             },
             "!osm_tags": {
-               "door": ["no", "revolving"]      
+               "door": ["no", "revolving"]
             },
             "osm_element": "Node"
          },
@@ -1863,7 +1863,7 @@
                "open": false
             },
             "!osm_tags": {
-               "door": ["no", "revolving"] 
+               "door": ["no", "revolving"]
             },
             "osm_element": "Node",
             "parent": [
@@ -2082,29 +2082,14 @@
                "OpenWay",
                "ClosedWay"
             ]
-         },
-         {
-            "osm_tags": {
-               "highway": ["path", "footway", "cycleway"],
-               "cycleway:surface": true,
-               "footway:surface": false,
-               "indoor": ["no", false]
-            },
-            "!osm_tags": {
-               "access": ["no","private"]
-            },
-            "osm_element": [
-               "OpenWay",
-               "ClosedWay"
-            ]
          }
       ]
    },
    {
       "question": {
-         "name": "@cyclelineSurfaceName",
-         "text": "@cyclelineSurfaceText",
-         "description": "@cyclelineSurfaceDescription"
+         "name": "@cyclePathSurfaceName",
+         "text": "@cyclePathSurfaceText",
+         "description": "@cyclePathSurfaceDescription"
       },
       "answer": {
          "type": "List",
@@ -2131,21 +2116,6 @@
                "highway": ["path", "footway", "cycleway"],
                "segregated": "yes",
                "surface": false,
-               "cycleway:surface": false,
-               "indoor": ["no", false]
-            },
-            "!osm_tags": {
-               "access": ["no","private"]
-            },
-            "osm_element": [
-               "OpenWay",
-               "ClosedWay"
-            ]
-         },
-         {
-            "osm_tags": {
-               "highway": ["path", "footway", "cycleway"],
-               "footway:surface": true,
                "cycleway:surface": false,
                "indoor": ["no", false]
             },
