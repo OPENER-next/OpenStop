@@ -59,15 +59,15 @@ jobs:
         require "factory_bot"
         pass_crypt, pass_salt = PasswordHash.create("testpass");
         user = User.find_or_create_by(
-        :email => "testuser@osm.org",
-        :email_valid => true,
-        :display_name => "testuser",
-        :terms_seen => true,
-        :terms_agreed => Time.now.getutc,
-        :data_public => true,
-        :languages => ["en-US"],
-        :pass_crypt => pass_crypt,
-        :pass_salt => pass_salt
+          :email => "testuser@osm.org",
+          :email_valid => true,
+          :display_name => "testuser",
+          :terms_seen => true,
+          :terms_agreed => Time.now.getutc,
+          :data_public => true,
+          :languages => ["en-US"],
+          :pass_crypt => pass_crypt,
+          :pass_salt => pass_salt
         );
         user.save
         user.activate!
@@ -80,8 +80,8 @@ jobs:
         puts application
 
         token = Doorkeeper::AccessToken.create!(
-          :application_id => application.id,
-          :resource_owner_id => user.id,
+          :application_id => application.uid,
+          :resource_owner_id => user.uid,
           :scopes => application.scopes
         )
         puts token
