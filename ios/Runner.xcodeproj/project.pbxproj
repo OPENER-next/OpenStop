@@ -381,7 +381,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "4C9Y67SX5K.de.tu-chemnitz.etit.sse.openstop";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.tu-chemnitz.etit.sse.openstop";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "OpenStop - Contribution";
@@ -522,7 +522,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "4C9Y67SX5K.de.tu-chemnitz.etit.sse.openstop";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.tu-chemnitz.etit.sse.openstop";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "OpenStop - Contribution";
@@ -556,7 +556,7 @@
 					"@executable_path/Frameworks",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "4C9Y67SX5K.de.tu-chemnitz.etit.sse.openstop";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.tu-chemnitz.etit.sse.openstop";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "OpenStop - Contribution";
