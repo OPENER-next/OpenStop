@@ -71,7 +71,20 @@ jobs:
         );
         user.save
         user.activate!
-        puts FactoryBot.create(:oauth_access_token, :resource_owner_id => user.id, :scopes => Oauth::SCOPES).token
+
+        application = Doorkeeper::Application.create(
+          :name => "test",
+          :redirect_uri => "test",
+          :scopes => ["read_prefs", "write_api"]
+        )
+        puts application
+
+        token = Doorkeeper::AccessToken.create!(
+          :application_id => application.id,
+          :resource_owner_id => user.id,
+          :scopes => application.scopes
+        )
+        puts token
         '
       working-directory: ./osm-website
 
