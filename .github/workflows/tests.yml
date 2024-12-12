@@ -79,7 +79,7 @@ jobs:
         application.save
         puts application
 
-        token = Doorkeeper::AccessToken.create!(
+        token = Doorkeeper::AccessToken.create(
           :application_id => application.uid,
           :resource_owner_id => user.id,
           :scopes => application.scopes
