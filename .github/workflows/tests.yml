@@ -59,12 +59,7 @@ jobs:
         pass_crypt, pass_salt = PasswordHash.create("testpass");
         user = User.create!(
           email: "testuser@osm.org",
-          email_valid: true,
           display_name: "testuser",
-          terms_seen: true,
-          terms_agreed: Time.now.getutc,
-          data_public: true,
-          languages: ["en-US"],
           pass_crypt: pass_crypt,
           pass_salt: pass_salt
         );
@@ -74,7 +69,7 @@ jobs:
           name: "test",
           redirect_uri: "https://test.test",
           owner: user,
-          scopes: ["read_prefs", "write_api"]
+          scopes: Oauth::SCOPES # array containing all oauth scopes
         )
 
         token = Doorkeeper::AccessToken.create!(
