@@ -60,7 +60,7 @@ jobs:
         user = User.create!(
           email: "testuser@osm.org",
           email_valid: true,
-          display_name:> "testuser",
+          display_name: "testuser",
           terms_seen: true,
           terms_agreed: Time.now.getutc,
           data_public: true,
