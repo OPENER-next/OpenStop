@@ -71,7 +71,7 @@ jobs:
         user.save
         user.activate!
 
-        application = Doorkeeper::Application.find_or_create_by(
+        application = Oauth2Application.find_or_create_by(
           name: "test",
           redirect_uri: "test",
           scopes: ["read_prefs", "write_api"]
