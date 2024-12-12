@@ -71,17 +71,17 @@ jobs:
         user.save
         user.activate!
 
-        application = Doorkeeper::Application.create(
-          :name => "test",
-          :redirect_uri => "test",
-          :scopes => ["read_prefs", "write_api"]
+        application = Doorkeeper::Application.find_or_create_by(
+          name: "test",
+          redirect_uri: "test",
+          scopes: ["read_prefs", "write_api"]
         )
         puts application
 
-        token = Doorkeeper::AccessToken.create(
-          :application_id => application.uid,
-          :resource_owner_id => user.id,
-          :scopes => application.scopes
+        token = Doorkeeper::AccessToken.find_or_create_for(
+          application: application,
+          resource_owner_id: user.id,
+          scopes: application.scopes
         )
         puts token
         '
