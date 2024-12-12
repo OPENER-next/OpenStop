@@ -15,9 +15,8 @@ import 'package:open_stop/models/stop_area/stop_area.dart';
 import 'package:osm_api/osm_api.dart';
 
 void main() async {
-  final auth = BasicAuth(
-    username: 'testuser',
-    password: 'testpass'
+  final auth = OAuth2(
+    accessToken: 'CustomTestToken',
   );
 
   const endPoint = 'http://127.0.0.1:3000/api/0.6';
