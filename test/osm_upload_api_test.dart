@@ -16,7 +16,7 @@ import 'package:osm_api/osm_api.dart';
 
 void main() async {
   final auth = OAuth2(
-    accessToken: 'CustomTestToken',
+    accessToken: 'DummyTestToken',
   );
 
   const endPoint = 'http://127.0.0.1:3000/api/0.6';

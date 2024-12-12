@@ -58,14 +58,14 @@ jobs:
         docker compose run --rm web bundle exec rails runner '
         pass_crypt, pass_salt = PasswordHash.create("testpass");
         user = User.create!(
-          :email => "testuser@osm.org",
-          :email_valid => true,
-          :display_name => "testuser",
-          :terms_seen => true,
-          :terms_agreed => Time.now.getutc,
-          :data_public => true,
-          :pass_crypt => pass_crypt,
-          :pass_salt => pass_salt
+          email: "testuser@osm.org",
+          email_valid: true,
+          display_name:> "testuser",
+          terms_seen: true,
+          terms_agreed: Time.now.getutc,
+          data_public: true,
+          pass_crypt: pass_crypt,
+          pass_salt: pass_salt
         );
         user.activate
         user.save! # save activation to database
@@ -82,8 +82,8 @@ jobs:
           resource_owner_id: user.id,
           scopes: application.scopes
         )
-        token.token = "CustomTestToken"
-        token.save! # save new token to database
+        token.token = "DummyTestToken"
+        token.save! # override token in database with dummy token
         '
       working-directory: ./osm-website
 
