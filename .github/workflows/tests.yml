@@ -56,7 +56,6 @@ jobs:
     - name: Create test OSM user account
       run: |
         docker compose run --rm web bundle exec rails runner '
-        require "factory_bot"
         pass_crypt, pass_salt = PasswordHash.create("testpass");
         user = User.find_or_create_by(
           :email => "testuser@osm.org",
@@ -77,6 +76,7 @@ jobs:
           :redirect_uri => "test",
           :scopes => ["read_prefs", "write_api"]
         )
+        application.save
         puts application
 
         token = Doorkeeper::AccessToken.create!(
@@ -84,6 +84,7 @@ jobs:
           :resource_owner_id => user.id,
           :scopes => application.scopes
         )
+        token.save
         puts token
         '
       working-directory: ./osm-website
