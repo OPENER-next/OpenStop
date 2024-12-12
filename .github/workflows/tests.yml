@@ -80,7 +80,7 @@ jobs:
 
         token = Doorkeeper::AccessToken.find_or_create_for(
           application: application,
-          resource_owner_id: user.id,
+          resource_owner: user.id,
           scopes: application.scopes
         )
         puts token
