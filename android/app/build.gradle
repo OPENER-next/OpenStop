@@ -62,22 +62,12 @@ android {
             storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
             storePassword keystoreProperties['storePassword']
         }
-        debug {
-            keyAlias keystoreProperties['debugKeyAlias']
-            keyPassword keystoreProperties['debugKeyPassword']
-            storeFile keystoreProperties['debugStoreFile'] ? file(keystoreProperties['debugStoreFile']) : null
-            storePassword keystoreProperties['debugStorePassword']
-        }
     }
 
     buildTypes {
         release {
             // if key store file does not exist sign with debug keys
-            signingConfig signingConfigs.release
-        }
-        debug {
-            // if key store file does not exist sign with debug keys
-            signingConfig signingConfigs.debug
+            signingConfig keystorePropertiesFile.exists() ? signingConfigs.release : signingConfigs.debug
         }
     }
 }
