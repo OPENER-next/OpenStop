@@ -76,7 +76,6 @@ jobs:
           :redirect_uri => "test",
           :scopes => ["read_prefs", "write_api"]
         )
-        application.save
         puts application
 
         token = Doorkeeper::AccessToken.create(
@@ -84,7 +83,6 @@ jobs:
           :resource_owner_id => user.id,
           :scopes => application.scopes
         )
-        token.save
         puts token
         '
       working-directory: ./osm-website
