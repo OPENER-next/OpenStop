@@ -12,4 +12,8 @@ const appCallbackUrlScheme = kIsWeb && !bool.fromEnvironment('IS_RELEASE', defau
     ? 'http'
     : 'https';
 
+const appCallbackUrlHost = 'openstop.app';
+
+const appCallbackUrlPath = '/oauth2';
+
 const appProjectUrl = 'https://github.com/OPENER-next/OpenStop';

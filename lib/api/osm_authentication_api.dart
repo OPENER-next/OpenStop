@@ -50,8 +50,8 @@ class OSMAuthenticationAPI {
       options: const FlutterWebAuth2Options(
         preferEphemeral: true,
         intentFlags: ephemeralIntentFlags,
-        httpsHost: 'openstop.app',
-        httpsPath: '/oauth2'
+        httpsHost: app_config.appCallbackUrlHost,
+        httpsPath: app_config.appCallbackUrlPath
       ),
     );
     final code = Uri.parse(result).queryParameters['code'];

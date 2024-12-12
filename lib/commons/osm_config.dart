@@ -10,7 +10,7 @@ const oAuth2RedirectUri = kIsWeb
   ? bool.fromEnvironment('IS_RELEASE', defaultValue: false)
     ? '$appCallbackUrlScheme://try.openstop.app/oauth2.html'
     : '$appCallbackUrlScheme://127.0.0.1:8080/oauth2.html'
-  : '$appCallbackUrlScheme://openstop.app/oauth2';
+  : '$appCallbackUrlScheme://$appCallbackUrlHost$appCallbackUrlPath';
 
 const osmServer = bool.fromEnvironment('IS_RELEASE', defaultValue: false)
   ? 'www.openstreetmap.org'
