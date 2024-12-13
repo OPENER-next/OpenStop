@@ -55,10 +55,10 @@ android {
         versionName flutterVersionName
     }
 
-    // properties of 'signingConfigs' for 'release' and 'debug' are definied in /android/key.properties
+    // properties of 'signingConfigs' are definied in /android/key.properties
     // a key.properties file needs to be created referencing the key(store) bound with verified app links
     signingConfigs {
-        release {
+        general {
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
             storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
@@ -70,8 +70,11 @@ android {
     // to enable login a certain 'signingConfigs' needs to be referenced for 'release' and 'debug'
     buildTypes {
         release {
+            signingConfig signingConfigs.general
+        }
+        debug {
             // if key store file does not exist sign with debug keys
-            signingConfig keystorePropertiesFile.exists() ? signingConfigs.release : signingConfigs.debug
+            signingConfig keystorePropertiesFile.exists() ? signingConfigs.general : signingConfigs.debug
         }
     }
 }
