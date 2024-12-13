@@ -28,6 +28,9 @@ You can also omit the entire API key parameter. In this case the underlying map 
 By default the app uses the [OpenStreetMap development server](https://master.apis.dev.openstreetmap.org) for login and upload. In order to use the live servers the custom parameter `--dart-define=IS_RELEASE=true` has to be set when running/building the app.
 **Note:** This has nothing to do with flutter's *release*, *profile* and *debug* mode.
 
+Due to the usage of verified App Link or Universal Links respectively, login on the OpenStreetMap server won't work without signing the app. In order to enable login the files `app_config.dart`, `osm_config.dart`, `build.gradle` and `Runner.entitlements
+` need to be configured accordingly.
+
 To build the app for a specific platform (apk, appbundle, ios, web) in its ultimate form (except code signing), use the following command:
 ```console
 flutter build ${platform} --release --dart-define=THUNDERFOREST_API_KEY=${api key} --dart-define=IS_RELEASE=true

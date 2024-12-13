@@ -55,6 +55,8 @@ android {
         versionName flutterVersionName
     }
 
+    // properties of 'signingConfigs' for 'release' and 'debug' are definied in /android/key.properties
+    // a key.properties file needs to be created referencing the key(store) bound with verified app links
     signingConfigs {
         release {
             keyAlias keystoreProperties['keyAlias']
@@ -64,6 +66,8 @@ android {
         }
     }
 
+    // due to using verified app links the app has to be signed with a certain key to be able to login to OSM
+    // to enable login a certain 'signingConfigs' needs to be referenced for 'release' and 'debug'
     buildTypes {
         release {
             // if key store file does not exist sign with debug keys
