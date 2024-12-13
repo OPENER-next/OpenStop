@@ -4,7 +4,7 @@ PODS:
     - Flutter
   - flutter_sensors (0.0.1):
     - Flutter
-  - flutter_web_auth (0.5.0):
+  - flutter_web_auth_2 (3.0.0):
     - Flutter
   - geolocator_apple (1.2.0):
     - Flutter
@@ -21,7 +21,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - flutter_sensors (from `.symlinks/plugins/flutter_sensors/ios`)
-  - flutter_web_auth (from `.symlinks/plugins/flutter_web_auth/ios`)
+  - flutter_web_auth_2 (from `.symlinks/plugins/flutter_web_auth_2/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
@@ -34,8 +34,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   flutter_sensors:
     :path: ".symlinks/plugins/flutter_sensors/ios"
-  flutter_web_auth:
-    :path: ".symlinks/plugins/flutter_web_auth/ios"
+  flutter_web_auth_2:
+    :path: ".symlinks/plugins/flutter_web_auth_2/ios"
   geolocator_apple:
     :path: ".symlinks/plugins/geolocator_apple/ios"
   path_provider_foundation:
@@ -49,7 +49,7 @@ SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
   flutter_sensors: dc6eed3291e7724bf8f4138d7d14c4071b42bd29
-  flutter_web_auth: c25208760459cec375a3c39f6a8759165ca0fa4d
+  flutter_web_auth_2: 06d500582775790a0d4c323222fcb6d7990f9603
   geolocator_apple: 6cbaf322953988e009e5ecb481f07efece75c450
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
@@ -57,4 +57,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 0e7df49a070ca6a0600383e3ff3158cb74cc9dbf
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2
