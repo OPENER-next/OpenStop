@@ -57,19 +57,34 @@ jobs:
       run: |
         docker compose run --rm web bundle exec rails runner '
         pass_crypt, pass_salt = PasswordHash.create("testpass");
-        user = User.find_or_create_by(
-        :email => "testuser@osm.org",
-        :email_valid => true,
-        :display_name => "testuser",
-        :terms_seen => true,
-        :terms_agreed => Time.now.getutc,
-        :data_public => true,
-        :languages => ["en-US"],
-        :pass_crypt => pass_crypt,
-        :pass_salt => pass_salt
+        user = User.create!(
+          email: "testuser@osm.org",
+          email_valid: true,
+          display_name: "testuser",
+          terms_seen: true,
+          terms_agreed: Time.now.getutc,
+          data_public: true,
+          pass_crypt: pass_crypt,
+          pass_salt: pass_salt
         );
-        user.save
-        user.activate!'
+        user.activate
+        user.save! # save activation to database
+
+        application = Oauth2Application.create!(
+          name: "test",
+          redirect_uri: "https://test.test",
+          owner: user,
+          scopes: Oauth::SCOPES # array containing all oauth scopes
+        )
+
+        token = Doorkeeper::AccessToken.create!(
+          application_id: application.id,
+          resource_owner_id: user.id,
+          scopes: application.scopes
+        )
+        token.token = "DummyTestToken"
+        token.save! # override token in database with dummy token
+        '
       working-directory: ./osm-website
 
     # App checkout, setup and final tests
