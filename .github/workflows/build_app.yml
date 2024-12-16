@@ -16,7 +16,7 @@ concurrency:
 jobs:
   build_android:
     name: Build for Android
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
@@ -103,7 +103,7 @@ jobs:
 
   build_ios:
     name: Build for iOS
-    runs-on: macos-13
+    runs-on: macos-15
 
     env:
       BUILD_CERTIFICATE_BASE64: ${{ secrets.APPLE_DISTRIBUTION_CERT_BASE64 }}
