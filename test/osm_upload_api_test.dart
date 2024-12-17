@@ -15,7 +15,7 @@ import 'package:open_stop/models/stop_area/stop_area.dart';
 import 'package:osm_api/osm_api.dart';
 
 void main() async {
-  final auth = OAuth2(
+  const auth = OAuth2(
     accessToken: 'DummyTestToken',
   );
 

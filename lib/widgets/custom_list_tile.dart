@@ -35,7 +35,7 @@ class CustomListTile extends StatelessWidget {
         child: Icon(
           trailingIcon,
           size: 16,
-          color: Theme.of(context).iconTheme.color?.withOpacity(0.20)
+          color: Theme.of(context).iconTheme.color?.withValues(alpha: 0.2)
         ),
       ),
       onTap: onTap,

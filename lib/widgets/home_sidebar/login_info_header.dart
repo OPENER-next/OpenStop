@@ -41,6 +41,7 @@ class LoginInfoHeader extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.primaryContainer,
               foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+              iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
             ),
             onPressed: onLoginTap,
             label: Text(appLocale.login),

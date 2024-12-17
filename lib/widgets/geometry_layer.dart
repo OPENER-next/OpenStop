@@ -15,7 +15,7 @@ class GeometryLayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).colorScheme.primary.withOpacity(0.75);
+    final color = Theme.of(context).colorScheme.primary.withValues(alpha: 0.75);
     final Widget layer;
 
     if (geometry is GeographicPolyline) {

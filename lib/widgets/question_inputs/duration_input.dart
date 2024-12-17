@@ -234,8 +234,8 @@ class _TimeScrollerState extends State<TimeScroller> {
         gradient: LinearGradient(
           colors: [
             Theme.of(context).colorScheme.surface,
-            Theme.of(context).colorScheme.surface.withOpacity(0.0),
-            Theme.of(context).colorScheme.surface.withOpacity(0.0),
+            Theme.of(context).colorScheme.surface.withValues(alpha: 0.0),
+            Theme.of(context).colorScheme.surface.withValues(alpha: 0.0),
             Theme.of(context).colorScheme.surface
           ],
           begin: Alignment.topCenter,

@@ -63,7 +63,7 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
     super.didChangeDependencies();
 
     _fillColorAnimation = ColorTween(
-      begin: Theme.of(context).colorScheme.primary.withOpacity(0),
+      begin: Theme.of(context).colorScheme.primary.withValues(alpha: 0.0),
       end: Theme.of(context).colorScheme.primary
     ).animate(
       CurvedAnimation(
