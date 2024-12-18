@@ -119,7 +119,7 @@ void main() {
       // build app and trigger first frame
       await tester.pumpWidget(const MyApp());
       // skip through the onboarding screen
-      final nextButton = find.byType(OutlinedButton, skipOffstage: true);
+      final nextButton = find.bySubtype<OutlinedButton>(skipOffstage: true);
       await tester.tap(nextButton);
       await tester.pumpAndSettle();
       await tester.tap(nextButton);

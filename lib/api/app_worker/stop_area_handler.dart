@@ -149,7 +149,7 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
   Iterable<StopArea> getStopAreasByBounds(LatLngBounds bounds) {
     return _bboxToCellIndexes(bounds)
       .map(_stopAreaCache.get)
-      .whereNotNull()
+      .nonNulls
       .expand((stopAreas) => stopAreas.where(
         (stopArea) => stopArea.isOverlapping(bounds),
       ));

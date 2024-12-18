@@ -177,7 +177,7 @@ class UserAccountImagePlaceholder extends StatelessWidget {
       child: Icon(
         Icons.person,
         size: size/2,
-        color: Theme.of(context).colorScheme.onPrimaryContainer.withOpacity(0.4),
+        color: Theme.of(context).colorScheme.onPrimaryContainer.withValues(alpha: 0.4),
       ),
     );
   }

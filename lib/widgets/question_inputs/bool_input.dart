@@ -31,7 +31,7 @@ class BoolInput extends QuestionInputWidget<BoolAnswerDefinition, BoolAnswer> {
                     (state ? AppLocalizations.of(context)!.yes : AppLocalizations.of(context)!.no)),
             onTap: () => _handleChange(state),
             active: controller.answer?.value == state,
-            backgroundColor: theme.colorScheme.primary.withOpacity(0),
+            backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.0),
             activeBackgroundColor: theme.colorScheme.primary,
             foregroundColor: theme.colorScheme.primary,
             activeForegroundColor: theme.colorScheme.onPrimary,

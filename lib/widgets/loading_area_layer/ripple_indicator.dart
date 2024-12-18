@@ -254,8 +254,8 @@ class _RenderRippleIndicator extends RenderBox {
       final value = (pulse + _controller.value) / (_pulseCount + 1);
 
       final radius = maxRadius * value;
-      final opacity = _color.opacity - _color.opacity * value;
-      final color = _color.withOpacity(opacity);
+      final opacity = _color.a - _color.a * value;
+      final color = _color.withValues(alpha: opacity);
 
       _circle(context.canvas, center, radius, color);
     }

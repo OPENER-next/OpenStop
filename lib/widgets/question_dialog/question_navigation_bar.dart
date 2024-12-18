@@ -22,6 +22,7 @@ class QuestionNavigationBar extends StatelessWidget {
       foregroundColor: WidgetStatePropertyAll(Theme.of(context).disabledColor),
       overlayColor: const WidgetStatePropertyAll(Colors.transparent),
       mouseCursor: const WidgetStatePropertyAll(SystemMouseCursors.forbidden),
+      iconColor: WidgetStatePropertyAll(Theme.of(context).disabledColor),
       splashFactory: NoSplash.splashFactory,
       enableFeedback: false,
     );

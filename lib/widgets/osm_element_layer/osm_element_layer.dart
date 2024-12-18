@@ -253,7 +253,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
           shape: BoxShape.circle,
           border: Border.all(
             width: 1,
-            color: Theme.of(context).colorScheme.shadow.withOpacity(0.26)
+            color: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.26)
           )
         )
       )

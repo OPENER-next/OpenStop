@@ -87,6 +87,7 @@ class OnboardingScreen extends View<OnboardingViewModel> {
             style: OutlinedButton.styleFrom(
               backgroundColor: Colors.transparent,
               foregroundColor: Colors.white,
+              iconColor: Colors.white,
               minimumSize: const Size(150, 36),
               elevation: 0.0,
               padding: const EdgeInsets.only(left: 14.0, right: 8.0),
@@ -230,18 +231,13 @@ class OnboardingPage extends StatelessWidget {
                 ),
                 if (buttonText != null) Flexible(
                   flex: 2,
-                  child: OutlinedButton(
+                  child: OutlinedButton.icon(
                     onPressed: onButtonTap,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(buttonText!),
-                        Icon(buttonIcon),
-                      ],
+                    label: Text(buttonText!),
+                    icon: Icon(buttonIcon),
+                    iconAlignment: IconAlignment.end,
                     ),
                   ),
-                ),
               ],
             ),
           ),
