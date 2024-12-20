@@ -245,10 +245,6 @@
   "@footpathSurfaceText": {},
   "footpathSurfaceDescription": "如果路面由碎石、沙子、草地或类似路面组成，则属于未铺装路面。",
   "@footpathSurfaceDescription": {},
-  "cyclelineSurfaceText": "自行车道表面是什么样的？",
-  "@cyclelineSurfaceText": {},
-  "cyclelineSurfaceDescription": "如果路面由碎石、沙子、草地或类似路面组成，则属于未铺装路面。",
-  "@cyclelineSurfaceDescription": {},
   "stopLightName": "Stop lighting",
   "@stopLightName": {},
   "stopLightText": "Is this stop illuminated at night?",
@@ -483,8 +479,6 @@
   "@doorWidthName": {},
   "doorWidthPlaceholder": "宽度",
   "@doorWidthPlaceholder": {},
-  "cyclelineSurfaceName": "自行车道表面",
-  "@cyclelineSurfaceName": {},
   "transportationModesTrainOptionName": "火车",
   "@transportationModesTrainOptionName": {}
 }
