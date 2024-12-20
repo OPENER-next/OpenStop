@@ -233,5 +233,9 @@
   "mapFeatureCyclewayCrossing": "Radüberweg",
   "@mapFeatureCyclewayCrossing": {},
   "helpImproveTranslationLabel": "Übersetzung verbessern",
-  "@helpImproveTranslationLabel": {}
+  "@helpImproveTranslationLabel": {},
+  "mapFeatureCyclePath": "Radweg",
+  "@mapFeatureCyclePath": {},
+  "mapFeatureFootAndCyclePath": "Fuß- und Radweg",
+  "@mapFeatureFootAndCyclePath": {}
 }
