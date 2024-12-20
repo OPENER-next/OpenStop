@@ -1,0 +1,11 @@
+Översättningar:
+- Appen kan nu översättas till andra språk
+- Fullständigt översatt till engelska
+Nätverkstrafik:
+- Ladda högupplösta kartsegment endast på högupplösta skärmar
+- Åtgärdade buffring av kartsegment – på grund av ett beroendefel buffrades inte kartsegment i minnet, vilket ledde till onödig datatrafik.
+Övrigt:
+- Tog bort kartlagerväljaren och använder nu kollektivtrafikslagret
+- Åtgärdade fel taggar för plattformshissar och ramper
+- Mindre felkorrigeringar
+- Mindre stavfelsrättelser

@@ -243,12 +243,6 @@
   "@footpathSurfaceText": {},
   "footpathSurfaceDescription": "如果表面由礫石、沙子、草地或類似物質組成，則其為無鋪面的覆蓋層。",
   "@footpathSurfaceDescription": {},
-  "cyclelineSurfaceName": "腳踏車道表面",
-  "@cyclelineSurfaceName": {},
-  "cyclelineSurfaceText": "腳踏車道表面是哪種類型？",
-  "@cyclelineSurfaceText": {},
-  "cyclelineSurfaceDescription": "如果表面由礫石、沙子、草地或類似物質組成，則其為未有鋪面之表面。",
-  "@cyclelineSurfaceDescription": {},
   "stopLightName": "燈光",
   "@stopLightName": {},
   "stopLightText": "此車站晚上有燈光嗎？",
@@ -316,5 +310,13 @@
   "cycleBarrierTypeTripleOption": "三個",
   "@cycleBarrierTypeTripleOption": {},
   "cycleBarrierWidthDescription": "間隙寬度，也稱為通道寬度，描述了能夠通過障礙物的最大允許寬度。",
-  "@cycleBarrierWidthDescription": {}
+  "@cycleBarrierWidthDescription": {},
+  "portableRampWidthName": "坡道寬度",
+  "@portableRampWidthName": {},
+  "portableRampWidthText": "便攜式輪椅坡道有多寬？",
+  "@portableRampWidthText": {},
+  "portableRampWidthDescription": "對於輪椅使用者來說，了解已展開的便攜式坡道之寬度非常重要，因為這是他們是否可以使用坡道的因素之一。",
+  "@portableRampWidthDescription": {},
+  "portableRampWidthPlaceholder": "坡道寬度",
+  "@portableRampWidthPlaceholder": {}
 }

@@ -1,0 +1,2 @@
+Byggesprocedur:
+- Säkerställt reproducerbarhet mellan GitHub och F-Droid genom att ändra den använda JAVA-versionen i GitHub-byggesåtgärden till 17

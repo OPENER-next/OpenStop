@@ -1,0 +1,11 @@
+Localização:
+ - O aplicativo pode agora ser traduzido para outras línguas
+ - Totalmente traduzido para inglês
+Tráfego de rede:
+ - Apenas carregar mosaicos de alta resolução em telas de alta resolução
+ - Correção do armazenamento em cache dos mosaicos do mapa
+Diversos:
+ - Removido o alternador de camadas do mapa e definido para a camada de transporte público
+ - Correção de etiquetas erradas para plataformas elevatórias e rampas
+ - Pequenas correções de erros
+ - Pequenas correções ortográficas

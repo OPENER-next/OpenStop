@@ -8,7 +8,7 @@
   "@aboutVersionLabel": {},
   "aboutAuthorsLabel": "Autoren",
   "@aboutAuthorsLabel": {},
-  "aboutAuthorsDescription": "{appName} Mitwirkende",
+  "aboutAuthorsDescription": "{appName}-Mitwirkende",
   "@aboutAuthorsDescription": {},
   "aboutPrivacyPolicyLabel": "Datenschutzerklärung",
   "@aboutPrivacyPolicyLabel": {},
@@ -233,5 +233,9 @@
   "mapFeatureCyclewayCrossing": "Radüberweg",
   "@mapFeatureCyclewayCrossing": {},
   "helpImproveTranslationLabel": "Übersetzung verbessern",
-  "@helpImproveTranslationLabel": {}
+  "@helpImproveTranslationLabel": {},
+  "mapFeatureCyclePath": "Radweg",
+  "@mapFeatureCyclePath": {},
+  "mapFeatureFootAndCyclePath": "Fuß- und Radweg",
+  "@mapFeatureFootAndCyclePath": {}
 }

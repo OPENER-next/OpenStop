@@ -1,0 +1,10 @@
+UI/UX:
+- Verbesserung der Zuverlässigkeit des Standortanzeigers und der Kamera-Verfolgung
+Fragen:
+- Offene Fragen für Türen + Bilder hinzufügen
+- Fragen zu den Abmessungen und der Höhe von Aufzugstüren + Bilder hinzufügen
+- Frage zur Breite von tragbaren Rampen + Bilder hinzufügen
+- Beheben, dass die Frage nach der Passagierinformationsanzeige nicht erneut gestellt wird, wenn departures_board=realtime bereits gesetzt ist
+Lokalisierung:
+- Belarussische Sprache hinzufügen
+- Bestehende Lokalisierungen aktualisieren
