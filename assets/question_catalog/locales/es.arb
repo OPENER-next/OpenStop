@@ -276,7 +276,7 @@
   "@footpathSurfaceName": {},
   "footpathSurfaceText": "¿Cuál es la superficie del sendero?",
   "@footpathSurfaceText": {},
-  "footpathSurfaceDescription": "Si la superficie consiste en grava, arena, pasto o una superficie comparable, es una cubierta de piso sin pavimentar.",
+  "footpathSurfaceDescription": "Si la superficie consiste en grava, arena, hierba o una superficie comparable, se trata de una superficie sin pavimentar.",
   "@footpathSurfaceDescription": {},
   "cyclelineSurfaceName": "Superficie de la ciclovía",
   "@cyclelineSurfaceName": {},
@@ -416,7 +416,7 @@
   "@stairsHandrailName": {},
   "stairsHandrailText": "¿Las escaleras tienen un pasamanos?",
   "@stairsHandrailText": {},
-  "escalatorDurationName": "Duración de viaje de escalera mecánica",
+  "escalatorDurationName": "Duración de la ruta",
   "@escalatorDurationName": {},
   "escalatorDurationText": "¿Cuánto tiempo dura el viaje en la escalera mecánica/caminadora rodante?",
   "@escalatorDurationText": {},
@@ -673,5 +673,11 @@
   "portableRampWidthDescription": "Es importante que los usuarios de sillas de ruedas conozcan el ancho efectivo máximo de una rampa portátil (desplegada), ya que es uno de los factores determinantes para determinar si pueden usar la rampa.",
   "@portableRampWidthDescription": {},
   "portableRampWidthPlaceholder": "Ancho de la rampa",
-  "@portableRampWidthPlaceholder": {}
+  "@portableRampWidthPlaceholder": {},
+  "cyclePathSurfaceName": "Superficie del carril bici",
+  "@cyclePathSurfaceName": {},
+  "cyclePathSurfaceText": "¿Cuál es la superficie del carril bici?",
+  "@cyclePathSurfaceText": {},
+  "cyclePathSurfaceDescription": "Si la superficie consiste en grava, arena, hierba o una superficie comparable, se trata de una superficie sin pavimentar.",
+  "@cyclePathSurfaceDescription": {}
 }

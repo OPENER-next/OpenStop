@@ -1,0 +1,10 @@
+UI/UX:
+- Mejorar la fiabilidad del indicador de ubicación y el seguimiento de la cámara
+Preguntas:
+- Abiertas para puertas + imágenes
+- Sobre dimensiones y altura de puertas de ascensor + imágenes
+- Sobre la anchura de la rampa portátil + imágenes
+- Arreglar dejar de hacer preguntas de visualización de información de pasajeros cuando departures_board=realtime ya está configurado
+Ubicación:
+- Añadir idioma Bielorruso
+- Actualizar las ubicaciones existentes

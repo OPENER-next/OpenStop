@@ -233,5 +233,9 @@
   "mapFeatureCyclewayCrossing": "Paso de bicicletas",
   "@mapFeatureCyclewayCrossing": {},
   "helpImproveTranslationLabel": "Mejorar la traducción",
-  "@helpImproveTranslationLabel": {}
+  "@helpImproveTranslationLabel": {},
+  "mapFeatureCyclePath": "Carril bici",
+  "@mapFeatureCyclePath": {},
+  "mapFeatureFootAndCyclePath": "Senda peatonal y ciclista",
+  "@mapFeatureFootAndCyclePath": {}
 }
