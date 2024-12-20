@@ -1,0 +1,16 @@
+Stora nyheter:
+- Omarbetning av hållplatsområdesfrågan
+- Förbättrat generering av hållplatsområden och elementmatchning
+Användargränssnitt:
+- Ändrat nedladdningsindikator
+- Lagt till uppladdningsindikator
+- Gjort rubriken för frågeformuläret statisk
+- Fixat roterande bockmarkör
+Frågor:
+- Åtgärdat villkor för kantstöd och vissla
+- Åtgärdat frågor för varningssignal, trapphissbredd
+Övrigt:
+- Förbättrat MapFeature-matchning
+- Åtgärdat fel i fråga
+Översättning:
+- Uppdaterat och lagt till nya språk

@@ -1,0 +1,10 @@
+Användargränssnitt:
+- Förbättrat tillförlitligheten hos platsindikatorn och kamerans följsamhet
+Frågor:
+- Lagt till öppna frågor för dörrar + bilder
+- Lagt till frågor om hissdörrarnas mått och höjd + bilder
+- Lagt till fråga om bredd på portabel ramp + bilder
+- Åtgärdat att frågan om visning av passagerarinformation inte längre ställs när departures_board=realtime redan är satt
+Översättningar:
+- Lägg till det vitryska språket
+- Uppdaterat befintliga översättningar
