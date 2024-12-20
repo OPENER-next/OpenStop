@@ -296,7 +296,7 @@
   "@footpathSurfaceName": {},
   "footpathSurfaceText": "Wie ist der Boden des Fußweges beschaffen?",
   "@footpathSurfaceText": {},
-  "footpathSurfaceDescription": "Besteht die Oberfläche aus Schotter, Sand, Gras oder einem vergleichbaren Belag, so handelt es sich um einen unbefestigten Bodenbelag.",
+  "footpathSurfaceDescription": "Wenn die Oberfläche aus Kies, Sand, Gras oder einer vergleichbaren Oberfläche besteht, handelt es sich um eine unbefestigte Oberfläche.",
   "@footpathSurfaceDescription": {},
   "cyclelineSurfaceName": "Bodenbeschaffenheit Radweg",
   "@cyclelineSurfaceName": {},
@@ -673,5 +673,11 @@
   "portableRampWidthDescription": "Die maximal nutzbare Breite einer (ausgeklappten) tragbaren Rampe ist für Rollstuhlfahrer wichtig zu wissen, da sie einer der entscheidenden Faktoren ist, ob sie die Rampe benutzen können.",
   "@portableRampWidthDescription": {},
   "portableRampWidthPlaceholder": "Breite der Rampe",
-  "@portableRampWidthPlaceholder": {}
+  "@portableRampWidthPlaceholder": {},
+  "cyclePathSurfaceName": "Oberfläche des Radwegs",
+  "@cyclePathSurfaceName": {},
+  "cyclePathSurfaceText": "Was ist die Oberfläche des Radwegs?",
+  "@cyclePathSurfaceText": {},
+  "cyclePathSurfaceDescription": "Wenn die Oberfläche aus Kies, Sand, Gras oder einer vergleichbaren Oberfläche besteht, handelt es sich um eine unbefestigte Oberfläche.",
+  "@cyclePathSurfaceDescription": {}
 }
