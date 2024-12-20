@@ -1,0 +1,334 @@
+{
+  "aboutTitle": "Om",
+  "@aboutTitle": {},
+  "aboutSlogan": "Nästa station: Tillgänglighet",
+  "@aboutSlogan": {},
+  "aboutAuthorsLabel": "Upphovsmän",
+  "@aboutAuthorsLabel": {},
+  "aboutAuthorsDescription": "{appName}s bidragsgivare",
+  "@aboutAuthorsDescription": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutIdeaDescription": "Chemnitz Tekniska Högskola\nProffesur i kretskorts- och systemdesign",
+  "@aboutIdeaDescription": {},
+  "aboutLicensePackageLabel": "Licenser för använda paket",
+  "@aboutLicensePackageLabel": {},
+  "aboutSourceCodeLabel": "Källkod",
+  "@aboutSourceCodeLabel": {},
+  "helpOnboardingLabel": "Se introduktionen igen",
+  "@helpOnboardingLabel": {},
+  "onboardingGreetingDescription": "Vi är glada att du är här och vill bidra till att förbättra kollektivtrafiken.",
+  "@onboardingGreetingDescription": {},
+  "onboardingGreetingButton": "Så här fungerar det",
+  "@onboardingGreetingButton": {},
+  "onboardingSurveyingTitle": "Ta en titt",
+  "@onboardingSurveyingTitle": {},
+  "onboardingSurveyingDescription": "Ta dig till en hållplats i närheten för att undersöka den nuvarande situationen.",
+  "@onboardingSurveyingDescription": {},
+  "aboutVersionLabel": "Version",
+  "@aboutVersionLabel": {},
+  "aboutPrivacyPolicyLabel": "Integritetspolicy",
+  "@aboutPrivacyPolicyLabel": {},
+  "aboutIdeaLabel": "Idé",
+  "@aboutIdeaLabel": {},
+  "aboutLicenseLabel": "Licens",
+  "@aboutLicenseLabel": {},
+  "helpTitle": "Hjälp",
+  "@helpTitle": {},
+  "helpReportErrorLabel": "Rapportera ett fel",
+  "@helpReportErrorLabel": {},
+  "helpImproveTranslationLabel": "Förbättra översättningen",
+  "@helpImproveTranslationLabel": {},
+  "onboardingGreetingTitle": "Hej!",
+  "@onboardingGreetingTitle": {},
+  "onboardingSurveyingButton": "Ska bli",
+  "@onboardingSurveyingButton": {},
+  "onboardingAnsweringDescription": "Välj en markör i appen och svara på frågorna för att samla in data.",
+  "@onboardingAnsweringDescription": {},
+  "settingsProfessionalQuestionsLabel": "Visa fackmässiga frågor",
+  "@settingsProfessionalQuestionsLabel": {},
+  "settingsProfessionalQuestionsDescription": "Av säkerhetsskäl endast avsedda för yrkesmän",
+  "@settingsProfessionalQuestionsDescription": {},
+  "settingsThemeLabel": "Appens färgsättning",
+  "@settingsThemeLabel": {},
+  "logoutDialogTitle": "Logga ut från OSM?",
+  "@logoutDialogTitle": {},
+  "numberInputValidationError": "Ogiltigt nummer",
+  "@numberInputValidationError": {},
+  "stringInputPlaceholder": "Skriv här …",
+  "@stringInputPlaceholder": {},
+  "changesetCommentConjunctionString": "och",
+  "@changesetCommentConjunctionString": {},
+  "uploadMessageSuccess": "Ändringarna har laddats upp.",
+  "@uploadMessageSuccess": {},
+  "uploadMessageServerConnectionError": "Felmeddelande: Ingen anslutning till OSM-servern.",
+  "@uploadMessageServerConnectionError": {},
+  "uploadMessageUnknownConnectionError": "Okänt fel under överföringen.",
+  "@uploadMessageUnknownConnectionError": {},
+  "queryMessageServerUnavailableError": "Servern är otillgänglig eller överbelastad. Försök igen senare.",
+  "@queryMessageServerUnavailableError": {},
+  "queryMessageTooManyRequestsError": "För många förfrågningar till servern.",
+  "@queryMessageTooManyRequestsError": {},
+  "queryMessageReceiveTimeoutError": "Felmeddelande: Tidsgränsen för mottagande av data passerades.",
+  "@queryMessageReceiveTimeoutError": {},
+  "queryMessageUnknownServerCommunicationError": "Okänt fel vid serverkommunikation.",
+  "@queryMessageUnknownServerCommunicationError": {},
+  "finish": "Avsluta",
+  "@finish": {},
+  "login": "Logga in",
+  "@login": {},
+  "logout": "Logga ut",
+  "@logout": {},
+  "skip": "Hoppa över",
+  "@skip": {},
+  "yes": "Ja",
+  "@yes": {},
+  "hours": "{hour, plural, =1 {1 timme} other {{hour} timmar}}",
+  "@hours": {
+    "placeholders": {
+      "hour": {
+        "type": "num"
+      }
+    }
+  },
+  "and": "och",
+  "@and": {},
+  "durationInputDaysLabel": "dagar",
+  "@durationInputDaysLabel": {},
+  "durationInputHoursLabel": "timmar",
+  "@durationInputHoursLabel": {},
+  "durationInputMinutesLabel": "minuter",
+  "@durationInputMinutesLabel": {},
+  "durationInputSecondsLabel": "sekunder",
+  "@durationInputSecondsLabel": {},
+  "osmCreditsText": "Datan © OpenStreetMaps bidragsgivare",
+  "@osmCreditsText": {},
+  "changesetWithStopNameText": "Lade till detaljer till {elements} på hållplatsen {stopArea}.",
+  "@changesetWithStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      },
+      "stopArea": {
+        "type": "String"
+      }
+    }
+  },
+  "changesetWithoutStopNameText": "Lade till detaljer till {elements} på hållplatsen.",
+  "@changesetWithoutStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureBusStop": "Busshållplats",
+  "@mapFeatureBusStop": {},
+  "onboardingAnsweringTitle": "Nu är det din tur",
+  "@onboardingAnsweringTitle": {},
+  "onboardingAnsweringButton": "Uppfattat",
+  "@onboardingAnsweringButton": {},
+  "onboardingContributingTitle": "Delad lycka är dubbel lycka",
+  "@onboardingContributingTitle": {},
+  "settingsTitle": "Inställningar",
+  "@settingsTitle": {},
+  "onboardingContributingDescription": "Ladda upp dina svar till OpenStreetMap för att dela dem med hela världen.",
+  "@onboardingContributingDescription": {},
+  "privacyPolicyTitle": "Integritetspolicy",
+  "@privacyPolicyTitle": {},
+  "settingsThemeOptionSystem": "Systeminställning",
+  "@settingsThemeOptionSystem": {},
+  "logoutDialogDescription": "Om du loggar ut kan du inte längre ladda upp ändringar till OpenStreetMap.",
+  "@logoutDialogDescription": {},
+  "loginHint": "Logga in med ditt OpenStreetMap-konto för att ladda upp dina ändringar.",
+  "@loginHint": {},
+  "onboardingContributingButton": "Nu kör vi",
+  "@onboardingContributingButton": {},
+  "numberInputPlaceholder": "Skriv här …",
+  "@numberInputPlaceholder": {},
+  "numberInputFallbackName": "Värde",
+  "@numberInputFallbackName": {
+    "description": "Fallback value for nameString in numberInputValidationErrorMax"
+  },
+  "numberInputValidationErrorMax": "{nameString} måste vara mindre än {max} {unit}.",
+  "@numberInputValidationErrorMax": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "max": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsThemeDialogTitle": "Välj tema",
+  "@settingsThemeDialogTitle": {},
+  "settingsThemeOptionLight": "Ljust",
+  "@settingsThemeOptionLight": {},
+  "numberInputValidationErrorMin": "{nameString} måste vara större än {min} {unit}.",
+  "@numberInputValidationErrorMin": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "min": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsThemeOptionDark": "Mörkt",
+  "@settingsThemeOptionDark": {},
+  "stringInputValidationErrorMin": "För kort inmatning",
+  "@stringInputValidationErrorMin": {},
+  "changesetCommentMessage": "Lade till detaljer till {mapFeaturesString} på hållplatsen {stopsString}.",
+  "@changesetCommentMessage": {
+    "placeholders": {
+      "mapFeaturesString": {
+        "type": "String"
+      },
+      "stopsString": {
+        "type": "String"
+      }
+    }
+  },
+  "questionnaireSummaryDedicatedMessage": "Tack för dina svar, {userName}.\nDubbelkolla dem innan du laddar upp dem.",
+  "@questionnaireSummaryDedicatedMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "questionnaireSummaryUndedicatedMessage": "Tack för dina svar.\nDubbelkolla dem innan du laddar upp dem.",
+  "@questionnaireSummaryUndedicatedMessage": {},
+  "cancel": "Avbryt",
+  "@cancel": {},
+  "back": "Tillbaka",
+  "@back": {},
+  "next": "Nästa",
+  "@next": {},
+  "queryMessageConnectionTimeoutError": "Felmeddelande: Tidsgränsen för begäran passerades.",
+  "@queryMessageConnectionTimeoutError": {},
+  "no": "Nej",
+  "@no": {},
+  "days": "{day, plural, =1 {1 dag} other {{day} dagar}}",
+  "@days": {
+    "placeholders": {
+      "day": {
+        "type": "num"
+      }
+    }
+  },
+  "minutes": "{minute, plural, =1 {1 minut} other {{minute} minuter}}",
+  "@minutes": {
+    "placeholders": {
+      "minute": {
+        "type": "num"
+      }
+    }
+  },
+  "seconds": "{second, plural, =1 {1 sekund} other {{second} sekunder}}",
+  "@seconds": {
+    "placeholders": {
+      "second": {
+        "type": "num"
+      }
+    }
+  },
+  "more": "mer",
+  "@more": {},
+  "element": "element",
+  "@element": {},
+  "confirm": "Bekräfta",
+  "@confirm": {},
+  "queryMessageUnknownError": "Okänt fel.",
+  "@queryMessageUnknownError": {},
+  "mapFeatureTramStop": "Spårvagnshållplats",
+  "@mapFeatureTramStop": {},
+  "mapFeatureTrainPlatform": "Tågplattform",
+  "@mapFeatureTrainPlatform": {},
+  "mapFeaturePlatform": "Plattform",
+  "@mapFeaturePlatform": {},
+  "mapFeatureStation": "Station",
+  "@mapFeatureStation": {},
+  "mapFeatureTaxiStand": "Taxistation",
+  "@mapFeatureTaxiStand": {},
+  "mapFeatureToilets": "Toaletter",
+  "@mapFeatureToilets": {},
+  "mapFeatureLuggageLockers": "Förvaringsboxar",
+  "@mapFeatureLuggageLockers": {},
+  "mapFeatureInformationCallPoint": "Informationspelare",
+  "@mapFeatureInformationCallPoint": {},
+  "mapFeatureInformationTerminal": "Informationsterminal",
+  "@mapFeatureInformationTerminal": {},
+  "mapFeatureEntrance": "Entré",
+  "@mapFeatureEntrance": {},
+  "mapFeatureFootpath": "Gångväg",
+  "@mapFeatureFootpath": {},
+  "mapFeatureCycleBarrier": "Cykelfålla",
+  "@mapFeatureCycleBarrier": {},
+  "mapFeatureCrossing": "Korsning med bilväg",
+  "@mapFeatureCrossing": {},
+  "mapFeatureTramCrossing": "Spårvagnsövergång",
+  "@mapFeatureTramCrossing": {},
+  "mapFeatureRailroadCrossing": "Järnvägskorsning",
+  "@mapFeatureRailroadCrossing": {},
+  "mapFeatureFootwayCrossing": "Övergångsställe",
+  "@mapFeatureFootwayCrossing": {},
+  "mapFeatureCyclewayCrossing": "Cykelöverfart eller cykelpassage",
+  "@mapFeatureCyclewayCrossing": {},
+  "mapFeatureCurb": "Trottoarkant",
+  "@mapFeatureCurb": {},
+  "mapFeatureTicketSalesPoint": "Biljettförsäljningsställe",
+  "@mapFeatureTicketSalesPoint": {},
+  "mapFeatureInformationPoint": "Informationspunkt",
+  "@mapFeatureInformationPoint": {},
+  "mapFeatureStationMap": "Stations-/hållplatskarta",
+  "@mapFeatureStationMap": {},
+  "mapFeatureTicketMachine": "Biljettautomat",
+  "@mapFeatureTicketMachine": {},
+  "mapFeatureParkingSpot": "Parkeringsruta",
+  "@mapFeatureParkingSpot": {},
+  "mapFeatureStairs": "Trappor",
+  "@mapFeatureStairs": {},
+  "mapFeatureElevator": "Hiss",
+  "@mapFeatureElevator": {},
+  "mapFeatureEscalator": "Rulltrappa",
+  "@mapFeatureEscalator": {},
+  "mapFeaturePedestrianLights": "Trafikljus för fotgängare",
+  "@mapFeaturePedestrianLights": {},
+  "mapFeatureBusPlatformNumber": "Hållplatsläge: {number}",
+  "@mapFeatureBusPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureTrainPlatformNumber": "Spår: {number}",
+  "@mapFeatureTrainPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureStopPole": "Hållplatsstolpe",
+  "@mapFeatureStopPole": {},
+  "mapFeatureLuggageTransport": "Transporttjänster för bagage",
+  "@mapFeatureLuggageTransport": {},
+  "mapFeatureEmergencyCallPoint": "Nödtelefon",
+  "@mapFeatureEmergencyCallPoint": {},
+  "mapFeatureHelpPoint": "Nödtelefon",
+  "@mapFeatureHelpPoint": {}
+}

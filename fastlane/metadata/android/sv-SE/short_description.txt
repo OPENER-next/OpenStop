@@ -1,0 +1,1 @@
+Appen för insamling av data om hinder i kollektivtrafiken.

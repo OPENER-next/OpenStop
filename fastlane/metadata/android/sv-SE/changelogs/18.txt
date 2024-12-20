@@ -1,0 +1,14 @@
+Översättningar:
+ - Man kan nu översätta med hjälp av Weblate
+ - Översättningar (delvis) tillgängliga på 10 språk
+Användargränssnitt:
+ - Ersatt laddningsindikator för hållplatsområde
+ - Fixat avstånd i markörbubblor med långa namn
+ - Lade till gallerivy för infobilder
+Frågor:
+ - Lade till fråga om spårvagnssignaler
+ - Lade till/ersatte frågor om övergångsställen
+ - Fråga inte efter ”crossing:whistle” på spårvagnsövergångar
+Övrigt:
+ - Förtydliga GPLv3+-licensen
+ - Fel- och stavningskorrigeringar
