@@ -330,5 +330,9 @@
   "durationInputSecondsLabel": "秒",
   "@durationInputSecondsLabel": {},
   "element": "元素",
-  "@element": {}
+  "@element": {},
+  "mapFeatureFootAndCyclePath": "人行與腳踏車道",
+  "@mapFeatureFootAndCyclePath": {},
+  "mapFeatureCyclePath": "腳踏車道",
+  "@mapFeatureCyclePath": {}
 }
