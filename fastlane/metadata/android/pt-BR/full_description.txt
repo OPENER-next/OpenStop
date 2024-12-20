@@ -1,0 +1,7 @@
+O objetivo do aplicativo é, com a sua ajuda, coletar dados sobre barreiras de transporte público e disponibilizá-los no OpenStreetMap para que TODOS possam beneficiar deles.
+
+Ao fazer perguntas simples sobre paradas, os cidadãos estarão em posição de coletar dados nas suas proximidades de uma forma acessível.
+
+Os dados coletados servirão de base para uma melhor informação de viagem, especialmente para pessoas com deficiências físicas, e orientarão o processo de modernização dos pontos de ônibus.
+
+Agradecemos sua contribuição para um melhor transporte público local.
