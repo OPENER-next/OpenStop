@@ -1,0 +1,11 @@
+Principal:
+- Reform. consulta da área de parada
+- Melhorar geração da área de parada e correspondência de elementos
+UI:
+- Alteração de indicador de download para lupa
+- Adição de indicador de envio, remoção de mensagem toast
+- Tornar estático o cabeçalho da folha de perguntas
+- Correção de marcador de verificação rotativo
+Perguntas:
+- Correção de condições para o auxílio de aproximação, apito
+- Correção de perguntas p/sinal de aviso acústico, sinal de travessia, largura do elevador de escadas
