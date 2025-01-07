@@ -41,19 +41,16 @@ class QuestionNavigationBar extends StatelessWidget {
               duration: const Duration(milliseconds: 300),
               child: backText == null
               ? null
-              : TextButton(
+              : TextButton.icon(
                 // mimic disabled style
                 style: onBack != null
-                  ? _buttonStyle
-                  : _buttonStyle.merge(disabledButtonStyle),
+                  ? _buttonStyle.merge(const ButtonStyle(alignment: Alignment.centerLeft))
+                  : _buttonStyle.merge(const ButtonStyle(alignment: Alignment.centerLeft)).merge(disabledButtonStyle),
                 // if button is disabled vibrate when pressed as additional feedback
                 onPressed: onBack ?? HapticFeedback.vibrate,
-                child: Row(
-                  children: [
-                    const Icon(Icons.chevron_left_rounded),
-                    Text(backText!),
-                  ],
-                ),
+                label: const Icon(Icons.chevron_left_rounded),
+                icon: Text(backText!),
+                iconAlignment: IconAlignment.end,
               ),
             ),
           ),
@@ -62,21 +59,17 @@ class QuestionNavigationBar extends StatelessWidget {
               duration: const Duration(milliseconds: 300),
               child: nextText == null
               ? null
-              : TextButton(
+              : TextButton.icon(
                 key: ValueKey(nextText),
                 // mimic disabled style
                 style: onNext != null
-                  ? _buttonStyle
-                  : _buttonStyle.merge(disabledButtonStyle),
+                  ? _buttonStyle.merge(const ButtonStyle(alignment: Alignment.centerRight))
+                  : _buttonStyle.merge(const ButtonStyle(alignment: Alignment.centerRight)).merge(disabledButtonStyle),
                 // if button is disabled vibrate when pressed as additional feedback
                 onPressed: onNext ?? HapticFeedback.vibrate,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(nextText!),
-                    const Icon(Icons.chevron_right_rounded),
-                  ],
-                ),
+                label: Text(nextText!),
+                icon: const Icon(Icons.chevron_right_rounded),
+                iconAlignment: IconAlignment.end,
               ),
             ),
           ),
@@ -94,11 +87,11 @@ class QuestionNavigationBar extends StatelessWidget {
     padding: WidgetStatePropertyAll(
       EdgeInsets.all(20),
     ),
-    alignment: Alignment.centerLeft,
     shape: WidgetStatePropertyAll(
       RoundedRectangleBorder(
         borderRadius: BorderRadius.zero,
       ),
     ),
+    minimumSize: WidgetStatePropertyAll(Size(double.infinity,0)),
   );
 }
