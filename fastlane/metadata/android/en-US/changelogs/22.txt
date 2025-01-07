@@ -1,0 +1,13 @@
+General:
+- Enable App Links and Universal Links
+UI/UX:
+- Improve stop loading by reducing stop area loading cell size
+- Add combined foot- & cycle path crossing map feature
+- Separate footways into multiple map features
+- Update duration input style
+- Implement stop watch for durations input (seconds only)
+Questions:
+- Fix duplicate speech output question
+- Update conditions for questions about surfaces
+Localization:
+- Update existing localizations
