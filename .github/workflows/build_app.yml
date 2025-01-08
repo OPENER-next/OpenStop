@@ -103,7 +103,7 @@ jobs:
 
   build_ios:
     name: Build for iOS
-    runs-on: macos-13
+    runs-on: macos-15
 
     env:
       BUILD_CERTIFICATE_BASE64: ${{ secrets.APPLE_DISTRIBUTION_CERT_BASE64 }}
