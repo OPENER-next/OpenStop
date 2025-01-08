@@ -11,7 +11,7 @@ runs:
   steps:
     - name: Install yq
       shell: bash
-      run: pip3 install yq
+      run: pip3 install yq --break-system-packages
 
     - name: Read Flutter version from pubspec.yaml
       id: flutterVersion
