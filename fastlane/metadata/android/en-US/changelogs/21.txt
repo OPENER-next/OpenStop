@@ -1,0 +1,10 @@
+UI/UX:
+- Improve location indicator reliability and camera tracking
+Questions:
+- Add open questions for doors + images
+- Add elevator door dimensions and height questions + images
+- Add question for portable ramp width + images
+- Fix stop asking passenger information display question when departures_board=realtime is already set
+Localization:
+- Add Belarusian language
+- Update existing localizations

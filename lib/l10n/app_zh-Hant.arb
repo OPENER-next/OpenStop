@@ -1,0 +1,338 @@
+{
+  "aboutTitle": "關於",
+  "@aboutTitle": {},
+  "aboutSlogan": "下一站：無障礙",
+  "@aboutSlogan": {},
+  "aboutVersionLabel": "版本",
+  "@aboutVersionLabel": {},
+  "aboutAuthorsLabel": "作者",
+  "@aboutAuthorsLabel": {},
+  "aboutAuthorsDescription": "{appName} 貢獻者",
+  "@aboutAuthorsDescription": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPrivacyPolicyLabel": "隱私權政策",
+  "@aboutPrivacyPolicyLabel": {},
+  "aboutIdeaLabel": "想法",
+  "@aboutIdeaLabel": {},
+  "aboutIdeaDescription": "肯尼茲工業大學\n電路與系統設計教職",
+  "@aboutIdeaDescription": {},
+  "aboutLicenseLabel": "授權條款",
+  "@aboutLicenseLabel": {},
+  "aboutLicensePackageLabel": "使用軟體包的授權條款",
+  "@aboutLicensePackageLabel": {},
+  "aboutSourceCodeLabel": "原始碼",
+  "@aboutSourceCodeLabel": {},
+  "helpTitle": "說明",
+  "@helpTitle": {},
+  "helpOnboardingLabel": "重新觀看介紹",
+  "@helpOnboardingLabel": {},
+  "helpReportErrorLabel": "回報錯誤",
+  "@helpReportErrorLabel": {},
+  "helpImproveTranslationLabel": "改進翻譯",
+  "@helpImproveTranslationLabel": {},
+  "onboardingGreetingTitle": "嗨！",
+  "@onboardingGreetingTitle": {},
+  "settingsThemeDialogTitle": "選取佈景主題",
+  "@settingsThemeDialogTitle": {},
+  "settingsThemeOptionSystem": "系統設定",
+  "@settingsThemeOptionSystem": {},
+  "settingsThemeOptionLight": "淺色",
+  "@settingsThemeOptionLight": {},
+  "settingsThemeOptionDark": "深色",
+  "@settingsThemeOptionDark": {},
+  "logoutDialogTitle": "登出 OSM？",
+  "@logoutDialogTitle": {},
+  "onboardingGreetingDescription": "我們很高興您來到這裡，並希望為改善大眾運輸盡一己之力。",
+  "@onboardingGreetingDescription": {},
+  "onboardingGreetingButton": "這是運作方式",
+  "@onboardingGreetingButton": {},
+  "onboardingSurveyingTitle": "看一看",
+  "@onboardingSurveyingTitle": {},
+  "onboardingSurveyingDescription": "前往附近的車站調查其目前狀態。",
+  "@onboardingSurveyingDescription": {},
+  "onboardingSurveyingButton": "我做得到",
+  "@onboardingSurveyingButton": {},
+  "onboardingAnsweringTitle": "輪到你了",
+  "@onboardingAnsweringTitle": {},
+  "onboardingAnsweringDescription": "為了蒐集資料，請在應用程式中選擇一個標記並回答顯示的問題。",
+  "@onboardingAnsweringDescription": {},
+  "onboardingAnsweringButton": "好，知道了",
+  "@onboardingAnsweringButton": {},
+  "onboardingContributingTitle": "分享就是關懷",
+  "@onboardingContributingTitle": {},
+  "onboardingContributingDescription": "將您的答案上傳至 OpenStreetMap，與全世界分享。",
+  "@onboardingContributingDescription": {},
+  "onboardingContributingButton": "開始吧",
+  "@onboardingContributingButton": {},
+  "privacyPolicyTitle": "隱私權政策",
+  "@privacyPolicyTitle": {},
+  "settingsTitle": "設定",
+  "@settingsTitle": {},
+  "settingsProfessionalQuestionsLabel": "顯示專業問題",
+  "@settingsProfessionalQuestionsLabel": {},
+  "settingsProfessionalQuestionsDescription": "出於安全原因，僅供專業人士使用",
+  "@settingsProfessionalQuestionsDescription": {},
+  "settingsThemeLabel": "應用程式的配色方案",
+  "@settingsThemeLabel": {},
+  "logoutDialogDescription": "若您登出，則無法再將變更上傳至 OpenStreetMap。",
+  "@logoutDialogDescription": {},
+  "loginHint": "使用您的 OpenStreetMap 帳號登入以上傳您的變更。",
+  "@loginHint": {},
+  "numberInputPlaceholder": "在此輸入……",
+  "@numberInputPlaceholder": {},
+  "numberInputFallbackName": "值",
+  "@numberInputFallbackName": {
+    "description": "Fallback value for nameString in numberInputValidationErrorMax"
+  },
+  "numberInputValidationError": "無效號碼",
+  "@numberInputValidationError": {},
+  "numberInputValidationErrorMin": "{nameString} 必須多於 {min}{unit}。",
+  "@numberInputValidationErrorMin": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "min": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "stringInputPlaceholder": "在此輸入……",
+  "@stringInputPlaceholder": {},
+  "stringInputValidationErrorMin": "輸入太短",
+  "@stringInputValidationErrorMin": {},
+  "changesetCommentMessage": "在停靠區域 {stopsString} 中的 {mapFeaturesString} 中新增了詳細資訊。",
+  "@changesetCommentMessage": {
+    "placeholders": {
+      "mapFeaturesString": {
+        "type": "String"
+      },
+      "stopsString": {
+        "type": "String"
+      }
+    }
+  },
+  "changesetCommentConjunctionString": "與",
+  "@changesetCommentConjunctionString": {},
+  "uploadMessageSuccess": "變更已成功上傳。",
+  "@uploadMessageSuccess": {},
+  "uploadMessageServerConnectionError": "錯誤：未連線到 OSM 伺服器。",
+  "@uploadMessageServerConnectionError": {},
+  "uploadMessageUnknownConnectionError": "傳輸過程中出現未知錯誤。",
+  "@uploadMessageUnknownConnectionError": {},
+  "queryMessageTooManyRequestsError": "對伺服器的請求太多。",
+  "@queryMessageTooManyRequestsError": {},
+  "queryMessageConnectionTimeoutError": "錯誤：伺服器查詢逾時。",
+  "@queryMessageConnectionTimeoutError": {},
+  "queryMessageReceiveTimeoutError": "錯誤：接收資料逾時。",
+  "@queryMessageReceiveTimeoutError": {},
+  "queryMessageUnknownServerCommunicationError": "伺服器通訊期間出現未知錯誤。",
+  "@queryMessageUnknownServerCommunicationError": {},
+  "queryMessageUnknownError": "未知錯誤。",
+  "@queryMessageUnknownError": {},
+  "questionnaireSummaryUndedicatedMessage": "謝謝您的回答。\n請在上傳前驗證它們。",
+  "@questionnaireSummaryUndedicatedMessage": {},
+  "back": "上一步",
+  "@back": {},
+  "next": "下一步",
+  "@next": {},
+  "cancel": "取消",
+  "@cancel": {},
+  "confirm": "確認",
+  "@confirm": {},
+  "finish": "結束",
+  "@finish": {},
+  "login": "登入",
+  "@login": {},
+  "logout": "登出",
+  "@logout": {},
+  "skip": "略過",
+  "@skip": {},
+  "yes": "是",
+  "@yes": {},
+  "no": "否",
+  "@no": {},
+  "days": "{day, plural, =1 {1 天} other {{day} 天}}",
+  "@days": {
+    "placeholders": {
+      "day": {
+        "type": "num"
+      }
+    }
+  },
+  "hours": "{hour, plural, =1 {1 小時} other {{hour} 小時}}",
+  "@hours": {
+    "placeholders": {
+      "hour": {
+        "type": "num"
+      }
+    }
+  },
+  "seconds": "{second, plural, =1 {1 秒} other {{second} 秒}}",
+  "@seconds": {
+    "placeholders": {
+      "second": {
+        "type": "num"
+      }
+    }
+  },
+  "and": "與",
+  "@and": {},
+  "osmCreditsText": "資料 © OpenStreetMap 貢獻者",
+  "@osmCreditsText": {},
+  "changesetWithStopNameText": "在停靠區域 {stopArea} 中的 {elements} 新增了詳細資訊。",
+  "@changesetWithStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      },
+      "stopArea": {
+        "type": "String"
+      }
+    }
+  },
+  "changesetWithoutStopNameText": "在停靠區域的 {elements} 新增了詳細資訊。",
+  "@changesetWithoutStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureBusStop": "公車站",
+  "@mapFeatureBusStop": {},
+  "mapFeatureTramStop": "路面電車站",
+  "@mapFeatureTramStop": {},
+  "mapFeatureTrainPlatform": "火車月台",
+  "@mapFeatureTrainPlatform": {},
+  "mapFeatureStopPole": "停止桿",
+  "@mapFeatureStopPole": {},
+  "mapFeatureParkingSpot": "停車位",
+  "@mapFeatureParkingSpot": {},
+  "mapFeatureTaxiStand": "計程車站",
+  "@mapFeatureTaxiStand": {},
+  "mapFeatureToilets": "廁所",
+  "@mapFeatureToilets": {},
+  "mapFeatureLuggageLockers": "行李置物櫃",
+  "@mapFeatureLuggageLockers": {},
+  "mapFeatureLuggageTransport": "行李運輸",
+  "@mapFeatureLuggageTransport": {},
+  "mapFeatureInformationTerminal": "資訊終端機",
+  "@mapFeatureInformationTerminal": {},
+  "mapFeatureInformationCallPoint": "資訊欄位",
+  "@mapFeatureInformationCallPoint": {},
+  "mapFeatureHelpPoint": "協助點",
+  "@mapFeatureHelpPoint": {},
+  "mapFeatureEmergencyCallPoint": "緊急呼叫點",
+  "@mapFeatureEmergencyCallPoint": {},
+  "mapFeatureEntrance": "入口",
+  "@mapFeatureEntrance": {},
+  "mapFeatureFootpath": "人行道",
+  "@mapFeatureFootpath": {},
+  "mapFeatureStairs": "樓梯",
+  "@mapFeatureStairs": {},
+  "mapFeatureElevator": "電梯",
+  "@mapFeatureElevator": {},
+  "mapFeatureEscalator": "電扶梯",
+  "@mapFeatureEscalator": {},
+  "mapFeatureCycleBarrier": "腳踏車障礙物",
+  "@mapFeatureCycleBarrier": {},
+  "mapFeatureCrossing": "交叉路口",
+  "@mapFeatureCrossing": {},
+  "mapFeatureTramCrossing": "路面電車路口",
+  "@mapFeatureTramCrossing": {},
+  "mapFeatureRailroadCrossing": "平交道",
+  "@mapFeatureRailroadCrossing": {},
+  "mapFeatureCurb": "路緣",
+  "@mapFeatureCurb": {},
+  "mapFeaturePedestrianLights": "行人燈號",
+  "@mapFeaturePedestrianLights": {},
+  "mapFeatureBusPlatformNumber": "月台：{number}",
+  "@mapFeatureBusPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureTrainPlatformNumber": "月台：{number}",
+  "@mapFeatureTrainPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeaturePlatform": "月台",
+  "@mapFeaturePlatform": {},
+  "mapFeatureTicketSalesPoint": "售票點",
+  "@mapFeatureTicketSalesPoint": {},
+  "mapFeatureInformationPoint": "資訊點",
+  "@mapFeatureInformationPoint": {},
+  "mapFeatureStationMap": "站/停靠站地圖",
+  "@mapFeatureStationMap": {},
+  "mapFeatureStation": "車站",
+  "@mapFeatureStation": {},
+  "mapFeatureTicketMachine": "售票機",
+  "@mapFeatureTicketMachine": {},
+  "mapFeatureFootwayCrossing": "行人穿越道",
+  "@mapFeatureFootwayCrossing": {},
+  "mapFeatureCyclewayCrossing": "腳踏車穿越道",
+  "@mapFeatureCyclewayCrossing": {},
+  "queryMessageServerUnavailableError": "伺服器無法使用或過載。請稍後再試。",
+  "@queryMessageServerUnavailableError": {},
+  "questionnaireSummaryDedicatedMessage": "感謝 {userName} 的回答。\n請在上傳前驗證它們。",
+  "@questionnaireSummaryDedicatedMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "minutes": "{minute, plural, =1 {1 分鐘} other {{minute} 分鐘}}",
+  "@minutes": {
+    "placeholders": {
+      "minute": {
+        "type": "num"
+      }
+    }
+  },
+  "durationInputHoursLabel": "小時",
+  "@durationInputHoursLabel": {},
+  "numberInputValidationErrorMax": "{nameString} 必須少於 {max}{unit}。",
+  "@numberInputValidationErrorMax": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "max": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "more": "更多",
+  "@more": {},
+  "durationInputDaysLabel": "天",
+  "@durationInputDaysLabel": {},
+  "durationInputMinutesLabel": "分鐘",
+  "@durationInputMinutesLabel": {},
+  "durationInputSecondsLabel": "秒",
+  "@durationInputSecondsLabel": {},
+  "element": "元素",
+  "@element": {},
+  "mapFeatureFootAndCyclePath": "人行與腳踏車道",
+  "@mapFeatureFootAndCyclePath": {},
+  "mapFeatureCyclePath": "腳踏車道",
+  "@mapFeatureCyclePath": {}
+}

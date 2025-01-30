@@ -11,14 +11,14 @@ class QuestionProgressBar extends ImplicitlyAnimatedWidget {
   final Color backgroundColor;
 
   const QuestionProgressBar({
-    Key? key,
+    super.key,
     this.value = 0,
     this.minHeight = 1,
     this.color,
     this.backgroundColor = Colors.transparent,
-    Duration duration = const Duration(milliseconds: 300),
-    Curve curve = Curves.ease,
-  }) : super(key: key, duration: duration, curve: curve);
+    super.duration = const Duration(milliseconds: 300),
+    super.curve = Curves.ease,
+  });
 
 
   @override

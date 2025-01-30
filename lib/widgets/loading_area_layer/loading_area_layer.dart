@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 
-import 'ripple_indicator.dart';
 import 'map_layer.dart';
+import 'ripple_indicator.dart';
 
 /// Layer to show ripple animations for geo circles and automatically remove them when expired.
 

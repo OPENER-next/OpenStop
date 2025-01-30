@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 
 /// A fast point drawing layer.
@@ -65,8 +66,8 @@ class PointsLayer extends LeafRenderObjectWidget  {
       if (isVisible) {
         final relativePos = pxPoint - unrotatedPixelOrigin;
         final pos = mapCamera.rotatePoint(relativePixelCenter, relativePos, counterRotation: false);
-        yield pos.x.toDouble();
-        yield pos.y.toDouble();
+        yield pos.x;
+        yield pos.y;
       }
     }
   }
@@ -89,6 +90,7 @@ class RenderPointsLayer extends RenderBox {
       ..color = color,
       _points = points;
 
+  double get diameter => _paint.strokeWidth;
   set diameter(double value) {
     if (_paint.strokeWidth != value) {
       _paint.strokeWidth = value;
@@ -96,6 +98,7 @@ class RenderPointsLayer extends RenderBox {
     }
   }
 
+  Color get color => _paint.color;
   set color(Color value) {
     if (_paint.color != value) {
       _paint.color = value;
@@ -103,6 +106,7 @@ class RenderPointsLayer extends RenderBox {
     }
   }
 
+  Float32List get points => _points;
   set points(Float32List value) {
     _points = value;
     markNeedsPaint();

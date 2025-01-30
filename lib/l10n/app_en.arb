@@ -28,45 +28,40 @@
   "@aboutLicensePackageLabel": {},
   "aboutSourceCodeLabel": "Source code",
   "@aboutSourceCodeLabel": {},
-
   "helpTitle": "Help",
   "@helpTitle": {},
   "helpOnboardingLabel": "Watch the introduction again",
   "@helpOnboardingLabel": {},
   "helpReportErrorLabel": "Report an error",
   "@helpReportErrorLabel": {},
-
+  "helpImproveTranslationLabel": "Improve the translation",
+  "@helpImproveTranslationLabel": {},
   "onboardingGreetingTitle": "Hey!",
   "@onboardingGreetingTitle": {},
   "onboardingGreetingDescription": "We're glad you're here and want to do your part to improve public transport.",
   "@onboardingGreetingDescription": {},
   "onboardingGreetingButton": "Here's how it works",
   "@onboardingGreetingButton": {},
-
   "onboardingSurveyingTitle": "Take a look",
   "@onboardingSurveyingTitle": {},
   "onboardingSurveyingDescription": "Go to a nearby stop to survey its current state.",
   "@onboardingSurveyingDescription": {},
   "onboardingSurveyingButton": "I'll do it",
   "@onboardingSurveyingButton": {},
-
   "onboardingAnsweringTitle": "Now it's your turn",
   "@onboardingAnsweringTitle": {},
   "onboardingAnsweringDescription": "In order to collect data select a marker in the app and answer the displayed questions.",
   "@onboardingAnsweringDescription": {},
   "onboardingAnsweringButton": "Okay, got it",
   "@onboardingAnsweringButton": {},
-
   "onboardingContributingTitle": "Sharing is caring",
   "@onboardingContributingTitle": {},
   "onboardingContributingDescription": "Upload your answers to OpenStreetMap to share them with the whole world.",
   "@onboardingContributingDescription": {},
   "onboardingContributingButton": "Here we go",
   "@onboardingContributingButton": {},
-
   "privacyPolicyTitle": "Privacy Policy",
   "@privacyPolicyTitle": {},
-
   "settingsTitle": "Settings",
   "@settingsTitle": {},
   "settingsProfessionalQuestionsLabel": "Display Professional Questions",
@@ -83,15 +78,13 @@
   "@settingsThemeOptionLight": {},
   "settingsThemeOptionDark": "Dark",
   "@settingsThemeOptionDark": {},
-
   "logoutDialogTitle": "Log out of OSM?",
   "@logoutDialogTitle": {},
   "logoutDialogDescription": "If you log out, you can no longer upload changes to OpenStreetMap.",
   "@logoutDialogDescription": {},
   "loginHint": "Log in with your OpenStreetMap account to upload your changes.",
   "@loginHint": {},
-
-  "numberInputPlaceholder": "Enter here...",
+  "numberInputPlaceholder": "Enter here…",
   "@numberInputPlaceholder": {},
   "numberInputFallbackName": "Value",
   "@numberInputFallbackName": {
@@ -127,12 +120,10 @@
       }
     }
   },
-
-  "stringInputPlaceholder": "Enter here...",
+  "stringInputPlaceholder": "Enter here…",
   "@stringInputPlaceholder": {},
   "stringInputValidationErrorMin": "Input too short",
   "@stringInputValidationErrorMin": {},
-
   "changesetCommentMessage": "Added details to {mapFeaturesString} in stop area {stopsString}.",
   "@changesetCommentMessage": {
     "placeholders": {
@@ -152,7 +143,6 @@
   "@uploadMessageServerConnectionError": {},
   "uploadMessageUnknownConnectionError": "Unknown error during transmission.",
   "@uploadMessageUnknownConnectionError": {},
-
   "queryMessageServerUnavailableError": "Server unavailable or overloaded. Try again later.",
   "@queryMessageServerUnavailableError": {},
   "queryMessageTooManyRequestsError": "Too many requests to the server.",
@@ -165,7 +155,6 @@
   "@queryMessageUnknownServerCommunicationError": {},
   "queryMessageUnknownError": "Unknown error.",
   "@queryMessageUnknownError": {},
-
   "questionnaireSummaryDedicatedMessage": "Thank you {userName} for your answers.\nPlease verify them before uploading.",
   "@questionnaireSummaryDedicatedMessage": {
     "placeholders": {
@@ -176,7 +165,6 @@
   },
   "questionnaireSummaryUndedicatedMessage": "Thank you for your answers.\nPlease verify them before uploading.",
   "@questionnaireSummaryUndedicatedMessage": {},
-
   "back": "Back",
   "@back": {},
   "next": "Next",
@@ -197,7 +185,7 @@
   "@yes": {},
   "no": "No",
   "@no": {},
-  "days": "{day, plural, =1 {1 Day} other {{day} Days}}",
+  "days": "{day, plural, =1 {1 day} other {{day} days}}",
   "@days": {
     "placeholders": {
       "day": {
@@ -205,7 +193,7 @@
       }
     }
   },
-  "hours": "{hour, plural, =1 {1 Hour} other {{hour} Hours}}",
+  "hours": "{hour, plural, =1 {1 hour} other {{hour} hours}}",
   "@hours": {
     "placeholders": {
       "hour": {
@@ -213,7 +201,7 @@
       }
     }
   },
-  "minutes": "{minute, plural, =1 {1 Minute} other {{minute} Minutes}}",
+  "minutes": "{minute, plural, =1 {1 minute} other {{minute} minutes}}",
   "@minutes": {
     "placeholders": {
       "minute": {
@@ -221,7 +209,7 @@
       }
     }
   },
-  "seconds": "{second, plural, =1 {1 Second} other {{second} Seconds}}",
+  "seconds": "{second, plural, =1 {1 second} other {{second} seconds}}",
   "@seconds": {
     "placeholders": {
       "second": {
@@ -235,19 +223,16 @@
   "@more": {},
   "element": "element",
   "@element": {},
-
-  "durationInputDaysLabel": "Days",
+  "durationInputDaysLabel": "days",
   "@durationInputDaysLabel": {},
-  "durationInputHoursLabel": "Hours",
+  "durationInputHoursLabel": "hours",
   "@durationInputHoursLabel": {},
-  "durationInputMinutesLabel": "Minutes",
+  "durationInputMinutesLabel": "minutes",
   "@durationInputMinutesLabel": {},
-  "durationInputSecondsLabel": "Seconds",
+  "durationInputSecondsLabel": "seconds",
   "@durationInputSecondsLabel": {},
-
-  "osmCreditsText": "Data © OpenStreetMap-Contributors",
+  "osmCreditsText": "Data © OpenStreetMap contributors",
   "@osmCreditsText": {},
-
   "changesetWithStopNameText": "Added details to {elements} in the stop area {stopArea}.",
   "@changesetWithStopNameText": {
     "placeholders": {
@@ -267,84 +252,90 @@
       }
     }
   },
-
-  "mapFeatureBusStop" : "Bus stop",
-  "@mapFeatureBusStop" : {},
-  "mapFeatureTramStop" : "Tram stop",
-  "@mapFeatureTramStop" : {},
-  "mapFeatureTrainPlatform" : "Train platform",
-  "@mapFeatureTrainPlatform" : {},
-  "mapFeaturePlatform" : "Platform",
-  "@mapFeaturePlatform" : {},
-  "mapFeatureStopPole" : "Stop pole",
-  "@mapFeatureStopPole" : {},
-  "mapFeatureStation" : "Station",
-  "@mapFeatureStation" : {},
-  "mapFeatureTicketSalesPoint" : "Ticket sales point",
-  "@mapFeatureTicketSalesPoint" : {},
-  "mapFeatureInformationPoint" : "Information point",
-  "@mapFeatureInformationPoint" : {},
-  "mapFeatureStationMap" : "Station/Stop map",
-  "@mapFeatureStationMap" : {},
-  "mapFeatureTicketMachine" : "Ticket machine",
-  "@mapFeatureTicketMachine" : {},
-  "mapFeatureParkingSpot" : "Parking spot",
-  "@mapFeatureParkingSpot" : {},
-  "mapFeatureTaxiStand" : "Taxi stand",
-  "@mapFeatureTaxiStand" : {},
-  "mapFeatureToilets" : "Toilets",
-  "@mapFeatureToilets" : {},
-  "mapFeatureLuggageLockers" : "Luggage lockers",
-  "@mapFeatureLuggageLockers" : {},
-  "mapFeatureLuggageTransport" : "Luggage transport",
-  "@mapFeatureLuggageTransport" : {},
-  "mapFeatureInformationTerminal" : "Information terminal",
-  "@mapFeatureInformationTerminal" : {},
-  "mapFeatureInformationCallPoint" : "Information column",
-  "@mapFeatureInformationCallPoint" : {},
-  "mapFeatureHelpPoint" : "Help point",
-  "@mapFeatureHelpPoint" : {},
-  "mapFeatureEmergencyCallPoint" : "Emergency call point",
-  "@mapFeatureEmergencyCallPoint" : {},
-  "mapFeatureEntrance" : "Entrance",
-  "@mapFeatureEntrance" : {},
-  "mapFeatureFootpath" : "Footpath",
-  "@mapFeatureFootpath" : {},
-  "mapFeatureStairs" : "Stairs",
-  "@mapFeatureStairs" : {},
-  "mapFeatureElevator" : "Elevator",
-  "@mapFeatureElevator" : {},
-  "mapFeatureEscalator" : "Escalator",
-  "@mapFeatureEscalator" : {},
-  "mapFeatureCycleBarrier" : "Cycle barrier",
-  "@mapFeatureCycleBarrier" : {},
-  "mapFeatureCrosswalk" : "Crosswalk",
-  "@mapFeatureCrosswalk" : {},
-  "mapFeaturePedestrianTrafficLights" : "Pedestrian traffic lights",
-  "@mapFeaturePedestrianTrafficLights" : {},
-  "mapFeatureTramCrossing" : "Tram crossing",
-  "@mapFeatureTramCrossing" : {},
-  "mapFeatureRailroadCrossing" : "Railroad crossing",
-  "@mapFeatureRailroadCrossing" : {},
-  "mapFeatureCurb" : "Curb",
-  "@mapFeatureCurb" : {},
-  "mapFeatureBusPlatformNumber" : "Platform: {number}",
-  "@mapFeatureBusPlatformNumber" : {
+  "mapFeatureBusStop": "Bus stop",
+  "@mapFeatureBusStop": {},
+  "mapFeatureTramStop": "Tram stop",
+  "@mapFeatureTramStop": {},
+  "mapFeatureTrainPlatform": "Train platform",
+  "@mapFeatureTrainPlatform": {},
+  "mapFeaturePlatform": "Platform",
+  "@mapFeaturePlatform": {},
+  "mapFeatureStopPole": "Stop pole",
+  "@mapFeatureStopPole": {},
+  "mapFeatureStation": "Station",
+  "@mapFeatureStation": {},
+  "mapFeatureTicketSalesPoint": "Ticket sales point",
+  "@mapFeatureTicketSalesPoint": {},
+  "mapFeatureInformationPoint": "Information point",
+  "@mapFeatureInformationPoint": {},
+  "mapFeatureStationMap": "Station/Stop map",
+  "@mapFeatureStationMap": {},
+  "mapFeatureTicketMachine": "Ticket machine",
+  "@mapFeatureTicketMachine": {},
+  "mapFeatureParkingSpot": "Parking spot",
+  "@mapFeatureParkingSpot": {},
+  "mapFeatureTaxiStand": "Taxi stand",
+  "@mapFeatureTaxiStand": {},
+  "mapFeatureToilets": "Toilets",
+  "@mapFeatureToilets": {},
+  "mapFeatureLuggageLockers": "Luggage lockers",
+  "@mapFeatureLuggageLockers": {},
+  "mapFeatureLuggageTransport": "Luggage transport",
+  "@mapFeatureLuggageTransport": {},
+  "mapFeatureInformationTerminal": "Information terminal",
+  "@mapFeatureInformationTerminal": {},
+  "mapFeatureInformationCallPoint": "Information column",
+  "@mapFeatureInformationCallPoint": {},
+  "mapFeatureHelpPoint": "Help point",
+  "@mapFeatureHelpPoint": {},
+  "mapFeatureEmergencyCallPoint": "Emergency call point",
+  "@mapFeatureEmergencyCallPoint": {},
+  "mapFeatureEntrance": "Entrance",
+  "@mapFeatureEntrance": {},
+  "mapFeatureFootpath": "Footpath",
+  "@mapFeatureFootpath": {},
+  "mapFeatureCyclePath": "Cycle path",
+  "@mapFeatureCyclePath": {},
+  "mapFeatureFootAndCyclePath": "Foot & cycle path",
+  "@mapFeatureFootAndCyclePath": {},
+  "mapFeatureStairs": "Stairs",
+  "@mapFeatureStairs": {},
+  "mapFeatureElevator": "Elevator",
+  "@mapFeatureElevator": {},
+  "mapFeatureEscalator": "Escalator",
+  "@mapFeatureEscalator": {},
+  "mapFeatureCycleBarrier": "Cycle barrier",
+  "@mapFeatureCycleBarrier": {},
+  "mapFeatureCrossing": "Crossing",
+  "@mapFeatureCrossing": {},
+  "mapFeatureTramCrossing": "Tram crossing",
+  "@mapFeatureTramCrossing": {},
+  "mapFeatureRailroadCrossing": "Railroad crossing",
+  "@mapFeatureRailroadCrossing": {},
+  "mapFeatureFootwayCrossing": "Footway crossing",
+  "@mapFeatureFootwayCrossing": {},
+  "mapFeatureCyclewayCrossing": "Cycleway crossing",
+  "@mapFeatureCyclewayCrossing": {},
+  "mapFeatureCurb": "Curb",
+  "@mapFeatureCurb": {},
+  "mapFeaturePedestrianLights": "Pedestrian lights",
+  "@mapFeaturePedestrianLights": {},
+  "mapFeatureBusPlatformNumber": "Platform: {number}",
+  "@mapFeatureBusPlatformNumber": {
     "placeholders": {
       "number": {
         "type": "String"
       }
     }
   },
-  "mapFeatureTrainPlatformNumber" : "Platform: {number}",
-  "@mapFeatureTrainPlatformNumber" : {
+  "mapFeatureTrainPlatformNumber": "Platform: {number}",
+  "@mapFeatureTrainPlatformNumber": {
     "placeholders": {
       "number": {
         "type": "String"
       }
     }
   },
-
   "semanticsLoginHint" : "Log in with your OpenStreetMap account to upload your changes.",
   "@semanticsLoginHint" : {},
   "semanticsFlutterMap" : "Map screen",

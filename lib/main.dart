@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '/commons/themes.dart';
+import '/api/app_worker/app_worker_interface.dart';
+import '/api/preferences_service.dart';
 import '/commons/app_config.dart' as app_config;
 import '/commons/routes.dart';
-import '/api/preferences_service.dart';
-import '/api/app_worker/app_worker_interface.dart';
+import '/commons/themes.dart';
 import '/models/question_catalog/question_catalog_reader.dart';
 import 'widgets/locale_change_notifier.dart';
 
@@ -19,18 +19,18 @@ Future <void> main() async {
   // in this case SharedPreferences requires this
   WidgetsFlutterBinding.ensureInitialized();
 
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  late final AppWorkerInterface appWorker;
+  late final SharedPreferences sharedPreferences;
 
-  final futures = await Future.wait([
-    AppWorkerInterface.spawn(),
-    SharedPreferences.getInstance(),
+  await Future.wait([
+    AppWorkerInterface.spawn().then((v) => appWorker = v),
+    SharedPreferences.getInstance().then((v) => sharedPreferences = v),
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge),
   ]);
 
-  GetIt.I.registerSingleton<AppWorkerInterface>(
-    futures[0] as AppWorkerInterface,
-  );
+  GetIt.I.registerSingleton<AppWorkerInterface>(appWorker);
   GetIt.I.registerSingleton<PreferencesService>(
-    PreferencesService(preferences: futures[1] as SharedPreferences),
+    PreferencesService(preferences: sharedPreferences),
   );
 
   const mainCatalogDirectory = 'assets/question_catalog';

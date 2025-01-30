@@ -56,7 +56,7 @@ class QuestionCatalogReader with WidgetsBindingObserver {
 
   @override
   @mustCallSuper
-  void didChangeLocales(List<Locale>? locales) async {
+  Future<void> didChangeLocales(List<Locale>? locales) async {
     final questionCatalog = await _readAll(assetPaths);
     _streamController.add(QuestionCatalogChange(catalog: questionCatalog, change: QuestionCatalogChangeReason.language));
   }
@@ -79,7 +79,7 @@ class QuestionCatalogReader with WidgetsBindingObserver {
 
     return (await _readJsonFile(
       '$directory/definition.json',
-      fallback: const [],
+      fallback: const <Map<String, dynamic>>[],
       reviver: (key, value) {
         if (value is String && value.startsWith('@')) {
           for (final locale in locales) {
@@ -91,14 +91,14 @@ class QuestionCatalogReader with WidgetsBindingObserver {
         }
         return value;
       },
-    )).cast<Map<String, dynamic>>();
+    ) as List).cast<Map<String, dynamic>>();
   }
 
   Future<Map<String, dynamic>> _readArbFile(String directory, String localeCode) async {
-    return (await _readJsonFile(
+    return await _readJsonFile(
       '$directory/locales/$localeCode.arb',
-      fallback: const {},
-    )).cast<String, dynamic>();
+      fallback: const <String, dynamic>{},
+    ) as Map<String, dynamic>;
   }
 
   Future<dynamic> _readJsonFile(String path, {

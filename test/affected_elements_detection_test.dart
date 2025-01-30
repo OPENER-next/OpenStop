@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:open_stop/models/element_processing/element_processor.dart';
 import 'package:open_stop/models/affected_elements_detector.dart';
+import 'package:open_stop/models/element_processing/element_processor.dart';
 import 'package:open_stop/models/question_catalog/question_catalog.dart';
 import 'package:osm_api/osm_api.dart';
 
@@ -46,7 +46,7 @@ void main() async {
         },
         'answer': {
           'type': 'String',
-          'input': {},
+          'input': <String, dynamic>{},
           'constructor': {
             'some_key': [r'$input']
           }
@@ -116,7 +116,7 @@ void main() async {
         },
         'answer': {
           'type': 'String',
-          'input': {},
+          'input': <String, dynamic>{},
           'constructor': {
             'some_key': [r'$input']
           }
@@ -177,7 +177,7 @@ void main() async {
         },
         'answer': {
           'type': 'String',
-          'input': {},
+          'input': <String, dynamic>{},
           'constructor': {
             'some_key': [r'$input']
           }
@@ -238,7 +238,7 @@ void main() async {
         },
         'answer': {
           'type': 'String',
-          'input': {},
+          'input': <String, dynamic>{},
           'constructor': {
             'some_key': [r'$input']
           }
@@ -292,7 +292,7 @@ void main() async {
         },
         'answer': {
           'type': 'String',
-          'input': {},
+          'input': <String, dynamic>{},
           'constructor': {
             'some_key': [r'$input']
           }

@@ -118,6 +118,7 @@ class _RenderRippleIndicator extends RenderBox {
     TickerProvider vsync,
     this._preferredSize,
     this._pulseCount,
+    // used for simplicity
     // ignore: avoid_positional_boolean_parameters
     this._end,
     this._onEnd,
@@ -198,7 +199,7 @@ class _RenderRippleIndicator extends RenderBox {
   set end(bool value) {
     // if animation gets re-activated while currently expiring
     // wait till it ended and then start it again
-    if (_end == true) {
+    if (_end) {
       _restart = !value;
       // if controller is stopped, restart it
       if (_controller.isDismissed) {
@@ -249,12 +250,12 @@ class _RenderRippleIndicator extends RenderBox {
     final maxRadius = halfSize.shortestSide;
 
     // start drawing largest circle first
-    for (int pulse = _newPulses; pulse >= _limitPulses; pulse--) {
+    for (var pulse = _newPulses; pulse >= _limitPulses; pulse--) {
       final value = (pulse + _controller.value) / (_pulseCount + 1);
 
       final radius = maxRadius * value;
-      final opacity = _color.opacity - _color.opacity * value;
-      final color = _color.withOpacity(opacity);
+      final opacity = _color.a - _color.a * value;
+      final color = _color.withValues(alpha: opacity);
 
       _circle(context.canvas, center, radius, color);
     }

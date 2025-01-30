@@ -3,14 +3,13 @@ import 'package:flutter/semantics.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 
+import '/commons/osm_config.dart' as osm_config;
 import '/commons/tile_layers.dart';
 import '/view_models/home_view_model.dart';
-import '/commons/osm_config.dart' as osm_config;
-import 'location_button.dart';
 import 'compass_button.dart';
-import 'zoom_button.dart';
-import 'loading_indicator.dart';
 import 'credit_text.dart';
+import 'location_button.dart';
+import 'zoom_button.dart';
 
 
 /// Builds the action/control buttons and attribution text which overlay the map.
@@ -19,9 +18,9 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
   final double buttonSpacing;
 
   const MapOverlay({
-    Key? key,
+    super.key,
     this.buttonSpacing = 10.0,
-   }) : super(key: key);
+   });
 
   @override
   Widget build(BuildContext context, viewModel) {
@@ -30,12 +29,6 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
       padding: MediaQuery.of(context).padding + EdgeInsets.all(buttonSpacing),
       child: Stack(
         children: [
-          Align(
-            alignment: Alignment.topCenter,
-            child: LoadingIndicator(
-              active: viewModel.isLoadingStopAreas,
-            ),
-          ),
           Align(
             alignment: Alignment.topLeft,
             child: FloatingActionButton.small(
@@ -93,6 +86,7 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
                     sortKey: const OrdinalSortKey(1.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
+                      spacing: buttonSpacing,
                       children: [
                         LocationButton(
                           activeColor: Theme.of(context).colorScheme.primary,
@@ -101,9 +95,6 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
                           iconColor: Theme.of(context).colorScheme.onPrimaryContainer,
                           active: viewModel.cameraIsFollowingLocation,
                           onPressed: viewModel.toggleLocationFollowing,
-                        ),
-                        SizedBox (
-                          height: buttonSpacing,
                         ),
                         ZoomButton(
                           onZoomInPressed: viewModel.zoomIn,

@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_mvvm_architecture/base.dart';
 
-import '/view_models/home_view_model.dart';
 import '/commons/routes.dart';
+import '/view_models/home_view_model.dart';
 import '/widgets/custom_list_tile.dart';
 import 'login_info_header.dart';
 import 'user_account_header.dart';
@@ -19,7 +19,7 @@ class HomeSidebar extends ViewFragment<HomeViewModel> {
     final appLocale = AppLocalizations.of(context)!;
     return Drawer(
       width: min(MediaQuery.of(context).size.width * 0.65, 300),
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       shape: const Border(),
       child: ListView(
         physics: const ClampingScrollPhysics(),

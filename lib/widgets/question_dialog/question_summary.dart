@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '/widgets/edge_feather.dart';
+import 'question_sheet.dart';
+
 class QuestionSummary extends StatelessWidget {
   final List<String> questions;
 
-  final List<String?> answers;
+  final List<String> answers;
 
   final void Function(int index)? onJump;
 
   final String? userName;
+
+  final bool elevate;
 
   const QuestionSummary({
     required this.questions,
     required this.answers,
     this.onJump,
     this.userName,
+    this.elevate = true,
     super.key,
   }) :
     assert(questions.length == answers.length, 'Every question should have a corresponding answer.');
@@ -22,63 +28,58 @@ class QuestionSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appLocale = AppLocalizations.of(context)!;
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 25,
-        horizontal: 20,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: 10,
-            ),
-            child: Semantics( 
-              hint: appLocale.semanticsSummary,
-              child: Text(
-                userName != null
-                  ? appLocale.questionnaireSummaryDedicatedMessage(userName!)
-                  : appLocale.questionnaireSummaryUndedicatedMessage,
-                style: const TextStyle(
-                  height: 1.3,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+    const horizontalPadding = 20.0;
+
+    return QuestionSheet(
+      elevate: elevate,
+      header: Padding(
+        padding: const EdgeInsets.only(
+          top: 20,
+          left: horizontalPadding,
+          right: horizontalPadding,
+          bottom: 10,
+        ),
+        child: Semantics(
+          hint: appLocale.semanticsSummary,
+          child: Text(
+            userName != null
+              ? appLocale.questionnaireSummaryDedicatedMessage(userName!)
+              : appLocale.questionnaireSummaryUndedicatedMessage,
+            style: const TextStyle(
+              height: 1.3,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          ..._buildEntries(appLocale),
-        ],
+        ),
+      ),
+      body: EdgeFeather(
+        edges: const EdgeInsets.only(top: 10),
+        child: ListView.separated(
+          shrinkWrap: true,
+          physics: const BouncingScrollPhysics(),
+          itemCount: questions.length,
+          separatorBuilder: (context, index) => const Divider(
+            height: 1,
+            thickness: 1,
+          ),
+          itemBuilder: _buildEntry,
+          padding: const EdgeInsets.only(
+            bottom: 25,
+            left: horizontalPadding,
+            right: horizontalPadding,
+          ),
+        ),
       ),
     );
   }
 
-
-  Iterable<Widget> _buildEntries(AppLocalizations appLocale) sync* {
-    for (int i = 0, j = 0; i < questions.length; i++) {
-      // filter unanswered questions
-      // use this extra method instead of .where and .map to get access to the correct index
-      if (answers[i] != null) {
-        if (j > 0) {
-          yield const Divider(
-            height: 1,
-            thickness: 1,
-          );
-        }
-        j++;
-        yield _buildEntry(i, appLocale);
-      }
-    }
-  }
-
-
-  Widget _buildEntry(int index, AppLocalizations appLocale) {
+  Widget _buildEntry(BuildContext context, int index) {
     final question = questions[index];
     final answer = answers[index];
 
-    return Semantics( 
-      hint: appLocale.semanticsReviewQuestion, 
+    return Semantics(
+      hint: AppLocalizations.of(context).semanticsReviewQuestion,
       child: Material(
         type: MaterialType.transparency,
         child: InkWell(
@@ -98,12 +99,12 @@ class QuestionSummary extends StatelessWidget {
                   constraints: const BoxConstraints(minWidth: 100, maxWidth: 200),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Text('$question:')
+                    child: Text('$question:'),
                   ),
                 ),
                 Expanded(
                   child: Text(
-                    answer!,
+                    answer,
                     textAlign: TextAlign.right,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,

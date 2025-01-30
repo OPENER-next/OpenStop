@@ -18,6 +18,7 @@ class MapFeatureDefinition {
     required MapFeatureLabelConstructor label,
     required this.icon,
     required this.conditions,
+    this.priority = 0,
   }) : _label = label;
 
   final MapFeatureLabelConstructor _label;
@@ -25,6 +26,11 @@ class MapFeatureDefinition {
   final IconData icon;
 
   final List<ElementCondition> conditions;
+
+  /// Value used to sort/prioritize map features when multiple map features match the same element.
+  /// Map features with higher values outperform features with lower values.
+
+  final int priority;
 
   String label(AppLocalizations locale) => _label(locale, const {});
 

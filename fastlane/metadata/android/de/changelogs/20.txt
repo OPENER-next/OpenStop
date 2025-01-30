@@ -1,0 +1,2 @@
+Build-Vorgang:
+- Sicherstellung der Reproduzierbarkeit zwischen GitHub und F-Droid durch Änderung der verwendeten JAVA-Version in der GitHub-Build-Aktion auf 17

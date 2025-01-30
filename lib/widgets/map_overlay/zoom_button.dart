@@ -6,10 +6,10 @@ class ZoomButton extends StatelessWidget {
   final void Function()? onZoomOutPressed;
 
   const ZoomButton({
-    Key? key,
+    super.key,
     this.onZoomInPressed,
     this.onZoomOutPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class ZoomButton extends StatelessWidget {
             Container(
               height: 1,
               width: Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minWidth,
-              color: Theme.of(context).colorScheme.onPrimaryContainer.withOpacity(0.1),
+              color: Theme.of(context).colorScheme.onPrimaryContainer.withValues(alpha: 0.1),
             ),
             SizedBox(
               height: (Theme.of(context).floatingActionButtonTheme.smallSizeConstraints?.minHeight ?? 48.0) * 1.25,

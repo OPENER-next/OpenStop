@@ -220,9 +220,9 @@ void main() async {
 
 OSMElementBundle _parse(String jsonString) {
   // parse json
-  final jsonData = json.decode(jsonString);
+  final jsonData = json.decode(jsonString) as Map<String, dynamic>;
   // get all elements
-  final List<Map<String, dynamic>> jsonObjects = jsonData['elements'].cast<Map<String, dynamic>>();
+  final jsonObjects = (jsonData['elements'] as List<dynamic>).cast<Map<String, dynamic>>();
 
   return OSMElementBundle.fromElements(_lazyJSONtoOSMElements(jsonObjects));
 }
@@ -233,15 +233,12 @@ Iterable<OSMElement> _lazyJSONtoOSMElements(Iterable<Map<String, dynamic>> objec
     switch (jsonObj['type']) {
       case 'node':
         yield OSMNode.fromJSONObject(jsonObj);
-      break;
 
       case 'way':
         yield OSMWay.fromJSONObject(jsonObj);
-      break;
 
       case 'relation':
         yield OSMRelation.fromJSONObject(jsonObj);
-      break;
     }
   }
 }

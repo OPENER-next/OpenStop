@@ -1,5 +1,5 @@
-// ignore_for_file: unused_element
 // required till https://github.com/dart-lang/sdk/issues/48401 is resolved
+// ignore_for_file: unused_element
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -30,16 +30,16 @@ class BoolInput extends QuestionInputWidget<BoolAnswerDefinition, BoolAnswer> {
           return MergeSemantics(
             child:_BoolInputItem(
               label: Semantics(
-                container: true, 
+                container: true,
                 inMutuallyExclusiveGroup: true,
-                checked: controller.answer?.value == state, 
-                selected: controller.answer?.value == state, 
-                child: Text(definition.input[index].name ?? 
+                checked: controller.answer?.value == state,
+                selected: controller.answer?.value == state,
+                child: Text(definition.input[index].name ??
                   (state ? appLocale.yes : appLocale.no)),
               ),
               onTap: () => _handleChange(state, appLocale),
               active: controller.answer?.value == state,
-              backgroundColor: theme.colorScheme.primary.withOpacity(0),
+              backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.0),
               activeBackgroundColor: theme.colorScheme.primary,
               foregroundColor: theme.colorScheme.primary,
               activeForegroundColor: theme.colorScheme.onPrimary,
@@ -88,7 +88,7 @@ class _BoolInputItem extends ImplicitlyAnimatedWidget {
 
 class _BoolInputItemState extends AnimatedWidgetBaseState<_BoolInputItem> {
   ColorTween? _backgroundColorTween, _foregroundColorTween;
-  
+
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
     _backgroundColorTween = visitor(

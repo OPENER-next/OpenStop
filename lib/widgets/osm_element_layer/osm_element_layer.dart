@@ -3,11 +3,11 @@ import 'dart:math';
 
 import 'package:animated_marker_layer/animated_marker_layer.dart';
 import 'package:flutter/material.dart';
-import 'package:supercluster/supercluster.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:supercluster/supercluster.dart';
 
-import '/models/map_features/map_feature_representation.dart';
 import '/api/app_worker/element_handler.dart';
+import '/models/map_features/map_feature_representation.dart';
 import '/widgets/osm_element_layer/osm_element_marker.dart';
 
 
@@ -18,6 +18,8 @@ class OsmElementLayer extends StatefulWidget {
   final MapFeatureRepresentation? selectedElement;
 
   final void Function(MapFeatureRepresentation osmElement)? onOsmElementTap;
+
+  final Map<MapFeatureRepresentation, Future> uploadQueue;
 
   /// The maximum shift in duration between different markers.
 
@@ -34,13 +36,14 @@ class OsmElementLayer extends StatefulWidget {
   const OsmElementLayer({
     required this.elements,
     required this.currentZoom,
+    required this.uploadQueue,
     this.selectedElement,
     this.onOsmElementTap,
     this.durationOffsetRange = const Duration(milliseconds: 300),
     // TODO: currently changes to this won't update the super cluster
     this.zoomLowerLimit = 16,
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
   State<OsmElementLayer> createState() => _OsmElementLayerState();
@@ -86,7 +89,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
         // has already been added.
         // So if the point position has been modified it may not find it.
         // Therefore use _superCluster.points.contains().
-        if (_superCluster.points.contains(change.element!)) {
+        if (_superCluster.points.contains(change.element)) {
           _superCluster.modifyPointData(change.element!, change.element!);
         }
         else {
@@ -173,7 +176,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
 
   Iterable<MapFeatureRepresentation> _elementsFromCluster(MutableLayerElement<MapFeatureRepresentation> cluster) sync* {
     if (cluster is MutableLayerCluster<MapFeatureRepresentation>) {
-      yield* (cluster.clusterData as _ClusterLeafs).elements;
+      yield* (cluster.clusterData! as _ClusterLeafs).elements;
     }
     else if (cluster is MutableLayerPoint<MapFeatureRepresentation>) {
       yield cluster.originalPoint;
@@ -205,20 +208,23 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
     final appLocale = AppLocalizations.of(context)!;
     marker as _OsmElementMarker;
     final isActive = widget.selectedElement == marker.element;
+    final uploadState = widget.uploadQueue[marker.element];
 
     return ScaleTransition(
       scale: animation,
       alignment: Alignment.bottomCenter,
       filterQuality: FilterQuality.low,
       child: OsmElementMarker(
-        onTap: () => widget.onOsmElementTap?.call(marker.element),
+        onTap: () => uploadState == null
+          ? widget.onOsmElementTap?.call(marker.element)
+          : null,
         active: isActive,
         icon: marker.element.icon,
         label: marker.element.elementLabel(appLocale),
+        uploadState: uploadState,
       ),
     );
   }
-
 
   AnimatedMarker _createMinimizedMarker(MapFeatureRepresentation element) {
     return AnimatedMarker(
@@ -247,7 +253,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
           shape: BoxShape.circle,
           border: Border.all(
             width: 1,
-            color: Theme.of(context).colorScheme.shadow.withOpacity(0.26)
+            color: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.26)
           )
         )
       )

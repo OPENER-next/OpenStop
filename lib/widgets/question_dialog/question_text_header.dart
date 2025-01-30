@@ -1,8 +1,9 @@
-import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import '/commons/themes.dart';
-import '/widgets/hero_viewer.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
+
+import '/widgets/edge_feather.dart';
+import '/widgets/gallery_viewer.dart';
 
 class QuestionTextHeader extends StatefulWidget {
   final String question;
@@ -15,8 +16,8 @@ class QuestionTextHeader extends StatefulWidget {
     required this.question,
     required this.details,
     this.images = const [],
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
   State<QuestionTextHeader> createState() => _QuestionTextHeaderState();
@@ -63,7 +64,7 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
     super.didChangeDependencies();
 
     _fillColorAnimation = ColorTween(
-      begin: Theme.of(context).colorScheme.primary.withOpacity(0),
+      begin: Theme.of(context).colorScheme.primary.withValues(alpha: 0.0),
       end: Theme.of(context).colorScheme.primary
     ).animate(
       CurvedAnimation(
@@ -109,7 +110,7 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
         child: Padding(
           padding: const EdgeInsets.only(
             top: 25,
-            bottom: 20
+            bottom: 20,
           ),
           child: Column(
             children: [
@@ -135,22 +136,22 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                             margin: const EdgeInsets.only(left: 10),
                             padding: const EdgeInsets.all(4),
                             decoration: BoxDecoration(
-                              color: _fillColorAnimation.value!,
+                              color: _fillColorAnimation.value,
                               shape: BoxShape.circle,
                               border: Border.all(
                                 color: Theme.of(context).colorScheme.primary,
-                              )
+                              ),
                             ),
                             child: Icon(
                               MdiIcons.informationVariant,
-                              color: _iconColorAnimation.value!,
-                            )
+                              color: _iconColorAnimation.value,
+                            ),
                           );
                         },
                       ),
                     ),
                   ]
-                )
+                ),
               ),
               if (hasAdditionalInfo) ExcludeSemantics(
                 child: SizeTransition(
@@ -171,70 +172,32 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader> with SingleTick
                               widget.details,
                               style: const TextStyle(
                                 fontSize: 12,
-                              )
-                            )
+                              ),
+                            ),
                           ),
                           if (widget.images.isNotEmpty) ConstrainedBox(
-                              constraints: const BoxConstraints(
-                                maxHeight: 90
-                              ),
-                              child: ShaderMask(
-                                blendMode: BlendMode.dstOut,
-                                shaderCallback: (Rect bounds) {
-                                  final leftProportion = horizontalPadding.left / bounds.width;
-                                  final rightProportion = horizontalPadding.right / bounds.width;
-                                  return LinearGradient(
-                                    begin: Alignment.centerLeft,
-                                    end: Alignment.centerRight,
-                                    stops: [0, leftProportion, 1 - rightProportion, 1],
-                                    colors: const [
-                                      Colors.white,
-                                      Colors.transparent,
-                                      Colors.transparent,
-                                      Colors.white,
-                                    ],
-                                  ).createShader(bounds);
-                                },
-                                child: ListView.separated(
-                                  padding: horizontalPadding,
-                                  clipBehavior: Clip.none,
-                                  physics: const BouncingScrollPhysics(),
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: widget.images.length,
-                                  separatorBuilder: (context, index) => const SizedBox(width: 10),
-                                  itemBuilder: (context, index) {
-                                    return ClipRRect(
-                                      borderRadius: BorderRadius.circular(Default.borderRadius),
-                                      // hero viewer cannot be used in frame builder
-                                      // because the builder may be called after the page route transition starts
-                                      child: HeroViewer(
-                                        child: Image.asset(
-                                          widget.images[index],
-                                          errorBuilder: (context, _, __) {
-                                            return Image.asset(
-                                              'assets/images/placeholder_image.png',
-                                            );
-                                          },
-                                        ),
-                                      ), 
-                                    );
-                                  },
-                                ),
-                              )
+                            constraints: const BoxConstraints(
+                              maxHeight: 90
                             ),
+                            child: EdgeFeather(
+                              edges: horizontalPadding,
+                              child: GalleryViewer(
+                                images: widget.images
+                              ),
+                            ),
+                          ),
                         ],
-                      )
-                    )
-                  )
+                      ),
+                    ),
+                  ),
                 ),
-              ), 
+              ),
             ],
-          )
+          ),
         ),
       ),
     );
   }
-
 
   @override
   void dispose() {

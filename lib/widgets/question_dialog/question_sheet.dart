@@ -2,27 +2,36 @@ import 'package:flutter/material.dart';
 
 
 class QuestionSheet extends StatelessWidget {
-  final Widget child;
+  final Widget header;
+
+  final Widget body;
 
   final bool elevate;
 
   const QuestionSheet({
-    required this.child,
+    required this.header,
+    required this.body,
     this.elevate = false,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.background,
+        color: Theme.of(context).colorScheme.surface,
         boxShadow: !elevate ? null : kElevationToShadow[4]
       ),
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: child
-      )
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          header,
+          Flexible(
+            child: body,
+          ),
+        ],
+      ),
     );
   }
 }

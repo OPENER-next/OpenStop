@@ -2,6 +2,8 @@ name: Tests
 
 on:
   push:
+    branches:
+      - master
   pull_request:
 
   # Allow running this workflow manually from the Actions tab
@@ -17,7 +19,7 @@ jobs:
     # Some app tests rely on this test server
     # derived from https://github.com/openstreetmap/openstreetmap-website/blob/master/.github/workflows/docker.yml
     - name: Checkout OSM website source
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: openstreetmap/openstreetmap-website
         path: osm-website
@@ -31,17 +33,17 @@ jobs:
 
     - name: Build and start OSM website docker
       run: |
-        docker-compose up -d --build
+        docker compose up -d --build
         sleep 15 # let the DB warm up a little
       working-directory: ./osm-website
 
     - name: Prepare OSM website Database
       run: |
-        docker-compose run --rm web bundle exec rails db:migrate
-        docker-compose run --rm web bundle exec rails i18n:js:export
+        docker compose run --rm web bundle exec rails db:migrate
+        docker compose run --rm web bundle exec rails i18n:js:export
       # The command below populates the db with some test data
       # However this somehow doesn't update the unique key counter, wherefore the creation of new elements will fail due to a duplicate key value violation
-      # docker-compose run --rm web osmosis --rx docker/null-island.osm.xml --wd host=db database=openstreetmap user=openstreetmap password=openstreetmap validateSchemaVersion=no
+      # docker compose run --rm web osmosis --rx docker/null-island.osm.xml --wd host=db database=openstreetmap user=openstreetmap password=openstreetmap validateSchemaVersion=no
       working-directory: ./osm-website
 
     - name: Test basic OSM website
@@ -53,26 +55,41 @@ jobs:
     # derived from https://github.com/openstreetmap/openstreetmap-website/issues/3136
     - name: Create test OSM user account
       run: |
-        docker-compose run --rm web bundle exec rails runner '
+        docker compose run --rm web bundle exec rails runner '
         pass_crypt, pass_salt = PasswordHash.create("testpass");
-        user = User.find_or_create_by(
-        :email => "testuser@osm.org",
-        :email_valid => true,
-        :display_name => "testuser",
-        :terms_seen => true,
-        :terms_agreed => Time.now.getutc,
-        :data_public => true,
-        :languages => ["en-US"],
-        :pass_crypt => pass_crypt,
-        :pass_salt => pass_salt
+        user = User.create!(
+          email: "testuser@osm.org",
+          email_valid: true,
+          display_name: "testuser",
+          terms_seen: true,
+          terms_agreed: Time.now.getutc,
+          data_public: true,
+          pass_crypt: pass_crypt,
+          pass_salt: pass_salt
         );
-        user.save
-        user.activate!'
+        user.activate
+        user.save! # save activation to database
+
+        application = Oauth2Application.create!(
+          name: "test",
+          redirect_uri: "https://test.test",
+          owner: user,
+          scopes: Oauth::SCOPES # array containing all oauth scopes
+        )
+
+        token = Doorkeeper::AccessToken.create!(
+          application_id: application.id,
+          resource_owner_id: user.id,
+          scopes: application.scopes
+        )
+        token.token = "DummyTestToken"
+        token.save! # override token in database with dummy token
+        '
       working-directory: ./osm-website
 
     # App checkout, setup and final tests
     - name: Checkout App source
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         path: app
 
@@ -87,5 +104,5 @@ jobs:
 
     - name: Check OSM website logs
       if: failure()
-      run: docker-compose logs web
+      run: docker compose logs web
       working-directory: ./osm-website

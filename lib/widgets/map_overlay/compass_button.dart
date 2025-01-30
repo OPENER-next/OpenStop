@@ -1,7 +1,7 @@
 import 'dart:math';
-import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 
 /// The rotation is expected in clockwise radians if not otherwise specified by the [isDegree] parameter.
 class CompassButton extends StatelessWidget {
@@ -18,8 +18,8 @@ class CompassButton extends StatelessWidget {
     required this.rotation,
     required this.onPressed,
     this.isDegree = false,
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) {

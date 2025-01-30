@@ -1,0 +1,1 @@
+L'app per collezionare dati sulle barriere del trasporto pubblico locale.

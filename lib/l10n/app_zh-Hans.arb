@@ -1,0 +1,299 @@
+{
+  "aboutTitle": "关于",
+  "@aboutTitle": {},
+  "queryMessageUnknownServerCommunicationError": "与服务器通信过程中未知错误。",
+  "@queryMessageUnknownServerCommunicationError": {},
+  "confirm": "确认",
+  "@confirm": {},
+  "yes": "是",
+  "@yes": {},
+  "no": "否",
+  "@no": {},
+  "durationInputDaysLabel": "天",
+  "@durationInputDaysLabel": {},
+  "mapFeatureInformationCallPoint": "信息栏",
+  "@mapFeatureInformationCallPoint": {},
+  "mapFeatureEscalator": "扶梯",
+  "@mapFeatureEscalator": {},
+  "mapFeatureCycleBarrier": "自行车障碍",
+  "@mapFeatureCycleBarrier": {},
+  "mapFeatureTramCrossing": "电车平交道口",
+  "@mapFeatureTramCrossing": {},
+  "mapFeatureRailroadCrossing": "铁路平交道口",
+  "@mapFeatureRailroadCrossing": {},
+  "aboutSlogan": "下一站：无障碍",
+  "@aboutSlogan": {},
+  "aboutVersionLabel": "版本",
+  "@aboutVersionLabel": {},
+  "aboutAuthorsLabel": "作者",
+  "@aboutAuthorsLabel": {},
+  "aboutAuthorsDescription": "{appName}贡献者",
+  "@aboutAuthorsDescription": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPrivacyPolicyLabel": "隐私政策",
+  "@aboutPrivacyPolicyLabel": {},
+  "aboutIdeaLabel": "想法",
+  "@aboutIdeaLabel": {},
+  "aboutLicenseLabel": "许可证",
+  "@aboutLicenseLabel": {},
+  "aboutIdeaDescription": "开姆尼茨工业大学\n电路与系统设计教职",
+  "@aboutIdeaDescription": {},
+  "aboutLicensePackageLabel": "所用的包的许可证",
+  "@aboutLicensePackageLabel": {},
+  "aboutSourceCodeLabel": "源代码",
+  "@aboutSourceCodeLabel": {},
+  "helpTitle": "帮助",
+  "@helpTitle": {},
+  "helpOnboardingLabel": "重新播放介绍",
+  "@helpOnboardingLabel": {},
+  "helpReportErrorLabel": "报告错误",
+  "@helpReportErrorLabel": {},
+  "onboardingGreetingTitle": "嘿！",
+  "@onboardingGreetingTitle": {},
+  "onboardingGreetingDescription": "我们很高兴您来到这里，并希望为改善公共交通尽自己的一份力量。",
+  "@onboardingGreetingDescription": {},
+  "onboardingGreetingButton": "了解如何工作",
+  "@onboardingGreetingButton": {},
+  "onboardingSurveyingTitle": "多加留心",
+  "@onboardingSurveyingTitle": {},
+  "onboardingSurveyingDescription": "前往附近的车站调查其当前状况。",
+  "@onboardingSurveyingDescription": {},
+  "onboardingSurveyingButton": "我会尽力",
+  "@onboardingSurveyingButton": {},
+  "onboardingAnsweringTitle": "现在是您的回合",
+  "@onboardingAnsweringTitle": {},
+  "onboardingAnsweringDescription": "为了收集数据，请在应用程序中选择一个标记并回答显示的问题。",
+  "@onboardingAnsweringDescription": {},
+  "onboardingAnsweringButton": "好的，明白",
+  "@onboardingAnsweringButton": {},
+  "onboardingContributingTitle": "分享即关爱",
+  "@onboardingContributingTitle": {},
+  "onboardingContributingDescription": "将您的回答上传到OpenStreetMap，与全世界分享。",
+  "@onboardingContributingDescription": {},
+  "onboardingContributingButton": "我们开始吧！",
+  "@onboardingContributingButton": {},
+  "privacyPolicyTitle": "隐私政策",
+  "@privacyPolicyTitle": {},
+  "settingsTitle": "Settings",
+  "@settingsTitle": {},
+  "settingsProfessionalQuestionsLabel": "显示专业问题",
+  "@settingsProfessionalQuestionsLabel": {},
+  "settingsProfessionalQuestionsDescription": "出于安全原因，仅限专业人士使用",
+  "@settingsProfessionalQuestionsDescription": {},
+  "settingsThemeLabel": "APP颜色主题",
+  "@settingsThemeLabel": {},
+  "settingsThemeDialogTitle": "选择主题",
+  "@settingsThemeDialogTitle": {},
+  "settingsThemeOptionSystem": "跟随系统设置",
+  "@settingsThemeOptionSystem": {},
+  "settingsThemeOptionLight": "亮色",
+  "@settingsThemeOptionLight": {},
+  "settingsThemeOptionDark": "暗色",
+  "@settingsThemeOptionDark": {},
+  "logoutDialogTitle": "登出OSM？",
+  "@logoutDialogTitle": {},
+  "logoutDialogDescription": "如果您登出，则无法再将更改上传到 OpenStreetMap。",
+  "@logoutDialogDescription": {},
+  "loginHint": "使用您的 OpenStreetMap 账户登入以上传您的更改。",
+  "@loginHint": {},
+  "numberInputPlaceholder": "在这里输入……",
+  "@numberInputPlaceholder": {},
+  "numberInputFallbackName": "值",
+  "@numberInputFallbackName": {
+    "description": "Fallback value for nameString in numberInputValidationErrorMax"
+  },
+  "numberInputValidationError": "无效的数字",
+  "@numberInputValidationError": {},
+  "numberInputValidationErrorMax": "{nameString} 必须小于 {max}{unit}.",
+  "@numberInputValidationErrorMax": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "max": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "numberInputValidationErrorMin": "{nameString} 必须大于 {min}{unit}.",
+  "@numberInputValidationErrorMin": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "min": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "stringInputPlaceholder": "在这里输入……",
+  "@stringInputPlaceholder": {},
+  "stringInputValidationErrorMin": "输入太短",
+  "@stringInputValidationErrorMin": {},
+  "changesetCommentMessage": "向位于停车区域 {stopsString}的{mapFeaturesString}增添细节.",
+  "@changesetCommentMessage": {
+    "placeholders": {
+      "mapFeaturesString": {
+        "type": "String"
+      },
+      "stopsString": {
+        "type": "String"
+      }
+    }
+  },
+  "changesetCommentConjunctionString": "和",
+  "@changesetCommentConjunctionString": {},
+  "uploadMessageSuccess": "变更成功上传。",
+  "@uploadMessageSuccess": {},
+  "uploadMessageServerConnectionError": "错误：无法与OSM服务器连接。",
+  "@uploadMessageServerConnectionError": {},
+  "uploadMessageUnknownConnectionError": "传输过程中未知错误。",
+  "@uploadMessageUnknownConnectionError": {},
+  "queryMessageServerUnavailableError": "服务器不可用或负荷过重，请稍后重试。",
+  "@queryMessageServerUnavailableError": {},
+  "queryMessageTooManyRequestsError": "向服务器发送了过多请求。",
+  "@queryMessageTooManyRequestsError": {},
+  "queryMessageConnectionTimeoutError": "错误：服务器查询超时。",
+  "@queryMessageConnectionTimeoutError": {},
+  "queryMessageReceiveTimeoutError": "错误：接收数据超时。",
+  "@queryMessageReceiveTimeoutError": {},
+  "queryMessageUnknownError": "未知错误。",
+  "@queryMessageUnknownError": {},
+  "questionnaireSummaryDedicatedMessage": "感谢{userName}作答。\n请在上传前检查他们。",
+  "@questionnaireSummaryDedicatedMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "questionnaireSummaryUndedicatedMessage": "感谢您的作答\n请在上传前检查他们。",
+  "@questionnaireSummaryUndedicatedMessage": {},
+  "back": "返回",
+  "@back": {},
+  "next": "继续",
+  "@next": {},
+  "cancel": "取消",
+  "@cancel": {},
+  "finish": "完成",
+  "@finish": {},
+  "login": "登入",
+  "@login": {},
+  "logout": "登出",
+  "@logout": {},
+  "seconds": "{second, plural, =1 {1 秒} other {{second} 秒}}",
+  "@seconds": {
+    "placeholders": {
+      "second": {
+        "type": "num"
+      }
+    }
+  },
+  "skip": "跳过",
+  "@skip": {},
+  "days": "{day, plural, =1 {1 Day} other {{day} Days}}",
+  "@days": {
+    "placeholders": {
+      "day": {
+        "type": "num"
+      }
+    }
+  },
+  "hours": "{hour, plural, =1 {1 小时} other {{hour} 小时}}",
+  "@hours": {
+    "placeholders": {
+      "hour": {
+        "type": "num"
+      }
+    }
+  },
+  "minutes": "{minute, plural, =1 {1 分钟} other {{minute} 分钟}}",
+  "@minutes": {
+    "placeholders": {
+      "minute": {
+        "type": "num"
+      }
+    }
+  },
+  "durationInputHoursLabel": "小时",
+  "@durationInputHoursLabel": {},
+  "durationInputMinutesLabel": "分钟",
+  "@durationInputMinutesLabel": {},
+  "durationInputSecondsLabel": "秒",
+  "@durationInputSecondsLabel": {},
+  "osmCreditsText": "数据来源 © OpenStreetMap贡献者",
+  "@osmCreditsText": {},
+  "mapFeatureBusStop": "公交车站",
+  "@mapFeatureBusStop": {},
+  "mapFeatureTramStop": "电车站",
+  "@mapFeatureTramStop": {},
+  "mapFeatureTrainPlatform": "火车站台",
+  "@mapFeatureTrainPlatform": {},
+  "mapFeaturePlatform": "站台",
+  "@mapFeaturePlatform": {},
+  "mapFeatureStopPole": "停车标",
+  "@mapFeatureStopPole": {},
+  "mapFeatureStation": "车站",
+  "@mapFeatureStation": {},
+  "mapFeatureTicketSalesPoint": "售票点",
+  "@mapFeatureTicketSalesPoint": {},
+  "mapFeatureInformationPoint": "问询点",
+  "@mapFeatureInformationPoint": {},
+  "mapFeatureStationMap": "车站地图",
+  "@mapFeatureStationMap": {},
+  "mapFeatureTicketMachine": "售票机",
+  "@mapFeatureTicketMachine": {},
+  "mapFeatureParkingSpot": "停车位",
+  "@mapFeatureParkingSpot": {},
+  "mapFeatureTaxiStand": "出租车停靠点",
+  "@mapFeatureTaxiStand": {},
+  "mapFeatureToilets": "卫生间",
+  "@mapFeatureToilets": {},
+  "mapFeatureLuggageLockers": "行李锁柜",
+  "@mapFeatureLuggageLockers": {},
+  "mapFeatureLuggageTransport": "行李传送带",
+  "@mapFeatureLuggageTransport": {},
+  "mapFeatureInformationTerminal": "信息查询终端机",
+  "@mapFeatureInformationTerminal": {},
+  "mapFeatureHelpPoint": "帮助点",
+  "@mapFeatureHelpPoint": {},
+  "mapFeatureEmergencyCallPoint": "紧急呼叫点",
+  "@mapFeatureEmergencyCallPoint": {},
+  "mapFeatureEntrance": "入口",
+  "@mapFeatureEntrance": {},
+  "mapFeatureFootpath": "步行道路",
+  "@mapFeatureFootpath": {},
+  "mapFeatureStairs": "楼梯",
+  "@mapFeatureStairs": {},
+  "mapFeatureElevator": "电梯",
+  "@mapFeatureElevator": {},
+  "mapFeatureCurb": "Curb",
+  "@mapFeatureCurb": {},
+  "mapFeatureBusPlatformNumber": "站台：{number}",
+  "@mapFeatureBusPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureTrainPlatformNumber": "站台：{number}",
+  "@mapFeatureTrainPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  }
+}

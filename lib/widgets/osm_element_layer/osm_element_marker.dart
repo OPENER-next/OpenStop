@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import 'upload_indicator.dart';
+
 
 class OsmElementMarker extends StatefulWidget {
   final VoidCallback? onTap;
@@ -10,15 +12,17 @@ class OsmElementMarker extends StatefulWidget {
   final Color? backgroundColor;
   final bool active;
   final String label;
+  final Future? uploadState;
 
   const OsmElementMarker({
-    Key? key,
+    super.key,
     this.onTap,
     this.icon = Icons.block,
     this.backgroundColor,
     this.active = false,
     this.label = '',
-  }) : super(key: key);
+    this.uploadState,
+  });
 
   @override
   State<OsmElementMarker> createState() => _OsmElementMarkerState();
@@ -58,12 +62,12 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
 
   @override
   Widget build(BuildContext context) {
-    // add repaint boundary for performance improvement
-    // this way a marker will only be redrawn if itself changes
     return Semantics(
-      excludeSemantics: widget.active ? true : false,
-      blockUserActions: widget.active ? true : false,
+      excludeSemantics: widget.active,
+      blockUserActions: widget.active,
       label: widget.active ? null : widget.label,
+      // add repaint boundary for performance improvement
+      // this way a marker will only be redrawn if itself changes
       child: RepaintBoundary(
         child: Center(
           child: GestureDetector(
@@ -71,7 +75,7 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
             child: AnimatedBuilder(
               animation: _animation,
               builder: (_, __) => MarkerBubble(
-                shadowColor: Theme.of(context).colorScheme.shadow.withOpacity(0.4),
+                shadowColor: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.4),
                 elevation: _animation.value * 2,
                 child: Padding(
                   padding: const EdgeInsets.all(3),
@@ -80,20 +84,17 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
                     children: [
                       AspectRatio(
                         aspectRatio: 1,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
+                        child: ClipOval(
+                          child: ColoredBox(
                             color: Theme.of(context).colorScheme.primary,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(7),
-                            child: FittedBox(
+                            child: UploadIndicator(
+                              trigger: widget.uploadState,
+                              padding: const EdgeInsets.all(7),
                               child: Icon(widget.icon,
                                 color: Colors.white,
                                 shadows: const [
                                   Shadow(
                                     color: Colors.black12,
-                                    blurRadius: 0,
                                     offset: Offset(2, 2)
                                   ),
                                 ],
@@ -113,6 +114,7 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 10),
                                 child: Text(widget.label,
+                                  textWidthBasis: TextWidthBasis.longestLine,
                                   softWrap: true,
                                   maxLines: 2,
                                   style: TextStyle(
@@ -200,6 +202,7 @@ class _RenderMarkerBubble extends RenderProxyBoxWithHitTestBehavior {
     this._tipSize,
   ) : super(behavior: HitTestBehavior.opaque);
 
+  Color get color => _color;
   set color(Color value) {
     if (value != _color) {
       _color = value;
@@ -207,6 +210,7 @@ class _RenderMarkerBubble extends RenderProxyBoxWithHitTestBehavior {
     }
   }
 
+  Color get shadowColor => _shadowColor;
   set shadowColor(Color value) {
     if (value != _shadowColor) {
       _shadowColor = value;
@@ -214,6 +218,7 @@ class _RenderMarkerBubble extends RenderProxyBoxWithHitTestBehavior {
     }
   }
 
+  double get elevation => _elevation;
   set elevation(double value) {
     if (value != _elevation) {
       _elevation = value;
@@ -221,6 +226,7 @@ class _RenderMarkerBubble extends RenderProxyBoxWithHitTestBehavior {
     }
   }
 
+  Size get tipSize => _tipSize;
   set tipSize(Size value) {
     if (value != _tipSize) {
       _tipSize = value;
@@ -249,10 +255,10 @@ class _RenderMarkerBubble extends RenderProxyBoxWithHitTestBehavior {
     );
 
     // paint bubble shadow
-    if (_shadowColor.alpha > 0 && _elevation > 0) {
+    if (_shadowColor.a > 0 && _elevation > 0) {
       context.canvas.drawShadow(
         path,
-        _shadowColor.withOpacity(1),
+        _shadowColor.withValues(alpha: 1.0),
         _elevation,
         false, // depends one underlying widget
       );

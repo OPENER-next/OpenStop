@@ -29,8 +29,8 @@ class CreditText extends StatefulWidget {
     this.separatorBuilder = _defaultSeparatorBuilder,
     this.alignment = TextAlign.center,
     this.padding = EdgeInsets.zero,
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
   State<CreditText> createState() => _CreditTextState();
@@ -155,7 +155,9 @@ class _CreditTextState extends State<CreditText> {
     if (!await launchUrl(
       url,
       mode: LaunchMode.externalApplication,
-    )) throw '$url kann nicht aufgerufen werden';
+    )) {
+      throw Exception('$url kann nicht aufgerufen werden');
+    }
   }
 
 

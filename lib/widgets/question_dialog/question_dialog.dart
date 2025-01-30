@@ -1,12 +1,14 @@
-import 'package:flutter_mvvm_architecture/base.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_mvvm_architecture/base.dart';
 
-import '/view_models/home_view_model.dart';
 import '/models/question_catalog/question_definition.dart';
-import '/widgets/question_inputs/question_input_widget.dart';
-import '/widgets/question_dialog/question_summary.dart';
 import '/utils/ui_utils.dart';
+import '/view_models/home_view_model.dart';
+import '/widgets/edge_feather.dart';
+import '/widgets/question_dialog/question_summary.dart';
+import '/widgets/question_inputs/question_input_widget.dart';
 import 'question_list.dart';
 import 'question_navigation_bar.dart';
 import 'question_progress_bar.dart';
@@ -27,10 +29,9 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
     required this.questions,
     required this.answers,
     this.showSummary = false,
-    Key? key
+    super.key
   }) :
-    assert(questions.length == answers.length, 'Every question should have a corresponding answer controller.'),
-    super(key: key);
+    assert(questions.length == answers.length, 'Every question should have a corresponding answer controller.');
 
   @override
   Widget build(BuildContext context, viewModel) {
@@ -59,11 +60,9 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
     }
 
     // Use WillPopScope with "false" to prevent that back button closes app instead of Question Dialog
-    return WillPopScope(
-      onWillPop: () async {
-        viewModel.closeQuestionnaire();
-        return false;
-      },
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (_, __) => viewModel.closeQuestionnaire(),
       child: SafeArea(
         minimum: MediaQuery.of(context).viewInsets,
         bottom: false,
@@ -85,39 +84,46 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                           ...Iterable<Widget>.generate(
                             questionCount, _buildQuestion,
                           ),
-                          QuestionSheet(
+                          QuestionSummary(
                             elevate: showSummary,
-                            child: QuestionSummary(
-                              questions: questions.map(
-                                (question) => question.name
-                              ).toList(),
-                              answers: answers.map((controller) => controller.hasValidAnswer
-                                ? controller.answer?.toLocaleString(appLocale)
-                                : null
-                              ).toList(),
-                              onJump: viewModel.jumpToQuestion,
-                              userName: viewModel.userName,
-                            ),
+                            questions: questions
+                              .whereIndexed((index, _) => answers[index].hasValidAnswer)
+                              .map((question) => question.name)
+                              .toList(growable: false),
+                            answers: answers
+                              .where((controller) => controller.hasValidAnswer)
+                              .map((controller) => controller.answer!.toLocaleString(appLocale))
+                              .toList(growable: false),
+                            onJump: (index) {
+                              // we get the filtered index so we need to convert it to the original index
+                              // otherwise we jump to the wrong question/answer
+                              final originalIndex = answers
+                                .mapIndexed((i, controller) => controller.hasValidAnswer ? i : -1)
+                                .where((i) => i != -1)
+                                .elementAt(index);
+                              viewModel.jumpToQuestion(originalIndex);
+                            },
+                            userName: viewModel.userName,
                           ),
-                      ],
-                    ),
-                  ),
-                  // Clip widget shadow vertically to prevent overlapping
-                  ClipRect(
-                    clipper: ClipSymmetric(
-                      mediaQuery: MediaQuery.of(context)
-                    ),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        boxShadow: kElevationToShadow[4],
+                        ],
                       ),
+                    ),
+                    // Clip widget shadow vertically to prevent overlapping
+                    ClipRect(
+                      clipper: ClipSymmetric(
+                        mediaQuery: MediaQuery.of(context)
+                      ),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          boxShadow: kElevationToShadow[4],
+                        ),
                         child: Column(
                           children: [
                             QuestionProgressBar(
                               minHeight: 1,
                               color: Theme.of(context).colorScheme.primary,
                               value: activeIndex / questionCount,
-                              backgroundColor: Theme.of(context).colorScheme.onBackground,
+                              backgroundColor: Theme.of(context).colorScheme.outlineVariant,
                             ),
                             CompositedTransformTarget(
                               link: layerLink,
@@ -187,26 +193,26 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
       elevate: isActive,
       // important otherwise animation will fail
       key: ValueKey(question),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          QuestionTextHeader(
-            question: question.question,
-            details: question.description,
-            images: question.images,
+      header: QuestionTextHeader(
+        question: question.question,
+        details: question.description,
+        images: question.images,
+      ),
+      body: EdgeFeather(
+        edges: const EdgeInsets.only(top: 10),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.only(
+            top: 10,
+            right: 20,
+            left: 20,
+            bottom: 25,
           ),
-          Padding(
-            padding: const EdgeInsets.only(
-              right: 20,
-              left: 20,
-              bottom: 30,
-            ),
-            child: QuestionInputWidget.fromAnswerDefinition(
-              definition: question.answer,
-              controller: answers[index],
-            ),
+          child: QuestionInputWidget.fromAnswerDefinition(
+            definition: question.answer,
+            controller: answers[index],
           ),
-        ],
+        ),
       ),
     );
   }

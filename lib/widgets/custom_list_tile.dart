@@ -15,8 +15,8 @@ class CustomListTile extends StatelessWidget {
     this.trailingIcon,
     this.onTap,
     this.isThreeLine = false,
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
 
   @override
@@ -35,7 +35,7 @@ class CustomListTile extends StatelessWidget {
         child: Icon(
           trailingIcon,
           size: 16,
-          color: Theme.of(context).iconTheme.color?.withOpacity(0.20)
+          color: Theme.of(context).iconTheme.color?.withValues(alpha: 0.2)
         ),
       ),
       onTap: onTap,
@@ -49,8 +49,7 @@ class CustomSwitchListTile extends StatelessWidget {
   final String title;
   final String? subtitle;
   final IconData? leadingIcon;
-  // ignore: avoid_positional_boolean_parameters
-  final void Function(bool)? onChanged;
+  final ValueChanged<bool>? onChanged;
   final bool isThreeLine;
 
   const CustomSwitchListTile({
@@ -60,8 +59,8 @@ class CustomSwitchListTile extends StatelessWidget {
     this.leadingIcon,
     this.onChanged,
     this.isThreeLine = false,
-    Key? key
-  }) : super(key: key);
+    super.key,
+  });
 
 
   @override

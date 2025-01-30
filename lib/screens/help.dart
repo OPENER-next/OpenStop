@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '/widgets/custom_list_tile.dart';
 import '/commons/app_config.dart' as app_config;
 import '/commons/routes.dart';
+import '/widgets/custom_list_tile.dart';
 
 class HelpScreen extends StatelessWidget {
-  const HelpScreen({Key? key}) : super(key: key);
+  const HelpScreen({super.key});
 
   static final _urlIssues = Uri.parse('${app_config.appProjectUrl}/issues');
+  static final _urlTranslation = Uri.parse('https://hosted.weblate.org/engage/openstop/');
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,12 @@ class HelpScreen extends StatelessWidget {
                 trailingIcon: Icons.open_in_new,
                 title: appLocale.helpReportErrorLabel,
                 onTap: () => launchUrl(_urlIssues),
+              ),
+              CustomListTile(
+                leadingIcon: Icons.translate,
+                trailingIcon: Icons.open_in_new,
+                title: appLocale.helpImproveTranslationLabel,
+                onTap: () => launchUrl(_urlTranslation),
               ),
             ],
           ),

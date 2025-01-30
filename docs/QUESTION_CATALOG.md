@@ -16,6 +16,8 @@ The question catalog contains all questions the app may ask. Each question item 
 }
 ```
 
+In addition, documentary comments can be added per question using the reserved `"$comment"` field.
+
 ## The `question` part
 
 This contains any fields that describe the actual question displayed to the user. The main question must be provided via the `text` property and a short string that describes the modified value via `name`.
@@ -200,7 +202,7 @@ Displays a list of multiple options and allows the selection of one option (`Lis
 The constructor is defined as a mapping of OSM keys to expressions, while an expression is like a function which eventually computes the value of the tag.
 
 ```jsonc
-constructor: {
+"constructor": {
   "my_tag": ["EXPRESSION"]
 }
 ```

@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:osm_api/osm_api.dart';
 
+import '/commons/osm_config.dart' as osm_config;
+import '/models/authenticated_user.dart';
 import '/models/changeset_info_generator.dart';
 import '/models/element_processing/element_processor.dart';
 import '/models/element_variants/base_element.dart';
-import '/models/authenticated_user.dart';
-import '/commons/osm_config.dart' as osm_config;
-import '/models/stop_area_processing/stop_area.dart';
+import '/models/stop_area/stop_area.dart';
 
 
 // NOTE:
@@ -82,12 +82,11 @@ class OSMElementUploadAPI {
     // dummy changeset info
     final changesetInfo = generator(stopArea, []);
 
-    final bbox = stopArea.bounds;
     // get existing open changesets that was created by the user
     final changesets = await _osmApi.queryChangesets(
       open: true,
       uid: _authenticatedUser.id,
-      bbox: BoundingBox(bbox.west, bbox.south, bbox.east, bbox.north)
+      bbox: BoundingBox(stopArea.west, stopArea.south, stopArea.east, stopArea.north)
     );
 
     try {
@@ -141,7 +140,7 @@ class OSMElementUploadAPI {
     // wait till all requests are resolved
     // handle them in a stream in order to catch individual errors
     await Stream.fromFutures(requestQueue)
-      .handleError((e) {
+      .handleError((Object e) {
         // catch any errors and ignore these elements
         // for example the element or its children might be deleted by now
         debugPrint('Could not query element of existing changeset: $e');

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart' hide View;
 import 'package:flutter/services.dart';
-import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_mvvm_architecture/base.dart';
 
+import '/commons/routes.dart';
 import '/view_models/onboarding_view_model.dart';
 import '/widgets/dots_indicator.dart';
-import '/commons/routes.dart';
 
 
 class OnboardingScreen extends View<OnboardingViewModel> {
@@ -95,6 +95,7 @@ class OnboardingScreen extends View<OnboardingViewModel> {
             style: OutlinedButton.styleFrom(
               backgroundColor: Colors.transparent,
               foregroundColor: Colors.white,
+              iconColor: Colors.white,
               minimumSize: const Size(150, 36),
               elevation: 0.0,
               padding: const EdgeInsets.only(left: 14.0, right: 8.0),
@@ -186,8 +187,8 @@ class OnboardingPage extends StatelessWidget {
     this.buttonIcon = Icons.chevron_right,
     this.semanticLabel,
     this.onButtonTap,
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -245,16 +246,14 @@ class OnboardingPage extends StatelessWidget {
                   ),
                   if (buttonText != null) Flexible(
                     flex: 2,
-                    child: OutlinedButton(
+                    child: OutlinedButton.icon(
                       onPressed: onButtonTap,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(buttonText!, semanticsLabel: buttonSemanticLabel,),
-                          Icon(buttonIcon),
-                        ],
+                      label: Text(
+                        buttonText!,
+                        semanticsLabel: buttonSemanticLabel,
                       ),
+                      icon: Icon(buttonIcon),
+                      iconAlignment: IconAlignment.end,
                     ),
                   ),
                 ],

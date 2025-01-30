@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import '/models/question_catalog/question_catalog_reader.dart';
+import '/models/answer.dart';
 import '/models/authenticated_user.dart';
 import '/models/element_variants/element_identifier.dart';
-import '/models/answer.dart';
-import '/utils/stream_utils.dart';
-import '/utils/service_worker.dart';
-import '/models/questionnaire_store.dart';
+import '/models/question_catalog/question_catalog_reader.dart';
 import '/models/questionnaire.dart';
+import '/models/questionnaire_store.dart';
+import '/utils/service_worker.dart';
+import '/utils/stream_utils.dart';
 import 'element_handler.dart';
 import 'question_catalog_handler.dart';
 
@@ -37,7 +37,7 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
 
   /// This either reopens an existing questionnaire or creates a new one.
 
-  void openQuestionnaire(ElementIdentifier element) async {
+  Future<void> openQuestionnaire(ElementIdentifier element) async {
     final internalElement = findElement(element);
     if (internalElement == null) return;
 
@@ -121,10 +121,10 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
     final element = _activeQuestionnaire!.workingElement;
     // close questionnaire before uploading
     closeQuestionnaire();
-    final success = await uploadElement(element, user);
-    if (success) {
-      discardQuestionnaire(questionnaire);
-    }
+
+    await uploadElement(element, user);
+    // if uploadElement throws the questionnaire will not be discarded
+    discardQuestionnaire(questionnaire);
   }
 
   void previousQuestion() {
@@ -179,14 +179,14 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
   }
 
   @override
-  void updateQuestionCatalog(QuestionCatalogChange questionCatalogChange) {
-    super.updateQuestionCatalog(questionCatalogChange);
+  Future<void> updateQuestionCatalog(QuestionCatalogChange questionCatalogChange) {
+    final ret = super.updateQuestionCatalog(questionCatalogChange);
 
     if (questionCatalogChange.change == QuestionCatalogChangeReason.language) {
       // Update all QuestionDefinition of all the stored questionnares
       final questionnaireList = _questionnaireStore.items;
 
-      for (final Questionnaire questionnaire in questionnaireList) {
+      for (final questionnaire in questionnaireList) {
         questionnaire.updateQuestionCatalogLanguage(questionCatalogChange.catalog);
       }
       // Update current _activeQuestionnaire
@@ -204,6 +204,7 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
       _questionnaireStore.clear();
       closeQuestionnaire();
     }
+    return ret;
   }
 }
 

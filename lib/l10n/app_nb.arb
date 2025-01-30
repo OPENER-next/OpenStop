@@ -1,0 +1,332 @@
+{
+  "aboutVersionLabel": "Versjon",
+  "@aboutVersionLabel": {},
+  "aboutAuthorsLabel": "Utviklere",
+  "@aboutAuthorsLabel": {},
+  "aboutPrivacyPolicyLabel": "Personvernspraksis",
+  "@aboutPrivacyPolicyLabel": {},
+  "aboutIdeaLabel": "Idé",
+  "@aboutIdeaLabel": {},
+  "aboutIdeaDescription": "Chemnitz teknologiuniversitet\nFakultet for krets- og systemdesign",
+  "@aboutIdeaDescription": {},
+  "aboutLicensePackageLabel": "Lisenser for anvendte pakker",
+  "@aboutLicensePackageLabel": {},
+  "helpOnboardingLabel": "Vis introduksjonen igjen",
+  "@helpOnboardingLabel": {},
+  "onboardingSurveyingDescription": "Gå til et stoppested i nærheten for å sjekke nåværende tilstand.",
+  "@onboardingSurveyingDescription": {},
+  "onboardingSurveyingButton": "På vei",
+  "@onboardingSurveyingButton": {},
+  "settingsTitle": "Innstillinger",
+  "@settingsTitle": {},
+  "settingsThemeDialogTitle": "Velg drakt",
+  "@settingsThemeDialogTitle": {},
+  "settingsProfessionalQuestionsDescription": "Av trygghetshensyn kun tiltenkt profesjonelle",
+  "@settingsProfessionalQuestionsDescription": {},
+  "settingsThemeLabel": "Fargedrakt for programmet",
+  "@settingsThemeLabel": {},
+  "logoutDialogTitle": "Logg ut fra OSM?",
+  "@logoutDialogTitle": {},
+  "loginHint": "Logg inn med OpenStreetMap-konto for å laste opp endringene dine.",
+  "@loginHint": {},
+  "logoutDialogDescription": "Hvis du logger ut kan du ikke laste opp endringer til OpenStreetMap.",
+  "@logoutDialogDescription": {},
+  "numberInputValidationError": "Ugyldig nummer",
+  "@numberInputValidationError": {},
+  "stringInputPlaceholder": "Skriv inn her …",
+  "@stringInputPlaceholder": {},
+  "stringInputValidationErrorMin": "Inndata for kort",
+  "@stringInputValidationErrorMin": {},
+  "mapFeatureEscalator": "Rulletrapp",
+  "@mapFeatureEscalator": {},
+  "mapFeatureCycleBarrier": "Sykkelbarriere",
+  "@mapFeatureCycleBarrier": {},
+  "mapFeaturePedestrianLights": "Fotgjenger-trafikklys",
+  "@mapFeaturePedestrianLights": {},
+  "aboutTitle": "Om",
+  "@aboutTitle": {},
+  "aboutSlogan": "Neste stoppested: Tilgjengelighet",
+  "@aboutSlogan": {},
+  "changesetCommentConjunctionString": "og",
+  "@changesetCommentConjunctionString": {},
+  "uploadMessageSuccess": "Endringer opplastet.",
+  "@uploadMessageSuccess": {},
+  "aboutAuthorsDescription": "{appName}-bidragsytere",
+  "@aboutAuthorsDescription": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutLicenseLabel": "Lisens",
+  "@aboutLicenseLabel": {},
+  "cancel": "Avbryt",
+  "@cancel": {},
+  "more": "mer",
+  "@more": {},
+  "aboutSourceCodeLabel": "Kildekode",
+  "@aboutSourceCodeLabel": {},
+  "confirm": "Bekreft",
+  "@confirm": {},
+  "helpTitle": "Hjelp",
+  "@helpTitle": {},
+  "helpReportErrorLabel": "Rapporter feil",
+  "@helpReportErrorLabel": {},
+  "onboardingGreetingButton": "Slik virker det",
+  "@onboardingGreetingButton": {},
+  "onboardingAnsweringDescription": "For å semle data kan du velge en markør i programmet og besvare tilhørende spørsmål.",
+  "@onboardingAnsweringDescription": {},
+  "onboardingGreetingTitle": "Hei",
+  "@onboardingGreetingTitle": {},
+  "durationInputMinutesLabel": "minutter",
+  "@durationInputMinutesLabel": {},
+  "numberInputPlaceholder": "Skriv inn her …",
+  "@numberInputPlaceholder": {},
+  "numberInputFallbackName": "Verdi",
+  "@numberInputFallbackName": {
+    "description": "Fallback value for nameString in numberInputValidationErrorMax"
+  },
+  "mapFeatureTaxiStand": "Drosjeholdeplass",
+  "@mapFeatureTaxiStand": {},
+  "mapFeatureToilets": "Toaletter",
+  "@mapFeatureToilets": {},
+  "mapFeatureTrainPlatformNumber": "Plattform: {number}",
+  "@mapFeatureTrainPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureBusPlatformNumber": "Plattform: {number}",
+  "@mapFeatureBusPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureCurb": "Kantstein",
+  "@mapFeatureCurb": {},
+  "mapFeatureLuggageLockers": "Bagassjeskap",
+  "@mapFeatureLuggageLockers": {},
+  "mapFeatureLuggageTransport": "Baggasjetransport",
+  "@mapFeatureLuggageTransport": {},
+  "mapFeatureInformationTerminal": "Infoterminal",
+  "@mapFeatureInformationTerminal": {},
+  "mapFeatureRailroadCrossing": "Togovergang",
+  "@mapFeatureRailroadCrossing": {},
+  "queryMessageUnknownError": "Ukjent feil.",
+  "@queryMessageUnknownError": {},
+  "onboardingAnsweringTitle": "Nå er det din tur",
+  "@onboardingAnsweringTitle": {},
+  "onboardingAnsweringButton": "OK, skjønner",
+  "@onboardingAnsweringButton": {},
+  "privacyPolicyTitle": "Personvernspraksis",
+  "@privacyPolicyTitle": {},
+  "settingsThemeOptionSystem": "System",
+  "@settingsThemeOptionSystem": {},
+  "settingsThemeOptionLight": "Lys",
+  "@settingsThemeOptionLight": {},
+  "settingsThemeOptionDark": "Mørk",
+  "@settingsThemeOptionDark": {},
+  "mapFeatureElevator": "Heis",
+  "@mapFeatureElevator": {},
+  "onboardingSurveyingTitle": "Ta en titt",
+  "@onboardingSurveyingTitle": {},
+  "onboardingContributingTitle": "Del, ikke knel",
+  "@onboardingContributingTitle": {},
+  "settingsProfessionalQuestionsLabel": "Vis avanserte spørsmål",
+  "@settingsProfessionalQuestionsLabel": {},
+  "back": "Tilbake",
+  "@back": {},
+  "next": "Neste",
+  "@next": {},
+  "finish": "Fullfør",
+  "@finish": {},
+  "login": "Logg inn",
+  "@login": {},
+  "logout": "Logg ut",
+  "@logout": {},
+  "skip": "Hopp over",
+  "@skip": {},
+  "yes": "Ja",
+  "@yes": {},
+  "no": "Nei",
+  "@no": {},
+  "and": "og",
+  "@and": {},
+  "element": "element",
+  "@element": {},
+  "durationInputHoursLabel": "timer",
+  "@durationInputHoursLabel": {},
+  "durationInputDaysLabel": "dager",
+  "@durationInputDaysLabel": {},
+  "durationInputSecondsLabel": "sekunder",
+  "@durationInputSecondsLabel": {},
+  "osmCreditsText": "Data © OpenStreetMap-bidragsytere",
+  "@osmCreditsText": {},
+  "mapFeatureBusStop": "Buss-stopp",
+  "@mapFeatureBusStop": {},
+  "mapFeatureTrainPlatform": "Togplattform",
+  "@mapFeatureTrainPlatform": {},
+  "mapFeaturePlatform": "Plattform",
+  "@mapFeaturePlatform": {},
+  "mapFeatureStation": "Stasjon",
+  "@mapFeatureStation": {},
+  "mapFeatureTicketSalesPoint": "Billettsalg",
+  "@mapFeatureTicketSalesPoint": {},
+  "mapFeatureStationMap": "Stasjons-/stoppkart",
+  "@mapFeatureStationMap": {},
+  "mapFeatureTicketMachine": "Billettmaskin",
+  "@mapFeatureTicketMachine": {},
+  "mapFeatureParkingSpot": "Parkeringssted",
+  "@mapFeatureParkingSpot": {},
+  "mapFeatureInformationPoint": "Informasjonssted",
+  "@mapFeatureInformationPoint": {},
+  "queryMessageTooManyRequestsError": "For mange forespørsler til tjeneren.",
+  "@queryMessageTooManyRequestsError": {},
+  "queryMessageConnectionTimeoutError": "Feil: Tidsavbrudd for tjenerforespørsel.",
+  "@queryMessageConnectionTimeoutError": {},
+  "queryMessageReceiveTimeoutError": "Feil: Tidsavbrudd for mottak av data.",
+  "@queryMessageReceiveTimeoutError": {},
+  "queryMessageUnknownServerCommunicationError": "Ukjent feil under tjenerkommunikasjon.",
+  "@queryMessageUnknownServerCommunicationError": {},
+  "numberInputValidationErrorMax": "{nameString} må være mindre enn {max}.",
+  "@numberInputValidationErrorMax": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "max": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureStairs": "Trapp",
+  "@mapFeatureStairs": {},
+  "onboardingGreetingDescription": "Takk for at du gjør ditt for å forbedre offentlig transport",
+  "@onboardingGreetingDescription": {},
+  "onboardingContributingDescription": "Laster opp svarene dine til OSM for å dele dem med hele verden.",
+  "@onboardingContributingDescription": {},
+  "numberInputValidationErrorMin": "{nameString} må være større enn {min}.",
+  "@numberInputValidationErrorMin": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "min": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureEmergencyCallPoint": "Nødtelefon",
+  "@mapFeatureEmergencyCallPoint": {},
+  "mapFeatureInformationCallPoint": "Informasjonskolonne",
+  "@mapFeatureInformationCallPoint": {},
+  "mapFeatureHelpPoint": "Hjelpested",
+  "@mapFeatureHelpPoint": {},
+  "mapFeatureFootpath": "Gangvei",
+  "@mapFeatureFootpath": {},
+  "mapFeatureTramCrossing": "Trikkeovergang",
+  "@mapFeatureTramCrossing": {},
+  "onboardingContributingButton": "Da tar vi bladet fra munnen",
+  "@onboardingContributingButton": {},
+  "queryMessageServerUnavailableError": "Tjeneren er utilgjengelig eller overbelastet. Prøv igjen senere.",
+  "@queryMessageServerUnavailableError": {},
+  "uploadMessageUnknownConnectionError": "Ukjent feil under overføring.",
+  "@uploadMessageUnknownConnectionError": {},
+  "questionnaireSummaryDedicatedMessage": "Takk for svarene dine {userName}.\nVerifiser dem før opplasting.",
+  "@questionnaireSummaryDedicatedMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "questionnaireSummaryUndedicatedMessage": "Takk for svarene dine.\nVerifiser dem før opplasting.",
+  "@questionnaireSummaryUndedicatedMessage": {},
+  "changesetCommentMessage": "La til detaljer for {mapFeaturesString} på stoppestedet {stopsString}.",
+  "@changesetCommentMessage": {
+    "placeholders": {
+      "mapFeaturesString": {
+        "type": "String"
+      },
+      "stopsString": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadMessageServerConnectionError": "Feil: Ingen tilkobling til OSM-tjeneren.",
+  "@uploadMessageServerConnectionError": {},
+  "days": "{day, plural, =1 {1 dag} other {{day} dager}}",
+  "@days": {
+    "placeholders": {
+      "day": {
+        "type": "num"
+      }
+    }
+  },
+  "hours": "{hour, plural, =1 {1 time} other {{hour} timer}}",
+  "@hours": {
+    "placeholders": {
+      "hour": {
+        "type": "num"
+      }
+    }
+  },
+  "minutes": "{minute, plural, =1 {1 minutt} other {{minute} minutter}}",
+  "@minutes": {
+    "placeholders": {
+      "minute": {
+        "type": "num"
+      }
+    }
+  },
+  "seconds": "{second, plural, =1 {1 sekund} other {{second} sekunder}}",
+  "@seconds": {
+    "placeholders": {
+      "second": {
+        "type": "num"
+      }
+    }
+  },
+  "changesetWithStopNameText": "La til detaljer for {elements} på stoppestedet {stopArea}.",
+  "@changesetWithStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      },
+      "stopArea": {
+        "type": "String"
+      }
+    }
+  },
+  "changesetWithoutStopNameText": "La til detaljer for {elements} på stoppestedet.",
+  "@changesetWithoutStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureTramStop": "Trikkestopp",
+  "@mapFeatureTramStop": {},
+  "mapFeatureStopPole": "Stoppestedsstolpe",
+  "@mapFeatureStopPole": {},
+  "mapFeatureEntrance": "Inngang",
+  "@mapFeatureEntrance": {},
+  "mapFeatureFootwayCrossing": "Fotgjengerkryssing",
+  "@mapFeatureFootwayCrossing": {},
+  "mapFeatureCyclewayCrossing": "Sykkelkryssing",
+  "@mapFeatureCyclewayCrossing": {},
+  "mapFeatureCrossing": "Kryssing",
+  "@mapFeatureCrossing": {}
+}

@@ -4,21 +4,21 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class LocationButton extends ImplicitlyAnimatedWidget {
   final bool active;
 
-  final Function()? onPressed;
+  final void Function()? onPressed;
 
   final Color? color, activeColor, iconColor, activeIconColor;
 
   const LocationButton({
-    Key? key,
+    super.key,
     this.active = false,
     this.onPressed,
     this.color = Colors.white,
     this.activeColor = Colors.black,
     this.iconColor = Colors.black,
     this.activeIconColor = Colors.white,
-    Duration duration = const Duration(milliseconds: 300),
-    Curve curve = Curves.ease,
-  }) : super(key: key, duration: duration, curve: curve);
+    super.duration = const Duration(milliseconds: 300),
+    super.curve = Curves.ease,
+  });
 
 
   @override

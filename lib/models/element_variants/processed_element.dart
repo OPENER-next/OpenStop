@@ -19,12 +19,12 @@ abstract class ProcessedElement<T extends osmapi.OSMElement, G extends Geographi
   final _parents = HashSet<ParentElement>();
   final _children = HashSet<ChildElement>();
 
-  ProcessedElement(T osmElement): super(osmElement);
+  ProcessedElement(super.osmElement);
 
   G get geometry {
     if (_geometry == null) {
       calcGeometry();
-      if (_geometry == null) throw 'Geometry of ${type.name} $id cannot be calculated.';
+      if (_geometry == null) throw Exception('Geometry of ${type.name} $id cannot be calculated.');
     }
     return _geometry!;
   }

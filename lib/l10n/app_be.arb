@@ -1,0 +1,334 @@
+{
+  "aboutTitle": "Аб дадатку",
+  "@aboutTitle": {},
+  "aboutVersionLabel": "Версія",
+  "@aboutVersionLabel": {},
+  "aboutAuthorsLabel": "Аўтары",
+  "@aboutAuthorsLabel": {},
+  "aboutAuthorsDescription": "{appName} удзельнікі",
+  "@aboutAuthorsDescription": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPrivacyPolicyLabel": "Палітыка прыватнасці",
+  "@aboutPrivacyPolicyLabel": {},
+  "aboutIdeaLabel": "Ідэя",
+  "@aboutIdeaLabel": {},
+  "aboutLicensePackageLabel": "Ліцэнзіі выкарыстаных пакетаў",
+  "@aboutLicensePackageLabel": {},
+  "aboutSourceCodeLabel": "Зыходны код",
+  "@aboutSourceCodeLabel": {},
+  "helpTitle": "Дапамога",
+  "@helpTitle": {},
+  "helpOnboardingLabel": "Паглядзіце ўвядзенне яшчэ раз",
+  "@helpOnboardingLabel": {},
+  "helpImproveTranslationLabel": "Палепшыць пераклад",
+  "@helpImproveTranslationLabel": {},
+  "onboardingGreetingTitle": "Прывітанне!",
+  "@onboardingGreetingTitle": {},
+  "onboardingGreetingButton": "Вось як гэта працуе",
+  "@onboardingGreetingButton": {},
+  "onboardingSurveyingTitle": "Паглядзі",
+  "@onboardingSurveyingTitle": {},
+  "onboardingAnsweringTitle": "Цяпер твая чарга",
+  "@onboardingAnsweringTitle": {},
+  "onboardingAnsweringButton": "Добра, зразумела",
+  "@onboardingAnsweringButton": {},
+  "onboardingContributingTitle": "Абмен - гэта клопат",
+  "@onboardingContributingTitle": {},
+  "onboardingContributingDescription": "Загрузіце свае адказы ў OpenStreetMap, каб падзяліцца імі з усім светам.",
+  "@onboardingContributingDescription": {},
+  "onboardingContributingButton": "Пачынаем",
+  "@onboardingContributingButton": {},
+  "privacyPolicyTitle": "Палітыка прыватнасці",
+  "@privacyPolicyTitle": {},
+  "settingsTitle": "Налады",
+  "@settingsTitle": {},
+  "settingsProfessionalQuestionsLabel": "Паказаць прафесійныя пытанні",
+  "@settingsProfessionalQuestionsLabel": {},
+  "settingsProfessionalQuestionsDescription": "З меркаванняў бяспекі прызначаны толькі для прафесіяналаў",
+  "@settingsProfessionalQuestionsDescription": {},
+  "settingsThemeLabel": "Каляровая схема прыкладання",
+  "@settingsThemeLabel": {},
+  "settingsThemeDialogTitle": "Выбраць тэму",
+  "@settingsThemeDialogTitle": {},
+  "settingsThemeOptionSystem": "Сістэмныя налады",
+  "@settingsThemeOptionSystem": {},
+  "settingsThemeOptionLight": "Светлая",
+  "@settingsThemeOptionLight": {},
+  "settingsThemeOptionDark": "Цёмная",
+  "@settingsThemeOptionDark": {},
+  "logoutDialogTitle": "Выйсці з OSM?",
+  "@logoutDialogTitle": {},
+  "logoutDialogDescription": "Калі вы выйдзеце, вы больш не зможаце загружаць змены ў OpenStreetMap.",
+  "@logoutDialogDescription": {},
+  "loginHint": "Увайдзіце ў свой уліковы запіс OpenStreetMap, каб загрузіць змены.",
+  "@loginHint": {},
+  "numberInputPlaceholder": "Увядзіце сюды…",
+  "@numberInputPlaceholder": {},
+  "numberInputFallbackName": "Значэнне",
+  "@numberInputFallbackName": {
+    "description": "Fallback value for nameString in numberInputValidationErrorMax"
+  },
+  "numberInputValidationError": "Няправільны нумар",
+  "@numberInputValidationError": {},
+  "numberInputValidationErrorMax": "{nameString} павінна быць менш {max}{unit}.",
+  "@numberInputValidationErrorMax": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "max": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "queryMessageConnectionTimeoutError": "Памылка: час чакання запыту сервера скончыўся.",
+  "@queryMessageConnectionTimeoutError": {},
+  "queryMessageReceiveTimeoutError": "Памылка: час атрымання дадзеных скончыўся.",
+  "@queryMessageReceiveTimeoutError": {},
+  "queryMessageUnknownServerCommunicationError": "Невядомая памылка падчас сувязі з серверам.",
+  "@queryMessageUnknownServerCommunicationError": {},
+  "queryMessageUnknownError": "Невядомая памылка.",
+  "@queryMessageUnknownError": {},
+  "questionnaireSummaryDedicatedMessage": "Дзякуй {userName} за вашыя адказы.\nПраверце іх перад загрузкай.",
+  "@questionnaireSummaryDedicatedMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "questionnaireSummaryUndedicatedMessage": "Дзякуй за адказы.\nПраверце іх перад загрузкай.",
+  "@questionnaireSummaryUndedicatedMessage": {},
+  "back": "Назад",
+  "@back": {},
+  "next": "Наступны",
+  "@next": {},
+  "cancel": "Адмена",
+  "@cancel": {},
+  "confirm": "Пацвердзіць",
+  "@confirm": {},
+  "finish": "Гатова",
+  "@finish": {},
+  "login": "Увайсці",
+  "@login": {},
+  "logout": "Выйсці",
+  "@logout": {},
+  "skip": "Прапусціць",
+  "@skip": {},
+  "yes": "Так",
+  "@yes": {},
+  "no": "Не",
+  "@no": {},
+  "and": "і",
+  "@and": {},
+  "more": "больш",
+  "@more": {},
+  "durationInputDaysLabel": "дні",
+  "@durationInputDaysLabel": {},
+  "durationInputHoursLabel": "гадзіны",
+  "@durationInputHoursLabel": {},
+  "durationInputMinutesLabel": "хвіліны",
+  "@durationInputMinutesLabel": {},
+  "durationInputSecondsLabel": "секунд",
+  "@durationInputSecondsLabel": {},
+  "osmCreditsText": "Дадзеныя ўдзельнікаў ©OpenStreetMap",
+  "@osmCreditsText": {},
+  "changesetWithStopNameText": "Дададзены дэталі да {elements} у зоне прыпынку {stopArea}.",
+  "@changesetWithStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      },
+      "stopArea": {
+        "type": "String"
+      }
+    }
+  },
+  "element": "назва",
+  "@element": {},
+  "mapFeatureBusStop": "Аўтобусны прыпынак",
+  "@mapFeatureBusStop": {},
+  "mapFeatureTramStop": "Трамвайны прыпынак",
+  "@mapFeatureTramStop": {},
+  "mapFeaturePlatform": "Платформа",
+  "@mapFeaturePlatform": {},
+  "mapFeatureStopPole": "Знак стоп",
+  "@mapFeatureStopPole": {},
+  "mapFeatureStation": "Станцыя",
+  "@mapFeatureStation": {},
+  "mapFeatureTicketSalesPoint": "Пункт продажу білетаў",
+  "@mapFeatureTicketSalesPoint": {},
+  "mapFeatureStationMap": "Мапа станцыі/прыпынку",
+  "@mapFeatureStationMap": {},
+  "mapFeatureTicketMachine": "Аўтамат па продажы білетаў",
+  "@mapFeatureTicketMachine": {},
+  "mapFeatureParkingSpot": "Паркоўка",
+  "@mapFeatureParkingSpot": {},
+  "mapFeatureTaxiStand": "Стаянка таксі",
+  "@mapFeatureTaxiStand": {},
+  "mapFeatureToilets": "Прыбіральні",
+  "@mapFeatureToilets": {},
+  "mapFeatureLuggageLockers": "Камера захоўвання",
+  "@mapFeatureLuggageLockers": {},
+  "mapFeatureStairs": "Лесвіцы",
+  "@mapFeatureStairs": {},
+  "mapFeatureElevator": "Ліфт",
+  "@mapFeatureElevator": {},
+  "mapFeatureEscalator": "Эскалатар",
+  "@mapFeatureEscalator": {},
+  "mapFeatureCycleBarrier": "Веласіпедны бар'ер",
+  "@mapFeatureCycleBarrier": {},
+  "mapFeatureCrossing": "Пераход",
+  "@mapFeatureCrossing": {},
+  "mapFeatureTramCrossing": "Трамвайны пераезд",
+  "@mapFeatureTramCrossing": {},
+  "mapFeatureRailroadCrossing": "Чыгуначны пераезд",
+  "@mapFeatureRailroadCrossing": {},
+  "mapFeatureFootwayCrossing": "Пешаходны пераход",
+  "@mapFeatureFootwayCrossing": {},
+  "mapFeatureCyclewayCrossing": "Веласіпедны пераход",
+  "@mapFeatureCyclewayCrossing": {},
+  "mapFeatureCurb": "Бардзюр",
+  "@mapFeatureCurb": {},
+  "mapFeaturePedestrianLights": "Пешаходны святлафор",
+  "@mapFeaturePedestrianLights": {},
+  "mapFeatureBusPlatformNumber": "Платформа: {number}",
+  "@mapFeatureBusPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureTrainPlatformNumber": "Платформа: {number}",
+  "@mapFeatureTrainPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutSlogan": "Наступны прыпынак: Даступнасць",
+  "@aboutSlogan": {},
+  "helpReportErrorLabel": "Паведаміць пра памылку",
+  "@helpReportErrorLabel": {},
+  "aboutIdeaDescription": "Хемніцкі тэхналагічны універсітэт\nПраектаванне схем і сістэм",
+  "@aboutIdeaDescription": {},
+  "onboardingGreetingDescription": "Мы рады, што вы тут і хочаце ўнесці свой уклад у паляпшэнне грамадскага транспарту.",
+  "@onboardingGreetingDescription": {},
+  "aboutLicenseLabel": "Ліцэнзія",
+  "@aboutLicenseLabel": {},
+  "onboardingAnsweringDescription": "Для збору даных выберыце маркер у дадатку і адкажыце на паказаныя пытанні.",
+  "@onboardingAnsweringDescription": {},
+  "onboardingSurveyingDescription": "Падыйдзіце да бліжэйшага прыпынку, каб аглядзець яго бягучы стан.",
+  "@onboardingSurveyingDescription": {},
+  "onboardingSurveyingButton": "Я зраблю гэта",
+  "@onboardingSurveyingButton": {},
+  "mapFeatureInformationPoint": "Інфармацыйны пункт",
+  "@mapFeatureInformationPoint": {},
+  "changesetCommentConjunctionString": "і",
+  "@changesetCommentConjunctionString": {},
+  "uploadMessageSuccess": "Змены паспяхова запампаваны.",
+  "@uploadMessageSuccess": {},
+  "uploadMessageServerConnectionError": "Памылка: Няма злучэння з серверам OSM.",
+  "@uploadMessageServerConnectionError": {},
+  "uploadMessageUnknownConnectionError": "Невядомая памылка падчас перадачы.",
+  "@uploadMessageUnknownConnectionError": {},
+  "stringInputPlaceholder": "Увядзіце тут…",
+  "@stringInputPlaceholder": {},
+  "stringInputValidationErrorMin": "Занадта кароткае",
+  "@stringInputValidationErrorMin": {},
+  "changesetCommentMessage": "Дададзены дэталі да {mapFeaturesString} у зоне прыпынку {stopsString}.",
+  "@changesetCommentMessage": {
+    "placeholders": {
+      "mapFeaturesString": {
+        "type": "String"
+      },
+      "stopsString": {
+        "type": "String"
+      }
+    }
+  },
+  "numberInputValidationErrorMin": "{nameString} павінна быць больш, чым {min}{unit}.",
+  "@numberInputValidationErrorMin": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "min": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "queryMessageServerUnavailableError": "Сервер недаступны або перагружаны. Паўтарыце спробу пазней.",
+  "@queryMessageServerUnavailableError": {},
+  "queryMessageTooManyRequestsError": "Занадта шмат запытаў на сервер.",
+  "@queryMessageTooManyRequestsError": {},
+  "changesetWithoutStopNameText": "Дададзены дэталі да {elements} у зоне прыпынку.",
+  "@changesetWithoutStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureTrainPlatform": "Платформа цягніка",
+  "@mapFeatureTrainPlatform": {},
+  "mapFeatureInformationCallPoint": "Інфармацыйная калонка",
+  "@mapFeatureInformationCallPoint": {},
+  "mapFeatureLuggageTransport": "Перавоз багажу",
+  "@mapFeatureLuggageTransport": {},
+  "mapFeatureEmergencyCallPoint": "Пункт экстранага выкліку",
+  "@mapFeatureEmergencyCallPoint": {},
+  "mapFeatureFootpath": "Пешаходная дарожка",
+  "@mapFeatureFootpath": {},
+  "mapFeatureInformationTerminal": "Інфармацыйны тэрмінал",
+  "@mapFeatureInformationTerminal": {},
+  "mapFeatureHelpPoint": "Пункт дапамогі",
+  "@mapFeatureHelpPoint": {},
+  "mapFeatureEntrance": "Уваход",
+  "@mapFeatureEntrance": {},
+  "days": "{day, plural, =1 {1 дзень} other {{day} дзён}}",
+  "@days": {
+    "placeholders": {
+      "day": {
+        "type": "num"
+      }
+    }
+  },
+  "hours": "{hour, plural, =1 {1 час} other {{hour} гадзін}}",
+  "@hours": {
+    "placeholders": {
+      "hour": {
+        "type": "num"
+      }
+    }
+  },
+  "minutes": "{minute, plural, =1 {1 хвіліна} other {{minute} хвілін}}",
+  "@minutes": {
+    "placeholders": {
+      "minute": {
+        "type": "num"
+      }
+    }
+  },
+  "seconds": "{second, plural, =1 {1 секунда} other {{second} секунд}}",
+  "@seconds": {
+    "placeholders": {
+      "second": {
+        "type": "num"
+      }
+    }
+  }
+}

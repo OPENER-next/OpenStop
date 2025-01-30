@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '/widgets/hero_viewer.dart';
 import '/screens/about.dart';
 import '/screens/help.dart';
 import '/screens/home.dart';
@@ -9,6 +8,7 @@ import '/screens/licenses.dart';
 import '/screens/onboarding.dart';
 import '/screens/privacy_policy.dart';
 import '/screens/settings.dart';
+import '/widgets/hero_viewer.dart';
 
 class Routes {
   static SlideInOutPageRoute get about => SlideInOutPageRoute(
@@ -39,9 +39,9 @@ abstract class WidgetPageRoute<T> extends PageRoute<T> {
   Widget get page;
 
   WidgetPageRoute({
-    RouteSettings? settings,
-    bool fullscreenDialog = false
-  }): super(settings: settings, fullscreenDialog: fullscreenDialog);
+    super.settings,
+    super.fullscreenDialog
+  });
 }
 
 
@@ -55,9 +55,9 @@ class SlideInOutPageRoute<T> extends WidgetPageRoute<T> {
   final Widget page;
 
   SlideInOutPageRoute(this.page, {
-    RouteSettings? settings,
-    bool fullscreenDialog = false,
-  }) : super(settings: settings, fullscreenDialog: fullscreenDialog);
+    super.settings,
+    super.fullscreenDialog,
+  });
 
   @override
   Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {

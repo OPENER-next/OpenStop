@@ -1,0 +1,14 @@
+Localization:
+ - Translation is now possible using Weblate
+ - Translations (partly) available in 10 languages
+UI/UX:
+ - Replace stop area loading indicator
+ - Fix spacing in marker bubble with long names
+ - Add gallery viewer for info images
+Questions:
+ - Add tram signal lights question
+ - Add/Replaces crossing questions (about markings, islands, signals)
+ - Do not ask for "crossing:whistle" on tram crossings
+Miscellaneous:
+ - Clarify GPLv3+ license
+ - Bug fixes and spelling corrections

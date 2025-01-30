@@ -1,0 +1,14 @@
+Trad.:
+ - Possibilidade de traduzir no Weblate
+ - Traduções (incompletas) em 10 idiomas
+UI/UX:
+ - Novo indicador de carregamento da área de paragem
+ - Corrigido espaçamento em marcadores com nomes longos
+ - Adicionado visualizador de imagens de informação
+Perguntas:
+ - Pergunta sobre sinais luminosos de elétrico
+ - Perguntas sobre cruzamentos (sobre marcações, ilhas, sinais)
+ - Não pedir "travessia:apito" nas travessias de elétrico
+Diversos:
+ - Clarificar a licença GPLv3+
+ - Correções várias

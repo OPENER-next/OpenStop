@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 
 extension AnimationUtils on MapController {
@@ -15,29 +16,32 @@ extension AnimationUtils on MapController {
     Duration duration = const Duration(milliseconds: 500),
     String? id,
   }) {
-    location ??= camera.center;
-    zoom ??= camera.zoom;
-    rotation ??= camera.rotation;
-
-    final positionTween = LatLngTween(begin: camera.center, end: location);
-    final zoomTween = Tween<double>(begin: camera.zoom, end: zoom);
-    final rotationTween = RotationTween(begin: camera.rotation, end: rotation);
+    final positionTween = location != null
+      ? LatLngTween(begin: camera.center, end: location)
+      : null;
+    final zoomTween = zoom != null
+      ? Tween<double>(begin: camera.zoom, end: zoom)
+      : null;
+    final rotationTween = rotation != null
+      ? RotationTween(begin: camera.rotation, end: rotation)
+      : null;
 
     final controller = AnimationController(
       duration: duration,
-      vsync: ticker
+      vsync: ticker,
     );
     final animation = CurvedAnimation(
-        parent: controller,
-        curve: curve
+      parent: controller,
+      curve: curve,
     );
 
     animation.addListener(() {
       moveAndRotate(
-        positionTween.evaluate(animation),
-        zoomTween.evaluate(animation),
-        rotationTween.evaluate(animation),
-        id: id
+        // use most up to date camera value if no tween/animation was specified
+        positionTween?.evaluate(animation) ?? camera.center,
+        zoomTween?.evaluate(animation) ?? camera.zoom,
+        rotationTween?.evaluate(animation) ?? camera.rotation,
+        id: id,
       );
     });
 
@@ -81,7 +85,7 @@ extension AnimationUtils on MapController {
 class LatLngTween extends Tween<LatLng> {
   static const piDoubled = pi * 2;
 
-  LatLngTween({ LatLng? begin, LatLng? end }) : super(begin: begin, end: end);
+  LatLngTween({ super.begin, super.end });
 
   @override
   LatLng lerp(double t) {
@@ -100,14 +104,14 @@ class LatLngTween extends Tween<LatLng> {
     return LatLng(latitude, longitude);
   }
 
-  double _wrapDegrees(v) => (v + 180) % 360 - 180;
+  double _wrapDegrees(num v) => (v + 180) % 360 - 180;
 }
 
 
 /// Interpolate radians values in the direction of the shortest rotation delta / rotation angle.
 
 class RotationTween extends Tween<double> {
-  RotationTween({ double? begin, double? end }) : super(begin: begin, end: end);
+  RotationTween({ super.begin, super.end });
 
   @override
   double lerp(double t) {

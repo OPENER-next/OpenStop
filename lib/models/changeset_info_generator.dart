@@ -1,16 +1,14 @@
 import 'dart:ui';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:latlong2/latlong.dart';
 
 import '/api/offline_geocoder.g.dart';
+import '/commons/app_config.dart' as app_config;
 import '/commons/country_language_map.dart';
 import 'element_variants/base_element.dart';
 import 'map_features/map_features.dart';
-import 'stop_area_processing/stop.dart';
-import 'stop_area_processing/stop_area.dart';
-import '/commons/app_config.dart' as app_config;
-
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'stop_area/stop_area.dart';
 
 
 /// Holds any desired changeset information.
@@ -73,11 +71,10 @@ class ChangesetCommentGenerator {
       userLocales,
     );
     final mapFeatureNames = _getElementNames(modifiedElements, localizations);
-    final stopName = _getMostCommonStopName(stopArea.stops);
 
     return ChangesetCommentGenerator(
       mapFeatureNames: mapFeatureNames,
-      stopName: stopName,
+      stopName: stopArea.name,
       localizations: localizations,
     );
   }
@@ -143,28 +140,6 @@ class ChangesetCommentGenerator {
         (element) => MapFeatures().representElement(element).genericLabel(localizations),
       ),
     );
-  }
-
-  /// Extracts the names of multiple stops while filtering duplicates.
-
-  static String? _getMostCommonStopName(Set<Stop> stops) {
-    final stopNameCount = <String, int>{};
-
-    for (final stop in stops) {
-      if (stop.name.isNotEmpty) {
-        stopNameCount.update(
-          stop.name,
-          (value) => value + 1,
-          ifAbsent: () => 0,
-        );
-      }
-    }
-
-    if (stopNameCount.isEmpty) return null;
-
-    return stopNameCount.entries.reduce(
-      (acc, cur) => cur.value > acc.value ? cur : acc
-    ).key;
   }
 
   /// The changeset language is derived from the country/region the edit/changeset is made.

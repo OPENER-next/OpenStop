@@ -1,0 +1,11 @@
+Lokalisierung:
+  - App kann nun in andere Sprachen übersetzt werden
+  - Vollständig ins Englische übersetzt
+Netzwerkverkehr:
+  - Hochauflösende Tiles werden nur noch für hochauflösende Bildschirme geladen
+  -Fehler in Abhängikeit beim Tiles-Caching behoben, was zu erhöhten Datenverkehr führte.
+Verschiedenes:
+  - "Map Layer Switcher" entfernt und Layer auf "Public Transport" festgelegt
+  - Falsche Tags für Lifte und Rampen behoben
+  - Kleinere Fehlerbehebungen
+  - Kleinere Rechtschreibkorrekturen

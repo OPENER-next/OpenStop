@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 
 import '/models/answer.dart';
 import '/models/question_catalog/answer_definition.dart';
-import '/widgets/question_inputs/string_input.dart';
 import '/widgets/question_inputs/bool_input.dart';
 import '/widgets/question_inputs/duration_input.dart';
 import '/widgets/question_inputs/list_input.dart';
-import '/widgets/question_inputs/number_input.dart';
 import '/widgets/question_inputs/multi_list_input.dart';
+import '/widgets/question_inputs/number_input.dart';
+import '/widgets/question_inputs/string_input.dart';
 
 
 /// The base widget for all question input fields.
@@ -29,8 +29,8 @@ abstract class QuestionInputWidget<D extends AnswerDefinition, T extends Answer>
   const QuestionInputWidget({
     required this.definition,
     required AnswerController<T> controller,
-    Key? key
-  }) : super(listenable: controller, key: key);
+    super.key
+  }) : super(listenable: controller);
 
 
   static QuestionInputWidget fromAnswerDefinition<A extends Answer>({
@@ -39,37 +39,37 @@ abstract class QuestionInputWidget<D extends AnswerDefinition, T extends Answer>
     Key? key
   }) {
     switch (definition.runtimeType) {
-      case StringAnswerDefinition:
+      case const (StringAnswerDefinition):
         return StringInput(
           definition: definition as StringAnswerDefinition,
           controller: controller as AnswerController<StringAnswer>,
           key: key,
         );
-      case NumberAnswerDefinition:
+      case const (NumberAnswerDefinition):
         return NumberInput(
           definition: definition as NumberAnswerDefinition,
           controller: controller as AnswerController<NumberAnswer>,
           key: key,
         );
-      case DurationAnswerDefinition:
+      case const (DurationAnswerDefinition):
         return DurationInput(
           definition: definition as DurationAnswerDefinition,
           controller: controller as AnswerController<DurationAnswer>,
           key: key,
         );
-      case BoolAnswerDefinition:
+      case const (BoolAnswerDefinition):
         return BoolInput(
           definition: definition as BoolAnswerDefinition,
           controller: controller as AnswerController<BoolAnswer>,
           key: key,
         );
-      case ListAnswerDefinition:
+      case const (ListAnswerDefinition):
         return ListInput(
           definition: definition as ListAnswerDefinition,
           controller: controller as AnswerController<ListAnswer>,
           key: key,
         );
-      case MultiListAnswerDefinition:
+      case const (MultiListAnswerDefinition):
         return MultiListInput(
           definition: definition as MultiListAnswerDefinition,
           controller: controller as AnswerController<MultiListAnswer>,
@@ -159,17 +159,17 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
     T? initialAnswer
   }) {
     switch (type) {
-      case BoolAnswerDefinition:
+      case const (BoolAnswerDefinition):
         return AnswerController<BoolAnswer>(initialAnswer: initialAnswer as BoolAnswer?);
-      case NumberAnswerDefinition:
+      case const (NumberAnswerDefinition):
         return AnswerController<NumberAnswer>(initialAnswer: initialAnswer as NumberAnswer?);
-      case StringAnswerDefinition:
+      case const (StringAnswerDefinition):
         return AnswerController<StringAnswer>(initialAnswer: initialAnswer as StringAnswer?);
-      case ListAnswerDefinition:
+      case const (ListAnswerDefinition):
         return AnswerController<ListAnswer>(initialAnswer: initialAnswer as ListAnswer?);
-      case DurationAnswerDefinition:
+      case const (DurationAnswerDefinition):
         return AnswerController<DurationAnswer>(initialAnswer: initialAnswer as DurationAnswer?);
-      case MultiListAnswerDefinition:
+      case const (MultiListAnswerDefinition):
         return AnswerController<MultiListAnswer>(initialAnswer: initialAnswer as MultiListAnswer?);
       default: throw TypeError();
     }

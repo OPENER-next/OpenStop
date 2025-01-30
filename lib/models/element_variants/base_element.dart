@@ -5,15 +5,15 @@ import 'package:latlong2/latlong.dart';
 import 'package:osm_api/osm_api.dart' as osmapi;
 
 import '/api/osm_element_upload_api.dart';
-import '/utils/osm_tag_area_resolver.dart';
 import '/models/geographic_geometries.dart';
 import '/models/osm_element_type.dart';
+import '/utils/osm_tag_area_resolver.dart';
 import 'element_identifier.dart';
 
 part 'processed_element.dart';
 part 'processed_node.dart';
-part 'processed_way.dart';
 part 'processed_relation.dart';
+part 'processed_way.dart';
 part 'proxy_element.dart';
 
 

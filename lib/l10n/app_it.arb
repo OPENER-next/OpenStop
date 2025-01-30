@@ -1,0 +1,334 @@
+{
+  "aboutAuthorsLabel": "Autori",
+  "@aboutAuthorsLabel": {},
+  "aboutPrivacyPolicyLabel": "Informativa sulla privacy",
+  "@aboutPrivacyPolicyLabel": {},
+  "aboutIdeaLabel": "Idea",
+  "@aboutIdeaLabel": {},
+  "aboutIdeaDescription": "Chemnitz University of Technology\nProfessorship Circuit and System Design",
+  "@aboutIdeaDescription": {},
+  "aboutLicenseLabel": "Licenza",
+  "@aboutLicenseLabel": {},
+  "helpOnboardingLabel": "Guarda di nuovo l'introduzione",
+  "@helpOnboardingLabel": {},
+  "helpReportErrorLabel": "Segnala un errore",
+  "@helpReportErrorLabel": {},
+  "onboardingGreetingTitle": "Ciao!",
+  "@onboardingGreetingTitle": {},
+  "onboardingSurveyingTitle": "Dai un'occhiata",
+  "@onboardingSurveyingTitle": {},
+  "onboardingSurveyingDescription": "Vai a una fermata vicina per controllare il suo stato attuale.",
+  "@onboardingSurveyingDescription": {},
+  "onboardingSurveyingButton": "Lo farò",
+  "@onboardingSurveyingButton": {},
+  "onboardingAnsweringTitle": "Ora tocca a te",
+  "@onboardingAnsweringTitle": {},
+  "onboardingAnsweringDescription": "Per collezionare dati, seleziona un punto nell'app e rispondi alle domande mostrate.",
+  "@onboardingAnsweringDescription": {},
+  "onboardingContributingTitle": "Condividere è importante",
+  "@onboardingContributingTitle": {},
+  "onboardingContributingDescription": "Carica le tue risposte su OpenStreetMap per condividerle con il mondo intero.",
+  "@onboardingContributingDescription": {},
+  "settingsTitle": "Impostazioni",
+  "@settingsTitle": {},
+  "settingsProfessionalQuestionsLabel": "Mostra domande avanzate",
+  "@settingsProfessionalQuestionsLabel": {},
+  "settingsProfessionalQuestionsDescription": "Per motivi di sicurezza sono solo per utenti esperti",
+  "@settingsProfessionalQuestionsDescription": {},
+  "settingsThemeLabel": "Schema di colore dell'app",
+  "@settingsThemeLabel": {},
+  "settingsThemeOptionLight": "Chiaro",
+  "@settingsThemeOptionLight": {},
+  "settingsThemeOptionDark": "Scuro",
+  "@settingsThemeOptionDark": {},
+  "logoutDialogTitle": "Uscire da OSM?",
+  "@logoutDialogTitle": {},
+  "logoutDialogDescription": "Se esci dall'account, non potrai più caricare le modifiche su OpenStreetMap.",
+  "@logoutDialogDescription": {},
+  "loginHint": "Accedi al tuo account OpenStreetMap per caricare le tue modifiche.",
+  "@loginHint": {},
+  "numberInputFallbackName": "Valore",
+  "@numberInputFallbackName": {
+    "description": "Fallback value for nameString in numberInputValidationErrorMax"
+  },
+  "numberInputValidationErrorMax": "{nameString} deve essere meno di {max}{unit}.",
+  "@numberInputValidationErrorMax": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "max": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "numberInputValidationErrorMin": "{nameString} deve essere maggiore di {min}{unit}.",
+  "@numberInputValidationErrorMin": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "min": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "stringInputValidationErrorMin": "Dato troppo breve",
+  "@stringInputValidationErrorMin": {},
+  "uploadMessageSuccess": "Modifiche caricate con successo.",
+  "@uploadMessageSuccess": {},
+  "uploadMessageServerConnectionError": "Errore: nessuna connessione al server OSM.",
+  "@uploadMessageServerConnectionError": {},
+  "queryMessageServerUnavailableError": "Servizio non disponibile o sovraccarico. Riprova più tardi.",
+  "@queryMessageServerUnavailableError": {},
+  "queryMessageTooManyRequestsError": "Troppe richieste al server.",
+  "@queryMessageTooManyRequestsError": {},
+  "queryMessageConnectionTimeoutError": "Errore: il server ha impiegato troppo tempo per rispondere.",
+  "@queryMessageConnectionTimeoutError": {},
+  "queryMessageReceiveTimeoutError": "Errore: troppo tempo per ricevere i dati.",
+  "@queryMessageReceiveTimeoutError": {},
+  "queryMessageUnknownServerCommunicationError": "Errore sconosciuto durante la comunicazione col server.",
+  "@queryMessageUnknownServerCommunicationError": {},
+  "queryMessageUnknownError": "Errore sconosciuto.",
+  "@queryMessageUnknownError": {},
+  "next": "Successiva",
+  "@next": {},
+  "cancel": "Annulla",
+  "@cancel": {},
+  "confirm": "Conferma",
+  "@confirm": {},
+  "finish": "Termina",
+  "@finish": {},
+  "logout": "Esci",
+  "@logout": {},
+  "skip": "Salta",
+  "@skip": {},
+  "yes": "Sì",
+  "@yes": {},
+  "hours": "{hour, plural, =1 {1 ora} other {{hour} ore}}",
+  "@hours": {
+    "placeholders": {
+      "hour": {
+        "type": "num"
+      }
+    }
+  },
+  "days": "{day, plural, =1 {1 giorno} other {{day} giorni}}",
+  "@days": {
+    "placeholders": {
+      "day": {
+        "type": "num"
+      }
+    }
+  },
+  "minutes": "{minute, plural, =1 {1 minuto} other {{minute} minuti}}",
+  "@minutes": {
+    "placeholders": {
+      "minute": {
+        "type": "num"
+      }
+    }
+  },
+  "and": "e",
+  "@and": {},
+  "more": "altro",
+  "@more": {},
+  "element": "elemento",
+  "@element": {},
+  "durationInputDaysLabel": "giorni",
+  "@durationInputDaysLabel": {},
+  "durationInputHoursLabel": "ore",
+  "@durationInputHoursLabel": {},
+  "changesetWithStopNameText": "Aggiunti dettagli a {elements} alla fermata {stopArea}.",
+  "@changesetWithStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      },
+      "stopArea": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureBusStop": "Fermata dell'autobus",
+  "@mapFeatureBusStop": {},
+  "mapFeatureTramStop": "Fermata del tram",
+  "@mapFeatureTramStop": {},
+  "mapFeaturePlatform": "Banchina",
+  "@mapFeaturePlatform": {},
+  "mapFeatureTicketSalesPoint": "Punto vendita biglietti",
+  "@mapFeatureTicketSalesPoint": {},
+  "mapFeatureInformationPoint": "Punto informazioni",
+  "@mapFeatureInformationPoint": {},
+  "mapFeatureTaxiStand": "Fermata taxi",
+  "@mapFeatureTaxiStand": {},
+  "mapFeatureToilets": "Bagni",
+  "@mapFeatureToilets": {},
+  "mapFeatureLuggageLockers": "Armadietti per bagagli",
+  "@mapFeatureLuggageLockers": {},
+  "mapFeatureLuggageTransport": "Trasporto bagagli",
+  "@mapFeatureLuggageTransport": {},
+  "mapFeatureHelpPoint": "Punto aiuto",
+  "@mapFeatureHelpPoint": {},
+  "mapFeatureEmergencyCallPoint": "Punto per chiamate di emergenza",
+  "@mapFeatureEmergencyCallPoint": {},
+  "mapFeatureEntrance": "Entrata",
+  "@mapFeatureEntrance": {},
+  "mapFeatureFootpath": "Percorso pedonale",
+  "@mapFeatureFootpath": {},
+  "mapFeatureStairs": "Scale",
+  "@mapFeatureStairs": {},
+  "mapFeatureElevator": "Ascensore",
+  "@mapFeatureElevator": {},
+  "mapFeatureEscalator": "Scala mobile",
+  "@mapFeatureEscalator": {},
+  "mapFeatureCycleBarrier": "Barriera per biciclette",
+  "@mapFeatureCycleBarrier": {},
+  "mapFeaturePedestrianLights": "Semaforo pedonale",
+  "@mapFeaturePedestrianLights": {},
+  "mapFeatureRailroadCrossing": "Attraversamento ferroviario",
+  "@mapFeatureRailroadCrossing": {},
+  "mapFeatureCurb": "Cordolo",
+  "@mapFeatureCurb": {},
+  "mapFeatureBusPlatformNumber": "Binario: {number}",
+  "@mapFeatureBusPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureTrainPlatformNumber": "Binario: {number}",
+  "@mapFeatureTrainPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutTitle": "Informazioni",
+  "@aboutTitle": {},
+  "aboutVersionLabel": "Versione",
+  "@aboutVersionLabel": {},
+  "aboutSlogan": "Prossimo stop: Accessibilità",
+  "@aboutSlogan": {},
+  "aboutAuthorsDescription": "Collaboratori di {appName}",
+  "@aboutAuthorsDescription": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutLicensePackageLabel": "Licenze dei pacchetti usati",
+  "@aboutLicensePackageLabel": {},
+  "helpTitle": "Aiuto",
+  "@helpTitle": {},
+  "aboutSourceCodeLabel": "Codice sorgente",
+  "@aboutSourceCodeLabel": {},
+  "onboardingGreetingDescription": "Siamo felici che tu sia qui e che voglia fare la tua parte per migliorare il trasporto pubblico.",
+  "@onboardingGreetingDescription": {},
+  "onboardingGreetingButton": "Ecco come funziona",
+  "@onboardingGreetingButton": {},
+  "onboardingAnsweringButton": "Okay, capito",
+  "@onboardingAnsweringButton": {},
+  "onboardingContributingButton": "Andiamo",
+  "@onboardingContributingButton": {},
+  "privacyPolicyTitle": "Informativa sulla privacy",
+  "@privacyPolicyTitle": {},
+  "settingsThemeDialogTitle": "Seleziona tema",
+  "@settingsThemeDialogTitle": {},
+  "numberInputPlaceholder": "Inserisci qui…",
+  "@numberInputPlaceholder": {},
+  "stringInputPlaceholder": "Inserisci qui…",
+  "@stringInputPlaceholder": {},
+  "settingsThemeOptionSystem": "Impostazioni di sistema",
+  "@settingsThemeOptionSystem": {},
+  "numberInputValidationError": "Numero non valido",
+  "@numberInputValidationError": {},
+  "changesetCommentMessage": "Aggiunti dettagli a {mapFeaturesString} nella fermata {stopsString}.",
+  "@changesetCommentMessage": {
+    "placeholders": {
+      "mapFeaturesString": {
+        "type": "String"
+      },
+      "stopsString": {
+        "type": "String"
+      }
+    }
+  },
+  "changesetCommentConjunctionString": "e",
+  "@changesetCommentConjunctionString": {},
+  "uploadMessageUnknownConnectionError": "Errore sconosciuto durante la trasmissione.",
+  "@uploadMessageUnknownConnectionError": {},
+  "questionnaireSummaryDedicatedMessage": "Grazie {userName} per le tue risposte.\nPer favore, controllale prima di caricare.",
+  "@questionnaireSummaryDedicatedMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "questionnaireSummaryUndedicatedMessage": "Grazie per le tue risposte.\nPer favore controllale prima di caricarle.",
+  "@questionnaireSummaryUndedicatedMessage": {},
+  "back": "Indietro",
+  "@back": {},
+  "login": "Accedi",
+  "@login": {},
+  "no": "No",
+  "@no": {},
+  "seconds": "{second, plural, =1 {1 secondo} other {{second} secondi}}",
+  "@seconds": {
+    "placeholders": {
+      "second": {
+        "type": "num"
+      }
+    }
+  },
+  "durationInputMinutesLabel": "minuti",
+  "@durationInputMinutesLabel": {},
+  "durationInputSecondsLabel": "secondi",
+  "@durationInputSecondsLabel": {},
+  "osmCreditsText": "Dati © Collaboratori di OpenStreetMap",
+  "@osmCreditsText": {},
+  "changesetWithoutStopNameText": "Aggiunti dettagli a {elements} nella fermata.",
+  "@changesetWithoutStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureTrainPlatform": "Banchina tranviaria",
+  "@mapFeatureTrainPlatform": {},
+  "mapFeatureStopPole": "Fermata",
+  "@mapFeatureStopPole": {},
+  "mapFeatureStation": "Stazione",
+  "@mapFeatureStation": {},
+  "mapFeatureStationMap": "Mappa della stazione/fermata",
+  "@mapFeatureStationMap": {},
+  "mapFeatureTicketMachine": "Macchinetta per i biglietti",
+  "@mapFeatureTicketMachine": {},
+  "mapFeatureParkingSpot": "Parcheggio",
+  "@mapFeatureParkingSpot": {},
+  "mapFeatureInformationCallPoint": "Colonna informazioni",
+  "@mapFeatureInformationCallPoint": {},
+  "mapFeatureInformationTerminal": "Terminale per informazioni",
+  "@mapFeatureInformationTerminal": {},
+  "mapFeatureTramCrossing": "Attraversamento tranviario",
+  "@mapFeatureTramCrossing": {},
+  "mapFeatureFootwayCrossing": "Attraversamento pedonale",
+  "@mapFeatureFootwayCrossing": {},
+  "mapFeatureCrossing": "Attraversamento",
+  "@mapFeatureCrossing": {},
+  "mapFeatureCyclewayCrossing": "Attraversamento ciclabile",
+  "@mapFeatureCyclewayCrossing": {},
+  "helpImproveTranslationLabel": "Migliora la traduzione",
+  "@helpImproveTranslationLabel": {}
+}

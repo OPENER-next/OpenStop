@@ -9,8 +9,8 @@ class QuestionList extends StatefulWidget {
   const QuestionList({
     required this.children,
     this.index = 0,
-    Key? key
-  }) : super(key: key);
+    super.key
+  });
 
   @override
   State<QuestionList> createState() => _QuestionListState();
@@ -133,7 +133,7 @@ class _QuestionListDelegate extends FlowDelegate {
     final ceiledIndex = indexAnimation.value.ceil();
 
     // sum all child heights that are below the current animation index
-    double indexOffset = 0;
+    var indexOffset = 0.0;
     for (var i = 0; i <= flooredIndex; i++) {
       indexOffset += context.getChildSize(i)!.height;
     }
@@ -143,14 +143,14 @@ class _QuestionListDelegate extends FlowDelegate {
     // fraction will be zero at the end so this will rightfully do nothing
     indexOffset += context.getChildSize(ceiledIndex)!.height * fraction;
 
-    double accumulatedOffset = 0;
+    var accumulatedOffset = 0.0;
 
     // only render widgets to the current (ceiled) active index for better performance
-    for (int i = 0; i <= ceiledIndex; i++) {
+    for (var i = 0; i <= ceiledIndex; i++) {
       final childSize = context.getChildSize(i)!;
 
       // translate from top to bottom (out of view)
-      double translate = viewSize.height;
+      var translate = viewSize.height;
       // translate every child adjacent to its previous child
       translate += accumulatedOffset;
       // sum child heights

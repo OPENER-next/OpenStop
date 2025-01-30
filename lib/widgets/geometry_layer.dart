@@ -10,12 +10,12 @@ class GeometryLayer extends StatelessWidget {
 
   const GeometryLayer({
     required this.geometry,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).colorScheme.primary.withOpacity(0.75);
+    final color = Theme.of(context).colorScheme.primary.withValues(alpha: 0.75);
     final Widget layer;
 
     if (geometry is GeographicPolyline) {
@@ -41,7 +41,6 @@ class GeometryLayer extends StatelessWidget {
             points: polygon.outerShape.path,
             holePointsList: polygon.innerShapes.map((item) => item.path).toList(),
             color: color,
-            isFilled: true,
             borderStrokeWidth: 8,
             borderColor: color,
           ),

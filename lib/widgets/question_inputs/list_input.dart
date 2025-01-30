@@ -209,7 +209,7 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
     super.dispose();
   }
 
-  ButtonStyle? _toggleStyle(isSelected) {
+  ButtonStyle? _toggleStyle(bool isSelected) {
     return isSelected
       ? OutlinedButton.styleFrom(
           backgroundColor: Theme.of(context).colorScheme.primary,

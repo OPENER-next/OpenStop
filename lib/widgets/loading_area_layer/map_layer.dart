@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 
 /// General purpose map layer for rendering multiple widgets using the [MapLayerPositioned] widget.
@@ -17,10 +18,8 @@ class MapLayer extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => MobileLayerTransformer(
-    child: _MapLayer(
-      children: children,
-    ),
+  Widget build(BuildContext context) => _MapLayer(
+    children: children,
   );
 }
 
@@ -48,6 +47,7 @@ class RenderMapLayer extends RenderBox
     List<RenderBox>? children,
   }) : _mapCamera = mapCamera {
     addAll(children);
+    _updateCachedValues();
   }
 
   @override
@@ -57,23 +57,30 @@ class RenderMapLayer extends RenderBox
     }
   }
 
-  double? _prevZoom;
-  LatLng? _prevPos;
+  /// projected camera position
+  late Point<double> _pixelMapCenter;
+  /// top left position of the camera in pixels
+  late Offset _nonRotatedPixelOrigin;
+
+  void _updateCachedValues() {
+    _pixelMapCenter = mapCamera.project(mapCamera.center);
+    _nonRotatedPixelOrigin = (_pixelMapCenter - mapCamera.nonRotatedSize / 2.0).toOffset();
+  }
+
 
   MapCamera get mapCamera => _mapCamera;
   MapCamera _mapCamera;
   set mapCamera(MapCamera value) {
-    if (_prevZoom != value.zoom) {
-      _prevZoom = value.zoom;
+    if (_mapCamera.zoom != value.zoom) {
       markNeedsLayout();
     }
-    if (_prevPos != value.center) {
-      _prevPos = value.center;
+    if (_mapCamera.center != value.center ||
+        _mapCamera.rotation != value.rotation
+    ) {
       markNeedsPaint();
     }
-    if (_mapCamera != value) {
-      _mapCamera = value;
-    }
+    _mapCamera = value;
+    _updateCachedValues();
   }
 
   @override
@@ -87,7 +94,7 @@ class RenderMapLayer extends RenderBox
 
   @override
   void performLayout() {
-    RenderBox? child = firstChild;
+    var child = firstChild;
     while (child != null) {
       final childParentData = child.parentData! as _MapLayerParentData;
       _layoutChild(child);
@@ -109,15 +116,35 @@ class RenderMapLayer extends RenderBox
     else {
       childConstraints = const BoxConstraints();
     }
-
     child.layout(childConstraints, parentUsesSize: true);
 
     // calculate pixel position of child
     final pxPoint = mapCamera.project(childParentData.position!);
-    // shift position to center
-    final center = Offset(pxPoint.x.toDouble() - child.size.width/2, pxPoint.y.toDouble() - child.size.height/2);
     // write global pixel offset
-    childParentData.offset = center;
+    childParentData.offset = pxPoint.toOffset();
+  }
+
+  /// Computes the position for the global pixel coordinate system.
+
+  Offset _computeAbsoluteChildPosition(RenderBox child) {
+    final childParentData = child.parentData! as _MapLayerParentData;
+    var globalPixelPosition = childParentData.offset;
+    // apply rotation
+    if (mapCamera.rotation != 0.0) {
+      globalPixelPosition = mapCamera.rotatePoint(
+        _pixelMapCenter,
+        childParentData.offset.toPoint(),
+        counterRotation: false,
+      ).toOffset();
+    }
+    // apply alignment
+    return globalPixelPosition - childParentData.align!.alongSize(child.size);
+  }
+
+  /// Computes the position relative to the map camera.
+
+  Offset _computeRelativeChildPosition(RenderBox child) {
+    return _computeAbsoluteChildPosition(child) - _nonRotatedPixelOrigin;
   }
 
   // earth circumference in meters
@@ -136,41 +163,47 @@ class RenderMapLayer extends RenderBox
 
   @override
   bool hitTestChildren(BoxHitTestResult result, { required Offset position }) {
-    // transform to global pixel offset
-    // because defaultHitTestChildren operates on the offset of the _MapLayerParentData
-    // which we set to global pixels on layout
-    position = position.translate(
-      mapCamera.pixelOrigin.x.toDouble(),
-      mapCamera.pixelOrigin.y.toDouble(),
-    );
-    return defaultHitTestChildren(result, position: position);
+    // this is an altered version of the defaultHitTestChildren method
+    // because the position/offset stored in the parentData is not local/relative
+    var child = lastChild;
+    while (child != null) {
+      final offset = _computeRelativeChildPosition(child);
+      final childParentData = child.parentData! as _MapLayerParentData;
+      final isHit = result.addWithPaintOffset(
+        offset: offset,
+        position: position,
+        hitTest: (BoxHitTestResult result, Offset transformed) {
+          return child!.hitTest(result, position: transformed);
+        },
+      );
+      if (isHit) {
+        return true;
+      }
+      child = childParentData.previousSibling;
+    }
+    return false;
   }
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    // transform to local pixel offset
-    offset = offset.translate(
-      -mapCamera.pixelOrigin.x.toDouble(),
-      -mapCamera.pixelOrigin.y.toDouble(),
-    );
     // for performance improvements the layer is not clipped
     // instead the whole map widget should be clipped
-
     // this is an altered version of defaultPaint(context, offset);
     // which does not paint children outside the map layer viewport
-    final layerViewport = Rect.fromLTWH(
-      mapCamera.pixelOrigin.x.toDouble(),
-      mapCamera.pixelOrigin.y.toDouble(),
-      mapCamera.size.x,
-      mapCamera.size.y,
+
+    final viewport = Offset.zero & Size(
+      mapCamera.nonRotatedSize.x,
+      mapCamera.nonRotatedSize.y,
     );
+
     var child = firstChild;
     while (child != null) {
       final childParentData = child.parentData! as _MapLayerParentData;
-      final childRect = child.paintBounds.shift(childParentData.offset);
+      final relativePixelPosition = _computeRelativeChildPosition(child);
+      final childRect = relativePixelPosition & child.size;
       // only render child if bounds are inside the viewport
-      if (layerViewport.overlaps(childRect)) {
-        context.paintChild(child, childParentData.offset + offset);
+      if (viewport.overlaps(childRect)) {
+        context.paintChild(child, relativePixelPosition + offset);
       }
       child = childParentData.nextSibling;
     }
@@ -196,18 +229,21 @@ class MapLayerPositioned extends ParentDataWidget<_MapLayerParentData> {
 
   final Size? size;
 
+  final Alignment align;
+
   const MapLayerPositioned({
     required this.position,
     required super.child,
+    this.align = Alignment.center,
     this.size,
     super.key,
   });
 
   @override
   void applyParentData(RenderObject renderObject) {
-    assert(renderObject.parentData is _MapLayerParentData);
-    final _MapLayerParentData parentData = renderObject.parentData! as _MapLayerParentData;
-    assert(renderObject.parent is RenderObject);
+    assert(renderObject.parentData is _MapLayerParentData, 'RenderObject parentData is not of type _MapLayerParentData');
+    final parentData = renderObject.parentData! as _MapLayerParentData;
+    assert(renderObject.parent is RenderObject, 'RenderObject parent is not of type RenderObject');
     final targetParent = renderObject.parent!;
 
     if (parentData.size != size) {
@@ -217,13 +253,14 @@ class MapLayerPositioned extends ParentDataWidget<_MapLayerParentData> {
 
     if (parentData.position != position) {
       parentData.position = position;
-      if (parentData.size != null) {
-        // size depends on the geo location, therefore re-layout if size is set in meters
-        targetParent.markNeedsLayout();
-      }
-      else {
-        targetParent.markNeedsPaint();
-      }
+      // if size is set in meters it depends on the geo location, therefore re-layout is necessary
+      // TODO: also currently the projection is done on layout so if the position changes we need to re-project
+      targetParent.markNeedsLayout();
+    }
+
+    if (parentData.align != align) {
+      parentData.align = align;
+      targetParent.markNeedsPaint();
     }
   }
 
@@ -243,4 +280,6 @@ class _MapLayerParentData extends ContainerBoxParentData<RenderBox> {
   LatLng? position;
 
   Size? size;
+
+  Alignment? align;
 }

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '/widgets/custom_list_tile.dart';
 import '/commons/app_config.dart' as app_config;
 import '/commons/routes.dart';
+import '/widgets/custom_list_tile.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});

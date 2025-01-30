@@ -1,0 +1,235 @@
+{
+  "changesetCommentMessage": "Добавлены сведения о {mapFeaturesString} про остановку {stopsString}.",
+  "@changesetCommentMessage": {
+    "placeholders": {
+      "mapFeaturesString": {
+        "type": "String"
+      },
+      "stopsString": {
+        "type": "String"
+      }
+    }
+  },
+  "questionnaireSummaryDedicatedMessage": "Спасибо, {userName}, за ваши ответы.\nПожалуйста, проверьте их перед отправкой.",
+  "@questionnaireSummaryDedicatedMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "numberInputValidationError": "Неверный номер",
+  "@numberInputValidationError": {},
+  "finish": "Завершить",
+  "@finish": {},
+  "login": "Войти",
+  "@login": {},
+  "numberInputValidationErrorMax": "{nameString} должен быть меньше {max}{unit}.",
+  "@numberInputValidationErrorMax": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "max": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "numberInputValidationErrorMin": "{nameString} должен быть больше {min} {unit}.",
+  "@numberInputValidationErrorMin": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "min": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "queryMessageTooManyRequestsError": "Слишком много запросов к серверу.",
+  "@queryMessageTooManyRequestsError": {},
+  "queryMessageUnknownError": "Неизвестная ошибка.",
+  "@queryMessageUnknownError": {},
+  "numberInputFallbackName": "Значение",
+  "@numberInputFallbackName": {
+    "description": "Fallback value for nameString in numberInputValidationErrorMax"
+  },
+  "numberInputPlaceholder": "Вводите здесь…",
+  "@numberInputPlaceholder": {},
+  "stringInputPlaceholder": "Вводите здесь…",
+  "@stringInputPlaceholder": {},
+  "stringInputValidationErrorMin": "Введенное слишком коротко",
+  "@stringInputValidationErrorMin": {},
+  "changesetCommentConjunctionString": "и",
+  "@changesetCommentConjunctionString": {},
+  "uploadMessageSuccess": "Правки успешно отправлены.",
+  "@uploadMessageSuccess": {},
+  "uploadMessageServerConnectionError": "Ошибка: Нет связи с сервером OSM.",
+  "@uploadMessageServerConnectionError": {},
+  "uploadMessageUnknownConnectionError": "Неизвестная ошибка во время передачи.",
+  "@uploadMessageUnknownConnectionError": {},
+  "queryMessageServerUnavailableError": "Сервер недоступен или перегружен. Попробуйте позже.",
+  "@queryMessageServerUnavailableError": {},
+  "questionnaireSummaryUndedicatedMessage": "Спасибо за ваши ответы.\nПожалуйста, проверьте их перед отправкой.",
+  "@questionnaireSummaryUndedicatedMessage": {},
+  "back": "Назад",
+  "@back": {},
+  "next": "Вперед",
+  "@next": {},
+  "cancel": "Отмена",
+  "@cancel": {},
+  "confirm": "Подтвердить",
+  "@confirm": {},
+  "logout": "Выйти",
+  "@logout": {},
+  "skip": "Пропустить",
+  "@skip": {},
+  "yes": "Да",
+  "@yes": {},
+  "no": "Нет",
+  "@no": {},
+  "mapFeatureInformationCallPoint": "Стойка информации",
+  "@mapFeatureInformationCallPoint": {},
+  "queryMessageUnknownServerCommunicationError": "Неизвестная ошибка при общении с сервером.",
+  "@queryMessageUnknownServerCommunicationError": {},
+  "queryMessageConnectionTimeoutError": "Ошибка: таймаут ответа сервера.",
+  "@queryMessageConnectionTimeoutError": {},
+  "mapFeatureTramStop": "Трамвайная остановка",
+  "@mapFeatureTramStop": {},
+  "and": "и",
+  "@and": {},
+  "mapFeatureTrainPlatform": "Платформа поезда",
+  "@mapFeatureTrainPlatform": {},
+  "mapFeatureStation": "Станция",
+  "@mapFeatureStation": {},
+  "mapFeatureInformationPoint": "Информационный пункт",
+  "@mapFeatureInformationPoint": {},
+  "queryMessageReceiveTimeoutError": "Ошибка: таймаут получения данных.",
+  "@queryMessageReceiveTimeoutError": {},
+  "mapFeatureBusStop": "Автобусная остановка",
+  "@mapFeatureBusStop": {},
+  "mapFeaturePlatform": "Платформа",
+  "@mapFeaturePlatform": {},
+  "mapFeatureTicketSalesPoint": "Место продажи билетов",
+  "@mapFeatureTicketSalesPoint": {},
+  "mapFeatureToilets": "Туалеты",
+  "@mapFeatureToilets": {},
+  "mapFeatureLuggageLockers": "Камеры хранения",
+  "@mapFeatureLuggageLockers": {},
+  "mapFeatureInformationTerminal": "Информационный треминал",
+  "@mapFeatureInformationTerminal": {},
+  "mapFeatureElevator": "Лифт",
+  "@mapFeatureElevator": {},
+  "mapFeatureEntrance": "Вход",
+  "@mapFeatureEntrance": {},
+  "mapFeatureStairs": "Лестницы",
+  "@mapFeatureStairs": {},
+  "mapFeatureEscalator": "Эскалатор",
+  "@mapFeatureEscalator": {},
+  "mapFeatureBusPlatformNumber": "Платформа: {number}",
+  "@mapFeatureBusPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureTrainPlatformNumber": "Платформа: {number}",
+  "@mapFeatureTrainPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutSlogan": "Следующая остановка — Доступность",
+  "@aboutSlogan": {},
+  "aboutPrivacyPolicyLabel": "Политика конфиденциальности",
+  "@aboutPrivacyPolicyLabel": {},
+  "aboutIdeaLabel": "Авторы идеи",
+  "@aboutIdeaLabel": {},
+  "aboutLicenseLabel": "Лицензия",
+  "@aboutLicenseLabel": {},
+  "aboutSourceCodeLabel": "Исходный код",
+  "@aboutSourceCodeLabel": {},
+  "helpTitle": "Помощь",
+  "@helpTitle": {},
+  "onboardingGreetingTitle": "Привет!",
+  "@onboardingGreetingTitle": {},
+  "onboardingGreetingButton": "Вот как это работает",
+  "@onboardingGreetingButton": {},
+  "onboardingSurveyingTitle": "Осмотритесь",
+  "@onboardingSurveyingTitle": {},
+  "onboardingSurveyingDescription": "Подойдите к ближайшей остановке, чтобы оценить её состояние.",
+  "@onboardingSurveyingDescription": {},
+  "onboardingSurveyingButton": "Я сделаю это",
+  "@onboardingSurveyingButton": {},
+  "onboardingAnsweringTitle": "Теперь ваш ход",
+  "@onboardingAnsweringTitle": {},
+  "onboardingAnsweringButton": "Ладно, понятно",
+  "@onboardingAnsweringButton": {},
+  "onboardingContributingTitle": "Делиться — значит заботиться",
+  "@onboardingContributingTitle": {},
+  "settingsTitle": "Настройки",
+  "@settingsTitle": {},
+  "settingsThemeOptionLight": "Светлая",
+  "@settingsThemeOptionLight": {},
+  "settingsThemeOptionDark": "Тёмная",
+  "@settingsThemeOptionDark": {},
+  "logoutDialogTitle": "Выйти из OSM?",
+  "@logoutDialogTitle": {},
+  "loginHint": "Войти в учётную запись OpenStreetMap, чтобы загрузить изменения.",
+  "@loginHint": {},
+  "aboutTitle": "О приложении",
+  "@aboutTitle": {},
+  "aboutVersionLabel": "Версия",
+  "@aboutVersionLabel": {},
+  "aboutAuthorsLabel": "Авторы",
+  "@aboutAuthorsLabel": {},
+  "helpOnboardingLabel": "Посмотреть онбординг ещё раз",
+  "@helpOnboardingLabel": {},
+  "helpReportErrorLabel": "Сообщить об ошибке",
+  "@helpReportErrorLabel": {},
+  "aboutAuthorsDescription": "Внёсшие вклад в разработку {appName}",
+  "@aboutAuthorsDescription": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutIdeaDescription": "Хемницкий технологический университет\nПрофессорское проектирование схем и систем",
+  "@aboutIdeaDescription": {},
+  "aboutLicensePackageLabel": "Лицензии используемых компонентов",
+  "@aboutLicensePackageLabel": {},
+  "onboardingAnsweringDescription": "Чтобы собрать данные, выберите маркер на карте и отвечайте на вопросы.",
+  "@onboardingAnsweringDescription": {},
+  "helpImproveTranslationLabel": "Помочь перевести приложение",
+  "@helpImproveTranslationLabel": {},
+  "onboardingGreetingDescription": "Мы рады, что вы здесь и хотите внести вклад в улучшении общественного транспорта.",
+  "@onboardingGreetingDescription": {},
+  "onboardingContributingDescription": "Ваши ответы будут загружены в OpenStreetMap, чтобы их мог увидеть весь мир.",
+  "@onboardingContributingDescription": {},
+  "onboardingContributingButton": "Начнём же",
+  "@onboardingContributingButton": {},
+  "privacyPolicyTitle": "Политика конфиденциальности",
+  "@privacyPolicyTitle": {},
+  "settingsProfessionalQuestionsLabel": "Отображать сложные вопросы",
+  "@settingsProfessionalQuestionsLabel": {},
+  "settingsProfessionalQuestionsDescription": "Из соображений безопасности предназначено только для профессионалов",
+  "@settingsProfessionalQuestionsDescription": {},
+  "settingsThemeLabel": "Цветовая схема приложения",
+  "@settingsThemeLabel": {},
+  "settingsThemeOptionSystem": "Как в системе",
+  "@settingsThemeOptionSystem": {},
+  "settingsThemeDialogTitle": "Выбрать тему",
+  "@settingsThemeDialogTitle": {},
+  "logoutDialogDescription": "После выхода из аккаунта, вы не сможете загружать изменения в OpenStreetMap.",
+  "@logoutDialogDescription": {}
+}
