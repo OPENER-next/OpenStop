@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CreditText extends StatefulWidget {
   final List<CreditTextPart> children;
@@ -89,7 +89,7 @@ class _CreditTextState extends State<CreditText> {
         children: [
           // Stroked text as border.
           ExcludeSemantics(
-            child:RichText(
+            child: RichText(
               textAlign: widget.alignment,
               text: TextSpan(
                 style: TextStyle(

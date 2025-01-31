@@ -7,9 +7,6 @@ import '/widgets/custom_list_tile.dart';
 import '/widgets/select_dialog.dart';
 
 class SettingsScreen extends View<SettingsViewModel> {
-
-  
-
   const SettingsScreen({super.key}) : super(create: SettingsViewModel.new);
 
   @override
@@ -39,6 +36,7 @@ class SettingsScreen extends View<SettingsViewModel> {
                   final selection = await showDialog<ThemeMode>(
                     context: context,
                     builder: (BuildContext context) {
+                      final appLocale = AppLocalizations.of(context)!;
                       return SelectDialog(
                         semanticLabel: appLocale.semanticsSettingsDialogBox,
                         valueLabelMap: themeModesMap,

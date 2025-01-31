@@ -39,35 +39,36 @@ class QuestionSummary extends StatelessWidget {
           right: horizontalPadding,
           bottom: 10,
         ),
-        child: Semantics(
-          hint: appLocale.semanticsSummary,
-          child: Text(
-            userName != null
-              ? appLocale.questionnaireSummaryDedicatedMessage(userName!)
-              : appLocale.questionnaireSummaryUndedicatedMessage,
-            style: const TextStyle(
-              height: 1.3,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+        child: Text(
+          userName != null
+            ? appLocale.questionnaireSummaryDedicatedMessage(userName!)
+            : appLocale.questionnaireSummaryUndedicatedMessage,
+          style: const TextStyle(
+            height: 1.3,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
       body: EdgeFeather(
         edges: const EdgeInsets.only(top: 10),
-        child: ListView.separated(
-          shrinkWrap: true,
-          physics: const BouncingScrollPhysics(),
-          itemCount: questions.length,
-          separatorBuilder: (context, index) => const Divider(
-            height: 1,
-            thickness: 1,
-          ),
-          itemBuilder: _buildEntry,
-          padding: const EdgeInsets.only(
-            bottom: 25,
-            left: horizontalPadding,
-            right: horizontalPadding,
+        child: Semantics(
+          container: true,
+          label: appLocale.semanticsSummary,
+          child: ListView.separated(
+            shrinkWrap: true,
+            physics: const BouncingScrollPhysics(),
+            itemCount: questions.length,
+            separatorBuilder: (context, index) => const Divider(
+              height: 1,
+              thickness: 1,
+            ),
+            itemBuilder: _buildEntry,
+            padding: const EdgeInsets.only(
+              bottom: 25,
+              left: horizontalPadding,
+              right: horizontalPadding,
+            ),
           ),
         ),
       ),
@@ -79,7 +80,7 @@ class QuestionSummary extends StatelessWidget {
     final answer = answers[index];
 
     return Semantics(
-      hint: AppLocalizations.of(context).semanticsReviewQuestion,
+      hint: AppLocalizations.of(context)!.semanticsReviewQuestion,
       child: Material(
         type: MaterialType.transparency,
         child: InkWell(

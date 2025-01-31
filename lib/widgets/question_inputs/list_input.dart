@@ -130,14 +130,13 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                       checked: widget.active,
                       selected: widget.isMultiList ? null : widget.active,
                       child: Text(
-                        semanticsLabel: '${widget.label} ${widget.description ?? ''}',
+                        semanticsLabel: '${widget.label} - ${widget.description ?? ''}',
                         widget.label,
                         textAlign: TextAlign.left,
                       ),
                     ),
                   ),
-                  if (widget.description != null)
-                    ExcludeSemantics(
+                  if (widget.description != null) ExcludeSemantics(
                     child: SizeTransition(
                       axisAlignment: -1,
                       sizeFactor: _animation,
@@ -175,7 +174,7 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                   // hero viewer cannot be used in frame builder
                   // because the builder may be called after the page route transition starts
                   child: ExcludeSemantics(
-                    child:HeroViewer(
+                    child: HeroViewer(
                       child: Image.asset(
                         widget.imagePath!,
                         fit: BoxFit.cover,

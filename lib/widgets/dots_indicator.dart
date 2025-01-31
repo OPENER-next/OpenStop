@@ -46,7 +46,7 @@ class DotsIndicator extends AnimatedWidget {
       width: _dotSpacing,
       child: Semantics(
         container: true,
-        selected: selectedness > 0.0 ? true : false,
+        selected: selectedness > 0.0,
         label: appLocale.semanticsDotsIndicator(index + 1),
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,

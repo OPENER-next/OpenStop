@@ -28,7 +28,7 @@ class BoolInput extends QuestionInputWidget<BoolAnswerDefinition, BoolAnswer> {
         children: List.generate(2, (index) {
           final state = index == 0;
           return MergeSemantics(
-            child:_BoolInputItem(
+            child: _BoolInputItem(
               label: Semantics(
                 container: true,
                 inMutuallyExclusiveGroup: true,

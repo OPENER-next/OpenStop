@@ -62,25 +62,26 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
                 children: [
                   Expanded(
                     child: Semantics(
-                    container: true,
-                    sortKey: const OrdinalSortKey(2.0),
-                    child: CreditText(
-                      alignment: TextAlign.left,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
+                      container: true,
+                      sortKey: const OrdinalSortKey(2.0),
+                      child: CreditText(
+                        alignment: TextAlign.left,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                        ),
+                        children: [
+                          CreditTextPart(
+                            AppLocalizations.of(context)!.osmCreditsText,
+                            url: osm_config.osmCreditsURL,
+                          ),
+                          CreditTextPart(
+                            kTileLayerPublicTransport.creditsText,
+                            url: kTileLayerPublicTransport.creditsUrl,
+                          ),
+                        ],
                       ),
-                      children: [
-                        CreditTextPart(
-                          AppLocalizations.of(context)!.osmCreditsText,
-                          url: osm_config.osmCreditsURL,
-                        ),
-                        CreditTextPart(
-                          kTileLayerPublicTransport.creditsText,
-                          url: kTileLayerPublicTransport.creditsUrl,
-                        ),
-                      ],
                     ),
-                  ),),
+                  ),
                   Semantics(
                     container: true,
                     sortKey: const OrdinalSortKey(1.0),

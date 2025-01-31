@@ -2,12 +2,12 @@ import 'package:animated_location_indicator/animated_location_indicator.dart';
 import 'package:flutter/material.dart' hide View;
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:flutter_mvvm_architecture/extras.dart';
 import 'package:mobx/mobx.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/commons/app_config.dart';
 import '/commons/tile_layers.dart';
@@ -146,30 +146,26 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                         );
                       },
                     ),
-                    Observer(
-                      builder: (context) {
-                        // "length" used to listen to changes
-                        viewModel.uploadQueue.length;
-                        return OsmElementLayer(
-                          elements: viewModel.elements,
-                          currentZoom: viewModel.mapZoomRound,
-                          onOsmElementTap: viewModel.onElementTap,
-                          selectedElement: viewModel.selectedElement,
-                          uploadQueue: viewModel.uploadQueue,
-                        );
-                      },
+                    Semantics(
+                      explicitChildNodes: true,
+                      container: true,
+                      child: Observer(
+                        builder: (context) {
+                          // "length" used to listen to changes
+                          viewModel.uploadQueue.length;
+                          return OsmElementLayer(
+                            elements: viewModel.elements,
+                            currentZoom: viewModel.mapZoomRound,
+                            onOsmElementTap: viewModel.onElementTap,
+                            selectedElement: viewModel.selectedElement,
+                            uploadQueue: viewModel.uploadQueue,
+                          );
+                        },
+                      ),
                     ),
-                  ],
-                ),
-              ),
-              Semantics(
-                container: true,
-                sortKey: const OrdinalSortKey(1.0, name: 'mapLayer'),
-                child: BlockSemantics(
-                  blocking: viewModel.hasQuestionnaire,
-                  child: Stack(
-                    children: [
-                      RepaintBoundary(
+                    Semantics(
+                      container: true,
+                      child: RepaintBoundary(
                         child: AnimatedSwitcher(
                           switchInCurve: Curves.ease,
                           switchOutCurve: Curves.ease,
@@ -179,40 +175,46 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                             : null,
                         ),
                       ),
-                      // place sheet on extra stack above map so map pan events won't pass through
-                      Observer(
-                        builder: (context) {
-                          return AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 500),
-                            reverseDuration: const Duration(milliseconds: 300),
-                            switchInCurve: Curves.easeInOutCubicEmphasized,
-                            switchOutCurve: Curves.ease,
-                            transitionBuilder: (child, animation) {
-                              final offsetAnimation = Tween<Offset>(
-                                begin: const Offset(0, 1),
-                                end: Offset.zero,
-                              ).animate(animation);
-                              return SlideTransition(
-                                position: offsetAnimation,
-                                child: FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                )
-                              );
-                            },
-                            child: viewModel.hasQuestionnaire
-                              ? QuestionDialog(
-                                activeQuestionIndex: viewModel.currentQuestionnaireIndex!,
-                                questions: viewModel.questionnaireQuestions,
-                                answers: viewModel.questionnaireAnswers,
-                                showSummary: viewModel.questionnaireIsFinished,
-                                key: viewModel.selectedElementKey,
-                              )
-                              : null
+                    ),
+                  ],
+                ),
+              ),
+              Semantics(
+                container: true,
+                sortKey: const OrdinalSortKey(1.0, name: 'mapLayer'),
+                child: BlockSemantics(
+                  blocking: viewModel.hasQuestionnaire,
+                  child: Observer(
+                    builder: (context) {
+                      return AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 500),
+                        reverseDuration: const Duration(milliseconds: 300),
+                        switchInCurve: Curves.easeInOutCubicEmphasized,
+                        switchOutCurve: Curves.ease,
+                        transitionBuilder: (child, animation) {
+                          final offsetAnimation = Tween<Offset>(
+                            begin: const Offset(0, 1),
+                            end: Offset.zero,
+                          ).animate(animation);
+                          return SlideTransition(
+                            position: offsetAnimation,
+                            child: FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            )
                           );
                         },
-                      ),
-                    ]
+                        child: viewModel.hasQuestionnaire
+                          ? QuestionDialog(
+                            activeQuestionIndex: viewModel.currentQuestionnaireIndex!,
+                            questions: viewModel.questionnaireQuestions,
+                            answers: viewModel.questionnaireAnswers,
+                            showSummary: viewModel.questionnaireIsFinished,
+                            key: viewModel.selectedElementKey,
+                          )
+                          : null
+                      );
+                    },
                   ),
                 ),
               ),

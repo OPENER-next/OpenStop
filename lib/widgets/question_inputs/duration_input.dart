@@ -306,28 +306,47 @@ class _StopWatchScrollerState extends _TimeScrollerState {
 
   @override
   Widget build(BuildContext context) {
+    final appLocale = AppLocalizations.of(context)!;
     return Row(
       children: [
-        IconButton.outlined(
-          onPressed: widget.value != 0 ? reset : null,
-          icon: const Icon(MdiIcons.timerRefreshOutline),
-        ),
-        Expanded(
-          child: NotificationListener<UserScrollNotification>(
-            child: super.build(context),
-            onNotification: (notification) {
-              if (notification.direction != ScrollDirection.idle) {
-                pause();
-              }
-              return true;
-            },
+        Semantics(
+          container: true,
+          sortKey: const OrdinalSortKey(3.0, name: 'DurationStopWatch'),
+          child: IconButton.outlined(
+            onPressed: widget.value != 0 ? reset : null,
+            icon: Icon(MdiIcons.timerRefreshOutline,
+              semanticLabel: appLocale.semanticsDurationAnswerReset,
+            ),
           ),
         ),
-        IconButton.outlined(
-          isSelected: isActive,
-          onPressed: isActive ? pause : start,
-          selectedIcon: const Icon(MdiIcons.timerPauseOutline),
-          icon: const Icon(MdiIcons.timerPlayOutline),
+        Expanded(
+          child: Semantics(
+            container: true,
+            sortKey: const OrdinalSortKey(1.0, name: 'DurationStopWatch'),
+            child: NotificationListener<UserScrollNotification>(
+              child: super.build(context),
+              onNotification: (notification) {
+                if (notification.direction != ScrollDirection.idle) {
+                  pause();
+                }
+                return true;
+              },
+            ),
+          ),
+        ),
+        Semantics(
+          container: true,
+          sortKey: const OrdinalSortKey(2.0, name: 'DurationStopWatch'),
+          child: IconButton.outlined(
+            isSelected: isActive,
+            onPressed: isActive ? pause : start,
+            selectedIcon: Icon(MdiIcons.timerPauseOutline,
+              semanticLabel: appLocale.semanticsDurationAnswerStopStopwatch,
+            ),
+            icon: Icon(MdiIcons.timerPlayOutline,
+              semanticLabel: appLocale.semanticsDurationAnswerStartStopwatch,
+            ),
+          ),
         ),
       ],
     );
