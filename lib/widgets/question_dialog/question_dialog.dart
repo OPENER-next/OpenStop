@@ -187,10 +187,10 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
 
   Widget _buildQuestion(int index) {
     final question = questions[index];
-    final isActive = activeQuestionIndex == index;
+    final isActive = !showSummary && activeQuestionIndex == index;
 
     return QuestionSheet(
-      elevate: isActive,
+      active: isActive,
       // important otherwise animation will fail
       key: ValueKey(question),
       header: QuestionTextHeader(

@@ -7,14 +7,9 @@ class QuestionList extends StatefulWidget {
 
   final int index;
 
-  /// Whether the accessibility focus should be moved to this element whenever
-  /// a new question is displayed (in other words the index property changed).
-  final bool moveAccessibilityFocusOnChange;
-
   const QuestionList({
     required this.children,
     this.index = 0,
-    this.moveAccessibilityFocusOnChange = true,
     super.key
   });
 
@@ -38,7 +33,6 @@ class _QuestionListState extends State<QuestionList> with SingleTickerProviderSt
 
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500)
     );
 
     _animation = CurvedAnimation(
@@ -53,6 +47,19 @@ class _QuestionListState extends State<QuestionList> with SingleTickerProviderSt
     );
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _controller.duration = _duration;
+  }
+
+  Duration get _duration {
+    // disable animation when screen reader is active
+    return MediaQuery.of(context).accessibleNavigation
+      ? Duration.zero
+      : const Duration(milliseconds: 500);
+  }
+
 
   @override
   void didUpdateWidget(covariant QuestionList oldWidget) {
@@ -64,12 +71,6 @@ class _QuestionListState extends State<QuestionList> with SingleTickerProviderSt
     // rerun animation
     _controller.value = 0;
     _controller.forward();
-
-    if (widget.moveAccessibilityFocusOnChange && oldWidget.index != widget.index) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        context.findRenderObject()?.sendSemanticsEvent(const FocusSemanticEvent());
-      });
-    }
   }
 
 
@@ -94,18 +95,21 @@ class _QuestionListState extends State<QuestionList> with SingleTickerProviderSt
         final isActive = index == widget.index;
         final isFollowing = widget.index < index;
         final child = widget.children[index];
-        return ExcludeSemantics(
-          excluding: !isActive,
+        return Semantics(
+          container: true,
+          sortKey: OrdinalSortKey(index.toDouble()),
+          excludeSemantics: !isActive,
           child: IgnorePointer(
             // add child widget key on top to preserve state if needed
             key: child.key,
             ignoring: !isActive,
             child: AnimatedOpacity(
+              alwaysIncludeSemantics: true,
               opacity: isActive || isFollowing ? 1 : 0,
-              duration: const Duration(milliseconds: 500),
+              duration: _duration,
               curve: Curves.easeInOutCubicEmphasized,
               child: child,
-            )
+            ),
           ),
         );
       }, growable: false)

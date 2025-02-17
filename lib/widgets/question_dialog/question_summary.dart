@@ -31,7 +31,7 @@ class QuestionSummary extends StatelessWidget {
     const horizontalPadding = 20.0;
 
     return QuestionSheet(
-      elevate: elevate,
+      active: elevate,
       header: Padding(
         padding: const EdgeInsets.only(
           top: 20,
