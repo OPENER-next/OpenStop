@@ -335,5 +335,100 @@
         "type": "String"
       }
     }
-  }
+  },
+  "semanticsLoginHint" : "Log in with your OpenStreetMap account to upload your changes.",
+  "@semanticsLoginHint" : {},
+  "semanticsFlutterMap" : "Map screen",
+  "@semanticsFlutterMap" : {},
+  "semanticsReturnToMap" : "Close questionnaire and return to map",
+  "@semanticsReturnToMap" : {},
+  "semanticsDotsIndicator" : "Page {number}",
+  "@semanticsDotsIndicator" : {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsPageIndicators" : "There are {number} introduction pages, select the one you would like to hear.",
+  "@semanticsPageIndicators" : {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsIntroductionPage" : "Introduction page {number} of {count}",
+  "@semanticsIntroductionPage" : {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      },
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsSlogan" : "Slogan",
+  "@semanticsSlogan" : {},
+  "semanticsMFundImage" : "Funded by mFUND",
+  "@semanticsMFundImage" : {},
+  "semanticsFederalMinistryImage" : "Funded by Federal Ministry of Transport and Digital Infrastructure",
+  "@semanticsFederalMinistryImage" : {},
+  "semanticsSettingsDialogBox" : "Choose your preferred app theme",
+  "@semanticsSettingsDialogBox" : {},
+  "semanticsNavigationMenu" : "Navigation menu",
+  "@semanticsNavigationMenu" : {},
+  "semanticsResetRotationButton" : "Reset map rotation to north.",
+  "@semanticsResetRotationButton" : {},
+  "semanticsCurrentLocationButton" : "Set map to current location.",
+  "@semanticsCurrentLocationButton" : {},
+  "semanticsZoomInButton" : "Zoom in map",
+  "@semanticsZoomInButton" : {},
+  "semanticsZoomOutButton" : "Zoom out map",
+  "@semanticsZoomOutButton" : {},
+  "semanticsQuestionSentence" : "The question is: ",
+  "@semanticsQuestionSentence" : {},
+  "semanticsUploadQuestionsButton" : "Upload answers",
+  "@semanticsUploadQuestionsButton" : {},
+  "semanticsBackQuestionButton" : "Return to previous question.",
+  "@semanticsBackQuestionButton" : {},
+  "semanticsNextQuestionButton" : "Next question",
+  "@semanticsNextQuestionButton" : {},
+  "semanticsSkipQuestionButton" : "Skip question",
+  "@semanticsSkipQuestionButton" : {},
+  "semanticsFinishQuestionnaireButton" : "Finish questionnaire",
+  "@semanticsFinishQuestionnaireButton" : {},
+  "semanticsSummary" : "Summary",
+  "@semanticsSummary" : {},
+  "semanticsCloseNavigationMenuButton" : "Close navigation menu.",
+  "@semanticsCloseNavigationMenuButton" : {},
+  "semanticsCloseQuestionnaireAnnounce" : "Questionnaire is closed",
+  "@semanticsCloseQuestionnaireAnnounce": {},
+  "semanticsOpenQuestionnaireAnnounce" : "Questionnaire is open",
+  "@semanticsOpenQuestionnaireAnnounce" : {},
+  "semanticsUser" : "User {username} activate to open browser profile",
+  "@semanticsUser" : {
+    "username": {
+    "type": "String"
+    }
+  },
+  "semanticsLogout" : "Log out from your user account",
+  "@semanticsLogout" : {},
+  "semanticsClearField" : "Clear field",
+  "@semanticsClearField" : {},
+  "semanticsDurationAnswerReset" : "Reset duration",
+  "@semanticsDurationAnswerReset" : {},
+  "semanticsDurationAnswerStartStopwatch" : "Start stopwatch",
+  "@semanticsDurationAnswerStartStopwatch" : {},
+  "semanticsDurationAnswerStopStopwatch" : "Stop stopwatch",
+  "@semanticsDurationAnswerStopStopwatch" : {},
+  "semanticsReviewQuestion" : "Activate to return to question",
+  "@semanticsReviewQuestion" : {},
+  "semanticsNextStepOnboarding" : "Next page",
+  "@semanticsNextStepOnboarding" : {},
+  "semanticsFinishOnboarding" : "Finish introduction",
+  "@semanticsFinishOnboarding" : {},
+  "semanticsCredits" : "Credits",
+  "@semanticsCredits" : {}
 }

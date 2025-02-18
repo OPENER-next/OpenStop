@@ -27,11 +27,11 @@ class QuestionSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    final appLocale = AppLocalizations.of(context)!;
     const horizontalPadding = 20.0;
 
     return QuestionSheet(
-      elevate: elevate,
+      active: elevate,
       header: Padding(
         padding: const EdgeInsets.only(
           top: 20,
@@ -41,8 +41,8 @@ class QuestionSummary extends StatelessWidget {
         ),
         child: Text(
           userName != null
-            ? localizations.questionnaireSummaryDedicatedMessage(userName!)
-            : localizations.questionnaireSummaryUndedicatedMessage,
+            ? appLocale.questionnaireSummaryDedicatedMessage(userName!)
+            : appLocale.questionnaireSummaryUndedicatedMessage,
           style: const TextStyle(
             height: 1.3,
             fontSize: 20,
@@ -52,19 +52,23 @@ class QuestionSummary extends StatelessWidget {
       ),
       body: EdgeFeather(
         edges: const EdgeInsets.only(top: 10),
-        child: ListView.separated(
-          shrinkWrap: true,
-          physics: const BouncingScrollPhysics(),
-          itemCount: questions.length,
-          separatorBuilder: (context, index) => const Divider(
-            height: 1,
-            thickness: 1,
-          ),
-          itemBuilder: _buildEntry,
-          padding: const EdgeInsets.only(
-            bottom: 25,
-            left: horizontalPadding,
-            right: horizontalPadding,
+        child: Semantics(
+          container: true,
+          label: appLocale.semanticsSummary,
+          child: ListView.separated(
+            shrinkWrap: true,
+            physics: const BouncingScrollPhysics(),
+            itemCount: questions.length,
+            separatorBuilder: (context, index) => const Divider(
+              height: 1,
+              thickness: 1,
+            ),
+            itemBuilder: _buildEntry,
+            padding: const EdgeInsets.only(
+              bottom: 25,
+              left: horizontalPadding,
+              right: horizontalPadding,
+            ),
           ),
         ),
       ),
@@ -75,37 +79,40 @@ class QuestionSummary extends StatelessWidget {
     final question = questions[index];
     final answer = answers[index];
 
-    return Material(
-      type: MaterialType.transparency,
-      child: InkWell(
-        onTap: () => onJump?.call(index),
-        child: Padding(
-          padding: const EdgeInsets.only(
-            top: 15,
-            bottom: 15,
-            right: 10,
-          ),
-          child: Row(
-            children: [
-              const Icon(
-                Icons.chevron_left_rounded,
-              ),
-              ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: 100, maxWidth: 200),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Text('$question:'),
+    return Semantics(
+      hint: AppLocalizations.of(context)!.semanticsReviewQuestion,
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: () => onJump?.call(index),
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 15,
+              bottom: 15,
+              right: 10,
+            ),
+            child: Row(
+              children: [
+                const Icon(
+                  Icons.chevron_left_rounded,
                 ),
-              ),
-              Expanded(
-                child: Text(
-                  answer,
-                  textAlign: TextAlign.right,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                ConstrainedBox(
+                  constraints: const BoxConstraints(minWidth: 100, maxWidth: 200),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Text('$question:'),
+                  ),
                 ),
-              ),
-            ],
+                Expanded(
+                  child: Text(
+                    answer,
+                    textAlign: TextAlign.right,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

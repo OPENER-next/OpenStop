@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:animated_location_indicator/animated_location_indicator.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter/widgets.dart' hide Action, ProxyElement, Notification;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -332,6 +333,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   /// This either reopens an existing questionnaire or creates a new one.
 
   void _openQuestionnaire(MapFeatureRepresentation element) {
+    final appLocale = AppLocalizations.of(context)!;
     if (_questionnaireState.value != null) {
       // store latest answer from previous questionnaire
       _updateQuestionnaireAnswer();
@@ -343,17 +345,22 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
     _appWorker.openQuestionnaire(element);
     runInAction(() => _selectedElement.value = element);
+    // semantic notification
+    SemanticsService.announce(appLocale.semanticsOpenQuestionnaireAnnounce, Directionality.of(context));
   }
 
   /// Close the currently active questionnaire if any.
 
   void closeQuestionnaire() {
+    final appLocale = AppLocalizations.of(context)!;
     if (_questionnaireState.value != null) {
       // store latest answer from questionnaire
       _updateQuestionnaireAnswer();
       _appWorker.closeQuestionnaire();
       // deselect element
       runInAction(() => _selectedElement.value = null);
+      // semantic notification
+      SemanticsService.announce(appLocale.semanticsCloseQuestionnaireAnnounce, Directionality.of(context));
     }
   }
 

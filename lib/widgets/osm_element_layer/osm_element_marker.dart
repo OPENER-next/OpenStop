@@ -62,73 +62,80 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
 
   @override
   Widget build(BuildContext context) {
-    // add repaint boundary for performance improvement
-    // this way a marker will only be redrawn if itself changes
-    return RepaintBoundary(
-      child: Center(
-        child: GestureDetector(
-          onTap: widget.onTap,
-          child: AnimatedBuilder(
-            animation: _animation,
-            builder: (_, __) => MarkerBubble(
-              shadowColor: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.4),
-              elevation: _animation.value * 2,
-              child: Padding(
-                padding: const EdgeInsets.all(3),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AspectRatio(
-                      aspectRatio: 1,
-                      child: ClipOval(
-                        child: ColoredBox(
-                          color: Theme.of(context).colorScheme.primary,
-                          child: UploadIndicator(
-                            trigger: widget.uploadState,
-                            padding: const EdgeInsets.all(7),
-                            child: Icon(widget.icon,
-                              color: Colors.white,
-                              shadows: const [
-                                Shadow(
-                                  color: Colors.black12,
-                                  offset: Offset(2, 2)
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    if (widget.label.isNotEmpty && !_animation.isDismissed) Flexible(
-                      // this is basically a custom version of SizeTransition
-                      // because it doesn't allow setting the cross axis alignment
-                      child: ClipRect(
-                        child: Align(
-                          alignment: AlignmentDirectional.centerEnd,
-                          widthFactor: _animation.value,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(widget.label,
-                              textWidthBasis: TextWidthBasis.longestLine,
-                              softWrap: true,
-                              maxLines: 2,
-                              style: TextStyle(
-                                color: Colors.grey.shade900,
-                                fontSize: 16,
-                                overflow: TextOverflow.ellipsis,
+    return Semantics(
+      excludeSemantics: widget.active,
+      blockUserActions: widget.active,
+      label: widget.active ? null : widget.label,
+      // add repaint boundary for performance improvement
+      // this way a marker will only be redrawn if itself changes
+      child: RepaintBoundary(
+        child: Center(
+          child: GestureDetector(
+            onTap: widget.onTap,
+            child: AnimatedBuilder(
+              animation: _animation,
+              builder: (_, __) => MarkerBubble(
+                shadowColor: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.4),
+                elevation: _animation.value * 2,
+                child: Padding(
+                  padding: const EdgeInsets.all(3),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AspectRatio(
+                        aspectRatio: 1,
+                        child: ClipOval(
+                          child: ColoredBox(
+                            color: Theme.of(context).colorScheme.primary,
+                            child: UploadIndicator(
+                              trigger: widget.uploadState,
+                              padding: const EdgeInsets.all(7),
+                              child: Icon(widget.icon,
+                                color: Colors.white,
+                                shadows: const [
+                                  Shadow(
+                                    color: Colors.black12,
+                                    offset: Offset(2, 2)
+                                  ),
+                                ],
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                      if (widget.label.isNotEmpty && !_animation.isDismissed) Flexible(
+                        // this is basically a custom version of SizeTransition
+                        // because it doesn't allow setting the cross axis alignment
+                        child: ExcludeSemantics(
+                          child: ClipRect(
+                            child: Align(
+                              alignment: AlignmentDirectional.centerEnd,
+                              widthFactor: _animation.value,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                child: Text(widget.label,
+                                  textWidthBasis: TextWidthBasis.longestLine,
+                                  softWrap: true,
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                    color: Colors.grey.shade900,
+                                    fontSize: 16,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
         ),
-      ),
+      )
     );
   }
 

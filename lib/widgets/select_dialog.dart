@@ -8,10 +8,13 @@ class SelectDialog<T> extends StatefulWidget {
 
   final Widget? title;
 
+  final String? semanticLabel;
+
   const SelectDialog({
     required this.valueLabelMap,
     this.value,
     this.title,
+    this.semanticLabel,
     super.key
   });
 
@@ -35,6 +38,7 @@ class _SelectDialogState<T> extends State<SelectDialog<T>> {
     return AlertDialog(
       scrollable: true,
       title: widget.title,
+      semanticLabel: widget.semanticLabel,
       // Use column instead of ListView. See: https://github.com/flutter/flutter/issues/18108
       content: Column(
         children: List.generate(_entries.length, (index) {

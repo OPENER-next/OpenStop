@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LocationButton extends ImplicitlyAnimatedWidget {
   final bool active;
@@ -47,6 +48,7 @@ class _LocationButtonState extends AnimatedWidgetBaseState<LocationButton> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocale = AppLocalizations.of(context)!;
     return FloatingActionButton.small(
       heroTag: null,
       backgroundColor: _colorTween?.evaluate(animation),
@@ -54,7 +56,8 @@ class _LocationButtonState extends AnimatedWidgetBaseState<LocationButton> {
       child: Icon(
         Icons.my_location,
         color: _iconColorTween?.evaluate(animation),
-      )
+        semanticLabel: appLocale.semanticsCurrentLocationButton,
+      ),
     );
   }
 }

@@ -19,6 +19,7 @@ class BoolInput extends QuestionInputWidget<BoolAnswerDefinition, BoolAnswer> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final appLocale = AppLocalizations.of(context)!;
 
     return SizedBox(
       width: double.infinity,
@@ -26,22 +27,30 @@ class BoolInput extends QuestionInputWidget<BoolAnswerDefinition, BoolAnswer> {
         alignment: WrapAlignment.spaceBetween,
         children: List.generate(2, (index) {
           final state = index == 0;
-          return _BoolInputItem(
-            label:  Text(definition.input[index].name ??
-                    (state ? AppLocalizations.of(context)!.yes : AppLocalizations.of(context)!.no)),
-            onTap: () => _handleChange(state),
-            active: controller.answer?.value == state,
-            backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.0),
-            activeBackgroundColor: theme.colorScheme.primary,
-            foregroundColor: theme.colorScheme.primary,
-            activeForegroundColor: theme.colorScheme.onPrimary,
+          return MergeSemantics(
+            child: _BoolInputItem(
+              label: Semantics(
+                container: true,
+                inMutuallyExclusiveGroup: true,
+                checked: controller.answer?.value == state,
+                selected: controller.answer?.value == state,
+                child: Text(definition.input[index].name ??
+                  (state ? appLocale.yes : appLocale.no)),
+              ),
+              onTap: () => _handleChange(state, appLocale),
+              active: controller.answer?.value == state,
+              backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.0),
+              activeBackgroundColor: theme.colorScheme.primary,
+              foregroundColor: theme.colorScheme.primary,
+              activeForegroundColor: theme.colorScheme.onPrimary,
+            ),
           );
         }, growable: false),
       ),
     );
   }
 
-  void _handleChange(bool selectedState) {
+  void _handleChange(bool selectedState, AppLocalizations appLocale) {
     controller.answer = controller.answer?.value != selectedState
       ? BoolAnswer(
         definition: definition,
