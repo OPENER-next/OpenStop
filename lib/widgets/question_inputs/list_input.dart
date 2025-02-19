@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '/l10n/app_localizations.dart';
 import '/models/answer.dart';
 import '/models/question_catalog/answer_definition.dart';
 import '/widgets/hero_viewer.dart';

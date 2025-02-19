@@ -31,8 +31,8 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace "de.tu_chemnitz.etit.sse.openstop"
-    compileSdkVersion 34
-    ndkVersion flutter.ndkVersion
+    compileSdkVersion 35
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
       sourceCompatibility JavaVersion.VERSION_11
@@ -40,7 +40,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
     sourceSets {
@@ -49,7 +49,7 @@ android {
 
     defaultConfig {
         applicationId "de.tu_chemnitz.etit.sse.openstop"
-        minSdkVersion 24
+        minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

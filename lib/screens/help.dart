@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '/commons/app_config.dart' as app_config;
 import '/commons/routes.dart';
+import '/l10n/app_localizations.dart';
 import '/widgets/custom_list_tile.dart';
 
 class HelpScreen extends StatelessWidget {

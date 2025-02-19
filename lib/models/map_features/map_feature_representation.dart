@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:osm_api/osm_api.dart';
 
+import '/l10n/app_localizations.dart';
 import '/models/element_variants/base_element.dart';
 import '/models/element_variants/element_identifier.dart';
 import '/models/geographic_geometries.dart';

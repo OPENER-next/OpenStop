@@ -3,10 +3,10 @@ import 'dart:math';
 
 import 'package:animated_marker_layer/animated_marker_layer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:supercluster/supercluster.dart';
 
 import '/api/app_worker/element_handler.dart';
+import '/l10n/app_localizations.dart';
 import '/models/map_features/map_feature_representation.dart';
 import '/widgets/osm_element_layer/osm_element_marker.dart';
 

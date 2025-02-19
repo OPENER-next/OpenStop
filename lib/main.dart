@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
@@ -11,6 +10,7 @@ import '/api/preferences_service.dart';
 import '/commons/app_config.dart' as app_config;
 import '/commons/routes.dart';
 import '/commons/themes.dart';
+import '/l10n/app_localizations.dart';
 import '/models/question_catalog/question_catalog_reader.dart';
 import 'widgets/locale_change_notifier.dart';
 

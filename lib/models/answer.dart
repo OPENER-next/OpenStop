@@ -1,6 +1,6 @@
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
+import '/l10n/app_localizations.dart';
 import 'question_catalog/answer_definition.dart';
 
 /// A container class that holds answers for a specific question type in a readable form.

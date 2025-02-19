@@ -1,9 +1,10 @@
 PODS:
+  - compassx (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
-  - flutter_secure_storage (6.0.0):
+  - flutter_secure_storage_darwin (10.0.0):
     - Flutter
-  - flutter_sensors (0.0.1):
-    - Flutter
+    - FlutterMacOS
   - flutter_web_auth_2 (3.0.0):
     - Flutter
   - geolocator_apple (1.2.0):
@@ -18,9 +19,9 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - compassx (from `.symlinks/plugins/compassx/ios`)
   - Flutter (from `Flutter`)
-  - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
-  - flutter_sensors (from `.symlinks/plugins/flutter_sensors/ios`)
+  - flutter_secure_storage_darwin (from `.symlinks/plugins/flutter_secure_storage_darwin/darwin`)
   - flutter_web_auth_2 (from `.symlinks/plugins/flutter_web_auth_2/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
@@ -28,12 +29,12 @@ DEPENDENCIES:
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 EXTERNAL SOURCES:
+  compassx:
+    :path: ".symlinks/plugins/compassx/ios"
   Flutter:
     :path: Flutter
-  flutter_secure_storage:
-    :path: ".symlinks/plugins/flutter_secure_storage/ios"
-  flutter_sensors:
-    :path: ".symlinks/plugins/flutter_sensors/ios"
+  flutter_secure_storage_darwin:
+    :path: ".symlinks/plugins/flutter_secure_storage_darwin/darwin"
   flutter_web_auth_2:
     :path: ".symlinks/plugins/flutter_web_auth_2/ios"
   geolocator_apple:
@@ -46,14 +47,14 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
+  compassx: 2d291f8c8e5672f35c62277f2318ef48359dc1d0
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
-  flutter_sensors: dc6eed3291e7724bf8f4138d7d14c4071b42bd29
-  flutter_web_auth_2: 06d500582775790a0d4c323222fcb6d7990f9603
-  geolocator_apple: 9bcea1918ff7f0062d98345d238ae12718acfbc1
-  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
-  shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
-  url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
+  flutter_secure_storage_darwin: ce237a8775b39723566dc72571190a3769d70468
+  flutter_web_auth_2: 5c8d9dcd7848b5a9efb086d24e7a9adcae979c80
+  geolocator_apple: 1560c3c875af2a412242c7a923e15d0d401966ff
+  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
+  shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
+  url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
 
 PODFILE CHECKSUM: 0e7df49a070ca6a0600383e3ff3158cb74cc9dbf
 

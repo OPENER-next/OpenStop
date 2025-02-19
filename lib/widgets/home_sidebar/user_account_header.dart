@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '/l10n/app_localizations.dart';
 
 class UserAccountHeader extends StatelessWidget {
   // taken from https://png-pixel.com/

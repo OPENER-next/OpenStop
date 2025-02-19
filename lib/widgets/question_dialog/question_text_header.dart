@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 
+import '/l10n/app_localizations.dart';
 import '/widgets/edge_feather.dart';
 import '/widgets/gallery_viewer.dart';
 
