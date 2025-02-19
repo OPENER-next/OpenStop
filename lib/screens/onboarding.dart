@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 
 import '/commons/routes.dart';
-import '/l10n/app_localizations.dart';
+import '/l10n/app_localizations.g.dart';
 import '/view_models/onboarding_view_model.dart';
 import '/widgets/dots_indicator.dart';
 

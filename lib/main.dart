@@ -10,7 +10,7 @@ import '/api/preferences_service.dart';
 import '/commons/app_config.dart' as app_config;
 import '/commons/routes.dart';
 import '/commons/themes.dart';
-import '/l10n/app_localizations.dart';
+import '/l10n/app_localizations.g.dart';
 import '/models/question_catalog/question_catalog_reader.dart';
 import 'widgets/locale_change_notifier.dart';
 

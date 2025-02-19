@@ -1,9 +1,8 @@
-// required till https://github.com/dart-lang/sdk/issues/48401 is resolved
-// ignore_for_file: unused_element
+// ignore_for_file: unused_element_parameter
 
 import 'package:flutter/material.dart';
 
-import '/l10n/app_localizations.dart';
+import '/l10n/app_localizations.g.dart';
 import '/models/answer.dart';
 import '/models/question_catalog/answer_definition.dart';
 import 'question_input_widget.dart';

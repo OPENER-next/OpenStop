@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 
 import '/commons/routes.dart';
-import '/l10n/app_localizations.dart';
+import '/l10n/app_localizations.g.dart';
 import '/view_models/home_view_model.dart';
 import '/widgets/custom_list_tile.dart';
 import 'login_info_header.dart';

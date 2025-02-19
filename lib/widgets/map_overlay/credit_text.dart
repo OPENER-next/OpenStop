@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '/l10n/app_localizations.dart';
+import '/l10n/app_localizations.g.dart';
 
 class CreditText extends StatefulWidget {
   final List<CreditTextPart> children;

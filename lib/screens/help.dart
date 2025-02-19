@@ -4,7 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '/commons/app_config.dart' as app_config;
 import '/commons/routes.dart';
-import '/l10n/app_localizations.dart';
+import '/l10n/app_localizations.g.dart';
 import '/widgets/custom_list_tile.dart';
 
 class HelpScreen extends StatelessWidget {

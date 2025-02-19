@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '/l10n/app_localizations.dart';
+import '/l10n/app_localizations.g.dart';
 import '/widgets/edge_feather.dart';
 import 'question_sheet.dart';
 

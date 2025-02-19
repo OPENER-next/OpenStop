@@ -10,7 +10,7 @@ import 'package:mobx/mobx.dart';
 
 import '/commons/app_config.dart';
 import '/commons/tile_layers.dart';
-import '/l10n/app_localizations.dart';
+import '/l10n/app_localizations.g.dart';
 import '/view_models/home_view_model.dart';
 import '/widgets/completed_area_layer/completed_area_layer.dart';
 import '/widgets/custom_snackbar.dart';

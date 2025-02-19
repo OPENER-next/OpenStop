@@ -5,7 +5,7 @@ import 'package:latlong2/latlong.dart';
 import '/api/offline_geocoder.g.dart';
 import '/commons/app_config.dart' as app_config;
 import '/commons/country_language_map.dart';
-import '/l10n/app_localizations.dart';
+import '/l10n/app_localizations.g.dart';
 import 'element_variants/base_element.dart';
 import 'map_features/map_features.dart';
 import 'stop_area/stop_area.dart';

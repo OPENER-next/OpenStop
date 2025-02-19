@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 
-import '/l10n/app_localizations.dart';
+import '/l10n/app_localizations.g.dart';
 import '/models/question_catalog/question_definition.dart';
 import '/utils/ui_utils.dart';
 import '/view_models/home_view_model.dart';

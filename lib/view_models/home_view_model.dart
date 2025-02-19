@@ -19,7 +19,7 @@ import '/api/app_worker/element_handler.dart';
 import '/api/app_worker/stop_area_handler.dart';
 import '/api/preferences_service.dart';
 import '/api/user_account_service.dart';
-import '/l10n/app_localizations.dart';
+import '/l10n/app_localizations.g.dart';
 import '/models/map_features/map_feature_representation.dart';
 import '/models/question_catalog/question_definition.dart';
 import '/models/questionnaire.dart';

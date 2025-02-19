@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '/l10n/app_localizations.dart';
+import '/l10n/app_localizations.g.dart';
 
 class SelectDialog<T> extends StatefulWidget {
   final Map<T, String> valueLabelMap;

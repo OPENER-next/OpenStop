@@ -32,6 +32,7 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace "de.tu_chemnitz.etit.sse.openstop"
     compileSdkVersion 35
+    // Momentary fix. Alternatively the following line can also be commented out. See: https://github.com/flutter/flutter/issues/139427
     ndkVersion = "27.0.12077973"
 
     compileOptions {

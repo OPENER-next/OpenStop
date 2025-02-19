@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '/l10n/app_localizations.dart';
+import '/l10n/app_localizations.g.dart';
 import '/models/answer.dart';
 import '/models/question_catalog/answer_definition.dart';
 import 'list_input.dart';
