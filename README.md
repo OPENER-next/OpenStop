@@ -13,7 +13,7 @@ Thanks and happy mapping!
     height="50">](https://play.google.com/store/apps/details?id=de.tu_chemnitz.etit.sse.openstop)
 [<img src="https://github.com/OPENER-next/OpenStop-website/blob/main/img/badges/App_Store_Badge_EN.svg"
     alt="Download on the App Store"
-    height="50">](https://apps.apple.com/app/id6444187660)
+    height="50">](https://apps.apple.com/app/id6740262037)
 [<img src="https://openstop.app/img/badges/F-Droid_Badge_EN.svg"
     alt="Get it on F-Droid"
     height="50">](https://f-droid.org/packages/de.tu_chemnitz.etit.sse.openstop/)
