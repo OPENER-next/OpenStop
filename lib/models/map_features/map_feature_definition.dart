@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '/l10n/app_localizations.g.dart';
 import '/models/element_conditions/element_condition.dart';
 import '/models/element_variants/base_element.dart';
 import 'map_feature_representation.dart';

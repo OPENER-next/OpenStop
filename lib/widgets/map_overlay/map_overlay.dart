@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 
 import '/commons/osm_config.dart' as osm_config;
 import '/commons/tile_layers.dart';
+import '/l10n/app_localizations.g.dart';
 import '/view_models/home_view_model.dart';
 import 'compass_button.dart';
 import 'credit_text.dart';

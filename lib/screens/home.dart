@@ -2,7 +2,6 @@ import 'package:animated_location_indicator/animated_location_indicator.dart';
 import 'package:flutter/material.dart' hide View;
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
@@ -11,6 +10,7 @@ import 'package:mobx/mobx.dart';
 
 import '/commons/app_config.dart';
 import '/commons/tile_layers.dart';
+import '/l10n/app_localizations.g.dart';
 import '/view_models/home_view_model.dart';
 import '/widgets/completed_area_layer/completed_area_layer.dart';
 import '/widgets/custom_snackbar.dart';

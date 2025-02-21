@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' hide View;
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 
+import '/l10n/app_localizations.g.dart';
 import '/view_models/settings_view_model.dart';
 import '/widgets/custom_list_tile.dart';
 import '/widgets/select_dialog.dart';

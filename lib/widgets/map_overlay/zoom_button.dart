@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '/l10n/app_localizations.g.dart';
 
 class ZoomButton extends StatelessWidget {
   final void Function()? onZoomInPressed;
