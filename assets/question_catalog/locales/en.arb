@@ -454,7 +454,7 @@
   "@crossingSignalsName": {},
   "crossingSignalsText": "Are there pedestrian lights at this crossing?",
   "@crossingSignalsText": {},
-  "crossingSignalsDescription": "Indicates whether a crossing is controlled by a pedstrian light.",
+  "crossingSignalsDescription": "Indicates whether a crossing is controlled by a pedestrian light.",
   "@crossingSignalsDescription": {},
   "crossingMarkingsName": "Crossing markings",
   "@crossingMarkingsName": {},
