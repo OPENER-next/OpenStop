@@ -72,11 +72,6 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                   ),
                   children: [
                     TileLayer(
-                      tileProvider: NetworkTileProvider(
-                        headers: {
-                          'User-Agent': appUserAgent,
-                        },
-                      ),
                       retinaMode: RetinaMode.isHighDensity(context),
                       evictErrorTileStrategy: EvictErrorTileStrategy.dispose,
                       urlTemplate: isDarkMode && kTileLayerPublicTransport.darkVariantTemplateUrl != null
@@ -84,6 +79,7 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                         : kTileLayerPublicTransport.templateUrl,
                       minNativeZoom: kTileLayerPublicTransport.minZoom,
                       maxNativeZoom: kTileLayerPublicTransport.maxZoom,
+                      userAgentPackageName: kAppUserAgent,
                     ),
                     QueryIndicator(
                       active: viewModel.isLoadingStopAreas,

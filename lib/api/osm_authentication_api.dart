@@ -3,7 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:osm_api/osm_api.dart';
 
-import '/commons/app_config.dart' as app_config;
+import '/commons/app_config.dart';
 import '/commons/osm_config.dart' as osm_config;
 
 
@@ -46,12 +46,12 @@ class OSMAuthenticationAPI {
     // otherwise PKCE authorization won't work.
     final result = await FlutterWebAuth2.authenticate(
       url: authUri.toString(),
-      callbackUrlScheme: app_config.appCallbackUrlScheme,
+      callbackUrlScheme: kAppCallbackUrlScheme,
       options: const FlutterWebAuth2Options(
         preferEphemeral: true,
         intentFlags: ephemeralIntentFlags,
-        httpsHost: app_config.appCallbackUrlHost,
-        httpsPath: app_config.appCallbackUrlPath
+        httpsHost: kAppCallbackUrlHost,
+        httpsPath: kAppCallbackUrlPath
       ),
     );
     final code = Uri.parse(result).queryParameters['code'];

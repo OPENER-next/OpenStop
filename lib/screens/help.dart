@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '/commons/app_config.dart' as app_config;
+import '/commons/app_config.dart';
 import '/commons/routes.dart';
 import '/l10n/app_localizations.g.dart';
 import '/widgets/custom_list_tile.dart';
@@ -10,7 +10,7 @@ import '/widgets/custom_list_tile.dart';
 class HelpScreen extends StatelessWidget {
   const HelpScreen({super.key});
 
-  static final _urlIssues = Uri.parse('${app_config.appProjectUrl}/issues');
+  static final _urlIssues = Uri.parse('$kAppProjectUrl/issues');
   static final _urlTranslation = Uri.parse('https://hosted.weblate.org/engage/openstop/');
 
   @override

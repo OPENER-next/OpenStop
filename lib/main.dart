@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '/api/app_worker/app_worker_interface.dart';
 import '/api/preferences_service.dart';
-import '/commons/app_config.dart' as app_config;
+import '/commons/app_config.dart';
 import '/commons/routes.dart';
 import '/commons/themes.dart';
 import '/l10n/app_localizations.g.dart';
@@ -69,7 +69,7 @@ class MyApp extends StatelessObserverWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: app_config.appName,
+      title: kAppName,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       // used instead of home: because otherwise no pop page transition to the first screen will be applied
