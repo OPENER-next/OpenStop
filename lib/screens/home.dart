@@ -72,6 +72,8 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                   ),
                   children: [
                     TileLayer(
+                      tileProvider: viewModel.tileLayerProvider,
+                      panBuffer: 0,
                       retinaMode: RetinaMode.isHighDensity(context),
                       evictErrorTileStrategy: EvictErrorTileStrategy.dispose,
                       urlTemplate: isDarkMode && kTileLayerPublicTransport.darkVariantTemplateUrl != null
