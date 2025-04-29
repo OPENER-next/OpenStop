@@ -97,9 +97,15 @@ class GeographicPolygon implements GeographicGeometry {
     const projection = SphericalMercator();
 
     final polygon = [
-      outerShape.path.map(projection.project).toList(),
+      outerShape.path.map((p) {
+        final offset = projection.project(p);
+        return Point(offset.dx, offset.dy);
+      }).toList(),
       ...innerShapes.map(
-        (polyline) => polyline.path.map(projection.project).toList()
+        (polyline) => polyline.path.map((p) {
+          final offset = projection.project(p);
+          return Point(offset.dx, offset.dy);
+        }).toList()
       ),
     ];
 

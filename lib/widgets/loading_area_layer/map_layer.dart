@@ -58,13 +58,13 @@ class RenderMapLayer extends RenderBox
   }
 
   /// projected camera position
-  late Point<double> _pixelMapCenter;
+  late Offset _pixelMapCenter;
   /// top left position of the camera in pixels
   late Offset _nonRotatedPixelOrigin;
 
   void _updateCachedValues() {
-    _pixelMapCenter = mapCamera.project(mapCamera.center);
-    _nonRotatedPixelOrigin = (_pixelMapCenter - mapCamera.nonRotatedSize / 2.0).toOffset();
+    _pixelMapCenter = mapCamera.projectAtZoom(mapCamera.center);
+    _nonRotatedPixelOrigin = _pixelMapCenter - mapCamera.nonRotatedSize.center(Offset.zero);
   }
 
 
@@ -119,9 +119,9 @@ class RenderMapLayer extends RenderBox
     child.layout(childConstraints, parentUsesSize: true);
 
     // calculate pixel position of child
-    final pxPoint = mapCamera.project(childParentData.position!);
+    final pxPoint = mapCamera.projectAtZoom(childParentData.position!);
     // write global pixel offset
-    childParentData.offset = pxPoint.toOffset();
+    childParentData.offset = pxPoint;
   }
 
   /// Computes the position for the global pixel coordinate system.
@@ -133,9 +133,9 @@ class RenderMapLayer extends RenderBox
     if (mapCamera.rotation != 0.0) {
       globalPixelPosition = mapCamera.rotatePoint(
         _pixelMapCenter,
-        childParentData.offset.toPoint(),
+        childParentData.offset,
         counterRotation: false,
-      ).toOffset();
+      );
     }
     // apply alignment
     return globalPixelPosition - childParentData.align!.alongSize(child.size);
@@ -191,10 +191,7 @@ class RenderMapLayer extends RenderBox
     // this is an altered version of defaultPaint(context, offset);
     // which does not paint children outside the map layer viewport
 
-    final viewport = Offset.zero & Size(
-      mapCamera.nonRotatedSize.x,
-      mapCamera.nonRotatedSize.y,
-    );
+    final viewport = Offset.zero & mapCamera.nonRotatedSize;
 
     var child = firstChild;
     while (child != null) {

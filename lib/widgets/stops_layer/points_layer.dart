@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
 
@@ -52,22 +51,19 @@ class PointsLayer extends LeafRenderObjectWidget  {
   }
 
   Iterable<double> _localPoints(MapCamera mapCamera) sync* {
-    final relativePixelCenter = mapCamera.nonRotatedSize / 2;
-    final unrotatedPixelOrigin = mapCamera.project(mapCamera.center) - relativePixelCenter;
+    final relativePixelCenter = mapCamera.nonRotatedSize.center(Offset.zero);
+    final unrotatedPixelOrigin = mapCamera.projectAtZoom(mapCamera.center) - relativePixelCenter;
 
     for (final point in points) {
-      final pxPoint = mapCamera.project(point);
-
-      final sw = Point(pxPoint.x + radius, pxPoint.y + radius);
-      final ne = Point(pxPoint.x - radius, pxPoint.y - radius);
-
-      final isVisible = mapCamera.pixelBounds.containsPartialBounds(Bounds(sw, ne));
+      final pxPoint = mapCamera.projectAtZoom(point);
+      final bounds = Rect.fromCircle(center: pxPoint, radius: radius.toDouble());
+      final isVisible = mapCamera.pixelBounds.overlaps(bounds);
 
       if (isVisible) {
         final relativePos = pxPoint - unrotatedPixelOrigin;
         final pos = mapCamera.rotatePoint(relativePixelCenter, relativePos, counterRotation: false);
-        yield pos.x;
-        yield pos.y;
+        yield pos.dx;
+        yield pos.dy;
       }
     }
   }
