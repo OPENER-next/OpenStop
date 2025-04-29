@@ -2,18 +2,18 @@ import 'package:flutter/foundation.dart';
 
 import 'version.g.dart';
 
-const appName = 'OpenStop';
+const kAppName = 'OpenStop';
 
-const appVersion = packageVersion;
+const kAppVersion = packageVersion;
 
-const appUserAgent = '$appName $appVersion';
+const kAppUserAgent = '$kAppName $kAppVersion';
 
-const appCallbackUrlScheme = kIsWeb && !bool.fromEnvironment('IS_RELEASE', defaultValue: false)
+const kAppCallbackUrlScheme = kIsWeb && !bool.fromEnvironment('IS_RELEASE', defaultValue: false)
     ? 'http'
     : 'https';
 
-const appCallbackUrlHost = 'openstop.app';
+const kAppCallbackUrlHost = 'openstop.app';
 
-const appCallbackUrlPath = '/oauth2';
+const kAppCallbackUrlPath = '/oauth2';
 
-const appProjectUrl = 'https://github.com/OPENER-next/OpenStop';
+const kAppProjectUrl = 'https://github.com/OPENER-next/OpenStop';

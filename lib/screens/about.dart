@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '/commons/app_config.dart' as app_config;
+import '/commons/app_config.dart';
 import '/commons/routes.dart';
 import '/l10n/app_localizations.g.dart';
 import '/widgets/custom_list_tile.dart';
@@ -50,14 +50,14 @@ class AboutScreen extends StatelessWidget {
                 leadingIcon: Icons.info,
                 trailingIcon: Icons.open_in_new,
                 title: appLocale.aboutVersionLabel,
-                subtitle: app_config.appVersion,
+                subtitle: kAppVersion,
                 onTap: () => launchUrl(_urlVersion),
               ),
               CustomListTile(
                 leadingIcon: Icons.supervisor_account,
                 trailingIcon: Icons.open_in_new,
                 title: appLocale.aboutAuthorsLabel,
-                subtitle: appLocale.aboutAuthorsDescription(app_config.appName),
+                subtitle: appLocale.aboutAuthorsDescription(kAppName),
                 onTap: () => launchUrl(_urlContributors),
               ),
               CustomListTile(

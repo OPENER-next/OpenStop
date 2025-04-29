@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:latlong2/latlong.dart';
 
 import '/api/offline_geocoder.g.dart';
-import '/commons/app_config.dart' as app_config;
+import '/commons/app_config.dart';
 import '/commons/country_language_map.dart';
 import '/l10n/app_localizations.g.dart';
 import 'element_variants/base_element.dart';
@@ -28,7 +28,7 @@ class ChangesetInfo {
 
   ChangesetInfo({
     required this.comment,
-    this.createdBy = '${app_config.appName} ${app_config.appVersion}',
+    this.createdBy = '$kAppName $kAppVersion',
     this.source = 'survey',
     this.locale = 'en',
   });
