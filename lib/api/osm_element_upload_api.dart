@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:osm_api/osm_api.dart';
 
-import '/commons/osm_config.dart' as osm_config;
+import '/commons/osm_config.dart';
 import '/models/authenticated_user.dart';
 import '/models/changeset_info_generator.dart';
 import '/models/element_processing/element_processor.dart';
@@ -22,14 +22,12 @@ class OSMElementUploadAPI {
 
   OSMElementUploadAPI({
     required AuthenticatedUser authenticatedUser,
-    String endPoint = 'https://${osm_config.osmServer}/api/0.6',
+    String endPoint = DefaultOSMAPI.endPoint,
   }) :
     _authenticatedUser = authenticatedUser,
-    _osmApi = OSMAPI(
+    _osmApi = DefaultOSMAPI(
       authentication: authenticatedUser.authentication,
       baseUrl: endPoint,
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 15),
     );
 
 

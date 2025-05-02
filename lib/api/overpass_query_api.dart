@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter_map/flutter_map.dart';
 
+import '/commons/app_config.dart';
+
 
 /// This class exposes API calls for making Overpass API requests.
 
@@ -11,26 +13,30 @@ class OverpassQueryAPI {
 
   final Duration retryDelay;
 
-  final Duration sendTimeout;
-
-  final Duration receiveTimeout;
-
   final List<String> apiServers;
 
-  final _dio = Dio();
+  final Dio _dio;
 
   final _random = Random();
 
   OverpassQueryAPI({
     this.maxRetries = 3,
     this.retryDelay = const Duration(seconds: 1),
-    this.sendTimeout = const Duration(seconds: 10),
-    this.receiveTimeout = const Duration(seconds: 15),
+    Duration sendTimeout = const Duration(seconds: 20),
+    Duration receiveTimeout = const Duration(seconds: 30),
+    String userAgent = kAppUserAgent,
     this.apiServers = const [
       'https://overpass.kumi.systems/api/interpreter',
       'https://overpass-api.de/api/interpreter',
     ],
-  });
+  }) :
+    _dio = Dio(BaseOptions(
+      sendTimeout: sendTimeout,
+      receiveTimeout: receiveTimeout,
+      headers: {
+        'User-Agent': userAgent,
+      }
+    ));
 
 
   /// Method to execute an Overpass query.
@@ -66,10 +72,6 @@ class OverpassQueryAPI {
     try {
       return (await _dio.get<Map<String, dynamic>>(url,
         queryParameters: queryParameters,
-        options: Options(
-          sendTimeout: sendTimeout,
-          receiveTimeout: receiveTimeout,
-        ),
       )).data;
     }
     catch(error) {

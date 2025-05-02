@@ -1,6 +1,8 @@
 import 'package:flutter_map/flutter_map.dart';
 import 'package:osm_api/osm_api.dart';
 
+import '/commons/osm_config.dart';
+
 
 /// This class exposes API calls for querying [OSMElement]s via the OSM API.
 
@@ -8,12 +10,12 @@ class OSMElementQueryAPI {
   final OSMAPI _osmApi;
 
   OSMElementQueryAPI({
+    // always use live osm end point for query
+    // note that this breaks the upload api in development
     String endPoint = 'https://www.openstreetmap.org/api/0.6',
   }) :
-    _osmApi = OSMAPI(
+    _osmApi = DefaultOSMAPI(
       baseUrl: endPoint,
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 15),
     );
 
 

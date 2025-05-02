@@ -4,7 +4,7 @@ import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:osm_api/osm_api.dart';
 
 import '/commons/app_config.dart';
-import '/commons/osm_config.dart' as osm_config;
+import '/commons/osm_config.dart';
 
 
 // OAuth 2 login
@@ -33,10 +33,10 @@ class OSMAuthenticationAPI {
   /// Otherwise errors might be thrown.
 
   Future<OAuth2> login() async {
-    final authUri = Uri.https(osm_config.osmServer, _authorizationEndpoint, {
+    final authUri = Uri.https(kOSMServer, _authorizationEndpoint, {
       'response_type': 'code',
-      'client_id': osm_config.oAuth2ClientId,
-      'redirect_uri': osm_config.oAuth2RedirectUri,
+      'client_id': kOAuth2ClientId,
+      'redirect_uri': kOAuth2RedirectUri,
       'scope': permissions.join(' '),
     });
 
@@ -55,21 +55,19 @@ class OSMAuthenticationAPI {
       ),
     );
     final code = Uri.parse(result).queryParameters['code'];
+    if (code == null) {
+      throw Exception('Failed to retrieve OAuth2 code.');
+    }
 
-    final dio = Dio();
-    final tokenResponse = await dio.post<Map<String, dynamic>>(
-      Uri.https(osm_config.osmServer, _tokenEndpoint).toString(),
-      data: {
-        'client_id': osm_config.oAuth2ClientId,
-        'redirect_uri': osm_config.oAuth2RedirectUri,
+    final tokenResponse = await _request(
+      Uri.https(kOSMServer, _tokenEndpoint).toString(),
+      {
+        'client_id': kOAuth2ClientId,
+        'redirect_uri': kOAuth2RedirectUri,
         'grant_type': 'authorization_code',
         'code': code,
       },
-      options: Options(
-        contentType: Headers.formUrlEncodedContentType,
-      ),
     );
-    dio.close();
 
     final accessToken = tokenResponse.data?['access_token'];
     final tokenType = tokenResponse.data?['token_type'];
@@ -85,7 +83,6 @@ class OSMAuthenticationAPI {
       tokenType: tokenType,
     );
   }
-
 
   /// Restore the previous session if one exists.
   /// This method looks for a previous access token in the storage and tries to reuse it.
@@ -104,52 +101,37 @@ class OSMAuthenticationAPI {
     return null;
   }
 
-
   /// Terminates the current session by deleting the current access token.
   /// This also revokes the authentication token from the server.
 
   Future<void> logout() async {
     final accessToken = await _secureStorage.read(key: 'accessToken');
     if (accessToken != null) {
-      final dio = Dio();
-      try {
-        await Future.wait([
-          // remove token from storage
-          _secureStorage.delete(key: 'accessToken'),
-          // revoke the token from the osm server
-          // this way any granted permissions by the user are revoked
-          // the user has to authorize the app again on the next login
-          dio.post<void>(
-            Uri.https(osm_config.osmServer, _revokeEndpoint).toString(),
-            data: {
-              'token': accessToken,
-              'token_type_hint': 'access_token',
-              'client_id': osm_config.oAuth2ClientId,
-            },
-            options: Options(
-              contentType: Headers.formUrlEncodedContentType,
-            ),
-          ),
-        ]);
-      }
-      finally {
-        dio.close();
-      }
+      await Future.wait([
+        // remove token from storage
+        _secureStorage.delete(key: 'accessToken'),
+        // revoke the token from the osm server
+        // this way any granted permissions by the user are revoked
+        // the user has to authorize the app again on the next login
+        _request(
+          Uri.https(kOSMServer, _revokeEndpoint).toString(),
+          {
+            'token': accessToken,
+            'token_type_hint': 'access_token',
+            'client_id': kOAuth2ClientId,
+          },
+        )
+      ]);
     }
   }
-
 
   /// Verify that the current api is (still) authenticated and grants the required permissions.
   /// This can throw OSM API connection exceptions
 
   Future<bool> verifyAuthentication(OAuth2 authentication) async {
-    final osmApi = OSMAPI(
-      baseUrl: Uri.https(osm_config.osmServer, '/api/0.6').toString(),
+    final osmApi = DefaultOSMAPI(
       authentication: authentication,
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 15),
     );
-
     try {
       final permissions = await osmApi.getPermissions();
       return permissions.hasAll(const [
@@ -162,6 +144,25 @@ class OSMAuthenticationAPI {
     }
     finally {
       osmApi.dispose();
+    }
+  }
+
+  Future<Response<Map<String, dynamic>>> _request(String uri, Map<String, String> data) async {
+    final dio = Dio();
+    try {
+      return await dio.post<Map<String, dynamic>>(
+        uri,
+        data: data,
+        options: Options(
+          contentType: Headers.formUrlEncodedContentType,
+          headers: {
+            'User-Agent': kAppUserAgent,
+          }
+        ),
+      );
+    }
+    finally {
+      dio.close();
     }
   }
 }
