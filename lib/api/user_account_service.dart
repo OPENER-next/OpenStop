@@ -5,7 +5,7 @@ import 'package:osm_api/osm_api.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '/api/osm_authentication_api.dart';
-import '/commons/osm_config.dart' as osm_config;
+import '/commons/osm_config.dart';
 import '/models/authenticated_user.dart';
 
 
@@ -79,7 +79,7 @@ class UserAccountService extends Service {
     if (isLoggedOut) return false;
     try {
       return await launchUrl(
-        Uri.https(osm_config.osmServer, '/user/${_authenticatedUser.value!.name}'),
+        Uri.https(kOSMServer, '/user/${_authenticatedUser.value!.name}'),
         mode: LaunchMode.externalApplication,
       );
     }
@@ -93,11 +93,8 @@ class UserAccountService extends Service {
   /// This method will throw [OSMAPI] exceptions, like an [OSMUnauthorizedException] if the user isn't authenticated any more.
 
   Future<AuthenticatedUser> _getAuthenticatedUser(OAuth2 authentication) async {
-    final osmApi = OSMAPI(
+    final osmApi = DefaultOSMAPI(
       authentication: authentication,
-      baseUrl: 'https://${osm_config.osmServer}/api/0.6',
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 15),
     );
 
     final AuthenticatedUser user;

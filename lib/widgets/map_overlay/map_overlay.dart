@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 
-import '/commons/osm_config.dart' as osm_config;
+import '/commons/osm_config.dart';
 import '/commons/tile_layers.dart';
 import '/l10n/app_localizations.g.dart';
 import '/view_models/home_view_model.dart';
@@ -72,7 +72,7 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
                         children: [
                           CreditTextPart(
                             AppLocalizations.of(context)!.osmCreditsText,
-                            url: osm_config.osmCreditsURL,
+                            url: kOSMCreditsURL,
                           ),
                           CreditTextPart(
                             kTileLayerPublicTransport.creditsText,
