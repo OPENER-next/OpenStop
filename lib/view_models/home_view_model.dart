@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:animated_location_indicator/animated_location_indicator.dart';
@@ -7,13 +8,15 @@ import 'package:dio/dio.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/widgets.dart' hide Action, ProxyElement, Notification;
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
+import 'package:flutter_map_cache/flutter_map_cache.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:flutter_mvvm_architecture/extras.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:http_cache_file_store/http_cache_file_store.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:mobx/mobx.dart';
 import 'package:osm_api/osm_api.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '/api/app_worker/app_worker_interface.dart';
 import '/api/app_worker/element_handler.dart';
@@ -197,7 +200,13 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   // This might especially occur for the getters below.
   final mapController = MapController();
 
-  final tileLayerProvider = CancellableNetworkTileProvider();
+  final tileLayerProvider = () async {
+    final tmpDir = await getTemporaryDirectory();
+    return CachedTileProvider(
+      maxStale: const Duration(days: 14),
+      store: FileCacheStore('${tmpDir.path}${Platform.pathSeparator}MapTiles'),
+    );
+  }();
 
   late final _mapEventStream = ObservableStream(mapController.mapEventStream);
 

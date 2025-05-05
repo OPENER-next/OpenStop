@@ -3,6 +3,7 @@ import 'package:flutter/material.dart' hide View;
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_cache/flutter_map_cache.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:flutter_mvvm_architecture/extras.dart';
@@ -71,17 +72,25 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                     backgroundColor: Theme.of(context).colorScheme.surface,
                   ),
                   children: [
-                    TileLayer(
-                      tileProvider: viewModel.tileLayerProvider,
-                      panBuffer: 0,
-                      retinaMode: RetinaMode.isHighDensity(context),
-                      evictErrorTileStrategy: EvictErrorTileStrategy.dispose,
-                      urlTemplate: isDarkMode && kTileLayerPublicTransport.darkVariantTemplateUrl != null
-                        ? kTileLayerPublicTransport.darkVariantTemplateUrl
-                        : kTileLayerPublicTransport.templateUrl,
-                      minNativeZoom: kTileLayerPublicTransport.minZoom,
-                      maxNativeZoom: kTileLayerPublicTransport.maxZoom,
-                      userAgentPackageName: kAppUserAgent,
+                    FutureBuilder<CachedTileProvider>(
+                      future: viewModel.tileLayerProvider,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return TileLayer(
+                            tileProvider: snapshot.requireData,
+                            panBuffer: 0,
+                            retinaMode: RetinaMode.isHighDensity(context),
+                            evictErrorTileStrategy: EvictErrorTileStrategy.dispose,
+                            urlTemplate: isDarkMode && kTileLayerPublicTransport.darkVariantTemplateUrl != null
+                              ? kTileLayerPublicTransport.darkVariantTemplateUrl
+                              : kTileLayerPublicTransport.templateUrl,
+                            minNativeZoom: kTileLayerPublicTransport.minZoom,
+                            maxNativeZoom: kTileLayerPublicTransport.maxZoom,
+                            userAgentPackageName: kAppUserAgent,
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      }
                     ),
                     QueryIndicator(
                       active: viewModel.isLoadingStopAreas,
