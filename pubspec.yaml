@@ -22,7 +22,11 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_map: ^8.1.1
-  flutter_map_cancellable_tile_provider: ^3.1.0
+  # tile caching dependencies - start
+  flutter_map_cache: ^2.0.0+1
+  http_cache_file_store: ^2.0.1
+  path_provider: ^2.1.5
+  # tile caching dependencies - end
   geolocator: ^13.0.0
   latlong2: ^0.9.0
   vector_math: ^2.1.4
