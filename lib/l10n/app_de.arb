@@ -315,7 +315,7 @@
   "@semanticsCloseQuestionnaireAnnounce": {},
   "semanticsOpenQuestionnaireAnnounce": "Frage ist offen",
   "@semanticsOpenQuestionnaireAnnounce": {},
-  "semanticsUser": "Benutzer {{username}} aktivieren, um das Browserprofil zu öffnen",
+  "semanticsUser": "Benutzer {username} aktivieren, um Browserprofil zu öffnen",
   "@semanticsUser": {
     "username": {
       "type": "String"
