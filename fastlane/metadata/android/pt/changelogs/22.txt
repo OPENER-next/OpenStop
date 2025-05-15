@@ -1,0 +1,9 @@
+- Ativar hiperligações de aplicações e hiperligações universais
+- Melhorar o carregamento de paragens reduzindo o tamanho da célula de carregamento da área de paragem
+- Adicionar funcionalidade de cruzamento de vias pedonais e cicláveis
+- Separar as vias pedonais em vários elementos no mapa
+- Atualizar estilo de introdução da duração
+- Implementar cronómetro para a introdução de durações
+- Corrigir pergunta de saída de voz duplicada
+- Atualizar perguntas sobre superfícies
+- Atualizar traduções

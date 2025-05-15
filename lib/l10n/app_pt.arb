@@ -330,5 +330,9 @@
   "mapFeatureTramStop": "Paragem de metro",
   "@mapFeatureTramStop": {},
   "mapFeatureTrainPlatform": "Plataforma de comboio",
-  "@mapFeatureTrainPlatform": {}
+  "@mapFeatureTrainPlatform": {},
+  "mapFeatureCyclePath": "Ciclovia",
+  "@mapFeatureCyclePath": {},
+  "mapFeatureFootAndCyclePath": "Caminho pedonal e ciclovia",
+  "@mapFeatureFootAndCyclePath": {}
 }
