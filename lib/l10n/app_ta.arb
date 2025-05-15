@@ -1,0 +1,338 @@
+{
+  "onboardingSurveyingDescription": "அதன் தற்போதைய நிலையை ஆய்வு செய்ய அருகிலுள்ள நிறுத்தத்திற்குச் செல்லுங்கள்.",
+  "@onboardingSurveyingDescription": {},
+  "stringInputPlaceholder": "இங்கே உள்ளிடவும்…",
+  "@stringInputPlaceholder": {},
+  "questionnaireSummaryDedicatedMessage": "உங்கள் பதில்களுக்கு நன்றி {பயனர்பெயர்.\n பதிவேற்றுவதற்கு முன் அவற்றை சரிபார்க்கவும்.",
+  "@questionnaireSummaryDedicatedMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "back": "பின்",
+  "@back": {},
+  "finish": "முடிக்க",
+  "@finish": {},
+  "element": "தனிமம்",
+  "@element": {},
+  "durationInputDaysLabel": "நாட்கள்",
+  "@durationInputDaysLabel": {},
+  "durationInputHoursLabel": "மணி",
+  "@durationInputHoursLabel": {},
+  "mapFeatureStopPole": "நிறுத்து முனைமம்",
+  "@mapFeatureStopPole": {},
+  "mapFeatureStation": "Station",
+  "@mapFeatureStation": {},
+  "mapFeatureTicketSalesPoint": "Ticket sales புள்ளியம்",
+  "@mapFeatureTicketSalesPoint": {},
+  "mapFeatureTicketMachine": "Ticket machine",
+  "@mapFeatureTicketMachine": {},
+  "mapFeatureParkingSpot": "Parking spot",
+  "@mapFeatureParkingSpot": {},
+  "mapFeatureTaxiStand": "Taxi stand",
+  "@mapFeatureTaxiStand": {},
+  "mapFeatureToilets": "Toilets",
+  "@mapFeatureToilets": {},
+  "mapFeatureLuggageTransport": "Luggage transport",
+  "@mapFeatureLuggageTransport": {},
+  "mapFeatureEntrance": "Entrance",
+  "@mapFeatureEntrance": {},
+  "mapFeatureRailroadCrossing": "Railroad crossing",
+  "@mapFeatureRailroadCrossing": {},
+  "mapFeatureCurb": "Curb",
+  "@mapFeatureCurb": {},
+  "mapFeaturePedestrianLights": "Pedestrian lights",
+  "@mapFeaturePedestrianLights": {},
+  "mapFeatureBusPlatformNumber": "Platform: {number}",
+  "@mapFeatureBusPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureTrainPlatformNumber": "Platform: {number}",
+  "@mapFeatureTrainPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutTitle": "பற்றி",
+  "@aboutTitle": {},
+  "aboutSlogan": "அடுத்த நிறுத்தம்: அணுகல்",
+  "@aboutSlogan": {},
+  "aboutVersionLabel": "பதிப்பு",
+  "@aboutVersionLabel": {},
+  "aboutAuthorsLabel": "ஆசிரியர்கள்",
+  "@aboutAuthorsLabel": {},
+  "aboutAuthorsDescription": "{appName} பங்களிப்பாளர்கள்",
+  "@aboutAuthorsDescription": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPrivacyPolicyLabel": "தனியுரிமைக் கொள்கை",
+  "@aboutPrivacyPolicyLabel": {},
+  "aboutIdeaLabel": "சிந்தனை",
+  "@aboutIdeaLabel": {},
+  "aboutIdeaDescription": "செம்னிட்ச் தொழில்நுட்ப பல்கலைக்கழகம்\n பேராசிரியர்சிப் சுற்று மற்றும் கணினி வடிவமைப்பு",
+  "@aboutIdeaDescription": {},
+  "aboutLicenseLabel": "உரிமம்",
+  "@aboutLicenseLabel": {},
+  "aboutLicensePackageLabel": "பயன்படுத்தப்பட்ட தொகுப்புகளின் உரிமங்கள்",
+  "@aboutLicensePackageLabel": {},
+  "aboutSourceCodeLabel": "மூலக் குறியீடு",
+  "@aboutSourceCodeLabel": {},
+  "helpTitle": "உதவி",
+  "@helpTitle": {},
+  "helpOnboardingLabel": "அறிமுகத்தை மீண்டும் பாருங்கள்",
+  "@helpOnboardingLabel": {},
+  "helpReportErrorLabel": "பிழையைப் புகாரளிக்கவும்",
+  "@helpReportErrorLabel": {},
+  "helpImproveTranslationLabel": "மொழிபெயர்ப்பை மேம்படுத்தவும்",
+  "@helpImproveTranslationLabel": {},
+  "onboardingGreetingTitle": "ஏய்!",
+  "@onboardingGreetingTitle": {},
+  "onboardingGreetingDescription": "நீங்கள் இங்கே இருக்கிறீர்கள் என்பதில் நாங்கள் மகிழ்ச்சியடைகிறோம், பொது போக்குவரத்தை மேம்படுத்த உங்கள் பங்கைச் செய்ய விரும்புகிறோம்.",
+  "@onboardingGreetingDescription": {},
+  "onboardingGreetingButton": "இது எவ்வாறு செயல்படுகிறது என்பது இங்கே",
+  "@onboardingGreetingButton": {},
+  "onboardingSurveyingTitle": "பாருங்கள்",
+  "@onboardingSurveyingTitle": {},
+  "onboardingSurveyingButton": "நான் அதை செய்வேன்",
+  "@onboardingSurveyingButton": {},
+  "onboardingAnsweringTitle": "இப்போது அது உங்கள் முறை",
+  "@onboardingAnsweringTitle": {},
+  "onboardingAnsweringDescription": "தரவைச் சேகரிக்க பயன்பாட்டில் ஒரு மார்க்கரைத் தேர்ந்தெடுத்து காட்டப்பட்ட கேள்விகளுக்கு பதிலளிக்கவும்.",
+  "@onboardingAnsweringDescription": {},
+  "onboardingAnsweringButton": "சரி, கிடைத்தது",
+  "@onboardingAnsweringButton": {},
+  "onboardingContributingTitle": "பகிர்வு அக்கறை கொண்டுள்ளது",
+  "@onboardingContributingTitle": {},
+  "onboardingContributingDescription": "உங்கள் பதில்களை ஓபன்ச்ட்ரீட்மேப்பில் பதிவேற்றவும் அவற்றை உலகம் முழுவதும் பகிர்ந்து கொள்ளவும்.",
+  "@onboardingContributingDescription": {},
+  "onboardingContributingButton": "Here we go",
+  "@onboardingContributingButton": {},
+  "privacyPolicyTitle": "தனியுரிமைக் கொள்கை",
+  "@privacyPolicyTitle": {},
+  "settingsTitle": "அமைப்புகள்",
+  "@settingsTitle": {},
+  "settingsProfessionalQuestionsLabel": "காட்சி Professional கேள்விகள்",
+  "@settingsProfessionalQuestionsLabel": {},
+  "settingsProfessionalQuestionsDescription": "க்கு safety reasons only intended க்கு professionals",
+  "@settingsProfessionalQuestionsDescription": {},
+  "settingsThemeLabel": "Color Scheme of the பயன்பாடு",
+  "@settingsThemeLabel": {},
+  "settingsThemeDialogTitle": "தேர்ந்தெடு theme",
+  "@settingsThemeDialogTitle": {},
+  "settingsThemeOptionSystem": "மண்டலம் Setting",
+  "@settingsThemeOptionSystem": {},
+  "settingsThemeOptionLight": "Light",
+  "@settingsThemeOptionLight": {},
+  "settingsThemeOptionDark": "Dark",
+  "@settingsThemeOptionDark": {},
+  "logoutDialogTitle": "Log out of OSM?",
+  "@logoutDialogTitle": {},
+  "logoutDialogDescription": "If you log out, you can இல்லை longer upload changes பெறுநர் OpenStreetMap.",
+  "@logoutDialogDescription": {},
+  "loginHint": "Log in with your OpenStreetMap account பெறுநர் upload your changes.",
+  "@loginHint": {},
+  "numberInputPlaceholder": "இங்கே உள்ளிடவும்…",
+  "@numberInputPlaceholder": {},
+  "numberInputFallbackName": "மதிப்பு",
+  "@numberInputFallbackName": {
+    "description": "Fallback value for nameString in numberInputValidationErrorMax"
+  },
+  "numberInputValidationError": "தவறான எண்",
+  "@numberInputValidationError": {},
+  "numberInputValidationErrorMax": "{nameString} {max} {unit} ஐ விட குறைவாக இருக்க வேண்டும்.",
+  "@numberInputValidationErrorMax": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "max": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "numberInputValidationErrorMin": "{nameString} {min} {unit} ஐ விட அதிகமாக இருக்க வேண்டும்.",
+  "@numberInputValidationErrorMin": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "min": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "stringInputValidationErrorMin": "உள்ளீடு மிகக் குறைவு",
+  "@stringInputValidationErrorMin": {},
+  "changesetCommentMessage": "நிறுத்தப் பகுதியில் {வரைபட அம்ச சரம் at இல் விவரங்களைச் சேர்க்கவும் {mapFeaturesString}.",
+  "@changesetCommentMessage": {
+    "placeholders": {
+      "mapFeaturesString": {
+        "type": "String"
+      },
+      "stopsString": {
+        "type": "String"
+      }
+    }
+  },
+  "uploadMessageSuccess": "மாற்றங்கள் வெற்றிகரமாக பதிவேற்றப்பட்டன.",
+  "@uploadMessageSuccess": {},
+  "changesetCommentConjunctionString": "மற்றும்",
+  "@changesetCommentConjunctionString": {},
+  "uploadMessageServerConnectionError": "பிழை: OSM சேவையகத்துடன் எந்த தொடர்பும் இல்லை.",
+  "@uploadMessageServerConnectionError": {},
+  "uploadMessageUnknownConnectionError": "பரிமாற்றத்தின் போது தெரியாத பிழை.",
+  "@uploadMessageUnknownConnectionError": {},
+  "queryMessageServerUnavailableError": "சேவையகம் கிடைக்கவில்லை அல்லது அதிக சுமை. பின்னர் மீண்டும் முயற்சிக்கவும்.",
+  "@queryMessageServerUnavailableError": {},
+  "queryMessageTooManyRequestsError": "சேவையகத்திற்கு பல கோரிக்கைகள்.",
+  "@queryMessageTooManyRequestsError": {},
+  "queryMessageConnectionTimeoutError": "பிழை: சேவையக வினவல் நேரம் முடிந்தது.",
+  "@queryMessageConnectionTimeoutError": {},
+  "queryMessageReceiveTimeoutError": "பிழை: தரவைப் பெறுவது நேரம் முடிந்தது.",
+  "@queryMessageReceiveTimeoutError": {},
+  "queryMessageUnknownServerCommunicationError": "சேவையக தகவல்தொடர்பு போது தெரியாத பிழை.",
+  "@queryMessageUnknownServerCommunicationError": {},
+  "queryMessageUnknownError": "தெரியாத பிழை.",
+  "@queryMessageUnknownError": {},
+  "questionnaireSummaryUndedicatedMessage": "உங்கள் பதில்களுக்கு நன்றி.\n பதிவேற்றுவதற்கு முன் அவற்றை சரிபார்க்கவும்.",
+  "@questionnaireSummaryUndedicatedMessage": {},
+  "next": "அடுத்தது",
+  "@next": {},
+  "cancel": "ரத்துசெய்",
+  "@cancel": {},
+  "confirm": "உறுதிப்படுத்தவும்",
+  "@confirm": {},
+  "login": "புகுபதிகை",
+  "@login": {},
+  "logout": "விடுபதிகை",
+  "@logout": {},
+  "skip": "தவிர்",
+  "@skip": {},
+  "yes": "ஆம்",
+  "@yes": {},
+  "no": "இல்லை",
+  "@no": {},
+  "days": "{நாள், பன்மை, = 1 {1 day} பிற {{day} நாட்கள்}}",
+  "@days": {
+    "placeholders": {
+      "day": {
+        "type": "num"
+      }
+    }
+  },
+  "hours": "{மணிநேரம், பன்மை, = 1 {1 hour} பிற {{hour} மணிநேரம்}}",
+  "@hours": {
+    "placeholders": {
+      "hour": {
+        "type": "num"
+      }
+    }
+  },
+  "minutes": "{நிமிடம், பன்மை, = 1 {1 minute} பிற {{minute} நிமிடங்கள்}}",
+  "@minutes": {
+    "placeholders": {
+      "minute": {
+        "type": "num"
+      }
+    }
+  },
+  "seconds": "{இரண்டாவது, பன்மை, = 1 {1 second} பிற {{second} விநாடிகள்}}",
+  "@seconds": {
+    "placeholders": {
+      "second": {
+        "type": "num"
+      }
+    }
+  },
+  "and": "மற்றும்",
+  "@and": {},
+  "more": "மேலும்",
+  "@more": {},
+  "durationInputMinutesLabel": "நிமிடங்கள்",
+  "@durationInputMinutesLabel": {},
+  "durationInputSecondsLabel": "நொடிகள்",
+  "@durationInputSecondsLabel": {},
+  "osmCreditsText": "தரவு © OpenStreetMap பங்களிப்பாளர்கள்",
+  "@osmCreditsText": {},
+  "changesetWithStopNameText": "நிறுத்தப் பகுதியில் {உறுப்புகள் {இல் விவரங்களைச் சேர்க்கப்பட்டது {elements}.",
+  "@changesetWithStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      },
+      "stopArea": {
+        "type": "String"
+      }
+    }
+  },
+  "changesetWithoutStopNameText": "நிறுத்தப் பகுதியில் {கூறுகள் bed இல் விவரங்களைச் சேர்த்தது.",
+  "@changesetWithoutStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureBusStop": "Bus நிறுத்து",
+  "@mapFeatureBusStop": {},
+  "mapFeatureTramStop": "Tram நிறுத்து",
+  "@mapFeatureTramStop": {},
+  "mapFeatureTrainPlatform": "Train platform",
+  "@mapFeatureTrainPlatform": {},
+  "mapFeaturePlatform": "Platform",
+  "@mapFeaturePlatform": {},
+  "mapFeatureInformationPoint": "செய்தி புள்ளியம்",
+  "@mapFeatureInformationPoint": {},
+  "mapFeatureStationMap": "Station/Stop map",
+  "@mapFeatureStationMap": {},
+  "mapFeatureLuggageLockers": "Luggage lockers",
+  "@mapFeatureLuggageLockers": {},
+  "mapFeatureInformationTerminal": "செய்தி முனையத்தில்",
+  "@mapFeatureInformationTerminal": {},
+  "mapFeatureInformationCallPoint": "செய்தி நெடுவரிசை",
+  "@mapFeatureInformationCallPoint": {},
+  "mapFeatureHelpPoint": "உதவி புள்ளியம்",
+  "@mapFeatureHelpPoint": {},
+  "mapFeatureEmergencyCallPoint": "Emergency call புள்ளியம்",
+  "@mapFeatureEmergencyCallPoint": {},
+  "mapFeatureFootpath": "Footpath",
+  "@mapFeatureFootpath": {},
+  "mapFeatureCyclePath": "Cycle பாதை",
+  "@mapFeatureCyclePath": {},
+  "mapFeatureFootAndCyclePath": "Foot & cycle பாதை",
+  "@mapFeatureFootAndCyclePath": {},
+  "mapFeatureStairs": "Stairs",
+  "@mapFeatureStairs": {},
+  "mapFeatureElevator": "Elevator",
+  "@mapFeatureElevator": {},
+  "mapFeatureEscalator": "Escalator",
+  "@mapFeatureEscalator": {},
+  "mapFeatureCycleBarrier": "Cycle barrier",
+  "@mapFeatureCycleBarrier": {},
+  "mapFeatureCrossing": "Crossing",
+  "@mapFeatureCrossing": {},
+  "mapFeatureTramCrossing": "Tram crossing",
+  "@mapFeatureTramCrossing": {},
+  "mapFeatureFootwayCrossing": "Footway crossing",
+  "@mapFeatureFootwayCrossing": {},
+  "mapFeatureCyclewayCrossing": "Cycleway crossing",
+  "@mapFeatureCyclewayCrossing": {}
+}
