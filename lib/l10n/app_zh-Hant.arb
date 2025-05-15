@@ -384,5 +384,50 @@
   "semanticsLogout": "登出你的帳號",
   "@semanticsLogout": {},
   "semanticsNextStepOnboarding": "下一頁",
-  "@semanticsNextStepOnboarding": {}
+  "@semanticsNextStepOnboarding": {},
+  "semanticsSlogan": "標語",
+  "@semanticsSlogan": {},
+  "semanticsIntroductionPage": "簡介頁面，第 {number} 頁，共 {count} 頁",
+  "@semanticsIntroductionPage": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      },
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsNavigationMenu": "導覽選單",
+  "@semanticsNavigationMenu": {},
+  "semanticsResetRotationButton": "重設地圖旋轉方向至北方。",
+  "@semanticsResetRotationButton": {},
+  "semanticsCurrentLocationButton": "設定地圖至目前位置。",
+  "@semanticsCurrentLocationButton": {},
+  "semanticsZoomInButton": "放大地圖",
+  "@semanticsZoomInButton": {},
+  "semanticsZoomOutButton": "縮小地圖",
+  "@semanticsZoomOutButton": {},
+  "semanticsSummary": "摘要",
+  "@semanticsSummary": {},
+  "semanticsCloseNavigationMenuButton": "關閉導覽選單。",
+  "@semanticsCloseNavigationMenuButton": {},
+  "semanticsCloseQuestionnaireAnnounce": "問卷已關閉",
+  "@semanticsCloseQuestionnaireAnnounce": {},
+  "semanticsOpenQuestionnaireAnnounce": "問卷已開啟",
+  "@semanticsOpenQuestionnaireAnnounce": {},
+  "semanticsUser": "使用者 {username} 啟動開啟瀏覽器設定檔",
+  "@semanticsUser": {
+    "username": {
+      "type": "String"
+    }
+  },
+  "semanticsClearField": "清除欄位",
+  "@semanticsClearField": {},
+  "semanticsReviewQuestion": "啟動回到問題",
+  "@semanticsReviewQuestion": {},
+  "semanticsFinishOnboarding": "完成介紹",
+  "@semanticsFinishOnboarding": {},
+  "semanticsCredits": "銘謝",
+  "@semanticsCredits": {}
 }
