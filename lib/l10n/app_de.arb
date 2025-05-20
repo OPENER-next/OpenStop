@@ -237,5 +237,100 @@
   "mapFeatureCyclePath": "Radweg",
   "@mapFeatureCyclePath": {},
   "mapFeatureFootAndCyclePath": "Fuß- und Radweg",
-  "@mapFeatureFootAndCyclePath": {}
+  "@mapFeatureFootAndCyclePath": {},
+  "semanticsLoginHint": "Melde dich mit deinem OpenStreetMap-Konto an, um deine Änderungen hochzuladen.",
+  "@semanticsLoginHint": {},
+  "semanticsNextQuestionButton": "Nächste Frage",
+  "@semanticsNextQuestionButton": {},
+  "semanticsReviewQuestion": "Aktivieren, um zur Frage zurückzukehren",
+  "@semanticsReviewQuestion": {},
+  "semanticsBackQuestionButton": "Zurück zur vorherigen Frage.",
+  "@semanticsBackQuestionButton": {},
+  "semanticsIntroductionPage": "Einleitungsseite {number} von {count}",
+  "@semanticsIntroductionPage": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      },
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsDurationAnswerStopStopwatch": "Stoppuhr anhalten",
+  "@semanticsDurationAnswerStopStopwatch": {},
+  "semanticsDurationAnswerStartStopwatch": "Stoppuhr starten",
+  "@semanticsDurationAnswerStartStopwatch": {},
+  "semanticsFlutterMap": "Kartenansicht",
+  "@semanticsFlutterMap": {},
+  "semanticsReturnToMap": "Frage schließen und zur Karte zurückkehren",
+  "@semanticsReturnToMap": {},
+  "semanticsDotsIndicator": "Seite {number}",
+  "@semanticsDotsIndicator": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsPageIndicators": "Es gibt {number} Einführungsseiten, wähle die, die du hören möchtest.",
+  "@semanticsPageIndicators": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsSlogan": "Slogan",
+  "@semanticsSlogan": {},
+  "semanticsMFundImage": "Gefördert durch mFUND",
+  "@semanticsMFundImage": {},
+  "semanticsFederalMinistryImage": "Gefördert von Bundesministerium für Verkehr und digitale Infrastruktur",
+  "@semanticsFederalMinistryImage": {},
+  "semanticsSettingsDialogBox": "Wähle dein bevorzugtes App-Theme",
+  "@semanticsSettingsDialogBox": {},
+  "semanticsNavigationMenu": "Navigationsmenü",
+  "@semanticsNavigationMenu": {},
+  "semanticsResetRotationButton": "Karte auf Norden ausrichten.",
+  "@semanticsResetRotationButton": {},
+  "semanticsCurrentLocationButton": "Karte auf aktuellen Standort einstellen.",
+  "@semanticsCurrentLocationButton": {},
+  "semanticsZoomInButton": "Karte vergrößern",
+  "@semanticsZoomInButton": {},
+  "semanticsZoomOutButton": "Karte verkleinern",
+  "@semanticsZoomOutButton": {},
+  "semanticsQuestionSentence": "Die Frage ist: ",
+  "@semanticsQuestionSentence": {},
+  "semanticsUploadQuestionsButton": "Antworten hochladen",
+  "@semanticsUploadQuestionsButton": {},
+  "semanticsSkipQuestionButton": "Frage überspringen",
+  "@semanticsSkipQuestionButton": {},
+  "semanticsFinishQuestionnaireButton": "Frage abschließen",
+  "@semanticsFinishQuestionnaireButton": {},
+  "semanticsSummary": "Übersicht",
+  "@semanticsSummary": {},
+  "semanticsCloseNavigationMenuButton": "Navigationsmenü schließen.",
+  "@semanticsCloseNavigationMenuButton": {},
+  "semanticsCloseQuestionnaireAnnounce": "Frage ist geschlossen",
+  "@semanticsCloseQuestionnaireAnnounce": {},
+  "semanticsOpenQuestionnaireAnnounce": "Frage ist offen",
+  "@semanticsOpenQuestionnaireAnnounce": {},
+  "semanticsUser": "Benutzer {{username}} aktivieren, um das Browserprofil zu öffnen",
+  "@semanticsUser": {
+    "username": {
+      "type": "String"
+    }
+  },
+  "semanticsLogout": "Melde dich von deinem Benutzerkonto ab",
+  "@semanticsLogout": {},
+  "semanticsClearField": "Feld löschen",
+  "@semanticsClearField": {},
+  "semanticsDurationAnswerReset": "Dauer zurücksetzen",
+  "@semanticsDurationAnswerReset": {},
+  "semanticsNextStepOnboarding": "Nächste Seite",
+  "@semanticsNextStepOnboarding": {},
+  "semanticsFinishOnboarding": "Einführung beenden",
+  "@semanticsFinishOnboarding": {},
+  "semanticsCredits": "Mitwirkende",
+  "@semanticsCredits": {}
 }
