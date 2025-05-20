@@ -334,5 +334,55 @@
   "mapFeatureFootAndCyclePath": "人行與腳踏車道",
   "@mapFeatureFootAndCyclePath": {},
   "mapFeatureCyclePath": "腳踏車道",
-  "@mapFeatureCyclePath": {}
+  "@mapFeatureCyclePath": {},
+  "semanticsLoginHint": "登入 OpenStreetMap 開放街圖以上傳你的編輯。",
+  "@semanticsLoginHint": {},
+  "semanticsReturnToMap": "關閉問卷並回到地圖",
+  "@semanticsReturnToMap": {},
+  "semanticsDotsIndicator": "第 {number} 頁",
+  "@semanticsDotsIndicator": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsPageIndicators": "簡介頁面共有 {number} 頁，請選擇你感興趣的頁面。",
+  "@semanticsPageIndicators": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsFlutterMap": "地圖頁面",
+  "@semanticsFlutterMap": {},
+  "semanticsMFundImage": "由 mFUND 資助",
+  "@semanticsMFundImage": {},
+  "semanticsFederalMinistryImage": "由聯邦運輸及數位基礎設施部資助",
+  "@semanticsFederalMinistryImage": {},
+  "semanticsSettingsDialogBox": "選擇您偏好的外觀主題",
+  "@semanticsSettingsDialogBox": {},
+  "semanticsQuestionSentence": "問題如下： ",
+  "@semanticsQuestionSentence": {},
+  "semanticsUploadQuestionsButton": "上傳答覆",
+  "@semanticsUploadQuestionsButton": {},
+  "semanticsBackQuestionButton": "回到前一問題。",
+  "@semanticsBackQuestionButton": {},
+  "semanticsNextQuestionButton": "下一問題",
+  "@semanticsNextQuestionButton": {},
+  "semanticsFinishQuestionnaireButton": "完成問卷",
+  "@semanticsFinishQuestionnaireButton": {},
+  "semanticsSkipQuestionButton": "跳過問題",
+  "@semanticsSkipQuestionButton": {},
+  "semanticsDurationAnswerStartStopwatch": "開始計時",
+  "@semanticsDurationAnswerStartStopwatch": {},
+  "semanticsDurationAnswerStopStopwatch": "結束計時",
+  "@semanticsDurationAnswerStopStopwatch": {},
+  "semanticsDurationAnswerReset": "重置計時",
+  "@semanticsDurationAnswerReset": {},
+  "semanticsLogout": "登出你的帳號",
+  "@semanticsLogout": {},
+  "semanticsNextStepOnboarding": "下一頁",
+  "@semanticsNextStepOnboarding": {}
 }
