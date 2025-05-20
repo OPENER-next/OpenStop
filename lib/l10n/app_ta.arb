@@ -3,7 +3,7 @@
   "@onboardingSurveyingDescription": {},
   "stringInputPlaceholder": "இங்கே உள்ளிடவும்…",
   "@stringInputPlaceholder": {},
-  "questionnaireSummaryDedicatedMessage": "உங்கள் பதில்களுக்கு நன்றி {பயனர்பெயர்.\n பதிவேற்றுவதற்கு முன் அவற்றை சரிபார்க்கவும்.",
+  "questionnaireSummaryDedicatedMessage": "உங்கள் பதில்களுக்கு நன்றி {userName}.\nபதிவேற்றுவதற்கு முன் அவற்றை சரிபார்க்கவும்.",
   "@questionnaireSummaryDedicatedMessage": {
     "placeholders": {
       "userName": {
@@ -181,7 +181,7 @@
   },
   "stringInputValidationErrorMin": "உள்ளீடு மிகக் குறைவு",
   "@stringInputValidationErrorMin": {},
-  "changesetCommentMessage": "நிறுத்தப் பகுதியில் {வரைபட அம்ச சரம் at இல் விவரங்களைச் சேர்க்கவும் {mapFeaturesString}.",
+  "changesetCommentMessage": "{stopsString} நிறுத்தப் பகுதியில் உள்ள {mapFeaturesString} இல் விவரங்கள் சேர்க்கப்பட்டன.",
   "@changesetCommentMessage": {
     "placeholders": {
       "mapFeaturesString": {
@@ -230,7 +230,7 @@
   "@yes": {},
   "no": "இல்லை",
   "@no": {},
-  "days": "{நாள், பன்மை, = 1 {1 day} பிற {{day} நாட்கள்}}",
+  "days": "{day, plural, = 1 {1 நாள்} other {{day} நாட்கள்}}",
   "@days": {
     "placeholders": {
       "day": {
@@ -238,7 +238,7 @@
       }
     }
   },
-  "hours": "{மணிநேரம், பன்மை, = 1 {1 hour} பிற {{hour} மணிநேரம்}}",
+  "hours": "{hour, plural, = 1 {1 மணிநேரம்} other {{hour} மணிநேரம்}}",
   "@hours": {
     "placeholders": {
       "hour": {
@@ -246,7 +246,7 @@
       }
     }
   },
-  "minutes": "{நிமிடம், பன்மை, = 1 {1 minute} பிற {{minute} நிமிடங்கள்}}",
+  "minutes": "{minute, plural, = 1 {1 நிமிடம்} other {{minute} நிமிடங்கள்}}",
   "@minutes": {
     "placeholders": {
       "minute": {
@@ -254,7 +254,7 @@
       }
     }
   },
-  "seconds": "{இரண்டாவது, பன்மை, = 1 {1 second} பிற {{second} விநாடிகள்}}",
+  "seconds": "{second, plural, = 1 {1 இரண்டாவது} other {{second} விநாடிகள்}}",
   "@seconds": {
     "placeholders": {
       "second": {
@@ -272,7 +272,7 @@
   "@durationInputSecondsLabel": {},
   "osmCreditsText": "தரவு © OpenStreetMap பங்களிப்பாளர்கள்",
   "@osmCreditsText": {},
-  "changesetWithStopNameText": "நிறுத்தப் பகுதியில் {உறுப்புகள் {இல் விவரங்களைச் சேர்க்கப்பட்டது {elements}.",
+  "changesetWithStopNameText": "{stopArea} இல் உள்ள {elements} இல் விவரங்கள் சேர்க்கப்பட்டன.",
   "@changesetWithStopNameText": {
     "placeholders": {
       "elements": {
@@ -283,7 +283,7 @@
       }
     }
   },
-  "changesetWithoutStopNameText": "நிறுத்தப் பகுதியில் {கூறுகள் bed இல் விவரங்களைச் சேர்த்தது.",
+  "changesetWithoutStopNameText": "நிறுத்தப் பகுதியில் {elements} இல் விவரங்களைச் சேர்த்தது.",
   "@changesetWithoutStopNameText": {
     "placeholders": {
       "elements": {
