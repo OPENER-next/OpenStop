@@ -1,0 +1,13 @@
+Allgemein:
+- App-Links und Universal-Links aktivieren
+UI/UX:
+- Ladevorgang verbessern, indem die Ladezellengröße des Stoppbereichs reduziert wird
+- Kombinierte Kartenfunktion für Fußgänger- und Radwegkreuzungen hinzufügen
+- Fußwege in mehrere Kartenfunktionen aufteilen
+- Eingabestil für Dauer aktualisieren
+- Stoppuhr für die Eingabe von Dauern implementieren (nur Sekunden)
+Fragen:
+- Doppelte Sprachausgabe-Frage beheben
+- Bedingungen für Fragen zu Oberflächen aktualisieren
+Lokalisierung:
+- Bestehende Lokalisierungen aktualisieren
