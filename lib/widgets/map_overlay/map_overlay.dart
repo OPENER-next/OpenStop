@@ -30,7 +30,7 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
       child: Stack(
         children: [
           Align(
-            alignment: Alignment.topLeft,
+            alignment: AlignmentDirectional.topStart,
             child: FloatingActionButton.small(
               heroTag: null,
               onPressed: Scaffold.of(context).openDrawer,
@@ -41,7 +41,7 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
             ),
           ),
           Align(
-            alignment: Alignment.topRight,
+            alignment: AlignmentDirectional.topEnd,
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
               child: viewModel.mapRotation % 360 != 0
@@ -54,7 +54,7 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
             ),
           ),
           Align(
-            alignment: Alignment.bottomCenter,
+            alignment: AlignmentDirectional.bottomCenter,
             child: Semantics(
               container: true,
               child: Row(

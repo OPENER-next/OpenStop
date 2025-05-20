@@ -50,8 +50,8 @@ class QuestionNavigationBar extends StatelessWidget {
                   child: TextButton.icon(
                     // mimic disabled style
                     style: onBack != null
-                      ? _buttonStyle.merge(const ButtonStyle(alignment: Alignment.centerLeft))
-                      : _buttonStyle.merge(const ButtonStyle(alignment: Alignment.centerLeft)).merge(disabledButtonStyle),
+                      ? _buttonStyle.merge(const ButtonStyle(alignment: AlignmentDirectional.centerStart))
+                      : _buttonStyle.merge(const ButtonStyle(alignment: AlignmentDirectional.centerStart)).merge(disabledButtonStyle),
                     // if button is disabled vibrate when pressed as additional feedback
                     onPressed: onBack ?? HapticFeedback.vibrate,
                     label: const Icon(Icons.chevron_left_rounded),
@@ -76,8 +76,8 @@ class QuestionNavigationBar extends StatelessWidget {
                     key: ValueKey(nextText),
                     // mimic disabled style
                     style: onNext != null
-                      ? _buttonStyle.merge(const ButtonStyle(alignment: Alignment.centerRight))
-                      : _buttonStyle.merge(const ButtonStyle(alignment: Alignment.centerRight)).merge(disabledButtonStyle),
+                      ? _buttonStyle.merge(const ButtonStyle(alignment: AlignmentDirectional.centerEnd))
+                      : _buttonStyle.merge(const ButtonStyle(alignment: AlignmentDirectional.centerEnd)).merge(disabledButtonStyle),
                     // if button is disabled vibrate when pressed as additional feedback
                     onPressed: onNext ?? HapticFeedback.vibrate,
                     label: Semantics(
