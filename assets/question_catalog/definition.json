@@ -2595,7 +2595,7 @@
             "unit": "@unitCentimeter"
          },
          "constructor": {
-            "width": [
+            "height": [
                "REPLACE", "/\\.?0{1,2}$/", "", [
                   "INSERT", ".", "-2", [
                      "PAD", "0", "3", "$input"
@@ -2729,7 +2729,7 @@
             "unit": "@unitCentimeter"
          },
          "constructor": {
-            "width": [
+            "door:height": [
                "REPLACE", "/\\.?0{1,2}$/", "", [
                   "INSERT", ".", "-2", [
                      "PAD", "0", "3", "$input"
