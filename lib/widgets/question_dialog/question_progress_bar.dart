@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class QuestionProgressBar extends ImplicitlyAnimatedWidget {
@@ -19,7 +18,6 @@ class QuestionProgressBar extends ImplicitlyAnimatedWidget {
     super.duration = const Duration(milliseconds: 300),
     super.curve = Curves.ease,
   });
-
 
   @override
   AnimatedWidgetBaseState<QuestionProgressBar> createState() => _QuestionProgressBarState();
@@ -52,9 +50,9 @@ class _QuestionProgressBarState extends AnimatedWidgetBaseState<QuestionProgress
                 heightFactor: 1,
                 widthFactor: _valueTween?.evaluate(animation),
                 child: ColoredBox(
-                  color: widget.color ?? Theme.of(context).colorScheme.primary
+                  color: widget.color ?? Theme.of(context).colorScheme.primary,
                 ),
-              )
+              ),
             ),
             Expanded(
               child: FractionallySizedBox(
@@ -62,13 +60,13 @@ class _QuestionProgressBarState extends AnimatedWidgetBaseState<QuestionProgress
                 heightFactor: 1,
                 widthFactor: _valueTween?.evaluate(animation),
                 child: ColoredBox(
-                  color: widget.color ?? Theme.of(context).colorScheme.primary
+                  color: widget.color ?? Theme.of(context).colorScheme.primary,
                 ),
-              )
-            )
+              ),
+            ),
           ],
-        )
-      )
+        ),
+      ),
     );
   }
 }

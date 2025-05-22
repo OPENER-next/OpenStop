@@ -53,9 +53,7 @@ class _QueryIndicatorState extends State<QueryIndicator> with SingleTickerProvid
       duration: const Duration(milliseconds: 500),
       child: ColorFiltered(
         colorFilter: ColorFilter.mode(
-          Theme.of(context).brightness == Brightness.dark
-            ? Colors.black45
-            : Colors.black26,
+          Theme.of(context).brightness == Brightness.dark ? Colors.black45 : Colors.black26,
           BlendMode.srcOut,
         ),
         child: Container(
@@ -87,14 +85,14 @@ class _QueryIndicatorState extends State<QueryIndicator> with SingleTickerProvid
   }
 }
 
-
 class _CircleTween extends Tween<Offset> {
   final double distance;
 
-  _CircleTween(this.distance) : super(
-    begin: Offset.zero,
-    end: Offset.fromDirection(2 * pi, distance)
-  );
+  _CircleTween(this.distance)
+    : super(
+        begin: Offset.zero,
+        end: Offset.fromDirection(2 * pi, distance),
+      );
 
   @override
   Offset lerp(t) => Offset.fromDirection(2 * pi * t, distance);

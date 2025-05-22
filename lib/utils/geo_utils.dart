@@ -8,19 +8,16 @@ const earthCircumference = 2 * pi * earthRadius;
 /// Length in meters of 1° of latitude
 const metersPerLatitude = earthCircumference / 360;
 
-
 double metersPerPixel(double latitude, double zoomLevel) {
-  final latitudeRadians = latitude * (pi/180);
+  final latitudeRadians = latitude * (pi / 180);
   return earthCircumference * cos(latitudeRadians) / pow(2, zoomLevel + 8);
 }
-
 
 double pixelValue(double latitude, double meters, double zoomLevel) {
   return meters / metersPerPixel(latitude, zoomLevel);
 }
 
 extension LatLngBoundsExtensions on LatLngBounds {
-
   /// Mirrors the underlying bbox at a given point in latitude and longitude.
   ///
   /// Creates and returns a new [LatLngBounds].

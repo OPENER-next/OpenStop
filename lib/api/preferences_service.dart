@@ -4,7 +4,6 @@ import 'package:latlong2/latlong.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 /// An interface around [SharedPreferences] with observable properties.
 
 class PreferencesService extends Service {
@@ -20,12 +19,12 @@ class PreferencesService extends Service {
     required SharedPreferences preferences,
   }) : _preferences = preferences;
 
-
   final _hasSeenOnboardingAtom = Atom(name: 'hasSeenOnboardingPreference');
   bool get hasSeenOnboarding {
     _hasSeenOnboardingAtom.reportRead();
     return _preferences.getBool('hasSeenOnboarding') ?? _defaultOnboarding;
   }
+
   set hasSeenOnboarding(bool newValue) {
     _hasSeenOnboardingAtom.reportWrite<bool>(
       newValue,
@@ -42,6 +41,7 @@ class PreferencesService extends Service {
         ? ThemeMode.values[themeModeIndex]
         : _defaultThemeMode;
   }
+
   set themeMode(ThemeMode newThemeMode) {
     _themeModeIndexAtom.reportWrite<ThemeMode>(
       newThemeMode,
@@ -55,6 +55,7 @@ class PreferencesService extends Service {
     _isProfessionalAtom.reportRead();
     return _preferences.getBool('isProfessional') ?? _defaultProfessional;
   }
+
   set isProfessional(bool newValue) {
     _isProfessionalAtom.reportWrite<bool>(
       newValue,
@@ -70,6 +71,7 @@ class PreferencesService extends Service {
     final lon = _preferences.getDouble('mapLocationLon');
     return lat != null && lon != null ? LatLng(lat, lon) : _defaultMapLocation;
   }
+
   set mapLocation(LatLng newValue) {
     _mapLocationAtom.reportWrite<LatLng>(
       newValue,
@@ -86,6 +88,7 @@ class PreferencesService extends Service {
     _mapZoomAtom.reportRead();
     return _preferences.getDouble('mapZoom') ?? _defaultMapZoom;
   }
+
   set mapZoom(double newValue) {
     _mapZoomAtom.reportWrite<double>(
       newValue,
@@ -99,6 +102,7 @@ class PreferencesService extends Service {
     _mapRotationAtom.reportRead();
     return _preferences.getDouble('mapRotation') ?? _defaultMapRotation;
   }
+
   set mapRotation(double newValue) {
     _mapRotationAtom.reportWrite<double>(
       newValue,

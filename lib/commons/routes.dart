@@ -12,38 +12,36 @@ import '/widgets/hero_viewer.dart';
 
 class Routes {
   static SlideInOutPageRoute get about => SlideInOutPageRoute(
-      const AboutScreen()
+    const AboutScreen(),
   );
   static SlideInOutPageRoute get help => SlideInOutPageRoute(
-      const HelpScreen()
+    const HelpScreen(),
   );
   static SlideInOutPageRoute get home => SlideInOutPageRoute(
-    const HomeScreen()
+    const HomeScreen(),
   );
   static SlideInOutPageRoute get licenses => SlideInOutPageRoute(
-    const LicensesScreen()
+    const LicensesScreen(),
   );
   static SlideInOutPageRoute get onboarding => SlideInOutPageRoute(
-    const OnboardingScreen()
+    const OnboardingScreen(),
   );
   static SlideInOutPageRoute get privacyPolicy => SlideInOutPageRoute(
-    const PrivacyPolicyScreen()
+    const PrivacyPolicyScreen(),
   );
   static SlideInOutPageRoute get settings => SlideInOutPageRoute(
-    const SettingsScreen()
+    const SettingsScreen(),
   );
 }
-
 
 abstract class WidgetPageRoute<T> extends PageRoute<T> {
   Widget get page;
 
   WidgetPageRoute({
     super.settings,
-    super.fullscreenDialog
+    super.fullscreenDialog,
   });
 }
-
 
 /// A page transition builder with push and pop animation
 /// on push: slides the page from right (off screen) to left
@@ -54,48 +52,64 @@ class SlideInOutPageRoute<T> extends WidgetPageRoute<T> {
   @override
   final Widget page;
 
-  SlideInOutPageRoute(this.page, {
+  SlideInOutPageRoute(
+    this.page, {
     super.settings,
     super.fullscreenDialog,
   });
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+  Widget buildPage(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+  ) {
     return page;
   }
 
   @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+  Widget buildTransitions(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
     return SlideTransition(
-      position: Tween<Offset>(
-        begin: const Offset(1, 0),
-        end: Offset.zero,
-      ).animate(CurvedAnimation(
-        parent: animation,
-        curve: Curves.easeOutCubic,
-        reverseCurve: Curves.easeInCubic
-      )),
+      position:
+          Tween<Offset>(
+            begin: const Offset(1, 0),
+            end: Offset.zero,
+          ).animate(
+            CurvedAnimation(
+              parent: animation,
+              curve: Curves.easeOutCubic,
+              reverseCurve: Curves.easeInCubic,
+            ),
+          ),
       child: SlideTransition(
-        position: Tween<Offset>(
-          begin: Offset.zero,
-          end: const Offset(-1, 0),
-        ).animate(CurvedAnimation(
-          parent: secondaryAnimation,
-          curve: Curves.easeOutCubic,
-          reverseCurve: Curves.easeInCubic
-        )),
+        position:
+            Tween<Offset>(
+              begin: Offset.zero,
+              end: const Offset(-1, 0),
+            ).animate(
+              CurvedAnimation(
+                parent: secondaryAnimation,
+                curve: Curves.easeOutCubic,
+                reverseCurve: Curves.easeInCubic,
+              ),
+            ),
         child: child,
       ),
     );
   }
 
   @override
-  bool canTransitionTo(TransitionRoute<dynamic> nextRoute)
-    => nextRoute is PageRoute && nextRoute is! HeroViewerRoute;
+  bool canTransitionTo(TransitionRoute<dynamic> nextRoute) =>
+      nextRoute is PageRoute && nextRoute is! HeroViewerRoute;
 
   @override
-  bool canTransitionFrom(TransitionRoute<dynamic> previousRoute)
-    => previousRoute is PageRoute && previousRoute is! HeroViewerRoute;
+  bool canTransitionFrom(TransitionRoute<dynamic> previousRoute) =>
+      previousRoute is PageRoute && previousRoute is! HeroViewerRoute;
 
   @override
   Color? get barrierColor => null;

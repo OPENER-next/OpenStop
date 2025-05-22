@@ -5,7 +5,6 @@ import 'package:flutter/rendering.dart';
 
 import 'upload_indicator.dart';
 
-
 class OsmElementMarker extends StatefulWidget {
   final VoidCallback? onTap;
   final IconData icon;
@@ -53,8 +52,7 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
     if (oldWidget.active != widget.active) {
       if (widget.active) {
         _controller.animateTo(1);
-      }
-      else {
+      } else {
         _controller.animateBack(0);
       }
     }
@@ -90,12 +88,13 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
                             child: UploadIndicator(
                               trigger: widget.uploadState,
                               padding: const EdgeInsets.all(7),
-                              child: Icon(widget.icon,
+                              child: Icon(
+                                widget.icon,
                                 color: Colors.white,
                                 shadows: const [
                                   Shadow(
                                     color: Colors.black12,
-                                    offset: Offset(2, 2)
+                                    offset: Offset(2, 2),
                                   ),
                                 ],
                               ),
@@ -103,31 +102,33 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
                           ),
                         ),
                       ),
-                      if (widget.label.isNotEmpty && !_animation.isDismissed) Flexible(
-                        // this is basically a custom version of SizeTransition
-                        // because it doesn't allow setting the cross axis alignment
-                        child: ExcludeSemantics(
-                          child: ClipRect(
-                            child: Align(
-                              alignment: AlignmentDirectional.centerEnd,
-                              widthFactor: _animation.value,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10),
-                                child: Text(widget.label,
-                                  textWidthBasis: TextWidthBasis.longestLine,
-                                  softWrap: true,
-                                  maxLines: 2,
-                                  style: TextStyle(
-                                    color: Colors.grey.shade900,
-                                    fontSize: 16,
-                                    overflow: TextOverflow.ellipsis,
+                      if (widget.label.isNotEmpty && !_animation.isDismissed)
+                        Flexible(
+                          // this is basically a custom version of SizeTransition
+                          // because it doesn't allow setting the cross axis alignment
+                          child: ExcludeSemantics(
+                            child: ClipRect(
+                              child: Align(
+                                alignment: AlignmentDirectional.centerEnd,
+                                widthFactor: _animation.value,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                                  child: Text(
+                                    widget.label,
+                                    textWidthBasis: TextWidthBasis.longestLine,
+                                    softWrap: true,
+                                    maxLines: 2,
+                                    style: TextStyle(
+                                      color: Colors.grey.shade900,
+                                      fontSize: 16,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
                     ],
                   ),
                 ),
@@ -135,7 +136,7 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
             ),
           ),
         ),
-      )
+      ),
     );
   }
 
@@ -146,7 +147,6 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
     super.dispose();
   }
 }
-
 
 class MarkerBubble extends SingleChildRenderObjectWidget {
   final Color color;
@@ -186,7 +186,6 @@ class MarkerBubble extends SingleChildRenderObjectWidget {
     properties.add(DiagnosticsProperty<Size>('tipSize', tipSize));
   }
 }
-
 
 class _RenderMarkerBubble extends RenderProxyBoxWithHitTestBehavior {
   Color _color;
@@ -235,7 +234,6 @@ class _RenderMarkerBubble extends RenderProxyBoxWithHitTestBehavior {
     }
   }
 
-
   @override
   void paint(PaintingContext context, Offset offset) {
     final tipStart = size.bottomCenter(offset);
@@ -250,8 +248,8 @@ class _RenderMarkerBubble extends RenderProxyBoxWithHitTestBehavior {
     context.canvas.drawOval(
       ovalShadow,
       Paint()
-      ..color = _shadowColor
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2.5)
+        ..color = _shadowColor
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2.5),
     );
 
     // paint bubble shadow
@@ -269,14 +267,13 @@ class _RenderMarkerBubble extends RenderProxyBoxWithHitTestBehavior {
       path,
       Paint()
         ..color = _color
-        ..style = PaintingStyle.fill
+        ..style = PaintingStyle.fill,
     );
 
     if (child != null) {
       context.paintChild(child!, offset);
     }
   }
-
 
   @override
   void performLayout() {
@@ -290,14 +287,13 @@ class _RenderMarkerBubble extends RenderProxyBoxWithHitTestBehavior {
     _path = _buildBubblePath();
   }
 
-
   Path _buildBubblePath() {
     // needs to be used instead of size.height, since we constrain the children minus the tip height.
     final height = size.height - _tipSize.height;
     final width = size.width;
 
     final tipStart = size.bottomCenter(Offset.zero);
-    final tipHalfWidth = _tipSize.width/2;
+    final tipHalfWidth = _tipSize.width / 2;
 
     final double angle;
 
@@ -305,18 +301,17 @@ class _RenderMarkerBubble extends RenderProxyBoxWithHitTestBehavior {
       final lengthDifference = width - height;
       final oppositeSide = tipHalfWidth - lengthDifference / 2;
       // radius of circle
-      final a = height/2;
+      final a = height / 2;
       // radius + part of tip height
       final b = a + oppositeSide * (_tipSize.height / tipHalfWidth);
       // get angle by: tan angle = opposite side divided by adjacent side
       final alpha = atan(tipHalfWidth / _tipSize.height);
       // law of sin with additional `pi - ` to get the acute angle (law of sin always gives two solutions)
-      final beta = pi - asin( sin(alpha) / a * b );
+      final beta = pi - asin(sin(alpha) / a * b);
       // by sum of interior angles
       final gamma = pi - alpha - beta;
       angle = gamma;
-    }
-    else {
+    } else {
       angle = 0;
     }
 
@@ -327,14 +322,14 @@ class _RenderMarkerBubble extends RenderProxyBoxWithHitTestBehavior {
       // left rounding
       ..arcTo(
         Offset.zero & Size.square(height),
-        pi/2 + angle,
+        pi / 2 + angle,
         pi - angle,
         false,
       )
       // right rounding
       ..arcTo(
         Offset(width - height, 0) & Size.square(height),
-        -pi/2,
+        -pi / 2,
         pi - angle,
         false,
       )

@@ -22,8 +22,10 @@ class QuestionSummary extends StatelessWidget {
     this.userName,
     this.elevate = true,
     super.key,
-  }) :
-    assert(questions.length == answers.length, 'Every question should have a corresponding answer.');
+  }) : assert(
+         questions.length == answers.length,
+         'Every question should have a corresponding answer.',
+       );
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +43,8 @@ class QuestionSummary extends StatelessWidget {
         ),
         child: Text(
           userName != null
-            ? appLocale.questionnaireSummaryDedicatedMessage(userName!)
-            : appLocale.questionnaireSummaryUndedicatedMessage,
+              ? appLocale.questionnaireSummaryDedicatedMessage(userName!)
+              : appLocale.questionnaireSummaryUndedicatedMessage,
           style: const TextStyle(
             height: 1.3,
             fontSize: 20,

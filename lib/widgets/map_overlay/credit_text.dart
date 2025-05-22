@@ -30,13 +30,12 @@ class CreditText extends StatefulWidget {
     this.separatorBuilder = _defaultSeparatorBuilder,
     this.alignment = TextAlign.center,
     this.padding = EdgeInsets.zero,
-    super.key
+    super.key,
   });
 
   @override
   State<CreditText> createState() => _CreditTextState();
 }
-
 
 class _CreditTextState extends State<CreditText> {
   final List<TapGestureRecognizer?> _gestureRecognizers = [];
@@ -47,24 +46,21 @@ class _CreditTextState extends State<CreditText> {
     _setupGestureRecognizers();
   }
 
-
   @override
   void didUpdateWidget(covariant CreditText oldWidget) {
     super.didUpdateWidget(oldWidget);
     _updateGestureRecognizers();
   }
 
-
   void _setupGestureRecognizers() {
     _gestureRecognizers.addAll(
       widget.children.map((creditTextLink) {
         return creditTextLink.url != null
-        ? (TapGestureRecognizer()..onTap = () => openUrl(Uri.parse(creditTextLink.url!)))
-        : null;
-      })
+            ? (TapGestureRecognizer()..onTap = () => openUrl(Uri.parse(creditTextLink.url!)))
+            : null;
+      }),
     );
   }
-
 
   void _cleanupGestureRecognizers() {
     for (var i = _gestureRecognizers.length - 1; i >= 0; i--) {
@@ -72,12 +68,10 @@ class _CreditTextState extends State<CreditText> {
     }
   }
 
-
   void _updateGestureRecognizers() {
     _cleanupGestureRecognizers();
     _setupGestureRecognizers();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +95,7 @@ class _CreditTextState extends State<CreditText> {
                     ..strokeJoin = StrokeJoin.round
                     ..color = Theme.of(context).colorScheme.tertiary,
                 ),
-                children: creditTextParts
+                children: creditTextParts,
               ),
             ),
           ),
@@ -116,19 +110,18 @@ class _CreditTextState extends State<CreditText> {
                   fontSize: 10,
                   color: Theme.of(context).colorScheme.onTertiary,
                 ),
-                children: creditTextParts
+                children: creditTextParts,
               ),
             ),
           ),
         ],
-      )
+      ),
     );
   }
 
-
   List<InlineSpan> _buildParts() {
     final creditTextParts = <InlineSpan>[
-      if (widget.children.isNotEmpty) _buildPart(0)
+      if (widget.children.isNotEmpty) _buildPart(0),
     ];
     for (var i = 1; i < widget.children.length; i++) {
       final separator = widget.separatorBuilder?.call(context, i);
@@ -140,15 +133,13 @@ class _CreditTextState extends State<CreditText> {
     return creditTextParts;
   }
 
-
   TextSpan _buildPart(int index) {
     return TextSpan(
       semanticsLabel: widget.children[index].text,
       text: widget.children[index].text,
-      recognizer: _gestureRecognizers[index]
+      recognizer: _gestureRecognizers[index],
     );
   }
-
 
   /// Open the given credits URL in the default browser.
 
@@ -161,7 +152,6 @@ class _CreditTextState extends State<CreditText> {
     }
   }
 
-
   @override
   void dispose() {
     _cleanupGestureRecognizers();
@@ -169,12 +159,12 @@ class _CreditTextState extends State<CreditText> {
   }
 }
 
-
 class CreditTextPart {
   final String text;
   final String? url;
 
-  const CreditTextPart(this.text, {
+  const CreditTextPart(
+    this.text, {
     this.url,
   });
 }

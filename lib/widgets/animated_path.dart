@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-
 typedef PathBuilder = Path Function(Size size);
 
 class AnimatedPath extends LeafRenderObjectWidget {
@@ -51,17 +50,16 @@ class AnimatedPath extends LeafRenderObjectWidget {
   @override
   void updateRenderObject(BuildContext context, covariant RenderAnimatedPath renderObject) {
     renderObject
-    ..animation = animation
-    ..pathBuilder = pathBuilder
-    ..strokeWidth = strokeWidth
-    ..color = color
-    ..style = style
-    ..strokeCap = strokeCap
-    ..strokeJoin = strokeJoin
-    ..shadows = shadows;
+      ..animation = animation
+      ..pathBuilder = pathBuilder
+      ..strokeWidth = strokeWidth
+      ..color = color
+      ..style = style
+      ..strokeCap = strokeCap
+      ..strokeJoin = strokeJoin
+      ..shadows = shadows;
   }
 }
-
 
 class RenderAnimatedPath extends RenderBox {
   Animation<double> _animation;
@@ -82,11 +80,11 @@ class RenderAnimatedPath extends RenderBox {
   ) {
     _animation.addListener(markNeedsPaint);
     _paint
-    ..strokeWidth = strokeWidth
-    ..color = color
-    ..style = style
-    ..strokeCap = strokeCap
-    ..strokeJoin = strokeJoin;
+      ..strokeWidth = strokeWidth
+      ..color = color
+      ..style = style
+      ..strokeCap = strokeCap
+      ..strokeJoin = strokeJoin;
   }
 
   PathBuilder get pathBuilder => _pathBuilder;
@@ -166,7 +164,8 @@ class RenderAnimatedPath extends RenderBox {
   void paint(PaintingContext context, Offset offset) {
     // toList required because metrics can only be iterated once
     final pathMetrics = _pathBuilder(size).computeMetrics().toList();
-    final totalLength = pathMetrics.fold<double>(0,
+    final totalLength = pathMetrics.fold<double>(
+      0,
       (prev, metric) => prev + metric.length,
     );
 
@@ -175,10 +174,10 @@ class RenderAnimatedPath extends RenderBox {
 
     for (final shadow in _shadows) {
       final shadowPaint = shadow.toPaint()
-          ..style = style
-          ..strokeWidth = strokeWidth
-          ..strokeCap = strokeCap
-          ..strokeJoin = strokeJoin;
+        ..style = style
+        ..strokeWidth = strokeWidth
+        ..strokeCap = strokeCap
+        ..strokeJoin = strokeJoin;
       context.canvas.drawPath(currentPath.shift(offset + shadow.offset), shadowPaint);
     }
     context.canvas.drawPath(currentPath.shift(offset), _paint);
@@ -199,8 +198,7 @@ class RenderAnimatedPath extends RenderBox {
         final pathSegment = metric.extractPath(0.0, remainingLength);
         path.addPath(pathSegment, Offset.zero);
         break;
-      }
-      else {
+      } else {
         final pathSegment = metric.extractPath(0.0, metric.length);
         path.addPath(pathSegment, Offset.zero);
       }

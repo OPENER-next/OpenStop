@@ -5,7 +5,6 @@ import 'package:flutter_map/flutter_map.dart';
 
 import '/commons/app_config.dart';
 
-
 /// This class exposes API calls for making Overpass API requests.
 
 class OverpassQueryAPI {
@@ -29,15 +28,15 @@ class OverpassQueryAPI {
       'https://overpass.kumi.systems/api/interpreter',
       'https://overpass-api.de/api/interpreter',
     ],
-  }) :
-    _dio = Dio(BaseOptions(
-      sendTimeout: sendTimeout,
-      receiveTimeout: receiveTimeout,
-      headers: {
-        'User-Agent': userAgent,
-      }
-    ));
-
+  }) : _dio = Dio(
+         BaseOptions(
+           sendTimeout: sendTimeout,
+           receiveTimeout: receiveTimeout,
+           headers: {
+             'User-Agent': userAgent,
+           },
+         ),
+       );
 
   /// Method to execute an Overpass query.
   ///
@@ -65,20 +64,23 @@ class OverpassQueryAPI {
 
   /// Actual query method that calls itself recursively by incrementing its retry counter till [maxRetries] is reached.
 
-  Future<Map<String, dynamic>?> _query(Map<String, dynamic> queryParameters, [ int retryCount = 1 ]) async {
+  Future<Map<String, dynamic>?> _query(
+    Map<String, dynamic> queryParameters, [
+    int retryCount = 1,
+  ]) async {
     // get random url from server list
     final url = apiServers[_random.nextInt(apiServers.length)];
 
     try {
-      return (await _dio.get<Map<String, dynamic>>(url,
+      return (await _dio.get<Map<String, dynamic>>(
+        url,
         queryParameters: queryParameters,
       )).data;
-    }
-    catch(error) {
+    } catch (error) {
       if (retryCount < maxRetries) {
         return Future.delayed(
           retryDelay,
-          () => _query(queryParameters, retryCount + 1)
+          () => _query(queryParameters, retryCount + 1),
         );
       }
       rethrow;
@@ -93,37 +95,35 @@ class OverpassQueryAPI {
   }
 }
 
-
 /// Base class for Overpass queries.
 
 abstract class OverpassQuery<T> {
-
-  String _fullQuery({
-    required Duration timeout,
-    LatLngBounds? globalBBox,
-  }) {
-    return (
-      _queryHead(timeout: timeout, globalBBox: globalBBox)..write(query)
-    ).toString();
+  String _fullQuery({required Duration timeout, LatLngBounds? globalBBox}) {
+    return (_queryHead(
+      timeout: timeout,
+      globalBBox: globalBBox,
+    )..write(query)).toString();
   }
 
-  StringBuffer _queryHead({
-    required Duration timeout,
-    LatLngBounds? globalBBox,
-  }) {
+  StringBuffer _queryHead({required Duration timeout, LatLngBounds? globalBBox}) {
     final buffer = StringBuffer('[out:json]');
 
-    buffer..write('[timeout:')
+    buffer
+      ..write('[timeout:')
       ..write(timeout.inMilliseconds)
-    ..write(']');
+      ..write(']');
 
     if (globalBBox != null) {
-      buffer..write('[bbox:')
-        ..write(globalBBox.south)..write(',')
-        ..write(globalBBox.west) ..write(',')
-        ..write(globalBBox.north)..write(',')
+      buffer
+        ..write('[bbox:')
+        ..write(globalBBox.south)
+        ..write(',')
+        ..write(globalBBox.west)
+        ..write(',')
+        ..write(globalBBox.north)
+        ..write(',')
         ..write(globalBBox.east)
-      ..write(']');
+        ..write(']');
     }
     return buffer..write(';');
   }

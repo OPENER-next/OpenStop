@@ -43,7 +43,7 @@ class SettingsScreen extends View<SettingsViewModel> {
                         value: viewModel.themeMode,
                         title: Text(appLocale.settingsThemeDialogTitle),
                       );
-                    }
+                    },
                   );
                   if (selection != null) {
                     viewModel.changeThemeMode([selection]);

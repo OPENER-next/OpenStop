@@ -7,13 +7,12 @@ import 'map_feature_representation.dart';
 
 /// The [tags] argument may be passed to build an element specific label.
 
-typedef MapFeatureLabelConstructor = String Function(AppLocalizations locale, Map<String, String> tags);
-
+typedef MapFeatureLabelConstructor =
+    String Function(AppLocalizations locale, Map<String, String> tags);
 
 /// A map feature defines how certain elements will be represented and described.
 
 class MapFeatureDefinition {
-
   const MapFeatureDefinition({
     required MapFeatureLabelConstructor label,
     required this.icon,
@@ -38,7 +37,10 @@ class MapFeatureDefinition {
   /// and a given [ProcessedElement].
 
   MapFeatureRepresentation resolve(ProcessedElement element) {
-    assert(matches(element), 'The resolved element does not match the conditions of this MapFeatureDefinition.');
+    assert(
+      matches(element),
+      'The resolved element does not match the conditions of this MapFeatureDefinition.',
+    );
 
     return MapFeatureRepresentation.fromElement(
       element: element,
@@ -59,8 +61,7 @@ class MapFeatureDefinition {
   ElementCondition? matchesBy(ProcessedElement element) {
     try {
       return conditions.firstWhere((condition) => condition.matches(element));
-    }
-    on StateError {
+    } on StateError {
       // Continue when no matching condition is found.
       return null;
     }

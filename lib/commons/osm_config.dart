@@ -4,20 +4,20 @@ import 'package:osm_api/osm_api.dart';
 import 'app_config.dart';
 
 const kOAuth2ClientId = bool.fromEnvironment('IS_RELEASE', defaultValue: false)
-  ? 'jkUcoZ_7SbO3zLsxtOubJeDe1_lUw-leKH5_mhRXDAE'
-  : 'F0hAZhRoqdSyQJyAGTRCeXVqwAw6RbSCS-2uAE0Fu8c';
+    ? 'jkUcoZ_7SbO3zLsxtOubJeDe1_lUw-leKH5_mhRXDAE'
+    : 'F0hAZhRoqdSyQJyAGTRCeXVqwAw6RbSCS-2uAE0Fu8c';
 
 const kOAuth2RedirectUri = kIsWeb
-  ? bool.fromEnvironment('IS_RELEASE', defaultValue: false)
-    ? '$kAppCallbackUrlScheme://try.openstop.app/oauth2.html'
-    : '$kAppCallbackUrlScheme://127.0.0.1:8080/oauth2.html'
-  : '$kAppCallbackUrlScheme://$kAppCallbackUrlHost$kAppCallbackUrlPath';
+    ? bool.fromEnvironment('IS_RELEASE', defaultValue: false)
+          ? '$kAppCallbackUrlScheme://try.openstop.app/oauth2.html'
+          : '$kAppCallbackUrlScheme://127.0.0.1:8080/oauth2.html'
+    : '$kAppCallbackUrlScheme://$kAppCallbackUrlHost$kAppCallbackUrlPath';
 
 const kOSMServer = bool.fromEnvironment('IS_RELEASE', defaultValue: false)
-  ? 'www.openstreetmap.org'
-  : 'master.apis.dev.openstreetmap.org';
+    ? 'www.openstreetmap.org'
+    : 'master.apis.dev.openstreetmap.org';
 
-const kOSMCreditsURL= 'https://www.openstreetmap.org/copyright';
+const kOSMCreditsURL = 'https://www.openstreetmap.org/copyright';
 
 /// OSMAPI with app specific default parameters.
 

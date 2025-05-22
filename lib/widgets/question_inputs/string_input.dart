@@ -5,7 +5,6 @@ import '/models/answer.dart';
 import '/models/question_catalog/answer_definition.dart';
 import 'question_input_widget.dart';
 
-
 class StringInput extends QuestionInputWidget<StringAnswerDefinition, StringAnswer> {
   const StringInput({
     required super.definition,
@@ -18,7 +17,6 @@ class StringInput extends QuestionInputWidget<StringAnswerDefinition, StringAnsw
     return _StringInputDelegate(definition, controller);
   }
 }
-
 
 // This StatefulWidget is required because we are dealing with two controllers which need
 // to be linked together. This can only be achieved in a StatefulWidget.
@@ -37,7 +35,7 @@ class _StringInputDelegate extends StatefulWidget {
 
 class _StringInputDelegateState extends State<_StringInputDelegate> {
   late final _textController = TextEditingController(
-    text: widget.controller.answer?.value
+    text: widget.controller.answer?.value,
   );
 
   @override
@@ -48,12 +46,15 @@ class _StringInputDelegateState extends State<_StringInputDelegate> {
     final newValue = widget.controller.answer?.value ?? '';
     if (_textController.text != newValue) {
       final selection = _textController.selection.end > newValue.length
-        // required, otherwise the input loses focus when clearing it
-        // even though the cursor is still displayed in the input and pressing a special character
-        // like a dot (.) will refocus the input field for whatever reason
-        ? TextSelection.collapsed(offset: newValue.length)
-        : null;
-      _textController.value = _textController.value.copyWith(text: newValue, selection: selection);
+          // required, otherwise the input loses focus when clearing it
+          // even though the cursor is still displayed in the input and pressing a special character
+          // like a dot (.) will refocus the input field for whatever reason
+          ? TextSelection.collapsed(offset: newValue.length)
+          : null;
+      _textController.value = _textController.value.copyWith(
+        text: newValue,
+        selection: selection,
+      );
     }
   }
 
@@ -72,15 +73,16 @@ class _StringInputDelegateState extends State<_StringInputDelegate> {
         counter: const Offstage(),
         suffixIcon: IconButton(
           onPressed: _handleChange,
-          icon: Icon(Icons.clear_rounded,
-            semanticLabel: appLocale.semanticsClearField
+          icon: Icon(
+            Icons.clear_rounded,
+            semanticLabel: appLocale.semanticsClearField,
           ),
           highlightColor: Colors.transparent,
         ),
       ),
       autovalidateMode: AutovalidateMode.always,
       validator: (text) {
-        if (text != null && text.isNotEmpty && text.length <  input.min ) {
+        if (text != null && text.isNotEmpty && text.length < input.min) {
           return appLocale.stringInputValidationErrorMin;
         }
         return null;
@@ -90,11 +92,11 @@ class _StringInputDelegateState extends State<_StringInputDelegate> {
 
   void _handleChange([String value = '']) {
     widget.controller.answer = value.isNotEmpty
-      ? StringAnswer(
-        definition: widget.definition,
-        value: value
-      )
-      : null;
+        ? StringAnswer(
+            definition: widget.definition,
+            value: value,
+          )
+        : null;
   }
 
   @override

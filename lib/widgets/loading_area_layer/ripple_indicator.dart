@@ -19,7 +19,7 @@ class RippleIndicator extends StatefulWidget {
     this.duration = const Duration(seconds: 2),
     this.end = false,
     this.onEnd,
-    super.key
+    super.key,
   });
 
   @override
@@ -40,7 +40,6 @@ class _RippleIndicatorState extends State<RippleIndicator> with SingleTickerProv
     );
   }
 }
-
 
 class _RippleIndicator extends LeafRenderObjectWidget {
   final TickerProvider vsync;
@@ -91,7 +90,6 @@ class _RippleIndicator extends LeafRenderObjectWidget {
   }
 }
 
-
 class _RenderRippleIndicator extends RenderBox {
   final AnimationController _controller;
 
@@ -124,11 +122,14 @@ class _RenderRippleIndicator extends RenderBox {
     this._onEnd,
     this._color,
     Duration duration,
-  ) :
-    _vsync = vsync,
-    _controller = AnimationController(vsync: vsync, duration: duration)
-  {
-    _controller..addListener(_listen)..repeat();
+  ) : _vsync = vsync,
+      _controller = AnimationController(
+        vsync: vsync,
+        duration: duration,
+      ) {
+    _controller
+      ..addListener(_listen)
+      ..repeat();
   }
 
   void _listen() {
@@ -156,7 +157,9 @@ class _RenderRippleIndicator extends RenderBox {
             else {
               // remove listener, because reset will trigger this listener function
               // which would lead to an infinite regress
-              _controller..removeListener(_listen)..reset();
+              _controller
+                ..removeListener(_listen)
+                ..reset();
               _onEnd?.call();
             }
           }
@@ -167,7 +170,6 @@ class _RenderRippleIndicator extends RenderBox {
       markNeedsPaint();
     }
   }
-
 
   TickerProvider get vsync => _vsync;
   TickerProvider _vsync;
@@ -203,10 +205,11 @@ class _RenderRippleIndicator extends RenderBox {
       _restart = !value;
       // if controller is stopped, restart it
       if (_controller.isDismissed) {
-        _controller..addListener(_listen)..repeat();
+        _controller
+          ..addListener(_listen)
+          ..repeat();
       }
-    }
-    else if (value != _end) {
+    } else if (value != _end) {
       _end = value;
     }
   }
@@ -245,7 +248,7 @@ class _RenderRippleIndicator extends RenderBox {
 
   @override
   void paint(PaintingContext context, Offset offset) {
-    final halfSize = size/2;
+    final halfSize = size / 2;
     final center = size.center(offset);
     final maxRadius = halfSize.shortestSide;
 

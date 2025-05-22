@@ -5,10 +5,8 @@ import 'package:latlong2/latlong.dart';
 import 'package:polylabel/polylabel.dart';
 import 'package:vector_math/vector_math_64.dart';
 
-
 // TODO: Maybe precalculate the center since it might be quite expensive for elements other than point
 // maybe also add a "recalculate" method in this case
-
 
 abstract class GeographicGeometry {
   LatLng get center;
@@ -48,10 +46,10 @@ class GeographicPolyline implements GeographicGeometry {
     final lengths = <double>[0];
     for (var i = 0; i < path.length - 1; i++) {
       lengths.add(
-        lengths.last + _distance.distance(path[i], path[i + 1])
+        lengths.last + _distance.distance(path[i], path[i + 1]),
       );
     }
-    final halfLength = lengths.last/2;
+    final halfLength = lengths.last / 2;
 
     // search for the last length that is still shorter than half of the total length
     final lowerIndex = lengths.lastIndexWhere((length) => length < halfLength);
@@ -81,11 +79,11 @@ class GeographicPolygon implements GeographicGeometry {
 
   GeographicPolygon({
     required this.outerShape,
-    List<GeographicPolyline>? innerShapes
+    List<GeographicPolyline>? innerShapes,
   }) : innerShapes = innerShapes ?? [] {
     assert(
       outerShape.isClosed && this.innerShapes.every((shape) => shape.isClosed),
-      'One of the given GeographicPaths is not closed.'
+      'One of the given GeographicPaths is not closed.',
     );
   }
 
@@ -105,7 +103,7 @@ class GeographicPolygon implements GeographicGeometry {
         (polyline) => polyline.path.map((p) {
           final offset = projection.project(p);
           return Point(offset.dx, offset.dy);
-        }).toList()
+        }).toList(),
       ),
     ];
 
@@ -133,12 +131,11 @@ class GeographicPolygon implements GeographicGeometry {
   bool enclosesPolyline(GeographicPolyline polyline) {
     final isInsideOfOuterShape = _pathIsInsidePath(outerShape.path, polyline.path);
     final isOutsideOfInnerShapes = innerShapes.every(
-      (innerShape) => _pathIsOutsidePath(innerShape.path, polyline.path)
+      (innerShape) => _pathIsOutsidePath(innerShape.path, polyline.path),
     );
 
     return isInsideOfOuterShape && isOutsideOfInnerShapes;
   }
-
 
   /// Perform line intersection tests for each pair of lines.
   /// If no intersections occur and one of the line end-points lies inside the polygon,
@@ -146,28 +143,38 @@ class GeographicPolygon implements GeographicGeometry {
   /// Note: [closedPath] should resemble a closed shape.
 
   bool _pathIsInsidePath(List<LatLng> closedPath, List<LatLng> innerPath) {
-    assert(closedPath.length > 2 && closedPath.first == closedPath.last, 'Given path is not a closed shape.');
+    assert(
+      closedPath.length > 2 && closedPath.first == closedPath.last,
+      'Given path is not a closed shape.',
+    );
     assert(innerPath.length >= 2, 'Given inner path should at least contain 2 points.');
 
     // check if arbitrary point is inside the closed path
     // if so and no intersections occurred the path lies within
-    return !_pathsIntersect(closedPath, innerPath) && _isPointInsideClosedPath(closedPath, innerPath.first);
+    return !_pathsIntersect(closedPath, innerPath) &&
+        _isPointInsideClosedPath(closedPath, innerPath.first);
   }
 
   /// Note: [closedPath] should resemble a closed shape.
 
   bool _pathIsOutsidePath(List<LatLng> closedPath, List<LatLng> outerPath) {
-    assert(closedPath.length > 2 && closedPath.first == closedPath.last, 'Given path is not a closed shape.');
+    assert(
+      closedPath.length > 2 && closedPath.first == closedPath.last,
+      'Given path is not a closed shape.',
+    );
     assert(outerPath.length >= 2, 'Given outer path should at least contain 2 points.');
 
     // check if arbitrary point is not inside the closed path
     // if so and no intersections occurred the path lies within
-    return !_pathsIntersect(closedPath, outerPath) && !_isPointInsideClosedPath(closedPath, outerPath.first);
+    return !_pathsIntersect(closedPath, outerPath) &&
+        !_isPointInsideClosedPath(closedPath, outerPath.first);
   }
 
-
   bool _pathsIntersect(List<LatLng> pathA, List<LatLng> pathB) {
-    assert(pathA.length >= 2 && pathB.length >= 2, 'Each given path should at least contain 2 points.');
+    assert(
+      pathA.length >= 2 && pathB.length >= 2,
+      'Each given path should at least contain 2 points.',
+    );
 
     for (var i = 1; i < pathA.length; i++) {
       final lineAStart = pathA[i - 1];
@@ -177,14 +184,13 @@ class GeographicPolygon implements GeographicGeometry {
         final lineBStart = pathB[j - 1];
         final lineBEnd = pathB[j];
 
-        if(_linesIntersect(lineAStart, lineAEnd, lineBStart, lineBEnd)) {
+        if (_linesIntersect(lineAStart, lineAEnd, lineBStart, lineBEnd)) {
           return true;
         }
       }
     }
     return false;
   }
-
 
   bool _linesIntersect(LatLng line1Start, LatLng line1End, LatLng line2Start, LatLng line2End) {
     final line1StartV = _latLngTo3DVector(line1Start);
@@ -194,38 +200,35 @@ class GeographicPolygon implements GeographicGeometry {
     return _intersects(line1StartV, line1EndV, line2StartV, line2EndV);
   }
 
-
   Vector3 _latLngTo3DVector(LatLng coordinate) {
     return Vector3(
       earthRadius * cos(coordinate.latitudeInRad) * cos(coordinate.longitudeInRad),
       earthRadius * cos(coordinate.latitudeInRad) * sin(coordinate.longitudeInRad),
-      earthRadius * sin(coordinate.latitudeInRad)
+      earthRadius * sin(coordinate.latitudeInRad),
     );
   }
 
   // derived from: https://stackoverflow.com/a/26669130
   double _det(Vector3 v1, Vector3 v2, Vector3 v3) {
-    return v1.dot( v2.cross(v3) );
-  }
-  bool _straddles(Vector3 line1StartV, Vector3 line1EndV, Vector3 line2StartV, Vector3 line2EndV) {
-    return _det(
-      line1StartV, line2StartV, line2EndV) * _det(line1EndV, line2StartV, line2EndV
-    ) < 0;
-  }
-  bool _intersects(Vector3 line1StartV, Vector3 line1EndV, Vector3 line2StartV, Vector3 line2EndV) {
-    return _straddles(line1StartV, line1EndV, line2StartV, line2EndV) &&
-           _straddles(line2StartV, line2EndV, line1StartV, line1EndV);
+    return v1.dot(v2.cross(v3));
   }
 
+  bool _straddles(Vector3 line1StartV, Vector3 line1EndV, Vector3 line2StartV, Vector3 line2EndV) {
+    return _det(line1StartV, line2StartV, line2EndV) * _det(line1EndV, line2StartV, line2EndV) < 0;
+  }
+
+  bool _intersects(Vector3 line1StartV, Vector3 line1EndV, Vector3 line2StartV, Vector3 line2EndV) {
+    return _straddles(line1StartV, line1EndV, line2StartV, line2EndV) &&
+        _straddles(line2StartV, line2EndV, line1StartV, line1EndV);
+  }
 
   /// Checks whether this polygon contains the given point.
 
   bool enclosesPoint(GeographicPoint point) {
     // check if outer contains the given point and all inner do not contain the point
     return _isPointInsideClosedPath(outerShape.path, point.center) &&
-      innerShapes.every((shape) => !_isPointInsideClosedPath(shape.path, point.center));
+        innerShapes.every((shape) => !_isPointInsideClosedPath(shape.path, point.center));
   }
-
 
   // derived from: https://stackoverflow.com/a/13951139
   bool _isPointInsideClosedPath(List<LatLng> pathPoints, LatLng point) {
@@ -253,8 +256,7 @@ class GeographicPolygon implements GeographicGeometry {
           while (x2 < 0) {
             x2 += 360;
           }
-        }
-        else {
+        } else {
           while (x1 > 0) {
             x1 -= 360;
           }
@@ -280,7 +282,6 @@ class GeographicPolygon implements GeographicGeometry {
   }
 }
 
-
 /// A multi polygon is a list of multiple non-intersecting polygons.
 
 class GeographicMultipolygon implements GeographicGeometry {
@@ -291,7 +292,11 @@ class GeographicMultipolygon implements GeographicGeometry {
   @override
   LatLngBounds get bounds {
     return LatLngBounds.fromPoints(
-      polygons.expand((polygon) => polygon.outerShape.path).toList()
+      polygons
+          .expand(
+            (polygon) => polygon.outerShape.path,
+          )
+          .toList(),
     );
   }
 
@@ -310,7 +315,5 @@ class GeographicCollection implements GeographicGeometry {
   LatLng get center => bounds.center;
 
   @override
-  LatLngBounds get bounds => geometries
-    .map((g) => g.bounds)
-    .reduce((a, b) => a..extendBounds(b));
+  LatLngBounds get bounds => geometries.map((g) => g.bounds).reduce((a, b) => a..extendBounds(b));
 }

@@ -52,21 +52,20 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
   ///
   /// Streams [StopArea] state updates.
 
-  late final stopAreasStream = _stopAreasStreamController.stream.makeMultiStreamAsync((controller) async {
+  late final stopAreasStream = _stopAreasStreamController.stream.makeMultiStreamAsync((
+    controller,
+  ) async {
     for (final stopArea in _stopAreaCache.items.expand((cell) => cell)) {
       final StopAreaState state;
       if (_loadingStopAreas.contains(stopArea)) {
         state = StopAreaState.loading;
-      }
-      else if(_loadedStopAreas.contains(stopArea)) {
+      } else if (_loadedStopAreas.contains(stopArea)) {
         if (await stopAreaHasQuestions(stopArea)) {
           state = StopAreaState.incomplete;
-        }
-        else {
+        } else {
           state = StopAreaState.complete;
         }
-      }
-      else {
+      } else {
         state = StopAreaState.unloaded;
       }
       controller.addSync(StopAreaUpdate(stopArea, state));
@@ -77,7 +76,9 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
   ///
   /// Streams the number of loading cells.
 
-  late final loadingCellsStream = _loadingCellsStreamController.stream.makeMultiStream((controller) {
+  late final loadingCellsStream = _loadingCellsStreamController.stream.makeMultiStream((
+    controller,
+  ) {
     controller.addSync(_loadingCells.length);
   });
 
@@ -87,12 +88,10 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
     if (state == StopAreaState.complete || state == StopAreaState.incomplete) {
       _loadingStopAreas.remove(stopArea);
       _loadedStopAreas.add(stopArea);
-    }
-    else if (state == StopAreaState.loading) {
+    } else if (state == StopAreaState.loading) {
       _loadingStopAreas.add(stopArea);
       _loadedStopAreas.remove(stopArea);
-    }
-    else {
+    } else {
       _loadingStopAreas.remove(stopArea);
       _loadedStopAreas.remove(stopArea);
     }
@@ -123,19 +122,17 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
           try {
             final stopAreas = (await _overpassAPI.query(
               _stopAreaQuery,
-              bbox: LatLngBounds(southWest, northEast)
+              bbox: LatLngBounds(southWest, northEast),
             )).toSet();
             _stopAreaCache.add(cellIndex, stopAreas);
 
             for (final stopArea in stopAreas) {
               markStopArea(stopArea, StopAreaState.unloaded);
             }
-          }
-          catch(error) {
+          } catch (error) {
             // TODO: display error.
             debugPrint(error.toString());
-          }
-          finally {
+          } finally {
             _loadingCells.remove(cellIndex);
             _loadingCellsStreamController.add(_loadingCells.length);
           }
@@ -148,11 +145,13 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
 
   Iterable<StopArea> getStopAreasByBounds(LatLngBounds bounds) {
     return _bboxToCellIndexes(bounds)
-      .map(_stopAreaCache.get)
-      .nonNulls
-      .expand((stopAreas) => stopAreas.where(
-        (stopArea) => stopArea.isOverlapping(bounds),
-      ));
+        .map(_stopAreaCache.get)
+        .nonNulls
+        .expand(
+          (stopAreas) => stopAreas.where(
+            (stopArea) => stopArea.isOverlapping(bounds),
+          ),
+        );
   }
 
   /// Finds a stop area a given element overlaps with.
@@ -160,7 +159,9 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
   StopArea findCorrespondingStopArea(ProcessedElement element) {
     return _loadedStopAreas.firstWhere(
       (stopArea) => stopArea.isOverlapping(element.geometry.bounds),
-      orElse: () => throw StateError('No surrounding stop area found for ${element.type} ${element.id}.'),
+      orElse: () => throw StateError(
+        'No surrounding stop area found for ${element.type} ${element.id}.',
+      ),
     );
   }
 
@@ -170,7 +171,6 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
 
   // Should be implemented by the element handler to get the elements
   Future<bool> stopAreaHasQuestions(StopArea stopArea, [Iterable<ProcessedElement>? elements]);
-
 
   @override
   void exit() {
@@ -216,7 +216,6 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
   }
 }
 
-
 class StopAreaUpdate {
   final StopArea stopArea;
   final StopAreaState state;
@@ -224,6 +223,4 @@ class StopAreaUpdate {
   const StopAreaUpdate(this.stopArea, this.state);
 }
 
-enum StopAreaState {
-  unloaded, loading, complete, incomplete
-}
+enum StopAreaState { unloaded, loading, complete, incomplete }

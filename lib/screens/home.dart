@@ -44,7 +44,7 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
         resizeToAvoidBottomInset: false,
         drawer: const HomeSidebar(),
         body: NotificationBuilder<HomeViewModel>(
-          builder:(context, request) => CustomSnackBar(
+          builder: (context, request) => CustomSnackBar(
             request.message,
             actionText: request.actionLabel,
             actionCallback: request.action,
@@ -55,8 +55,8 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                 container: true,
                 sortKey: const OrdinalSortKey(2.0, name: 'mapLayer'),
                 label: viewModel.hasQuestionnaire
-                  ? appLocale.semanticsReturnToMap
-                  : appLocale.semanticsFlutterMap,
+                    ? appLocale.semanticsReturnToMap
+                    : appLocale.semanticsFlutterMap,
                 child: FlutterMap(
                   mapController: viewModel.mapController,
                   options: MapOptions(
@@ -81,16 +81,18 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                             panBuffer: 0,
                             retinaMode: RetinaMode.isHighDensity(context),
                             evictErrorTileStrategy: EvictErrorTileStrategy.dispose,
-                            urlTemplate: isDarkMode && kTileLayerPublicTransport.darkVariantTemplateUrl != null
-                              ? kTileLayerPublicTransport.darkVariantTemplateUrl
-                              : kTileLayerPublicTransport.templateUrl,
+                            urlTemplate:
+                                isDarkMode &&
+                                    kTileLayerPublicTransport.darkVariantTemplateUrl != null
+                                ? kTileLayerPublicTransport.darkVariantTemplateUrl
+                                : kTileLayerPublicTransport.templateUrl,
                             minNativeZoom: kTileLayerPublicTransport.minZoom,
                             maxNativeZoom: kTileLayerPublicTransport.maxZoom,
                             userAgentPackageName: kAppUserAgent,
                           );
                         }
                         return const SizedBox.shrink();
-                      }
+                      },
                     ),
                     QueryIndicator(
                       active: viewModel.isLoadingStopAreas,
@@ -118,9 +120,9 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                       builder: (context) {
                         // "length" used to listen to changes
                         viewModel
-                        ..unloadedStopAreas.length
-                        ..incompleteStopAreas.length
-                        ..completeStopAreas.length;
+                          ..unloadedStopAreas.length
+                          ..incompleteStopAreas.length
+                          ..completeStopAreas.length;
 
                         return StopsLayer(
                           currentZoom: viewModel.mapZoomRound,
@@ -135,11 +137,11 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                         return AnimatedSwitcher(
                           duration: const Duration(milliseconds: 300),
                           child: (viewModel.hasSelectedElement)
-                            ? GeometryLayer(
-                              geometry: viewModel.selectedElement!.geometry,
-                              key: viewModel.selectedElementKey,
-                            )
-                            : null,
+                              ? GeometryLayer(
+                                  geometry: viewModel.selectedElement!.geometry,
+                                  key: viewModel.selectedElementKey,
+                                )
+                              : null,
                         );
                       },
                     ),
@@ -148,8 +150,8 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                         return AnimatedLocationLayer(
                           controller: viewModel.locationIndicatorController,
                           cameraTrackingMode: viewModel.cameraIsFollowingLocation
-                            ? CameraTrackingMode.location
-                            : CameraTrackingMode.none,
+                              ? CameraTrackingMode.location
+                              : CameraTrackingMode.none,
                         );
                       },
                     ),
@@ -177,9 +179,7 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                           switchInCurve: Curves.ease,
                           switchOutCurve: Curves.ease,
                           duration: const Duration(milliseconds: 300),
-                          child: !viewModel.hasQuestionnaire
-                            ? const MapOverlay()
-                            : null,
+                          child: !viewModel.hasQuestionnaire ? const MapOverlay() : null,
                         ),
                       ),
                     ),
@@ -208,18 +208,18 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                             child: FadeTransition(
                               opacity: animation,
                               child: child,
-                            )
+                            ),
                           );
                         },
                         child: viewModel.hasQuestionnaire
-                          ? QuestionDialog(
-                            activeQuestionIndex: viewModel.currentQuestionnaireIndex!,
-                            questions: viewModel.questionnaireQuestions,
-                            answers: viewModel.questionnaireAnswers,
-                            showSummary: viewModel.questionnaireIsFinished,
-                            key: viewModel.selectedElementKey,
-                          )
-                          : null
+                            ? QuestionDialog(
+                                activeQuestionIndex: viewModel.currentQuestionnaireIndex!,
+                                questions: viewModel.questionnaireQuestions,
+                                answers: viewModel.questionnaireAnswers,
+                                showSummary: viewModel.questionnaireIsFinished,
+                                key: viewModel.selectedElementKey,
+                              )
+                            : null,
                       );
                     },
                   ),

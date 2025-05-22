@@ -194,5 +194,5 @@ const countryToLanguageMapping = {
   'YE': {'ar'},
   'ZA': {'en', 'zu', 've', 'ss', 'tn', 'ts', 'st', 'nr', 'xh', 'af'},
   'ZM': {'en'},
-  'ZW': {'en', 've', 'ny', 'sn', 'tn', 'ts', 'st', 'nd', 'xh'}
+  'ZW': {'en', 've', 'ny', 'sn', 'tn', 'ts', 'st', 'nd', 'xh'},
 };

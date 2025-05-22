@@ -15,10 +15,13 @@ class EdgeFeather extends StatelessWidget {
     required this.edges,
     required this.child,
     super.key,
-  }) : assert(edges.isNonNegative, 'The EdgeInsets of the edges argument are not allowed to be negative.'),
+  }) : assert(
+         edges.isNonNegative,
+         'The EdgeInsets of the edges argument are not allowed to be negative.',
+       ),
        assert(
-        !(edges.vertical > 0 && edges.horizontal > 0),
-        'Only one axis (horizontal or vertical) can be faded.',
+         !(edges.vertical > 0 && edges.horizontal > 0),
+         'Only one axis (horizontal or vertical) can be faded.',
        );
 
   @override
@@ -48,8 +51,7 @@ class EdgeFeather extends StatelessWidget {
       endProportion = edges.right / bounds.width;
       begin = Alignment.centerLeft;
       end = Alignment.centerRight;
-    }
-    else {
+    } else {
       beginProportion = edges.top / bounds.height;
       endProportion = edges.bottom / bounds.height;
       begin = Alignment.topCenter;
@@ -59,12 +61,20 @@ class EdgeFeather extends StatelessWidget {
     final stops = <double>[];
     final colors = <Color>[];
     if (beginProportion > 0) {
-      stops..add(0)..add(beginProportion);
-      colors..add(Colors.white)..add(Colors.transparent);
+      stops
+        ..add(0)
+        ..add(beginProportion);
+      colors
+        ..add(Colors.white)
+        ..add(Colors.transparent);
     }
     if (endProportion > 0) {
-      stops..add(1 - endProportion)..add(1);
-      colors..add(Colors.transparent)..add(Colors.white);
+      stops
+        ..add(1 - endProportion)
+        ..add(1);
+      colors
+        ..add(Colors.transparent)
+        ..add(Colors.white);
     }
 
     return LinearGradient(

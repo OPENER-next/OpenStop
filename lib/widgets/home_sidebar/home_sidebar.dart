@@ -10,10 +10,9 @@ import '/widgets/custom_list_tile.dart';
 import 'login_info_header.dart';
 import 'user_account_header.dart';
 
-
 class HomeSidebar extends ViewFragment<HomeViewModel> {
   const HomeSidebar({super.key});
-  
+
   @override
   Widget build(BuildContext context, viewModel) {
     final appLocale = AppLocalizations.of(context)!;
@@ -33,15 +32,15 @@ class HomeSidebar extends ViewFragment<HomeViewModel> {
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
                 child: viewModel.userIsLoggedIn
-                  ? UserAccountHeader(
-                    name: viewModel.userName!,
-                    imageUrl: viewModel.userProfileImageUrl,
-                    onLogoutTap: viewModel.logout,
-                    onProfileTap: viewModel.openUserProfile,
-                  )
-                  : LoginInfoHeader(
-                    onLoginTap: viewModel.login,
-                  ),
+                    ? UserAccountHeader(
+                        name: viewModel.userName!,
+                        imageUrl: viewModel.userProfileImageUrl,
+                        onLogoutTap: viewModel.logout,
+                        onProfileTap: viewModel.openUserProfile,
+                      )
+                    : LoginInfoHeader(
+                        onLoginTap: viewModel.login,
+                      ),
               ),
             ),
           ),

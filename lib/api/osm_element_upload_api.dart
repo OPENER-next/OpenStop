@@ -8,12 +8,10 @@ import '/models/element_processing/element_processor.dart';
 import '/models/element_variants/base_element.dart';
 import '/models/stop_area/stop_area.dart';
 
-
 // NOTE:
 // A potential problem for finding related changeset is that the generated
 // changeset bbox can be larger then the stop area bbox,
 // because the stop area bbox doesn't take the dimensions of ways into account.
-
 
 class OSMElementUploadAPI {
   AuthenticatedUser _authenticatedUser;
@@ -23,13 +21,11 @@ class OSMElementUploadAPI {
   OSMElementUploadAPI({
     required AuthenticatedUser authenticatedUser,
     String endPoint = DefaultOSMAPI.endPoint,
-  }) :
-    _authenticatedUser = authenticatedUser,
-    _osmApi = DefaultOSMAPI(
-      authentication: authenticatedUser.authentication,
-      baseUrl: endPoint,
-    );
-
+  }) : _authenticatedUser = authenticatedUser,
+       _osmApi = DefaultOSMAPI(
+         authentication: authenticatedUser.authentication,
+         baseUrl: endPoint,
+       );
 
   set authenticatedUser(AuthenticatedUser value) {
     _authenticatedUser = value;
@@ -37,7 +33,6 @@ class OSMElementUploadAPI {
   }
 
   AuthenticatedUser get authenticatedUser => _authenticatedUser;
-
 
   /// Upload the given element to the OSM server.
   ///
@@ -50,17 +45,21 @@ class OSMElementUploadAPI {
     return _osmApi.updateElement(originalElement, changesetId);
   }
 
-
   /// Creates or retrieves (and updates) a suitable changeset for the given element and returns its id.
 
-  Future<int> createOrReuseChangeset(StopArea stopArea, ProcessedElement newElement, ChangesetInfoCallback generator) async {
+  Future<int> createOrReuseChangeset(
+    StopArea stopArea,
+    ProcessedElement newElement,
+    ChangesetInfoCallback generator,
+  ) async {
     var changesetId = await getReusableChangesetId(stopArea, generator);
     // update existing changeset tags
     if (changesetId != null) {
       // gather all previously modified elements of this changeset
       final changesetElements = await getChangesetElements(changesetId);
       final changesetInfo = generator(
-        stopArea, [newElement, ...changesetElements],
+        stopArea,
+        [newElement, ...changesetElements],
       );
       await _osmApi.updateChangeset(changesetId, changesetInfo.asMap());
     }
@@ -73,7 +72,6 @@ class OSMElementUploadAPI {
     return changesetId;
   }
 
-
   /// Get any open changeset that was created by our app and is inside the current stop area.
 
   Future<int?> getReusableChangesetId(StopArea stopArea, ChangesetInfoCallback generator) async {
@@ -84,19 +82,17 @@ class OSMElementUploadAPI {
     final changesets = await _osmApi.queryChangesets(
       open: true,
       uid: _authenticatedUser.id,
-      bbox: BoundingBox(stopArea.west, stopArea.south, stopArea.east, stopArea.north)
+      bbox: BoundingBox(stopArea.west, stopArea.south, stopArea.east, stopArea.north),
     );
 
     try {
       return changesets.firstWhere((changeset) {
         return changeset.tags['created_by'] == changesetInfo.createdBy;
       }).id;
-    }
-    on StateError {
+    } on StateError {
       return null;
     }
   }
-
 
   /// Queries all elements that were modified in the given changeset.
   ///
@@ -120,7 +116,6 @@ class OSMElementUploadAPI {
     });
   }
 
-
   /// This will query all child elements from ways and relations in the given bundle.
   /// The returned bundle will contain all elements from the given bundle plus any child elements.
 
@@ -138,16 +133,15 @@ class OSMElementUploadAPI {
     // wait till all requests are resolved
     // handle them in a stream in order to catch individual errors
     await Stream.fromFutures(requestQueue)
-      .handleError((Object e) {
-        // catch any errors and ignore these elements
-        // for example the element or its children might be deleted by now
-        debugPrint('Could not query element of existing changeset: $e');
-      })
-      .forEach(newBundle.merge);
+        .handleError((Object e) {
+          // catch any errors and ignore these elements
+          // for example the element or its children might be deleted by now
+          debugPrint('Could not query element of existing changeset: $e');
+        })
+        .forEach(newBundle.merge);
 
     return newBundle;
   }
-
 
   /// A method to terminate the api client and cleanup any open connections.
   /// This should be called inside the widgets dispose callback.
@@ -157,8 +151,8 @@ class OSMElementUploadAPI {
   }
 }
 
-
-typedef ChangesetInfoCallback = ChangesetInfo Function(
-  StopArea stopArea,
-  Iterable<ProcessedElement> modifiedElements,
-);
+typedef ChangesetInfoCallback =
+    ChangesetInfo Function(
+      StopArea stopArea,
+      Iterable<ProcessedElement> modifiedElements,
+    );

@@ -2,12 +2,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:open_stop/models/question_catalog/answer_constructor.dart';
 
 void main() async {
-
   Iterable<String> withValues(String key) sync* {
     switch (key) {
-      case 'key1': yield* ['a', 'b', 'c'];
-      case 'key2': yield* ['a', 'b', 'c'];
-      case 'key3': yield* ['some_value'];
+      case 'key1':
+        yield* ['a', 'b', 'c'];
+      case 'key2':
+        yield* ['a', 'b', 'c'];
+      case 'key3':
+        yield* ['some_value'];
     }
   }
 
@@ -23,7 +25,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key1': 'a',
-        })
+        }),
       );
     }
 
@@ -38,7 +40,7 @@ void main() async {
         equals({
           'key1': 'a',
           'key2': 'x',
-        })
+        }),
       );
     }
 
@@ -53,7 +55,7 @@ void main() async {
         equals({
           'key1': 'fallback',
           'key2': 'x',
-        })
+        }),
       );
     }
 
@@ -67,7 +69,7 @@ void main() async {
         testConstructor.construct(noValues),
         equals({
           'key2': 'x',
-        })
+        }),
       );
     }
 
@@ -80,7 +82,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key1': 'a',
-        })
+        }),
       );
     }
 
@@ -95,7 +97,7 @@ void main() async {
         equals({
           'key1': 'a',
           'key2': 'x',
-        })
+        }),
       );
     }
 
@@ -110,7 +112,7 @@ void main() async {
         equals({
           'key1': 'fallback',
           'key2': 'x',
-        })
+        }),
       );
     }
 
@@ -124,11 +126,10 @@ void main() async {
         testConstructor.construct(noValues),
         equals({
           'key2': 'x',
-        })
+        }),
       );
     }
   });
-
 
   test('test if constructor CONCAT works correctly', () {
     {
@@ -140,7 +141,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key1': 'abc',
-        })
+        }),
       );
     }
 
@@ -153,7 +154,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key1': 'abcd',
-        })
+        }),
       );
     }
 
@@ -168,7 +169,7 @@ void main() async {
         equals({
           'key1': 'abc',
           'key2': 'x',
-        })
+        }),
       );
     }
 
@@ -183,7 +184,7 @@ void main() async {
         equals({
           'key1': 'fallback',
           'key2': 'x',
-        })
+        }),
       );
     }
 
@@ -197,11 +198,10 @@ void main() async {
         testConstructor.construct(noValues),
         equals({
           'key2': 'x',
-        })
+        }),
       );
     }
   });
-
 
   test('test if constructor JOIN works correctly', () {
     {
@@ -213,7 +213,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key1': 'a;b;c',
-        })
+        }),
       );
     }
 
@@ -226,7 +226,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key1': 'a;b;c;d',
-        })
+        }),
       );
     }
 
@@ -241,7 +241,7 @@ void main() async {
         equals({
           'key1': 'a;b;c',
           'key2': 'x',
-        })
+        }),
       );
     }
 
@@ -256,7 +256,7 @@ void main() async {
         equals({
           'key1': 'fallback',
           'key2': 'x',
-        })
+        }),
       );
     }
 
@@ -270,11 +270,10 @@ void main() async {
         testConstructor.construct(noValues),
         equals({
           'key2': 'x',
-        })
+        }),
       );
     }
   });
-
 
   test('test if constructor COUPLE works correctly', () {
     {
@@ -284,7 +283,7 @@ void main() async {
 
       expect(
         testConstructor.construct(withValues),
-        equals({})
+        equals({}),
       );
     }
 
@@ -295,7 +294,7 @@ void main() async {
 
       expect(
         testConstructor.construct(withValues),
-        equals({})
+        equals({}),
       );
     }
 
@@ -309,7 +308,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key1': 'a;b;c',
-        })
+        }),
       );
     }
 
@@ -322,7 +321,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key1': 'ab',
-        })
+        }),
       );
     }
 
@@ -335,11 +334,10 @@ void main() async {
         testConstructor.construct(noValues),
         equals({
           'key1': 'ab',
-        })
+        }),
       );
     }
   });
-
 
   test('test if constructor INSERT works correctly', () {
     {
@@ -351,7 +349,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key3': 'Xsome_value',
-        })
+        }),
       );
     }
 
@@ -364,7 +362,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key3': 'sXome_value',
-        })
+        }),
       );
     }
 
@@ -377,7 +375,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key3': 'some_valuXe',
-        })
+        }),
       );
     }
 
@@ -390,7 +388,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key1': 'Xa',
-        })
+        }),
       );
     }
 
@@ -403,7 +401,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key1': 'a',
-        })
+        }),
       );
     }
 
@@ -414,7 +412,7 @@ void main() async {
 
       expect(
         testConstructor.construct(withValues),
-        equals({})
+        equals({}),
       );
     }
 
@@ -425,7 +423,7 @@ void main() async {
 
       expect(
         testConstructor.construct(withValues),
-        equals({})
+        equals({}),
       );
     }
 
@@ -436,11 +434,10 @@ void main() async {
 
       expect(
         testConstructor.construct(withValues),
-        equals({})
+        equals({}),
       );
     }
   });
-
 
   test('test if constructor PAD works correctly', () {
     {
@@ -452,7 +449,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key3': 'some_value',
-        })
+        }),
       );
     }
 
@@ -465,7 +462,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key3': 'some_value',
-        })
+        }),
       );
     }
 
@@ -478,7 +475,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key3': 'XXsome_value',
-        })
+        }),
       );
     }
 
@@ -491,7 +488,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key3': 'some_value',
-        })
+        }),
       );
     }
 
@@ -504,7 +501,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key3': 'some_value',
-        })
+        }),
       );
     }
 
@@ -517,7 +514,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key3': 'some_valueXX',
-        })
+        }),
       );
     }
 
@@ -530,7 +527,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key3': 'XXXsome_value',
-        })
+        }),
       );
     }
 
@@ -543,7 +540,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key1': 'aXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
-        })
+        }),
       );
     }
 
@@ -554,7 +551,7 @@ void main() async {
 
       expect(
         testConstructor.construct(withValues),
-        equals({})
+        equals({}),
       );
     }
 
@@ -565,7 +562,7 @@ void main() async {
 
       expect(
         testConstructor.construct(withValues),
-        equals({})
+        equals({}),
       );
     }
 
@@ -576,11 +573,10 @@ void main() async {
 
       expect(
         testConstructor.construct(withValues),
-        equals({})
+        equals({}),
       );
     }
   });
-
 
   test('test if constructor REPLACE works correctly', () {
     {
@@ -592,7 +588,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key3': 'some_test',
-        })
+        }),
       );
     }
 
@@ -605,7 +601,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key3': 'som#_valu#',
-        })
+        }),
       );
     }
 
@@ -618,7 +614,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key3': 'some_value',
-        })
+        }),
       );
     }
 
@@ -632,7 +628,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key3': '_ome_valu_',
-        })
+        }),
       );
     }
 
@@ -646,7 +642,7 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key3': 'some_value',
-        })
+        }),
       );
     }
 
@@ -658,7 +654,7 @@ void main() async {
 
       expect(
         testConstructor.construct(withValues),
-        equals({})
+        equals({}),
       );
     }
 
@@ -669,7 +665,7 @@ void main() async {
 
       expect(
         testConstructor.construct(withValues),
-        equals({})
+        equals({}),
       );
     }
 
@@ -682,18 +678,18 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key1': 'c',
-        })
+        }),
       );
     }
   });
 
-
   test('test expression nesting in constructor works correctly', () {
     {
       const testConstructor = AnswerConstructor({
-        'key1': ['JOIN',
+        'key1': [
+          'JOIN',
           ['CONCAT', r'$input'],
-          r'$input'
+          r'$input',
         ],
       });
 
@@ -701,15 +697,16 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key1': 'aabcbabcc',
-        })
+        }),
       );
     }
 
     {
       const testConstructor = AnswerConstructor({
-        'key1': ['JOIN',
+        'key1': [
+          'JOIN',
           ['COALESCE', r'$input'],
-          r'$input'
+          r'$input',
         ],
       });
 
@@ -717,16 +714,17 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key1': 'aabac',
-        })
+        }),
       );
     }
 
     {
       const testConstructor = AnswerConstructor({
-        'key1': ['CONCAT',
+        'key1': [
+          'CONCAT',
           ['COALESCE', r'$input'],
           '-',
-          r'$input'
+          r'$input',
         ],
       });
 
@@ -734,16 +732,17 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key1': 'a-abc',
-        })
+        }),
       );
     }
 
     {
       const testConstructor = AnswerConstructor({
-        'key1': ['CONCAT',
+        'key1': [
+          'CONCAT',
           ['JOIN', ';', r'$input'],
           '-',
-          r'$input'
+          r'$input',
         ],
       });
 
@@ -751,23 +750,30 @@ void main() async {
         testConstructor.construct(withValues),
         equals({
           'key1': 'a;b;c-abc',
-        })
+        }),
       );
     }
 
     {
       const testConstructor = AnswerConstructor({
         'key1': [
-          'CONCAT', [
-            'INSERT', '_', '-1', [
-              'PAD', '#', '4', r'$input',
+          'CONCAT',
+          [
+            'INSERT',
+            '_',
+            '-1',
+            [
+              'PAD',
+              '#',
+              '4',
+              r'$input',
             ],
           ],
         ],
         'key2': [
-          'JOIN', '.', [
-            'REPLACE', 'a', 'x', r'$input'
-          ],
+          'JOIN',
+          '.',
+          ['REPLACE', 'a', 'x', r'$input'],
         ],
       });
 

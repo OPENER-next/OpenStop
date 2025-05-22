@@ -32,17 +32,14 @@ class DurationInput extends QuestionInputWidget<DurationAnswerDefinition, Durati
     if (maxValue != null) {
       if (definition.input.days.display) {
         maxDays = maxValue;
-      }
-      else if (definition.input.hours.display) {
+      } else if (definition.input.hours.display) {
         maxDays = 1;
         maxHours = maxValue;
-      }
-      else if (definition.input.minutes.display) {
+      } else if (definition.input.minutes.display) {
         maxDays = 1;
         maxHours = 1;
         maxMinutes = maxValue;
-      }
-      else if (definition.input.seconds.display) {
+      } else if (definition.input.seconds.display) {
         maxDays = 1;
         maxHours = 1;
         maxMinutes = 1;
@@ -59,45 +56,48 @@ class DurationInput extends QuestionInputWidget<DurationAnswerDefinition, Durati
   @override
   Widget build(BuildContext context) {
     final showStopWatch =
-      !definition.input.days.display &&
-      !definition.input.hours.display &&
-      !definition.input.minutes.display &&
-      definition.input.seconds.display &&
-      definition.input.seconds.step == 1;
+        !definition.input.days.display &&
+        !definition.input.hours.display &&
+        !definition.input.minutes.display &&
+        definition.input.seconds.display &&
+        definition.input.seconds.step == 1;
 
     return Column(
       children: [
         SizedBox(
           height: 130,
           child: showStopWatch
-          ? StopWatchScroller(
-            limit: _maxSeconds,
-            value: _remainingSeconds,
-            unit: AppLocalizations.of(context)!.durationInputSecondsLabel,
-            onChange: (value) => _handleChange(seconds: value),
-          )
-          : Row(
-            children: _intersperse(
-              _timeScrollerWidgets(context).map(
-                (child) => Flexible(child: child),
-              ),
-              Text(':',
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-            ).toList(),
-          ),
+              ? StopWatchScroller(
+                  limit: _maxSeconds,
+                  value: _remainingSeconds,
+                  unit: AppLocalizations.of(context)!.durationInputSecondsLabel,
+                  onChange: (value) => _handleChange(seconds: value),
+                )
+              : Row(
+                  children: _intersperse(
+                    _timeScrollerWidgets(context).map(
+                      (child) => Flexible(child: child),
+                    ),
+                    Text(
+                      ':',
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                  ).toList(),
+                ),
         ),
         ExcludeSemantics(
           child: Row(
             children: _timeLabels(context)
-              .map<Widget>((label) => Expanded(
-                child: Text(label,
-                  textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodySmall,
+                .map<Widget>(
+                  (label) => Expanded(
+                    child: Text(
+                      label,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
                   ),
-                ),
-              )
-              .toList(),
+                )
+                .toList(),
           ),
         ),
       ],
@@ -186,14 +186,13 @@ class DurationInput extends QuestionInputWidget<DurationAnswerDefinition, Durati
 
     // if all values are zero return null
     controller.answer = newDuration != Duration.zero
-      ? DurationAnswer(
-        definition: definition,
-        value: newDuration
-      )
-      : null;
+        ? DurationAnswer(
+            definition: definition,
+            value: newDuration,
+          )
+        : null;
   }
 }
-
 
 class TimeScroller extends StatefulWidget {
   final int step;
@@ -221,7 +220,7 @@ class TimeScroller extends StatefulWidget {
 
 class _TimeScrollerState extends State<TimeScroller> {
   late final _scrollController = FixedExtentScrollController(
-    initialItem: _clampIndex(_valueToIndex(widget.value))
+    initialItem: _clampIndex(_valueToIndex(widget.value)),
   );
 
   @override
@@ -247,7 +246,7 @@ class _TimeScrollerState extends State<TimeScroller> {
             Theme.of(context).colorScheme.surface,
             Theme.of(context).colorScheme.surface.withValues(alpha: 0.0),
             Theme.of(context).colorScheme.surface.withValues(alpha: 0.0),
-            Theme.of(context).colorScheme.surface
+            Theme.of(context).colorScheme.surface,
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -263,10 +262,11 @@ class _TimeScrollerState extends State<TimeScroller> {
           builder: (BuildContext context, int index) {
             final value = _indexToValue(index);
             // safety check required because selected item cannot be retrieved on initial build
-            final isActive = index == (_scrollController.position.hasContentDimensions
-              ? _scrollController.selectedItem
-              : _scrollController.initialItem
-            );
+            final isActive =
+                index ==
+                (_scrollController.position.hasContentDimensions
+                    ? _scrollController.selectedItem
+                    : _scrollController.initialItem);
             return ExcludeSemantics(
               excluding: !isActive,
               child: AnimatedOpacity(
@@ -283,7 +283,7 @@ class _TimeScrollerState extends State<TimeScroller> {
                 ),
               ),
             );
-          }
+          },
         ),
       ),
     );
@@ -295,7 +295,6 @@ class _TimeScrollerState extends State<TimeScroller> {
 
   int _valueToIndex(int value) => value ~/ widget.step;
 
-
   @override
   void dispose() {
     _scrollController.dispose();
@@ -303,14 +302,13 @@ class _TimeScrollerState extends State<TimeScroller> {
   }
 }
 
-
 class StopWatchScroller extends TimeScroller {
   const StopWatchScroller({
     required super.limit,
     required super.onChange,
     required super.value,
     required super.unit,
-    super.key
+    super.key,
   }) : super(step: 1);
 
   @override
@@ -330,7 +328,8 @@ class _StopWatchScrollerState extends _TimeScrollerState {
           sortKey: const OrdinalSortKey(3.0, name: 'DurationStopWatch'),
           child: IconButton.outlined(
             onPressed: widget.value != 0 ? reset : null,
-            icon: Icon(MdiIcons.timerRefreshOutline,
+            icon: Icon(
+              MdiIcons.timerRefreshOutline,
               semanticLabel: appLocale.semanticsDurationAnswerReset,
             ),
           ),
@@ -356,10 +355,12 @@ class _StopWatchScrollerState extends _TimeScrollerState {
           child: IconButton.outlined(
             isSelected: isActive,
             onPressed: isActive ? pause : start,
-            selectedIcon: Icon(MdiIcons.timerPauseOutline,
+            selectedIcon: Icon(
+              MdiIcons.timerPauseOutline,
               semanticLabel: appLocale.semanticsDurationAnswerStopStopwatch,
             ),
-            icon: Icon(MdiIcons.timerPlayOutline,
+            icon: Icon(
+              MdiIcons.timerPlayOutline,
               semanticLabel: appLocale.semanticsDurationAnswerStartStopwatch,
             ),
           ),
@@ -389,14 +390,15 @@ class _StopWatchScrollerState extends _TimeScrollerState {
   }
 
   void _tick(int index) {
-    _scrollController.animateToItem(index,
+    _scrollController.animateToItem(
+      index,
       duration: const Duration(seconds: 1),
       curve: Curves.easeInOutCubicEmphasized,
     );
   }
 
   void _clearTimer() {
-    if (_timer != null){
+    if (_timer != null) {
       _timer!.cancel();
       _timer = null;
     }
@@ -418,10 +420,8 @@ class _StopWatchScrollerState extends _TimeScrollerState {
   }
 }
 
-
-
 class _FixedExtentScrollPhysics extends FixedExtentScrollPhysics {
-  const _FixedExtentScrollPhysics({ super.parent });
+  const _FixedExtentScrollPhysics({super.parent});
   // special scroll physics implementation to disable implicit semantic scrolling
   // see https://api.flutter.dev/flutter/widgets/PageView/allowImplicitScrolling.html
   @override
