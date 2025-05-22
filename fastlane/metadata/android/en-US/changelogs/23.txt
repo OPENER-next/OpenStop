@@ -1,0 +1,11 @@
+General:
+- Improve accessibility for screen readers
+- Introduce persistent tile cache - This should reduce data usage and overall load times.
+- Minor fixes
+UI/UX:
+- Adjust button alignment for better compatibility with  RTL languages
+Questions:
+- Fix elevator height and door:height questions which accidentally wrote the width tag
+Localization:
+- Add new language: Tamil
+- Update existing localizations
