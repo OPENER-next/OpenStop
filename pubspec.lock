@@ -27,7 +27,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "0f92a80c2408c74033d79287c5053ec24a056b14"
+      resolved-ref: af257726c1c004cbedd5b5a36f60699e41b28991
       url: "https://github.com/OPENER-next/animated_location_indicator.git"
     source: git
     version: "1.0.0"
