@@ -13,7 +13,8 @@ part of 'base_element.dart';
 ///
 /// Two [ProcessedElement]s are considered equal if they have the same [id] and [type].
 
-abstract class ProcessedElement<T extends osmapi.OSMElement, G extends GeographicGeometry> extends BaseElement<T> {
+abstract class ProcessedElement<T extends osmapi.OSMElement, G extends GeographicGeometry>
+    extends BaseElement<T> {
   G? _geometry;
 
   final _parents = HashSet<ParentElement>();
@@ -44,8 +45,8 @@ abstract class ProcessedElement<T extends osmapi.OSMElement, G extends Geographi
   void calcGeometry();
 }
 
-
-mixin ChildElement<T extends osmapi.OSMElement, G extends GeographicGeometry> on ProcessedElement<T, G> {
+mixin ChildElement<T extends osmapi.OSMElement, G extends GeographicGeometry>
+    on ProcessedElement<T, G> {
   void addParent(covariant ParentElement element) {
     _parents.add(element);
     element._children.add(this);
@@ -57,8 +58,8 @@ mixin ChildElement<T extends osmapi.OSMElement, G extends GeographicGeometry> on
   }
 }
 
-
-mixin ParentElement<T extends osmapi.OSMElement, G extends GeographicGeometry> on ProcessedElement<T, G> {
+mixin ParentElement<T extends osmapi.OSMElement, G extends GeographicGeometry>
+    on ProcessedElement<T, G> {
   void addChild(covariant ChildElement element) {
     _children.add(element);
     element._parents.add(this);

@@ -7,7 +7,6 @@ import 'ripple_indicator.dart';
 /// Layer to show ripple animations for geo circles and automatically remove them when expired.
 
 class LoadingAreaLayer extends StatefulWidget {
-
   final Iterable<Circle> areas;
 
   const LoadingAreaLayer({
@@ -42,24 +41,26 @@ class _LoadingAreaLayerState extends State<LoadingAreaLayer> {
   Widget build(BuildContext context) {
     return MapLayer(
       children: _loadingAreas.entries
-        .map((entry) => _buildChild(entry.key, end: !entry.value))
-        .toList(growable: false),
+          .map((entry) => _buildChild(entry.key, end: !entry.value))
+          .toList(growable: false),
     );
   }
 
-  MapLayerPositioned _buildChild(Circle area, { bool end = false }) {
+  MapLayerPositioned _buildChild(Circle area, {bool end = false}) {
     return MapLayerPositioned(
       key: ValueKey(area),
       position: area.center,
       size: Size.fromRadius(area.radius),
       child: RippleIndicator(
         end: end,
-        onEnd: !end ? null : () {
-          setState(() {
-            // remove widget if animation ended
-            _loadingAreas.remove(area);
-          });
-        },
+        onEnd: !end
+            ? null
+            : () {
+                setState(() {
+                  // remove widget if animation ended
+                  _loadingAreas.remove(area);
+                });
+              },
         duration: const Duration(seconds: 1),
       ),
     );

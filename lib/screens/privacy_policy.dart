@@ -26,22 +26,22 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
           future: _privacyPolicyText,
           builder: (context, snapshot) {
             return (!snapshot.hasData)
-              ? const Center(
-                child: CircularProgressIndicator(),
-              )
-              : Markdown(
-                data: snapshot.requireData,
-                padding: EdgeInsets.only(
-                  top: 20,
-                  left: 20,
-                  right: 20,
-                  bottom: MediaQuery.of(context).padding.bottom,
-                ),
-                selectable: true,
-                onTapLink: (_, url, __) {
-                  if (url != null) launchUrl(Uri.parse(url));
-                },
-              );
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Markdown(
+                    data: snapshot.requireData,
+                    padding: EdgeInsets.only(
+                      top: 20,
+                      left: 20,
+                      right: 20,
+                      bottom: MediaQuery.of(context).padding.bottom,
+                    ),
+                    selectable: true,
+                    onTapLink: (_, url, __) {
+                      if (url != null) launchUrl(Uri.parse(url));
+                    },
+                  );
           },
         ),
       ),

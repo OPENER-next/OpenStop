@@ -5,9 +5,7 @@ import '/api/overpass_query_api.dart';
 import '/utils/geo_utils.dart';
 import 'stop_area.dart';
 
-
 class StopAreaQuery extends OverpassQuery<Iterable<StopArea>> {
-
   @override
   final String query;
 
@@ -20,6 +18,7 @@ class StopAreaQuery extends OverpassQuery<Iterable<StopArea>> {
     int mergeRadius = 100,
   }) : query = _buildQuery(mergeRadius);
 
+  // dart format off
   static String _buildQuery (int mergeRadius) =>
     // get all platforms
     'nwr[public_transport=platform]->.remaining_platforms;'
@@ -54,6 +53,7 @@ class StopAreaQuery extends OverpassQuery<Iterable<StopArea>> {
         'out bb;'
       '}'
     '}';
+  // dart format on
 
   @override
   Iterable<StopArea> responseTransformer(Map<String, dynamic>? response) sync* {
@@ -63,9 +63,9 @@ class StopAreaQuery extends OverpassQuery<Iterable<StopArea>> {
         final geometry = element['geometry'] as Map<String, dynamic>;
         final tags = element['tags'] as Map<String, dynamic>?;
         final points = (geometry['coordinates'] as List)
-          .cast<List>()
-          .map<LatLng>((p) => LatLng(p[1], p[0]))
-          .toList(growable: false);
+            .cast<List>()
+            .map<LatLng>((p) => LatLng(p[1], p[0]))
+            .toList(growable: false);
         // inflate bbox by 50 meters in each direction
         final bbox = LatLngBounds.fromPoints(points).pad(padding);
         String? name = tags?['name'];

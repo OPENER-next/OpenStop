@@ -16,7 +16,7 @@ class SelectDialog<T> extends StatefulWidget {
     this.value,
     this.title,
     this.semanticLabel,
-    super.key
+    super.key,
   });
 
   @override

@@ -4,7 +4,7 @@ enum InteractionTrigger {
   none,
   tap,
   doubleTap,
-  longPress
+  longPress,
 }
 
 typedef HeroViewerBuilder = Widget Function(BuildContext context, Widget child);
@@ -13,7 +13,6 @@ typedef HeroViewerBuilder = Widget Function(BuildContext context, Widget child);
 /// to enlarge the wrapped widget to the entire screen and allow closer inspection of the widget.
 
 class HeroViewer extends StatefulWidget {
-
   /// Hero view builder which wraps the child in an InteractiveViewer
   /// so the content can be zoomed and panned.
 
@@ -25,7 +24,7 @@ class HeroViewer extends StatefulWidget {
         child: FittedBox(
           fit: BoxFit.contain,
           child: child,
-        )
+        ),
       ),
     );
   }
@@ -36,7 +35,6 @@ class HeroViewer extends StatefulWidget {
       child: child,
     );
   }
-
 
   final Widget child;
 
@@ -77,9 +75,7 @@ class HeroViewer extends StatefulWidget {
   State<HeroViewer> createState() => _HeroViewerState();
 }
 
-
 class _HeroViewerState extends State<HeroViewer> {
-
   /// A unique identifier is required to link both hero image widgets.
   /// For simplicity this is generated once in the code.
   /// This is the only reason why this widget needs to be state full.
@@ -93,7 +89,7 @@ class _HeroViewerState extends State<HeroViewer> {
       onLongPress: widget.openOn == InteractionTrigger.longPress ? showViewer : null,
       child: Hero(
         tag: widget.tag ?? _uniqueTag,
-        child: widget.child
+        child: widget.child,
       ),
     );
   }
@@ -110,11 +106,10 @@ class _HeroViewerState extends State<HeroViewer> {
         ),
         transitionBuilder: widget.routeTransitionsBuilder,
         transitionDuration: widget.routeTransitionDuration,
-      )
+      ),
     );
   }
 }
-
 
 // Hero animations only work between different PageRoutes
 // therefore we cannot use a ModalRoute here
@@ -151,15 +146,18 @@ class HeroViewerRoute<T> extends PageRoute<T> {
     this.opaque = false,
     this.barrierColor,
     this.barrierDismissible = true,
-    this.barrierLabel
+    this.barrierLabel,
   });
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+  Widget buildPage(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+  ) {
     return transitionBuilder(context, animation, secondaryAnimation, child);
   }
 }
-
 
 class _HeroViewerPage extends StatelessWidget {
   final Widget child;
@@ -174,7 +172,7 @@ class _HeroViewerPage extends StatelessWidget {
     required this.child,
     required this.builder,
     required this.tag,
-    required this.trigger
+    required this.trigger,
   });
 
   @override
@@ -189,9 +187,9 @@ class _HeroViewerPage extends StatelessWidget {
         context,
         Hero(
           tag: tag,
-          child: child
-        )
-      )
+          child: child,
+        ),
+      ),
     );
   }
 }

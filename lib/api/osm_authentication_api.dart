@@ -6,12 +6,10 @@ import 'package:osm_api/osm_api.dart';
 import '/commons/app_config.dart';
 import '/commons/osm_config.dart';
 
-
 // OAuth 2 login
 // A good introduction can be found here https://www.oauth.com/oauth2-servers/oauth-native-apps/
 
 class OSMAuthenticationAPI {
-
   final List<String> permissions;
 
   OSMAuthenticationAPI({
@@ -51,7 +49,7 @@ class OSMAuthenticationAPI {
         preferEphemeral: true,
         intentFlags: ephemeralIntentFlags,
         httpsHost: kAppCallbackUrlHost,
-        httpsPath: kAppCallbackUrlPath
+        httpsPath: kAppCallbackUrlPath,
       ),
     );
     final code = Uri.parse(result).queryParameters['code'];
@@ -120,7 +118,7 @@ class OSMAuthenticationAPI {
             'token_type_hint': 'access_token',
             'client_id': kOAuth2ClientId,
           },
-        )
+        ),
       ]);
     }
   }
@@ -138,16 +136,17 @@ class OSMAuthenticationAPI {
         OSMPermissions.READ_USER_PREFERENCES,
         OSMPermissions.WRITE_MAP,
       ]);
-    }
-    on OSMUnauthorizedException {
+    } on OSMUnauthorizedException {
       return false;
-    }
-    finally {
+    } finally {
       osmApi.dispose();
     }
   }
 
-  Future<Response<Map<String, dynamic>>> _request(String uri, Map<String, String> data) async {
+  Future<Response<Map<String, dynamic>>> _request(
+    String uri,
+    Map<String, String> data,
+  ) async {
     final dio = Dio();
     try {
       return await dio.post<Map<String, dynamic>>(
@@ -157,11 +156,10 @@ class OSMAuthenticationAPI {
           contentType: Headers.formUrlEncodedContentType,
           headers: {
             'User-Agent': kAppUserAgent,
-          }
+          },
         ),
       );
-    }
-    finally {
+    } finally {
       dio.close();
     }
   }

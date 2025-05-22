@@ -24,16 +24,17 @@ void main() async {
   const changesetLocale = 'test locale';
   const changesetSource = 'test source';
 
-  ChangesetInfo changesetGeneratorCb(StopArea stopArea, Iterable<ProcessedElement> elements) => ChangesetInfo(
-    comment: ChangesetCommentGenerator.fromContext(
-      stopArea: stopArea,
-      modifiedElements: elements,
-      userLocales: [],
-    ).toString(),
-    createdBy: changesetCreatedBy,
-    locale: changesetLocale,
-    source: changesetSource,
-  );
+  ChangesetInfo changesetGeneratorCb(StopArea stopArea, Iterable<ProcessedElement> elements) =>
+      ChangesetInfo(
+        comment: ChangesetCommentGenerator.fromContext(
+          stopArea: stopArea,
+          modifiedElements: elements,
+          userLocales: [],
+        ).toString(),
+        createdBy: changesetCreatedBy,
+        locale: changesetLocale,
+        source: changesetSource,
+      );
 
   final simpleStopArea = StopArea(
     const LatLng(9.8241, 19.6779),
@@ -120,11 +121,11 @@ void main() async {
   setUpAll(() async {
     osmapi = OSMAPI(
       baseUrl: 'http://127.0.0.1:3000/api/0.6',
-      authentication: auth
+      authentication: auth,
     );
 
     final changesetId = await osmapi.createChangeset({
-      'comment': 'Add dummy platforms'
+      'comment': 'Add dummy platforms',
     });
 
     // create some elements
@@ -132,26 +133,26 @@ void main() async {
     baseNodes = await Future.wait([
       osmapi.createElement(
         OSMNode(10, 20, tags: Map.of(tags01)),
-        changesetId
+        changesetId,
       ),
       osmapi.createElement(
         OSMNode(10.00001, 20.00001, tags: Map.of(tags02)),
-        changesetId
+        changesetId,
       ),
       osmapi.createElement(
         OSMNode(10.00001, 20.00002),
-        changesetId
+        changesetId,
       ),
       osmapi.createElement(
         OSMNode(10.00002, 20.00001),
-        changesetId
-      )
+        changesetId,
+      ),
     ]);
 
     baseWays = await Future.wait([
       osmapi.createElement(
         OSMWay([baseNodes[2].id, baseNodes[3].id], tags: Map.of(tags03)),
-        changesetId
+        changesetId,
       ),
     ]);
 
@@ -161,15 +162,17 @@ void main() async {
           [OSMMember(type: OSMElementType.way, ref: baseWays[0].id)],
           tags: Map.of(tags04),
         ),
-        changesetId
+        changesetId,
       ),
     ]);
 
-    elementProcessor.add(OSMElementBundle(
-      nodes: baseNodes,
-      ways: baseWays,
-      relations: baseRelations,
-    ));
+    elementProcessor.add(
+      OSMElementBundle(
+        nodes: baseNodes,
+        ways: baseWays,
+        relations: baseRelations,
+      ),
+    );
 
     await osmapi.closeChangeset(changesetId);
 
@@ -178,7 +181,7 @@ void main() async {
       authentication: auth,
       name: userDetails.name,
       id: userDetails.id,
-      preferredLanguages: userDetails.preferredLanguages
+      preferredLanguages: userDetails.preferredLanguages,
     );
 
     uploadApi = OSMElementUploadAPI(
@@ -187,7 +190,6 @@ void main() async {
     );
   });
 
-
   tearDown(() async {
     // close all open changesets
     final openChangesets = await osmapi.queryChangesets(
@@ -195,21 +197,24 @@ void main() async {
       uid: user.id,
     );
     await Future.wait(
-      openChangesets.map((changeset) => osmapi.closeChangeset(changeset.id))
+      openChangesets.map((changeset) => osmapi.closeChangeset(changeset.id)),
     );
   });
-
 
   test('Test osm element upload changeset generation/updating', () async {
     // update first node for simple stop area
     {
       final element = ProxyElement(
-        elementProcessor.find(OSMElementType.node, baseNodes[0].id)!, additionalTags: {
-        'bench': 'yes',
-        'height': '100',
-      });
+        elementProcessor.find(OSMElementType.node, baseNodes[0].id)!,
+        additionalTags: {
+          'bench': 'yes',
+          'height': '100',
+        },
+      );
       final changesetId = await uploadApi.createOrReuseChangeset(
-        simpleStopArea, element, changesetGeneratorCb,
+        simpleStopArea,
+        element,
+        changesetGeneratorCb,
       );
       await element.publish(uploadApi, changesetId);
     }
@@ -218,22 +223,31 @@ void main() async {
       open: true,
       uid: user.id,
     )).map((c) => c.tags);
-    expect(changesetTagList01, anyElement(equals({
-      'created_by': changesetCreatedBy,
-      'locale': changesetLocale,
-      'source': changesetSource,
-      'comment': 'Added details to MapFeature1 in the stop area Stop1.'
-    })));
+    expect(
+      changesetTagList01,
+      anyElement(
+        equals({
+          'created_by': changesetCreatedBy,
+          'locale': changesetLocale,
+          'source': changesetSource,
+          'comment': 'Added details to MapFeature1 in the stop area Stop1.',
+        }),
+      ),
+    );
 
     // update second node for simple stop area
     {
       final element = ProxyElement(
-        elementProcessor.find(OSMElementType.node, baseNodes[1].id)!, additionalTags: {
-        'bench': 'no',
-        'height': '10',
-      });
+        elementProcessor.find(OSMElementType.node, baseNodes[1].id)!,
+        additionalTags: {
+          'bench': 'no',
+          'height': '10',
+        },
+      );
       final changesetId = await uploadApi.createOrReuseChangeset(
-        simpleStopArea, element, changesetGeneratorCb,
+        simpleStopArea,
+        element,
+        changesetGeneratorCb,
       );
       await element.publish(uploadApi, changesetId);
     }
@@ -242,21 +256,30 @@ void main() async {
       open: true,
       uid: user.id,
     )).map((c) => c.tags);
-    expect(changesetTagList02, anyElement(equals({
-      'created_by': changesetCreatedBy,
-      'locale': changesetLocale,
-      'source': changesetSource,
-      'comment': 'Added details to MapFeature2 and MapFeature1 in the stop area Stop1.',
-    })));
+    expect(
+      changesetTagList02,
+      anyElement(
+        equals({
+          'created_by': changesetCreatedBy,
+          'locale': changesetLocale,
+          'source': changesetSource,
+          'comment': 'Added details to MapFeature2 and MapFeature1 in the stop area Stop1.',
+        }),
+      ),
+    );
 
     // update first node again for simple stop area
     {
       final element = ProxyElement(
-        elementProcessor.find(OSMElementType.node, baseNodes[0].id)!, additionalTags: {
-        'width': '20',
-      });
+        elementProcessor.find(OSMElementType.node, baseNodes[0].id)!,
+        additionalTags: {
+          'width': '20',
+        },
+      );
       final changesetId = await uploadApi.createOrReuseChangeset(
-        simpleStopArea, element, changesetGeneratorCb,
+        simpleStopArea,
+        element,
+        changesetGeneratorCb,
       );
       await element.publish(uploadApi, changesetId);
     }
@@ -265,21 +288,30 @@ void main() async {
       open: true,
       uid: user.id,
     )).map((c) => c.tags);
-    expect(changesetTagList03, anyElement(equals({
-      'created_by': changesetCreatedBy,
-      'locale': changesetLocale,
-      'source': changesetSource,
-      'comment': 'Added details to MapFeature1 and MapFeature2 in the stop area Stop1.',
-    })));
+    expect(
+      changesetTagList03,
+      anyElement(
+        equals({
+          'created_by': changesetCreatedBy,
+          'locale': changesetLocale,
+          'source': changesetSource,
+          'comment': 'Added details to MapFeature1 and MapFeature2 in the stop area Stop1.',
+        }),
+      ),
+    );
 
     // update way for double stop area
     {
       final element = ProxyElement(
-        elementProcessor.find(OSMElementType.way, baseWays[0].id)!, additionalTags: {
-        'width': '20',
-      });
+        elementProcessor.find(OSMElementType.way, baseWays[0].id)!,
+        additionalTags: {
+          'width': '20',
+        },
+      );
       final changesetId = await uploadApi.createOrReuseChangeset(
-        doubleStopArea, element, changesetGeneratorCb,
+        doubleStopArea,
+        element,
+        changesetGeneratorCb,
       );
       await element.publish(uploadApi, changesetId);
     }
@@ -288,21 +320,31 @@ void main() async {
       open: true,
       uid: user.id,
     )).map((c) => c.tags);
-    expect(changesetTagList04, anyElement(equals({
-      'created_by': changesetCreatedBy,
-      'locale': changesetLocale,
-      'source': changesetSource,
-      'comment': 'Added details to MapFeature3, MapFeature1 and MapFeature2 in the stop area Stop1.',
-    })));
+    expect(
+      changesetTagList04,
+      anyElement(
+        equals({
+          'created_by': changesetCreatedBy,
+          'locale': changesetLocale,
+          'source': changesetSource,
+          'comment':
+              'Added details to MapFeature3, MapFeature1 and MapFeature2 in the stop area Stop1.',
+        }),
+      ),
+    );
 
     // update way for triple stop area
     {
       final element = ProxyElement(
-        elementProcessor.find(OSMElementType.way, baseWays[0].id)!, additionalTags: {
-        'width': '10',
-      });
+        elementProcessor.find(OSMElementType.way, baseWays[0].id)!,
+        additionalTags: {
+          'width': '10',
+        },
+      );
       final changesetId = await uploadApi.createOrReuseChangeset(
-        tripleStopArea, element, changesetGeneratorCb,
+        tripleStopArea,
+        element,
+        changesetGeneratorCb,
       );
       await element.publish(uploadApi, changesetId);
     }
@@ -311,13 +353,18 @@ void main() async {
       open: true,
       uid: user.id,
     )).map((c) => c.tags);
-    expect(changesetTagList05, anyElement(equals({
-      'created_by': changesetCreatedBy,
-      'locale': changesetLocale,
-      'source': changesetSource,
-      'comment': 'Added details to MapFeature3, MapFeature1 and MapFeature2 in the stop area Stop2.',
-    })));
-
+    expect(
+      changesetTagList05,
+      anyElement(
+        equals({
+          'created_by': changesetCreatedBy,
+          'locale': changesetLocale,
+          'source': changesetSource,
+          'comment':
+              'Added details to MapFeature3, MapFeature1 and MapFeature2 in the stop area Stop2.',
+        }),
+      ),
+    );
 
     // check if no additional changeset was created by comparing the amount of changesets each query returned
     expect(changesetTagList01.length, equals(changesetTagList02.length));
@@ -332,21 +379,25 @@ void main() async {
     expect(serverWays, equals(baseWays));
   });
 
-
   test('Test osm element upload with changeset comment exceeding max length', () async {
     final stopAreaWithLongName = StopArea(
       const LatLng(9.8241, 19.6779),
       const LatLng(10.2136, 20.3240),
-      name: 'Stop area with name longer than 255 characters - loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong'
+      name:
+          'Stop area with name longer than 255 characters - loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong',
     );
 
     // update changeset with map feature and stop area of long name
     final element = ProxyElement(
-      elementProcessor.find(OSMElementType.relation, baseRelations[0].id)!, additionalTags: {
-      'foo': 'bar',
-    });
+      elementProcessor.find(OSMElementType.relation, baseRelations[0].id)!,
+      additionalTags: {
+        'foo': 'bar',
+      },
+    );
     final changesetId = await uploadApi.createOrReuseChangeset(
-      stopAreaWithLongName, element, changesetGeneratorCb,
+      stopAreaWithLongName,
+      element,
+      changesetGeneratorCb,
     );
     await element.publish(uploadApi, changesetId);
     // check if one changeset of the currently open changesets contains the expected tags.
@@ -356,12 +407,18 @@ void main() async {
     )).map((c) => c.tags);
 
     expect(changesetTagList.any((e) => e['comment']?.length == 255), isTrue);
-    expect(changesetTagList, anyElement(equals({
-      'created_by': changesetCreatedBy,
-      'locale': changesetLocale,
-      'source': changesetSource,
-      'comment': 'Added details to Element in the stop area Stop area with name longer than 255 characters - looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo',
-    })));
+    expect(
+      changesetTagList,
+      anyElement(
+        equals({
+          'created_by': changesetCreatedBy,
+          'locale': changesetLocale,
+          'source': changesetSource,
+          'comment':
+              'Added details to Element in the stop area Stop area with name longer than 255 characters - looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo',
+        }),
+      ),
+    );
 
     // check if upload of the relation was successful by downloading the relation from the server and comparing it
     final serverRelations = await osmapi.getRelations(baseRelations.map((rel) => rel.id));

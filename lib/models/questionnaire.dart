@@ -6,14 +6,11 @@ import '/models/question_catalog/question_definition.dart';
 import 'element_variants/base_element.dart';
 
 class Questionnaire {
-
   Questionnaire({
     required ProcessedElement osmElement,
     required QuestionCatalog questionCatalog,
-  }) : 
-    _questionCatalog = questionCatalog,
-    _osmElement = osmElement 
-  {
+  }) : _questionCatalog = questionCatalog,
+       _osmElement = osmElement {
     _updateWorkingElement();
     _insertMatchingEntries(afterIndex: -1);
   }
@@ -39,7 +36,7 @@ class Questionnaire {
   int get activeIndex => _activeIndex;
 
   QuestionnaireEntry? get activeEntry =>
-    _isValidIndex(_activeIndex) ? _entries[_activeIndex] : null;
+      _isValidIndex(_activeIndex) ? _entries[_activeIndex] : null;
 
   bool jumpTo(int index) {
     if (_isValidIndex(index) && index != _activeIndex) {
@@ -61,7 +58,7 @@ class Questionnaire {
     if (_isValidIndex(_activeIndex)) {
       _entries[_activeIndex] = QuestionnaireEntry(
         _entries[_activeIndex].question,
-        answer
+        answer,
       );
       _removeObsoleteEntries();
       _updateWorkingElement();
@@ -77,7 +74,7 @@ class Questionnaire {
     _workingElement = _createWorkingElement();
   }
 
-  void _insertMatchingEntries({ int? afterIndex }) {
+  void _insertMatchingEntries({int? afterIndex}) {
     afterIndex ??= _activeIndex;
     // insert questions in reverse so questions that follow next in the catalog
     // also follow next in the questionnaire
@@ -111,7 +108,7 @@ class Questionnaire {
       // create working element from all preceding entries excluding the current entry
       // this needs to be done, because otherwise an entry can get obsolete by its own answer or answers of succeeding questions
       final subWorkingElement = _createWorkingElement(
-        _entries.getRange(0, i)
+        _entries.getRange(0, i),
       );
       // get whether the question conditions of an entry still matches
       // the current working element
@@ -123,8 +120,7 @@ class Questionnaire {
       if (!questionIsMatching) {
         // remove the answer
         _entries.removeAt(i);
-      }
-      else {
+      } else {
         // only increment if no element was removed, because the removal will modify the indexes
         i++;
       }
@@ -132,27 +128,32 @@ class Questionnaire {
   }
 
   void updateQuestionCatalogLanguage(QuestionCatalog questionCatalog) {
-    assert(_questionCatalog.length == questionCatalog.length, 'Question catalogs are different while they should be of the same strucutre.');
+    assert(
+      _questionCatalog.length == questionCatalog.length,
+      'Question catalogs are different while they should be of the same strucutre.',
+    );
     _questionCatalog = questionCatalog;
-  
+
     for (var i = 0; i < _entries.length; i++) {
-       _entries[i] = _entries[i].copyWith(question: _questionCatalog.firstWhere((q) => q == _entries[i].question),
-       );
-     }
+      _entries[i] = _entries[i].copyWith(
+        question: _questionCatalog.firstWhere((q) => q == _entries[i].question),
+      );
+    }
   }
 
   /// Optionally specify a custom list of entries from which the working element is constructed.
 
   ProxyElement _createWorkingElement([Iterable<QuestionnaireEntry>? entries]) {
     final changes = (entries ?? _entries)
-      .where((entry) => entry.hasValidAnswer)
-      .map((entry) => entry.answer!.toTagMap());
+        .where((entry) => entry.hasValidAnswer)
+        .map((entry) => entry.answer!.toTagMap());
 
-    return ProxyElement(_osmElement,
+    return ProxyElement(
+      _osmElement,
       additionalTags: changes.fold<Map<String, String>>(
         {},
-        (tags, newTags) => tags..addAll(newTags)
-      )
+        (tags, newTags) => tags..addAll(newTags),
+      ),
     );
   }
 }
@@ -164,14 +165,13 @@ class Questionnaire {
 /// optional answer value.
 
 class QuestionnaireEntry<T extends Answer> {
-
   final QuestionDefinition question;
   final T? answer;
 
   QuestionnaireEntry(this.question, [this.answer]);
 
-  QuestionnaireEntry copyWith({QuestionDefinition? question,T? answer}) { 
-    return  QuestionnaireEntry(
+  QuestionnaireEntry copyWith({QuestionDefinition? question, T? answer}) {
+    return QuestionnaireEntry(
       question = question ?? this.question,
       answer = answer ?? this.answer,
     );
@@ -180,13 +180,12 @@ class QuestionnaireEntry<T extends Answer> {
   bool get hasValidAnswer => answer?.isValid == true;
 
   @override
-  int get hashCode =>
-    question.hashCode;
+  int get hashCode => question.hashCode;
 
   @override
-  bool operator == (other) =>
-    identical(this, other) ||
-    other is QuestionnaireEntry<T> &&
-    runtimeType == other.runtimeType &&
-    question == other.question;
+  bool operator ==(other) =>
+      identical(this, other) ||
+      other is QuestionnaireEntry<T> &&
+          runtimeType == other.runtimeType &&
+          question == other.question;
 }

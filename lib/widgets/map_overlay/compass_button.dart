@@ -19,7 +19,7 @@ class CompassButton extends StatelessWidget {
     required this.rotation,
     required this.onPressed,
     this.isDegree = false,
-    super.key
+    super.key,
   });
 
   @override
@@ -47,7 +47,7 @@ class CompassButton extends StatelessWidget {
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).colorScheme.onPrimaryContainer,
-                letterSpacing: 0
+                letterSpacing: 0,
               ),
               textAlign: TextAlign.center,
             ),

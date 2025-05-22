@@ -5,7 +5,6 @@ import 'package:mobx/mobx.dart';
 import '/api/preferences_service.dart';
 
 class OnboardingViewModel extends ViewModel {
-
   PreferencesService get _preferencesService => getService<PreferencesService>();
 
   late final markOnboardingAsSeen = Action(() {

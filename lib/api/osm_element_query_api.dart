@@ -3,7 +3,6 @@ import 'package:osm_api/osm_api.dart';
 
 import '/commons/osm_config.dart';
 
-
 /// This class exposes API calls for querying [OSMElement]s via the OSM API.
 
 class OSMElementQueryAPI {
@@ -13,11 +12,9 @@ class OSMElementQueryAPI {
     // always use live osm end point for query
     // note that this breaks the upload api in development
     String endPoint = 'https://www.openstreetmap.org/api/0.6',
-  }) :
-    _osmApi = DefaultOSMAPI(
-      baseUrl: endPoint,
-    );
-
+  }) : _osmApi = DefaultOSMAPI(
+         baseUrl: endPoint,
+       );
 
   /// Method to query all OSM elements from a specific bbox via OSM API.
   /// All direct sub elements of relations are also queried if the total member count
@@ -25,11 +22,12 @@ class OSMElementQueryAPI {
   /// This limit exists to prevent querying overly large relations, such as country boundaries.
   /// This method will throw [OSMAPI] connection errors.
 
-  Future<OSMElementBundle> queryByBBox(LatLngBounds bbox, { int relationMemberLimit = 50 }) async {
+  Future<OSMElementBundle> queryByBBox(
+    LatLngBounds bbox, {
+    int relationMemberLimit = 50,
+  }) async {
     final bboxElementBundle = await _osmApi.getElementsByBoundingBox(
-      BoundingBox(
-        bbox.west, bbox.south, bbox.east, bbox.north
-      )
+      BoundingBox(bbox.west, bbox.south, bbox.east, bbox.north),
     );
     // query all direct relation elements with less than X members
     final relations = bboxElementBundle.relations.where(
@@ -40,10 +38,11 @@ class OSMElementQueryAPI {
     return bboxElementBundle.merge(relationsElementBundle);
   }
 
-
   /// Query all elements of the supplied relations and merge them to a single [OSMElementBundle].
 
-  Future<OSMElementBundle> _getElementsFromRelations(Iterable<OSMRelation> relations) {
+  Future<OSMElementBundle> _getElementsFromRelations(
+    Iterable<OSMRelation> relations,
+  ) {
     // query all direct relation elements (nodes, ways and relations) + nodes of ways
     final queries = relations.map(
       (relation) => _osmApi.getFullRelation(relation.id),
@@ -54,7 +53,6 @@ class OSMElementQueryAPI {
       (previous, elementBundle) => previous.merge(elementBundle),
     );
   }
-
 
   /// A method to terminate the api client and cleanup any open connections.
   /// This should be called inside the widgets dispose callback.

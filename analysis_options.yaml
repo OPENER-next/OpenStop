@@ -7,6 +7,10 @@ analyzer:
   errors:
     avoid_slow_async_io: info
 
+formatter:
+  trailing_commas: preserve
+  page_width: 100
+
 linter:
   rules:
     always_declare_return_types: true

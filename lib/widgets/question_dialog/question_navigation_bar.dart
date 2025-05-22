@@ -33,7 +33,7 @@ class QuestionNavigationBar extends StatelessWidget {
     return Container(
       color: Theme.of(context).colorScheme.surface,
       padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).padding.bottom
+        bottom: MediaQuery.of(context).padding.bottom,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -43,55 +43,67 @@ class QuestionNavigationBar extends StatelessWidget {
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
               child: backText == null
-                ? null
-                : Semantics(
-                  container: true,
-                  sortKey: const OrdinalSortKey(2.0, name: 'questionNavigation'),
-                  child: TextButton.icon(
-                    // mimic disabled style
-                    style: onBack != null
-                      ? _buttonStyle.merge(const ButtonStyle(alignment: AlignmentDirectional.centerStart))
-                      : _buttonStyle.merge(const ButtonStyle(alignment: AlignmentDirectional.centerStart)).merge(disabledButtonStyle),
-                    // if button is disabled vibrate when pressed as additional feedback
-                    onPressed: onBack ?? HapticFeedback.vibrate,
-                    label: const Icon(Icons.chevron_left_rounded),
-                    icon: Text(
-                      backText!,
-                      semanticsLabel: backTextSemantics,
+                  ? null
+                  : Semantics(
+                      container: true,
+                      sortKey: const OrdinalSortKey(2.0, name: 'questionNavigation'),
+                      child: TextButton.icon(
+                        // mimic disabled style
+                        style: onBack != null
+                            ? _buttonStyle.merge(
+                                const ButtonStyle(alignment: AlignmentDirectional.centerStart),
+                              )
+                            : _buttonStyle
+                                  .merge(
+                                    const ButtonStyle(alignment: AlignmentDirectional.centerStart),
+                                  )
+                                  .merge(disabledButtonStyle),
+                        // if button is disabled vibrate when pressed as additional feedback
+                        onPressed: onBack ?? HapticFeedback.vibrate,
+                        label: const Icon(Icons.chevron_left_rounded),
+                        icon: Text(
+                          backText!,
+                          semanticsLabel: backTextSemantics,
+                        ),
+                        iconAlignment: IconAlignment.end,
+                      ),
                     ),
-                    iconAlignment: IconAlignment.end,
-                  ),
-                ),
             ),
           ),
           Expanded(
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
               child: nextText == null
-                ? null
-                : Semantics(
-                  container: true,
-                  sortKey: const OrdinalSortKey(1.0, name: 'questionNavigation'),
-                  child: TextButton.icon(
-                    key: ValueKey(nextText),
-                    // mimic disabled style
-                    style: onNext != null
-                      ? _buttonStyle.merge(const ButtonStyle(alignment: AlignmentDirectional.centerEnd))
-                      : _buttonStyle.merge(const ButtonStyle(alignment: AlignmentDirectional.centerEnd)).merge(disabledButtonStyle),
-                    // if button is disabled vibrate when pressed as additional feedback
-                    onPressed: onNext ?? HapticFeedback.vibrate,
-                    label: Semantics(
-                      button: true,
-                      enabled: onNext != null,
-                      child: Text(
-                        nextText!,
-                        semanticsLabel: nextTextSemantics,
+                  ? null
+                  : Semantics(
+                      container: true,
+                      sortKey: const OrdinalSortKey(1.0, name: 'questionNavigation'),
+                      child: TextButton.icon(
+                        key: ValueKey(nextText),
+                        // mimic disabled style
+                        style: onNext != null
+                            ? _buttonStyle.merge(
+                                const ButtonStyle(alignment: AlignmentDirectional.centerEnd),
+                              )
+                            : _buttonStyle
+                                  .merge(
+                                    const ButtonStyle(alignment: AlignmentDirectional.centerEnd),
+                                  )
+                                  .merge(disabledButtonStyle),
+                        // if button is disabled vibrate when pressed as additional feedback
+                        onPressed: onNext ?? HapticFeedback.vibrate,
+                        label: Semantics(
+                          button: true,
+                          enabled: onNext != null,
+                          child: Text(
+                            nextText!,
+                            semanticsLabel: nextTextSemantics,
+                          ),
+                        ),
+                        icon: const Icon(Icons.chevron_right_rounded),
+                        iconAlignment: IconAlignment.end,
                       ),
                     ),
-                    icon: const Icon(Icons.chevron_right_rounded),
-                    iconAlignment: IconAlignment.end,
-                  ),
-                ),
             ),
           ),
         ],
@@ -113,6 +125,6 @@ class QuestionNavigationBar extends StatelessWidget {
         borderRadius: BorderRadius.zero,
       ),
     ),
-    minimumSize: WidgetStatePropertyAll(Size(double.infinity,0)),
+    minimumSize: WidgetStatePropertyAll(Size(double.infinity, 0)),
   );
 }

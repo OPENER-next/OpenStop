@@ -15,7 +15,6 @@ import 'map_feature_definition.dart';
 /// [MapFeatureRepresentation] base its equality on its [id] and [type].
 
 class MapFeatureRepresentation extends ElementIdentifier {
-
   const MapFeatureRepresentation({
     required this.id,
     required this.type,
@@ -23,18 +22,18 @@ class MapFeatureRepresentation extends ElementIdentifier {
     required this.icon,
     required MapFeatureLabelConstructor label,
     required Map<String, String> tags,
-  }) : _label = label, _tags = tags;
+  }) : _label = label,
+       _tags = tags;
 
   MapFeatureRepresentation.fromElement({
     required ProcessedElement element,
     this.icon = MdiIcons.help,
     MapFeatureLabelConstructor label = _defaultLabel,
-  }) :
-    id = element.id,
-    type = element.type,
-    geometry = element.geometry,
-    _tags = element.tags,
-    _label = label;
+  }) : id = element.id,
+       type = element.type,
+       geometry = element.geometry,
+       _tags = element.tags,
+       _label = label;
 
   static String _defaultLabel(AppLocalizations _, Map<String, String> tags) {
     return tags['name'] ?? tags['ref'] ?? 'Element';

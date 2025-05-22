@@ -19,7 +19,6 @@ class NumberInput extends QuestionInputWidget<NumberAnswerDefinition, NumberAnsw
   }
 }
 
-
 // This StatefulWidget is required because we are dealing with two controllers which need
 // to be linked together. This can only be achieved in a StatefulWidget.
 // For example when the AnswerController gets reset/changed from the outside it needs to
@@ -37,7 +36,7 @@ class _NumberInputDelegate extends StatefulWidget {
 
 class _NumberInputDelegateState extends State<_NumberInputDelegate> {
   late final _textController = TextEditingController(
-    text: widget.controller.answer?.value
+    text: widget.controller.answer?.value,
   );
 
   @override
@@ -48,11 +47,11 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
     final newValue = widget.controller.answer?.value ?? '';
     if (_textController.text != newValue) {
       final selection = _textController.selection.end > newValue.length
-        // required, otherwise the input loses focus when clearing it
-        // even though the cursor is still displayed in the input and pressing a special character
-        // like a dot (.) will refocus the input field for whatever reason
-        ? TextSelection.collapsed(offset: newValue.length)
-        : null;
+          // required, otherwise the input loses focus when clearing it
+          // even though the cursor is still displayed in the input and pressing a special character
+          // like a dot (.) will refocus the input field for whatever reason
+          ? TextSelection.collapsed(offset: newValue.length)
+          : null;
       _textController.value = _textController.value.copyWith(text: newValue, selection: selection);
     }
   }
@@ -73,7 +72,8 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
         suffixText: input.unit,
         suffixIcon: IconButton(
           onPressed: _handleChange,
-          icon: Icon(Icons.clear_rounded,
+          icon: Icon(
+            Icons.clear_rounded,
             semanticLabel: appLocale.semanticsClearField,
           ),
           highlightColor: Colors.transparent,
@@ -89,18 +89,15 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
           );
 
           if (!answer.isValid) {
-            final number = double.tryParse( text.replaceAll(',', '.') );
+            final number = double.tryParse(text.replaceAll(',', '.'));
 
             final nameString = input.placeholder ?? appLocale.numberInputFallbackName;
-            final unitString = input.unit != null
-              ? ' ${input.unit}'
-              : '';
+            final unitString = input.unit != null ? ' ${input.unit}' : '';
 
             if (number != null) {
               if (input.max != null && number > input.max!) {
                 return appLocale.numberInputValidationErrorMax(nameString, input.max!, unitString);
-              }
-              else if (input.min != null && number < input.min!) {
+              } else if (input.min != null && number < input.min!) {
                 return appLocale.numberInputValidationErrorMin(nameString, input.min!, unitString);
               }
             }
@@ -111,12 +108,12 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
       },
       keyboardType: TextInputType.numberWithOptions(
         decimal: decimalsAllowed,
-        signed: negativeAllowed
+        signed: negativeAllowed,
       ),
       inputFormatters: [
         NumberTextInputFormatter(
-            decimals: input.decimals,
-            negativeAllowed: negativeAllowed
+          decimals: input.decimals,
+          negativeAllowed: negativeAllowed,
         ),
       ],
     );
@@ -124,11 +121,11 @@ class _NumberInputDelegateState extends State<_NumberInputDelegate> {
 
   void _handleChange([String value = '']) {
     widget.controller.answer = value.isNotEmpty
-      ? NumberAnswer(
-        definition: widget.definition,
-        value: value
-      )
-      : null;
+        ? NumberAnswer(
+            definition: widget.definition,
+            value: value,
+          )
+        : null;
   }
 
   @override
@@ -147,7 +144,6 @@ class NumberTextInputFormatter extends TextInputFormatter {
   final int? decimals;
   final bool negativeAllowed;
 
-
   @override
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     final allowRegexStringBuilder = StringBuffer('^');
@@ -163,7 +159,10 @@ class NumberTextInputFormatter extends TextInputFormatter {
     }
     // match a specific amount of decimal places
     else if (decimals! > 0) {
-      allowRegexStringBuilder..write(r'([,.]\d{0,')..write(decimals)..write('})?');
+      allowRegexStringBuilder
+        ..write(r'([,.]\d{0,')
+        ..write(decimals)
+        ..write('})?');
     }
     allowRegexStringBuilder.write(r'$');
 

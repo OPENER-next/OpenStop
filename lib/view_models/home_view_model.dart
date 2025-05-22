@@ -33,10 +33,9 @@ import '/utils/geo_utils.dart';
 import '/utils/map_utils.dart';
 import '/widgets/question_inputs/question_input_widget.dart';
 
-
-class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, NotificationMediator {
-
-  final questionDialogMaxHeightFactor = 2/3;
+class HomeViewModel extends ViewModel
+    with MakeTickerProvider, PromptMediator, NotificationMediator {
+  final questionDialogMaxHeightFactor = 2 / 3;
 
   AppWorkerInterface get _appWorker => getService<AppWorkerInterface>();
 
@@ -68,10 +67,12 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     super.init();
     // one time reaction when the first stop areas are available,
     // then try to load its elements
-    _reactionDisposers.add(when(
-      (p0) => _unloadedStopAreas.isNotEmpty,
-      _onDebouncedMapEvent,
-    ));
+    _reactionDisposers.add(
+      when(
+        (p0) => _unloadedStopAreas.isNotEmpty,
+        _onDebouncedMapEvent,
+      ),
+    );
   }
 
   ////////////////////////////
@@ -92,23 +93,34 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     final stopArea = change.stopArea;
     switch (change.state) {
       case StopAreaState.unloaded:
-        _loadingStopAreas.remove(stopArea) || _incompleteStopAreas.remove(stopArea) || _completeStopAreas.remove(stopArea);
+        _loadingStopAreas.remove(stopArea) ||
+            _incompleteStopAreas.remove(stopArea) ||
+            _completeStopAreas.remove(stopArea);
         _unloadedStopAreas.add(stopArea);
       case StopAreaState.loading:
-        _unloadedStopAreas.remove(stopArea) || _incompleteStopAreas.remove(stopArea) || _completeStopAreas.remove(stopArea);
+        _unloadedStopAreas.remove(stopArea) ||
+            _incompleteStopAreas.remove(stopArea) ||
+            _completeStopAreas.remove(stopArea);
         _loadingStopAreas.add(stopArea);
       case StopAreaState.complete:
-        _unloadedStopAreas.remove(stopArea) || _loadingStopAreas.remove(stopArea) || _incompleteStopAreas.remove(stopArea);
+        _unloadedStopAreas.remove(stopArea) ||
+            _loadingStopAreas.remove(stopArea) ||
+            _incompleteStopAreas.remove(stopArea);
         _completeStopAreas.add(stopArea);
       case StopAreaState.incomplete:
-        _unloadedStopAreas.remove(stopArea) || _loadingStopAreas.remove(stopArea) || _completeStopAreas.remove(stopArea);
+        _unloadedStopAreas.remove(stopArea) ||
+            _loadingStopAreas.remove(stopArea) ||
+            _completeStopAreas.remove(stopArea);
         _incompleteStopAreas.add(stopArea);
     }
   }
 
   late final StreamSubscription<StopAreaUpdate> _stopAreaSubscription;
 
-  late final _loadingChunks = ObservableStream(_appWorker.subscribeLoadingChunks(), initialValue: 0);
+  late final _loadingChunks = ObservableStream(
+    _appWorker.subscribeLoadingChunks(),
+    initialValue: 0,
+  );
 
   late final _isLoadingStopAreas = Computed(() => (_loadingChunks.value ?? 0) > 0);
 
@@ -141,19 +153,19 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
       return runInAction(() {
         _cameraIsFollowingLocation.value = false;
       });
-    }
-    else if (!cameraIsFollowingLocation) {
+    } else if (!cameraIsFollowingLocation) {
       if (!locationIndicatorController.isActive) {
         locationIndicatorController.activate();
       }
       try {
-        await mapController.animateTo(
-          ticker: this,
-          location: await _incomingLocation,
-          id: 'KeepCameraTracking',
-        ).orCancel;
-      }
-      on TickerCanceled {
+        await mapController
+            .animateTo(
+              ticker: this,
+              location: await _incomingLocation,
+              id: 'KeepCameraTracking',
+            )
+            .orCancel;
+      } on TickerCanceled {
         return;
       }
     }
@@ -172,6 +184,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
           completer.complete(locationIndicatorController.location);
         }
       }
+
       locationIndicatorController.addListener(complete);
       return completer.future;
     }
@@ -180,8 +193,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
   Future<bool> _requestLocationPermission() async {
     final permission = await Geolocator.requestPermission();
-    return permission == LocationPermission.always ||
-           permission == LocationPermission.whileInUse;
+    return permission == LocationPermission.always || permission == LocationPermission.whileInUse;
   }
 
   //////////////////////////////
@@ -226,6 +238,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     final decimalPart = mapZoom - mapZoom.truncate();
     return decimalPart > 0.9 ? mapZoom.ceil() : mapZoom.floor();
   });
+
   /// Special rounding function, which mostly floors the value except for numbers very close to the next integer.
   ///
   /// Mainly used to hide markers early when zooming out.
@@ -277,15 +290,17 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
   Future<void> logout() async {
     final appLocale = AppLocalizations.of(context)!;
-    final choice = await promptUserInput(Prompt(
-      title: appLocale.logoutDialogTitle,
-      message: appLocale.logoutDialogDescription,
-      choices: {
-        appLocale.logout: true,
-        appLocale.cancel: false,
-      },
-      isDismissible: true,
-    ));
+    final choice = await promptUserInput(
+      Prompt(
+        title: appLocale.logoutDialogTitle,
+        message: appLocale.logoutDialogDescription,
+        choices: {
+          appLocale.logout: true,
+          appLocale.cancel: false,
+        },
+        isDismissible: true,
+      ),
+    );
 
     if (choice == true) {
       return _userAccountService.logout();
@@ -309,7 +324,10 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   late final _currentQuestionnaireIndex = Computed(() => _questionnaireState.value?.activeIndex);
   int? get currentQuestionnaireIndex => _currentQuestionnaireIndex.value;
 
-  late final _questionnaireIsFinished = Computed(() => _questionnaireState.value?.isCompleted == true);
+  late final _questionnaireIsFinished = Computed(
+    () => _questionnaireState.value?.isCompleted == true,
+  );
+
   /// Whether all questions of the current questionnaire have been visited.
   bool get questionnaireIsFinished => _questionnaireIsFinished.value;
 
@@ -319,9 +337,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
   UnmodifiableListView<QuestionDefinition> get questionnaireQuestions {
     return UnmodifiableListView(
-      _questionnaireState.value?.entries.map(
-        (entry) => entry.question,
-      ) ?? const Iterable.empty(),
+      _questionnaireState.value?.entries.map((entry) => entry.question) ?? const Iterable.empty(),
     );
   }
 
@@ -337,8 +353,9 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
 
     return UnmodifiableListView<AnswerController>(
       _questionnaireState.value?.entries.map(
-        (entry) => _answerControllerMapping[entry]!,
-      ) ?? const Iterable.empty(),
+            (entry) => _answerControllerMapping[entry]!,
+          ) ??
+          const Iterable.empty(),
     );
   }
 
@@ -358,7 +375,10 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     _appWorker.openQuestionnaire(element);
     runInAction(() => _selectedElement.value = element);
     // semantic notification
-    SemanticsService.announce(appLocale.semanticsOpenQuestionnaireAnnounce, Directionality.of(context));
+    SemanticsService.announce(
+      appLocale.semanticsOpenQuestionnaireAnnounce,
+      Directionality.of(context),
+    );
   }
 
   /// Close the currently active questionnaire if any.
@@ -372,7 +392,10 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
       // deselect element
       runInAction(() => _selectedElement.value = null);
       // semantic notification
-      SemanticsService.announce(appLocale.semanticsCloseQuestionnaireAnnounce, Directionality.of(context));
+      SemanticsService.announce(
+        appLocale.semanticsCloseQuestionnaireAnnounce,
+        Directionality.of(context),
+      );
     }
   }
 
@@ -398,15 +421,12 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
         );
         _uploadQueue[alteredElement!] = uploading;
         await uploading;
-      }
-      on OSMConnectionException {
+      } on OSMConnectionException {
         notifyUser(Notification(appLocale.uploadMessageServerConnectionError));
-      }
-      catch(e) {
+      } catch (e) {
         debugPrint(e.toString());
         notifyUser(Notification(appLocale.uploadMessageUnknownConnectionError));
-      }
-      finally {
+      } finally {
         _uploadQueue.remove(alteredElement)?.ignore();
       }
     }
@@ -450,10 +470,10 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
   /// Should be called on every questionnaire "update".
   /// If no questionnaire is selected this will remove and dispose all left over answer controllers.
 
-  void _updateAnswerControllers({ bool forceCleanUp = false }) {
+  void _updateAnswerControllers({bool forceCleanUp = false}) {
     final questionEntries = forceCleanUp || _questionnaireState.value == null
-      ? const <QuestionnaireEntry>[]
-      : _questionnaireState.value!.entries;
+        ? const <QuestionnaireEntry>[]
+        : _questionnaireState.value!.entries;
 
     // remove obsolete answer controllers
     _answerControllerMapping.removeWhere((questionEntry, controller) {
@@ -474,7 +494,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
           // will go through all questions and check whether they still match or start
           // matching.
           // The questionnaire is still updated on "go to next/previous question" calls.
-        )..addListener(_answerInputDebouncer.debounce(_updateQuestionnaireAnswer))
+        )..addListener(_answerInputDebouncer.debounce(_updateQuestionnaireAnswer)),
       );
     }
   }
@@ -517,8 +537,7 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     // show questions if a new marker is selected, else hide the current one
     if (_selectedElement.value != element) {
       _openQuestionnaire(element);
-    }
-    else {
+    } else {
       return closeQuestionnaire();
     }
 
@@ -528,9 +547,11 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     // This adjusts the bbox so that the geometry center point is in the middle of the viewed bounding box
     // while it ensures that the geometry is visible (within in the bounding box).
     final bounds = element.geometry.bounds;
-    bounds.extendBounds(bounds.mirror(
-      element.geometry.center,
-    ));
+    bounds.extendBounds(
+      bounds.mirror(
+        element.geometry.center,
+      ),
+    );
 
     // move camera to element and include default sheet size as bottom padding
     mapController.animateToBounds(
@@ -539,16 +560,15 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
       // calculate padding based on question dialog max height
       padding: EdgeInsets.only(
         top: mediaQuery.padding.top,
-        bottom: mediaQuery.size.height * questionDialogMaxHeightFactor
+        bottom: mediaQuery.size.height * questionDialogMaxHeightFactor,
       ),
       // only zoom in to fit the object, but never zoom out
       minZoom: mapController.camera.zoom,
       // zoom in on 20 or more if the current zoom level is above 20
       // required due to clustering, because not all markers may be visible on zoom level 20
-      maxZoom: max(20, mapController.camera.zoom)
+      maxZoom: max(20, mapController.camera.zoom),
     );
   }
-
 
   void _onMapEvent(MapEvent? event) {
     // cancel tracking on user interaction or any map move not caused by the camera tracker
@@ -561,9 +581,8 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
     }
   }
 
-
   Future<void> _onDebouncedMapEvent([MapEvent? event]) async {
-     final appLocale = AppLocalizations.of(context)!;
+    final appLocale = AppLocalizations.of(context)!;
 
     // store map location on map move events
     _preferencesService
@@ -578,38 +597,30 @@ class HomeViewModel extends ViewModel with MakeTickerProvider, PromptMediator, N
         // query stop areas on map interactions
         loadStopAreas().then((a) => loadElements()),
       ]);
-    }
-    on OSMUnknownException catch (e) {
+    } on OSMUnknownException catch (e) {
       if (e.errorCode == 503) {
         debugPrint(e.toString());
         notifyUser(Notification(appLocale.queryMessageServerUnavailableError));
-      }
-      else if (e.errorCode == 429) {
+      } else if (e.errorCode == 429) {
         debugPrint(e.toString());
         notifyUser(Notification(appLocale.queryMessageTooManyRequestsError));
-      }
-      else {
+      } else {
         rethrow;
       }
-    }
-    on DioException catch (e) {
+    } on DioException catch (e) {
       if (e.type == DioExceptionType.connectionTimeout) {
         notifyUser(Notification(appLocale.queryMessageConnectionTimeoutError));
-      }
-      else if (e.type == DioExceptionType.receiveTimeout) {
+      } else if (e.type == DioExceptionType.receiveTimeout) {
         notifyUser(Notification(appLocale.queryMessageReceiveTimeoutError));
-      }
-      else {
+      } else {
         debugPrint(e.toString());
         notifyUser(Notification(appLocale.queryMessageUnknownServerCommunicationError));
       }
-    }
-    catch(e) {
+    } catch (e) {
       debugPrint(e.toString());
       notifyUser(Notification(appLocale.queryMessageUnknownError));
     }
   }
-
 
   @override
   void dispose() {

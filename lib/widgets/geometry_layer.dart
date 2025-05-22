@@ -29,22 +29,23 @@ class GeometryLayer extends StatelessWidget {
           ),
         ],
       );
-    }
-    else if (geometry is GeographicPolygon || geometry is GeographicMultipolygon) {
+    } else if (geometry is GeographicPolygon || geometry is GeographicMultipolygon) {
       final polygons = geometry is GeographicPolygon
-        ? [ (geometry as GeographicPolygon) ]
-        : (geometry as GeographicMultipolygon).polygons;
+          ? [(geometry as GeographicPolygon)]
+          : (geometry as GeographicMultipolygon).polygons;
 
       layer = PolygonLayer(
-        polygons: polygons.map(
-          (polygon) => Polygon(
-            points: polygon.outerShape.path,
-            holePointsList: polygon.innerShapes.map((item) => item.path).toList(),
-            color: color,
-            borderStrokeWidth: 8,
-            borderColor: color,
-          ),
-        ).toList(),
+        polygons: polygons
+            .map(
+              (polygon) => Polygon(
+                points: polygon.outerShape.path,
+                holePointsList: polygon.innerShapes.map((item) => item.path).toList(),
+                color: color,
+                borderStrokeWidth: 8,
+                borderColor: color,
+              ),
+            )
+            .toList(),
       );
     }
     // TODO: Render individual elements of GeographicCollections instead of only center point.
@@ -55,8 +56,8 @@ class GeometryLayer extends StatelessWidget {
             point: geometry.center,
             radius: 8,
             color: color,
-          )
-        ]
+          ),
+        ],
       );
     }
 

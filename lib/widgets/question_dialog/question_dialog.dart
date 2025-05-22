@@ -15,7 +15,6 @@ import 'question_progress_bar.dart';
 import 'question_sheet.dart';
 import 'question_text_header.dart';
 
-
 class QuestionDialog extends ViewFragment<HomeViewModel> {
   final int activeQuestionIndex;
 
@@ -29,9 +28,11 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
     required this.questions,
     required this.answers,
     this.showSummary = false,
-    super.key
-  }) :
-    assert(questions.length == answers.length, 'Every question should have a corresponding answer controller.');
+    super.key,
+  }) : assert(
+         questions.length == answers.length,
+         'Every question should have a corresponding answer controller.',
+       );
 
   @override
   Widget build(BuildContext context, viewModel) {
@@ -71,7 +72,8 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
           child: ConstrainedBox(
             constraints: BoxConstraints(
               maxWidth: 500,
-              maxHeight: MediaQuery.of(context).size.height * viewModel.questionDialogMaxHeightFactor,
+              maxHeight:
+                  MediaQuery.of(context).size.height * viewModel.questionDialogMaxHeightFactor,
             ),
             child: Stack(
               children: [
@@ -81,26 +83,24 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                       child: QuestionList(
                         index: activeIndex,
                         children: [
-                          ...Iterable<Widget>.generate(
-                            questionCount, _buildQuestion,
-                          ),
+                          ...Iterable<Widget>.generate(questionCount, _buildQuestion),
                           QuestionSummary(
                             elevate: showSummary,
                             questions: questions
-                              .whereIndexed((index, _) => answers[index].hasValidAnswer)
-                              .map((question) => question.name)
-                              .toList(growable: false),
+                                .whereIndexed((index, _) => answers[index].hasValidAnswer)
+                                .map((question) => question.name)
+                                .toList(growable: false),
                             answers: answers
-                              .where((controller) => controller.hasValidAnswer)
-                              .map((controller) => controller.answer!.toLocaleString(appLocale))
-                              .toList(growable: false),
+                                .where((controller) => controller.hasValidAnswer)
+                                .map((controller) => controller.answer!.toLocaleString(appLocale))
+                                .toList(growable: false),
                             onJump: (index) {
                               // we get the filtered index so we need to convert it to the original index
                               // otherwise we jump to the wrong question/answer
                               final originalIndex = answers
-                                .mapIndexed((i, controller) => controller.hasValidAnswer ? i : -1)
-                                .where((i) => i != -1)
-                                .elementAt(index);
+                                  .mapIndexed((i, controller) => controller.hasValidAnswer ? i : -1)
+                                  .where((i) => i != -1)
+                                  .elementAt(index);
                               viewModel.jumpToQuestion(originalIndex);
                             },
                             userName: viewModel.userName,
@@ -111,7 +111,7 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                     // Clip widget shadow vertically to prevent overlapping
                     ClipRect(
                       clipper: ClipSymmetric(
-                        mediaQuery: MediaQuery.of(context)
+                        mediaQuery: MediaQuery.of(context),
                       ),
                       child: DecoratedBox(
                         decoration: BoxDecoration(
@@ -130,13 +130,11 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                               child: QuestionNavigationBar(
                                 nextTextSemantics: nextTextSemantics,
                                 nextText: nextText,
-                                backText: hasPreviousQuestion
-                                  ? appLocale.back
-                                  : null,
+                                backText: hasPreviousQuestion ? appLocale.back : null,
                                 backTextSemantics: appLocale.semanticsBackQuestionButton,
                                 onNext: hasNextQuestion || hasAnyValidAnswer
-                                  ? viewModel.goToNextQuestion
-                                  : null,
+                                    ? viewModel.goToNextQuestion
+                                    : null,
                                 onBack: viewModel.goToPreviousQuestion,
                               ),
                             ),
@@ -161,19 +159,19 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                       child: child,
                     ),
                     child: showSummary && hasAnyValidAnswer
-                      ? FloatingActionButton.large(
-                        elevation: 0,
-                        highlightElevation: 2,
-                        shape: const CircleBorder(),
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        onPressed: viewModel.submitQuestionnaire,
-                        child: Icon(
-                          Icons.cloud_upload_rounded,
-                          color: Theme.of(context).colorScheme.onPrimary,
-                          semanticLabel: appLocale.semanticsUploadQuestionsButton,
-                        ),
-                      )
-                      : null
+                        ? FloatingActionButton.large(
+                            elevation: 0,
+                            highlightElevation: 2,
+                            shape: const CircleBorder(),
+                            backgroundColor: Theme.of(context).colorScheme.primary,
+                            onPressed: viewModel.submitQuestionnaire,
+                            child: Icon(
+                              Icons.cloud_upload_rounded,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                              semanticLabel: appLocale.semanticsUploadQuestionsButton,
+                            ),
+                          )
+                        : null,
                   ),
                 ),
               ],
@@ -183,7 +181,6 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
       ),
     );
   }
-
 
   Widget _buildQuestion(int index) {
     final question = questions[index];

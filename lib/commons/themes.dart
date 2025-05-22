@@ -58,10 +58,10 @@ final ThemeData defaultTheme = ThemeData(
     largeSizeConstraints: BoxConstraints.tight(const Size.square(70)),
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(
-        Radius.circular(Default.borderRadius)
-      )
+        Radius.circular(Default.borderRadius),
+      ),
     ),
-    elevation: Default.elevation
+    elevation: Default.elevation,
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
@@ -72,17 +72,18 @@ final ThemeData defaultTheme = ThemeData(
         borderRadius: BorderRadius.circular(Default.borderRadius),
       ),
       side: const BorderSide(
-        color: Default.primary
-      )
-    )
+        color: Default.primary,
+      ),
+    ),
   ),
   iconButtonTheme: IconButtonThemeData(
     style: ButtonStyle(
-      shape: WidgetStateProperty.all(RoundedRectangleBorder(
+      shape: WidgetStateProperty.all(
+        RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Default.borderRadius),
-        )
-      )
-    )
+        ),
+      ),
+    ),
   ),
   inputDecorationTheme: const InputDecorationTheme(
     contentPadding: EdgeInsets.symmetric(horizontal: Default.padding),
@@ -92,16 +93,16 @@ final ThemeData defaultTheme = ThemeData(
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(Default.borderRadius)),
       borderSide: BorderSide(
-        color: Default.primary
-      )
-    )
+        color: Default.primary,
+      ),
+    ),
   ),
   snackBarTheme: SnackBarThemeData(
     actionTextColor: Default.primary,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(Default.borderRadius)
-    )
-  )
+      borderRadius: BorderRadius.circular(Default.borderRadius),
+    ),
+  ),
 );
 
 final ThemeData lightTheme = ThemeData(
@@ -125,14 +126,14 @@ final ThemeData lightTheme = ThemeData(
     enabledBorder: defaultTheme.inputDecorationTheme.border!.copyWith(
       borderSide: defaultTheme.inputDecorationTheme.border!.borderSide.copyWith(
         color: Default.outlineVariantLight,
-      )
-    )
+      ),
+    ),
   ),
   snackBarTheme: defaultTheme.snackBarTheme.copyWith(
     backgroundColor: Colors.grey.shade900,
   ),
   // Workaround until the default backgroundColor for Scaffold uses colorScheme.surface (https://github.com/flutter/flutter/pull/149772)
-  scaffoldBackgroundColor: Default.surfaceLight
+  scaffoldBackgroundColor: Default.surfaceLight,
 );
 
 final ThemeData darkTheme = ThemeData(
@@ -156,11 +157,11 @@ final ThemeData darkTheme = ThemeData(
     enabledBorder: defaultTheme.inputDecorationTheme.border!.copyWith(
       borderSide: defaultTheme.inputDecorationTheme.border!.borderSide.copyWith(
         color: Default.outlineVariantDark,
-      )
-    )
+      ),
+    ),
   ),
   // Workaround until the default backgroundColor for Scaffold uses colorScheme.surface (https://github.com/flutter/flutter/pull/149772)
-  scaffoldBackgroundColor: Default.surfaceDark
+  scaffoldBackgroundColor: Default.surfaceDark,
 );
 
 final ThemeData highContrastDarkTheme = ThemeData.dark().copyWith(
@@ -168,7 +169,7 @@ final ThemeData highContrastDarkTheme = ThemeData.dark().copyWith(
   floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
   outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
   iconButtonTheme: defaultTheme.iconButtonTheme,
-  inputDecorationTheme: defaultTheme.inputDecorationTheme
+  inputDecorationTheme: defaultTheme.inputDecorationTheme,
 );
 
 final ThemeData highContrastLightTheme = ThemeData.light().copyWith(
@@ -176,5 +177,5 @@ final ThemeData highContrastLightTheme = ThemeData.light().copyWith(
   floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
   outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
   iconButtonTheme: defaultTheme.iconButtonTheme,
-  inputDecorationTheme: defaultTheme.inputDecorationTheme
+  inputDecorationTheme: defaultTheme.inputDecorationTheme,
 );

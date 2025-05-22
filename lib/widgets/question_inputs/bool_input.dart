@@ -8,7 +8,6 @@ import '/models/answer.dart';
 import '/models/question_catalog/answer_definition.dart';
 import 'question_input_widget.dart';
 
-
 class BoolInput extends QuestionInputWidget<BoolAnswerDefinition, BoolAnswer> {
   const BoolInput({
     required super.definition,
@@ -34,8 +33,7 @@ class BoolInput extends QuestionInputWidget<BoolAnswerDefinition, BoolAnswer> {
                 inMutuallyExclusiveGroup: true,
                 checked: controller.answer?.value == state,
                 selected: controller.answer?.value == state,
-                child: Text(definition.input[index].name ??
-                  (state ? appLocale.yes : appLocale.no)),
+                child: Text(definition.input[index].name ?? (state ? appLocale.yes : appLocale.no)),
               ),
               onTap: () => _handleChange(state, appLocale),
               active: controller.answer?.value == state,
@@ -52,14 +50,13 @@ class BoolInput extends QuestionInputWidget<BoolAnswerDefinition, BoolAnswer> {
 
   void _handleChange(bool selectedState, AppLocalizations appLocale) {
     controller.answer = controller.answer?.value != selectedState
-      ? BoolAnswer(
-        definition: definition,
-        value: selectedState
-      )
-      : null;
+        ? BoolAnswer(
+            definition: definition,
+            value: selectedState,
+          )
+        : null;
   }
 }
-
 
 class _BoolInputItem extends ImplicitlyAnimatedWidget {
   final Widget label;

@@ -10,10 +10,7 @@ import 'question_catalog/answer_definition.dart';
 /// An answer is based on an [AnswerDefinition] and a `value` of any type.
 
 abstract class Answer<D extends AnswerDefinition, T> {
-  const Answer({
-    required this.definition,
-    required this.value
-  });
+  const Answer({required this.definition, required this.value});
 
   final D definition;
 
@@ -42,7 +39,6 @@ abstract class Answer<D extends AnswerDefinition, T> {
   String toLocaleString(AppLocalizations appLocale);
 }
 
-
 class StringAnswer extends Answer<StringAnswerDefinition, String> {
   const StringAnswer({
     required super.definition,
@@ -64,7 +60,6 @@ class StringAnswer extends Answer<StringAnswerDefinition, String> {
   @override
   String toLocaleString(AppLocalizations appLocale) => value;
 }
-
 
 /// Use string instead of double to avoid precision errors
 
@@ -93,7 +88,9 @@ class NumberAnswer extends Answer<NumberAnswerDefinition, String> {
     // match a specific amount of decimal places
     else if (definition.input.decimals! > 0) {
       allowRegexStringBuilder
-      ..write(r'|-?\d+\.\d{1,')..write(definition.input.decimals)..write('}');
+        ..write(r'|-?\d+\.\d{1,')
+        ..write(definition.input.decimals)
+        ..write('}');
     }
     allowRegexStringBuilder.write(r')$');
     if (!RegExp(allowRegexStringBuilder.toString()).hasMatch(value)) {
@@ -120,7 +117,6 @@ class NumberAnswer extends Answer<NumberAnswerDefinition, String> {
   }
 }
 
-
 class BoolAnswer extends Answer<BoolAnswerDefinition, bool> {
   const BoolAnswer({
     required super.definition,
@@ -145,7 +141,6 @@ class BoolAnswer extends Answer<BoolAnswerDefinition, bool> {
     return definition.input[_valueIndex].name ?? (value ? appLocale.yes : appLocale.no);
   }
 }
-
 
 class ListAnswer extends Answer<ListAnswerDefinition, int> {
   const ListAnswer({
@@ -189,23 +184,24 @@ class MultiListAnswer extends Answer<ListAnswerDefinition, List<int>> {
 
   @override
   bool get isValid {
-    return value.isNotEmpty && value.length <= definition.input.length &&
-    value.every((index) => index >= 0 && index < definition.input.length);
+    return value.isNotEmpty &&
+        value.length <= definition.input.length &&
+        value.every((index) => index >= 0 && index < definition.input.length);
   }
 
   @override
-  String toLocaleString(AppLocalizations appLocale) => value.map((index) => definition.input[index].name).join(', ');
+  String toLocaleString(AppLocalizations appLocale) =>
+      value.map((index) => definition.input[index].name).join(', ');
 }
-
 
 class DurationAnswer extends Answer<DurationAnswerDefinition, Duration> {
   const DurationAnswer({
     required super.definition,
-    required super.value
+    required super.value,
   });
 
   @override
-  Iterable<String> _resolve(String key) => _values.map((v){
+  Iterable<String> _resolve(String key) => _values.map((v) {
     final formatter = NumberFormat()
       ..minimumFractionDigits = 0
       ..maximumFractionDigits = 3;
@@ -225,14 +221,11 @@ class DurationAnswer extends Answer<DurationAnswerDefinition, Duration> {
 
     if (definition.input.seconds.output) {
       // noop
-    }
-    else if (definition.input.minutes.output) {
+    } else if (definition.input.minutes.output) {
       fractionalMinutes = (value.inSeconds % Duration.secondsPerMinute) / Duration.secondsPerMinute;
-    }
-    else if (definition.input.hours.output) {
+    } else if (definition.input.hours.output) {
       fractionalHours = (value.inSeconds % Duration.secondsPerHour) / Duration.secondsPerHour;
-    }
-    else if (definition.input.days.output) {
+    } else if (definition.input.days.output) {
       fractionalDays = (value.inSeconds % Duration.secondsPerDay) / Duration.secondsPerDay;
     }
 

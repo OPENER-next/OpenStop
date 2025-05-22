@@ -21,7 +21,6 @@ class LocationButton extends ImplicitlyAnimatedWidget {
     super.curve = Curves.ease,
   });
 
-
   @override
   AnimatedWidgetBaseState<LocationButton> createState() => _LocationButtonState();
 }

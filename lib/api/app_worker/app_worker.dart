@@ -17,12 +17,17 @@ import 'questionnaire_handler.dart';
 /// The isolate persists so it can cache any queried or processed data.
 
 class AppWorker extends ServiceWorker<AppWorkerMessage>
-  with QuestionCatalogHandler, LocaleHandler, StopAreaHandler, ElementHandler, QuestionnaireHandler {
+    with
+        QuestionCatalogHandler,
+        LocaleHandler,
+        StopAreaHandler,
+        ElementHandler,
+        QuestionnaireHandler {
   AppWorker(super.sendPort);
 
   @override
   Future<dynamic> messageHandler(message) async {
-    switch(message.subject) {
+    switch (message.subject) {
       case AppWorkerSubject.queryStopAreas:
         return queryStopAreas(message.data);
 
@@ -63,7 +68,7 @@ class AppWorker extends ServiceWorker<AppWorkerMessage>
 
   @override
   Stream subscriptionHandler(subscription) {
-    switch(subscription.subject) {
+    switch (subscription.subject) {
       case AppWorkerSubject.subscribeStopAreas:
         return stopAreasStream;
       case AppWorkerSubject.subscribeLoadingChunks:

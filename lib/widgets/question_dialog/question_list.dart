@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 
-
 class QuestionList extends StatefulWidget {
   final List<Widget> children;
 
@@ -10,13 +9,12 @@ class QuestionList extends StatefulWidget {
   const QuestionList({
     required this.children,
     this.index = 0,
-    super.key
+    super.key,
   });
 
   @override
   State<QuestionList> createState() => _QuestionListState();
 }
-
 
 class _QuestionListState extends State<QuestionList> with SingleTickerProviderStateMixin {
   final _proxyAnimation = ProxyAnimation();
@@ -37,14 +35,12 @@ class _QuestionListState extends State<QuestionList> with SingleTickerProviderSt
 
     _animation = CurvedAnimation(
       parent: _controller,
-      curve: Curves.easeInOutCubicEmphasized
+      curve: Curves.easeInOutCubicEmphasized,
     );
 
     _delegate = _QuestionListDelegate(_proxyAnimation);
     // set initial index as start
-    _updateTweenAnimation(
-      start: widget.index
-    );
+    _updateTweenAnimation(start: widget.index);
   }
 
   @override
@@ -56,35 +52,30 @@ class _QuestionListState extends State<QuestionList> with SingleTickerProviderSt
   Duration get _duration {
     // disable animation when screen reader is active
     return MediaQuery.of(context).accessibleNavigation
-      ? Duration.zero
-      : const Duration(milliseconds: 500);
+        ? Duration.zero
+        : const Duration(milliseconds: 500);
   }
-
 
   @override
   void didUpdateWidget(covariant QuestionList oldWidget) {
     super.didUpdateWidget(oldWidget);
     // set previous index/value as start
-    _updateTweenAnimation(
-      start: _proxyAnimation.value
-    );
+    _updateTweenAnimation(start: _proxyAnimation.value);
     // rerun animation
     _controller.value = 0;
     _controller.forward();
   }
 
-
   void _updateTweenAnimation({
-    required num start
+    required num start,
   }) {
     _proxyAnimation.parent = _animation.drive(
       Tween<double>(
         begin: start.toDouble(),
-        end: widget.index.toDouble()
-      )
+        end: widget.index.toDouble(),
+      ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -112,10 +103,9 @@ class _QuestionListState extends State<QuestionList> with SingleTickerProviderSt
             ),
           ),
         );
-      }, growable: false)
+      }, growable: false),
     );
   }
-
 
   @override
   void dispose() {
@@ -125,11 +115,10 @@ class _QuestionListState extends State<QuestionList> with SingleTickerProviderSt
   }
 }
 
-
 class _QuestionListDelegate extends FlowDelegate {
-  final Animation<double>  indexAnimation;
+  final Animation<double> indexAnimation;
 
-  _QuestionListDelegate(this.indexAnimation,) : super(repaint: indexAnimation);
+  _QuestionListDelegate(this.indexAnimation) : super(repaint: indexAnimation);
 
   @override
   bool shouldRepaint(_QuestionListDelegate oldDelegate) {
