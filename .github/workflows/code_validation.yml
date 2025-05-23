@@ -21,3 +21,9 @@ jobs:
 
     - name: Run static analysis and style guideline checks
       run: flutter analyze
+
+    - name: Check code formatting
+      # run even if the previous step fails to immediately provide feedback
+      if: success() || failure()
+      # exclude generated dart files (see https://github.com/dart-lang/dart_style/issues/864#issuecomment-1164395124)
+      run: dart format $(find lib test -name "*.dart" -not -name "*.g.dart") --output=none --set-exit-if-changed
