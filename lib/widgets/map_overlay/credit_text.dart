@@ -15,13 +15,8 @@ class CreditText extends StatefulWidget {
 
   static InlineSpan _defaultSeparatorBuilder(BuildContext context, int i) {
     return const TextSpan(
-      children: [
-        WidgetSpan(
-          child: ExcludeSemantics(
-            child: Text(', '),
-          ),
-        ),
-      ],
+      text: ' • ',
+      semanticsLabel: '',
     );
   }
 
