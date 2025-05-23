@@ -572,11 +572,11 @@ class HomeViewModel extends ViewModel
 
   void _onMapEvent(MapEvent? event) {
     // cancel tracking on user interaction or any map move not caused by the camera tracker
-    if (!(event is MapEventRotate || event is MapEventMove && (
-          event.id == 'KeepCameraTracking' ||
-          event.id == 'AnimatedLocationLayerCameraTracking' ||
-          event.camera.center == event.oldCamera.center
-    ))) {
+    if (!(event is MapEventRotate ||
+        event is MapEventMove &&
+            (event.id == 'KeepCameraTracking' ||
+                event.id == 'AnimatedLocationLayerCameraTracking' ||
+                event.camera.center == event.oldCamera.center))) {
       runInAction(() => _cameraIsFollowingLocation.value = false);
     }
   }
