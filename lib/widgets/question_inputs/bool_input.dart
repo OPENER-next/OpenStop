@@ -88,17 +88,21 @@ class _BoolInputItemState extends AnimatedWidgetBaseState<_BoolInputItem> {
 
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
-    _backgroundColorTween = visitor(
-      _backgroundColorTween,
-      widget.active ? widget.activeBackgroundColor : widget.backgroundColor,
-      (value) => ColorTween(begin: value)
-    ) as ColorTween?;
+    _backgroundColorTween =
+        visitor(
+              _backgroundColorTween,
+              widget.active ? widget.activeBackgroundColor : widget.backgroundColor,
+              (value) => ColorTween(begin: value),
+            )
+            as ColorTween?;
 
-    _foregroundColorTween = visitor(
-      _foregroundColorTween,
-      widget.active ? widget.activeForegroundColor : widget.foregroundColor,
-      (value) => ColorTween(begin: value)
-    ) as ColorTween?;
+    _foregroundColorTween =
+        visitor(
+              _foregroundColorTween,
+              widget.active ? widget.activeForegroundColor : widget.foregroundColor,
+              (value) => ColorTween(begin: value),
+            )
+            as ColorTween?;
   }
 
   @override

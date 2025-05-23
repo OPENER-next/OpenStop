@@ -32,19 +32,22 @@ class _LocationButtonState extends AnimatedWidgetBaseState<LocationButton> {
 
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
-    _colorTween = visitor(
-      _colorTween,
-      widget.active ? widget.activeColor : widget.color,
-      (value) => ColorTween(begin: value)
-    ) as ColorTween?;
+    _colorTween =
+        visitor(
+              _colorTween,
+              widget.active ? widget.activeColor : widget.color,
+              (value) => ColorTween(begin: value),
+            )
+            as ColorTween?;
 
-    _iconColorTween = visitor(
-      _iconColorTween,
-      widget.active ? widget.activeIconColor : widget.iconColor,
-      (value) => ColorTween(begin: value)
-    ) as ColorTween?;
+    _iconColorTween =
+        visitor(
+              _iconColorTween,
+              widget.active ? widget.activeIconColor : widget.iconColor,
+              (value) => ColorTween(begin: value),
+            )
+            as ColorTween?;
   }
-
 
   @override
   Widget build(BuildContext context) {
