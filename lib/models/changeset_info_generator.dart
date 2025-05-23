@@ -10,7 +10,6 @@ import 'element_variants/base_element.dart';
 import 'map_features/map_features.dart';
 import 'stop_area/stop_area.dart';
 
-
 /// Holds any desired changeset information.
 
 class ChangesetInfo {
@@ -41,13 +40,11 @@ class ChangesetInfo {
   };
 }
 
-
 /// Build the changeset comment based on the surrounding stop area and changed osm elements.
 ///
 /// OSM element names are taken from the [MapFeatureCollection].
 
 class ChangesetCommentGenerator {
-
   final Iterable<String> mapFeatureNames;
 
   final String? stopName;
@@ -59,7 +56,6 @@ class ChangesetCommentGenerator {
     required this.stopName,
     required this.localizations,
   });
-
 
   factory ChangesetCommentGenerator.fromContext({
     required StopArea stopArea,
@@ -91,9 +87,9 @@ class ChangesetCommentGenerator {
     while (finalString.length > 255) {
       // try to reduce the string length by removing terms step by step
       if (countElementNames > 1) {
-        final elementStrings = mapFeatureNames
-          .take(--countElementNames)
-          .followedBy([localizations.more]); // append "more" string
+        final elementStrings = mapFeatureNames.take(--countElementNames).followedBy([
+          localizations.more,
+        ]); // append "more" string
         finalString = _generateComment(elementStrings, stopName);
       }
       // hard truncate string
@@ -111,21 +107,23 @@ class ChangesetCommentGenerator {
     if (mapFeaturesString.isEmpty) mapFeaturesString = localizations.element;
 
     return stopName != null
-      ? localizations.changesetWithStopNameText(mapFeaturesString, stopName)
-      : localizations.changesetWithoutStopNameText(mapFeaturesString);
+        ? localizations.changesetWithStopNameText(mapFeaturesString, stopName)
+        : localizations.changesetWithoutStopNameText(mapFeaturesString);
   }
 
   /// Concatenate a list of strings/words based on a separator and conjunction string.
 
-  String _concat(Iterable<String> stringList, {
+  String _concat(
+    Iterable<String> stringList, {
     String separatorString = ', ',
     String conjunctionString = ' and ',
   }) {
     if (stringList.length > 1) {
       // concatenate all elements except the last element
-      return stringList.take(stringList.length - 1).join(separatorString)
-      // add last element with conjunction string
-      + conjunctionString + stringList.last;
+      return stringList.take(stringList.length - 1).join(separatorString) +
+          // add conjunction string with last element
+          conjunctionString +
+          stringList.last;
     }
     return stringList.join(separatorString);
   }
@@ -133,7 +131,10 @@ class ChangesetCommentGenerator {
   /// Matches the given elements to a corresponding map feature if any and
   /// extracts their names while filtering duplicates.
 
-  static Set<String> _getElementNames(Iterable<ProcessedElement> elements, AppLocalizations localizations) {
+  static Set<String> _getElementNames(
+    Iterable<ProcessedElement> elements,
+    AppLocalizations localizations,
+  ) {
     // use set to automatically remove duplicates
     return Set<String>.unmodifiable(
       elements.map(

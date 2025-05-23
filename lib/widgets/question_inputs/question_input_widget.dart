@@ -11,13 +11,12 @@ import '/widgets/question_inputs/multi_list_input.dart';
 import '/widgets/question_inputs/number_input.dart';
 import '/widgets/question_inputs/string_input.dart';
 
-
 /// The base widget for all question input fields.
 /// It automatically rebuilds whenever its controller changes.
 /// The controller should be used as the single source of truth when it comes to maintain the state.
 
-abstract class QuestionInputWidget<D extends AnswerDefinition, T extends Answer> extends AnimatedWidget {
-
+abstract class QuestionInputWidget<D extends AnswerDefinition, T extends Answer>
+    extends AnimatedWidget {
   /// The [QuestionInput] from which the view is constructed.
 
   final D definition;
@@ -29,14 +28,13 @@ abstract class QuestionInputWidget<D extends AnswerDefinition, T extends Answer>
   const QuestionInputWidget({
     required this.definition,
     required AnswerController<T> controller,
-    super.key
+    super.key,
   }) : super(listenable: controller);
-
 
   static QuestionInputWidget fromAnswerDefinition<A extends Answer>({
     required AnswerDefinition definition,
     required AnswerController<A> controller,
-    Key? key
+    Key? key,
   }) {
     switch (definition.runtimeType) {
       case const (StringAnswerDefinition):
@@ -81,7 +79,6 @@ abstract class QuestionInputWidget<D extends AnswerDefinition, T extends Answer>
   }
 }
 
-
 /// A controller for question input widgets that holds their currently selected answer.
 /// The controller can also be used to alter the input values from outside
 
@@ -89,9 +86,8 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
   T? _answer;
 
   AnswerController({
-    T? initialAnswer
+    T? initialAnswer,
   }) : _answer = initialAnswer;
-
 
   T? get answer => _answer;
 
@@ -121,13 +117,11 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
   AnswerStatus get state {
     if (isEmpty) {
       return AnswerStatus.empty;
-    }
-    else if (hasValidAnswer) {
+    } else if (hasValidAnswer) {
       return AnswerStatus.valid;
     }
     return AnswerStatus.invalid;
   }
-
 
   final _statusListeners = HashSet<AnswerStatusListener>();
 
@@ -153,10 +147,9 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
     }
   }
 
-
   static AnswerController fromType<T extends Answer>({
     required Type type,
-    T? initialAnswer
+    T? initialAnswer,
   }) {
     switch (type) {
       case const (BoolAnswerDefinition):
@@ -171,7 +164,8 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
         return AnswerController<DurationAnswer>(initialAnswer: initialAnswer as DurationAnswer?);
       case const (MultiListAnswerDefinition):
         return AnswerController<MultiListAnswer>(initialAnswer: initialAnswer as MultiListAnswer?);
-      default: throw TypeError();
+      default:
+        throw TypeError();
     }
   }
 
@@ -190,5 +184,7 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
 typedef AnswerStatusListener = void Function(AnswerStatus status);
 
 enum AnswerStatus {
-  invalid, empty, valid,
+  invalid,
+  empty,
+  valid,
 }

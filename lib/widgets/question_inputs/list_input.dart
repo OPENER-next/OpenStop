@@ -34,14 +34,13 @@ class ListInput extends QuestionInputWidget<ListAnswerDefinition, ListAnswer> {
 
   void _handleChange(int selectedIndex, AppLocalizations appLocale) {
     controller.answer = selectedIndex != controller.answer?.value
-      ? ListAnswer(
-        definition: definition,
-        value: selectedIndex
-      )
-      : null;
+        ? ListAnswer(
+            definition: definition,
+            value: selectedIndex,
+          )
+        : null;
   }
 }
-
 
 class ListInputItem extends StatefulWidget {
   final String label;
@@ -79,13 +78,13 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 800),
-      reverseDuration: const Duration(milliseconds: 500)
+      reverseDuration: const Duration(milliseconds: 500),
     );
 
     _animation = CurvedAnimation(
       parent: _controller,
       curve: Curves.easeOutExpo,
-      reverseCurve: Curves.ease
+      reverseCurve: Curves.ease,
     );
   }
 
@@ -136,66 +135,72 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                       ),
                     ),
                   ),
-                  if (widget.description != null) ExcludeSemantics(
-                    child: SizeTransition(
-                      axisAlignment: -1,
-                      sizeFactor: _animation,
-                      child: FadeTransition(
-                        opacity: _animation,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            left: 16.0,
-                            right: 8.0,
-                            bottom: 8.0,
-                          ),
-                          child: Text(
-                            widget.description!,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.normal,
-                              fontSize: 12,
+                  if (widget.description != null)
+                    ExcludeSemantics(
+                      child: SizeTransition(
+                        axisAlignment: -1,
+                        sizeFactor: _animation,
+                        child: FadeTransition(
+                          opacity: _animation,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              left: 16.0,
+                              right: 8.0,
+                              bottom: 8.0,
+                            ),
+                            child: Text(
+                              widget.description!,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontSize: 12,
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),
             if (widget.imagePath != null)
-            Expanded(
-              flex: 2,
-              // HeroViewer cannot be wrapped around since the returned error widget
-              // represents a different widget wherefore the hero transition would fail.
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(0, widget.imagePadding, widget.imagePadding, widget.imagePadding),
-                child: ClipRRect(
-                  borderRadius: innerBorderRadius,
-                  // hero viewer cannot be used in frame builder
-                  // because the builder may be called after the page route transition starts
-                  child: ExcludeSemantics(
-                    child: HeroViewer(
-                      child: Image.asset(
-                        widget.imagePath!,
-                        fit: BoxFit.cover,
-                        // Static background color for better visibility of illustrations
-                        // with transparency, especially in dark mode
-                        colorBlendMode: BlendMode.dstOver,
-                        color: Colors.grey.shade100,
-                        height: 90,
-                        errorBuilder: (context, _, __) {
-                          return Image.asset(
-                            'assets/images/placeholder_image.png',
-                            fit: BoxFit.cover,
-                            height: 90,
-                          );
-                        },
+              Expanded(
+                flex: 2,
+                // HeroViewer cannot be wrapped around since the returned error widget
+                // represents a different widget wherefore the hero transition would fail.
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    0,
+                    widget.imagePadding,
+                    widget.imagePadding,
+                    widget.imagePadding,
+                  ),
+                  child: ClipRRect(
+                    borderRadius: innerBorderRadius,
+                    // hero viewer cannot be used in frame builder
+                    // because the builder may be called after the page route transition starts
+                    child: ExcludeSemantics(
+                      child: HeroViewer(
+                        child: Image.asset(
+                          widget.imagePath!,
+                          fit: BoxFit.cover,
+                          // Static background color for better visibility of illustrations
+                          // with transparency, especially in dark mode
+                          colorBlendMode: BlendMode.dstOver,
+                          color: Colors.grey.shade100,
+                          height: 90,
+                          errorBuilder: (context, _, __) {
+                            return Image.asset(
+                              'assets/images/placeholder_image.png',
+                              fit: BoxFit.cover,
+                              height: 90,
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
           ],
         ),
       ),
@@ -210,10 +215,10 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
 
   ButtonStyle? _toggleStyle(bool isSelected) {
     return isSelected
-      ? OutlinedButton.styleFrom(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          foregroundColor: Theme.of(context).colorScheme.onPrimary,
-        )
-      : null;
+        ? OutlinedButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          )
+        : null;
   }
 }

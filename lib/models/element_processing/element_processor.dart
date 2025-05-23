@@ -13,13 +13,15 @@ import '/models/element_variants/base_element.dart';
 class OSMElementProcessor {
   /// Nodes mapped to id for faster look up
   final _nodesLookUp = <int, ProcessedNode>{};
+
   /// Ways mapped to id for faster look up
   final _waysLookUp = <int, ProcessedWay>{};
+
   /// Relations mapped to id for faster look up
   final _relationsLookUp = <int, ProcessedRelation>{};
 
-  OSMElementProcessor([ OSMElementBundle? elements ]) {
-    if(elements != null) add(elements);
+  OSMElementProcessor([OSMElementBundle? elements]) {
+    if (elements != null) add(elements);
   }
 
   /// Returns all processed elements.
@@ -62,7 +64,9 @@ class OSMElementProcessor {
     );
 
     return UnionSet({
-      nodeRecords, wayRecords, relationRecords,
+      nodeRecords,
+      wayRecords,
+      relationRecords,
     }, disjoint: true);
   }
 
@@ -113,7 +117,9 @@ class OSMElementProcessor {
   ///
   /// Returns all newly added relations and marks if they are new or already existed.
 
-  Iterable<({ProcessedRelation element, bool isNew})> _addRelations(Iterable<OSMRelation> relations) sync* {
+  Iterable<({ProcessedRelation element, bool isNew})> _addRelations(
+    Iterable<OSMRelation> relations,
+  ) sync* {
     for (final relation in relations) {
       var isNew = false;
       final pRelation = _relationsLookUp.putIfAbsent(relation.id, () {
@@ -157,7 +163,7 @@ class OSMElementProcessor {
       return false;
     }
     // catch geometry calculation errors
-    catch(e) {
+    catch (e) {
       debugPrint('Remove failed geometry: $element due to $e');
       lookupTable.remove(element.id);
       return true;

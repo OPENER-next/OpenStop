@@ -2,9 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
-
 extension AnimationUtils on MapController {
-
   /// Animate the map properties location, zoom and rotation.
 
   TickerFuture animateTo({
@@ -17,14 +15,12 @@ extension AnimationUtils on MapController {
     String? id,
   }) {
     final positionTween = location != null
-      ? LatLngTween(begin: camera.center, end: location)
-      : null;
-    final zoomTween = zoom != null
-      ? Tween<double>(begin: camera.zoom, end: zoom)
-      : null;
+        ? LatLngTween(begin: camera.center, end: location)
+        : null;
+    final zoomTween = zoom != null ? Tween<double>(begin: camera.zoom, end: zoom) : null;
     final rotationTween = rotation != null
-      ? RotationTween(begin: camera.rotation, end: rotation)
-      : null;
+        ? RotationTween(begin: camera.rotation, end: rotation)
+        : null;
 
     final controller = AnimationController(
       duration: duration,
@@ -54,13 +50,12 @@ extension AnimationUtils on MapController {
     return controller.forward();
   }
 
-
   TickerFuture animateToBounds({
     required TickerProvider ticker,
     required LatLngBounds bounds,
     double maxZoom = 25,
     double minZoom = 0,
-    EdgeInsets padding = EdgeInsets.zero
+    EdgeInsets padding = EdgeInsets.zero,
   }) {
     final newCamera = CameraFit.bounds(
       bounds: bounds,
@@ -79,13 +74,12 @@ extension AnimationUtils on MapController {
   }
 }
 
-
 /// Interpolate latitude and longitude values.
 
 class LatLngTween extends Tween<LatLng> {
   static const piDoubled = pi * 2;
 
-  LatLngTween({ super.begin, super.end });
+  LatLngTween({super.begin, super.end});
 
   @override
   LatLng lerp(double t) {
@@ -107,11 +101,10 @@ class LatLngTween extends Tween<LatLng> {
   double _wrapDegrees(num v) => (v + 180) % 360 - 180;
 }
 
-
 /// Interpolate radians values in the direction of the shortest rotation delta / rotation angle.
 
 class RotationTween extends Tween<double> {
-  RotationTween({ super.begin, super.end });
+  RotationTween({super.begin, super.end});
 
   @override
   double lerp(double t) {

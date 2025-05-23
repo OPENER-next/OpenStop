@@ -5,12 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
-
 /// A fast point drawing layer.
 /// As a drawback all points have to be of the same size and color.
 
-class PointsLayer extends LeafRenderObjectWidget  {
-
+class PointsLayer extends LeafRenderObjectWidget {
   final Iterable<LatLng> points;
 
   final num radius;
@@ -56,12 +54,19 @@ class PointsLayer extends LeafRenderObjectWidget  {
 
     for (final point in points) {
       final pxPoint = mapCamera.projectAtZoom(point);
-      final bounds = Rect.fromCircle(center: pxPoint, radius: radius.toDouble());
+      final bounds = Rect.fromCircle(
+        center: pxPoint,
+        radius: radius.toDouble(),
+      );
       final isVisible = mapCamera.pixelBounds.overlaps(bounds);
 
       if (isVisible) {
         final relativePos = pxPoint - unrotatedPixelOrigin;
-        final pos = mapCamera.rotatePoint(relativePixelCenter, relativePos, counterRotation: false);
+        final pos = mapCamera.rotatePoint(
+          relativePixelCenter,
+          relativePos,
+          counterRotation: false,
+        );
         yield pos.dx;
         yield pos.dy;
       }
@@ -69,21 +74,16 @@ class PointsLayer extends LeafRenderObjectWidget  {
   }
 }
 
-
 class RenderPointsLayer extends RenderBox {
-
   final Paint _paint;
 
   Float32List _points;
 
-  RenderPointsLayer(
-    Float32List points,
-    double diameter,
-    Color color,
-  ) : _paint = Paint()
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = diameter
-      ..color = color,
+  RenderPointsLayer(Float32List points, double diameter, Color color)
+    : _paint = Paint()
+        ..strokeCap = StrokeCap.round
+        ..strokeWidth = diameter
+        ..color = color,
       _points = points;
 
   double get diameter => _paint.strokeWidth;

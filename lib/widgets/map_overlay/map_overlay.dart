@@ -11,7 +11,6 @@ import 'credit_text.dart';
 import 'location_button.dart';
 import 'zoom_button.dart';
 
-
 /// Builds the action/control buttons and attribution text which overlay the map.
 
 class MapOverlay extends ViewFragment<HomeViewModel> {
@@ -20,7 +19,7 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
   const MapOverlay({
     super.key,
     this.buttonSpacing = 10.0,
-   });
+  });
 
   @override
   Widget build(BuildContext context, viewModel) {
@@ -45,12 +44,12 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
               child: viewModel.mapRotation % 360 != 0
-                ? CompassButton(
-                  rotation: viewModel.mapRotation,
-                  isDegree: true,
-                  onPressed: viewModel.resetRotation,
-                )
-                : null
+                  ? CompassButton(
+                      rotation: viewModel.mapRotation,
+                      isDegree: true,
+                      onPressed: viewModel.resetRotation,
+                    )
+                  : null,
             ),
           ),
           Align(

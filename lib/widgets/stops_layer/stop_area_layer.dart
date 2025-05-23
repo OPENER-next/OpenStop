@@ -3,9 +3,7 @@ import 'package:latlong2/latlong.dart';
 
 import 'points_layer.dart';
 
-
 class StopsLayer extends StatelessWidget {
-
   final Iterable<LatLng> unloadedStops;
 
   final Iterable<LatLng> completedStops;
@@ -40,28 +38,27 @@ class StopsLayer extends StatelessWidget {
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
-      child:
-        currentZoom >= upperZoomLimit || currentZoom <= lowerZoomLimit
-        ? null
-        : Stack(
-          children: [
-            PointsLayer(
-              points: unloadedStops,
-              color: Colors.grey.shade400,
-              radius: 5,
+      child: currentZoom >= upperZoomLimit || currentZoom <= lowerZoomLimit
+          ? null
+          : Stack(
+              children: [
+                PointsLayer(
+                  points: unloadedStops,
+                  color: Colors.grey.shade400,
+                  radius: 5,
+                ),
+                PointsLayer(
+                  points: incompleteStops,
+                  color: theme.colorScheme.primary,
+                  radius: 5,
+                ),
+                PointsLayer(
+                  points: completedStops,
+                  color: const Color(0xFF8ccf73),
+                  radius: 5,
+                ),
+              ],
             ),
-            PointsLayer(
-              points: incompleteStops,
-              color: theme.colorScheme.primary,
-              radius: 5,
-            ),
-            PointsLayer(
-              points: completedStops,
-              color: const Color(0xFF8ccf73),
-              radius: 5,
-            ),
-          ],
-        ),
     );
   }
 }

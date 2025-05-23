@@ -3,9 +3,7 @@ import 'dart:isolate';
 
 import 'package:flutter/foundation.dart';
 
-
 typedef ServiceWorkerInit<M> = ServiceWorker<M> Function(SendPort sendPort);
-
 
 /// Helper class to spawn a custom [ServiceWorker] and communicate with it.
 ///
@@ -51,7 +49,7 @@ class ServiceWorkerController<M> {
   Future<T> send<T>(M data) async {
     final responsePort = ReceivePort();
     _sendPort.send(
-      _Message(responsePort.sendPort, data)
+      _Message(responsePort.sendPort, data),
     );
     // use completer to rethrow error
     final completer = Completer<T>();
@@ -60,19 +58,17 @@ class ServiceWorkerController<M> {
     if (response.type == _ResponseType.error) {
       final (Object error, StackTrace stackTrace) = response.data;
       completer.completeError(error, stackTrace);
-    }
-    else {
+    } else {
       completer.complete(response.data);
     }
     return completer.future;
   }
 
-
-// TODO
+  // TODO
   Stream<T> subscribe<T>(M data) {
     final responsePort = ReceivePort();
     _sendPort.send(
-      _Message(responsePort.sendPort, data, subscribe: true)
+      _Message(responsePort.sendPort, data, subscribe: true),
     );
     // used to send cancel, pause, and resume notifications
     final sendPortCompleter = Completer<SendPort>();
@@ -85,7 +81,7 @@ class ServiceWorkerController<M> {
       onPause: () async {
         (await sendPortCompleter.future).send(_StreamSubscriptionChange.pause);
       },
-      onResume:() async {
+      onResume: () async {
         (await sendPortCompleter.future).send(_StreamSubscriptionChange.resume);
       },
     );
@@ -122,7 +118,6 @@ class ServiceWorkerController<M> {
   }
 }
 
-
 /// A service worker is meant to run in an isolate and kept alive as long as it has a connection to the [ServiceWorkerController].
 /// This means the class with all its data will persist until the isolates gets closed.
 ///
@@ -139,16 +134,13 @@ abstract class ServiceWorker<M> {
   ServiceWorker(SendPort sendPort) : _receivePort = ReceivePort() {
     sendPort.send(_receivePort.sendPort);
     // listening to this stream will keep the isolate alive
-    _receivePort
-      .cast<_Message<M>>()
-      .listen((message) {
-        if (message.subscribe) {
-          _subscriptionHandler(message);
-        }
-        else {
-          _messageHandler(message);
-        }
-      });
+    _receivePort.cast<_Message<M>>().listen((message) {
+      if (message.subscribe) {
+        _subscriptionHandler(message);
+      } else {
+        _messageHandler(message);
+      }
+    });
   }
 
   @mustCallSuper
@@ -156,16 +148,19 @@ abstract class ServiceWorker<M> {
 
   Future<void> _messageHandler(_Message<M> message) async {
     try {
-      message.responsePort.send(_Response(
-        _ResponseType.message,
-        await messageHandler(message.data),
-      ));
-    }
-    catch(error, stackTrace) {
-      message.responsePort.send(_Response(
-        _ResponseType.error,
-        (error, stackTrace),
-      ));
+      message.responsePort.send(
+        _Response(
+          _ResponseType.message,
+          await messageHandler(message.data),
+        ),
+      );
+    } catch (error, stackTrace) {
+      message.responsePort.send(
+        _Response(
+          _ResponseType.error,
+          (error, stackTrace),
+        ),
+      );
     }
   }
 
@@ -204,19 +199,15 @@ abstract class ServiceWorker<M> {
   Stream<dynamic> subscriptionHandler(M subscription);
 }
 
-
-
 class _Message<T> {
   final SendPort responsePort;
   final bool subscribe;
   final T data;
 
-  const _Message(this.responsePort, this.data, { this.subscribe = false });
+  const _Message(this.responsePort, this.data, {this.subscribe = false});
 }
 
-enum _StreamSubscriptionChange {
-  cancel, pause, resume
-}
+enum _StreamSubscriptionChange { cancel, pause, resume }
 
 class _Response<T> {
   final _ResponseType type;
@@ -224,6 +215,4 @@ class _Response<T> {
   const _Response(this.type, this.data);
 }
 
-enum _ResponseType {
-  message, error, done
-}
+enum _ResponseType { message, error, done }

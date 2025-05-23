@@ -10,9 +10,7 @@ import '/l10n/app_localizations.g.dart';
 import '/models/map_features/map_feature_representation.dart';
 import '/widgets/osm_element_layer/osm_element_marker.dart';
 
-
 class OsmElementLayer extends StatefulWidget {
-
   final Stream<ElementUpdate> elements;
 
   final MapFeatureRepresentation? selectedElement;
@@ -42,7 +40,7 @@ class OsmElementLayer extends StatefulWidget {
     this.durationOffsetRange = const Duration(milliseconds: 300),
     // TODO: currently changes to this won't update the super cluster
     this.zoomLowerLimit = 16,
-    super.key
+    super.key,
   });
 
   @override
@@ -60,7 +58,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
     radius: 120,
     extent: 512,
     nodeSize: 64,
-    extractClusterData: (customMapPoint) => _ClusterLeafs([customMapPoint])
+    extractClusterData: (customMapPoint) => _ClusterLeafs([customMapPoint]),
   );
 
   @override
@@ -83,20 +81,17 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
     setState(() {
       if (change.action == ElementUpdateAction.clear) {
         _superCluster.load([]);
-      }
-      else if (change.action == ElementUpdateAction.update) {
+      } else if (change.action == ElementUpdateAction.update) {
         // _superCluster.containsPoint() will not globally check whether a point
         // has already been added.
         // So if the point position has been modified it may not find it.
         // Therefore use _superCluster.points.contains().
         if (_superCluster.points.contains(change.element)) {
           _superCluster.modifyPointData(change.element!, change.element!);
-        }
-        else {
+        } else {
           _superCluster.add(change.element!);
         }
-      }
-      else if (change.action == ElementUpdateAction.remove){
+      } else if (change.action == ElementUpdateAction.remove) {
         _superCluster.remove(change.element!);
       }
     });
@@ -122,30 +117,26 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
         final elements = _elementsFromCluster(cluster).iterator;
 
         if (widget.selectedElement != null) {
-          while(!activeMarkerFound && elements.moveNext()) {
+          while (!activeMarkerFound && elements.moveNext()) {
             if (widget.selectedElement == elements.current) {
-              visibleMarkers.add(
-                _createMarker(elements.current)
-              );
+              visibleMarkers.add(_createMarker(elements.current));
               activeMarkerFound = true;
-            }
-            else {
+            } else {
               suppressedMarkers.add(_createMinimizedMarker(elements.current));
             }
           }
-          while(elements.moveNext()) {
+          while (elements.moveNext()) {
             suppressedMarkers.add(_createMinimizedMarker(elements.current));
           }
-        }
-        else {
+        } else {
           // loop over elements so that only the first one is a marker and not a placeholder
           if (elements.moveNext()) {
             visibleMarkers.add(
               _createMarker(elements.current),
             );
-            while(elements.moveNext()) {
+            while (elements.moveNext()) {
               suppressedMarkers.add(
-                _createMinimizedMarker(elements.current)
+                _createMinimizedMarker(elements.current),
               );
             }
           }
@@ -159,30 +150,29 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       duration: Duration.zero,
       reverseDuration: const Duration(milliseconds: 300),
       child: widget.currentZoom >= widget.zoomLowerLimit
-        ? Stack(
-          children: [
-            AnimatedMarkerLayer(
-              markers: suppressedMarkers,
-            ),
-            AnimatedMarkerLayer(
-              markers: visibleMarkers,
-            ),
-          ],
-        )
-        : null
+          ? Stack(
+              children: [
+                AnimatedMarkerLayer(
+                  markers: suppressedMarkers,
+                ),
+                AnimatedMarkerLayer(
+                  markers: visibleMarkers,
+                ),
+              ],
+            )
+          : null,
     );
   }
 
-
-  Iterable<MapFeatureRepresentation> _elementsFromCluster(MutableLayerElement<MapFeatureRepresentation> cluster) sync* {
+  Iterable<MapFeatureRepresentation> _elementsFromCluster(
+    MutableLayerElement<MapFeatureRepresentation> cluster,
+  ) sync* {
     if (cluster is MutableLayerCluster<MapFeatureRepresentation>) {
       yield* (cluster.clusterData! as _ClusterLeafs).elements;
-    }
-    else if (cluster is MutableLayerPoint<MapFeatureRepresentation>) {
+    } else if (cluster is MutableLayerPoint<MapFeatureRepresentation>) {
       yield cluster.originalPoint;
     }
   }
-
 
   Duration _getRandomDelay([int? seed]) {
     if (widget.durationOffsetRange.inMicroseconds == 0) {
@@ -192,17 +182,15 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
     return Duration(microseconds: randomTimeOffset);
   }
 
-
   AnimatedMarker _createMarker(MapFeatureRepresentation element) {
     // supply id as seed so we get the same delay for both marker types
     final seed = element.id;
     return _OsmElementMarker(
       element: element,
       animateInDelay: _getRandomDelay(seed),
-      builder: _markerBuilder
+      builder: _markerBuilder,
     );
   }
-
 
   Widget _markerBuilder(BuildContext context, Animation<double> animation, AnimatedMarker marker) {
     final appLocale = AppLocalizations.of(context)!;
@@ -215,9 +203,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       alignment: Alignment.bottomCenter,
       filterQuality: FilterQuality.low,
       child: OsmElementMarker(
-        onTap: () => uploadState == null
-          ? widget.onOsmElementTap?.call(marker.element)
-          : null,
+        onTap: () => uploadState == null ? widget.onOsmElementTap?.call(marker.element) : null,
         active: isActive,
         icon: marker.element.icon,
         label: marker.element.elementLabel(appLocale),
@@ -239,10 +225,9 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
       animateOutDuration: const Duration(milliseconds: 300),
       // supply id as seed so we get the same delay for both marker types
       animateOutDelay: _getRandomDelay(element.id),
-      builder: _minimizedMarkerBuilder
+      builder: _minimizedMarkerBuilder,
     );
   }
-
 
   Widget _minimizedMarkerBuilder(BuildContext context, Animation<double> animation, _) {
     return FadeTransition(
@@ -253,14 +238,13 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
           shape: BoxShape.circle,
           border: Border.all(
             width: 1,
-            color: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.26)
-          )
-        )
-      )
+            color: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.26),
+          ),
+        ),
+      ),
     );
   }
 }
-
 
 class _OsmElementMarker extends AnimatedMarker {
   final MapFeatureRepresentation element;
@@ -270,18 +254,17 @@ class _OsmElementMarker extends AnimatedMarker {
     required super.builder,
     super.animateInDelay,
   }) : super(
-    // use ElementIdentifier as key
-    // its equality doesn't change when its tags or version changes
-    key: ValueKey(element),
-    point: element.geometry.center,
-    size: const Size(260, 60),
-    anchor: Alignment.bottomCenter,
-    animateInCurve: Curves.elasticOut,
-    animateOutCurve: Curves.easeOutBack,
-    animateOutDuration: const Duration(milliseconds: 300),
-  );
+         // use ElementIdentifier as key
+         // its equality doesn't change when its tags or version changes
+         key: ValueKey(element),
+         point: element.geometry.center,
+         size: const Size(260, 60),
+         anchor: Alignment.bottomCenter,
+         animateInCurve: Curves.elasticOut,
+         animateOutCurve: Curves.easeOutBack,
+         animateOutDuration: const Duration(milliseconds: 300),
+       );
 }
-
 
 class _ClusterLeafs extends ClusterDataBase {
   final List<MapFeatureRepresentation> elements;

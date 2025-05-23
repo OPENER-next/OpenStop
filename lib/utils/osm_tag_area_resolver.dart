@@ -11,7 +11,7 @@
 const _areaTags = <String, Set<String>>{
   'addr:*': {},
   'advertising': {
-    'billboard'
+    'billboard',
   },
   'aerialway': {
     'cable_car',
@@ -25,17 +25,17 @@ const _areaTags = <String, Set<String>>{
     'platter',
     'rope_tow',
     't-bar',
-    'zip_line'
+    'zip_line',
   },
   'aeroway': {
     'jet_bridge',
     'parking_position',
     'runway',
-    'taxiway'
+    'taxiway',
   },
   'allotments': {},
   'amenity': {
-    'bench'
+    'bench',
   },
   'area:highway': {},
   'attraction': {
@@ -43,7 +43,7 @@ const _areaTags = <String, Set<String>>{
     'river_rafting',
     'summer_toboggan',
     'train',
-    'water_slide'
+    'water_slide',
   },
   'bridge:support': {},
   'building': {},
@@ -60,18 +60,18 @@ const _areaTags = <String, Set<String>>{
     'no',
     'official',
     'private',
-    'yes'
+    'yes',
   },
   'golf': {
     'cartpath',
     'hole',
-    'path'
+    'path',
   },
   'healthcare': {},
   'historic': {},
   'indoor': {
     'corridor',
-    'wall'
+    'wall',
   },
   'industrial': {},
   'internet_access': {},
@@ -79,7 +79,7 @@ const _areaTags = <String, Set<String>>{
   'landuse': {},
   'leisure': {
     'slipway',
-    'track'
+    'track',
   },
   'man_made': {
     'breakwater',
@@ -91,10 +91,10 @@ const _areaTags = <String, Set<String>>{
     'groyne',
     'pier',
     'pipeline',
-    'torii'
+    'torii',
   },
   'military': {
-    'trench'
+    'trench',
   },
   'natural': {
     'bay',
@@ -102,7 +102,7 @@ const _areaTags = <String, Set<String>>{
     'coastline',
     'ridge',
     'tree_row',
-    'valley'
+    'valley',
   },
   'office': {},
   'piste:type': {
@@ -112,19 +112,19 @@ const _areaTags = <String, Set<String>>{
     'nordic',
     'skitour',
     'sled',
-    'sleigh'
+    'sleigh',
   },
   'place': {},
   'playground': {
     'balancebeam',
     'slide',
-    'zipwire'
+    'zipwire',
   },
   'polling_station': {},
   'power': {
     'cable',
     'line',
-    'minor_line'
+    'minor_line',
   },
   'public_transport': {},
   'residential': {},
@@ -133,7 +133,7 @@ const _areaTags = <String, Set<String>>{
   'telecom': {},
   'tourism': {
     'artwork',
-    'attraction'
+    'attraction',
   },
   'traffic_calming': {
     'bump',
@@ -143,7 +143,7 @@ const _areaTags = <String, Set<String>>{
     'dip',
     'hump',
     'island',
-    'rumble_strip'
+    'rumble_strip',
   },
   'waterway': {
     'canal',
@@ -155,10 +155,9 @@ const _areaTags = <String, Set<String>>{
     'river',
     'stream',
     'tidal_channel',
-    'weir'
-  }
+    'weir',
+  },
 };
-
 
 /// Returns true when the given tags describe an area.
 /// More info here: https://github.com/ideditor/id-area-keys/blob/57544340ffec7e3dc0028ae9f2e0b5ea59eb2c63/README.md

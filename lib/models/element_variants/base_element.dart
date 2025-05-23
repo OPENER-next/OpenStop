@@ -16,14 +16,12 @@ part 'processed_relation.dart';
 part 'processed_way.dart';
 part 'proxy_element.dart';
 
-
 /// Base element that encapsulates an [OSMElement] from the [OSMAPI].
 /// It prevents any mutations to the underlying element while allowing read access to the element's data.
 
 /// Two elements are considered equal if they have the same [id] and [type].
 
 abstract class BaseElement<T extends osmapi.OSMElement> extends ElementIdentifier {
-
   /// Do not manipulate this object except on upload.
 
   final T _osmElement;
@@ -41,18 +39,17 @@ abstract class BaseElement<T extends osmapi.OSMElement> extends ElementIdentifie
   OSMElementType get specialType {
     switch (_osmElement.type) {
       case osmapi.OSMElementType.node:
-      return OSMElementType.node;
+        return OSMElementType.node;
 
       case osmapi.OSMElementType.way:
-      return (_osmElement as osmapi.OSMWay).isClosed
-        ? OSMElementType.closedWay
-        : OSMElementType.openWay;
+        return (_osmElement as osmapi.OSMWay).isClosed
+            ? OSMElementType.closedWay
+            : OSMElementType.openWay;
 
       case osmapi.OSMElementType.relation:
-      return OSMElementType.relation;
+        return OSMElementType.relation;
     }
   }
-
 
   Map<String, String> get tags => UnmodifiableMapView(_osmElement.tags);
 

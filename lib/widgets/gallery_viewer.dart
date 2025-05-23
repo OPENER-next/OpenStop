@@ -5,10 +5,9 @@ import '/widgets/derived_animation.dart';
 import '/widgets/hero_viewer.dart';
 
 class GalleryViewer extends StatelessWidget {
-
   final List<String> images;
 
-  const GalleryViewer({required this.images, super.key });
+  const GalleryViewer({required this.images, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,7 @@ class GalleryViewer extends StatelessWidget {
           // hero viewer cannot be used in frame builder
           // because the builder may be called after the page route transition starts
           child: HeroViewer(
-            pageBuilder: (BuildContext context, Widget child){
+            pageBuilder: (BuildContext context, Widget child) {
               return ColoredBox(
                 color: Theme.of(context).colorScheme.surface,
                 child: GalleryNavigator(
@@ -63,18 +62,18 @@ class GalleryNavigator extends StatefulWidget {
     required this.images,
     required this.imagesKeys,
     this.initialIndex = 0,
-    super.key,}
-  );
+    super.key,
+  });
 
   @override
   State<GalleryNavigator> createState() => _GalleryNavigatorState();
 }
 
-class _GalleryNavigatorState extends State<GalleryNavigator>{
+class _GalleryNavigatorState extends State<GalleryNavigator> {
   int _pointerCount = 0;
 
   late final PageController _pageController;
-  late final DerivedAnimation<PageController, double> _rightAnimation ;
+  late final DerivedAnimation<PageController, double> _rightAnimation;
   late final DerivedAnimation<PageController, double> _leftAnimation;
 
   final List<TransformationController> _transformationControllers = [];
@@ -83,13 +82,19 @@ class _GalleryNavigatorState extends State<GalleryNavigator>{
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: widget.initialIndex);
-    _leftAnimation = DerivedAnimation<PageController, double>(notifier: _pageController, transformer: (controller) {
-      return fractionalIndex.clamp(0, 1).toDouble();
-    });
-    _rightAnimation = DerivedAnimation<PageController, double>(notifier: _pageController, transformer: (controller) {
-      final lastIndex = widget.images.length - 1;
-      return (lastIndex - fractionalIndex.clamp(lastIndex - 1, lastIndex)).toDouble();
-    });
+    _leftAnimation = DerivedAnimation<PageController, double>(
+      notifier: _pageController,
+      transformer: (controller) {
+        return fractionalIndex.clamp(0, 1).toDouble();
+      },
+    );
+    _rightAnimation = DerivedAnimation<PageController, double>(
+      notifier: _pageController,
+      transformer: (controller) {
+        final lastIndex = widget.images.length - 1;
+        return (lastIndex - fractionalIndex.clamp(lastIndex - 1, lastIndex)).toDouble();
+      },
+    );
     _pageController.addListener(() {
       if (fractionalIndex == index) {
         // reset invisible controllers
@@ -122,13 +127,13 @@ class _GalleryNavigatorState extends State<GalleryNavigator>{
   }
 
   num get fractionalIndex => _pageController.hasClients && _pageController.page != null
-    ? _pageController.page!
-    : _pageController.initialPage;
+      ? _pageController.page!
+      : _pageController.initialPage;
 
   int get index => fractionalIndex.round();
 
   bool get pagingDisabled =>
-    _pointerCount > 1  || _transformationControllers[index].value.getMaxScaleOnAxis() > 1;
+      _pointerCount > 1 || _transformationControllers[index].value.getMaxScaleOnAxis() > 1;
 
   void goToPreviousImage() {
     _pageController.previousPage(
@@ -166,10 +171,10 @@ class _GalleryNavigatorState extends State<GalleryNavigator>{
           child: Listener(
             behavior: HitTestBehavior.deferToChild,
             onPointerDown: (event) {
-              setState(() => _pointerCount++ );
+              setState(() => _pointerCount++);
             },
             onPointerUp: (event) {
-              setState(() => _pointerCount-- );
+              setState(() => _pointerCount--);
             },
             child: PageView.custom(
               controller: _pageController,
@@ -177,38 +182,39 @@ class _GalleryNavigatorState extends State<GalleryNavigator>{
               // required to prevent panning when the user actually wants to pinch zoom
               // paging is also disabled when the image is scaled/zoomed in
               physics: pagingDisabled
-                ? const NeverScrollableScrollPhysics()
-                : const PageScrollPhysics(),
-                onPageChanged: (value) {
-                  setState(() {
-                    // used to trigger a rebuild because pagingDisabled can change
-                    // when the index changes (e.g. on arrow tap)
-                  });
-                },
-              childrenDelegate: SliverChildBuilderDelegate((context, index) {
-                return InteractiveViewer(
-                  transformationController: _transformationControllers[index],
-                  maxScale: 3,
-                  child: FittedBox(
-                    fit: BoxFit.contain,
-                    child: Hero(
-                      tag: widget.imagesKeys[index],
-                      child: Image.asset(
-                        widget.images[index],
-                        errorBuilder: (context, _, __) {
-                          return Image.asset(
-                            'assets/images/placeholder_image.png',
-                          );
-                        },
+                  ? const NeverScrollableScrollPhysics()
+                  : const PageScrollPhysics(),
+              onPageChanged: (value) {
+                setState(() {
+                  // used to trigger a rebuild because pagingDisabled can change
+                  // when the index changes (e.g. on arrow tap)
+                });
+              },
+              childrenDelegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return InteractiveViewer(
+                    transformationController: _transformationControllers[index],
+                    maxScale: 3,
+                    child: FittedBox(
+                      fit: BoxFit.contain,
+                      child: Hero(
+                        tag: widget.imagesKeys[index],
+                        child: Image.asset(
+                          widget.images[index],
+                          errorBuilder: (context, _, __) {
+                            return Image.asset(
+                              'assets/images/placeholder_image.png',
+                            );
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-              childCount: widget.images.length,
-              // This will dispose images/widgets that are out of view
-              // Necessary so only get Hero animations for visible images
-              addAutomaticKeepAlives: false,
+                  );
+                },
+                childCount: widget.images.length,
+                // This will dispose images/widgets that are out of view
+                // Necessary so only get Hero animations for visible images
+                addAutomaticKeepAlives: false,
               ),
             ),
           ),
@@ -245,7 +251,7 @@ class _GalleryNavigatorState extends State<GalleryNavigator>{
             child: FadeTransition(
               opacity: _rightAnimation,
               child: SlideTransition(
-              position: Tween<Offset>(
+                position: Tween<Offset>(
                   begin: const Offset(1.0, 0.0),
                   end: Offset.zero,
                 ).animate(_rightAnimation),

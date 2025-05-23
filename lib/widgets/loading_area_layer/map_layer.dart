@@ -6,7 +6,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
-
 /// General purpose map layer for rendering multiple widgets using the [MapLayerPositioned] widget.
 
 class MapLayer extends StatelessWidget {
@@ -40,8 +39,9 @@ class _MapLayer extends MultiChildRenderObjectWidget {
 }
 
 class RenderMapLayer extends RenderBox
-    with ContainerRenderObjectMixin<RenderBox, _MapLayerParentData>,
-         RenderBoxContainerDefaultsMixin<RenderBox, _MapLayerParentData> {
+    with
+        ContainerRenderObjectMixin<RenderBox, _MapLayerParentData>,
+        RenderBoxContainerDefaultsMixin<RenderBox, _MapLayerParentData> {
   RenderMapLayer({
     required MapCamera mapCamera,
     List<RenderBox>? children,
@@ -59,6 +59,7 @@ class RenderMapLayer extends RenderBox
 
   /// projected camera position
   late Offset _pixelMapCenter;
+
   /// top left position of the camera in pixels
   late Offset _nonRotatedPixelOrigin;
 
@@ -67,16 +68,13 @@ class RenderMapLayer extends RenderBox
     _nonRotatedPixelOrigin = _pixelMapCenter - mapCamera.nonRotatedSize.center(Offset.zero);
   }
 
-
   MapCamera get mapCamera => _mapCamera;
   MapCamera _mapCamera;
   set mapCamera(MapCamera value) {
     if (_mapCamera.zoom != value.zoom) {
       markNeedsLayout();
     }
-    if (_mapCamera.center != value.center ||
-        _mapCamera.rotation != value.rotation
-    ) {
+    if (_mapCamera.center != value.center || _mapCamera.rotation != value.rotation) {
       markNeedsPaint();
     }
     _mapCamera = value;
@@ -109,7 +107,11 @@ class RenderMapLayer extends RenderBox
     // if size in meters is specified
     if (childParentData.size != null && childParentData.position != null) {
       // calc tight size constraints
-      final size = _calcSizeFromMeters(childParentData.size!, childParentData.position!, mapCamera.zoom);
+      final size = _calcSizeFromMeters(
+        childParentData.size!,
+        childParentData.position!,
+        mapCamera.zoom,
+      );
       childConstraints = BoxConstraints.tight(size);
     }
     // else use infinite constraints for child
@@ -162,7 +164,7 @@ class RenderMapLayer extends RenderBox
   }
 
   @override
-  bool hitTestChildren(BoxHitTestResult result, { required Offset position }) {
+  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
     // this is an altered version of the defaultHitTestChildren method
     // because the position/offset stored in the parentData is not local/relative
     var child = lastChild;
@@ -238,7 +240,10 @@ class MapLayerPositioned extends ParentDataWidget<_MapLayerParentData> {
 
   @override
   void applyParentData(RenderObject renderObject) {
-    assert(renderObject.parentData is _MapLayerParentData, 'RenderObject parentData is not of type _MapLayerParentData');
+    assert(
+      renderObject.parentData is _MapLayerParentData,
+      'RenderObject parentData is not of type _MapLayerParentData',
+    );
     final parentData = renderObject.parentData! as _MapLayerParentData;
     assert(renderObject.parent is RenderObject, 'RenderObject parent is not of type RenderObject');
     final targetParent = renderObject.parent!;
@@ -271,7 +276,6 @@ class MapLayerPositioned extends ParentDataWidget<_MapLayerParentData> {
     properties.add(DiagnosticsProperty('size', size));
   }
 }
-
 
 class _MapLayerParentData extends ContainerBoxParentData<RenderBox> {
   LatLng? position;

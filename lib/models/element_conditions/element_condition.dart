@@ -13,16 +13,13 @@ abstract class Matcher<C, T> {
   bool matches(T sample);
 }
 
-
 /// This class holds the conditions that specify if a [Question] should be asked.
 
 class ElementCondition extends Matcher<List<SubCondition>, ProcessedElement> {
-
   const ElementCondition(super.characteristics);
 
   ElementCondition.fromJSON(Map<String, dynamic> json)
     : super(_buildSubConditionsFromJSON(json).toList(growable: false));
-
 
   static Iterable<SubCondition> _buildSubConditionsFromJSON(Map<String, dynamic> json) sync* {
     // positive conditions
@@ -56,7 +53,9 @@ class ElementCondition extends Matcher<List<SubCondition>, ProcessedElement> {
 
     final nOsmElement = json['!osm_element'];
     if (nOsmElement != null) {
-      yield NegatedSubCondition<ElementTypeSubCondition>(ElementTypeSubCondition.fromJson(nOsmElement));
+      yield NegatedSubCondition<ElementTypeSubCondition>(
+        ElementTypeSubCondition.fromJson(nOsmElement),
+      );
     }
 
     final nChild = (json['!child'] as List?)?.cast<Map<String, dynamic>>();
@@ -69,7 +68,6 @@ class ElementCondition extends Matcher<List<SubCondition>, ProcessedElement> {
       yield NegatedSubCondition<ParentSubCondition>(ParentSubCondition.fromJson(nParent));
     }
   }
-
 
   /// Check whether this condition matches the given element.
   ///

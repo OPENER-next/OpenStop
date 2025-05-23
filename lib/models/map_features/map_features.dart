@@ -34,10 +34,11 @@ class MapFeatures extends ListBase<MapFeatureDefinition> {
 
   MapFeatures._internal([Iterable<MapFeatureDefinition>? defs])
     // sort map feature definitions by priority in descending order to improve matching performance in representElement
-    : _definitions = UnmodifiableListView((defs ?? _globalDefinitions).sorted(
-      (featureA, featureB) => featureB.priority - featureA.priority,
-    ));
-
+    : _definitions = UnmodifiableListView(
+        (defs ?? _globalDefinitions).sorted(
+          (featureA, featureB) => featureB.priority - featureA.priority,
+        ),
+      );
 
   /// Compare the defined Map Features with the given OSM element and return
   /// the best matching [MapFeatureRepresentation].
@@ -48,11 +49,10 @@ class MapFeatures extends ListBase<MapFeatureDefinition> {
     // since the features are already pre-sorted by priority we can simply return the first match
     try {
       final matchingMapFeature = _definitions.firstWhere(
-        (mapFeature) =>  mapFeature.matchesBy(osmElement) != null,
+        (mapFeature) => mapFeature.matchesBy(osmElement) != null,
       );
       return matchingMapFeature.resolve(osmElement);
-    }
-    on StateError {
+    } on StateError {
       // construct dummy MapFeatureRepresentation
       return MapFeatureRepresentation.fromElement(element: osmElement);
     }
@@ -63,7 +63,7 @@ class MapFeatures extends ListBase<MapFeatureDefinition> {
 
   @override
   set length(int newLength) {
-     throw UnsupportedError('Cannot change the length of an unmodifiable list');
+    throw UnsupportedError('Cannot change the length of an unmodifiable list');
   }
 
   @override
@@ -76,7 +76,6 @@ class MapFeatures extends ListBase<MapFeatureDefinition> {
     throw UnsupportedError('Cannot modify an unmodifiable list');
   }
 }
-
 
 //////////////////////////////////////
 /// Hardcoded list of map features ///
@@ -93,11 +92,9 @@ final _globalDefinitions = <MapFeatureDefinition>[
 
       if (name != null) {
         return localRef != null ? '$name\n${locale.mapFeatureBusPlatformNumber(localRef)}' : name;
-      }
-      else if (localRef != null) {
+      } else if (localRef != null) {
         return locale.mapFeatureBusPlatformNumber(localRef);
-      }
-      else {
+      } else {
         return locale.mapFeatureBusStop;
       }
     },
@@ -118,7 +115,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
       ElementCondition([
         TagsSubCondition({
           'highway': StringValueMatcher('platform'),
-        })
+        }),
       ]),
     ],
   ),
@@ -130,11 +127,9 @@ final _globalDefinitions = <MapFeatureDefinition>[
 
       if (name != null) {
         return localRef != null ? '$name\n${locale.mapFeatureTrainPlatformNumber(localRef)}' : name;
-      }
-      else if (localRef != null) {
+      } else if (localRef != null) {
         return locale.mapFeatureTrainPlatformNumber(localRef);
-      }
-      else {
+      } else {
         return locale.mapFeatureTrainPlatform;
       }
     },
@@ -144,7 +139,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'public_transport': StringValueMatcher('platform'),
           'train': StringValueMatcher('yes'),
-        })
+        }),
       ]),
     ],
   ),
@@ -156,11 +151,9 @@ final _globalDefinitions = <MapFeatureDefinition>[
 
       if (name != null) {
         return localRef != null ? '$name\n${locale.mapFeatureBusPlatformNumber(localRef)}' : name;
-      }
-      else if (localRef != null) {
+      } else if (localRef != null) {
         return locale.mapFeatureBusPlatformNumber(localRef);
-      }
-      else {
+      } else {
         return locale.mapFeatureTramStop;
       }
     },
@@ -191,7 +184,11 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'public_transport': StringValueMatcher('platform'),
         }),
-        ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay, OSMElementType.relation])
+        ElementTypeSubCondition([
+          OSMElementType.openWay,
+          OSMElementType.closedWay,
+          OSMElementType.relation,
+        ]),
       ]),
     ],
   ),
@@ -206,7 +203,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'public_transport': StringValueMatcher('platform'),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node]),
       ]),
     ],
   ),
@@ -221,13 +218,13 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'public_transport': StringValueMatcher('station'),
           'railway': StringValueMatcher('station'),
-        })
+        }),
       ]),
       ElementCondition([
         TagsSubCondition({
           'public_transport': StringValueMatcher('station'),
           'amenity': StringValueMatcher('bus_station'),
-        })
+        }),
       ]),
     ],
   ),
@@ -235,8 +232,8 @@ final _globalDefinitions = <MapFeatureDefinition>[
     label: (locale, tags) {
       final operatorName = tags['operator:short'] ?? tags['operator'];
       return operatorName != null
-        ? '$operatorName ${locale.mapFeatureTicketSalesPoint}'
-        : locale.mapFeatureTicketSalesPoint;
+          ? '$operatorName ${locale.mapFeatureTicketSalesPoint}'
+          : locale.mapFeatureTicketSalesPoint;
     },
     icon: TemakiIcons.ticket,
     conditions: const [
@@ -245,7 +242,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
           'shop': StringValueMatcher('ticket'),
           'tickets:public_transport': StringValueMatcher('yes'),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node]),
       ]),
     ],
   ),
@@ -258,7 +255,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
           'tourism': StringValueMatcher('information'),
           'information': StringValueMatcher('office'),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node]),
       ]),
     ],
   ),
@@ -274,7 +271,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
           'map_type': StringValueMatcher('public_transport'),
           'map_size': StringValueMatcher('site'),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node]),
       ]),
     ],
   ),
@@ -282,8 +279,8 @@ final _globalDefinitions = <MapFeatureDefinition>[
     label: (locale, tags) {
       final operatorName = tags['operator:short'] ?? tags['operator'];
       return operatorName != null
-        ? '$operatorName ${locale.mapFeatureTicketMachine}'
-        : locale.mapFeatureTicketMachine;
+          ? '$operatorName ${locale.mapFeatureTicketMachine}'
+          : locale.mapFeatureTicketMachine;
     },
     icon: TemakiIcons.vendingTickets,
     conditions: const [
@@ -292,7 +289,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
           'amenity': StringValueMatcher('vending_machine'),
           'vending': StringValueMatcher('public_transport_tickets'),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node]),
       ]),
     ],
   ),
@@ -304,14 +301,14 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'amenity': StringValueMatcher('parking'),
         }),
-        ElementTypeSubCondition([OSMElementType.node, OSMElementType.closedWay])
+        ElementTypeSubCondition([OSMElementType.node, OSMElementType.closedWay]),
       ]),
       ElementCondition([
         TagsSubCondition({
           'amenity': StringValueMatcher('parking'),
           'type': StringValueMatcher('multipolygon'),
         }),
-        ElementTypeSubCondition([OSMElementType.relation])
+        ElementTypeSubCondition([OSMElementType.relation]),
       ]),
     ],
   ),
@@ -323,7 +320,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'amenity': StringValueMatcher('taxi'),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node]),
       ]),
     ],
   ),
@@ -335,7 +332,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'amenity': StringValueMatcher('toilets'),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node]),
       ]),
     ],
   ),
@@ -347,7 +344,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'amenity': StringValueMatcher('luggage_locker'),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node]),
       ]),
     ],
   ),
@@ -359,7 +356,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'amenity': StringValueMatcher('trolley_bay'),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node]),
       ]),
     ],
   ),
@@ -372,7 +369,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
           'tourism': StringValueMatcher('information'),
           'information': StringValueMatcher('terminal'),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node]),
       ]),
     ],
   ),
@@ -385,7 +382,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
           'tourism': StringValueMatcher('information'),
           'information': StringValueMatcher('phone'),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node]),
       ]),
     ],
   ),
@@ -400,7 +397,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
           'tourism': StringValueMatcher('information'),
           'information': StringValueMatcher('phone'),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node]),
       ]),
     ],
   ),
@@ -412,7 +409,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'emergency': StringValueMatcher('phone'),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node]),
       ]),
     ],
   ),
@@ -424,7 +421,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'entrance': NotEmptyValueMatcher(),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node]),
       ]),
       ElementCondition([
         TagsSubCondition({
@@ -436,7 +433,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
             StringValueMatcher('folding'),
           ]),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node]),
       ]),
       ElementCondition([
         TagsSubCondition({
@@ -445,7 +442,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
             StringValueMatcher('train_station_entrance'),
           ]),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node]),
       ]),
     ],
   ),
@@ -461,7 +458,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
             EmptyValueMatcher(),
           ]),
         }),
-        ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
+        ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay]),
       ]),
       ElementCondition([
         TagsSubCondition({
@@ -475,7 +472,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
             EmptyValueMatcher(),
           ]),
         }),
-        ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
+        ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay]),
       ]),
     ],
   ),
@@ -491,7 +488,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
             EmptyValueMatcher(),
           ]),
         }),
-        ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
+        ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay]),
       ]),
       ElementCondition([
         TagsSubCondition({
@@ -505,7 +502,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
             EmptyValueMatcher(),
           ]),
         }),
-        ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
+        ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay]),
       ]),
     ],
   ),
@@ -521,7 +518,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
             StringValueMatcher('designated'),
           ]),
         }),
-        ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
+        ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay]),
       ]),
       ElementCondition([
         TagsSubCondition({
@@ -531,7 +528,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
             StringValueMatcher('designated'),
           ]),
         }),
-        ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
+        ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay]),
       ]),
       ElementCondition([
         TagsSubCondition({
@@ -545,7 +542,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
             StringValueMatcher('designated'),
           ]),
         }),
-        ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
+        ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay]),
       ]),
       ElementCondition([
         TagsSubCondition({
@@ -553,7 +550,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
           'bicycle': EmptyValueMatcher(),
           'foot': EmptyValueMatcher(),
         }),
-        ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay])
+        ElementTypeSubCondition([OSMElementType.openWay, OSMElementType.closedWay]),
       ]),
     ],
   ),
@@ -565,7 +562,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'highway': StringValueMatcher('steps'),
         }),
-        ElementTypeSubCondition([OSMElementType.openWay])
+        ElementTypeSubCondition([OSMElementType.openWay]),
       ]),
     ],
   ),
@@ -577,7 +574,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'highway': StringValueMatcher('elevator'),
         }),
-        ElementTypeSubCondition([OSMElementType.node, OSMElementType.closedWay])
+        ElementTypeSubCondition([OSMElementType.node, OSMElementType.closedWay]),
       ]),
     ],
   ),
@@ -596,7 +593,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
             StringValueMatcher('reversible'),
           ]),
         }),
-        ElementTypeSubCondition([OSMElementType.openWay])
+        ElementTypeSubCondition([OSMElementType.openWay]),
       ]),
     ],
   ),
@@ -608,7 +605,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'barrier': StringValueMatcher('cycle_barrier'),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node]),
       ]),
     ],
   ),
@@ -620,7 +617,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'highway': StringValueMatcher('crossing'),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node]),
       ]),
     ],
   ),
@@ -632,7 +629,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'railway': StringValueMatcher('tram_crossing'),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node]),
       ]),
     ],
   ),
@@ -644,7 +641,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'railway': StringValueMatcher('crossing'),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node]),
       ]),
     ],
   ),
@@ -707,7 +704,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
             StringValueMatcher('no'),
           ]),
         }),
-        ElementTypeSubCondition([OSMElementType.openWay])
+        ElementTypeSubCondition([OSMElementType.openWay]),
       ]),
     ],
   ),
@@ -725,7 +722,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
             StringValueMatcher('designated'),
           ]),
         }),
-        ElementTypeSubCondition([OSMElementType.openWay])
+        ElementTypeSubCondition([OSMElementType.openWay]),
       ]),
       ElementCondition([
         TagsSubCondition({
@@ -736,7 +733,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
             StringValueMatcher('designated'),
           ]),
         }),
-        ElementTypeSubCondition([OSMElementType.openWay])
+        ElementTypeSubCondition([OSMElementType.openWay]),
       ]),
       ElementCondition([
         TagsSubCondition({
@@ -751,7 +748,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
             StringValueMatcher('designated'),
           ]),
         }),
-        ElementTypeSubCondition([OSMElementType.openWay])
+        ElementTypeSubCondition([OSMElementType.openWay]),
       ]),
     ],
   ),
@@ -763,7 +760,7 @@ final _globalDefinitions = <MapFeatureDefinition>[
         TagsSubCondition({
           'barrier': StringValueMatcher('kerb'),
         }),
-        ElementTypeSubCondition([OSMElementType.node])
+        ElementTypeSubCondition([OSMElementType.node]),
       ]),
     ],
   ),
@@ -777,14 +774,14 @@ final _globalDefinitions = <MapFeatureDefinition>[
           'highway': StringValueMatcher('crossing'),
           'crossing': StringValueMatcher('traffic_signals'),
         }),
-        ElementTypeSubCondition([OSMElementType.node, OSMElementType.openWay])
+        ElementTypeSubCondition([OSMElementType.node, OSMElementType.openWay]),
       ]),
       ElementCondition([
         TagsSubCondition({
           'highway': StringValueMatcher('crossing'),
           'crossing:signals': StringValueMatcher('yes'),
         }),
-        ElementTypeSubCondition([OSMElementType.node, OSMElementType.openWay])
+        ElementTypeSubCondition([OSMElementType.node, OSMElementType.openWay]),
       ]),
     ],
   ),

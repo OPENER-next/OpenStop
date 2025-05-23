@@ -4,19 +4,19 @@ const _thunderforestAPIKey = String.fromEnvironment('THUNDERFOREST_API_KEY', def
 
 const kTileLayerPublicTransport = TileLayerDefinition(
   name: 'Public Transport',
-  templateUrl: 'https://tile.thunderforest.com/transport/{z}/{x}/{y}{r}.png?apikey=$_thunderforestAPIKey',
-  darkVariantTemplateUrl: 'https://tile.thunderforest.com/transport-dark/{z}/{x}/{y}{r}.png?apikey=$_thunderforestAPIKey',
+  templateUrl:
+      'https://tile.thunderforest.com/transport/{z}/{x}/{y}{r}.png?apikey=$_thunderforestAPIKey',
+  darkVariantTemplateUrl:
+      'https://tile.thunderforest.com/transport-dark/{z}/{x}/{y}{r}.png?apikey=$_thunderforestAPIKey',
   creditsText: 'Maps © Thunderforest',
   creditsUrl: 'https://www.thunderforest.com',
   maxZoom: 22,
   minZoom: 3,
 );
 
-
 /// Contains functional and legal information of a pixel tile layer.
 
 class TileLayerDefinition {
-
   /// The label of the tile layer.
 
   final String name;
@@ -48,6 +48,6 @@ class TileLayerDefinition {
     this.darkVariantTemplateUrl,
     this.creditsUrl,
     this.maxZoom = 18,
-    this.minZoom = 0
+    this.minZoom = 0,
   });
 }

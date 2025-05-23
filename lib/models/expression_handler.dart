@@ -8,7 +8,6 @@ typedef SubstitutionCallback = Iterable<String> Function(String variableName);
 
 typedef ExpressionCallback = Iterable<String> Function(Iterable<String>);
 
-
 /// A utility class that can be mixed in to get expression support wherever needed.
 ///
 /// Expressions are defined as an array where the first item is the expression identifier/name,
@@ -30,7 +29,6 @@ typedef ExpressionCallback = Iterable<String> Function(Iterable<String>);
 /// For `$var = "5"` this will evaluate to `Foo; 5 unit; Bar`
 
 mixin ExpressionHandler {
-
   /// A name to function mapping for expressions.
 
   static const _expressionMapping = <String, ExpressionCallback>{
@@ -45,7 +43,10 @@ mixin ExpressionHandler {
 
   /// Substitutes any variables (marked by $) and then executes the given expression array.
 
-  Iterable<String> evaluateExpression(Iterable<dynamic> rawExpression, SubstitutionCallback substitutionCallback) {
+  Iterable<String> evaluateExpression(
+    Iterable<dynamic> rawExpression,
+    SubstitutionCallback substitutionCallback,
+  ) {
     if (rawExpression.isEmpty) {
       throw const InvalidExpression('An expression list must not be empty.');
     }
@@ -55,14 +56,15 @@ mixin ExpressionHandler {
     final Iterable parameters;
 
     if (expressionIdentifier is! String || expressionIdentifier.isEmpty) {
-      throw const InvalidExpression('The first expression parameter must be an expression identifier.');
+      throw const InvalidExpression(
+        'The first expression parameter must be an expression identifier.',
+      );
     }
     // interpret start with variable as shorthand for coalesce
     if (expressionIdentifier[0] == r'$') {
       expression = _coalesce;
       parameters = rawExpression;
-    }
-    else {
+    } else {
       expression = _expressionMapping[expressionIdentifier];
       parameters = rawExpression.skip(1);
     }
@@ -74,18 +76,18 @@ mixin ExpressionHandler {
     throw UnsupportedError('The expression "$expressionIdentifier" is not supported.');
   }
 
-
-  Iterable<String> _substituteVariables(Iterable<dynamic> expressionParameters, SubstitutionCallback substitutionCallback) sync* {
+  Iterable<String> _substituteVariables(
+    Iterable<dynamic> expressionParameters,
+    SubstitutionCallback substitutionCallback,
+  ) sync* {
     for (final arg in expressionParameters) {
       if (arg is String) {
         if (arg.isNotEmpty && arg[0] == r'$') {
           yield* substitutionCallback(arg.substring(1));
-        }
-        else {
+        } else {
           yield arg;
         }
-      }
-      else if (arg is Iterable) {
+      } else if (arg is Iterable) {
         // evaluate nested expressions recursively
         yield* evaluateExpression(arg, substitutionCallback);
       }
@@ -170,8 +172,7 @@ Iterable<String> _pad(Iterable<String> args) sync* {
     while (iter.moveNext()) {
       yield iter.current.padRight(width.abs(), paddingString);
     }
-  }
-  else {
+  } else {
     while (iter.moveNext()) {
       yield iter.current.padLeft(width, paddingString);
     }
@@ -201,11 +202,8 @@ Iterable<String> _insert(Iterable<String> args) sync* {
     final mainString = iter.current;
     if (mainString.length < position.abs()) {
       yield mainString;
-    }
-    else {
-      final index = position.isNegative
-        ? mainString.length + position
-        : position;
+    } else {
+      final index = position.isNegative ? mainString.length + position : position;
       yield mainString.replaceRange(index, index, insertionString);
     }
   }
@@ -226,12 +224,10 @@ Iterable<String> _replace(Iterable<String> args) sync* {
   if (iter.current.startsWith('/') && iter.current.endsWith('/')) {
     try {
       pattern = RegExp(iter.current.substring(1, iter.current.length - 1));
-    }
-    on FormatException {
+    } on FormatException {
       return;
     }
-  }
-  else {
+  } else {
     pattern = iter.current;
   }
 
@@ -242,7 +238,6 @@ Iterable<String> _replace(Iterable<String> args) sync* {
     yield iter.current.replaceAll(pattern, replacementString);
   }
 }
-
 
 /// Indicates that an expression is malformed.
 

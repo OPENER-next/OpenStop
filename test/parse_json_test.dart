@@ -13,10 +13,10 @@ void main() async {
   final questionCatalogChange = await questionCatalogReader.questionCatalog.first;
   final questionCatalog = questionCatalogChange.catalog;
 
-  test('test if the question_catalog.json can be parsed successfully to its corresponding models', () {
-    expect(
-      questionCatalog,
-      isInstanceOf<QuestionCatalog>()
-    );
-  });
+  test(
+    'test if the question_catalog.json can be parsed successfully to its corresponding models',
+    () {
+      expect(questionCatalog, isInstanceOf<QuestionCatalog>());
+    },
+  );
 }

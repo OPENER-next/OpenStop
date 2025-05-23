@@ -5,14 +5,12 @@ import '/models/element_variants/base_element.dart';
 import '/models/osm_element_type.dart';
 import 'element_condition.dart';
 
-
 /// Base class for individual condition statements.
 /// Together sub conditions form a condition.
 
 abstract class SubCondition<T> extends Matcher<T, ProcessedElement> {
   const SubCondition(super.characteristics);
 }
-
 
 /// Check whether certain tags match the tags of the element.
 
@@ -23,34 +21,32 @@ class TagsSubCondition extends SubCondition<Map<String, TagValueMatcher>> {
   ///
   /// Currently setting RegEx flags is not supported and case sensitive matching is enabled.
 
-  TagsSubCondition.fromJson(Map<String, dynamic> json)
-    : super(json.map(_buildMatchersFromJSON));
+  TagsSubCondition.fromJson(Map<String, dynamic> json) : super(json.map(_buildMatchersFromJSON));
 
   static MapEntry<String, TagValueMatcher> _buildMatchersFromJSON(String key, dynamic value) {
     return MapEntry(
       key,
       value is Iterable
-        ? MultiValueMatcher(value.map(_buildMatcherFromJSON).toList(growable: false))
-        : _buildMatcherFromJSON(value),
+          ? MultiValueMatcher(value.map(_buildMatcherFromJSON).toList(growable: false))
+          : _buildMatcherFromJSON(value),
     );
   }
 
-  static TagValueMatcher _buildMatcherFromJSON (dynamic conditionValue) {
+  static TagValueMatcher _buildMatcherFromJSON(dynamic conditionValue) {
     if (conditionValue == true) {
       return const NotEmptyValueMatcher();
-    }
-    else if (conditionValue == false) {
+    } else if (conditionValue == false) {
       return const EmptyValueMatcher();
     }
     // parse RegExp from String
-    else if (conditionValue is String && conditionValue.length > 1 &&
-             conditionValue[0] == '/' && conditionValue[conditionValue.length - 1] == '/'
-    ) {
+    else if (conditionValue is String &&
+        conditionValue.length > 1 &&
+        conditionValue[0] == '/' &&
+        conditionValue[conditionValue.length - 1] == '/') {
       try {
         final regex = RegExp(conditionValue.substring(1, conditionValue.length - 1));
         return RegexValueMatcher(regex);
-      }
-      on FormatException {
+      } on FormatException {
         debugPrint('RegEx parsing for "$conditionValue" from question catalog failed.');
       }
     }
@@ -66,7 +62,6 @@ class TagsSubCondition extends SubCondition<Map<String, TagValueMatcher>> {
   }
 }
 
-
 /// Check whether one of the given element types match the type of the element.
 
 class ElementTypeSubCondition extends SubCondition<List<OSMElementType>> {
@@ -80,8 +75,7 @@ class ElementTypeSubCondition extends SubCondition<List<OSMElementType>> {
       for (final type in json) {
         yield (type as String).toOSMElementType();
       }
-    }
-    else if (json is String) {
+    } else if (json is String) {
       yield json.toOSMElementType();
     }
   }
@@ -91,7 +85,6 @@ class ElementTypeSubCondition extends SubCondition<List<OSMElementType>> {
     return characteristics.isEmpty || characteristics.contains(sample.specialType);
   }
 }
-
 
 /// Check whether certain conditions match any parent of the given element.
 
@@ -103,11 +96,10 @@ class ChildSubCondition extends SubCondition<List<ElementCondition>> {
 
   @override
   bool matches(sample) {
-   return characteristics.isEmpty ||
-          characteristics.any((condition) => sample.children.any(condition.matches));
+    return characteristics.isEmpty ||
+        characteristics.any((condition) => sample.children.any(condition.matches));
   }
 }
-
 
 /// Check whether certain conditions match any child of the given element.
 
@@ -119,11 +111,10 @@ class ParentSubCondition extends SubCondition<List<ElementCondition>> {
 
   @override
   bool matches(sample) {
-   return characteristics.isEmpty ||
-          characteristics.any((condition) => sample.parents.any(condition.matches));
+    return characteristics.isEmpty ||
+        characteristics.any((condition) => sample.parents.any(condition.matches));
   }
 }
-
 
 /// Check whether a certain condition part does **not** match the given element.
 
@@ -132,6 +123,6 @@ class NegatedSubCondition<T extends SubCondition> extends SubCondition<T> {
 
   @override
   bool matches(sample) {
-   return !characteristics.matches(sample);
+    return !characteristics.matches(sample);
   }
 }

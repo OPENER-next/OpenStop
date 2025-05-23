@@ -10,9 +10,13 @@ class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
 
   static final _urlCode = Uri.parse('https://github.com/OPENER-next');
-  static final _urlContributors = Uri.parse('https://github.com/OPENER-next/OpenStop/graphs/contributors');
+  static final _urlContributors = Uri.parse(
+    'https://github.com/OPENER-next/OpenStop/graphs/contributors',
+  );
   static final _urlIdea = Uri.parse('https://www.tu-chemnitz.de/etit/sse');
-  static final _urlLicense = Uri.parse('https://github.com/OPENER-next/OpenStop/blob/master/LICENSE');
+  static final _urlLicense = Uri.parse(
+    'https://github.com/OPENER-next/OpenStop/blob/master/LICENSE',
+  );
   static final _urlVersion = Uri.parse('https://github.com/OPENER-next/OpenStop/releases');
 
   @override
@@ -107,7 +111,7 @@ class AboutScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Image.asset(
                           'assets/images/logos/BMDV_Fz_2021_Office_Farbe_de.png',
-                          semanticLabel: appLocale.semanticsFederalMinistryImage
+                          semanticLabel: appLocale.semanticsFederalMinistryImage,
                         ),
                       ),
                     ),
@@ -117,7 +121,7 @@ class AboutScreen extends StatelessWidget {
                         padding: const EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 50.0),
                         child: Image.asset(
                           'assets/images/logos/mFUND_Logo_sRGB.png',
-                          semanticLabel: appLocale.semanticsMFundImage
+                          semanticLabel: appLocale.semanticsMFundImage,
                         ),
                       ),
                     ),

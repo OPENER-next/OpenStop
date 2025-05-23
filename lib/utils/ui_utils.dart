@@ -15,13 +15,9 @@ class ClipSymmetric extends CustomClipper<Rect> {
   Rect getClip(Size size) {
     final logicalScreenSize = mediaQuery.size;
     return Rect.fromCenter(
-        center: Offset(size.width / 2, size.height / 2),
-        width: direction == Axis.vertical
-          ? logicalScreenSize.width
-          : size.width,
-        height: direction == Axis.horizontal
-          ? logicalScreenSize.height
-          : size.height
+      center: Offset(size.width / 2, size.height / 2),
+      width: direction == Axis.vertical ? logicalScreenSize.width : size.width,
+      height: direction == Axis.horizontal ? logicalScreenSize.height : size.height,
     );
   }
 

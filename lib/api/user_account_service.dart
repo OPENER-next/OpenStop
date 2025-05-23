@@ -8,11 +8,9 @@ import '/api/osm_authentication_api.dart';
 import '/commons/osm_config.dart';
 import '/models/authenticated_user.dart';
 
-
 /// Provides login/logout method and details about the currently authenticated user.
 
 class UserAccountService extends Service {
-
   final _osmAuthenticationApi = OSMAuthenticationAPI();
 
   final _authenticatedUser = Observable<AuthenticatedUser?>(null);
@@ -25,16 +23,14 @@ class UserAccountService extends Service {
     final authentication = await _osmAuthenticationApi.restore();
     if (authentication != null) {
       try {
-        final user =  await _getAuthenticatedUser(authentication);
+        final user = await _getAuthenticatedUser(authentication);
         runInAction(() => _authenticatedUser.value = user);
-      }
-      catch (error) {
+      } catch (error) {
         // TODO: display or handle error
         debugPrint(error.toString());
       }
     }
   }
-
 
   late final _isLoggedIn = Computed(() => authenticatedUser != null);
 
@@ -44,36 +40,30 @@ class UserAccountService extends Service {
 
   bool get isLoggedOut => _isLoggedOut.value;
 
-
   AuthenticatedUser? get authenticatedUser => _authenticatedUser.value;
-
 
   Future<void> login() async {
     if (isLoggedIn) return;
     try {
       final authentication = await _osmAuthenticationApi.login();
-      final user =  await _getAuthenticatedUser(authentication);
+      final user = await _getAuthenticatedUser(authentication);
       runInAction(() => _authenticatedUser.value = user);
-    }
-    catch (error) {
+    } catch (error) {
       // TODO: display or handle error
       debugPrint(error.toString());
     }
   }
-
 
   Future<void> logout() async {
     if (isLoggedOut) return;
     try {
       await _osmAuthenticationApi.logout();
       runInAction(() => _authenticatedUser.value = null);
-    }
-    catch (error) {
+    } catch (error) {
       // TODO: display or handle error
       debugPrint(error.toString());
     }
   }
-
 
   Future<bool> openUserProfile() async {
     if (isLoggedOut) return false;
@@ -82,8 +72,7 @@ class UserAccountService extends Service {
         Uri.https(kOSMServer, '/user/${_authenticatedUser.value!.name}'),
         mode: LaunchMode.externalApplication,
       );
-    }
-    catch (error) {
+    } catch (error) {
       debugPrint(error.toString());
       return false;
     }
@@ -105,13 +94,11 @@ class UserAccountService extends Service {
         name: userDetails.name,
         id: userDetails.id,
         preferredLanguages: userDetails.preferredLanguages,
-        profileImageUrl: userDetails.profileImageUrl
+        profileImageUrl: userDetails.profileImageUrl,
       );
-    }
-    catch (error) {
+    } catch (error) {
       rethrow;
-    }
-    finally {
+    } finally {
       osmApi.dispose();
     }
     return user;

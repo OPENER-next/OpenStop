@@ -6,7 +6,6 @@ import 'package:flutter_material_design_icons/flutter_material_design_icons.dart
 
 import '/widgets/animated_path.dart';
 
-
 class UploadIndicator<T> extends StatefulWidget {
   /// if set will show upload animation
   /// on complete shows finish, on failure fail animation
@@ -24,7 +23,8 @@ class UploadIndicator<T> extends StatefulWidget {
   State<UploadIndicator> createState() => _UploadIndicatorState<T>();
 }
 
-class _UploadIndicatorState<T> extends State<UploadIndicator<T>> with SingleTickerProviderStateMixin {
+class _UploadIndicatorState<T> extends State<UploadIndicator<T>>
+    with SingleTickerProviderStateMixin {
   StreamSubscription? _sub;
   bool _succeeded = false;
 
@@ -35,7 +35,12 @@ class _UploadIndicatorState<T> extends State<UploadIndicator<T>> with SingleTick
   final Duration finishedInDuration = const Duration(milliseconds: 600);
   final Duration finishedOutDuration = const Duration(milliseconds: 300);
   final Duration childInDuration = const Duration(milliseconds: 600);
-  late final totalDuration = childOutDuration + loadingLoopDuration + finishedInDuration + finishedOutDuration + childInDuration;
+  late final totalDuration =
+      childOutDuration +
+      loadingLoopDuration +
+      finishedInDuration +
+      finishedOutDuration +
+      childInDuration;
 
   double _durationToDouble(Duration value) => value.inMicroseconds.toDouble();
 
@@ -73,26 +78,28 @@ class _UploadIndicatorState<T> extends State<UploadIndicator<T>> with SingleTick
 
   Future<void> _startAnimation() async {
     if (!_controller.isAnimating) {
-      final loopStartRatio = _durationToDouble(childOutDuration)/_durationToDouble(totalDuration);
-      final loopEndRatio = loopStartRatio + _durationToDouble(loadingLoopDuration)/_durationToDouble(totalDuration);
+      final loopStartRatio = _durationToDouble(childOutDuration) / _durationToDouble(totalDuration);
+      final loopEndRatio =
+          loopStartRatio +
+          _durationToDouble(loadingLoopDuration) / _durationToDouble(totalDuration);
 
       return _controller
-        .animateTo(loopStartRatio)
-        // bug: initial repeat does not start by given min value instead it adds the min value to the current value and starts then
-        // https://github.com/flutter/flutter/issues/67507
-        // _RepeatingSimulation is a simplified version of controller.repeat()
-        // duration is important, otherwise the total animation controller duration will be used
-        .then((value) => _controller.animateWith(
-          _RepeatingSimulation(loopStartRatio, loopEndRatio, loadingLoopDuration),
-        ));
+          .animateTo(loopStartRatio)
+          // bug: initial repeat does not start by given min value instead it adds the min value to the current value and starts then
+          // https://github.com/flutter/flutter/issues/67507
+          // _RepeatingSimulation is a simplified version of controller.repeat()
+          // duration is important, otherwise the total animation controller duration will be used
+          .then(
+            (value) => _controller.animateWith(
+              _RepeatingSimulation(loopStartRatio, loopEndRatio, loadingLoopDuration),
+            ),
+          );
     }
   }
 
   Future<void> _stopAnimation() async {
     if (_controller.isAnimating) {
-      return _controller
-        .forward()
-        .then((value) => _controller.reset());
+      return _controller.forward().then((value) => _controller.reset());
     }
   }
 
@@ -113,7 +120,7 @@ class _UploadIndicatorState<T> extends State<UploadIndicator<T>> with SingleTick
     const shadows = [
       Shadow(
         color: Colors.black12,
-        offset: Offset(2, 2)
+        offset: Offset(2, 2),
       ),
     ];
     final child = Padding(
@@ -135,8 +142,10 @@ class _UploadIndicatorState<T> extends State<UploadIndicator<T>> with SingleTick
               weight: _durationToDouble(childOutDuration),
             ),
             TweenSequenceItem<Offset>(
-              tween: Tween<Offset>(begin: const Offset(0, 1), end: const Offset(0, -1))
-                .chain(CurveTween(curve: Curves.slowMiddle)),
+              tween: Tween<Offset>(
+                begin: const Offset(0, 1),
+                end: const Offset(0, -1),
+              ).chain(CurveTween(curve: Curves.slowMiddle)),
               weight: _durationToDouble(loadingLoopDuration),
             ),
             TweenSequenceItem<Offset>(
@@ -156,7 +165,9 @@ class _UploadIndicatorState<T> extends State<UploadIndicator<T>> with SingleTick
               ),
               TweenSequenceItem<double>(
                 tween: ConstantTween(0),
-                weight: _durationToDouble(finishedInDuration + finishedOutDuration + childInDuration),
+                weight: _durationToDouble(
+                  finishedInDuration + finishedOutDuration + childInDuration,
+                ),
               ),
             ]).animate(_controller),
             child: Padding(
@@ -177,11 +188,12 @@ class _UploadIndicatorState<T> extends State<UploadIndicator<T>> with SingleTick
           scale: TweenSequence<double>([
             TweenSequenceItem<double>(
               tween: ConstantTween(1),
-              weight: _durationToDouble(childOutDuration + loadingLoopDuration + finishedInDuration),
+              weight: _durationToDouble(
+                childOutDuration + loadingLoopDuration + finishedInDuration,
+              ),
             ),
             TweenSequenceItem<double>(
-              tween: Tween<double>(begin: 1, end: 0)
-                .chain(CurveTween(curve: Curves.easeInBack)),
+              tween: Tween<double>(begin: 1, end: 0).chain(CurveTween(curve: Curves.easeInBack)),
               weight: _durationToDouble(finishedOutDuration),
             ),
             TweenSequenceItem<double>(
@@ -203,8 +215,7 @@ class _UploadIndicatorState<T> extends State<UploadIndicator<T>> with SingleTick
                       weight: _durationToDouble(childOutDuration + loadingLoopDuration),
                     ),
                     TweenSequenceItem<double>(
-                      tween: Tween<double>(begin: 0, end: 1)
-                        .chain(CurveTween(curve: Curves.ease)),
+                      tween: Tween<double>(begin: 0, end: 1).chain(CurveTween(curve: Curves.ease)),
                       weight: _durationToDouble(finishedInDuration),
                     ),
                     TweenSequenceItem<double>(
@@ -218,16 +229,15 @@ class _UploadIndicatorState<T> extends State<UploadIndicator<T>> with SingleTick
                   pathBuilder: (size) {
                     if (_succeeded) {
                       return Path()
-                      ..moveTo(0.2 * size.width, 0.6 * size.height)
-                      ..lineTo(0.45 * size.width, 0.8 * size.height)
-                      ..lineTo(0.8 * size.width, 0.3 * size.height);
-                    }
-                    else {
+                        ..moveTo(0.2 * size.width, 0.6 * size.height)
+                        ..lineTo(0.45 * size.width, 0.8 * size.height)
+                        ..lineTo(0.8 * size.width, 0.3 * size.height);
+                    } else {
                       return Path()
-                      ..moveTo(0.2 * size.width, 0.2 * size.height)
-                      ..lineTo(0.8 * size.width, 0.8 * size.height)
-                      ..moveTo(0.8 * size.width, 0.2 * size.height)
-                      ..lineTo(0.2 * size.width, 0.8 * size.height);
+                        ..moveTo(0.2 * size.width, 0.2 * size.height)
+                        ..lineTo(0.8 * size.width, 0.8 * size.height)
+                        ..moveTo(0.8 * size.width, 0.2 * size.height)
+                        ..lineTo(0.2 * size.width, 0.8 * size.height);
                     }
                   },
                 ),
@@ -239,29 +249,30 @@ class _UploadIndicatorState<T> extends State<UploadIndicator<T>> with SingleTick
         ScaleTransition(
           scale: TweenSequence<double>([
             TweenSequenceItem<double>(
-              tween: Tween<double>(begin: 1, end: 1.2)
-                .chain(CurveTween(curve: Curves.ease)),
+              tween: Tween<double>(begin: 1, end: 1.2).chain(CurveTween(curve: Curves.ease)),
               weight: _durationToDouble(childOutDuration),
             ),
             TweenSequenceItem<double>(
               tween: ConstantTween(1),
-              weight: _durationToDouble(loadingLoopDuration + finishedInDuration + finishedOutDuration + childInDuration),
+              weight: _durationToDouble(
+                loadingLoopDuration + finishedInDuration + finishedOutDuration + childInDuration,
+              ),
             ),
           ]).animate(_controller),
           child: FadeTransition(
             opacity: TweenSequence<double>([
               TweenSequenceItem<double>(
-                tween: Tween<double>(begin: 1, end: 0)
-                  .chain(CurveTween(curve: Curves.ease)),
+                tween: Tween<double>(begin: 1, end: 0).chain(CurveTween(curve: Curves.ease)),
                 weight: _durationToDouble(childOutDuration),
               ),
               TweenSequenceItem<double>(
                 tween: ConstantTween(0),
-                weight: _durationToDouble(loadingLoopDuration + finishedInDuration + finishedOutDuration),
+                weight: _durationToDouble(
+                  loadingLoopDuration + finishedInDuration + finishedOutDuration,
+                ),
               ),
               TweenSequenceItem<double>(
-                tween: Tween<double>(begin: 0, end: 1)
-                  .chain(CurveTween(curve: Curves.ease)),
+                tween: Tween<double>(begin: 0, end: 1).chain(CurveTween(curve: Curves.ease)),
                 weight: _durationToDouble(childInDuration),
               ),
             ]).animate(_controller),
@@ -279,7 +290,6 @@ class _UploadIndicatorState<T> extends State<UploadIndicator<T>> with SingleTick
     super.dispose();
   }
 }
-
 
 class _RepeatingSimulation extends Simulation {
   _RepeatingSimulation(this.min, this.max, Duration period)

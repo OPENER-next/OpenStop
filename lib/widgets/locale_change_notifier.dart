@@ -37,7 +37,7 @@ class _LocaleChangeNotifierState extends State<LocaleChangeNotifier> with Widget
   @override
   void didChangeLocales(List<Locale>? locales) => dispatch();
 
-  void dispatch() =>  widget.onChange(appLocale, userLocales);
+  void dispatch() => widget.onChange(appLocale, userLocales);
 
   @override
   Widget build(BuildContext context) => widget.child ?? const SizedBox.shrink();

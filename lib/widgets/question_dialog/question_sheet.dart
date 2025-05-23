@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 
-
 class QuestionSheet extends StatelessWidget {
   final Widget header;
 
@@ -24,7 +23,7 @@ class QuestionSheet extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        boxShadow: !active ? null : kElevationToShadow[4]
+        boxShadow: !active ? null : kElevationToShadow[4],
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -42,7 +41,7 @@ class QuestionSheet extends StatelessWidget {
             child: Semantics(
               container: true,
               sortKey: const OrdinalSortKey(2.0, name: 'QuestionSheet'),
-              child: body
+              child: body,
             ),
           ),
         ],
@@ -50,7 +49,6 @@ class QuestionSheet extends StatelessWidget {
     );
   }
 }
-
 
 /// Used to programmatically move the focus to a semantics node.
 class SemanticsFocus extends StatefulWidget {

@@ -23,7 +23,6 @@ class AffectedElementsDetector {
     required this.questionCatalog,
   });
 
-
   /// Takes a snapshot of the currently affected elements and returns whether
   /// they match or don't match any question.
   ///
@@ -35,8 +34,7 @@ class AffectedElementsDetector {
 
     if (_before == null) {
       _before = elements;
-    }
-    else {
+    } else {
       if (_after != null) {
         _before = _after;
       }
@@ -44,7 +42,6 @@ class AffectedElementsDetector {
     }
     return _diff();
   }
-
 
   Iterable<AffectedElementsRecord> _diff() {
     // ensure that takeSnapshot() has been called before once
@@ -67,15 +64,20 @@ class AffectedElementsDetector {
   /// by changes to the given target element.
 
   Set<ProcessedElement> _collectAffectedElements(ProcessedElement element) {
-    return questionCatalog.expand(
-      (questionDef) => _findAffected(element, questionDef.conditions),
-    ).toSet();
+    return questionCatalog
+        .expand(
+          (questionDef) => _findAffected(element, questionDef.conditions),
+        )
+        .toSet();
   }
 
   /// Recursively walks through all the parent and child conditions and gathers
   /// any ancestors or descendants that may be affected by changes to the sample element.
 
-  Iterable<ProcessedElement> _findAffected(ProcessedElement sample, List<ElementCondition> conditions) sync* {
+  Iterable<ProcessedElement> _findAffected(
+    ProcessedElement sample,
+    List<ElementCondition> conditions,
+  ) sync* {
     for (final cond in conditions) {
       for (final subCond in cond.characteristics) {
         final bool takeChildren;
@@ -85,20 +87,16 @@ class AffectedElementsDetector {
         if (subCond is ParentSubCondition) {
           takeChildren = true;
           conditions = subCond.characteristics;
-        }
-        else if (subCond is ChildSubCondition) {
+        } else if (subCond is ChildSubCondition) {
           takeChildren = false;
           conditions = subCond.characteristics;
-        }
-        else if (subCond is NegatedSubCondition<ParentSubCondition>) {
+        } else if (subCond is NegatedSubCondition<ParentSubCondition>) {
           takeChildren = true;
           conditions = subCond.characteristics.characteristics;
-        }
-        else if (subCond is NegatedSubCondition<ChildSubCondition>) {
+        } else if (subCond is NegatedSubCondition<ChildSubCondition>) {
           takeChildren = false;
           conditions = subCond.characteristics.characteristics;
-        }
-        else {
+        } else {
           continue;
         }
 
@@ -107,15 +105,11 @@ class AffectedElementsDetector {
         final candidates = _findAffected(sample, conditions);
         // return the respective children/parent of the potentially matching elements
         yield* (takeChildren
-          ? candidates.expand((element) => element.children)
-          : candidates.expand((element) => element.parents)
-        );
+            ? candidates.expand((element) => element.children)
+            : candidates.expand((element) => element.parents));
         // this gets first called for the deepest/most nested parent/child condition
         if (conditions.any((cond) => cond.matches(sample))) {
-          yield* (takeChildren
-            ? sample.children
-            : sample.parents
-          );
+          yield* (takeChildren ? sample.children : sample.parents);
         }
       }
     }
@@ -135,9 +129,7 @@ class AffectedElementsRecord {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is AffectedElementsRecord &&
-      other.element == element &&
-      other.matches == matches;
+    return other is AffectedElementsRecord && other.element == element && other.matches == matches;
   }
 
   @override

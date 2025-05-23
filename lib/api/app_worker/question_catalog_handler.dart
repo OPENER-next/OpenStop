@@ -13,8 +13,7 @@ mixin QuestionCatalogHandler<M> on ServiceWorker<M> {
   void updateQuestionCatalog(QuestionCatalogChange questionCatalogChange) {
     if (_completer.isCompleted) {
       _questionCatalog = Future.value(questionCatalogChange.catalog);
-    } 
-  else {
+    } else {
       _completer.complete(questionCatalogChange.catalog);
     }
   }

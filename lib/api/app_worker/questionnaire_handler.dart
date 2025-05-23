@@ -24,16 +24,17 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
   ///
   /// Null means there is no active questionnaire.
 
-  late final activeQuestionnaireStream = _activeQuestionnaireStreamController.stream.makeMultiStream((controller) {
-    if (_activeQuestionnaire != null) {
-      controller.addSync(
-        QuestionnaireRepresentation.derive(
-          _activeQuestionnaire!,
-          isCompleted: _questionnaireStore.isFinished(_activeQuestionnaire!),
-        ),
-      );
-    }
-  });
+  late final activeQuestionnaireStream = _activeQuestionnaireStreamController.stream
+      .makeMultiStream((controller) {
+        if (_activeQuestionnaire != null) {
+          controller.addSync(
+            QuestionnaireRepresentation.derive(
+              _activeQuestionnaire!,
+              isCompleted: _questionnaireStore.isFinished(_activeQuestionnaire!),
+            ),
+          );
+        }
+      });
 
   /// This either reopens an existing questionnaire or creates a new one.
 
@@ -131,8 +132,7 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
     if (_activeQuestionnaire != null) {
       if (_questionnaireStore.isFinished(_activeQuestionnaire!)) {
         _questionnaireStore.markAsUnfinished(_activeQuestionnaire!);
-      }
-      else {
+      } else {
         _activeQuestionnaire!.previous();
       }
       // notify change
@@ -150,8 +150,7 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
         _activeQuestionnaireStreamController.add(
           QuestionnaireRepresentation.derive(_activeQuestionnaire!),
         );
-      }
-      else if (_questionnaireStore.isUnfinished(_activeQuestionnaire!)) {
+      } else if (_questionnaireStore.isUnfinished(_activeQuestionnaire!)) {
         _questionnaireStore.markAsFinished(_activeQuestionnaire!);
         // notify change
         _activeQuestionnaireStreamController.add(
@@ -199,8 +198,7 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
           ),
         );
       }
-    }
-    else {
+    } else {
       _questionnaireStore.clear();
       closeQuestionnaire();
     }
@@ -223,7 +221,7 @@ class QuestionnaireRepresentation {
     this.isCompleted = false,
   });
 
-  QuestionnaireRepresentation.derive(Questionnaire questionnaire, {this.isCompleted = false}) :
-    entries = questionnaire.entries,
-    activeIndex = questionnaire.activeIndex;
+  QuestionnaireRepresentation.derive(Questionnaire questionnaire, {this.isCompleted = false})
+    : entries = questionnaire.entries,
+      activeIndex = questionnaire.activeIndex;
 }

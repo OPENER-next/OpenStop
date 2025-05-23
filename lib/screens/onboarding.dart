@@ -7,7 +7,6 @@ import '/l10n/app_localizations.g.dart';
 import '/view_models/onboarding_view_model.dart';
 import '/widgets/dots_indicator.dart';
 
-
 class OnboardingScreen extends View<OnboardingViewModel> {
   const OnboardingScreen({super.key}) : super(create: OnboardingViewModel.new);
 
@@ -47,7 +46,7 @@ class OnboardingScreen extends View<OnboardingViewModel> {
         description: appLocale.onboardingGreetingDescription,
         buttonText: appLocale.onboardingGreetingButton,
         buttonSemanticLabel: appLocale.semanticsNextStepOnboarding,
-        semanticLabel: appLocale.semanticsIntroductionPage(1,4),
+        semanticLabel: appLocale.semanticsIntroductionPage(1, 4),
         onButtonTap: viewModel.nextPage,
       ),
       OnboardingPage(
@@ -56,7 +55,7 @@ class OnboardingScreen extends View<OnboardingViewModel> {
         description: appLocale.onboardingSurveyingDescription,
         buttonText: appLocale.onboardingSurveyingButton,
         buttonSemanticLabel: appLocale.semanticsNextStepOnboarding,
-        semanticLabel: appLocale.semanticsIntroductionPage(2,4),
+        semanticLabel: appLocale.semanticsIntroductionPage(2, 4),
         onButtonTap: viewModel.nextPage,
       ),
       OnboardingPage(
@@ -65,7 +64,7 @@ class OnboardingScreen extends View<OnboardingViewModel> {
         description: appLocale.onboardingAnsweringDescription,
         buttonText: appLocale.onboardingAnsweringButton,
         buttonSemanticLabel: appLocale.semanticsNextStepOnboarding,
-        semanticLabel: appLocale.semanticsIntroductionPage(3,4),
+        semanticLabel: appLocale.semanticsIntroductionPage(3, 4),
         onButtonTap: viewModel.nextPage,
       ),
       OnboardingPage(
@@ -74,7 +73,7 @@ class OnboardingScreen extends View<OnboardingViewModel> {
         description: appLocale.onboardingContributingDescription,
         buttonText: appLocale.onboardingContributingButton,
         buttonSemanticLabel: appLocale.semanticsFinishOnboarding,
-        semanticLabel: appLocale.semanticsIntroductionPage(4,4),
+        semanticLabel: appLocale.semanticsIntroductionPage(4, 4),
         onButtonTap: () {
           viewModel.markOnboardingAsSeen();
           // remove previous routes to start of with no duplicated home screen
@@ -115,7 +114,9 @@ class OnboardingScreen extends View<OnboardingViewModel> {
           body: AnimatedBuilder(
             animation: viewModel.controller,
             builder: (context, child) {
-              final color = viewModel.controller.hasClients && pages.length > 1 ? viewModel.controller.page! / (pages.length - 1) : 0.0;
+              final color = viewModel.controller.hasClients && pages.length > 1
+                  ? viewModel.controller.page! / (pages.length - 1)
+                  : 0.0;
 
               return ColoredBox(
                 color: _backgroundColorSequence.evaluate(AlwaysStoppedAnimation(color))!,
@@ -141,7 +142,7 @@ class OnboardingScreen extends View<OnboardingViewModel> {
                   Container(
                     height: 70,
                     margin: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).padding.bottom
+                      bottom: MediaQuery.of(context).padding.bottom,
                     ),
                     child: DotsIndicator(
                       controller: viewModel.controller,
@@ -166,7 +167,6 @@ class OnboardingScreen extends View<OnboardingViewModel> {
   }
 }
 
-
 class OnboardingPage extends StatelessWidget {
   final String image;
   final String title;
@@ -186,7 +186,7 @@ class OnboardingPage extends StatelessWidget {
     this.buttonIcon = Icons.chevron_right,
     this.semanticLabel,
     this.onButtonTap,
-    super.key
+    super.key,
   });
 
   @override
@@ -198,10 +198,12 @@ class OnboardingPage extends StatelessWidget {
       child: Flex(
         direction: isPortrait ? Axis.vertical : Axis.horizontal,
         children: [
-          if (!isPortrait) const Spacer(
-            flex: 1,
-          ),
-          Image.asset(image,
+          if (!isPortrait)
+            const Spacer(
+              flex: 1,
+            ),
+          Image.asset(
+            image,
             fit: BoxFit.fitWidth,
             excludeFromSemantics: true,
           ),
@@ -217,7 +219,8 @@ class OnboardingPage extends StatelessWidget {
                 children: [
                   Flexible(
                     flex: 2,
-                    child: Text(title,
+                    child: Text(
+                      title,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Colors.white,
@@ -230,7 +233,8 @@ class OnboardingPage extends StatelessWidget {
                     flex: 3,
                     child: Padding(
                       padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(description,
+                      child: Text(
+                        description,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           color: Colors.white,
@@ -240,28 +244,28 @@ class OnboardingPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Spacer(
-                    flex: buttonText != null ? 1 : 3
-                  ),
-                  if (buttonText != null) Flexible(
-                    flex: 2,
-                    child: OutlinedButton.icon(
-                      onPressed: onButtonTap,
-                      label: Text(
-                        buttonText!,
-                        semanticsLabel: buttonSemanticLabel,
+                  Spacer(flex: buttonText != null ? 1 : 3),
+                  if (buttonText != null)
+                    Flexible(
+                      flex: 2,
+                      child: OutlinedButton.icon(
+                        onPressed: onButtonTap,
+                        label: Text(
+                          buttonText!,
+                          semanticsLabel: buttonSemanticLabel,
+                        ),
+                        icon: Icon(buttonIcon),
+                        iconAlignment: IconAlignment.end,
                       ),
-                      icon: Icon(buttonIcon),
-                      iconAlignment: IconAlignment.end,
                     ),
-                  ),
                 ],
               ),
             ),
           ),
-          if (!isPortrait) const Spacer(
-            flex: 1,
-          ),
+          if (!isPortrait)
+            const Spacer(
+              flex: 1,
+            ),
         ],
       ),
     );

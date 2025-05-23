@@ -27,7 +27,8 @@ import 'stop_area_handler.dart';
 ///
 /// All downloaded elements are cached in the [OSMElementProcessor].
 
-mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalogHandler<M>, LocaleHandler<M> {
+mixin ElementHandler<M>
+    on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalogHandler<M>, LocaleHandler<M> {
   final _elementStreamController = StreamController<ElementUpdate>();
 
   /// A MultiStream that returns any existing elements on initial subscription.
@@ -40,14 +41,19 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
   /// Moving the filters inside the element processing step and removing
   /// non matching elements there is not a good idea, due to child/parent reference problems.
 
-  late final elementStream = _elementStreamController.stream.makeMultiStreamAsync((controller) async {
+  late final elementStream = _elementStreamController.stream.makeMultiStreamAsync((
+    controller,
+  ) async {
     final existingElements = _filterElements(
       _buildFiltersForStopAreas(loadedStopAreas),
       Stream.fromIterable(_elementPool.elements),
     );
-    final elementUpdates = existingElements.map((element) => ElementUpdate.derive(
-      element, action: ElementUpdateAction.update,
-    ));
+    final elementUpdates = existingElements.map(
+      (element) => ElementUpdate.derive(
+        element,
+        action: ElementUpdateAction.update,
+      ),
+    );
     return controller.addStream(elementUpdates);
   });
 
@@ -64,8 +70,8 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
     );
     _elementStreamController.add(const ElementUpdate(action: ElementUpdateAction.clear));
     return existingElements
-      .map((element) => ElementUpdate.derive(element, action: ElementUpdateAction.update))
-      .forEach(_elementStreamController.add);
+        .map((element) => ElementUpdate.derive(element, action: ElementUpdateAction.update))
+        .forEach(_elementStreamController.add);
   }
 
   /// Retrieves all stop areas in the given bounds and queries the elements for any unloaded stop area.
@@ -80,12 +86,16 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
       final elements = _queryElementsByStopArea(stopArea);
       // filter elements
       final filteredElements = _filterElements(
-        _buildFiltersForStopArea(stopArea), elements,
+        _buildFiltersForStopArea(stopArea),
+        elements,
       );
       // construct element updates
-      final elementUpdates = filteredElements.map((element) => ElementUpdate.derive(
-        element, action: ElementUpdateAction.update,
-      ));
+      final elementUpdates = filteredElements.map(
+        (element) => ElementUpdate.derive(
+          element,
+          action: ElementUpdateAction.update,
+        ),
+      );
       // add newly queried elements to stream
       futures.add(
         elementUpdates.forEach(_elementStreamController.add),
@@ -115,19 +125,15 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
         // query elements by stop areas bbox
         final elementBundle = await _osmElementQueryHandler.queryByBBox(stopArea);
         // process stop area elements
-        final stopAreaElements = _elementPool
-          .add(elementBundle)
-          .map((record) => record.element);
+        final stopAreaElements = _elementPool.add(elementBundle).map((record) => record.element);
         // on success add to loaded stop areas and mark accordingly
         if (await stopAreaHasQuestions(stopArea, stopAreaElements)) {
           markStopArea(stopArea, StopAreaState.incomplete);
-        }
-        else {
+        } else {
           markStopArea(stopArea, StopAreaState.complete);
         }
         yield* Stream.fromIterable(stopAreaElements);
-      }
-      catch(e) {
+      } catch (e) {
         markStopArea(stopArea, StopAreaState.unloaded);
         rethrow;
       }
@@ -136,10 +142,11 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
 
   /// Quickly find a downloaded element by its identifier.
 
-  ProcessedElement<osmapi.OSMElement, GeographicGeometry>? findElement(ElementIdentifier elementIdentifier) {
+  ProcessedElement<osmapi.OSMElement, GeographicGeometry>? findElement(
+    ElementIdentifier elementIdentifier,
+  ) {
     return _elementPool.find(elementIdentifier.type, elementIdentifier.id);
   }
-
 
   /// Uploads a given element.
   /// Sends update events for the given element and its dependents.
@@ -160,12 +167,15 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
       // upload element and detect elements that are affected by this change
       final diffDetector = AffectedElementsDetector(questionCatalog: qCatalog);
       diffDetector.takeSnapshot(element.original);
-      final changesetId = await uploadAPI.createOrReuseChangeset(stopArea, element, (stopArea, elements) {
+      final changesetId = await uploadAPI.createOrReuseChangeset(stopArea, element, (
+        stopArea,
+        elements,
+      ) {
         return ChangesetInfo(
           comment: ChangesetCommentGenerator.fromContext(
             stopArea: stopArea,
             modifiedElements: elements,
-            userLocales: userLocales
+            userLocales: userLocales,
           ).toString(),
           locale: appLocale.toLanguageTag(),
         );
@@ -176,33 +186,36 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
       // update stop area state
       if (await stopAreaHasQuestions(stopArea, _elementPool.elements)) {
         markStopArea(stopArea, StopAreaState.incomplete);
-      }
-      else {
+      } else {
         markStopArea(stopArea, StopAreaState.complete);
       }
 
       affectedElements
-        // add the element itself to the affected elements
-        .followedBy([AffectedElementsRecord(
-          element: element.original,
-          matches: QuestionFilter(qCatalog).matches(element),
-        )])
-        // send update messages to the main thread
-        .map((record) => ElementUpdate.derive(
-          record.element,
-          action: record.matches
-            ? ElementUpdateAction.update
-            : ElementUpdateAction.remove,
-        ))
-        .forEach(_elementStreamController.add);
-    }
-    finally {
+          // add the element itself to the affected elements
+          .followedBy([
+            AffectedElementsRecord(
+              element: element.original,
+              matches: QuestionFilter(qCatalog).matches(element),
+            ),
+          ])
+          // send update messages to the main thread
+          .map(
+            (record) => ElementUpdate.derive(
+              record.element,
+              action: record.matches ? ElementUpdateAction.update : ElementUpdateAction.remove,
+            ),
+          )
+          .forEach(_elementStreamController.add);
+    } finally {
       uploadAPI.dispose();
     }
   }
 
   @override
-  Future<bool> stopAreaHasQuestions(StopArea stopArea, [Iterable<ProcessedElement>? elements]) async {
+  Future<bool> stopAreaHasQuestions(
+    StopArea stopArea, [
+    Iterable<ProcessedElement>? elements,
+  ]) async {
     final filteredElements = _filterElements(
       _buildFiltersForStopArea(stopArea),
       Stream.fromIterable(elements ?? _elementPool.elements),
@@ -210,7 +223,10 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
     return !(await filteredElements.isEmpty);
   }
 
-  Stream<ProcessedElement> _filterElements(Stream<ElementFilter> filters, Stream<ProcessedElement> elements) async* {
+  Stream<ProcessedElement> _filterElements(
+    Stream<ElementFilter> filters,
+    Stream<ProcessedElement> elements,
+  ) async* {
     yield* await filters.fold<Stream<ProcessedElement>>(
       elements,
       (elements, filter) => filter.asyncFilter(elements),
@@ -235,7 +251,6 @@ mixin ElementHandler<M> on ServiceWorker<M>, StopAreaHandler<M>, QuestionCatalog
   }
 }
 
-
 enum ElementUpdateAction { update, remove, clear }
 
 class ElementUpdate {
@@ -243,9 +258,10 @@ class ElementUpdate {
   final ElementUpdateAction action;
 
   const ElementUpdate({
-    required this.action, this.element,
+    required this.action,
+    this.element,
   });
 
-  ElementUpdate.derive(ProcessedElement element, {required this.action}) :
-    element = MapFeatures().representElement(element);
+  ElementUpdate.derive(ProcessedElement element, {required this.action})
+    : element = MapFeatures().representElement(element);
 }

@@ -3,7 +3,6 @@ import 'answer_constructor.dart';
 /// A base class that describes the answer input and the ultimately written OSM tags.
 
 abstract class AnswerDefinition<T> {
-
   final T input;
 
   final AnswerConstructor constructor;
@@ -16,9 +15,7 @@ abstract class AnswerDefinition<T> {
   static AnswerDefinition fromJSON(Map<String, dynamic> json) {
     final type = json['type'] as String;
     final input = json['input'];
-    final constructor = (
-      json['constructor'] as Map<String, dynamic>?
-    )?.cast<String, List>();
+    final constructor = (json['constructor'] as Map<String, dynamic>?)?.cast<String, List>();
 
     switch (type) {
       case 'String':
@@ -30,7 +27,7 @@ abstract class AnswerDefinition<T> {
             placeholder: input['placeholder'],
           ),
           constructor: AnswerConstructor(constructor!),
-      );
+        );
       case 'Number':
         input as Map<String, dynamic>;
         return NumberAnswerDefinition(
@@ -42,7 +39,7 @@ abstract class AnswerDefinition<T> {
             unit: input['unit'],
           ),
           constructor: AnswerConstructor(constructor!),
-      );
+        );
       case 'Duration':
         input as Map<String, dynamic>;
         final Map<String, dynamic>? days = input['days'];
@@ -83,12 +80,10 @@ abstract class AnswerDefinition<T> {
             item as Map<String, dynamic>;
             return BoolInputDefinition(
               osmTags: (item['osm_tags'] as Map<String, dynamic>).cast<String, String>(),
-              name: item['name']
+              name: item['name'],
             );
           }),
-          constructor: constructor != null
-            ? AnswerConstructor(constructor)
-            : null,
+          constructor: constructor != null ? AnswerConstructor(constructor) : null,
         );
       case 'List':
         input as List;
@@ -102,9 +97,7 @@ abstract class AnswerDefinition<T> {
               image: item['image'],
             );
           }),
-          constructor:constructor != null
-            ? AnswerConstructor(constructor)
-            : null,
+          constructor: constructor != null ? AnswerConstructor(constructor) : null,
         );
       case 'MultiList':
         input as List;
@@ -118,9 +111,7 @@ abstract class AnswerDefinition<T> {
               image: item['image'],
             );
           }),
-          constructor: constructor != null
-            ? AnswerConstructor(constructor)
-            : null,
+          constructor: constructor != null ? AnswerConstructor(constructor) : null,
         );
       default:
         throw UnsupportedError('The question input type "$type" is not supported.');
@@ -133,7 +124,6 @@ abstract class AnswerDefinition<T> {
 abstract class InputDefinition {
   const InputDefinition();
 }
-
 
 class StringAnswerDefinition extends AnswerDefinition<StringInputDefinition> {
   const StringAnswerDefinition({
@@ -151,15 +141,15 @@ class StringInputDefinition implements InputDefinition {
     int? min = 0,
     int? max = 255,
     this.placeholder,
-  }) :
-    min = min ?? 0,
-    max = max ?? 255,
-    assert(
-      (min == null || min >= 0) && (max == null || max >= 255) && (min == null || max == null || min <= max),
-      'The min and max properties must define a range between 0 and 255.',
-    );
+  }) : min = min ?? 0,
+       max = max ?? 255,
+       assert(
+         (min == null || min >= 0) &&
+             (max == null || max >= 255) &&
+             (min == null || max == null || min <= max),
+         'The min and max properties must define a range between 0 and 255.',
+       );
 }
-
 
 class NumberAnswerDefinition extends AnswerDefinition<NumberInputDefinition> {
   const NumberAnswerDefinition({
@@ -171,8 +161,10 @@ class NumberAnswerDefinition extends AnswerDefinition<NumberInputDefinition> {
 class NumberInputDefinition implements InputDefinition {
   /// If decimals = null, there is no limit of decimal places.
   final int? decimals;
+
   /// If min = null, there is no lower bound for input number values.
   final int? min;
+
   /// If max = null, there is no upper bound for input number values.
   final int? max;
   final String? placeholder;
@@ -187,7 +179,6 @@ class NumberInputDefinition implements InputDefinition {
   }) : assert(min == null || max == null || min < max, 'The min value must be smaller than max.');
 }
 
-
 class DurationAnswerDefinition extends AnswerDefinition<DurationInputDefinition> {
   const DurationAnswerDefinition({
     required super.input,
@@ -196,7 +187,6 @@ class DurationAnswerDefinition extends AnswerDefinition<DurationInputDefinition>
 }
 
 class DurationInputDefinition implements InputDefinition {
-
   /// The maximum allowed value for the biggest unit.
 
   // This has to be separated from the individual units, because otherwise
@@ -219,17 +209,18 @@ class DurationInputDefinition implements InputDefinition {
   });
 }
 
-
 class BoolAnswerDefinition extends AnswerDefinition<List<BoolInputDefinition>> {
   BoolAnswerDefinition({
     required Iterable<BoolInputDefinition> input,
     AnswerConstructor? constructor,
-  }) :
-    assert(input.length == 2, 'The input of BoolAnswerDefinition must consist of exactly two entries.'),
-    super(
-      input: List.unmodifiable(input),
-      constructor: constructor ?? AnswerConstructor.fromTags(input.map((item) => item.osmTags)),
-    );
+  }) : assert(
+         input.length == 2,
+         'The input of BoolAnswerDefinition must consist of exactly two entries.',
+       ),
+       super(
+         input: List.unmodifiable(input),
+         constructor: constructor ?? AnswerConstructor.fromTags(input.map((item) => item.osmTags)),
+       );
 }
 
 class BoolInputDefinition implements InputDefinition {
@@ -242,15 +233,14 @@ class BoolInputDefinition implements InputDefinition {
   });
 }
 
-
 class ListAnswerDefinition extends AnswerDefinition<List<ListInputDefinition>> {
   ListAnswerDefinition({
     required Iterable<ListInputDefinition> input,
     AnswerConstructor? constructor,
   }) : super(
-    input: List.unmodifiable(input),
-    constructor: constructor ?? AnswerConstructor.fromTags(input.map((item) => item.osmTags)),
-  );
+         input: List.unmodifiable(input),
+         constructor: constructor ?? AnswerConstructor.fromTags(input.map((item) => item.osmTags)),
+       );
 }
 
 class ListInputDefinition implements InputDefinition {
@@ -266,7 +256,6 @@ class ListInputDefinition implements InputDefinition {
     this.image,
   });
 }
-
 
 class MultiListAnswerDefinition extends ListAnswerDefinition {
   MultiListAnswerDefinition({

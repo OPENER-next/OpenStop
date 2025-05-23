@@ -6,7 +6,9 @@ import '/l10n/app_localizations.g.dart';
 
 class UserAccountHeader extends StatelessWidget {
   // taken from https://png-pixel.com/
-  static final _transparentImage = base64Decode('R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==');
+  static final _transparentImage = base64Decode(
+    'R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==',
+  );
 
   final String name;
   final String? imageUrl;
@@ -43,7 +45,7 @@ class UserAccountHeader extends StatelessWidget {
         top: MediaQuery.of(context).padding.top + 15 + borderWidth,
         left: 10,
         right: 10,
-        bottom: 15
+        bottom: 15,
       ),
       // The outer Stack is necessary, because when using the inner Stack for the
       // CompositedTransformFollower it will only be clickable in the bounds of
@@ -72,24 +74,24 @@ class UserAccountHeader extends StatelessWidget {
                       ),
                       clipBehavior: Clip.antiAlias,
                       child: imageUrl == null
-                        ? UserAccountImagePlaceholder(
-                          size: profilePictureSize,
-                        )
-                        : FadeInImage.memoryNetwork(
-                          placeholder: _transparentImage,
-                          image: imageUrl!,
-                          fit: BoxFit.cover,
-                          width: profilePictureSize,
-                          height: profilePictureSize,
-                          fadeInDuration: const Duration(milliseconds: 300),
-                          imageCacheHeight: profilePictureSize.toInt(),
-                          imageErrorBuilder:(context, error, stackTrace) {
-                            return UserAccountImagePlaceholder(
+                          ? UserAccountImagePlaceholder(
                               size: profilePictureSize,
-                            );
-                          },
-                        ),
-                      ),
+                            )
+                          : FadeInImage.memoryNetwork(
+                              placeholder: _transparentImage,
+                              image: imageUrl!,
+                              fit: BoxFit.cover,
+                              width: profilePictureSize,
+                              height: profilePictureSize,
+                              fadeInDuration: const Duration(milliseconds: 300),
+                              imageCacheHeight: profilePictureSize.toInt(),
+                              imageErrorBuilder: (context, error, stackTrace) {
+                                return UserAccountImagePlaceholder(
+                                  size: profilePictureSize,
+                                );
+                              },
+                            ),
+                    ),
                     Positioned.fill(
                       child: Material(
                         type: MaterialType.transparency,
@@ -132,7 +134,6 @@ class UserAccountHeader extends StatelessWidget {
   }
 }
 
-
 class UserAccountActionButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback? onTap;
@@ -159,12 +160,14 @@ class UserAccountActionButton extends StatelessWidget {
         ),
       ),
       tooltip: tooltip,
-      icon: Icon(icon, semanticLabel: appLocale.semanticsLogout,),
+      icon: Icon(
+        icon,
+        semanticLabel: appLocale.semanticsLogout,
+      ),
       onPressed: onTap,
     );
   }
 }
-
 
 class UserAccountImagePlaceholder extends StatelessWidget {
   final double size;
@@ -180,7 +183,7 @@ class UserAccountImagePlaceholder extends StatelessWidget {
       dimension: size,
       child: Icon(
         Icons.person,
-        size: size/2,
+        size: size / 2,
         color: Theme.of(context).colorScheme.onPrimaryContainer.withValues(alpha: 0.4),
       ),
     );

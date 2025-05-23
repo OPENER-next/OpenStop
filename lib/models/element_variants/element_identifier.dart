@@ -17,9 +17,7 @@ abstract class ElementIdentifier {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is ElementIdentifier &&
-      other.id == id &&
-      other.type == type;
+    return other is ElementIdentifier && other.id == id && other.type == type;
   }
 
   @override

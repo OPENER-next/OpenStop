@@ -30,26 +30,24 @@ class QuestionDefinition {
     required this.conditions,
     required this.answer,
     this.description = '',
-    this.images = const []
+    this.images = const [],
   });
 
-
   factory QuestionDefinition.fromJSON(int runtimeId, Map<String, dynamic> json) {
-      final Map<String, dynamic> question = json['question'];
-      return QuestionDefinition(
-        runtimeId: runtimeId,
-        name: question['name'],
-        description: question['description'] ?? '',
-        images: (question['image'] as List?)?.cast<String>() ?? [],
-        question: question['text'],
-        conditions: (json['conditions'] as List)
+    final Map<String, dynamic> question = json['question'];
+    return QuestionDefinition(
+      runtimeId: runtimeId,
+      name: question['name'],
+      description: question['description'] ?? '',
+      images: (question['image'] as List?)?.cast<String>() ?? [],
+      question: question['text'],
+      conditions: (json['conditions'] as List)
           .cast<Map<String, dynamic>>()
           .map<ElementCondition>(ElementCondition.fromJSON)
           .toList(growable: false),
-        answer: AnswerDefinition.fromJSON(json['answer'])
-      );
-    }
-
+      answer: AnswerDefinition.fromJSON(json['answer']),
+    );
+  }
 
   @override
   String toString() {
@@ -60,8 +58,7 @@ class QuestionDefinition {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is QuestionDefinition &&
-      other.runtimeId == runtimeId;
+    return other is QuestionDefinition && other.runtimeId == runtimeId;
   }
 
   @override

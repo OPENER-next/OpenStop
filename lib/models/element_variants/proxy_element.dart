@@ -2,10 +2,12 @@ part of 'base_element.dart';
 
 /// A wrapper class to modify the tags of [OSMElement]s without changing or exposing them.
 
-class ProxyElement<T extends osmapi.OSMElement, G extends GeographicGeometry> extends ProcessedElement<T, G> {
+class ProxyElement<T extends osmapi.OSMElement, G extends GeographicGeometry>
+    extends ProcessedElement<T, G> {
   final ProcessedElement<T, G> original;
 
-  ProxyElement(this.original, {
+  ProxyElement(
+    this.original, {
     Map<String, String>? additionalTags,
   }) : additionalTags = additionalTags ?? {},
        super(original._osmElement);
@@ -20,9 +22,8 @@ class ProxyElement<T extends osmapi.OSMElement, G extends GeographicGeometry> ex
   late final CombinedMapView<String, String> tags = CombinedMapView([
     // on duplicates the first value will be returned
     // therefore move additionalTags to the start
-    additionalTags, super.tags
+    additionalTags, super.tags,
   ]);
-
 
   /// Updates the underlying OSM element with the given tags (and version) and
   /// uploads it to the OSM server.
@@ -42,10 +43,11 @@ class ProxyElement<T extends osmapi.OSMElement, G extends GeographicGeometry> ex
       await uploadAPI.updateOsmElement(changesetId, _osmElement);
       // on success clear any added tags
       additionalTags.clear();
-    }
-    catch (e) {
+    } catch (e) {
       // revert applied changes on error
-      _osmElement.tags..clear()..addAll(tagCopy);
+      _osmElement.tags
+        ..clear()
+        ..addAll(tagCopy);
       rethrow;
     }
   }

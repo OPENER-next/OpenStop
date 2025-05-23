@@ -4,12 +4,16 @@ import 'package:open_stop/models/element_variants/base_element.dart';
 import 'package:osm_api/osm_api.dart';
 
 void main() async {
-
-  final ele = ProcessedNode(OSMNode(0, 0, tags: {
-    'foo': 'bar',
-    'bla': 'blub',
-  }));
-
+  final ele = ProcessedNode(
+    OSMNode(
+      0,
+      0,
+      tags: {
+        'foo': 'bar',
+        'bla': 'blub',
+      },
+    ),
+  );
 
   test('test if the tag conditions matches the pre-defined element', () {
     {
@@ -27,7 +31,7 @@ void main() async {
     }
     {
       final cond = TagsSubCondition.fromJson({
-        'foo': [ 'value2', 'value3', true ],
+        'foo': ['value2', 'value3', true],
       });
       expect(cond.matches(ele), isTrue);
     }
@@ -40,7 +44,7 @@ void main() async {
     }
     {
       final cond = TagsSubCondition.fromJson({
-        'test': [ 'value2', 'value3', false ],
+        'test': ['value2', 'value3', false],
       });
       expect(cond.matches(ele), isTrue);
     }
@@ -53,14 +57,14 @@ void main() async {
     }
     {
       final cond = TagsSubCondition.fromJson({
-        'foo': [ 'value2', 'value3', false ],
+        'foo': ['value2', 'value3', false],
       });
       expect(cond.matches(ele), isFalse);
     }
 
     {
       final cond = TagsSubCondition.fromJson({
-        'foo': [ 'value2', 'value3', 'bar' ],
+        'foo': ['value2', 'value3', 'bar'],
       });
       expect(cond.matches(ele), isTrue);
     }
@@ -73,15 +77,15 @@ void main() async {
     }
     {
       final cond = TagsSubCondition.fromJson({
-        'foo': [ 'value2', 'value3', r'/^b.*r$/' ],
+        'foo': ['value2', 'value3', r'/^b.*r$/'],
       });
       expect(cond.matches(ele), isTrue);
     }
 
     {
       final cond = TagsSubCondition.fromJson({
-        'foo': [ 'value2', 'value3', r'/^b.*r$/' ],
-        'bla': [ 'test', true ],
+        'foo': ['value2', 'value3', r'/^b.*r$/'],
+        'bla': ['test', true],
         'test': false,
       });
       expect(cond.matches(ele), isTrue);

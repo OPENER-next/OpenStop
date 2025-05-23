@@ -14,7 +14,7 @@ import '/l10n/app_localizations.g.dart';
 import '/models/question_catalog/question_catalog_reader.dart';
 import 'widgets/locale_change_notifier.dart';
 
-Future <void> main() async {
+Future<void> main() async {
   // this is required to run flutter dependent code before runApp is called
   // in this case SharedPreferences requires this
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,7 +51,7 @@ Future <void> main() async {
   reaction((p0) => GetIt.I.get<PreferencesService>().isProfessional, (value) async {
     questionCatalogReader.assetPaths = [
       mainCatalogDirectory,
-      if (value) professionalCatalogDirectory
+      if (value) professionalCatalogDirectory,
     ];
   }, fireImmediately: true);
 

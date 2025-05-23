@@ -7,16 +7,15 @@ import 'package:flutter/material.dart';
 ///
 /// This is almost identical to https://api.flutter.dev/flutter/animation/Animation/Animation.fromValueListenable.html
 
-class DerivedAnimation<T extends ChangeNotifier,V> extends Animation<V> {
+class DerivedAnimation<T extends ChangeNotifier, V> extends Animation<V> {
   final T _notifier;
   final V Function(T) _transformer;
 
   DerivedAnimation({
     required T notifier,
     required V Function(T) transformer,
-  }) :
-  _notifier = notifier,
-  _transformer = transformer;
+  }) : _notifier = notifier,
+       _transformer = transformer;
 
   @override
   void addListener(VoidCallback listener) {

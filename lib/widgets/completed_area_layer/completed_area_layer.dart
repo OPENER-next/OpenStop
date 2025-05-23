@@ -4,11 +4,9 @@ import 'package:latlong2/latlong.dart' hide Path;
 import '/widgets/animated_path.dart';
 import '/widgets/loading_area_layer/map_layer.dart';
 
-
 /// Layer to highlight completed stop areas.
 
 class CompletedAreaLayer extends StatelessWidget {
-
   final Iterable<LatLng> locations;
 
   /// The current zoom level.
@@ -31,12 +29,10 @@ class CompletedAreaLayer extends StatelessWidget {
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
       child: currentZoom <= lowerZoomLimit
-        ? null
-        : MapLayer(
-          children: locations
-            .map(_buildChild)
-            .toList(growable: false),
-        ),
+          ? null
+          : MapLayer(
+              children: locations.map(_buildChild).toList(growable: false),
+            ),
     );
   }
 
@@ -44,11 +40,10 @@ class CompletedAreaLayer extends StatelessWidget {
     return MapLayerPositioned(
       key: ValueKey(location),
       position: location,
-      child: const CheckMark()
+      child: const CheckMark(),
     );
   }
 }
-
 
 class CheckMark extends StatefulWidget {
   const CheckMark({super.key});
@@ -77,8 +72,8 @@ class _CheckMarkState extends State<CheckMark> with SingleTickerProviderStateMix
         shape: BoxShape.circle,
         border: Border.all(
           color: Colors.white,
-          width: 3.0
-        )
+          width: 3.0,
+        ),
       ),
       width: 40,
       height: 40,
@@ -88,9 +83,9 @@ class _CheckMarkState extends State<CheckMark> with SingleTickerProviderStateMix
         color: Colors.white,
         pathBuilder: (size) {
           return Path()
-          ..moveTo(0.270 * size.width, 0.541 * size.height)
-          ..lineTo(0.416 * size.width, 0.687 * size.height)
-          ..lineTo(0.750 * size.width, 0.354 * size.height);
+            ..moveTo(0.270 * size.width, 0.541 * size.height)
+            ..lineTo(0.416 * size.width, 0.687 * size.height)
+            ..lineTo(0.750 * size.width, 0.354 * size.height);
         },
       ),
     );

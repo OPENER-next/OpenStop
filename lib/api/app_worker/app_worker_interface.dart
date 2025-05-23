@@ -34,22 +34,28 @@ class AppWorkerInterface extends Service implements Disposable {
   // stop area related functions \\
 
   Stream<int> subscribeLoadingChunks() {
-    return _worker.subscribe<int>(AppWorkerMessage(
-      AppWorkerSubject.subscribeLoadingChunks,
-    ));
+    return _worker.subscribe<int>(
+      AppWorkerMessage(
+        AppWorkerSubject.subscribeLoadingChunks,
+      ),
+    );
   }
 
   Stream<StopAreaUpdate> subscribeStopAreas() {
-    return _worker.subscribe<StopAreaUpdate>(AppWorkerMessage(
-      AppWorkerSubject.subscribeStopAreas,
-    ));
+    return _worker.subscribe<StopAreaUpdate>(
+      AppWorkerMessage(
+        AppWorkerSubject.subscribeStopAreas,
+      ),
+    );
   }
 
   Future<void> queryStopAreas(LatLngBounds bounds) {
-    return _worker.send<void>(AppWorkerMessage(
-      AppWorkerSubject.queryStopAreas,
-      bounds,
-    ));
+    return _worker.send<void>(
+      AppWorkerMessage(
+        AppWorkerSubject.queryStopAreas,
+        bounds,
+      ),
+    );
   }
 
   // element area related functions \\
@@ -59,43 +65,56 @@ class AppWorkerInterface extends Service implements Disposable {
   }
 
   Stream<ElementUpdate> subscribeElements() {
-    return _worker.subscribe<ElementUpdate>(AppWorkerMessage(
-      AppWorkerSubject.subscribeElements,
-    ));
+    return _worker.subscribe<ElementUpdate>(
+      AppWorkerMessage(
+        AppWorkerSubject.subscribeElements,
+      ),
+    );
   }
 
   // questionnaire related functions \\
 
   Stream<QuestionnaireRepresentation?> subscribeQuestionnaireChanges() {
-    return _worker.subscribe<QuestionnaireRepresentation?>(AppWorkerMessage(
-      AppWorkerSubject.subscribeQuestionnaireChanges,
-    ));
+    return _worker.subscribe<QuestionnaireRepresentation?>(
+      AppWorkerMessage(
+        AppWorkerSubject.subscribeQuestionnaireChanges,
+      ),
+    );
   }
 
   Future<void> openQuestionnaire(ElementIdentifier element) {
-    return _worker.send<void>(AppWorkerMessage(
-      AppWorkerSubject.openQuestionnaire,
-      element,
-    ));
+    return _worker.send<void>(
+      AppWorkerMessage(
+        AppWorkerSubject.openQuestionnaire,
+        element,
+      ),
+    );
   }
 
   Future<void> updateQuestionnaire(Answer? answer) {
-    return _worker.send<void>(AppWorkerMessage(
-      AppWorkerSubject.updateQuestionnaire,
-      answer,
-    ));
+    return _worker.send<void>(
+      AppWorkerMessage(
+        AppWorkerSubject.updateQuestionnaire,
+        answer,
+      ),
+    );
   }
+
   Future<void> closeQuestionnaire() {
-    return _worker.send<void>(AppWorkerMessage(
-      AppWorkerSubject.closeQuestionnaire,
-    ));
+    return _worker.send<void>(
+      AppWorkerMessage(
+        AppWorkerSubject.closeQuestionnaire,
+      ),
+    );
   }
 
   Future<void> discardQuestionnaire(ElementIdentifier element) {
-    return _worker.send<void>(AppWorkerMessage(
-      AppWorkerSubject.discardQuestionnaire,
-      element,
-    ));
+    return _worker.send<void>(
+      AppWorkerMessage(
+        AppWorkerSubject.discardQuestionnaire,
+        element,
+      ),
+    );
   }
 
   Future<void> uploadQuestionnaire({
@@ -105,34 +124,46 @@ class AppWorkerInterface extends Service implements Disposable {
   }
 
   Future<void> nextQuestion() {
-    return _worker.send<void>(AppWorkerMessage(
-      AppWorkerSubject.nextQuestion,
-    ));
+    return _worker.send<void>(
+      AppWorkerMessage(
+        AppWorkerSubject.nextQuestion,
+      ),
+    );
   }
 
   Future<void> previousQuestion() {
-    return _worker.send<void>(AppWorkerMessage(
-      AppWorkerSubject.previousQuestion,
-    ));
+    return _worker.send<void>(
+      AppWorkerMessage(
+        AppWorkerSubject.previousQuestion,
+      ),
+    );
   }
 
   Future<void> jumpToQuestion(int index) {
-    return _worker.send<void>(AppWorkerMessage(
-      AppWorkerSubject.jumpToQuestion,
-      index,
-    ));
+    return _worker.send<void>(
+      AppWorkerMessage(
+        AppWorkerSubject.jumpToQuestion,
+        index,
+      ),
+    );
   }
 
   Future<void> updateQuestionCatalog(QuestionCatalogChange questionCatalogChange) {
-    return _worker.send<void>(AppWorkerMessage(
-      AppWorkerSubject.updateQuestionCatalog, questionCatalogChange,
-    ));
+    return _worker.send<void>(
+      AppWorkerMessage(
+        AppWorkerSubject.updateQuestionCatalog,
+        questionCatalogChange,
+      ),
+    );
   }
 
   Future<void> updateLocales(Locale appLocale, List<Locale> userLocales) {
-    return _worker.send<void>(AppWorkerMessage(
-      AppWorkerSubject.updateLocales, (appLocale, userLocales),
-    ));
+    return _worker.send<void>(
+      AppWorkerMessage(
+        AppWorkerSubject.updateLocales,
+        (appLocale, userLocales),
+      ),
+    );
   }
 
   /// Close the service worker when un-registering this service.

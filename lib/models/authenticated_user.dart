@@ -18,6 +18,6 @@ class AuthenticatedUser {
     required this.name,
     required this.id,
     required this.preferredLanguages,
-    this.profileImageUrl
+    this.profileImageUrl,
   });
 }

@@ -6,7 +6,6 @@ import '/models/question_catalog/answer_definition.dart';
 import 'list_input.dart';
 import 'question_input_widget.dart';
 
-
 class MultiListInput extends QuestionInputWidget<MultiListAnswerDefinition, MultiListAnswer> {
   const MultiListInput({
     required super.definition,
@@ -38,10 +37,9 @@ class MultiListInput extends QuestionInputWidget<MultiListAnswerDefinition, Mult
     final isSelected = controller.answer?.value.contains(selectedIndex) ?? false;
     if (isSelected) {
       newValue = controller.answer!.value
-        .where((index) => selectedIndex != index)
-        .toList(growable: false);
-    }
-    else {
+          .where((index) => selectedIndex != index)
+          .toList(growable: false);
+    } else {
       newValue = [
         ...?controller.answer?.value,
         selectedIndex,
@@ -49,10 +47,10 @@ class MultiListInput extends QuestionInputWidget<MultiListAnswerDefinition, Mult
     }
 
     controller.answer = newValue.isNotEmpty
-      ? MultiListAnswer(
-        definition: definition,
-        value: newValue
-      )
-      : null;
+        ? MultiListAnswer(
+            definition: definition,
+            value: newValue,
+          )
+        : null;
   }
 }

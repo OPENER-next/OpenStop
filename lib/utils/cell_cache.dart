@@ -1,12 +1,10 @@
 import 'dart:math';
 
-
 /// A cache for storing data in a 2 dimensional integer grid.
 /// Each entry has a unique cell index defined by the x and y coordinate.
 
 class CellCache<T> {
   final Map<int, Map<int, T>> _queriedCells = {};
-
 
   /// Method to remove an entry from the cache by a given [CellIndex].
 
@@ -20,19 +18,16 @@ class CellCache<T> {
     }
   }
 
-
   /// Method to add a new item to the cache or override an existing entry.
 
   void add(CellIndex index, T stops) {
     final column = _queriedCells[index.x];
     if (column == null) {
       _queriedCells[index.x] = {index.y: stops};
-    }
-    else {
+    } else {
       column[index.y] = stops;
     }
   }
-
 
   /// Method to get an item by a given [CellIndex].
 
@@ -42,7 +37,6 @@ class CellCache<T> {
     return column[index.y];
   }
 
-
   /// Method to check if the given [CellIndex] is cached.
 
   bool contains(CellIndex index) {
@@ -50,7 +44,6 @@ class CellCache<T> {
     if (column == null) return false;
     return column.containsKey(index.y);
   }
-
 
   /// Method to get all items in the cache.
 
@@ -60,7 +53,6 @@ class CellCache<T> {
     }
   }
 }
-
 
 /// An index the [CellCache] represented by two integer values x and y
 

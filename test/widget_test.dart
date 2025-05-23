@@ -17,18 +17,14 @@ import 'package:stack_trace/stack_trace.dart';
 const overpassReply = {
   'version': 0.6,
   'generator': '',
-  'osm3s': {
-    'timestamp_osm_base': '',
-    'copyright': ''
-  },
-  'elements': <void>[]
+  'osm3s': {'timestamp_osm_base': '', 'copyright': ''},
+  'elements': <void>[],
 };
 
 const osmPermissionReply = '{"version":"0.6","generator":"OpenStreetMap server","permissions":[]}';
 
-
 void main() {
-  setUpAll((){
+  setUpAll(() {
     nock.defaultBase = '';
     nock.init();
 
@@ -45,9 +41,7 @@ void main() {
     };
   });
 
-
   setUp(nock.cleanAll);
-
 
   testWidgets('Basic app start test', (WidgetTester tester) async {
     TestWidgetsFlutterBinding.ensureInitialized();
@@ -62,7 +56,8 @@ void main() {
 
     // mock geolocator
     tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
-      const MethodChannel('flutter.baseflow.com/geolocator'), (methodCall) {
+      const MethodChannel('flutter.baseflow.com/geolocator'),
+      (methodCall) {
         if (methodCall.method == 'isLocationServiceEnabled') {
           return Future.value(false);
         }
@@ -71,30 +66,31 @@ void main() {
           return Future.value(1);
         }
         return null;
-      }
+      },
     );
     // mock sensors
     tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
-      const MethodChannel('flutter_sensors'), (methodCall) {
+      const MethodChannel('flutter_sensors'),
+      (methodCall) {
         if (methodCall.method == 'is_sensor_available') {
           return Future.value(false);
         }
         return null;
-      }
+      },
     );
 
     // mock overpass requests
     nock.get('https://overpass-api.de/api/interpreter')
       ..query({'data': anything})
-      ..reply(200, overpassReply, headers: { 'Content-Type': 'application/json' })
+      ..reply(200, overpassReply, headers: {'Content-Type': 'application/json'})
       ..persist();
     nock.get('https://overpass.kumi.systems/api/interpreter')
       ..query({'data': anything})
-      ..reply(200, overpassReply, headers: { 'Content-Type': 'application/json' })
+      ..reply(200, overpassReply, headers: {'Content-Type': 'application/json'})
       ..persist();
     // mock osm api requests
     nock.get('https://master.apis.dev.openstreetmap.org/api/0.6/permissions')
-      ..reply(200, osmPermissionReply, headers: { 'Content-Type': 'application/json' })
+      ..reply(200, osmPermissionReply, headers: {'Content-Type': 'application/json'})
       ..persist();
 
     // set screen size (mainly for emulator testing)

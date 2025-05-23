@@ -5,7 +5,6 @@ import 'package:mobx/mobx.dart';
 import '/api/preferences_service.dart';
 
 class SettingsViewModel extends ViewModel {
-
   PreferencesService get _preferencesService => getService<PreferencesService>();
 
   ThemeMode get themeMode => _preferencesService.themeMode;

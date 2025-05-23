@@ -15,9 +15,8 @@ class CustomListTile extends StatelessWidget {
     this.trailingIcon,
     this.onTap,
     this.isThreeLine = false,
-    super.key
+    super.key,
   });
-
 
   @override
   Widget build(BuildContext context) {
@@ -26,23 +25,26 @@ class CustomListTile extends StatelessWidget {
       subtitle: subtitle == null ? null : Text(subtitle!),
       isThreeLine: isThreeLine,
       // used to vertically center the icon
-      leading: leadingIcon == null ? null : SizedBox(
-        height: double.infinity,
-        child: Icon(leadingIcon),
-      ),
-      trailing: trailingIcon == null ? null : SizedBox(
-        height: double.infinity,
-        child: Icon(
-          trailingIcon,
-          size: 16,
-          color: Theme.of(context).iconTheme.color?.withValues(alpha: 0.2)
-        ),
-      ),
+      leading: leadingIcon == null
+          ? null
+          : SizedBox(
+              height: double.infinity,
+              child: Icon(leadingIcon),
+            ),
+      trailing: trailingIcon == null
+          ? null
+          : SizedBox(
+              height: double.infinity,
+              child: Icon(
+                trailingIcon,
+                size: 16,
+                color: Theme.of(context).iconTheme.color?.withValues(alpha: 0.2),
+              ),
+            ),
       onTap: onTap,
     );
   }
 }
-
 
 class CustomSwitchListTile extends StatelessWidget {
   final bool value;
@@ -62,7 +64,6 @@ class CustomSwitchListTile extends StatelessWidget {
     super.key,
   });
 
-
   @override
   Widget build(BuildContext context) {
     return SwitchListTile.adaptive(
@@ -71,10 +72,12 @@ class CustomSwitchListTile extends StatelessWidget {
       subtitle: subtitle == null ? null : Text(subtitle!),
       isThreeLine: isThreeLine,
       // used to vertically center the icon
-      secondary: leadingIcon == null ? null : SizedBox(
-        height: double.infinity,
-        child: Icon(leadingIcon),
-      ),
+      secondary: leadingIcon == null
+          ? null
+          : SizedBox(
+              height: double.infinity,
+              child: Icon(leadingIcon),
+            ),
       onChanged: onChanged,
     );
   }

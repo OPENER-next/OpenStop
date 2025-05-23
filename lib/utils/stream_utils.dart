@@ -1,12 +1,13 @@
 import 'dart:async';
 
 extension InitMultiStreamExtension<T> on Stream<T> {
-
   /// Create a MultiStream from this stream and run an initial asynchronous method before every new subscription.
   ///
   /// This can be useful if you want to add initial data to the stream.
 
-  Stream<T> makeMultiStreamAsync(FutureOr<void> Function(MultiStreamController<T> controller) init) {
+  Stream<T> makeMultiStreamAsync(
+    FutureOr<void> Function(MultiStreamController<T> controller) init,
+  ) {
     final broadcastStream = asBroadcastStream();
 
     return Stream.multi((controller) async {
