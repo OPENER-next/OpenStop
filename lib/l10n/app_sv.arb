@@ -105,8 +105,8 @@
   "@durationInputMinutesLabel": {},
   "durationInputSecondsLabel": "sekunder",
   "@durationInputSecondsLabel": {},
-  "osmCreditsText": "Datan © OpenStreetMaps bidragsgivare",
-  "@osmCreditsText": {},
+  "osmAttributionText": "Datan © OpenStreetMaps bidragsgivare",
+  "@osmAttributionText": {},
   "changesetWithStopNameText": "Lade till detaljer till {elements} på hållplatsen {stopArea}.",
   "@changesetWithStopNameText": {
     "placeholders": {

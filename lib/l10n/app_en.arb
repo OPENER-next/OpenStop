@@ -231,8 +231,8 @@
   "@durationInputMinutesLabel": {},
   "durationInputSecondsLabel": "seconds",
   "@durationInputSecondsLabel": {},
-  "osmCreditsText": "Data © OpenStreetMap contributors",
-  "@osmCreditsText": {},
+  "osmAttributionText": "Data © OpenStreetMap contributors",
+  "@osmAttributionText": {},
   "changesetWithStopNameText": "Added details to {elements} in the stop area {stopArea}.",
   "@changesetWithStopNameText": {
     "placeholders": {
@@ -429,6 +429,6 @@
   "@semanticsNextStepOnboarding" : {},
   "semanticsFinishOnboarding" : "Finish introduction",
   "@semanticsFinishOnboarding" : {},
-  "semanticsCredits" : "Credits",
-  "@semanticsCredits" : {}
+  "semanticsAttribution" : "Attribution",
+  "@semanticsAttribution" : {}
 }

@@ -270,8 +270,8 @@
   "@durationInputMinutesLabel": {},
   "durationInputSecondsLabel": "நொடிகள்",
   "@durationInputSecondsLabel": {},
-  "osmCreditsText": "தரவு © OpenStreetMap பங்களிப்பாளர்கள்",
-  "@osmCreditsText": {},
+  "osmAttributionText": "தரவு © OpenStreetMap பங்களிப்பாளர்கள்",
+  "@osmAttributionText": {},
   "changesetWithStopNameText": "{stopArea} இல் உள்ள {elements} இல் விவரங்கள் சேர்க்கப்பட்டன.",
   "@changesetWithStopNameText": {
     "placeholders": {

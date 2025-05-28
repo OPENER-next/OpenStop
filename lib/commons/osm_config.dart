@@ -17,7 +17,7 @@ const kOSMServer = bool.fromEnvironment('IS_RELEASE', defaultValue: false)
     ? 'www.openstreetmap.org'
     : 'master.apis.dev.openstreetmap.org';
 
-const kOSMCreditsURL = 'https://www.openstreetmap.org/copyright';
+const kOSMAttributionURL = 'https://www.openstreetmap.org/copyright';
 
 /// OSMAPI with app specific default parameters.
 
