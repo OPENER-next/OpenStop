@@ -8,8 +8,8 @@ const kTileLayerPublicTransport = TileLayerDefinition(
       'https://tile.thunderforest.com/transport/{z}/{x}/{y}{r}.png?apikey=$_thunderforestAPIKey',
   darkVariantTemplateUrl:
       'https://tile.thunderforest.com/transport-dark/{z}/{x}/{y}{r}.png?apikey=$_thunderforestAPIKey',
-  creditsText: 'Maps © Thunderforest',
-  creditsUrl: 'https://www.thunderforest.com',
+  attributionText: 'Maps © Thunderforest',
+  attributionUrl: 'https://www.thunderforest.com',
   maxZoom: 22,
   minZoom: 3,
 );
@@ -33,20 +33,20 @@ class TileLayerDefinition {
   final int maxZoom;
   final int minZoom;
 
-  /// The credits text that should to be displayed to legally use this tile layer.
+  /// The attribution text that should to be displayed to legally use this tile layer.
 
-  final String creditsText;
+  final String attributionText;
 
-  /// The website that the credits text should point to, if any.
+  /// The website that the attribution text should point to, if any.
 
-  final String? creditsUrl;
+  final String? attributionUrl;
 
   const TileLayerDefinition({
     required this.name,
     required this.templateUrl,
-    required this.creditsText,
+    required this.attributionText,
     this.darkVariantTemplateUrl,
-    this.creditsUrl,
+    this.attributionUrl,
     this.maxZoom = 18,
     this.minZoom = 0,
   });

@@ -4,8 +4,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '/l10n/app_localizations.g.dart';
 
-class CreditText extends StatefulWidget {
-  final List<CreditTextPart> children;
+class AttributionText extends StatefulWidget {
+  final List<AttributionTextPart> children;
 
   final InlineSpan? Function(BuildContext context, int i)? separatorBuilder;
 
@@ -20,7 +20,7 @@ class CreditText extends StatefulWidget {
     );
   }
 
-  const CreditText({
+  const AttributionText({
     required this.children,
     this.separatorBuilder = _defaultSeparatorBuilder,
     this.alignment = TextAlign.center,
@@ -29,10 +29,10 @@ class CreditText extends StatefulWidget {
   });
 
   @override
-  State<CreditText> createState() => _CreditTextState();
+  State<AttributionText> createState() => _AttributionTextState();
 }
 
-class _CreditTextState extends State<CreditText> {
+class _AttributionTextState extends State<AttributionText> {
   final List<TapGestureRecognizer?> _gestureRecognizers = [];
 
   @override
@@ -42,16 +42,16 @@ class _CreditTextState extends State<CreditText> {
   }
 
   @override
-  void didUpdateWidget(covariant CreditText oldWidget) {
+  void didUpdateWidget(covariant AttributionText oldWidget) {
     super.didUpdateWidget(oldWidget);
     _updateGestureRecognizers();
   }
 
   void _setupGestureRecognizers() {
     _gestureRecognizers.addAll(
-      widget.children.map((creditTextLink) {
-        return creditTextLink.url != null
-            ? (TapGestureRecognizer()..onTap = () => openUrl(Uri.parse(creditTextLink.url!)))
+      widget.children.map((attributionTextLink) {
+        return attributionTextLink.url != null
+            ? (TapGestureRecognizer()..onTap = () => openUrl(Uri.parse(attributionTextLink.url!)))
             : null;
       }),
     );
@@ -70,7 +70,7 @@ class _CreditTextState extends State<CreditText> {
 
   @override
   Widget build(BuildContext context) {
-    final creditTextParts = _buildParts();
+    final attributionTextParts = _buildParts();
     final appLocale = AppLocalizations.of(context)!;
     return Padding(
       padding: widget.padding,
@@ -90,14 +90,14 @@ class _CreditTextState extends State<CreditText> {
                     ..strokeJoin = StrokeJoin.round
                     ..color = Theme.of(context).colorScheme.tertiary,
                 ),
-                children: creditTextParts,
+                children: attributionTextParts,
               ),
             ),
           ),
           // Solid text as fill.
           Semantics(
             container: true,
-            label: appLocale.semanticsCredits,
+            label: appLocale.semanticsAttribution,
             child: RichText(
               textAlign: widget.alignment,
               text: TextSpan(
@@ -105,7 +105,7 @@ class _CreditTextState extends State<CreditText> {
                   fontSize: 10,
                   color: Theme.of(context).colorScheme.onTertiary,
                 ),
-                children: creditTextParts,
+                children: attributionTextParts,
               ),
             ),
           ),
@@ -115,17 +115,17 @@ class _CreditTextState extends State<CreditText> {
   }
 
   List<InlineSpan> _buildParts() {
-    final creditTextParts = <InlineSpan>[
+    final attributionTextParts = <InlineSpan>[
       if (widget.children.isNotEmpty) _buildPart(0),
     ];
     for (var i = 1; i < widget.children.length; i++) {
       final separator = widget.separatorBuilder?.call(context, i);
       if (separator != null) {
-        creditTextParts.add(separator);
+        attributionTextParts.add(separator);
       }
-      creditTextParts.add(_buildPart(i));
+      attributionTextParts.add(_buildPart(i));
     }
-    return creditTextParts;
+    return attributionTextParts;
   }
 
   TextSpan _buildPart(int index) {
@@ -136,7 +136,7 @@ class _CreditTextState extends State<CreditText> {
     );
   }
 
-  /// Open the given credits URL in the default browser.
+  /// Open the given attributions URL in the default browser.
 
   Future<void> openUrl(Uri url) async {
     if (!await launchUrl(
@@ -154,11 +154,11 @@ class _CreditTextState extends State<CreditText> {
   }
 }
 
-class CreditTextPart {
+class AttributionTextPart {
   final String text;
   final String? url;
 
-  const CreditTextPart(
+  const AttributionTextPart(
     this.text, {
     this.url,
   });

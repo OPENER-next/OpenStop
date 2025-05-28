@@ -99,8 +99,8 @@
   "@no": {},
   "and": "a",
   "@and": {},
-  "osmCreditsText": "Data © přispěvatelé OpenStreetMap",
-  "@osmCreditsText": {},
+  "osmAttributionText": "Data © přispěvatelé OpenStreetMap",
+  "@osmAttributionText": {},
   "changesetWithStopNameText": "Přidány podrobnosti k {elements} v oblasti zastavení {stopArea}.",
   "@changesetWithStopNameText": {
     "placeholders": {

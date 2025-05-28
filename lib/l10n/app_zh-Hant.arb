@@ -186,8 +186,8 @@
   },
   "and": "與",
   "@and": {},
-  "osmCreditsText": "資料 © OpenStreetMap 貢獻者",
-  "@osmCreditsText": {},
+  "osmAttributionText": "資料 © OpenStreetMap 貢獻者",
+  "@osmAttributionText": {},
   "changesetWithStopNameText": "在停靠區域 {stopArea} 中的 {elements} 新增了詳細資訊。",
   "@changesetWithStopNameText": {
     "placeholders": {
@@ -428,6 +428,6 @@
   "@semanticsReviewQuestion": {},
   "semanticsFinishOnboarding": "完成介紹",
   "@semanticsFinishOnboarding": {},
-  "semanticsCredits": "銘謝",
-  "@semanticsCredits": {}
+  "semanticsAttribution": "銘謝",
+  "@semanticsAttribution": {}
 }

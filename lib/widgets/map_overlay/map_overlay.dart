@@ -6,8 +6,8 @@ import '/commons/osm_config.dart';
 import '/commons/tile_layers.dart';
 import '/l10n/app_localizations.g.dart';
 import '/view_models/home_view_model.dart';
+import 'attribution_text.dart';
 import 'compass_button.dart';
-import 'credit_text.dart';
 import 'location_button.dart';
 import 'zoom_button.dart';
 
@@ -63,19 +63,19 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
                     child: Semantics(
                       container: true,
                       sortKey: const OrdinalSortKey(2.0),
-                      child: CreditText(
+                      child: AttributionText(
                         alignment: TextAlign.left,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 10,
                         ),
                         children: [
-                          CreditTextPart(
-                            AppLocalizations.of(context)!.osmCreditsText,
-                            url: kOSMCreditsURL,
+                          AttributionTextPart(
+                            AppLocalizations.of(context)!.osmAttributionText,
+                            url: kOSMAttributionURL,
                           ),
-                          CreditTextPart(
-                            kTileLayerPublicTransport.creditsText,
-                            url: kTileLayerPublicTransport.creditsUrl,
+                          AttributionTextPart(
+                            kTileLayerPublicTransport.attributionText,
+                            url: kTileLayerPublicTransport.attributionUrl,
                           ),
                         ],
                       ),

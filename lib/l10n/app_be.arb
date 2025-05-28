@@ -139,8 +139,8 @@
   "@durationInputMinutesLabel": {},
   "durationInputSecondsLabel": "секунд",
   "@durationInputSecondsLabel": {},
-  "osmCreditsText": "Дадзеныя ўдзельнікаў ©OpenStreetMap",
-  "@osmCreditsText": {},
+  "osmAttributionText": "Дадзеныя ўдзельнікаў ©OpenStreetMap",
+  "@osmAttributionText": {},
   "changesetWithStopNameText": "Дададзены дэталі да {elements} у зоне прыпынку {stopArea}.",
   "@changesetWithStopNameText": {
     "placeholders": {

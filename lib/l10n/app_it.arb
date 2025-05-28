@@ -295,8 +295,8 @@
   "@durationInputMinutesLabel": {},
   "durationInputSecondsLabel": "secondi",
   "@durationInputSecondsLabel": {},
-  "osmCreditsText": "Dati © Collaboratori di OpenStreetMap",
-  "@osmCreditsText": {},
+  "osmAttributionText": "Dati © Collaboratori di OpenStreetMap",
+  "@osmAttributionText": {},
   "changesetWithoutStopNameText": "Aggiunti dettagli a {elements} nella fermata.",
   "@changesetWithoutStopNameText": {
     "placeholders": {

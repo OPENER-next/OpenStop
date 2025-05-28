@@ -158,8 +158,8 @@
   "@durationInputMinutesLabel": {},
   "durationInputSecondsLabel": "Sekunden",
   "@durationInputSecondsLabel": {},
-  "osmCreditsText": "Data © OpenStreetMap-Mitwirkende",
-  "@osmCreditsText": {},
+  "osmAttributionText": "Data © OpenStreetMap-Mitwirkende",
+  "@osmAttributionText": {},
   "changesetWithStopNameText": "Details zu {elements} im Haltestellenbereich {stopArea} hinzugefügt.",
   "@changesetWithStopNameText": {},
   "changesetWithoutStopNameText": "Details zu {elements} im Haltestellenbereich hinzugefügt.",
@@ -331,6 +331,6 @@
   "@semanticsNextStepOnboarding": {},
   "semanticsFinishOnboarding": "Einführung beenden",
   "@semanticsFinishOnboarding": {},
-  "semanticsCredits": "Mitwirkende",
-  "@semanticsCredits": {}
+  "semanticsAttribution": "Urheberrechtsinformation",
+  "@semanticsAttribution": {}
 }
