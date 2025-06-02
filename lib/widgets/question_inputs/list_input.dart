@@ -76,6 +76,7 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
     super.initState();
 
     _controller = AnimationController(
+      value: widget.active ? 1 : 0,
       vsync: this,
       duration: const Duration(milliseconds: 800),
       reverseDuration: const Duration(milliseconds: 500),
@@ -209,6 +210,7 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
 
   @override
   void dispose() {
+    _animation.dispose();
     _controller.dispose();
     super.dispose();
   }
