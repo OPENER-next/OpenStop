@@ -185,7 +185,7 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                           colorBlendMode: BlendMode.dstOver,
                           color: Colors.grey.shade100,
                           height: 90,
-                          errorBuilder: (context, _, __) {
+                          errorBuilder: (context, _, _) {
                             return Image.asset(
                               'assets/images/placeholder_image.png',
                               fit: BoxFit.cover,

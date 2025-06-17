@@ -40,7 +40,7 @@ class GalleryViewer extends StatelessWidget {
             tag: imagesKeys[index],
             child: Image.asset(
               images[index],
-              errorBuilder: (context, _, __) {
+              errorBuilder: (context, _, _) {
                 return Image.asset(
                   'assets/images/placeholder_image.png',
                 );
@@ -201,7 +201,7 @@ class _GalleryNavigatorState extends State<GalleryNavigator> {
                         tag: widget.imagesKeys[index],
                         child: Image.asset(
                           widget.images[index],
-                          errorBuilder: (context, _, __) {
+                          errorBuilder: (context, _, _) {
                             return Image.asset(
                               'assets/images/placeholder_image.png',
                             );

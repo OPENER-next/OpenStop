@@ -29,7 +29,7 @@ class HeroViewer extends StatefulWidget {
     );
   }
 
-  static Widget defaultRouteTransitionsBuilder(_, Animation<double> animation, __, Widget child) {
+  static Widget defaultRouteTransitionsBuilder(_, Animation<double> animation, _, Widget child) {
     return FadeTransition(
       opacity: animation,
       child: child,

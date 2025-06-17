@@ -38,7 +38,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
                       bottom: MediaQuery.of(context).padding.bottom,
                     ),
                     selectable: true,
-                    onTapLink: (_, url, __) {
+                    onTapLink: (_, url, _) {
                       if (url != null) launchUrl(Uri.parse(url));
                     },
                   );

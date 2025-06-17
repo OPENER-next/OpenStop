@@ -63,7 +63,7 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
     // Use WillPopScope with "false" to prevent that back button closes app instead of Question Dialog
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (_, __) => viewModel.closeQuestionnaire(),
+      onPopInvokedWithResult: (_, _) => viewModel.closeQuestionnaire(),
       child: SafeArea(
         minimum: MediaQuery.of(context).viewInsets,
         bottom: false,
