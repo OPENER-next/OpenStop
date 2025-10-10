@@ -95,13 +95,20 @@ flutter:
       - asset: lib/commons/custom_icons/fonts/CustomIcons.ttf
 
 flutter_icons:
-  image_path_android: 'assets/images/app_icon_android.png'
-  image_path_ios: 'assets/images/app_icon_ios.png'
-
-  adaptive_icon_foreground: 'assets/images/app_icon_adaptive_foreground.png'
-  adaptive_icon_background: '#ffcd40'
   android: true
+  image_path_android: 'assets/images/app_icon_android.png'
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  adaptive_icon_background: '#ffcd40'
+  adaptive_icon_foreground: 'assets/images/app_icon_adaptive_foreground.png'
+  adaptive_icon_monochrome: 'assets/images/app_icon_adaptive_foreground.png'
+  adaptive_icon_foreground_inset: 0
+
   ios: true
+  image_path_ios: 'assets/images/app_icon_ios.png'
+  remove_alpha_channel_ios: true
+  image_path_ios_dark_transparent: 'assets/images/app_icon_ios_transparent.png'
+  background_color_ios: '#ffcd40'
+
   web:
     generate: true
     image_path: 'assets/images/app_icon_ios.png'
