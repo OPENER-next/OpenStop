@@ -40,23 +40,25 @@ class _SelectDialogState<T> extends State<SelectDialog<T>> {
       scrollable: true,
       title: widget.title,
       semanticLabel: widget.semanticLabel,
-      // Use column instead of ListView. See: https://github.com/flutter/flutter/issues/18108
-      content: Column(
-        children: List.generate(_entries.length, (index) {
-          final entry = _entries[index];
-          return RadioListTile<T>(
-            contentPadding: EdgeInsets.zero,
-            groupValue: _selectedValue,
-            visualDensity: VisualDensity.compact,
-            value: entry.key,
-            onChanged: (T? value) {
-              setState(() {
-                _selectedValue = value;
-              });
-            },
-            title: Text(entry.value),
-          );
-        }),
+      content: RadioGroup(
+        groupValue: _selectedValue,
+        onChanged: (T? value) {
+          setState(() {
+            _selectedValue = value;
+          });
+        },
+        // Use column instead of ListView. See: https://github.com/flutter/flutter/issues/18108
+        child: Column(
+          children: List.generate(_entries.length, (index) {
+            final entry = _entries[index];
+            return RadioListTile<T>(
+              contentPadding: EdgeInsets.zero,
+              visualDensity: VisualDensity.compact,
+              value: entry.key,
+              title: Text(entry.value),
+            );
+          }),
+        ),
       ),
       actions: [
         TextButton(
