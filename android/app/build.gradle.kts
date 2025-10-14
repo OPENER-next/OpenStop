@@ -44,7 +44,7 @@ android {
 
     defaultConfig {
         applicationId = "de.tu_chemnitz.etit.sse.openstop"
-        minSdk = 23
+        minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

@@ -54,7 +54,7 @@ dependencies:
   url_launcher: ^6.0.17
   flutter_web_auth_2: ^4.1.0
   flutter_material_design_icons: ^1.1.7296
-  flutter_markdown: ^0.7.2+1
+  flutter_markdown_plus: ^1.0.5
   flutter_mvvm_architecture:
     git:
       url: https://github.com/Robbendebiene/flutter-mvvm-architecture.git
