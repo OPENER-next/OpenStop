@@ -1,0 +1,11 @@
+Allgemein:
+- Barrierefreiheit für Screenreader verbessert
+- Permanenter Kachel-Cache eingeführt - Das sollte den Datenverbrauch und die Ladezeiten insgesamt reduzieren.
+- Kleinere Fehler behoben
+UI/UX:
+- Ausrichtung der Schaltflächen angepasst, damit sie besser mit RTL-Sprachen funktionieren
+Fragen:
+- Probleme mit der Höhe des Aufzugs und dem Verhältnis von Türhöhe zu Türbreite behoben, wo versehentlich das Breiten-Tag gesetzt wurde
+Lokalisierung:
+- Neue Sprache hinzugefügt: Tamil
+- Vorhandene Lokalisierungen aktualisiert
