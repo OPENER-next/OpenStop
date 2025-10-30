@@ -1,0 +1,11 @@
+Generale:
+- Migliorata accessibilità per i lettori di schermi
+- Introduzione di una cache persistente per gli sfondi - Questo dovrebbe ridurre l'uso dei dati e il tempo di caricamento.
+- Correzioni minori
+UI/UX:
+- Sistema l'allineamento dei pulsanti per una migliore compatibilità dei linguaggi da Destra a sinistra
+Domande:
+- Sistema l'altezza degli ascensori e le domande su door:height che inserivano accidentalmente il tag width
+Localizzazione:
+- Nuova lingua: Tamil
+- Aggiornate localizzazioni esistenti
