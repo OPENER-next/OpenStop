@@ -1,5 +1,5 @@
 {
-  "changesetCommentMessage": "Добавлены сведения о {mapFeaturesString} про остановку {stopsString}.",
+  "changesetCommentMessage": "Добавлены сведения в {mapFeaturesString} про остановку {stopsString}.",
   "@changesetCommentMessage": {
     "placeholders": {
       "mapFeaturesString": {
@@ -64,7 +64,7 @@
   "@numberInputPlaceholder": {},
   "stringInputPlaceholder": "Вводите здесь…",
   "@stringInputPlaceholder": {},
-  "stringInputValidationErrorMin": "Введенное слишком коротко",
+  "stringInputValidationErrorMin": "Введённое слишком коротко",
   "@stringInputValidationErrorMin": {},
   "changesetCommentConjunctionString": "и",
   "@changesetCommentConjunctionString": {},
@@ -231,5 +231,203 @@
   "settingsThemeDialogTitle": "Выбрать тему",
   "@settingsThemeDialogTitle": {},
   "logoutDialogDescription": "После выхода из аккаунта, вы не сможете загружать изменения в OpenStreetMap.",
-  "@logoutDialogDescription": {}
+  "@logoutDialogDescription": {},
+  "osmAttributionText": "Данные участников © OpenStreetMap",
+  "@osmAttributionText": {},
+  "semanticsAttribution": "Атрибуция",
+  "@semanticsAttribution": {},
+  "durationInputMinutesLabel": "минут",
+  "@durationInputMinutesLabel": {},
+  "semanticsCloseQuestionnaireAnnounce": "Вопросник закрыт",
+  "@semanticsCloseQuestionnaireAnnounce": {},
+  "mapFeatureFootAndCyclePath": "Пешая и велосипедная дорожка",
+  "@mapFeatureFootAndCyclePath": {},
+  "mapFeatureRailroadCrossing": "Железнодорожный переход",
+  "@mapFeatureRailroadCrossing": {},
+  "semanticsFederalMinistryImage": "Финансируется министерством транспорта и цифровой инфраструктуры Германии",
+  "@semanticsFederalMinistryImage": {},
+  "mapFeatureEmergencyCallPoint": "Пункт экстренного вызова",
+  "@mapFeatureEmergencyCallPoint": {},
+  "semanticsDotsIndicator": "Страница {number}",
+  "@semanticsDotsIndicator": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsZoomInButton": "Приближение в карте",
+  "@semanticsZoomInButton": {},
+  "semanticsReviewQuestion": "Активировать чтобы вернуться к вопросу",
+  "@semanticsReviewQuestion": {},
+  "semanticsCloseNavigationMenuButton": "Закрыть меню навигации.",
+  "@semanticsCloseNavigationMenuButton": {},
+  "mapFeatureCyclePath": "Велосипедная дорожка",
+  "@mapFeatureCyclePath": {},
+  "semanticsNavigationMenu": "Меню навигации",
+  "@semanticsNavigationMenu": {},
+  "semanticsUploadQuestionsButton": "Загрузка ответов",
+  "@semanticsUploadQuestionsButton": {},
+  "semanticsSlogan": "Призыв",
+  "@semanticsSlogan": {},
+  "semanticsOpenQuestionnaireAnnounce": "Вопросник открыт",
+  "@semanticsOpenQuestionnaireAnnounce": {},
+  "semanticsReturnToMap": "Закрыть опросник и вернуться на карту",
+  "@semanticsReturnToMap": {},
+  "semanticsUser": "Пользователь {username} активируется для открытия профиля обозревателя",
+  "@semanticsUser": {
+    "username": {
+      "type": "String"
+    }
+  },
+  "semanticsIntroductionPage": "Страница введения {number} из {count}",
+  "@semanticsIntroductionPage": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      },
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsLoginHint": "Войти в учётную запись OpenStreetMap, чтобы залить изменения.",
+  "@semanticsLoginHint": {},
+  "semanticsFlutterMap": "Экран карты",
+  "@semanticsFlutterMap": {},
+  "semanticsPageIndicators": "Есть {number} страницы введения, выберите ту, которую вы хотели бы услышать.",
+  "@semanticsPageIndicators": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsMFundImage": "Финансируется немецким mFUND",
+  "@semanticsMFundImage": {},
+  "semanticsSettingsDialogBox": "Выберите тему оформления",
+  "@semanticsSettingsDialogBox": {},
+  "semanticsResetRotationButton": "Сбросить поворот карты к северу.",
+  "@semanticsResetRotationButton": {},
+  "semanticsCurrentLocationButton": "Настройте карту на текущее местоположение.",
+  "@semanticsCurrentLocationButton": {},
+  "semanticsZoomOutButton": "Отдаление в карте",
+  "@semanticsZoomOutButton": {},
+  "semanticsQuestionSentence": "Вопрос: ",
+  "@semanticsQuestionSentence": {},
+  "semanticsBackQuestionButton": "Вернуться к предыдущему вопросу.",
+  "@semanticsBackQuestionButton": {},
+  "semanticsNextQuestionButton": "Следующий вопрос",
+  "@semanticsNextQuestionButton": {},
+  "semanticsSkipQuestionButton": "Пропустить вопрос",
+  "@semanticsSkipQuestionButton": {},
+  "semanticsFinishQuestionnaireButton": "Закончить опросник",
+  "@semanticsFinishQuestionnaireButton": {},
+  "semanticsSummary": "Вкратце",
+  "@semanticsSummary": {},
+  "semanticsLogout": "Выйти из учётной записи пользователя",
+  "@semanticsLogout": {},
+  "semanticsClearField": "Очистить поле",
+  "@semanticsClearField": {},
+  "semanticsDurationAnswerReset": "Сбросить продолжительность",
+  "@semanticsDurationAnswerReset": {},
+  "semanticsDurationAnswerStartStopwatch": "Начать стоп-часы",
+  "@semanticsDurationAnswerStartStopwatch": {},
+  "semanticsDurationAnswerStopStopwatch": "Остановить стоп-часы",
+  "@semanticsDurationAnswerStopStopwatch": {},
+  "semanticsNextStepOnboarding": "Следующая страница",
+  "@semanticsNextStepOnboarding": {},
+  "semanticsFinishOnboarding": "Закончить введение",
+  "@semanticsFinishOnboarding": {},
+  "days": "{day, plural, =1 {1 день} other {{day} дней}}",
+  "@days": {
+    "placeholders": {
+      "day": {
+        "type": "num"
+      }
+    }
+  },
+  "hours": "{hour, plural, =1 {1 час} other {{hour} часов}}",
+  "@hours": {
+    "placeholders": {
+      "hour": {
+        "type": "num"
+      }
+    }
+  },
+  "minutes": "{minute, plural, =1 {1 минута} other {{minute} минуты}}",
+  "@minutes": {
+    "placeholders": {
+      "minute": {
+        "type": "num"
+      }
+    }
+  },
+  "seconds": "{second, plural, =1 {1 секунда} other {{second} секунд}}",
+  "@seconds": {
+    "placeholders": {
+      "second": {
+        "type": "num"
+      }
+    }
+  },
+  "more": "больше",
+  "@more": {},
+  "element": "элемент",
+  "@element": {},
+  "durationInputDaysLabel": "дней",
+  "@durationInputDaysLabel": {},
+  "durationInputHoursLabel": "часов",
+  "@durationInputHoursLabel": {},
+  "durationInputSecondsLabel": "секунд",
+  "@durationInputSecondsLabel": {},
+  "changesetWithStopNameText": "Добавлены подробности к {elements} в остановочной зоне {stopArea}.",
+  "@changesetWithStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      },
+      "stopArea": {
+        "type": "String"
+      }
+    }
+  },
+  "changesetWithoutStopNameText": "Добавлены подробности к {elements} в остановочной зоне.",
+  "@changesetWithoutStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureStopPole": "Знак стоп",
+  "@mapFeatureStopPole": {},
+  "mapFeatureStationMap": "Карта станций и остановок",
+  "@mapFeatureStationMap": {},
+  "mapFeatureTicketMachine": "Автомат продажи билетов",
+  "@mapFeatureTicketMachine": {},
+  "mapFeatureTaxiStand": "Стоянка такси",
+  "@mapFeatureTaxiStand": {},
+  "mapFeatureLuggageTransport": "Перевоз багажа",
+  "@mapFeatureLuggageTransport": {},
+  "mapFeatureParkingSpot": "Парковочное место",
+  "@mapFeatureParkingSpot": {},
+  "mapFeatureFootwayCrossing": "Пешеходный переход",
+  "@mapFeatureFootwayCrossing": {},
+  "mapFeatureHelpPoint": "Пункт помощи",
+  "@mapFeatureHelpPoint": {},
+  "mapFeatureCrossing": "Переход",
+  "@mapFeatureCrossing": {},
+  "mapFeatureTramCrossing": "Трамвайный переезд",
+  "@mapFeatureTramCrossing": {},
+  "mapFeatureCyclewayCrossing": "Велосипедный переход",
+  "@mapFeatureCyclewayCrossing": {},
+  "mapFeatureCurb": "Бордюр",
+  "@mapFeatureCurb": {},
+  "mapFeaturePedestrianLights": "Пешеходный светофор",
+  "@mapFeaturePedestrianLights": {},
+  "mapFeatureFootpath": "Пешеходная дорожка",
+  "@mapFeatureFootpath": {},
+  "mapFeatureCycleBarrier": "Велосипедный барьер",
+  "@mapFeatureCycleBarrier": {}
 }
