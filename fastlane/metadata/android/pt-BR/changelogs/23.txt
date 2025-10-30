@@ -1,0 +1,11 @@
+Geral:
+- Melhorada acessibilidade para leitores de tela
+- Introduzido cache de blocos persistente - Isso deve reduzir o uso de dados e o tempo geral de carregamento.
+- Pequenas correções
+UI/UX:
+- Ajustado o alinhamento dos botões para melhor compatibilidade com idiomas da direita para a esquerda
+Perguntas:
+- Corrigidas as perguntas sobre altura do elevador e altura da porta, que escreviam acidentalmente na etiqueta width
+Localização:
+- Adicionado novo idioma: Tâmil
+- Traduções atualizadas

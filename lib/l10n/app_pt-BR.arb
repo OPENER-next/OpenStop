@@ -3,7 +3,7 @@
   "@aboutTitle": {},
   "aboutVersionLabel": "Versão",
   "@aboutVersionLabel": {},
-  "aboutAuthorsDescription": "{appName} contribuidores",
+  "aboutAuthorsDescription": "Colaboradores do {appName}",
   "@aboutAuthorsDescription": {
     "placeholders": {
       "appName": {
@@ -123,7 +123,7 @@
   "@durationInputMinutesLabel": {},
   "durationInputSecondsLabel": "segundos",
   "@durationInputSecondsLabel": {},
-  "osmAttributionText": "Dados © contribuidores do OpenStreetMap",
+  "osmAttributionText": "Dados © Contribuidores do OpenStreetMap",
   "@osmAttributionText": {},
   "mapFeatureTicketSalesPoint": "Ponto de venda de ingressos",
   "@mapFeatureTicketSalesPoint": {},
@@ -419,5 +419,15 @@
   "semanticsDurationAnswerStartStopwatch": "Iniciar cronômetro",
   "@semanticsDurationAnswerStartStopwatch": {},
   "semanticsDurationAnswerStopStopwatch": "Encerrar cronômetro",
-  "@semanticsDurationAnswerStopStopwatch": {}
+  "@semanticsDurationAnswerStopStopwatch": {},
+  "semanticsFlutterMap": "Tela do mapa",
+  "@semanticsFlutterMap": {},
+  "semanticsUser": "Usuário {username} ative para abrir o perfil do navegador",
+  "@semanticsUser": {
+    "username": {
+      "type": "String"
+    }
+  },
+  "semanticsReviewQuestion": "Ative para retornar à pergunta",
+  "@semanticsReviewQuestion": {}
 }
