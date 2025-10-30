@@ -1,0 +1,10 @@
+UI/UX:
+- Melhorar a confiabilidade do indicador de localização e o rastreamento da câmera
+Perguntas:
+- Adicionar perguntas abertas para portas + imagens
+- Adicionar perguntas sobre dimensões e altura da porta do elevador + imagens
+- Adicionar pergunta sobre a largura da rampa portátil + imagens
+- Correção: parar de perguntar sobre a exibição das informações quando departures_board=realtime já estiver definido
+Localização:
+- Adicionar o idioma bielorrusso
+- Atualizar as localizações existentes
