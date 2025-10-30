@@ -132,7 +132,6 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                       child: Text(
                         semanticsLabel: '${widget.label} - ${widget.description ?? ''}',
                         widget.label,
-                        textAlign: TextAlign.left,
                       ),
                     ),
                   ),
@@ -169,10 +168,7 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                 // HeroViewer cannot be wrapped around since the returned error widget
                 // represents a different widget wherefore the hero transition would fail.
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(
-                    0,
-                    widget.imagePadding,
-                    widget.imagePadding,
+                  padding: EdgeInsets.all(
                     widget.imagePadding,
                   ),
                   child: ClipRRect(
