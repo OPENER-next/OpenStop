@@ -96,7 +96,7 @@ class OnboardingScreen extends View<OnboardingViewModel> {
               foregroundColor: Colors.white,
               minimumSize: const Size(150, 36),
               elevation: 0.0,
-              padding: const EdgeInsets.only(left: 14.0, right: 8.0),
+              padding: const EdgeInsetsDirectional.only(start: 14.0, end: 8.0),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.0),
               ),
@@ -210,10 +210,7 @@ class OnboardingPage extends StatelessWidget {
           Flexible(
             flex: 12,
             child: Padding(
-              padding: const EdgeInsets.only(
-                left: 40.0,
-                right: 40.0,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 40),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
