@@ -64,7 +64,7 @@ class MapOverlay extends ViewFragment<HomeViewModel> {
                       container: true,
                       sortKey: const OrdinalSortKey(2.0),
                       child: AttributionText(
-                        alignment: TextAlign.left,
+                        alignment: TextAlign.start,
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         children: [
                           AttributionTextPart(

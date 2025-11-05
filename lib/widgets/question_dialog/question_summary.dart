@@ -108,7 +108,7 @@ class QuestionSummary extends StatelessWidget {
                 Expanded(
                   child: Text(
                     answer,
-                    textAlign: TextAlign.right,
+                    textAlign: TextAlign.end,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
