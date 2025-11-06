@@ -118,10 +118,10 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(
-                      left: 16.0,
+                    padding: const EdgeInsetsDirectional.only(
+                      start: 16.0,
                       top: 8.0,
-                      right: 8.0,
+                      end: 8.0,
                       bottom: 8.0,
                     ),
                     child: Semantics(
@@ -132,7 +132,6 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                       child: Text(
                         semanticsLabel: '${widget.label} - ${widget.description ?? ''}',
                         widget.label,
-                        textAlign: TextAlign.left,
                       ),
                     ),
                   ),
@@ -144,9 +143,9 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                         child: FadeTransition(
                           opacity: _animation,
                           child: Padding(
-                            padding: const EdgeInsets.only(
-                              left: 16.0,
-                              right: 8.0,
+                            padding: const EdgeInsetsDirectional.only(
+                              start: 16.0,
+                              end: 8.0,
                               bottom: 8.0,
                             ),
                             child: Text(
@@ -169,10 +168,7 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                 // HeroViewer cannot be wrapped around since the returned error widget
                 // represents a different widget wherefore the hero transition would fail.
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(
-                    0,
-                    widget.imagePadding,
-                    widget.imagePadding,
+                  padding: EdgeInsets.all(
                     widget.imagePadding,
                   ),
                   child: ClipRRect(

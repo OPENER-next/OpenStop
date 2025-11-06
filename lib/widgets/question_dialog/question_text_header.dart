@@ -138,7 +138,7 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader>
                           animation: _fillColorAnimation,
                           builder: (context, child) {
                             return Container(
-                              margin: const EdgeInsets.only(left: 10),
+                              margin: const EdgeInsetsDirectional.only(start: 10),
                               padding: const EdgeInsets.all(4),
                               decoration: BoxDecoration(
                                 color: _fillColorAnimation.value,
