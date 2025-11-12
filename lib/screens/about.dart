@@ -18,6 +18,7 @@ class AboutScreen extends StatelessWidget {
     'https://github.com/OPENER-next/OpenStop/blob/master/LICENSE',
   );
   static final _urlVersion = Uri.parse('https://github.com/OPENER-next/OpenStop/releases');
+  static final _urlStatistic = Uri.parse('https://stats.openstop.app/');
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +79,12 @@ class AboutScreen extends StatelessWidget {
                 title: appLocale.aboutSourceCodeLabel,
                 subtitle: 'https://github.com/OPENER-next',
                 onTap: () => launchUrl(_urlCode),
+              ),
+              CustomListTile(
+                leadingIcon: Icons.query_stats,
+                trailingIcon: Icons.open_in_new,
+                title: appLocale.aboutStatisticLabel,
+                onTap: () => launchUrl(_urlStatistic),
               ),
               CustomListTile(
                 leadingIcon: Icons.copyright,
