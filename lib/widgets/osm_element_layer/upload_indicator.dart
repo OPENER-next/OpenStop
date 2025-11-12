@@ -60,7 +60,7 @@ class _UploadIndicatorState<T> extends State<UploadIndicator<T>>
     _unsubscribe();
   }
 
-  void _fail(error) {
+  void _fail(Object error) {
     _stopAnimation();
     _succeeded = false;
     _unsubscribe();

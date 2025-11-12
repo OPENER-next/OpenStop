@@ -60,7 +60,7 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                 child: FlutterMap(
                   mapController: viewModel.mapController,
                   options: MapOptions(
-                    onTap: (_, __) => viewModel.closeQuestionnaire(),
+                    onTap: (_, _) => viewModel.closeQuestionnaire(),
                     interactionOptions: const InteractionOptions(
                       enableMultiFingerGestureRace: true,
                     ),

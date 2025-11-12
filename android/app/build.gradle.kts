@@ -27,7 +27,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "de.tu_chemnitz.etit.sse.openstop"
-    compileSdk = 35
+    compileSdk = 36
     // Momentary fix. Alternatively the following line can also be commented out. See: https://github.com/flutter/flutter/issues/139427
     ndkVersion = "27.0.12077973"
 
@@ -44,7 +44,7 @@ android {
 
     defaultConfig {
         applicationId = "de.tu_chemnitz.etit.sse.openstop"
-        minSdk = 23
+        minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

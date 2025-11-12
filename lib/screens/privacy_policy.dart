@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '/l10n/app_localizations.g.dart';
@@ -38,7 +38,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
                       bottom: MediaQuery.of(context).padding.bottom,
                     ),
                     selectable: true,
-                    onTapLink: (_, url, __) {
+                    onTapLink: (_, url, _) {
                       if (url != null) launchUrl(Uri.parse(url));
                     },
                   );
