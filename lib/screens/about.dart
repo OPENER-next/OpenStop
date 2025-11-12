@@ -90,7 +90,7 @@ class AboutScreen extends StatelessWidget {
                 leadingIcon: Icons.copyright,
                 trailingIcon: Icons.open_in_new,
                 title: appLocale.aboutLicenseLabel,
-                subtitle: 'GPL-3.0',
+                subtitle: 'GPL-3.0-or-later',
                 onTap: () => launchUrl(_urlLicense),
               ),
               CustomListTile(
