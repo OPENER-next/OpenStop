@@ -3,7 +3,7 @@
   "@onboardingSurveyingDescription": {},
   "stringInputPlaceholder": "இங்கே உள்ளிடவும்…",
   "@stringInputPlaceholder": {},
-  "questionnaireSummaryDedicatedMessage": "உங்கள் பதில்களுக்கு நன்றி {userName}.\nபதிவேற்றுவதற்கு முன் அவற்றை சரிபார்க்கவும்.",
+  "questionnaireSummaryDedicatedMessage": "உங்கள் பதில்களுக்கு நன்றி {userName}. \nபதிவேற்றுவதற்கு முன் அவற்றைச் சரிபார்.",
   "@questionnaireSummaryDedicatedMessage": {
     "placeholders": {
       "userName": {
@@ -23,27 +23,27 @@
   "@durationInputHoursLabel": {},
   "mapFeatureStopPole": "நிறுத்து முனைமம்",
   "@mapFeatureStopPole": {},
-  "mapFeatureStation": "Station",
+  "mapFeatureStation": "நிலையம்",
   "@mapFeatureStation": {},
   "mapFeatureTicketSalesPoint": "Ticket sales புள்ளியம்",
   "@mapFeatureTicketSalesPoint": {},
-  "mapFeatureTicketMachine": "Ticket machine",
+  "mapFeatureTicketMachine": "சீட்டு இயந்திரம்",
   "@mapFeatureTicketMachine": {},
-  "mapFeatureParkingSpot": "Parking spot",
+  "mapFeatureParkingSpot": "நிறுத்தும் இடம்",
   "@mapFeatureParkingSpot": {},
-  "mapFeatureTaxiStand": "Taxi stand",
+  "mapFeatureTaxiStand": "டாக்சி நிறுத்தும் இடம்",
   "@mapFeatureTaxiStand": {},
-  "mapFeatureToilets": "Toilets",
+  "mapFeatureToilets": "கழிப்பறைகள்",
   "@mapFeatureToilets": {},
-  "mapFeatureLuggageTransport": "Luggage transport",
+  "mapFeatureLuggageTransport": "சாமான்கள் போக்குவரத்து",
   "@mapFeatureLuggageTransport": {},
-  "mapFeatureEntrance": "Entrance",
+  "mapFeatureEntrance": "நுழைவு",
   "@mapFeatureEntrance": {},
-  "mapFeatureRailroadCrossing": "Railroad crossing",
+  "mapFeatureRailroadCrossing": "தொடர்வண்டிபாதை கடத்தல்",
   "@mapFeatureRailroadCrossing": {},
-  "mapFeatureCurb": "Curb",
+  "mapFeatureCurb": "கடிவாளம்",
   "@mapFeatureCurb": {},
-  "mapFeaturePedestrianLights": "Pedestrian lights",
+  "mapFeaturePedestrianLights": "பாதசாரி விளக்குகள்",
   "@mapFeaturePedestrianLights": {},
   "mapFeatureBusPlatformNumber": "Platform: {number}",
   "@mapFeatureBusPlatformNumber": {
@@ -117,7 +117,7 @@
   "@onboardingContributingTitle": {},
   "onboardingContributingDescription": "உங்கள் பதில்களை ஓபன்ச்ட்ரீட்மேப்பில் பதிவேற்றவும் அவற்றை உலகம் முழுவதும் பகிர்ந்து கொள்ளவும்.",
   "@onboardingContributingDescription": {},
-  "onboardingContributingButton": "Here we go",
+  "onboardingContributingButton": "இங்கே நாம் செல்கிறோம்",
   "@onboardingContributingButton": {},
   "privacyPolicyTitle": "தனியுரிமைக் கொள்கை",
   "@privacyPolicyTitle": {},
@@ -133,11 +133,11 @@
   "@settingsThemeDialogTitle": {},
   "settingsThemeOptionSystem": "மண்டலம் Setting",
   "@settingsThemeOptionSystem": {},
-  "settingsThemeOptionLight": "Light",
+  "settingsThemeOptionLight": "ஒளி",
   "@settingsThemeOptionLight": {},
-  "settingsThemeOptionDark": "Dark",
+  "settingsThemeOptionDark": "இருள்",
   "@settingsThemeOptionDark": {},
-  "logoutDialogTitle": "Log out of OSM?",
+  "logoutDialogTitle": "ஒஎச்எம் இலிருந்து வெளியேறவா?",
   "@logoutDialogTitle": {},
   "logoutDialogDescription": "If you log out, you can இல்லை longer upload changes பெறுநர் OpenStreetMap.",
   "@logoutDialogDescription": {},
@@ -181,7 +181,7 @@
   },
   "stringInputValidationErrorMin": "உள்ளீடு மிகக் குறைவு",
   "@stringInputValidationErrorMin": {},
-  "changesetCommentMessage": "{stopsString} நிறுத்தப் பகுதியில் உள்ள {mapFeaturesString} இல் விவரங்கள் சேர்க்கப்பட்டன.",
+  "changesetCommentMessage": "{stopsString} நிறுத்தப் பகுதியில் {mapFeaturesString} இல் விவரங்களைச் சேர்.",
   "@changesetCommentMessage": {
     "placeholders": {
       "mapFeaturesString": {
@@ -230,7 +230,7 @@
   "@yes": {},
   "no": "இல்லை",
   "@no": {},
-  "days": "{day, plural, = 1 {1 நாள்} other {{day} நாட்கள்}}",
+  "days": "{day, plural, =1 {1 நாள்} other {{day} நாட்கள்}}",
   "@days": {
     "placeholders": {
       "day": {
@@ -238,7 +238,7 @@
       }
     }
   },
-  "hours": "{hour, plural, = 1 {1 மணிநேரம்} other {{hour} மணிநேரம்}}",
+  "hours": "{hour, plural, =1 {1 மணிநேரம்} other {{hour} மணிநேரங்கள்}}",
   "@hours": {
     "placeholders": {
       "hour": {
@@ -246,7 +246,7 @@
       }
     }
   },
-  "minutes": "{minute, plural, = 1 {1 நிமிடம்} other {{minute} நிமிடங்கள்}}",
+  "minutes": "{minute, plural, =1 {1 நிமையம்} other {{minute} நிமையங்கள்}}",
   "@minutes": {
     "placeholders": {
       "minute": {
@@ -254,7 +254,7 @@
       }
     }
   },
-  "seconds": "{second, plural, = 1 {1 இரண்டாவது} other {{second} விநாடிகள்}}",
+  "seconds": "{second, plural, =1 {1 விநாடி} other {{second} விநாடிகள்}}",
   "@seconds": {
     "placeholders": {
       "second": {
@@ -272,7 +272,7 @@
   "@durationInputSecondsLabel": {},
   "osmAttributionText": "தரவு © OpenStreetMap பங்களிப்பாளர்கள்",
   "@osmAttributionText": {},
-  "changesetWithStopNameText": "{stopArea} இல் உள்ள {elements} இல் விவரங்கள் சேர்க்கப்பட்டன.",
+  "changesetWithStopNameText": "நிறுத்தப் பகுதியில் {elements} இல் விவரங்களைச் சேர்க்கப்பட்டது {stopArea}.",
   "@changesetWithStopNameText": {
     "placeholders": {
       "elements": {
@@ -283,7 +283,7 @@
       }
     }
   },
-  "changesetWithoutStopNameText": "நிறுத்தப் பகுதியில் {elements} இல் விவரங்களைச் சேர்த்தது.",
+  "changesetWithoutStopNameText": "நிறுத்தப் பகுதியில் {elements} இல் விவரங்கள் சேர்க்கப்பட்டன.",
   "@changesetWithoutStopNameText": {
     "placeholders": {
       "elements": {
@@ -295,15 +295,15 @@
   "@mapFeatureBusStop": {},
   "mapFeatureTramStop": "Tram நிறுத்து",
   "@mapFeatureTramStop": {},
-  "mapFeatureTrainPlatform": "Train platform",
+  "mapFeatureTrainPlatform": "ரயில் தளம்",
   "@mapFeatureTrainPlatform": {},
   "mapFeaturePlatform": "Platform",
   "@mapFeaturePlatform": {},
   "mapFeatureInformationPoint": "செய்தி புள்ளியம்",
   "@mapFeatureInformationPoint": {},
-  "mapFeatureStationMap": "Station/Stop map",
+  "mapFeatureStationMap": "நிலையம்/நிறுத்தம் வரைபடம்",
   "@mapFeatureStationMap": {},
-  "mapFeatureLuggageLockers": "Luggage lockers",
+  "mapFeatureLuggageLockers": "லக்கேஜ் லாக்கர்கள்",
   "@mapFeatureLuggageLockers": {},
   "mapFeatureInformationTerminal": "செய்தி முனையத்தில்",
   "@mapFeatureInformationTerminal": {},
@@ -313,26 +313,121 @@
   "@mapFeatureHelpPoint": {},
   "mapFeatureEmergencyCallPoint": "Emergency call புள்ளியம்",
   "@mapFeatureEmergencyCallPoint": {},
-  "mapFeatureFootpath": "Footpath",
+  "mapFeatureFootpath": "நடைபாதை",
   "@mapFeatureFootpath": {},
   "mapFeatureCyclePath": "Cycle பாதை",
   "@mapFeatureCyclePath": {},
   "mapFeatureFootAndCyclePath": "Foot & cycle பாதை",
   "@mapFeatureFootAndCyclePath": {},
-  "mapFeatureStairs": "Stairs",
+  "mapFeatureStairs": "படிக்கட்டுகள்",
   "@mapFeatureStairs": {},
-  "mapFeatureElevator": "Elevator",
+  "mapFeatureElevator": "மின்தூக்கி",
   "@mapFeatureElevator": {},
-  "mapFeatureEscalator": "Escalator",
+  "mapFeatureEscalator": "மின்சறுக்கி",
   "@mapFeatureEscalator": {},
-  "mapFeatureCycleBarrier": "Cycle barrier",
+  "mapFeatureCycleBarrier": "சுழற்சி தடை",
   "@mapFeatureCycleBarrier": {},
-  "mapFeatureCrossing": "Crossing",
+  "mapFeatureCrossing": "பாதை கடத்தல்",
   "@mapFeatureCrossing": {},
-  "mapFeatureTramCrossing": "Tram crossing",
+  "mapFeatureTramCrossing": "மின்வண்டி கடத்தல்",
   "@mapFeatureTramCrossing": {},
-  "mapFeatureFootwayCrossing": "Footway crossing",
+  "mapFeatureFootwayCrossing": "நடைபாதை கடத்தல்",
   "@mapFeatureFootwayCrossing": {},
-  "mapFeatureCyclewayCrossing": "Cycleway crossing",
-  "@mapFeatureCyclewayCrossing": {}
+  "mapFeatureCyclewayCrossing": "மிதிவண்டி கடத்தல்",
+  "@mapFeatureCyclewayCrossing": {},
+  "semanticsAttribution": "பண்புக்கூறு",
+  "@semanticsAttribution": {},
+  "semanticsLoginHint": "உங்கள் மாற்றங்களை பதிவேற்ற உங்கள் openstreetmap கணக்கில் உள்நுழைக.",
+  "@semanticsLoginHint": {},
+  "semanticsMFundImage": "Mfund ஆல் நிதியளிக்கப்பட்டது",
+  "@semanticsMFundImage": {},
+  "semanticsNavigationMenu": "வழிசெலுத்தல் பட்டியல்",
+  "@semanticsNavigationMenu": {},
+  "semanticsQuestionSentence": "கேள்வி: ",
+  "@semanticsQuestionSentence": {},
+  "semanticsUploadQuestionsButton": "பதில்களைப் பதிவேற்றவும்",
+  "@semanticsUploadQuestionsButton": {},
+  "semanticsBackQuestionButton": "முந்தைய கேள்விக்குத் திரும்பு.",
+  "@semanticsBackQuestionButton": {},
+  "semanticsCloseQuestionnaireAnnounce": "கேள்வித்தாள் மூடப்பட்டுள்ளது",
+  "@semanticsCloseQuestionnaireAnnounce": {},
+  "semanticsDurationAnswerReset": "காலத்தை மீட்டமை",
+  "@semanticsDurationAnswerReset": {},
+  "semanticsDurationAnswerStartStopwatch": "ச்டாப்ப்வாட்சைத் தொடங்குங்கள்",
+  "@semanticsDurationAnswerStartStopwatch": {},
+  "semanticsNextStepOnboarding": "அடுத்த பக்கம்",
+  "@semanticsNextStepOnboarding": {},
+  "semanticsFlutterMap": "வரைபடத் திரை",
+  "@semanticsFlutterMap": {},
+  "semanticsReturnToMap": "கேள்வித்தாளை மூடி வரைபடத்திற்குத் திரும்புக",
+  "@semanticsReturnToMap": {},
+  "semanticsDotsIndicator": "பக்கம் {number}",
+  "@semanticsDotsIndicator": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsPageIndicators": "{number} அறிமுக பக்கங்கள் உள்ளன, நீங்கள் கேட்க விரும்பும் ஒன்றைத் தேர்ந்தெடுக்கவும்.",
+  "@semanticsPageIndicators": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsSlogan": "முழக்கம்",
+  "@semanticsSlogan": {},
+  "semanticsFederalMinistryImage": "நடு போக்குவரத்து மற்றும் டிசிட்டல் உள்கட்டமைப்பு அமைச்சகம் நிதியளித்தது",
+  "@semanticsFederalMinistryImage": {},
+  "semanticsSettingsDialogBox": "உங்களுக்கு விருப்பமான பயன்பாட்டு கருப்பொருள் தேர்வு செய்யவும்",
+  "@semanticsSettingsDialogBox": {},
+  "semanticsResetRotationButton": "வரைபட சுழற்சியை வடக்கே மீட்டமைக்கவும்.",
+  "@semanticsResetRotationButton": {},
+  "semanticsCurrentLocationButton": "தற்போதைய இடத்திற்கு வரைபடத்தை அமைக்கவும்.",
+  "@semanticsCurrentLocationButton": {},
+  "semanticsZoomInButton": "வரைபடத்தில் பெரிதாக்கு",
+  "@semanticsZoomInButton": {},
+  "semanticsZoomOutButton": "வரைபடத்தை பெரிதாக்கவும்",
+  "@semanticsZoomOutButton": {},
+  "semanticsNextQuestionButton": "அடுத்த கேள்வி",
+  "@semanticsNextQuestionButton": {},
+  "semanticsSkipQuestionButton": "கேள்வியைத் தவிர்க்கவும்",
+  "@semanticsSkipQuestionButton": {},
+  "semanticsUser": "பயனர் {username} திறந்த உலாவி சுயவிவரத்திற்கு செயல்படுத்தவும்",
+  "@semanticsUser": {
+    "username": {
+      "type": "String"
+    }
+  },
+  "semanticsLogout": "உங்கள் பயனர் கணக்கிலிருந்து வெளியேறவும்",
+  "@semanticsLogout": {},
+  "semanticsFinishQuestionnaireButton": "வினாத்தாளை முடிக்கவும்",
+  "@semanticsFinishQuestionnaireButton": {},
+  "semanticsSummary": "சுருக்கம்",
+  "@semanticsSummary": {},
+  "semanticsCloseNavigationMenuButton": "வழிசெலுத்தல் மெனுவை மூடு.",
+  "@semanticsCloseNavigationMenuButton": {},
+  "semanticsOpenQuestionnaireAnnounce": "கேள்வித்தாள் திறந்திருக்கும்",
+  "@semanticsOpenQuestionnaireAnnounce": {},
+  "semanticsClearField": "தெளிவான புலம்",
+  "@semanticsClearField": {},
+  "semanticsDurationAnswerStopStopwatch": "ச்டாப்வாட்சை நிறுத்து",
+  "@semanticsDurationAnswerStopStopwatch": {},
+  "semanticsReviewQuestion": "கேள்விக்குத் திரும்பவும்",
+  "@semanticsReviewQuestion": {},
+  "semanticsFinishOnboarding": "அறிமுகத்தை முடிக்கவும்",
+  "@semanticsFinishOnboarding": {},
+  "semanticsIntroductionPage": "அறிமுகம் பக்கம் {count} இல் {number}",
+  "@semanticsIntroductionPage": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      },
+      "count": {
+        "type": "num"
+      }
+    }
+  }
 }

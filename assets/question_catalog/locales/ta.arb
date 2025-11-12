@@ -511,7 +511,7 @@
   "@transportationModesMonorailOptionDescription": {},
   "unitKilogram": "கிலோகிராம்",
   "@unitKilogram": {},
-  "elevatorHeightName": "உயரம்",
+  "elevatorHeightName": "உயர்த்தும் உயரம்",
   "@elevatorHeightName": {},
   "elevatorHeightText": "லிஃப்ட் கேபினின் உயரம் என்ன?",
   "@elevatorHeightText": {},
