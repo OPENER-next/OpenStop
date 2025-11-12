@@ -40,6 +40,10 @@ class GalleryViewer extends StatelessWidget {
             tag: imagesKeys[index],
             child: Image.asset(
               images[index],
+              // Static background color for better visibility of illustrations
+              // with transparency, especially in dark mode
+              colorBlendMode: BlendMode.dstOver,
+              color: Theme.of(context).colorScheme.onPrimary,
               errorBuilder: (context, _, _) {
                 return Image.asset(
                   'assets/images/placeholder_image.png',
@@ -201,6 +205,10 @@ class _GalleryNavigatorState extends State<GalleryNavigator> {
                         tag: widget.imagesKeys[index],
                         child: Image.asset(
                           widget.images[index],
+                          // Static background color for better visibility of illustrations
+                          // with transparency, especially in dark mode
+                          colorBlendMode: BlendMode.dstOver,
+                          color: Theme.of(context).colorScheme.onPrimary,
                           errorBuilder: (context, _, _) {
                             return Image.asset(
                               'assets/images/placeholder_image.png',

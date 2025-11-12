@@ -183,7 +183,7 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                           // Static background color for better visibility of illustrations
                           // with transparency, especially in dark mode
                           colorBlendMode: BlendMode.dstOver,
-                          color: Colors.grey.shade100,
+                          color: Theme.of(context).colorScheme.onPrimary,
                           height: 90,
                           errorBuilder: (context, _, _) {
                             return Image.asset(
