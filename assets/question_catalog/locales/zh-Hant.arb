@@ -358,5 +358,7 @@
   "elevatorLengthPlaceholder": "長度",
   "@elevatorLengthPlaceholder": {},
   "stairLiftLengthName": "樓梯升降梯長度",
-  "@stairLiftLengthName": {}
+  "@stairLiftLengthName": {},
+  "cycleBarrierSpacingText": "單車障礙元素的(最小)空間是多少?",
+  "@cycleBarrierSpacingText": {}
 }
