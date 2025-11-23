@@ -78,5 +78,13 @@
   "loginHint": "Prijavi se sa svojim OpenStreetMap računom kako bi poslao svoje izmjene.",
   "@loginHint": {},
   "logoutDialogDescription": "Ako se odjaviš, više nećeš moći slati izmjene na OpenStreetMap.",
-  "@logoutDialogDescription": {}
+  "@logoutDialogDescription": {},
+  "semanticsAttribution": "Atribucija",
+  "@semanticsAttribution": {},
+  "helpImproveTranslationLabel": "Poboljšajte prijevod",
+  "@helpImproveTranslationLabel": {},
+  "numberInputFallbackName": "Vrijednost",
+  "@numberInputFallbackName": {
+    "description": "Fallback value for nameString in numberInputValidationErrorMax"
+  }
 }
