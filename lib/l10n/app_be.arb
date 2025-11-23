@@ -330,5 +330,21 @@
         "type": "num"
       }
     }
-  }
+  },
+  "semanticsFederalMinistryImage": "Фінансуецца Федэральным міністэрствам транспарту і лічбавай інфраструктуры",
+  "@semanticsFederalMinistryImage": {},
+  "semanticsLoginHint": "Увайдзіце ў свой уліковы запіс OpenStreetMap, каб загрузіць змены.",
+  "@semanticsLoginHint": {},
+  "semanticsReturnToMap": "Закрыць анкету і вярнуцца да карты",
+  "@semanticsReturnToMap": {},
+  "semanticsSettingsDialogBox": "Выберыце патрэбную тэму праграмы",
+  "@semanticsSettingsDialogBox": {},
+  "semanticsCurrentLocationButton": "Паказаць мапу па бягучым месцазнаходжанні.",
+  "@semanticsCurrentLocationButton": {},
+  "semanticsNextQuestionButton": "Наступнае пытанне",
+  "@semanticsNextQuestionButton": {},
+  "semanticsSkipQuestionButton": "Прапусціць",
+  "@semanticsSkipQuestionButton": {},
+  "semanticsLogout": "Выйдзіце са свайго ўліковага запісу карыстальніка",
+  "@semanticsLogout": {}
 }
