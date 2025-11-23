@@ -1,0 +1,9 @@
+- Habilitados links universais/de aplicativos
+- Melhoria do carregamento de paradas reduzindo o tamanho da célula de carga da área de parada
+- Adicionado o recurso de cruzamentos combinados para pedestres e ciclovias
+- Separados caminhos em vários recursos de mapa
+- Atualizado o estilo de entrada de duração
+- Implementado cronômetro para entrada de durações
+- Corrigido pergunta duplicada sobre saída de fala
+- Atualizadas as condições para perguntas sobre superfícies
+- Atualizadas traduções
