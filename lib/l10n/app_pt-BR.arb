@@ -330,5 +330,94 @@
         "type": "num"
       }
     }
-  }
+  },
+  "semanticsAttribution": "Atribuição",
+  "@semanticsAttribution": {},
+  "semanticsReturnToMap": "Fechar o questionário e retornar ao mapa",
+  "@semanticsReturnToMap": {},
+  "semanticsIntroductionPage": "Página de introdução {number} de {count}",
+  "@semanticsIntroductionPage": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      },
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsMFundImage": "Financiado pelo mFUND",
+  "@semanticsMFundImage": {},
+  "semanticsSettingsDialogBox": "Escolha seu tema de aplicativo preferido",
+  "@semanticsSettingsDialogBox": {},
+  "semanticsNavigationMenu": "Menu de navegação",
+  "@semanticsNavigationMenu": {},
+  "semanticsResetRotationButton": "Redefinir a rotação do mapa para o norte.",
+  "@semanticsResetRotationButton": {},
+  "semanticsSkipQuestionButton": "Pular pergunta",
+  "@semanticsSkipQuestionButton": {},
+  "semanticsSummary": "Resumo",
+  "@semanticsSummary": {},
+  "semanticsCloseNavigationMenuButton": "Fechar o menu de navegação.",
+  "@semanticsCloseNavigationMenuButton": {},
+  "semanticsOpenQuestionnaireAnnounce": "O questionário está aberto",
+  "@semanticsOpenQuestionnaireAnnounce": {},
+  "semanticsLogout": "Sair da sua conta",
+  "@semanticsLogout": {},
+  "semanticsClearField": "Limpar campo",
+  "@semanticsClearField": {},
+  "semanticsDurationAnswerReset": "Reiniciar duração",
+  "@semanticsDurationAnswerReset": {},
+  "semanticsNextStepOnboarding": "Próxima página",
+  "@semanticsNextStepOnboarding": {},
+  "semanticsFinishOnboarding": "Concluir a introdução",
+  "@semanticsFinishOnboarding": {},
+  "semanticsLoginHint": "Faça login com sua conta do OpenStreetMap para carregar suas alterações.",
+  "@semanticsLoginHint": {},
+  "semanticsCurrentLocationButton": "Definir o mapa para a localização atual.",
+  "@semanticsCurrentLocationButton": {},
+  "semanticsDotsIndicator": "Página {number}",
+  "@semanticsDotsIndicator": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsFinishQuestionnaireButton": "Concluir o questionário",
+  "@semanticsFinishQuestionnaireButton": {},
+  "semanticsCloseQuestionnaireAnnounce": "O questionário está fechado",
+  "@semanticsCloseQuestionnaireAnnounce": {},
+  "semanticsFederalMinistryImage": "Financiado pelo Ministério Federal dos Transportes e Infraestrutura Digital",
+  "@semanticsFederalMinistryImage": {},
+  "semanticsNextQuestionButton": "Próxima pergunta",
+  "@semanticsNextQuestionButton": {},
+  "mapFeatureCyclePath": "Ciclovia",
+  "@mapFeatureCyclePath": {},
+  "mapFeatureFootAndCyclePath": "Pista para pedestres & ciclistas",
+  "@mapFeatureFootAndCyclePath": {},
+  "semanticsSlogan": "Slogan",
+  "@semanticsSlogan": {},
+  "semanticsZoomOutButton": "Diminuir o zoom do mapa",
+  "@semanticsZoomOutButton": {},
+  "semanticsQuestionSentence": "A questão é: ",
+  "@semanticsQuestionSentence": {},
+  "semanticsPageIndicators": "Há {number} de páginas de introdução, selecione a que você gostaria de ouvir.",
+  "@semanticsPageIndicators": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsZoomInButton": "Aumentar o zoom do mapa",
+  "@semanticsZoomInButton": {},
+  "semanticsUploadQuestionsButton": "Enviar respostas",
+  "@semanticsUploadQuestionsButton": {},
+  "semanticsBackQuestionButton": "Retornar à pergunta anterior.",
+  "@semanticsBackQuestionButton": {},
+  "semanticsDurationAnswerStartStopwatch": "Iniciar cronômetro",
+  "@semanticsDurationAnswerStartStopwatch": {},
+  "semanticsDurationAnswerStopStopwatch": "Encerrar cronômetro",
+  "@semanticsDurationAnswerStopStopwatch": {}
 }
