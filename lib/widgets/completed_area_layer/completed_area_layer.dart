@@ -71,7 +71,7 @@ class _CheckMarkState extends State<CheckMark> with SingleTickerProviderStateMix
         color: const Color(0xFF8ccf73),
         shape: BoxShape.circle,
         border: Border.all(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.primaryContainer,
           width: 3.0,
         ),
       ),
@@ -80,7 +80,7 @@ class _CheckMarkState extends State<CheckMark> with SingleTickerProviderStateMix
       child: AnimatedPath(
         animation: _animation,
         strokeWidth: 5,
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.onPrimary,
         pathBuilder: (size) {
           return Path()
             ..moveTo(0.270 * size.width, 0.541 * size.height)

@@ -19,6 +19,7 @@ class BoolInput extends QuestionInputWidget<BoolAnswerDefinition, BoolAnswer> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final appLocale = AppLocalizations.of(context)!;
+    final isHighContrast = MediaQuery.highContrastOf(context);
 
     return SizedBox(
       width: double.infinity,
@@ -39,7 +40,9 @@ class BoolInput extends QuestionInputWidget<BoolAnswerDefinition, BoolAnswer> {
               active: controller.answer?.value == state,
               backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.0),
               activeBackgroundColor: theme.colorScheme.primary,
-              foregroundColor: theme.colorScheme.primary,
+              foregroundColor: isHighContrast && theme.brightness == Brightness.light
+                  ? Colors.black
+                  : theme.colorScheme.primary,
               activeForegroundColor: theme.colorScheme.onPrimary,
             ),
           );

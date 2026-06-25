@@ -8,11 +8,11 @@ class Default {
   // (FloatingAction)Button Foreground Selected / Account Background, Border, Text
   static Color onPrimary = Colors.grey.shade100;
 
-  // FloatingActionButton Background Unselected
+  // FloatingActionButton Background Unselected / Marker Background
   static Color primaryContainerLight = Colors.grey.shade100;
   static const Color primaryContainerDark = Color(0xFF002020);
 
-  // (FloatingAction)Button Foreground Unselected
+  // (FloatingAction)Button Foreground Unselected / Marker Foreground
   static Color onPrimaryContainerLight = Colors.grey.shade900;
   static Color onPrimaryContainerDark = Colors.grey.shade50;
 
@@ -164,18 +164,51 @@ final ThemeData darkTheme = ThemeData(
   scaffoldBackgroundColor: Default.surfaceDark,
 );
 
-final ThemeData highContrastDarkTheme = ThemeData.dark().copyWith(
-  colorScheme: const ColorScheme.highContrastDark(),
+final ThemeData highContrastDarkTheme = ThemeData(
+  colorScheme: ThemeData.dark().colorScheme.copyWith(
+    primary: Default.primary,
+    onPrimary: Colors.black,
+    primaryContainer: Colors.white,
+    onPrimaryContainer: Colors.black,
+    surface: Colors.black,
+    tertiary: Colors.black,
+    onTertiary: Colors.white,
+    error: Colors.orange,
+  ),
+  appBarTheme: defaultTheme.appBarTheme.copyWith(
+    foregroundColor: Colors.black,
+  ),
   floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
   outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
   iconButtonTheme: defaultTheme.iconButtonTheme,
   inputDecorationTheme: defaultTheme.inputDecorationTheme,
 );
 
-final ThemeData highContrastLightTheme = ThemeData.light().copyWith(
-  colorScheme: const ColorScheme.highContrastLight(),
+final ThemeData highContrastLightTheme = ThemeData(
+  colorScheme: ThemeData.light().colorScheme.copyWith(
+    primary: Default.primary,
+    onPrimary: Colors.black,
+    primaryContainer: Colors.black,
+    onPrimaryContainer: Colors.white,
+    surface: Colors.white,
+    tertiary: Colors.white,
+    onTertiary: Colors.black,
+    error: Colors.purple.shade600,
+  ),
+  appBarTheme: defaultTheme.appBarTheme.copyWith(
+    foregroundColor: Colors.black,
+  ),
   floatingActionButtonTheme: defaultTheme.floatingActionButtonTheme,
-  outlinedButtonTheme: defaultTheme.outlinedButtonTheme,
+  outlinedButtonTheme: OutlinedButtonThemeData(
+    style: defaultTheme.outlinedButtonTheme.style?.copyWith(
+      foregroundColor: WidgetStateProperty.all(Colors.black),
+    ),
+  ),
+  textButtonTheme: TextButtonThemeData(
+    style: ButtonStyle(
+      foregroundColor: WidgetStateProperty.all(Colors.black),
+    ),
+  ),
   iconButtonTheme: defaultTheme.iconButtonTheme,
   inputDecorationTheme: defaultTheme.inputDecorationTheme,
 );
