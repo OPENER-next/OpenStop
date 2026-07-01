@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -16,7 +16,9 @@ class OverpassQueryAPI {
 
   final Dio _dio;
 
-  final _random = Random();
+  int _currentServerIndex = 0;
+
+  final Map<String, Completer<void>> _serverLocks = {};
 
   OverpassQueryAPI({
     this.maxRetries = 3,
@@ -25,8 +27,9 @@ class OverpassQueryAPI {
     Duration receiveTimeout = const Duration(seconds: 30),
     String userAgent = kAppUserAgent,
     this.apiServers = const [
-      'https://overpass.kumi.systems/api/interpreter',
       'https://overpass-api.de/api/interpreter',
+      'https://maps.mail.ru/osm/tools/overpass/api/interpreter',
+      'https://overpass.private.coffee/api/interpreter',
     ],
   }) : _dio = Dio(
          BaseOptions(
@@ -36,7 +39,11 @@ class OverpassQueryAPI {
              'User-Agent': userAgent,
            },
          ),
-       );
+       ) {
+    for (final server in apiServers) {
+      _serverLocks[server] = Completer<void>()..complete();
+    }
+  }
 
   /// Method to execute an Overpass query.
   ///
@@ -68,22 +75,39 @@ class OverpassQueryAPI {
     Map<String, dynamic> queryParameters, [
     int retryCount = 1,
   ]) async {
-    // get random url from server list
-    final url = apiServers[_random.nextInt(apiServers.length)];
+    // get next server in round robin
+    final url = apiServers[_currentServerIndex];
+    _currentServerIndex = (_currentServerIndex + 1) % apiServers.length;
+
+    // Wait for the server to be free
+    await _serverLocks[url]!.future;
+    // Lock the server
+    _serverLocks[url] = Completer<void>();
 
     try {
-      return (await _dio.get<Map<String, dynamic>>(
+      final response = await _dio.post<Map<String, dynamic>>(
         url,
-        queryParameters: queryParameters,
-      )).data;
+        data: queryParameters,
+        options: Options(
+          contentType: Headers.formUrlEncodedContentType,
+        ),
+      );
+      return response.data;
     } catch (error) {
       if (retryCount < maxRetries) {
+        // Release lock before waiting for retry to allow other cells to use this server slot during delay
+        _serverLocks[url]!.complete();
         return Future.delayed(
           retryDelay,
           () => _query(queryParameters, retryCount + 1),
         );
       }
       rethrow;
+    } finally {
+      // Release the lock if it hasn't been released in the catch block
+      if (!_serverLocks[url]!.isCompleted) {
+        _serverLocks[url]!.complete();
+      }
     }
   }
 
@@ -110,7 +134,7 @@ abstract class OverpassQuery<T> {
 
     buffer
       ..write('[timeout:')
-      ..write(timeout.inMilliseconds)
+      ..write(timeout.inSeconds)
       ..write(']');
 
     if (globalBBox != null) {
