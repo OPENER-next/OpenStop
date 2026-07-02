@@ -47,7 +47,6 @@ class OSMAuthenticationAPI {
       callbackUrlScheme: kAppCallbackUrlScheme,
       options: const FlutterWebAuth2Options(
         preferEphemeral: true,
-        intentFlags: ephemeralIntentFlags,
         httpsHost: kAppCallbackUrlHost,
         httpsPath: kAppCallbackUrlPath,
       ),

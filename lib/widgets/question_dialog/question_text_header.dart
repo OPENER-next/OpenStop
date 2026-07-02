@@ -161,7 +161,7 @@ class _QuestionTextHeaderState extends State<QuestionTextHeader>
               if (hasAdditionalInfo)
                 ExcludeSemantics(
                   child: SizeTransition(
-                    axisAlignment: -1,
+                    alignment: AlignmentDirectional.centerStart,
                     sizeFactor: _sizeAnimation,
                     child: FadeTransition(
                       opacity: _fadeAnimation,
