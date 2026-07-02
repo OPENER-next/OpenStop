@@ -172,8 +172,8 @@ class QuestionnaireEntry<T extends Answer> {
 
   QuestionnaireEntry copyWith({QuestionDefinition? question, T? answer}) {
     return QuestionnaireEntry(
-      question = question ?? this.question,
-      answer = answer ?? this.answer,
+      question ?? this.question,
+      answer ?? this.answer,
     );
   }
 
