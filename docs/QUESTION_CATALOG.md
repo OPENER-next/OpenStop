@@ -102,7 +102,7 @@ Displays a number wheel for each specified time unit. Possible time units are `d
 The duration is always completely returned to the constructor, meaning no duration inputs are lost.
 If for example the input is in hours, minutes and seconds, but only hours is marked as a return value, the hours value will include the minutes and seconds in its representation (potentially in the fractional part). Make sure that the `constructor` only generates the permitted values of the corresponding tag.
 
-The `$input` variable will contain all duration values marked with `return: true` in the following order: `days`, `hours`, `minutes` and `seconds`. Therefore at least one duration value should have `return": true`.
+The `$input` variable will contain all duration values marked with `return: true` in the following order: `days`, `hours`, `minutes` and `seconds`. Therefore, at least one duration value should have `return": true`.
 
 ```jsonc
 "answer": {
@@ -337,8 +337,8 @@ output: `operator=_alu_`
 
 ### Answer examples
 
-#### Multiple values using the semi-colon value separator
-The example will write all selected values to the *cuisine* tag separated by semi-colon.
+#### Multiple values using the semicolon value separator
+The example will write all selected values to the *cuisine* tag separated by semicolon.
 **Explanation:** The `$input` variable will contain all selected values, which will be concatenated by the `JOIN` expression.
 
 ```jsonc
@@ -377,7 +377,7 @@ The example will write all selected values to the *cuisine* tag separated by sem
 ```
 
 #### Multiple values using multiple tags
-The example will write the three tags *bus*, *tram* & *train*. For unselected options the values will fallback to *no*.
+The example will write the three tags *bus*, *tram* & *train*. For unselected options the values will fall back to *no*.
 **Explanation:** The `$input` variable will be empty for unselected options. Because `COALESCE` evaluates to the first value/argument it will output *no* in this case. If the fallback value is omitted then the expression will evaluate to `null` which means that the tag won't be written.
 ```jsonc
 "answer": {
@@ -413,7 +413,7 @@ The example will write the three tags *bus*, *tram* & *train*. For unselected op
 #### Using expressions to convert centimeters to meters
 The example makes use of the 3 expressions PAD, INSERT and REPLACE to convert from centimeters to meters. The REPLACE expression is only used to remove any pending zeros (and potentially the decimal point). Note that this expression combination only works for positive integers (not for negative or decimal numbers) and does a conversion by exactly two decimal places to the left.
 
-**Explanation:** The expressions evaluate from the inner most to the outer most as shown in the table below.
+**Explanation:** The expressions evaluate from the innermost to the outermost as shown in the table below.
 
 | $input | PAD   | INSERT | REPLACE |
 | ------ | ----- | ------ | ------- |
@@ -528,7 +528,7 @@ In order to match elements that have or don't have a certain key one can set the
 - `"some_osm_key": true` means that the element must have a tag with the key `some_osm_key` while its **value can be anything**.
 - `"some_osm_key": false` means that the element **must not** have a tag with the key `some_osm_key`.
 
-To match against multiple values of the same key one could write multiple conditions. However this will often result in a lot of repetitive code wherefore a shorthand array notation exists:
+To match against multiple values of the same key one could write multiple conditions. However, this will often result in a lot of repetitive code wherefore a shorthand array notation exists:
 `highway": ["motorway ", "trunk", "primary"]` The previous example will match any elements that contain the key `highway` with a value of either `motorway`, `trunk` or `primary`. You can also use `true`, `false` and regular expressions in this notation.
 
 For more complex tag matching scenarios **Regular expressions** can be used. They are written as normal strings enclosed by slashes (`/`) and use Dart's regular expression syntax and semantics, which is the same as for [JavaScript regular expressions](https://developer.mozilla.org/docs/Web/JavaScript/Guide/Regular_Expressions).
@@ -537,7 +537,7 @@ Example use cases are:
 - matching a tag that contains certain value `/INCLUDED_VALUE/`.
 - matching a tag that contains a certain value between a separator string (e.g. semicolon) `/(^|^.+;)LIST_VALUE(;.+$|$)/`.
 
-Currently setting regex flags is not supported. All of them are turned off except for the *match case sensitive* flag.
+Currently, setting regex flags is not supported. All of them are turned off except for the *match case-sensitive* flag.
 
 **Notation summary:**
 
@@ -562,7 +562,7 @@ This defines the element type or types the element must have in order to evaluat
 
 Possible types are: `Node`, `OpenWay`, `ClosedWay` and `Relation`
 
-In contrast to the standard OSM element types, way is split into two sub-types to distinguish between area/boundary and path/segment elements.
+In contrast to the standard OSM element types, way is split into two subtypes to distinguish between area/boundary and path/segment elements.
 
 ### `child` condition
 
