@@ -1,0 +1,18 @@
+{
+  "platformHeightName": "ຄວາມສູງຂອງຊານຊາລາ",
+  "platformHeightText": "ຄວາມແຕກຕ່າງຂອງຄວາມສູງລະຫວ່າງຊານຊາລາ ແລະ ໜ້າທາງ ຫຼື ຂອບເທິງຂອງລາງລົດໄຟແມ່ນເທົ່າໃດ?",
+  "platformHeightDescription": "ຖ້າຄວາມສູງນີ້ແຕກຕ່າງກັນພາຍໃນຊານຊາລາ, ຄວນກຳນົດຄ່າປົກກະຕິສຳລັບຈຸດຂຶ້ນ-ລົງຂອງຜູ້ໃຊ້ລໍ້ຍູ້.",
+  "platformHeightPlaceholder": "ຄວາມສູງຂອງຊານຊາລາ",
+  "unitCentimeter": "ຊັງຕີແມັດ",
+  "IFOPTStopName": "ລະຫັດ IFOPT ຂອງຊານຊາລາ",
+  "IFOPTStopText": "ລະຫັດ IFOPT ສຳລັບຊານຊາລານີ້ແມ່ນຫຍັງ?",
+  "IFOPTStopDescription": "IFOPT ແມ່ນລະຫັດລະບຸສະເພາະສຳລັບຊານຊາລາ.",
+  "IFOPTPlaceholder": "IFOPT",
+  "IFOPTStopAreaName": "ລະຫັດ IFOPT ຂອງບໍລິເວນຈຸດຈອດ",
+  "IFOPTStopAreaText": "ລະຫັດ IFOPT ສຳລັບບໍລິເວນຈຸດຈອດທັງໝົດແມ່ນຫຍັງ?",
+  "IFOPTStopAreaDescription": "IFOPT ແມ່ນລະຫັດລະບຸສະເພາະສຳລັບບໍລິເວນຈຸດຈອດ.",
+  "platformNarrowsName": "ຄວາມກວ້າງຂອງສ່ວນທີ່ແຄບ",
+  "platformNarrowsText": "ຄວາມກວ້າງຂອງສ່ວນທີ່ແຄບທີ່ສຸດຂອງຊານຊາລາແມ່ນເທົ່າໃດ?",
+  "platformNarrowsDescription": "ຝາຂອງບ່ອນພັກເຊົາ ຫຼື ເສົາໄຟມັກຈະເຮັດໃຫ້ເກີດຈຸດທີ່ແຄບ. ຄ່ານີ້ມີຄວາມສຳຄັນເພື່ອໃຫ້ຜູ້ໃຊ້ລໍ້ຍູ້ຮູ້ວ່າພວກເຂົາສາມາດເຂົ້າເຖິງໄດ້ທົ່ວທຸກສ່ວນຂອງຊານຊາລາຫຼືບໍ່.",
+  "platformNarrowsPlaceholder": "ຄວາມກວ້າງ"
+}

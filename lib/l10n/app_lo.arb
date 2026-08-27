@@ -1,0 +1,298 @@
+{
+  "aboutTitle": "ກ່ຽວກັບ",
+  "aboutSlogan": "ຈຸດໝາຍຕໍ່ໄປ: ການເຂົ້າເຖິງໄດ້ຢ່າງສະດວກ",
+  "aboutVersionLabel": "ເວີຊັນ",
+  "aboutAuthorsLabel": "ຜູ້ຂຽນ",
+  "aboutAuthorsDescription": "ຜູ້ມີສ່ວນຮ່ວມໃນ {appName}",
+  "@aboutAuthorsDescription": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPrivacyPolicyLabel": "ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ",
+  "aboutIdeaLabel": "ແນວຄວາມຄິດ",
+  "aboutIdeaDescription": "ມະຫາວິທະຍາໄລເຕັກໂນໂລຊີ ເຄມນິດ (Chemnitz)\nພາກວິຊາການອອກແບບວົງຈອນ ແລະ ລະບົບ",
+  "aboutLicenseLabel": "ໃບອະນຸຍາດ",
+  "aboutLicensePackageLabel": "ໃບອະນຸຍາດຂອງແພັກເກດທີ່ນຳໃຊ້",
+  "aboutSourceCodeLabel": "ຊອດໂຄດ",
+  "aboutStatisticLabel": "ສະຖິຕິ",
+  "helpTitle": "ຊ່ວຍເຫຼືອ",
+  "helpOnboardingLabel": "ເບິ່ງການແນະນຳຄືນໃໝ່",
+  "helpReportErrorLabel": "ລາຍງານຂໍ້ຜິດພາດ",
+  "helpImproveTranslationLabel": "ປັບປຸງການແປພາສາ",
+  "onboardingGreetingTitle": "ສະບາຍດີ!",
+  "onboardingGreetingDescription": "ພວກເຮົາດີໃຈທີ່ທ່ານຢູ່ນີ້ ແລະ ຕ້ອງການເປັນສ່ວນໜຶ່ງໃນການປັບປຸງການຂົນສົ່ງສາທາລະນະ.",
+  "onboardingGreetingButton": "ນີ້ຄືວິທີການເຮັດວຽກ",
+  "onboardingSurveyingTitle": "ລອງເບິ່ງ",
+  "onboardingSurveyingDescription": "ໄປທີ່ບ່ອນຈອດລົດທີ່ຢູ່ໃກ້ຄຽງເພື່ອສຳຫຼວດສະພາບປັດຈຸບັນ.",
+  "onboardingSurveyingButton": "ຂ້ອຍຈະເຮັດເອງ",
+  "onboardingAnsweringTitle": "ບາດນີ້ຮອດຜັດຂອງທ່ານແລ້ວ",
+  "onboardingAnsweringDescription": "ເພື່ອເກັບກຳຂໍ້ມູນ ໃຫ້ເລືອກເຄື່ອງໝາຍໃນແອັບ ແລະ ຕອບຄຳຖາມທີ່ສະແດງຂຶ້ນມາ.",
+  "onboardingAnsweringButton": "ຕົກລົງ, ເຂົ້າໃຈແລ້ວ",
+  "onboardingContributingTitle": "ການແບ່ງປັນຄືການໃສ່ໃຈ",
+  "onboardingContributingDescription": "ອັບໂຫຼດຄຳຕອບຂອງທ່ານໄປທີ່ OpenStreetMap ເພື່ອແບ່ງປັນໃຫ້ກັບຄົນທົ່ວໂລກ.",
+  "onboardingContributingButton": "ເລີ່ມກັນເລີຍ",
+  "privacyPolicyTitle": "ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ",
+  "settingsTitle": "ຕັ້ງຄ່າ",
+  "settingsProfessionalQuestionsLabel": "ສະແດງຄຳຖາມລະດັບມືອາຊີບ",
+  "settingsProfessionalQuestionsDescription": "ເພື່ອເຫດຜົນດ້ານຄວາມປອດໄພ, ເໝາະສຳລັບຜູ້ຊ່ຽວຊານເທົ່ານັ້ນ",
+  "settingsThemeLabel": "ໂທນສີຂອງແອັບ",
+  "settingsThemeDialogTitle": "ເລືອກທີມ",
+  "settingsThemeOptionSystem": "ຕັ້ງຄ່າຕາມລະບົບ",
+  "settingsThemeOptionLight": "ແຈ້ງ",
+  "settingsThemeOptionDark": "ມືດ",
+  "logoutDialogTitle": "ອອກຈາກລະບົບ OSM ບໍ?",
+  "logoutDialogDescription": "ຖ້າທ່ານອອກຈາກລະບົບ, ທ່ານຈະບໍ່ສາມາດອັບໂຫຼດການປ່ຽນແປງໄປຍັງ OpenStreetMap ໄດ້ອີກ.",
+  "loginHint": "ເຂົ້າສູ່ລະບົບດ້ວຍບັນຊີ OpenStreetMap ຂອງທ່ານເພື່ອອັບໂຫຼດການປ່ຽນແປງ.",
+  "numberInputPlaceholder": "ປ້ອນໃສ່ນີ້…",
+  "numberInputFallbackName": "ຄ່າ",
+  "@numberInputFallbackName": {
+    "description": "Fallback value for nameString in numberInputValidationErrorMax"
+  },
+  "numberInputValidationError": "ຕົວເລກບໍ່ຖືກຕ້ອງ",
+  "numberInputValidationErrorMax": "{nameString} ຕ້ອງໜ້ອຍກວ່າ {max}{unit}.",
+  "@numberInputValidationErrorMax": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "max": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "numberInputValidationErrorMin": "{nameString} ຕ້ອງຫຼາຍກວ່າ {min}{unit}.",
+  "@numberInputValidationErrorMin": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "min": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "stringInputPlaceholder": "ປ້ອນໃສ່ນີ້…",
+  "stringInputValidationErrorMin": "ຂໍ້ຄວາມສັ້ນເກີນໄປ",
+  "changesetCommentMessage": "ເພີ່ມລາຍລະອຽດໃຫ້ກັບ {mapFeaturesString} ໃນເຂດບ່ອນຈອດ {stopsString}.",
+  "@changesetCommentMessage": {
+    "placeholders": {
+      "mapFeaturesString": {
+        "type": "String"
+      },
+      "stopsString": {
+        "type": "String"
+      }
+    }
+  },
+  "changesetCommentConjunctionString": "ແລະ",
+  "uploadMessageSuccess": "ອັບໂຫຼດການປ່ຽນແປງສຳເລັດແລ້ວ.",
+  "uploadMessageServerConnectionError": "ຂໍ້ຜິດພາດ: ບໍ່ມີການເຊື່ອມຕໍ່ກັບເຊີເວີ OSM.",
+  "uploadMessageUnknownConnectionError": "ເກີດຂໍ້ຜິດພາດທີ່ບໍ່ຮູ້ຈັກໃນລະຫວ່າງການສົ່ງຂໍ້ມູນ.",
+  "queryMessageServerUnavailableError": "ເຊີເວີບໍ່ພ້ອມໃຊ້ງານ ຫຼື ເຮັດວຽກໜັກເກີນໄປ. ກະລຸນາລອງໃໝ່ພາຍຫຼັງ.",
+  "queryMessageTooManyRequestsError": "ມີການຮ້ອງຂໍໄປຫາເຊີເວີຫຼາຍເກີນໄປ.",
+  "queryMessageConnectionTimeoutError": "ຂໍ້ຜິດພາດ: ໝົດເວລາການສອບຖາມເຊີເວີ.",
+  "queryMessageReceiveTimeoutError": "ຂໍ້ຜິດພາດ: ໝົດເວລາການຮັບຂໍ້ມູນ.",
+  "queryMessageUnknownServerCommunicationError": "ເກີດຂໍ້ຜິດພາດທີ່ບໍ່ຮູ້ຈັກໃນລະຫວ່າງການສື່ສານກັບເຊີເວີ.",
+  "queryMessageUnknownError": "ເກີດຂໍ້ຜິດພາດທີ່ບໍ່ຮູ້ຈັກ.",
+  "questionnaireSummaryDedicatedMessage": "ຂອບໃຈ {userName} ສຳລັບຄຳຕອບຂອງທ່ານ.\nກະລຸນາກວດສອບຄືນກ່ອນການອັບໂຫຼດ.",
+  "@questionnaireSummaryDedicatedMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "questionnaireSummaryUndedicatedMessage": "ຂອບໃຈສຳລັບຄຳຕອບຂອງທ່ານ.\nກະລຸນາກວດສອບຄືນກ່ອນການອັບໂຫຼດ.",
+  "back": "ກັບຄືນ",
+  "next": "ຕໍ່ໄປ",
+  "cancel": "ຍົກເລີກ",
+  "confirm": "ຢືນຢັນ",
+  "finish": "ສຳເລັດ",
+  "login": "ເຂົ້າສູ່ລະບົບ",
+  "logout": "ອອກຈາກລະບົບ",
+  "skip": "ຂ້າມ",
+  "yes": "ແມ່ນ",
+  "no": "ບໍ່",
+  "days": "{day, plural, =1 {1 ມື້} other {{day} ມື້}}",
+  "@days": {
+    "placeholders": {
+      "day": {
+        "type": "num"
+      }
+    }
+  },
+  "hours": "{hour, plural, =1 {1 ຊົ່ວໂມງ} other {{hour} ຊົ່ວໂມງ}}",
+  "@hours": {
+    "placeholders": {
+      "hour": {
+        "type": "num"
+      }
+    }
+  },
+  "minutes": "{minute, plural, =1 {1 ນາທີ} other {{minute} ນາທີ}}",
+  "@minutes": {
+    "placeholders": {
+      "minute": {
+        "type": "num"
+      }
+    }
+  },
+  "seconds": "{second, plural, =1 {1 ວິນາທີ} other {{second} ວິນາທີ}}",
+  "@seconds": {
+    "placeholders": {
+      "second": {
+        "type": "num"
+      }
+    }
+  },
+  "and": "ແລະ",
+  "more": "ເພີ່ມເຕີມ",
+  "element": "ອົງປະກອບ",
+  "durationInputDaysLabel": "ມື້",
+  "durationInputHoursLabel": "ຊົ່ວໂມງ",
+  "durationInputMinutesLabel": "ນາທີ",
+  "durationInputSecondsLabel": "ວິນາທີ",
+  "osmAttributionText": "ຂໍ້ມູນ © ຜູ້ມີສ່ວນຮ່ວມໃນ OpenStreetMap",
+  "changesetWithStopNameText": "ເພີ່ມລາຍລະອຽດໃຫ້ກັບ {elements} ໃນເຂດບ່ອນຈອດ {stopArea}.",
+  "@changesetWithStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      },
+      "stopArea": {
+        "type": "String"
+      }
+    }
+  },
+  "changesetWithoutStopNameText": "ເພີ່ມລາຍລະອຽດໃຫ້ກັບ {elements} ໃນເຂດບ່ອນຈອດ.",
+  "@changesetWithoutStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureBusStop": "ບ່ອນຈອດລົດເມ",
+  "mapFeatureTramStop": "ບ່ອນຈອດລົດລາງ",
+  "mapFeatureTrainPlatform": "ຊານຊະລາລົດໄຟ",
+  "mapFeaturePlatform": "ຊານຊະລາ",
+  "mapFeatureStopPole": "ເສົາປ້າຍບ່ອນຈອດ",
+  "mapFeatureStation": "ສະຖານີ",
+  "mapFeatureTicketSalesPoint": "ຈຸດຂາຍປີ້",
+  "mapFeatureInformationPoint": "ຈຸດບໍລິການຂໍ້ມູນ",
+  "mapFeatureStationMap": "ແຜນຜັງສະຖານີ/ບ່ອນຈອດ",
+  "mapFeatureTicketMachine": "ຕູ້ຂາຍປີ້ອັດຕະໂນມັດ",
+  "mapFeatureParkingSpot": "ບ່ອນຈອດລົດ",
+  "mapFeatureTaxiStand": "ຄິວລົດຕັກຊີ",
+  "mapFeatureToilets": "ຫ້ອງນ້ຳ",
+  "mapFeatureLuggageLockers": "ຕູ້ຝາກເຄື່ອງ",
+  "mapFeatureLuggageTransport": "ບໍລິການຂົນສົ່ງເຄື່ອງຝາກ",
+  "mapFeatureInformationTerminal": "ຈໍບໍລິການຂໍ້ມູນ",
+  "mapFeatureInformationCallPoint": "ເສົາສອບຖາມຂໍ້ມູນ",
+  "mapFeatureHelpPoint": "ຈຸດຊ່ວຍເຫຼືອ",
+  "mapFeatureEmergencyCallPoint": "ຈຸດແຈ້ງເຫດສຸກເສີນ",
+  "mapFeatureEntrance": "ທາງເຂົ້າ",
+  "mapFeatureFootpath": "ທາງຍ່າງ",
+  "mapFeatureCyclePath": "ທາງລົດຖີບ",
+  "mapFeatureFootAndCyclePath": "ທາງຍ່າງ ແລະ ທາງລົດຖີບ",
+  "mapFeatureStairs": "ຂັ້ນໄດ",
+  "mapFeatureElevator": "ລິບ",
+  "mapFeatureEscalator": "ຂັ້ນໄດເລື່ອນ",
+  "mapFeatureCycleBarrier": "ສິ່ງກີດຂວາງລົດຖີບ",
+  "mapFeatureCrossing": "ທາງຂ້າມ",
+  "mapFeatureTramCrossing": "ທາງຂ້າມລົດລາງ",
+  "mapFeatureRailroadCrossing": "ທາງຕັດຜ່ານທາງລົດໄຟ",
+  "mapFeatureFootwayCrossing": "ທາງຍ່າງຂ້າມ",
+  "mapFeatureCyclewayCrossing": "ທາງລົດຖີບຂ້າມ",
+  "mapFeatureCurb": "ຂອບທາງ",
+  "mapFeaturePedestrianLights": "ໄຟສັນຍານທາງຂ້າມ",
+  "mapFeatureBusPlatformNumber": "ຊານຊະລາ: {number}",
+  "@mapFeatureBusPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureTrainPlatformNumber": "ຊານຊະລາ: {number}",
+  "@mapFeatureTrainPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "semanticsLoginHint": "ເຂົ້າສູ່ລະບົບດ້ວຍບັນຊີ OpenStreetMap ຂອງທ່ານເພື່ອອັບໂຫຼດການປ່ຽນແປງ.",
+  "semanticsFlutterMap": "ໜ້າຈໍແຜນທີ່",
+  "semanticsReturnToMap": "ປິດແບບສອບຖາມ ແລະ ກັບຄືນໄປທີ່ແຜນທີ່",
+  "semanticsDotsIndicator": "ໜ້າ {number}",
+  "@semanticsDotsIndicator": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsPageIndicators": "ມີ {number} ໜ້າແນະນຳ, ເລືອກໜ້າທີ່ທ່ານຕ້ອງການຟັງ.",
+  "@semanticsPageIndicators": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsIntroductionPage": "ໜ້າແນະນຳທີ {number} ຈາກ {count}",
+  "@semanticsIntroductionPage": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      },
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsSlogan": "ຄຳຂວັນ",
+  "semanticsMFundImage": "ສະໜັບສະໜູນໂດຍ mFUND",
+  "semanticsFederalMinistryImage": "ສະໜັບສະໜູນໂດຍ ກະຊວງຄົມມະນາຄົມ ແລະ ໂຄງລ່າງພື້ນຖານດິຈິຕອນ ແຫ່ງສະຫະພັນ",
+  "semanticsSettingsDialogBox": "ເລືອກທີມຂອງແອັບທີ່ທ່ານຕ້ອງການ",
+  "semanticsNavigationMenu": "ເມນູນຳທາງ",
+  "semanticsResetRotationButton": "ຕັ້ງຄ່າການໝູນແຜນທີ່ໄປທາງທິດເໜືອຄືນໃໝ່.",
+  "semanticsCurrentLocationButton": "ຕັ້ງແຜນທີ່ໄປທີ່ຕຳແໜ່ງປັດຈຸບັນ.",
+  "semanticsZoomInButton": "ຂະຫຍາຍແຜນທີ່ເຂົ້າ",
+  "semanticsZoomOutButton": "ຂະຫຍາຍແຜນທີ່ອອກ",
+  "semanticsQuestionSentence": "ຄຳຖາມຄື: ",
+  "semanticsUploadQuestionsButton": "ອັບໂຫຼດຄຳຕອບ",
+  "semanticsBackQuestionButton": "ກັບຄືນໄປຫາຄຳຖາມກ່ອນໜ້າ.",
+  "semanticsNextQuestionButton": "ຄຳຖາມຕໍ່ໄປ",
+  "semanticsSkipQuestionButton": "ຂ້າມຄຳຖາມ",
+  "semanticsFinishQuestionnaireButton": "ສຳເລັດແບບສອບຖາມ",
+  "semanticsSummary": "ສະຫຼຸບ",
+  "semanticsCloseNavigationMenuButton": "ປິດເມນູນຳທາງ.",
+  "semanticsCloseQuestionnaireAnnounce": "ປິດແບບສອບຖາມແລ້ວ",
+  "semanticsOpenQuestionnaireAnnounce": "ເປີດແບບສອບຖາມແລ້ວ",
+  "semanticsUser": "ຜູ້ໃຊ້ {username} ກົດເພື່ອເປີດໂປຣໄຟລ໌ໃນບຣາວເຊີ",
+  "@semanticsUser": {
+    "username": {
+      "type": "String"
+    }
+  },
+  "semanticsLogout": "ອອກຈາກລະບົບບັນຊີຜູ້ໃຊ້ຂອງທ່ານ",
+  "semanticsClearField": "ລຶບຂໍ້ມູນໃນຫ້ອງ",
+  "semanticsDurationAnswerReset": "ຕັ້ງຄ່າໄລຍະເວລາຄືນໃໝ່",
+  "semanticsDurationAnswerStartStopwatch": "ເລີ່ມຈັບເວລາ",
+  "semanticsDurationAnswerStopStopwatch": "ຢຸດຈັບເວລາ",
+  "semanticsReviewQuestion": "ກົດເພື່ອກັບຄືນຫາຄຳຖາມ",
+  "semanticsNextStepOnboarding": "ໜ້າຕໍ່ໄປ",
+  "semanticsFinishOnboarding": "ສຳເລັດການແນະນຳ",
+  "semanticsAttribution": "ແຫຼ່ງທີ່ມາ"
+}
