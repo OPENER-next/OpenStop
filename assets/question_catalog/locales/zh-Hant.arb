@@ -287,7 +287,7 @@
   "stairsTactilePavingBottomOption": "只有末端設置",
   "pedestrianLightsButtonDescription": "啟動裝置通常會是一顆按壓按鈕。",
   "crossingSignalsDescription": "該路口是否由行人交通燈等號誌控制。",
-  "stairLiftWidthDescription": "寬度（或闊度）是指行進方向上的橫向距離。",
+  "stairLiftWidthDescription": "寬度是指行進方向上的橫向距離。",
   "railroadWarningLightDescription": "警示燈會在列車經過時亮燈警示。",
   "tactilePavingText": "該處鋪有導盲磚面嗎？",
   "elevatorWidthText": "昇降機有效面積的寬度/闊度是多少？",
