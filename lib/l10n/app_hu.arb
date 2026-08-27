@@ -1,0 +1,14 @@
+{
+  "aboutTitle": "Névjegy",
+  "aboutSlogan": "Következő megálló: akadálymentesség",
+  "aboutVersionLabel": "Verzió",
+  "aboutAuthorsLabel": "Szerzők",
+  "aboutAuthorsDescription": "Az {appName} közreműködői",
+  "@aboutAuthorsDescription": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  }
+}

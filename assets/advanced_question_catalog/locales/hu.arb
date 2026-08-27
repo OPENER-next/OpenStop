@@ -1,0 +1,7 @@
+{
+  "platformHeightName": "Peron magassága",
+  "platformHeightText": "Mekkora a magasságkülönbség a peron és az út, ill. a sín felső széle között?",
+  "platformHeightDescription": "Ha a magasság a platformon belül változik, a kerekesszékesek szokásos belépési pontjának tipikus értékét kell meghatározni.",
+  "platformHeightPlaceholder": "Peron magassága",
+  "unitCentimeter": "centiméter"
+}

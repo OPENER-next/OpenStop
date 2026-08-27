@@ -1,0 +1,11 @@
+Lokalizálás:
+  - Az alkalmazás mostantól más nyelvekre is lefordítható
+  - Angolra teljesen le van fordítva
+Hálózati forgalom:
+  - Nagy felbontású csempéket csak nagy felbontású kijelzőkön tölt be 
+  - A térképcsempék gyorsítótárazása javítva - egy függőségi hiba miatt a térképcsempék nem lettek gyorsítótárazva a memóriában, ami felesleges forgalmat eredményezett
+Egyéb:
+  - Eltávolítottuk a térkép rétegváltóját, és beállítottuk tömegközlekedési rétegre
+  - Javítottuk a peronemelők és rámpák hibás címkéit
+  - Kisebb hibajavítások
+  - Kisebb helyesírási javítások
