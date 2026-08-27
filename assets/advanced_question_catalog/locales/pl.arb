@@ -1,0 +1,12 @@
+{
+  "platformHeightName": "Wysokość peronu",
+  "platformHeightPlaceholder": "Wysokość peronu",
+  "unitCentimeter": "centymetr",
+  "IFOPTStopDescription": "IFOPT jest unikalnym identyfikatorem dla peronów.",
+  "IFOPTPlaceholder": "IFOPT",
+  "IFOPTStopAreaText": "Jaki jest IFOPT całego przystanku?",
+  "IFOPTStopAreaDescription": "IFOPT jest unikalnym identyfikatorem miejsc zatrzymania.",
+  "platformNarrowsText": "Jaka jest szerokość najwęższej części peronu?",
+  "platformNarrowsDescription": "Ścianki wiat lub słupki często powodują zwężenia. Ta wartość jest ważna, między innymi, dlatego by użytkownicy wózków wiedzieli czy mogą użyć całego peronu.",
+  "platformNarrowsPlaceholder": "Szerokość"
+}

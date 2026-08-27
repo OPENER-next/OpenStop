@@ -1,0 +1,226 @@
+{
+  "aboutSlogan": "Następny przystanek: Dostępność",
+  "aboutVersionLabel": "Wersja",
+  "aboutAuthorsLabel": "Autorzy",
+  "aboutPrivacyPolicyLabel": "Polityka Prywatności",
+  "aboutIdeaLabel": "Pomysł",
+  "aboutIdeaDescription": "Uniwersytet Techniczny w Chemnitz\nProfesura Projektowania Obwodów i Systemów",
+  "aboutLicenseLabel": "Licencja",
+  "aboutSourceCodeLabel": "Kod żródłowy",
+  "aboutStatisticLabel": "Statystyka",
+  "helpTitle": "Pomoc",
+  "helpOnboardingLabel": "Obejrzyj wprowadzenie ponownie",
+  "helpReportErrorLabel": "Zgłoś błąd",
+  "helpImproveTranslationLabel": "Popraw tłumaczenie",
+  "onboardingGreetingTitle": "Cześć!",
+  "onboardingGreetingDescription": "Cieszymy się że tu jesteś i chcesz pomóc w poprawie transportu publicznego.",
+  "onboardingGreetingButton": "Jak to działa",
+  "onboardingSurveyingTitle": "Spójrz",
+  "onboardingSurveyingDescription": "Udaj się na pobliski przystanek by sprawdzić jego aktualny stan.",
+  "onboardingSurveyingButton": "Zrobie to",
+  "onboardingAnsweringTitle": "Teraz twoja kolej",
+  "onboardingAnsweringDescription": "By zebrać dane wybierz znacznik w aplikacji i odpowiedz na wyświetlone pytania",
+  "onboardingAnsweringButton": "Ok, zrozumiałem",
+  "onboardingContributingTitle": "Dzieląc się pomagasz innym",
+  "onboardingContributingDescription": "Przekaż swoje odpowiedzi do OpenStreetMap by podzielić się nimi z całym światem",
+  "onboardingContributingButton": "Zaczynamy",
+  "privacyPolicyTitle": "Polityka Prywatności",
+  "settingsTitle": "Ustawienia",
+  "settingsProfessionalQuestionsLabel": "Wyświetl pytania dla profesjonalistów",
+  "settingsProfessionalQuestionsDescription": "Przeznaczone wyłącznie dla profesjonalistów z powodów bezpieczeństwa",
+  "settingsThemeLabel": "Kolor aplikacji",
+  "settingsThemeDialogTitle": "Wybierz motyw",
+  "settingsThemeOptionSystem": "Ustawienia Systemowe",
+  "settingsThemeOptionLight": "Jasny",
+  "settingsThemeOptionDark": "Ciemny",
+  "logoutDialogTitle": "Wylogować się z OSM?",
+  "logoutDialogDescription": "Jeśi się wylogujesz nie będziesz mógł dodawać zmian do OpenStreetMap.",
+  "loginHint": "Zaloguj się do OpenStreetMal by dodawać swoje zmiany.",
+  "numberInputFallbackName": "Wartość",
+  "@numberInputFallbackName": {
+    "description": "Fallback value for nameString in numberInputValidationErrorMax"
+  },
+  "numberInputValidationError": "Niepoprawny numer",
+  "numberInputValidationErrorMax": "{nameString} musi być mniejsze niż {max}{unit}.",
+  "@numberInputValidationErrorMax": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "max": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "numberInputValidationErrorMin": "{nameString} musi być większe niż {min}{unit}.",
+  "@numberInputValidationErrorMin": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "min": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "stringInputPlaceholder": "Wpisz tutaj…",
+  "changesetCommentMessage": "Dodano szczegóły do {mapFeaturesString} w obszarze przystanku {stopsString}.",
+  "@changesetCommentMessage": {
+    "placeholders": {
+      "mapFeaturesString": {
+        "type": "String"
+      },
+      "stopsString": {
+        "type": "String"
+      }
+    }
+  },
+  "changesetCommentConjunctionString": "I",
+  "uploadMessageSuccess": "Zmiany dodane pomyślnie.",
+  "uploadMessageServerConnectionError": "Błąd: Brak połączenia z serwerem OSM.",
+  "uploadMessageUnknownConnectionError": "Nieznany błąd podczas transmisji.",
+  "queryMessageServerUnavailableError": "Serwer niedostępny lub przeciążony. Spróbuj ponownie.",
+  "queryMessageTooManyRequestsError": "Zbyt dużo zapytań do serwera.",
+  "queryMessageUnknownServerCommunicationError": "Nieznany błąd podczas komunikacji z serwerem.",
+  "queryMessageUnknownError": "Nieznany błąd.",
+  "questionnaireSummaryDedicatedMessage": "Dziękujemy za twoje zmiany.\nProsze sprawdź je przed wysłaniem.",
+  "@questionnaireSummaryDedicatedMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "questionnaireSummaryUndedicatedMessage": "Dziękujemy za twoje zmiany.\nProsze sprawdź je przed wysłaniem.",
+  "back": "Z powrotem",
+  "next": "Dalej",
+  "cancel": "Anuluj",
+  "confirm": "Potwierdź",
+  "finish": "Zakończ",
+  "login": "Zaloguj się",
+  "logout": "Wyloguj się",
+  "skip": "Pomiń",
+  "yes": "Tak",
+  "no": "Nie",
+  "and": "i",
+  "more": "więcej",
+  "element": "element",
+  "durationInputDaysLabel": "dni",
+  "durationInputHoursLabel": "godziny",
+  "durationInputMinutesLabel": "minuty",
+  "durationInputSecondsLabel": "sekundy",
+  "osmAttributionText": "Dane © autorzy OpenStreetMap",
+  "changesetWithStopNameText": "Dodano szczegóły do {elements} w obszarze przystanku {stopArea}.",
+  "@changesetWithStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      },
+      "stopArea": {
+        "type": "String"
+      }
+    }
+  },
+  "changesetWithoutStopNameText": "Dodano szczegóły do {elements} w obszarze przystanku.",
+  "@changesetWithoutStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureBusStop": "Przystanek autobusowy",
+  "mapFeatureTramStop": "Przystanek tramwajowy",
+  "mapFeatureTrainPlatform": "Peron kolejowy",
+  "mapFeaturePlatform": "Peron",
+  "mapFeatureStopPole": "Słupek przystankowy",
+  "mapFeatureStation": "Stacja",
+  "mapFeatureTicketSalesPoint": "Punkt sprzedaży biletów",
+  "mapFeatureInformationPoint": "Punkt informacyjny",
+  "mapFeatureStationMap": "Mapa przystanków",
+  "mapFeatureTicketMachine": "Biletomat",
+  "mapFeatureParkingSpot": "Miejsce parkingowe",
+  "mapFeatureTaxiStand": "Postój taksówek",
+  "mapFeatureToilets": "Toalety",
+  "mapFeatureLuggageLockers": "Skrytki bagażowe",
+  "mapFeatureLuggageTransport": "Przewóz bagaży",
+  "mapFeatureInformationTerminal": "Terminal informacyjny",
+  "mapFeatureInformationCallPoint": "Kolumna informacyjna",
+  "mapFeatureHelpPoint": "Punkt pomocy",
+  "mapFeatureEmergencyCallPoint": "Punkt alarmowy",
+  "mapFeatureEntrance": "Wejście",
+  "mapFeatureFootpath": "Ścieżka piesza",
+  "mapFeatureCyclePath": "Ścieżka rowerowa",
+  "mapFeatureFootAndCyclePath": "Ścieżka pieszo-rowerowa",
+  "mapFeatureStairs": "Schody",
+  "mapFeatureElevator": "Winda",
+  "mapFeatureEscalator": "Schody ruchome",
+  "mapFeatureCrossing": "Przejście",
+  "mapFeatureRailroadCrossing": "Przejazd kolejowy",
+  "mapFeatureCurb": "Krawężnik",
+  "mapFeaturePedestrianLights": "Światła dla pieszych",
+  "mapFeatureBusPlatformNumber": "Peron: {number}",
+  "@mapFeatureBusPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureTrainPlatformNumber": "Peron: {number}",
+  "@mapFeatureTrainPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "semanticsLoginHint": "Zaloguj się do OpenStreetMap by dodać swoje zmiany.",
+  "semanticsReturnToMap": "Zamknik kwestionariusz i wróć do mapy",
+  "semanticsDotsIndicator": "Strona {number}",
+  "@semanticsDotsIndicator": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsPageIndicators": "Jest  {number} stron z wprowadzeniem. Wybierz tą którą chciałbyś usłyszeć.",
+  "@semanticsPageIndicators": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsSlogan": "Slogan",
+  "semanticsMFundImage": "Sfinansowane przez mFUND",
+  "semanticsFederalMinistryImage": "Sfinansowane przez Federalne Ministerstwo Transportu i Infrastruktury Cyfrowej",
+  "semanticsSettingsDialogBox": "Wybierz swój preferowany motyw aplikacji",
+  "semanticsNavigationMenu": "Menu nawigacyjne",
+  "semanticsResetRotationButton": "Zresetuj orientacje mapy.",
+  "semanticsCurrentLocationButton": "Ustaw mapę na obecną lokalizacje.",
+  "semanticsZoomInButton": "Przybliż mapę",
+  "semanticsZoomOutButton": "Oddal mapę",
+  "semanticsUploadQuestionsButton": "Dodaj odpowiedzi",
+  "semanticsBackQuestionButton": "Wróć do poprzedniego pytania.",
+  "semanticsNextQuestionButton": "Następne pytanie",
+  "semanticsSkipQuestionButton": "Pomiń pytanie",
+  "semanticsFinishQuestionnaireButton": "Zakończ kwestionariusz",
+  "semanticsSummary": "Podsumowanie",
+  "semanticsCloseNavigationMenuButton": "Zamknij menu nawigacyjne.",
+  "semanticsCloseQuestionnaireAnnounce": "Kwestionariusz jest zamknięty",
+  "semanticsOpenQuestionnaireAnnounce": "Kwestionariusz jest otwarty",
+  "semanticsLogout": "Wyloguj się ze swojego konta",
+  "semanticsClearField": "Wyczyść pole",
+  "semanticsDurationAnswerStartStopwatch": "Uruchom stoper",
+  "semanticsDurationAnswerStopStopwatch": "Zatrzymaj stoper",
+  "semanticsNextStepOnboarding": "Następna strona",
+  "semanticsFinishOnboarding": "Zakończ wprowadzenie"
+}
