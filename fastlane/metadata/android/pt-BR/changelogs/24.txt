@@ -1,0 +1,10 @@
+Geral:
+- Redução do tamanho do app em aprox. metade devido ao uso de WebP e ao aumento da taxa de compressão
+- Adição de link para as estatísticas do OpenStop no menu Sobre
+- Correção de pequeno bug para perguntas de entrada de lista
+UI/UX:
+- Melhoria no estilo para idiomas RTL
+- Aplicação de fundo às imagens nos detalhes das perguntas para melhor legibilidade no modo escuro
+- Adição de um ícone monocromático para Android e um escuro para iOS
+Localização:
+- Atualização das traduções existentes
