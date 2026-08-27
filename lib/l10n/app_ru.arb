@@ -429,5 +429,7 @@
   "mapFeatureFootpath": "Пешеходная дорожка",
   "@mapFeatureFootpath": {},
   "mapFeatureCycleBarrier": "Велосипедный барьер",
-  "@mapFeatureCycleBarrier": {}
+  "@mapFeatureCycleBarrier": {},
+  "aboutStatisticLabel": "",
+  "@aboutStatisticLabel": {}
 }

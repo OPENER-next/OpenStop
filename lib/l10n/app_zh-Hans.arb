@@ -295,5 +295,141 @@
         "type": "String"
       }
     }
-  }
+  },
+  "semanticsReviewQuestion": "",
+  "@semanticsReviewQuestion": {},
+  "semanticsDurationAnswerStartStopwatch": "",
+  "@semanticsDurationAnswerStartStopwatch": {},
+  "semanticsPageIndicators": "",
+  "@semanticsPageIndicators": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsClearField": "",
+  "@semanticsClearField": {},
+  "semanticsLoginHint": "",
+  "@semanticsLoginHint": {},
+  "and": "",
+  "@and": {},
+  "semanticsAttribution": "",
+  "@semanticsAttribution": {},
+  "semanticsResetRotationButton": "",
+  "@semanticsResetRotationButton": {},
+  "semanticsUser": "",
+  "@semanticsUser": {
+    "username": {
+      "type": "String"
+    }
+  },
+  "changesetWithoutStopNameText": "",
+  "@changesetWithoutStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      }
+    }
+  },
+  "semanticsSlogan": "",
+  "@semanticsSlogan": {},
+  "semanticsFederalMinistryImage": "",
+  "@semanticsFederalMinistryImage": {},
+  "semanticsNextStepOnboarding": "",
+  "@semanticsNextStepOnboarding": {},
+  "helpImproveTranslationLabel": "",
+  "@helpImproveTranslationLabel": {},
+  "semanticsCurrentLocationButton": "",
+  "@semanticsCurrentLocationButton": {},
+  "mapFeatureFootwayCrossing": "",
+  "@mapFeatureFootwayCrossing": {},
+  "semanticsDurationAnswerReset": "",
+  "@semanticsDurationAnswerReset": {},
+  "mapFeatureCrossing": "",
+  "@mapFeatureCrossing": {},
+  "semanticsFlutterMap": "",
+  "@semanticsFlutterMap": {},
+  "semanticsFinishQuestionnaireButton": "",
+  "@semanticsFinishQuestionnaireButton": {},
+  "semanticsSkipQuestionButton": "",
+  "@semanticsSkipQuestionButton": {},
+  "semanticsOpenQuestionnaireAnnounce": "",
+  "@semanticsOpenQuestionnaireAnnounce": {},
+  "semanticsCloseNavigationMenuButton": "",
+  "@semanticsCloseNavigationMenuButton": {},
+  "mapFeatureCyclePath": "",
+  "@mapFeatureCyclePath": {},
+  "semanticsQuestionSentence": "",
+  "@semanticsQuestionSentence": {},
+  "semanticsDotsIndicator": "",
+  "@semanticsDotsIndicator": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsSettingsDialogBox": "",
+  "@semanticsSettingsDialogBox": {},
+  "semanticsReturnToMap": "",
+  "@semanticsReturnToMap": {},
+  "semanticsNextQuestionButton": "",
+  "@semanticsNextQuestionButton": {},
+  "semanticsMFundImage": "",
+  "@semanticsMFundImage": {},
+  "semanticsSummary": "",
+  "@semanticsSummary": {},
+  "changesetWithStopNameText": "",
+  "@changesetWithStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      },
+      "stopArea": {
+        "type": "String"
+      }
+    }
+  },
+  "more": "",
+  "@more": {},
+  "semanticsLogout": "",
+  "@semanticsLogout": {},
+  "semanticsZoomOutButton": "",
+  "@semanticsZoomOutButton": {},
+  "semanticsIntroductionPage": "",
+  "@semanticsIntroductionPage": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      },
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "mapFeatureFootAndCyclePath": "",
+  "@mapFeatureFootAndCyclePath": {},
+  "mapFeaturePedestrianLights": "",
+  "@mapFeaturePedestrianLights": {},
+  "mapFeatureCyclewayCrossing": "",
+  "@mapFeatureCyclewayCrossing": {},
+  "semanticsFinishOnboarding": "",
+  "@semanticsFinishOnboarding": {},
+  "semanticsDurationAnswerStopStopwatch": "",
+  "@semanticsDurationAnswerStopStopwatch": {},
+  "semanticsNavigationMenu": "",
+  "@semanticsNavigationMenu": {},
+  "semanticsZoomInButton": "",
+  "@semanticsZoomInButton": {},
+  "aboutStatisticLabel": "",
+  "@aboutStatisticLabel": {},
+  "semanticsUploadQuestionsButton": "",
+  "@semanticsUploadQuestionsButton": {},
+  "element": "",
+  "@element": {},
+  "semanticsBackQuestionButton": "",
+  "@semanticsBackQuestionButton": {},
+  "semanticsCloseQuestionnaireAnnounce": "",
+  "@semanticsCloseQuestionnaireAnnounce": {}
 }

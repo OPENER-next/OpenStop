@@ -86,5 +86,350 @@
   "numberInputFallbackName": "Vrijednost",
   "@numberInputFallbackName": {
     "description": "Fallback value for nameString in numberInputValidationErrorMax"
-  }
+  },
+  "mapFeatureTramStop": "",
+  "@mapFeatureTramStop": {},
+  "mapFeatureEmergencyCallPoint": "",
+  "@mapFeatureEmergencyCallPoint": {},
+  "mapFeatureInformationCallPoint": "",
+  "@mapFeatureInformationCallPoint": {},
+  "semanticsReviewQuestion": "",
+  "@semanticsReviewQuestion": {},
+  "hours": "",
+  "@hours": {
+    "placeholders": {
+      "hour": {
+        "type": "num"
+      }
+    }
+  },
+  "mapFeatureTrainPlatformNumber": "",
+  "@mapFeatureTrainPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "semanticsDurationAnswerStartStopwatch": "",
+  "@semanticsDurationAnswerStartStopwatch": {},
+  "semanticsPageIndicators": "",
+  "@semanticsPageIndicators": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "queryMessageReceiveTimeoutError": "",
+  "@queryMessageReceiveTimeoutError": {},
+  "semanticsClearField": "",
+  "@semanticsClearField": {},
+  "semanticsLoginHint": "",
+  "@semanticsLoginHint": {},
+  "queryMessageUnknownServerCommunicationError": "",
+  "@queryMessageUnknownServerCommunicationError": {},
+  "mapFeatureTicketSalesPoint": "",
+  "@mapFeatureTicketSalesPoint": {},
+  "durationInputSecondsLabel": "",
+  "@durationInputSecondsLabel": {},
+  "durationInputDaysLabel": "",
+  "@durationInputDaysLabel": {},
+  "questionnaireSummaryDedicatedMessage": "",
+  "@questionnaireSummaryDedicatedMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "and": "",
+  "@and": {},
+  "mapFeatureCurb": "",
+  "@mapFeatureCurb": {},
+  "semanticsResetRotationButton": "",
+  "@semanticsResetRotationButton": {},
+  "semanticsUser": "",
+  "@semanticsUser": {
+    "username": {
+      "type": "String"
+    }
+  },
+  "mapFeatureLuggageLockers": "",
+  "@mapFeatureLuggageLockers": {},
+  "changesetWithoutStopNameText": "",
+  "@changesetWithoutStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      }
+    }
+  },
+  "semanticsSlogan": "",
+  "@semanticsSlogan": {},
+  "mapFeaturePlatform": "",
+  "@mapFeaturePlatform": {},
+  "semanticsFederalMinistryImage": "",
+  "@semanticsFederalMinistryImage": {},
+  "next": "",
+  "@next": {},
+  "semanticsNextStepOnboarding": "",
+  "@semanticsNextStepOnboarding": {},
+  "mapFeatureStation": "",
+  "@mapFeatureStation": {},
+  "mapFeatureInformationTerminal": "",
+  "@mapFeatureInformationTerminal": {},
+  "mapFeatureTicketMachine": "",
+  "@mapFeatureTicketMachine": {},
+  "mapFeatureEntrance": "",
+  "@mapFeatureEntrance": {},
+  "no": "",
+  "@no": {},
+  "semanticsCurrentLocationButton": "",
+  "@semanticsCurrentLocationButton": {},
+  "mapFeatureFootwayCrossing": "",
+  "@mapFeatureFootwayCrossing": {},
+  "semanticsDurationAnswerReset": "",
+  "@semanticsDurationAnswerReset": {},
+  "days": "",
+  "@days": {
+    "placeholders": {
+      "day": {
+        "type": "num"
+      }
+    }
+  },
+  "mapFeatureBusStop": "",
+  "@mapFeatureBusStop": {},
+  "numberInputValidationError": "",
+  "@numberInputValidationError": {},
+  "mapFeatureCrossing": "",
+  "@mapFeatureCrossing": {},
+  "semanticsFlutterMap": "",
+  "@semanticsFlutterMap": {},
+  "semanticsFinishQuestionnaireButton": "",
+  "@semanticsFinishQuestionnaireButton": {},
+  "mapFeatureTrainPlatform": "",
+  "@mapFeatureTrainPlatform": {},
+  "numberInputPlaceholder": "",
+  "@numberInputPlaceholder": {},
+  "stringInputPlaceholder": "",
+  "@stringInputPlaceholder": {},
+  "semanticsSkipQuestionButton": "",
+  "@semanticsSkipQuestionButton": {},
+  "semanticsOpenQuestionnaireAnnounce": "",
+  "@semanticsOpenQuestionnaireAnnounce": {},
+  "semanticsCloseNavigationMenuButton": "",
+  "@semanticsCloseNavigationMenuButton": {},
+  "osmAttributionText": "",
+  "@osmAttributionText": {},
+  "yes": "",
+  "@yes": {},
+  "seconds": "",
+  "@seconds": {
+    "placeholders": {
+      "second": {
+        "type": "num"
+      }
+    }
+  },
+  "mapFeatureCyclePath": "",
+  "@mapFeatureCyclePath": {},
+  "mapFeatureLuggageTransport": "",
+  "@mapFeatureLuggageTransport": {},
+  "queryMessageTooManyRequestsError": "",
+  "@queryMessageTooManyRequestsError": {},
+  "numberInputValidationErrorMax": "",
+  "@numberInputValidationErrorMax": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "max": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "finish": "",
+  "@finish": {},
+  "semanticsQuestionSentence": "",
+  "@semanticsQuestionSentence": {},
+  "back": "",
+  "@back": {},
+  "durationInputMinutesLabel": "",
+  "@durationInputMinutesLabel": {},
+  "mapFeatureBusPlatformNumber": "",
+  "@mapFeatureBusPlatformNumber": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "semanticsDotsIndicator": "",
+  "@semanticsDotsIndicator": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "mapFeatureParkingSpot": "",
+  "@mapFeatureParkingSpot": {},
+  "mapFeatureTramCrossing": "",
+  "@mapFeatureTramCrossing": {},
+  "mapFeatureStairs": "",
+  "@mapFeatureStairs": {},
+  "mapFeatureHelpPoint": "",
+  "@mapFeatureHelpPoint": {},
+  "mapFeatureEscalator": "",
+  "@mapFeatureEscalator": {},
+  "uploadMessageSuccess": "",
+  "@uploadMessageSuccess": {},
+  "semanticsSettingsDialogBox": "",
+  "@semanticsSettingsDialogBox": {},
+  "semanticsReturnToMap": "",
+  "@semanticsReturnToMap": {},
+  "skip": "",
+  "@skip": {},
+  "semanticsNextQuestionButton": "",
+  "@semanticsNextQuestionButton": {},
+  "semanticsMFundImage": "",
+  "@semanticsMFundImage": {},
+  "uploadMessageServerConnectionError": "",
+  "@uploadMessageServerConnectionError": {},
+  "mapFeatureStopPole": "",
+  "@mapFeatureStopPole": {},
+  "queryMessageServerUnavailableError": "",
+  "@queryMessageServerUnavailableError": {},
+  "semanticsSummary": "",
+  "@semanticsSummary": {},
+  "changesetWithStopNameText": "",
+  "@changesetWithStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      },
+      "stopArea": {
+        "type": "String"
+      }
+    }
+  },
+  "more": "",
+  "@more": {},
+  "mapFeatureRailroadCrossing": "",
+  "@mapFeatureRailroadCrossing": {},
+  "mapFeatureElevator": "",
+  "@mapFeatureElevator": {},
+  "semanticsLogout": "",
+  "@semanticsLogout": {},
+  "cancel": "",
+  "@cancel": {},
+  "semanticsZoomOutButton": "",
+  "@semanticsZoomOutButton": {},
+  "durationInputHoursLabel": "",
+  "@durationInputHoursLabel": {},
+  "semanticsIntroductionPage": "",
+  "@semanticsIntroductionPage": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      },
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "minutes": "",
+  "@minutes": {
+    "placeholders": {
+      "minute": {
+        "type": "num"
+      }
+    }
+  },
+  "mapFeatureFootAndCyclePath": "",
+  "@mapFeatureFootAndCyclePath": {},
+  "uploadMessageUnknownConnectionError": "",
+  "@uploadMessageUnknownConnectionError": {},
+  "confirm": "",
+  "@confirm": {},
+  "mapFeaturePedestrianLights": "",
+  "@mapFeaturePedestrianLights": {},
+  "mapFeatureCyclewayCrossing": "",
+  "@mapFeatureCyclewayCrossing": {},
+  "stringInputValidationErrorMin": "",
+  "@stringInputValidationErrorMin": {},
+  "semanticsFinishOnboarding": "",
+  "@semanticsFinishOnboarding": {},
+  "semanticsDurationAnswerStopStopwatch": "",
+  "@semanticsDurationAnswerStopStopwatch": {},
+  "logout": "",
+  "@logout": {},
+  "semanticsNavigationMenu": "",
+  "@semanticsNavigationMenu": {},
+  "semanticsZoomInButton": "",
+  "@semanticsZoomInButton": {},
+  "mapFeatureFootpath": "",
+  "@mapFeatureFootpath": {},
+  "login": "",
+  "@login": {},
+  "mapFeatureTaxiStand": "",
+  "@mapFeatureTaxiStand": {},
+  "numberInputValidationErrorMin": "",
+  "@numberInputValidationErrorMin": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "min": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "questionnaireSummaryUndedicatedMessage": "",
+  "@questionnaireSummaryUndedicatedMessage": {},
+  "mapFeatureCycleBarrier": "",
+  "@mapFeatureCycleBarrier": {},
+  "mapFeatureStationMap": "",
+  "@mapFeatureStationMap": {},
+  "mapFeatureInformationPoint": "",
+  "@mapFeatureInformationPoint": {},
+  "queryMessageUnknownError": "",
+  "@queryMessageUnknownError": {},
+  "aboutStatisticLabel": "",
+  "@aboutStatisticLabel": {},
+  "semanticsUploadQuestionsButton": "",
+  "@semanticsUploadQuestionsButton": {},
+  "changesetCommentMessage": "",
+  "@changesetCommentMessage": {
+    "placeholders": {
+      "mapFeaturesString": {
+        "type": "String"
+      },
+      "stopsString": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutIdeaDescription": "",
+  "@aboutIdeaDescription": {},
+  "changesetCommentConjunctionString": "",
+  "@changesetCommentConjunctionString": {},
+  "queryMessageConnectionTimeoutError": "",
+  "@queryMessageConnectionTimeoutError": {},
+  "mapFeatureToilets": "",
+  "@mapFeatureToilets": {},
+  "element": "",
+  "@element": {},
+  "semanticsBackQuestionButton": "",
+  "@semanticsBackQuestionButton": {},
+  "semanticsCloseQuestionnaireAnnounce": "",
+  "@semanticsCloseQuestionnaireAnnounce": {}
 }

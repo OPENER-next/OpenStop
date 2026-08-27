@@ -122,5 +122,314 @@
   "mapFeatureHelpPoint": "نقطه راهنما",
   "@mapFeatureHelpPoint": {},
   "mapFeatureEmergencyCallPoint": "نقطه تماس اضطراری",
-  "@mapFeatureEmergencyCallPoint": {}
+  "@mapFeatureEmergencyCallPoint": {},
+  "mapFeatureTramStop": "",
+  "@mapFeatureTramStop": {},
+  "mapFeatureInformationCallPoint": "",
+  "@mapFeatureInformationCallPoint": {},
+  "semanticsReviewQuestion": "",
+  "@semanticsReviewQuestion": {},
+  "hours": "",
+  "@hours": {
+    "placeholders": {
+      "hour": {
+        "type": "num"
+      }
+    }
+  },
+  "loginHint": "",
+  "@loginHint": {},
+  "semanticsDurationAnswerStartStopwatch": "",
+  "@semanticsDurationAnswerStartStopwatch": {},
+  "semanticsPageIndicators": "",
+  "@semanticsPageIndicators": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "queryMessageReceiveTimeoutError": "",
+  "@queryMessageReceiveTimeoutError": {},
+  "semanticsClearField": "",
+  "@semanticsClearField": {},
+  "settingsProfessionalQuestionsDescription": "",
+  "@settingsProfessionalQuestionsDescription": {},
+  "semanticsLoginHint": "",
+  "@semanticsLoginHint": {},
+  "onboardingContributingDescription": "",
+  "@onboardingContributingDescription": {},
+  "queryMessageUnknownServerCommunicationError": "",
+  "@queryMessageUnknownServerCommunicationError": {},
+  "mapFeatureTicketSalesPoint": "",
+  "@mapFeatureTicketSalesPoint": {},
+  "questionnaireSummaryDedicatedMessage": "",
+  "@questionnaireSummaryDedicatedMessage": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureCurb": "",
+  "@mapFeatureCurb": {},
+  "semanticsAttribution": "",
+  "@semanticsAttribution": {},
+  "semanticsResetRotationButton": "",
+  "@semanticsResetRotationButton": {},
+  "semanticsUser": "",
+  "@semanticsUser": {
+    "username": {
+      "type": "String"
+    }
+  },
+  "mapFeatureLuggageLockers": "",
+  "@mapFeatureLuggageLockers": {},
+  "changesetWithoutStopNameText": "",
+  "@changesetWithoutStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      }
+    }
+  },
+  "semanticsSlogan": "",
+  "@semanticsSlogan": {},
+  "mapFeaturePlatform": "",
+  "@mapFeaturePlatform": {},
+  "semanticsFederalMinistryImage": "",
+  "@semanticsFederalMinistryImage": {},
+  "semanticsNextStepOnboarding": "",
+  "@semanticsNextStepOnboarding": {},
+  "numberInputFallbackName": "",
+  "@numberInputFallbackName": {
+    "description": "Fallback value for nameString in numberInputValidationErrorMax"
+  },
+  "mapFeatureStation": "",
+  "@mapFeatureStation": {},
+  "mapFeatureInformationTerminal": "",
+  "@mapFeatureInformationTerminal": {},
+  "mapFeatureTicketMachine": "",
+  "@mapFeatureTicketMachine": {},
+  "mapFeatureEntrance": "",
+  "@mapFeatureEntrance": {},
+  "semanticsCurrentLocationButton": "",
+  "@semanticsCurrentLocationButton": {},
+  "mapFeatureFootwayCrossing": "",
+  "@mapFeatureFootwayCrossing": {},
+  "semanticsDurationAnswerReset": "",
+  "@semanticsDurationAnswerReset": {},
+  "days": "",
+  "@days": {
+    "placeholders": {
+      "day": {
+        "type": "num"
+      }
+    }
+  },
+  "numberInputValidationError": "",
+  "@numberInputValidationError": {},
+  "mapFeatureCrossing": "",
+  "@mapFeatureCrossing": {},
+  "semanticsFlutterMap": "",
+  "@semanticsFlutterMap": {},
+  "semanticsFinishQuestionnaireButton": "",
+  "@semanticsFinishQuestionnaireButton": {},
+  "mapFeatureTrainPlatform": "",
+  "@mapFeatureTrainPlatform": {},
+  "numberInputPlaceholder": "",
+  "@numberInputPlaceholder": {},
+  "stringInputPlaceholder": "",
+  "@stringInputPlaceholder": {},
+  "semanticsSkipQuestionButton": "",
+  "@semanticsSkipQuestionButton": {},
+  "semanticsOpenQuestionnaireAnnounce": "",
+  "@semanticsOpenQuestionnaireAnnounce": {},
+  "semanticsCloseNavigationMenuButton": "",
+  "@semanticsCloseNavigationMenuButton": {},
+  "osmAttributionText": "",
+  "@osmAttributionText": {},
+  "seconds": "",
+  "@seconds": {
+    "placeholders": {
+      "second": {
+        "type": "num"
+      }
+    }
+  },
+  "mapFeatureCyclePath": "",
+  "@mapFeatureCyclePath": {},
+  "mapFeatureLuggageTransport": "",
+  "@mapFeatureLuggageTransport": {},
+  "queryMessageTooManyRequestsError": "",
+  "@queryMessageTooManyRequestsError": {},
+  "numberInputValidationErrorMax": "",
+  "@numberInputValidationErrorMax": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "max": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "semanticsQuestionSentence": "",
+  "@semanticsQuestionSentence": {},
+  "semanticsDotsIndicator": "",
+  "@semanticsDotsIndicator": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "logoutDialogDescription": "",
+  "@logoutDialogDescription": {},
+  "mapFeatureParkingSpot": "",
+  "@mapFeatureParkingSpot": {},
+  "mapFeatureTramCrossing": "",
+  "@mapFeatureTramCrossing": {},
+  "mapFeatureStairs": "",
+  "@mapFeatureStairs": {},
+  "uploadMessageSuccess": "",
+  "@uploadMessageSuccess": {},
+  "semanticsSettingsDialogBox": "",
+  "@semanticsSettingsDialogBox": {},
+  "semanticsReturnToMap": "",
+  "@semanticsReturnToMap": {},
+  "semanticsNextQuestionButton": "",
+  "@semanticsNextQuestionButton": {},
+  "semanticsMFundImage": "",
+  "@semanticsMFundImage": {},
+  "uploadMessageServerConnectionError": "",
+  "@uploadMessageServerConnectionError": {},
+  "mapFeatureStopPole": "",
+  "@mapFeatureStopPole": {},
+  "onboardingContributingButton": "",
+  "@onboardingContributingButton": {},
+  "queryMessageServerUnavailableError": "",
+  "@queryMessageServerUnavailableError": {},
+  "semanticsSummary": "",
+  "@semanticsSummary": {},
+  "changesetWithStopNameText": "",
+  "@changesetWithStopNameText": {
+    "placeholders": {
+      "elements": {
+        "type": "String"
+      },
+      "stopArea": {
+        "type": "String"
+      }
+    }
+  },
+  "mapFeatureRailroadCrossing": "",
+  "@mapFeatureRailroadCrossing": {},
+  "mapFeatureElevator": "",
+  "@mapFeatureElevator": {},
+  "semanticsLogout": "",
+  "@semanticsLogout": {},
+  "semanticsZoomOutButton": "",
+  "@semanticsZoomOutButton": {},
+  "onboardingContributingTitle": "",
+  "@onboardingContributingTitle": {},
+  "semanticsIntroductionPage": "",
+  "@semanticsIntroductionPage": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      },
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "minutes": "",
+  "@minutes": {
+    "placeholders": {
+      "minute": {
+        "type": "num"
+      }
+    }
+  },
+  "mapFeatureFootAndCyclePath": "",
+  "@mapFeatureFootAndCyclePath": {},
+  "uploadMessageUnknownConnectionError": "",
+  "@uploadMessageUnknownConnectionError": {},
+  "mapFeaturePedestrianLights": "",
+  "@mapFeaturePedestrianLights": {},
+  "mapFeatureCyclewayCrossing": "",
+  "@mapFeatureCyclewayCrossing": {},
+  "stringInputValidationErrorMin": "",
+  "@stringInputValidationErrorMin": {},
+  "semanticsFinishOnboarding": "",
+  "@semanticsFinishOnboarding": {},
+  "semanticsDurationAnswerStopStopwatch": "",
+  "@semanticsDurationAnswerStopStopwatch": {},
+  "semanticsNavigationMenu": "",
+  "@semanticsNavigationMenu": {},
+  "semanticsZoomInButton": "",
+  "@semanticsZoomInButton": {},
+  "mapFeatureFootpath": "",
+  "@mapFeatureFootpath": {},
+  "mapFeatureTaxiStand": "",
+  "@mapFeatureTaxiStand": {},
+  "numberInputValidationErrorMin": "",
+  "@numberInputValidationErrorMin": {
+    "placeholders": {
+      "nameString": {
+        "type": "String"
+      },
+      "min": {
+        "type": "num"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsThemeLabel": "",
+  "@settingsThemeLabel": {},
+  "questionnaireSummaryUndedicatedMessage": "",
+  "@questionnaireSummaryUndedicatedMessage": {},
+  "mapFeatureCycleBarrier": "",
+  "@mapFeatureCycleBarrier": {},
+  "mapFeatureStationMap": "",
+  "@mapFeatureStationMap": {},
+  "mapFeatureInformationPoint": "",
+  "@mapFeatureInformationPoint": {},
+  "queryMessageUnknownError": "",
+  "@queryMessageUnknownError": {},
+  "aboutStatisticLabel": "",
+  "@aboutStatisticLabel": {},
+  "semanticsUploadQuestionsButton": "",
+  "@semanticsUploadQuestionsButton": {},
+  "changesetCommentMessage": "",
+  "@changesetCommentMessage": {
+    "placeholders": {
+      "mapFeaturesString": {
+        "type": "String"
+      },
+      "stopsString": {
+        "type": "String"
+      }
+    }
+  },
+  "logoutDialogTitle": "",
+  "@logoutDialogTitle": {},
+  "queryMessageConnectionTimeoutError": "",
+  "@queryMessageConnectionTimeoutError": {},
+  "mapFeatureToilets": "",
+  "@mapFeatureToilets": {},
+  "element": "",
+  "@element": {},
+  "semanticsBackQuestionButton": "",
+  "@semanticsBackQuestionButton": {},
+  "semanticsCloseQuestionnaireAnnounce": "",
+  "@semanticsCloseQuestionnaireAnnounce": {},
+  "onboardingSurveyingDescription": "",
+  "@onboardingSurveyingDescription": {}
 }

@@ -429,5 +429,7 @@
         "type": "num"
       }
     }
-  }
+  },
+  "aboutStatisticLabel": "",
+  "@aboutStatisticLabel": {}
 }

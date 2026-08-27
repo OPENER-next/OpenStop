@@ -346,5 +346,90 @@
   "semanticsSkipQuestionButton": "Прапусціць",
   "@semanticsSkipQuestionButton": {},
   "semanticsLogout": "Выйдзіце са свайго ўліковага запісу карыстальніка",
-  "@semanticsLogout": {}
+  "@semanticsLogout": {},
+  "semanticsReviewQuestion": "",
+  "@semanticsReviewQuestion": {},
+  "semanticsDurationAnswerStartStopwatch": "",
+  "@semanticsDurationAnswerStartStopwatch": {},
+  "semanticsPageIndicators": "",
+  "@semanticsPageIndicators": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsClearField": "",
+  "@semanticsClearField": {},
+  "semanticsAttribution": "",
+  "@semanticsAttribution": {},
+  "semanticsResetRotationButton": "",
+  "@semanticsResetRotationButton": {},
+  "semanticsUser": "",
+  "@semanticsUser": {
+    "username": {
+      "type": "String"
+    }
+  },
+  "semanticsSlogan": "",
+  "@semanticsSlogan": {},
+  "semanticsNextStepOnboarding": "",
+  "@semanticsNextStepOnboarding": {},
+  "semanticsDurationAnswerReset": "",
+  "@semanticsDurationAnswerReset": {},
+  "semanticsFlutterMap": "",
+  "@semanticsFlutterMap": {},
+  "semanticsFinishQuestionnaireButton": "",
+  "@semanticsFinishQuestionnaireButton": {},
+  "semanticsOpenQuestionnaireAnnounce": "",
+  "@semanticsOpenQuestionnaireAnnounce": {},
+  "semanticsCloseNavigationMenuButton": "",
+  "@semanticsCloseNavigationMenuButton": {},
+  "mapFeatureCyclePath": "",
+  "@mapFeatureCyclePath": {},
+  "semanticsQuestionSentence": "",
+  "@semanticsQuestionSentence": {},
+  "semanticsDotsIndicator": "",
+  "@semanticsDotsIndicator": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsMFundImage": "",
+  "@semanticsMFundImage": {},
+  "semanticsSummary": "",
+  "@semanticsSummary": {},
+  "semanticsZoomOutButton": "",
+  "@semanticsZoomOutButton": {},
+  "semanticsIntroductionPage": "",
+  "@semanticsIntroductionPage": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      },
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "mapFeatureFootAndCyclePath": "",
+  "@mapFeatureFootAndCyclePath": {},
+  "semanticsFinishOnboarding": "",
+  "@semanticsFinishOnboarding": {},
+  "semanticsDurationAnswerStopStopwatch": "",
+  "@semanticsDurationAnswerStopStopwatch": {},
+  "semanticsNavigationMenu": "",
+  "@semanticsNavigationMenu": {},
+  "semanticsZoomInButton": "",
+  "@semanticsZoomInButton": {},
+  "aboutStatisticLabel": "",
+  "@aboutStatisticLabel": {},
+  "semanticsUploadQuestionsButton": "",
+  "@semanticsUploadQuestionsButton": {},
+  "semanticsBackQuestionButton": "",
+  "@semanticsBackQuestionButton": {},
+  "semanticsCloseQuestionnaireAnnounce": "",
+  "@semanticsCloseQuestionnaireAnnounce": {}
 }
