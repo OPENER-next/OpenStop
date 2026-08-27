@@ -411,5 +411,25 @@
   "semanticsFinishOnboarding": "Termina introduzione",
   "@semanticsFinishOnboarding": {},
   "semanticsAttribution": "Attribuzione",
-  "@semanticsAttribution": {}
+  "@semanticsAttribution": {},
+  "semanticsUser": "",
+  "@semanticsUser": {
+    "username": {
+      "type": "String"
+    }
+  },
+  "semanticsFlutterMap": "",
+  "@semanticsFlutterMap": {},
+  "semanticsDotsIndicator": "",
+  "@semanticsDotsIndicator": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsReturnToMap": "",
+  "@semanticsReturnToMap": {},
+  "semanticsSummary": "",
+  "@semanticsSummary": {}
 }
