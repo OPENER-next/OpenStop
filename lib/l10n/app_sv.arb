@@ -410,5 +410,26 @@
   "semanticsBackQuestionButton": "",
   "@semanticsBackQuestionButton": {},
   "semanticsCloseQuestionnaireAnnounce": "",
-  "@semanticsCloseQuestionnaireAnnounce": {}
+  "@semanticsCloseQuestionnaireAnnounce": {},
+  "semanticsDotsIndicator": "Sida {number}",
+  "@semanticsDotsIndicator": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsReturnToMap": "Stäng frågorna och återgå till kartan",
+  "@semanticsReturnToMap": {},
+  "semanticsIntroductionPage": "Introduktionssida {number} av {count}",
+  "@semanticsIntroductionPage": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      },
+      "count": {
+        "type": "num"
+      }
+    }
+  }
 }
