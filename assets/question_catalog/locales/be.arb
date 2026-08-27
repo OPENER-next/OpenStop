@@ -658,5 +658,19 @@
   "elevatorDoorHeightPlaceholder": "Вышыня прасвету",
   "@elevatorDoorHeightPlaceholder": {},
   "elevatorHeightName": "Вышыня ліфта",
-  "@elevatorHeightName": {}
+  "@elevatorHeightName": {},
+  "stopCurbName": "",
+  "@stopCurbName": {},
+  "pedestrianLightsAcousticSignalYesOption": "",
+  "@pedestrianLightsAcousticSignalYesOption": {},
+  "pedestrianLightsTactileArrowName": "",
+  "@pedestrianLightsTactileArrowName": {},
+  "cyclePathSurfaceText": "",
+  "@cyclePathSurfaceText": {},
+  "cyclePathSurfaceName": "",
+  "@cyclePathSurfaceName": {},
+  "cyclePathSurfaceDescription": "",
+  "@cyclePathSurfaceDescription": {},
+  "crossingMarkingsTypeZebraOption": "",
+  "@crossingMarkingsTypeZebraOption": {}
 }

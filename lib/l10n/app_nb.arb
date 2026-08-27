@@ -328,5 +328,108 @@
   "mapFeatureCyclewayCrossing": "Sykkelkryssing",
   "@mapFeatureCyclewayCrossing": {},
   "mapFeatureCrossing": "Kryssing",
-  "@mapFeatureCrossing": {}
+  "@mapFeatureCrossing": {},
+  "semanticsReviewQuestion": "",
+  "@semanticsReviewQuestion": {},
+  "semanticsDurationAnswerStartStopwatch": "",
+  "@semanticsDurationAnswerStartStopwatch": {},
+  "semanticsPageIndicators": "",
+  "@semanticsPageIndicators": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsClearField": "",
+  "@semanticsClearField": {},
+  "semanticsLoginHint": "",
+  "@semanticsLoginHint": {},
+  "semanticsAttribution": "",
+  "@semanticsAttribution": {},
+  "semanticsResetRotationButton": "",
+  "@semanticsResetRotationButton": {},
+  "semanticsUser": "",
+  "@semanticsUser": {
+    "username": {
+      "type": "String"
+    }
+  },
+  "semanticsSlogan": "",
+  "@semanticsSlogan": {},
+  "semanticsFederalMinistryImage": "",
+  "@semanticsFederalMinistryImage": {},
+  "semanticsNextStepOnboarding": "",
+  "@semanticsNextStepOnboarding": {},
+  "helpImproveTranslationLabel": "",
+  "@helpImproveTranslationLabel": {},
+  "semanticsCurrentLocationButton": "",
+  "@semanticsCurrentLocationButton": {},
+  "semanticsDurationAnswerReset": "",
+  "@semanticsDurationAnswerReset": {},
+  "semanticsFlutterMap": "",
+  "@semanticsFlutterMap": {},
+  "semanticsFinishQuestionnaireButton": "",
+  "@semanticsFinishQuestionnaireButton": {},
+  "semanticsSkipQuestionButton": "",
+  "@semanticsSkipQuestionButton": {},
+  "semanticsOpenQuestionnaireAnnounce": "",
+  "@semanticsOpenQuestionnaireAnnounce": {},
+  "semanticsCloseNavigationMenuButton": "",
+  "@semanticsCloseNavigationMenuButton": {},
+  "mapFeatureCyclePath": "",
+  "@mapFeatureCyclePath": {},
+  "semanticsQuestionSentence": "",
+  "@semanticsQuestionSentence": {},
+  "semanticsDotsIndicator": "",
+  "@semanticsDotsIndicator": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      }
+    }
+  },
+  "semanticsSettingsDialogBox": "",
+  "@semanticsSettingsDialogBox": {},
+  "semanticsReturnToMap": "",
+  "@semanticsReturnToMap": {},
+  "semanticsNextQuestionButton": "",
+  "@semanticsNextQuestionButton": {},
+  "semanticsMFundImage": "",
+  "@semanticsMFundImage": {},
+  "semanticsSummary": "",
+  "@semanticsSummary": {},
+  "semanticsLogout": "",
+  "@semanticsLogout": {},
+  "semanticsZoomOutButton": "",
+  "@semanticsZoomOutButton": {},
+  "semanticsIntroductionPage": "",
+  "@semanticsIntroductionPage": {
+    "placeholders": {
+      "number": {
+        "type": "num"
+      },
+      "count": {
+        "type": "num"
+      }
+    }
+  },
+  "mapFeatureFootAndCyclePath": "",
+  "@mapFeatureFootAndCyclePath": {},
+  "semanticsFinishOnboarding": "",
+  "@semanticsFinishOnboarding": {},
+  "semanticsDurationAnswerStopStopwatch": "",
+  "@semanticsDurationAnswerStopStopwatch": {},
+  "semanticsNavigationMenu": "",
+  "@semanticsNavigationMenu": {},
+  "semanticsZoomInButton": "",
+  "@semanticsZoomInButton": {},
+  "aboutStatisticLabel": "",
+  "@aboutStatisticLabel": {},
+  "semanticsUploadQuestionsButton": "",
+  "@semanticsUploadQuestionsButton": {},
+  "semanticsBackQuestionButton": "",
+  "@semanticsBackQuestionButton": {},
+  "semanticsCloseQuestionnaireAnnounce": "",
+  "@semanticsCloseQuestionnaireAnnounce": {}
 }
