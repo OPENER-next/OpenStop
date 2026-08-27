@@ -1,4 +1,6 @@
 {
   "platformHeightName": "Altezza banchina",
-  "@platformHeightName": {}
+  "@platformHeightName": {},
+  "platformNarrowsDescription": "",
+  "@platformNarrowsDescription": {}
 }
