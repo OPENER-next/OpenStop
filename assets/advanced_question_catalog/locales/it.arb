@@ -1,18 +1,18 @@
 {
   "platformHeightName": "Altezza banchina",
   "platformNarrowsDescription": "",
-  "IFOPTStopText": "",
-  "IFOPTStopAreaText": "",
+  "IFOPTStopText": "Qual è la IFOPT per questa piattaforma?",
+  "IFOPTStopAreaText": "Qual è l’IFOPT per tutto lo stop?",
   "platformHeightText": "",
-  "IFOPTStopAreaDescription": "",
-  "IFOPTStopName": "",
-  "IFOPTStopDescription": "",
+  "IFOPTStopAreaDescription": "IFOPT è un codice univoco per area di stop.",
+  "IFOPTStopName": "Piattaforma IFOPT",
+  "IFOPTStopDescription": "IFOPT è un codice univoco per le piattaforme",
   "platformNarrowsPlaceholder": "Larghezza",
-  "IFOPTStopAreaName": "",
-  "platformNarrowsText": "",
-  "platformHeightPlaceholder": "",
+  "IFOPTStopAreaName": "Area di stop IFOPT",
+  "platformNarrowsText": "Qual è la larghezza della parte più stretta della piattaforma?",
+  "platformHeightPlaceholder": "Altezza piattaforma",
   "unitCentimeter": "centimetro",
   "platformHeightDescription": "",
   "IFOPTPlaceholder": "IFOPT",
-  "platformNarrowsName": ""
+  "platformNarrowsName": "Restringere la larghezza"
 }
