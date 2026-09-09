@@ -23,7 +23,7 @@ import 'element_handler.dart';
 mixin StopAreaHandler<M> on ServiceWorker<M> {
   final _h3Resolution = 4;
 
-  final _stopAreaApi = StopAreaAPI();
+  final _stopAreaApi = CachedStopAreaAPI();
 
   final _stopAreasStreamController = StreamController<StopAreaUpdate>();
   final _loadingCellsStreamController = StreamController<int>();
