@@ -1,20 +1,10 @@
 plugins {
     id("com.android.application")
-    id("kotlin-android")
     id("dev.flutter.flutter-gradle-plugin")
 }
 
 import java.util.Properties
         import java.io.FileInputStream
-
-val localProperties = Properties()
-val localPropertiesFile = rootProject.file("local.properties")
-if (localPropertiesFile.exists()) {
-    localProperties.load(FileInputStream(localPropertiesFile))
-}
-
-val flutterVersionCode = localProperties.getProperty("flutter.versionCode") ?: "1"
-val flutterVersionName = localProperties.getProperty("flutter.versionName") ?: "1.0"
 
 // load key store for signing if key store file exists
 val keystoreProperties = Properties()
@@ -27,20 +17,13 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "de.tu_chemnitz.etit.sse.openstop"
-    compileSdk = 36
-    // Momentary fix. Alternatively the following line can also be commented out. See: https://github.com/flutter/flutter/issues/139427
-    ndkVersion = "27.0.12077973"
+    compileSdk = flutter.compileSdkVersion
+    ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
-
-    sourceSets["main"].java.srcDirs("src/main/kotlin")
 
     defaultConfig {
         applicationId = "de.tu_chemnitz.etit.sse.openstop"
@@ -71,6 +54,12 @@ android {
             // if key store file does not exist sign with debug keys
             signingConfig = if (keystorePropertiesFile.exists()) signingConfigs.getByName("general") else signingConfigs.getByName("debug")
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 

@@ -6,6 +6,11 @@ analyzer:
 
   errors:
     avoid_slow_async_io: info
+  exclude:
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
 
 formatter:
   trailing_commas: preserve
