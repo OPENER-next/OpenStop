@@ -14,13 +14,6 @@ import 'package:open_stop/screens/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stack_trace/stack_trace.dart';
 
-const overpassReply = {
-  'version': 0.6,
-  'generator': '',
-  'osm3s': {'timestamp_osm_base': '', 'copyright': ''},
-  'elements': <void>[],
-};
-
 const osmPermissionReply = '{"version":"0.6","generator":"OpenStreetMap server","permissions":[]}';
 
 void main() {
@@ -79,15 +72,6 @@ void main() {
       },
     );
 
-    // mock overpass requests
-    nock.get('https://overpass-api.de/api/interpreter')
-      ..query({'data': anything})
-      ..reply(200, overpassReply, headers: {'Content-Type': 'application/json'})
-      ..persist();
-    nock.get('https://overpass.kumi.systems/api/interpreter')
-      ..query({'data': anything})
-      ..reply(200, overpassReply, headers: {'Content-Type': 'application/json'})
-      ..persist();
     // mock osm api requests
     nock.get('https://master.apis.dev.openstreetmap.org/api/0.6/permissions')
       ..reply(200, osmPermissionReply, headers: {'Content-Type': 'application/json'})

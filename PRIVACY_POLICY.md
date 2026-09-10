@@ -39,7 +39,7 @@ Die App richtet sich an alle, die dabei helfen wollen, Barrieren im öffentliche
 Die App benötigt Zugriff auf den Standardort Ihres Smartphones. Dazu ist es erforderlich, dass Sie der App diese Berechtigung erteilen. Das Berechtigungssystem richtet sich nach den Vorgaben Ihres Betriebssystems. Sie können auf Ihrem Smartphone beispielsweise Einzelberechtigungen zu Berechtigungskategorien zusammengefasst sein, wobei Sie der Berechtigungskategorie nur insgesamt zustimmen können.
 
 Bitte beachten Sie, dass ohne die von der App angeforderten Berechtigungen diese nicht oder nur eingeschränkt nutzbar ist.
-*	Die App benötigt eine Internetverbindung, um mit den OpenStreetMap-, Overpass-API- und Kartenmaterial-Servern Daten auszutauschen.
+*	Die App benötigt eine Internetverbindung, um mit den OpenStreetMap-, GitHub- und Kartenmaterial-Servern Daten auszutauschen.
 *	Der Zugriff auf Ihren Standort ist nur nötig, um Ihre Position auf der Karte anzuzeigen zur Unterstützung der Orientierung.
 
 ## VII. Welche Daten werden zu welchem Zweck verarbeitet?
@@ -77,9 +77,7 @@ Mit folgenden Dritt-Servern kommuniziert die App:
 *	**Kartenmaterial-Server** stellen Bilder in Form von Kacheln bereit, die zu einer vollständigen Karte zusammengesetzt und im Hintergrund der App angezeigt werden. Die Datenschutzerklärung der in der App zur Auswahl stehenden Kartenmaterial-Server finden sie hier:
     * Thunderforest - https://www.thunderforest.com/privacy
 *	**OpenStreetMap-Server** wird für das Herunterladen von Geodaten wie Haltestellen-Plattformen, Wege oder Toiletten verwendet. Zusätzlich werden davon Profilbild und Nutzername von dem verwendeten OpenStreetMap-Konto heruntergeladen. Die Datenschutzerklärung von OpenStreetMap finden sie hier: https://wiki.osmfoundation.org/wiki/Privacy_Policy
-*	**Overpass-API-Server** dienen zum effizienten Abfragen von Geodaten. Im Folgenden finden Sie eine Liste aller genutzten Overpass-API-Server mit ihrer entsprechenden Datenschutzerklärung soweit vorhanden:
-    *	Main Overpass API Instance
-    *	Overpass by Kumi Systems - https://overpass.kumi.systems
+*	**GitHub-Server** wird für das Herunterladen von vorprozessierten Haltestellenbereichen verwendet. Die Datenschutzerklärung von GitHub finden sie hier: https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement
 
 ## VIII. An wen werden Ihre Daten weitergegeben?
 Die von Ihnen gegebenen Antworten werden von der App in OpenStreetMap-konforme Daten umgewandelt und mit weiteren Informationen angereichert (siehe Nutzungsdaten) und anschließend an den OpenStreetMap-Server weitergeben und dort gespeichert.

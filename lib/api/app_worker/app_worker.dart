@@ -23,7 +23,7 @@ class AppWorker extends ServiceWorker<AppWorkerMessage>
         StopAreaHandler,
         ElementHandler,
         QuestionnaireHandler {
-  AppWorker(super.sendPort);
+  AppWorker(super.msg);
 
   @override
   Future<dynamic> messageHandler(message) async {

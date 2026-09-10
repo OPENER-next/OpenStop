@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:isolate';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 
-typedef ServiceWorkerInit<M> = ServiceWorker<M> Function(SendPort sendPort);
+typedef ServiceWorkerInit<M> = ServiceWorker<M> Function((SendPort, RootIsolateToken));
 
 /// Helper class to spawn a custom [ServiceWorker] and communicate with it.
 ///
@@ -37,7 +38,7 @@ class ServiceWorkerController<M> {
     final receivePort = ReceivePort();
     // create ServiceWorker in isolate
     // since this listens to a stream the isolate will be kept alive until the stream closes
-    await Isolate.spawn(main, receivePort.sendPort);
+    await Isolate.spawn(main, (receivePort.sendPort, RootIsolateToken.instance!));
     final sendPort = await receivePort.first;
     return ServiceWorkerController<M>._(sendPort);
   }
@@ -131,7 +132,10 @@ class ServiceWorkerController<M> {
 abstract class ServiceWorker<M> {
   final ReceivePort _receivePort;
 
-  ServiceWorker(SendPort sendPort) : _receivePort = ReceivePort() {
+  ServiceWorker((SendPort, RootIsolateToken) msg) : _receivePort = ReceivePort() {
+    final (sendPort, token) = msg;
+    // allows usage of platform channels inside the isolate
+    BackgroundIsolateBinaryMessenger.ensureInitialized(token);
     sendPort.send(_receivePort.sendPort);
     // listening to this stream will keep the isolate alive
     _receivePort.cast<_Message<M>>().listen((message) {

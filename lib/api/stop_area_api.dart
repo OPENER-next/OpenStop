@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:h3_flutter/h3_flutter.dart';
 
+import '../commons/app_config.dart';
 import '../models/stop_area/stop_area.dart';
 import '../utils/file_cache.dart';
 
@@ -17,10 +18,14 @@ class StopAreaAPI {
   final Dio _dio;
 
   StopAreaAPI({
-    String endPoint = 'https://openstop.pages.dev',
+    String endPoint = 'https://raw.githubusercontent.com/OPENER-next/OpenStop-areas/refs/heads/result/output/',
+    String userAgent = kAppUserAgent,
   }) : _dio = Dio(
          BaseOptions(
            baseUrl: endPoint,
+           headers: {
+             'User-Agent': userAgent,
+           },
          ),
        );
 
@@ -63,7 +68,8 @@ class CachedStopAreaAPI extends StopAreaAPI {
 
   CachedStopAreaAPI({
     super.endPoint,
-    Duration timeToLive = const Duration(days: 20),
+    super.userAgent,
+    Duration timeToLive = const Duration(days: 30),
     String folderName = 'stop_area_cache',
   }) : _cache = FileCache(
          timeToLive: timeToLive,
@@ -97,15 +103,15 @@ extension H3CellIdentifier on LatLngBounds {
     required int resolution,
   }) {
     final h3 = const H3Factory().load();
-    return h3.polyfill(
+    return h3.polygonToCellsExperimental(
       resolution: resolution,
-      coordinates: [
+      perimeter: [
         GeoCoord(lat: south, lon: west),
-        GeoCoord(lat: north, lon: west),
-        GeoCoord(lat: north, lon: east),
         GeoCoord(lat: south, lon: east),
-        // Close loop required??????????????????????????
+        GeoCoord(lat: north, lon: east),
+        GeoCoord(lat: north, lon: west),
       ],
+      flag: PolygonToCellFlags.containmentOverlapping
     );
   }
 }

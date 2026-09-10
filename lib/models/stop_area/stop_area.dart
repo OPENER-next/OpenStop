@@ -27,8 +27,8 @@ class StopArea extends LatLngBounds {
   factory StopArea.fromCSV(List<String> row) {
     try {
       return StopArea(
-        LatLng(double.parse(row[0]), double.parse(row[1])),
-        LatLng(double.parse(row[2]), double.parse(row[3])),
+        LatLng(double.parse(row[1]), double.parse(row[0])),
+        LatLng(double.parse(row[3]), double.parse(row[2])),
         name: row[4].isEmpty ? null : row[4],
       );
     } catch (e) {
