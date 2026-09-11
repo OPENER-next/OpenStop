@@ -73,6 +73,7 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
             child: AnimatedBuilder(
               animation: _animation,
               builder: (_, _) => MarkerBubble(
+                color: Theme.of(context).colorScheme.primaryContainer,
                 shadowColor: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.4),
                 elevation: _animation.value * 2,
                 child: Padding(
@@ -90,7 +91,7 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
                               padding: const EdgeInsets.all(7),
                               child: Icon(
                                 widget.icon,
-                                color: Colors.white,
+                                color: Theme.of(context).colorScheme.onPrimary,
                                 shadows: const [
                                   Shadow(
                                     color: Colors.black12,
@@ -119,7 +120,7 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
                                     softWrap: true,
                                     maxLines: 2,
                                     style: TextStyle(
-                                      color: Colors.grey.shade900,
+                                      color: Theme.of(context).colorScheme.onPrimaryContainer,
                                       fontSize: 16,
                                       overflow: TextOverflow.ellipsis,
                                     ),

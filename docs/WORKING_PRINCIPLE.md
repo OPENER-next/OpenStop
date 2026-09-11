@@ -2,7 +2,7 @@
 # Working Principle
 
 The app aims to contribute OSM data via surveys and shall be used on-site. It is designed to be simple and usable without much prior knowledge.
-The app does **not** try to be a full featured editor for complex mapping scenarios like JOSM, ID or Vespucci by any means.
+The app does **not** try to be a full-featured editor for complex mapping scenarios like JOSM, ID or Vespucci by any means.
 
 ## Core principles:
 - The app only ever adds tags or elements and never deletes anything.

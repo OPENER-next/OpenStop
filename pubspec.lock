@@ -425,10 +425,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_mobx
-      sha256: ba5e93467866a2991259dc51cffd41ef45f695c667c2b8e7b087bf24118b50fe
+      sha256: d4bae30eba1fadc856e8904fd2151e229b2d1ea5fea3318955e59ef70c41294b
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "2.4.0"
   flutter_mvvm_architecture:
     dependency: "direct main"
     description:
@@ -760,14 +760,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
-  js:
-    dependency: transitive
-    description:
-      name: js
-      sha256: "53385261521cc4a0c4658fd0ad07a7d14591cf8fc33abbceae306ddb974888dc"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.7.2"
   json_annotation:
     dependency: transitive
     description:
@@ -884,10 +876,10 @@ packages:
     dependency: "direct main"
     description:
       name: mobx
-      sha256: a14558d22e2d3b0edf9151c75b67638c3907123046e96e1d1ee05e23c6a82a56
+      sha256: "0502582173bee95ef466cb1c5e9f0e87e5026f21f29e98318b67719fc63ffeaf"
       url: "https://pub.dev"
     source: hosted
-    version: "2.6.1"
+    version: "2.7.0"
   nested:
     dependency: transitive
     description:
@@ -1291,10 +1283,10 @@ packages:
     dependency: transitive
     description:
       name: synchronized
-      sha256: "3a7b5d17422dd0f8d5c6c14feaa5a1c65638b9455f871a96f08437562c046931"
+      sha256: "397b146f97613b83d84bdccb439bc8d0f3aebb6c1d14a9641e6f24201c490b2d"
       url: "https://pub.dev"
     source: hosted
-    version: "3.4.1+2"
+    version: "3.4.2"
   temaki_flutter:
     dependency: "direct main"
     description:

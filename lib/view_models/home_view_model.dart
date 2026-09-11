@@ -6,7 +6,8 @@ import 'package:animated_location_indicator/animated_location_indicator.dart';
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/semantics.dart';
-import 'package:flutter/widgets.dart' hide Action, ProxyElement, Notification;
+import 'package:flutter/widgets.dart' hide Action, ProxyElement, Notification, View;
+import 'package:flutter/widgets.dart' as widgets show View;
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_cache/flutter_map_cache.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
@@ -375,7 +376,8 @@ class HomeViewModel extends ViewModel
     _appWorker.openQuestionnaire(element);
     runInAction(() => _selectedElement.value = element);
     // semantic notification
-    SemanticsService.announce(
+    SemanticsService.sendAnnouncement(
+      widgets.View.of(context),
       appLocale.semanticsOpenQuestionnaireAnnounce,
       Directionality.of(context),
     );
@@ -392,7 +394,8 @@ class HomeViewModel extends ViewModel
       // deselect element
       runInAction(() => _selectedElement.value = null);
       // semantic notification
-      SemanticsService.announce(
+      SemanticsService.sendAnnouncement(
+        widgets.View.of(context),
         appLocale.semanticsCloseQuestionnaireAnnounce,
         Directionality.of(context),
       );

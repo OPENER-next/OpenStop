@@ -138,7 +138,7 @@ class _ListInputItemState extends State<ListInputItem> with SingleTickerProvider
                   if (widget.description != null)
                     ExcludeSemantics(
                       child: SizeTransition(
-                        axisAlignment: -1,
+                        alignment: AlignmentDirectional.centerStart,
                         sizeFactor: _animation,
                         child: FadeTransition(
                           opacity: _animation,
