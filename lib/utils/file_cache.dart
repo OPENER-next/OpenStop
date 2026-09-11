@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
 /// A simple file-based cache with a time-to-live (TTL) per entry.
@@ -48,7 +48,12 @@ class FileCache {
       await payload.pipe(sink);
       await sink.flush();
     } finally {
-      await sink.close();
+      // the returned future will hold any error produced earlier
+      await sink.close().catchError((Object e) {
+        debugPrint('Discard $file from cache due to error: $e');
+        // prevent storage of corrupted or invalid cache files
+        return file.delete();
+      });
     }
   }
 

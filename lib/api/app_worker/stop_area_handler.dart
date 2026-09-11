@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 
@@ -115,6 +116,10 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
         for (final stopArea in stopAreas) {
           markStopArea(stopArea, StopAreaState.unloaded);
         }
+      } on DioException catch (e) {
+        if (e.response?.statusCode != 404) rethrow;
+        // assume empty cell on 404 error and cache empty Set in memory
+        _stopAreaCache[cellId] = {};
       } catch (error) {
         // TODO: display error.
         debugPrint(error.toString());

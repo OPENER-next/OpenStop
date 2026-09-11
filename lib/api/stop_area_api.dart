@@ -18,7 +18,8 @@ class StopAreaAPI {
   final Dio _dio;
 
   StopAreaAPI({
-    String endPoint = 'https://raw.githubusercontent.com/OPENER-next/OpenStop-areas/refs/heads/result/output/',
+    String endPoint =
+        'https://raw.githubusercontent.com/OPENER-next/OpenStop-areas/refs/heads/result/output/',
     String userAgent = kAppUserAgent,
   }) : _dio = Dio(
          BaseOptions(
@@ -33,6 +34,8 @@ class StopAreaAPI {
     return _decode(_download(id));
   }
 
+  /// This will throw 404 exception if the file does not exist.
+  /// Not every h3 id has a corresponding file (e.g. tiles on the ocean)
   Stream<List<int>> _download(BigInt id) async* {
     final response = await _dio.get<ResponseBody>(
       '$id.csv',
@@ -84,9 +87,12 @@ class CachedStopAreaAPI extends StopAreaAPI {
     } else {
       final splitter = StreamSplitter(_download(id));
       // write to disk
+      // write handles errors internally and will discard the file on any errors
       _cache
           .write(
             idString,
+            // note: on empty streams (no events/data) the gzip encoder will still return some data
+            // like a header or trailer. see https://api.dart.dev/dart-io/GZipCodec/raw.html
             splitter.split().transform(gzip.encoder),
           )
           .catchError((Object e) => debugPrint(e.toString()))
@@ -111,7 +117,7 @@ extension H3CellIdentifier on LatLngBounds {
         GeoCoord(lat: north, lon: east),
         GeoCoord(lat: north, lon: west),
       ],
-      flag: PolygonToCellFlags.containmentOverlapping
+      flag: PolygonToCellFlags.containmentOverlapping,
     );
   }
 }
