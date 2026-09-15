@@ -116,13 +116,14 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
         for (final stopArea in stopAreas) {
           markStopArea(stopArea, StopAreaState.unloaded);
         }
-      } on DioException catch (e) {
-        if (e.response?.statusCode != 404) rethrow;
-        // assume empty cell on 404 error and cache empty Set in memory
-        _stopAreaCache[cellId] = {};
       } catch (error) {
-        // TODO: display error.
-        debugPrint(error.toString());
+        if (error is DioException && error.response?.statusCode == 404) {
+          // assume empty cell on 404 error and cache empty Set in memory
+          _stopAreaCache[cellId] = {};
+        } else {
+          // TODO: display error.
+          debugPrint(error.toString());
+        }
       } finally {
         _loadingCells.remove(cellId);
         _loadingCellsStreamController.add(_loadingCells.length);
