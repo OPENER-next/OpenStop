@@ -133,7 +133,7 @@ class HomeViewModel extends ViewModel
   /// The query results can be accessed via the specific "stop areas" property.
 
   Future<void> loadStopAreas() async {
-    if (mapController.camera.zoom > 14) {
+    if (mapController.camera.zoom > 12) {
       return _appWorker.queryStopAreas(mapController.camera.visibleBounds);
     }
   }

@@ -1,17 +1,15 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
 
-import '/api/overpass_query_api.dart';
 import '/models/element_variants/base_element.dart';
 import '/models/stop_area/stop_area.dart';
-import '/models/stop_area/stop_area_query.dart';
-import '/utils/cell_cache.dart';
 import '/utils/service_worker.dart';
 import '/utils/stream_utils.dart';
+import '../stop_area_api.dart';
 import 'element_handler.dart';
 
 /// Handles [Stop] querying and [StopArea] generation by a given view box.
@@ -24,15 +22,16 @@ import 'element_handler.dart';
 /// More information about this approach can be found here https://en.wikipedia.org/wiki/Discrete_global_grid#Non-hierarchical_grids
 
 mixin StopAreaHandler<M> on ServiceWorker<M> {
+  final _h3Resolution = 4;
+
+  final _stopAreaApi = CachedStopAreaAPI();
+
   final _stopAreasStreamController = StreamController<StopAreaUpdate>();
   final _loadingCellsStreamController = StreamController<int>();
 
-  final _overpassAPI = OverpassQueryAPI();
-  final _stopAreaQuery = StopAreaQuery();
+  final _stopAreaCache = <BigInt, Set<StopArea>>{};
 
-  final _stopAreaCache = CellCache<Set<StopArea>>();
-
-  final _loadingCells = <CellIndex>{};
+  final _loadingCells = <BigInt>{};
 
   /// All stop areas from [stopAreaCache] where elements have been loaded.
 
@@ -42,12 +41,6 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
 
   late final loadedStopAreas = UnmodifiableSetView(_loadedStopAreas);
 
-  /// The cell size in degrees.
-  /// Some reference values can be found here: https://en.wikipedia.org/wiki/Decimal_degrees
-
-  // This has been reduced due to long loading times in urban areas, see: https://github.com/OPENER-next/OpenStop/issues/293
-  final double _cellSize = 0.02;
-
   /// A MultiStream that returns the number of currently loading cells on initial subscription.
   ///
   /// Streams [StopArea] state updates.
@@ -55,7 +48,7 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
   late final stopAreasStream = _stopAreasStreamController.stream.makeMultiStreamAsync((
     controller,
   ) async {
-    for (final stopArea in _stopAreaCache.items.expand((cell) => cell)) {
+    for (final stopArea in _stopAreaCache.values.expand((cell) => cell)) {
       final StopAreaState state;
       if (_loadingStopAreas.contains(stopArea)) {
         state = StopAreaState.loading;
@@ -107,36 +100,33 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
   /// and marked with the initial state [StopAreaState.unloaded].
 
   Future<void> queryStopAreas(LatLngBounds bounds) async {
-    for (final cellIndex in _bboxToCellIndexes(bounds)) {
+    for (final cellId in bounds.toH3Ids(resolution: _h3Resolution)) {
       // check whether the given index has already been queried and cached
-      if (!_stopAreaCache.contains(cellIndex)) {
-        // check whether a query is in progress for the given index
-        if (!_loadingCells.contains(cellIndex)) {
-          _loadingCells.add(cellIndex);
-          _loadingCellsStreamController.add(_loadingCells.length);
+      // or whether a query is in progress for the given index
+      if (_stopAreaCache.containsKey(cellId) || _loadingCells.contains(cellId)) {
+        continue;
+      }
+      _loadingCells.add(cellId);
+      _loadingCellsStreamController.add(_loadingCells.length);
 
-          // query cell and add cell index to query records
-          final southWest = _cellIndexToGeo(cellIndex);
-          final northEast = LatLng(southWest.latitude + _cellSize, southWest.longitude + _cellSize);
+      try {
+        final stopAreas = await _stopAreaApi.queryByH3Id(cellId).toSet();
+        _stopAreaCache[cellId] = stopAreas;
 
-          try {
-            final stopAreas = (await _overpassAPI.query(
-              _stopAreaQuery,
-              bbox: LatLngBounds(southWest, northEast),
-            )).toSet();
-            _stopAreaCache.add(cellIndex, stopAreas);
-
-            for (final stopArea in stopAreas) {
-              markStopArea(stopArea, StopAreaState.unloaded);
-            }
-          } catch (error) {
-            // TODO: display error.
-            debugPrint(error.toString());
-          } finally {
-            _loadingCells.remove(cellIndex);
-            _loadingCellsStreamController.add(_loadingCells.length);
-          }
+        for (final stopArea in stopAreas) {
+          markStopArea(stopArea, StopAreaState.unloaded);
         }
+      } catch (error) {
+        if (error is DioException && error.response?.statusCode == 404) {
+          // assume empty cell on 404 error and cache empty Set in memory
+          _stopAreaCache[cellId] = {};
+        } else {
+          // TODO: display error.
+          debugPrint(error.toString());
+        }
+      } finally {
+        _loadingCells.remove(cellId);
+        _loadingCellsStreamController.add(_loadingCells.length);
       }
     }
   }
@@ -144,8 +134,9 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
   /// Find [StopArea]s which intersects with the given bounding box.
 
   Iterable<StopArea> getStopAreasByBounds(LatLngBounds bounds) {
-    return _bboxToCellIndexes(bounds)
-        .map(_stopAreaCache.get)
+    return bounds
+        .toH3Ids(resolution: _h3Resolution)
+        .map((id) => _stopAreaCache[id])
         .nonNulls
         .expand(
           (stopAreas) => stopAreas.where(
@@ -176,43 +167,8 @@ mixin StopAreaHandler<M> on ServiceWorker<M> {
   void exit() {
     _stopAreasStreamController.close();
     _loadingCellsStreamController.close();
-    _overpassAPI.dispose();
+    _stopAreaApi.dispose();
     super.exit();
-  }
-
-  /// Method to retrieve all cell indexes that cover given bounding box.
-
-  Iterable<CellIndex> _bboxToCellIndexes(LatLngBounds cameraViewBox) sync* {
-    final southWestIndex = _geoToCellIndex(cameraViewBox.southWest);
-    final northEastIndex = _geoToCellIndex(cameraViewBox.northEast);
-
-    for (var x = southWestIndex.x; x <= northEastIndex.x; x++) {
-      for (var y = southWestIndex.y; y <= northEastIndex.y; y++) {
-        yield CellIndex(x, y);
-      }
-    }
-  }
-
-  /// Method to calculate the cell index that contains the given coordinates.
-
-  CellIndex _geoToCellIndex(LatLng geoPoint) {
-    // transform from [-90, 90] to [0, 180]
-    final shiftedLat = geoPoint.latitude + 90;
-    // transform from [-180, 180) to [0, 360)
-    final shiftedLng = geoPoint.longitude + 180;
-    // scale and round to nearest cell index
-    final cellIndexX = (shiftedLat / _cellSize).floor();
-    final cellIndexY = (shiftedLng / _cellSize).floor();
-
-    return CellIndex(cellIndexX, cellIndexY);
-  }
-
-  /// Method to calculate the geographical coordinates of a given cell index.
-
-  LatLng _cellIndexToGeo(CellIndex index) {
-    final cellLatitude = index.x * _cellSize - 90;
-    final cellLongitude = index.y * _cellSize - 180;
-    return LatLng(cellLatitude, cellLongitude);
   }
 }
 

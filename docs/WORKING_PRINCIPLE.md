@@ -10,7 +10,7 @@ The app does **not** try to be a full-featured editor for complex mapping scenar
 - Users never enter any tags directly, instead the app phrases questions and transforms the answers into OSM tags (similar to [StreetComplete](https://github.com/streetcomplete/StreetComplete)).
 
 ## Target Elements:
-The app focuses on public transport related OSM elements. Therefore, we first gather all nearby stops via the [Overpass API](https://wiki.openstreetmap.org/wiki/Overpass_API). Based on these stops we generate "stop areas", which are basically just circles enclosing one or more nearby stops with a minimal predefined radius. These make up the areas where we are looking for OSM elements via the [OSM API](https://wiki.openstreetmap.org/wiki/API_v0.6#Bounding_box_computation). Our main focus lies on elements with the key `public_transport=platform`. Some further relevant elements are: footways, steps, parking areas or toilets around the stop.
+The app focuses on public transport related OSM elements. It first loads nearby stop areas, which are precomputed bounding boxes around related OpenStreetMap public transport elements (for more info visit [OpenStop-areas](https://github.com/OPENER-next/OpenStop-areas)). These make up the areas where we are looking for OSM elements via the [OSM API](https://wiki.openstreetmap.org/wiki/API_v0.6#Bounding_box_computation). Our main focus lies on elements with the key `public_transport=platform`. Some further relevant elements are: footways, steps, parking areas or toilets around the stop.
 
 ## Matching:
 

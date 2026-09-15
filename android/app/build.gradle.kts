@@ -6,15 +6,6 @@ plugins {
 import java.util.Properties
         import java.io.FileInputStream
 
-val localProperties = Properties()
-val localPropertiesFile = rootProject.file("local.properties")
-if (localPropertiesFile.exists()) {
-    localProperties.load(FileInputStream(localPropertiesFile))
-}
-
-val flutterVersionCode = localProperties.getProperty("flutter.versionCode") ?: "1"
-val flutterVersionName = localProperties.getProperty("flutter.versionName") ?: "1.0"
-
 // load key store for signing if key store file exists
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
@@ -33,8 +24,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-
-    sourceSets["main"].java.srcDirs("src/main/kotlin")
 
     defaultConfig {
         applicationId = "de.tu_chemnitz.etit.sse.openstop"

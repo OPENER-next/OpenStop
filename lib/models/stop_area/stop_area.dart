@@ -24,6 +24,18 @@ class StopArea extends LatLngBounds {
          west: corner1.longitude,
        );
 
+  factory StopArea.fromCSV(List<String> row) {
+    try {
+      return StopArea(
+        LatLng(double.parse(row[1]), double.parse(row[0])),
+        LatLng(double.parse(row[3]), double.parse(row[2])),
+        name: row[4].isEmpty ? null : row[4],
+      );
+    } catch (e) {
+      throw Exception('Invalid CSV data: $e');
+    }
+  }
+
   @override
   String toString() => 'StopArea($southWest; $northEast; name: $name)';
 }

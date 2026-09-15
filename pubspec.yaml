@@ -63,7 +63,10 @@ dependencies:
   get_it: ^7.6.0
   mobx: ^2.2.0
   flutter_mobx: ^2.0.6+5
+  h3_flutter: ^0.7.1
+  csv: ^8.0.0
   intl: any
+  async: ^2.13.1
 
 dev_dependencies:
   flutter_test:
