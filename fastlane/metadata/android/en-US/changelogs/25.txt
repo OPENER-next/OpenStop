@@ -1,0 +1,7 @@
+General:
+- Faster request of stop areas
+  (Overpass isn't used anymore to generate stop areas, instead precomputed stop areas are loaded and cached)
+UI/UX:
+- Improving High-Contrast-Themes according to WCAG-AAA
+Localization:
+- Update transalations

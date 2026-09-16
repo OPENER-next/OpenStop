@@ -1,0 +1,7 @@
+Allgemein:
+- Schnellerer Abruf von Haltestellenbereichen
+  (Es wird nicht mehr Overpass zur Generierung von Haltestellenbereichen verwendet, sondern es werden vorberechnete Bereiche geladen und zwischengespeichert)
+UI/UX:
+- Verbessern der High-Contrast-Themes gemäß WCAG-AAA
+Lokalisierung:
+- Aktualisieren der Übersetzungen
