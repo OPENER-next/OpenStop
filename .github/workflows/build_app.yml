@@ -25,6 +25,14 @@ jobs:
       - name: Run shared environment setup steps
         uses: ./.github/actions/environment_setup
 
+      # Add --build-id=none to CMake files
+      # Must be run after pub get and before build
+      # Required for F-Droid reproducible builds because libdartjni.so and libh3.so embed a non-reproducible build ID
+      - name: Alter CMake files of specific packages to remove non-reproducible build-ids
+        run: |
+          sed -i -e 's/-Wl,/-Wl,--build-id=none,/' ${PUB_CACHE:-$HOME/.pub-cache}/hosted/*/jni-*/src/CMakeLists.txt
+          sed -i -e 's/-Wl,/-Wl,--build-id=none,/' ${PUB_CACHE:-$HOME/.pub-cache}/hosted/*/h3_*/bindings/cmake/android.cmake
+
       - name: Setup Java
         uses: actions/setup-java@v6
         with:
@@ -197,7 +205,7 @@ jobs:
 
       - name: Rename IPA
         run: >-
-          mv app/ipa/OpenStop.ipa 
+          mv app/ipa/OpenStop.ipa
           app/OpenStop_${{ github.ref_name }}.ipa
 
       - name: Upload AAB, APK, IPA to draft release
