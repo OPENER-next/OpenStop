@@ -5,7 +5,7 @@ inputs:
     description: 'working directory'
     required: false
     default: '.'
-    
+
 runs:
   using: "composite"
   steps:
@@ -27,7 +27,7 @@ runs:
         # use master to directly download from git instead of stable which downloads from flutter archive host
         # also the fdroid build script downloads flutter via git so this ensures reproducibility
         channel: 'master'
-        
+
     - name: Check Flutter version
       shell: bash
       run: flutter --version
@@ -35,7 +35,10 @@ runs:
     - name: Download pub dependencies
       shell: bash
       working-directory: ${{ inputs.path }}
-      run: flutter pub get
+      # --enforce-lockfile ensures that the pubspec.yaml outcome matches the pubspec.lock file
+      # If not the command exits with an error
+      # This is just a safety measure to ensure we are building with unaltered pubspec.lock dependencies
+      run: flutter pub get --enforce-lockfile
 
     - name: Run build_runner
       shell: bash
