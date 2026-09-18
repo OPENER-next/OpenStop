@@ -1,0 +1,2 @@
+General:
+- Make F-Droid build reproducible ...again.
