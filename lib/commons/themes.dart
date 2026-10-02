@@ -8,11 +8,11 @@ class Default {
   // (FloatingAction)Button Foreground Selected / Account Background, Border, Text
   static Color onPrimary = Colors.grey.shade100;
 
-  // FloatingActionButton Background Unselected / Marker Background
+  // FloatingActionButton Background Unselected
   static Color primaryContainerLight = Colors.grey.shade100;
   static const Color primaryContainerDark = Color(0xFF002020);
 
-  // (FloatingAction)Button Foreground Unselected / Marker Foreground
+  // (FloatingAction)Button Foreground Unselected
   static Color onPrimaryContainerLight = Colors.grey.shade900;
   static Color onPrimaryContainerDark = Colors.grey.shade50;
 
