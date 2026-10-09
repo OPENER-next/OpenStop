@@ -2156,11 +2156,12 @@
                "public_transport": "platform",
                "lit": false
             },
-            "osm_element": [
-               "Node",
-               "OpenWay",
-               "ClosedWay",
-               "Relation"
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
             ]
          }
       ]
