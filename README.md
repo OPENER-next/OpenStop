@@ -34,7 +34,7 @@ This app is released under the terms of the [GNU General Public License v3.0 or 
 ## Funding
 <img src="assets/images/logos/BMDV_Fz_2021_Office_Farbe_de.png" alt="Logo of the German Federal Ministry of Digital Affairs and Transport" width=150> <img src="assets/images/logos/mFUND_Logo_sRGB.png" alt="Logo of the mFUND innovation initiative" width=150>
 
-OpenStop is developed in the project [OPENER next](https://openernext.de), which is funded by the German Federal Ministry for Digital and Transport as part of the mFUND innovation initiative.
+OpenStop is developed in the project [OPENER next](https://opener-next.github.io/OPENERnext-website/), which is funded by the German Federal Ministry for Digital and Transport as part of the mFUND innovation initiative.
 
 ## Acknowledgement
 Special thanks to Andy Allan ([@gravitystorm](https://github.com/gravitystorm/)) for granting us free access to the beautiful [Thunderforest](https://www.thunderforest.com/) map tiles.
