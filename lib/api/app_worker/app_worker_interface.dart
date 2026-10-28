@@ -9,6 +9,7 @@ import '/models/answer.dart';
 import '/models/authenticated_user.dart';
 import '/models/element_variants/element_identifier.dart';
 import '/models/question_catalog/question_catalog_reader.dart';
+import '/models/stop_photo.dart';
 import '/utils/service_worker.dart';
 import 'app_worker.dart';
 import 'element_handler.dart';
@@ -91,6 +92,14 @@ class AppWorkerInterface extends Service implements Disposable {
     );
   }
 
+  Future<bool> updateQuestionnairePhotos(
+    String sessionId,
+    int questionId,
+    List<StopPhoto> photos,
+  ) => _worker.send<bool>(
+    AppWorkerMessage(AppWorkerSubject.updateQuestionnairePhotos, (sessionId, questionId, photos)),
+  );
+
   Future<void> updateQuestionnaire(Answer? answer) {
     return _worker.send<void>(
       AppWorkerMessage(
@@ -117,11 +126,8 @@ class AppWorkerInterface extends Service implements Disposable {
     );
   }
 
-  Future<void> uploadQuestionnaire({
-    required AuthenticatedUser user,
-  }) {
-    return _worker.send<void>(AppWorkerMessage(AppWorkerSubject.uploadQuestionnaire, user));
-  }
+  Future<void> uploadQuestionnaire({required AuthenticatedUser user, String? photoToken}) => _worker
+      .send<void>(AppWorkerMessage(AppWorkerSubject.uploadQuestionnaire, (user, photoToken)));
 
   Future<void> nextQuestion() {
     return _worker.send<void>(

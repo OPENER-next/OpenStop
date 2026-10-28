@@ -1,8 +1,12 @@
 import 'dart:collection';
 
+import 'package:uuid/uuid.dart';
+
 import '/models/answer.dart';
+import '/models/question_catalog/answer_definition.dart';
 import '/models/question_catalog/question_catalog.dart';
 import '/models/question_catalog/question_definition.dart';
+import '/models/stop_photo.dart';
 import 'element_variants/base_element.dart';
 
 class Questionnaire {
@@ -13,6 +17,29 @@ class Questionnaire {
        _osmElement = osmElement {
     _updateWorkingElement();
     _insertMatchingEntries(afterIndex: -1);
+  }
+
+  final String sessionId = const Uuid().v4();
+
+  List<StopPhoto> get photos => _entries
+      .map((entry) => entry.answer)
+      .whereType<PhotoAnswer>()
+      .expand((answer) => answer.value)
+      .toList();
+
+  bool updatePhotos(int questionId, List<StopPhoto> photos) {
+    final index = _entries.indexWhere(
+      (entry) =>
+          entry.question.runtimeId == questionId && entry.question.answer is PhotoAnswerDefinition,
+    );
+    if (index == -1) return false;
+    final question = _entries[index].question;
+    _entries[index] = QuestionnaireEntry(
+      question,
+      PhotoAnswer(definition: question.answer as PhotoAnswerDefinition, value: photos),
+    );
+    _updateWorkingElement();
+    return true;
   }
 
   QuestionCatalog _questionCatalog;
@@ -144,17 +171,11 @@ class Questionnaire {
   /// Optionally specify a custom list of entries from which the working element is constructed.
 
   ProxyElement _createWorkingElement([Iterable<QuestionnaireEntry>? entries]) {
-    final changes = (entries ?? _entries)
-        .where((entry) => entry.hasValidAnswer)
-        .map((entry) => entry.answer!.toTagMap());
-
-    return ProxyElement(
-      _osmElement,
-      additionalTags: changes.fold<Map<String, String>>(
-        {},
-        (tags, newTags) => tags..addAll(newTags),
-      ),
-    );
+    final changes = <String, String>{};
+    for (final entry in (entries ?? _entries).where((entry) => entry.hasValidAnswer)) {
+      changes.addAll(entry.answer!.toTagMap(existingTags: {..._osmElement.tags, ...changes}));
+    }
+    return ProxyElement(_osmElement, additionalTags: changes);
   }
 }
 

@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 
 import '/l10n/app_localizations.g.dart';
+import '/models/stop_photo.dart';
 import 'question_catalog/answer_definition.dart';
 
 /// A container class that holds answers for a specific question type in a readable form.
@@ -28,7 +29,7 @@ abstract class Answer<D extends AnswerDefinition, T> {
 
   /// Build OSM tags based on the given value.
 
-  Map<String, String> toTagMap() {
+  Map<String, String> toTagMap({Map<String, String> existingTags = const {}}) {
     return definition.constructor.construct(_resolve);
   }
 
@@ -271,4 +272,53 @@ class DurationAnswer extends Answer<DurationAnswerDefinition, Duration> {
       if (seconds > 0) yield appLocale.seconds(seconds);
     }().join(' ');
   }
+}
+
+class PhotoAnswer extends Answer<PhotoAnswerDefinition, List<StopPhoto>> {
+  PhotoAnswer({required super.definition, required List<StopPhoto> value})
+    : super(value: List.unmodifiable(value));
+
+  @override
+  Iterable<String> _resolve(String key) sync* {
+    if (value.every((photo) => photo.completed)) {
+      yield* value.map((photo) => photo.id);
+    }
+  }
+
+  @override
+  Map<String, String> toTagMap({Map<String, String> existingTags = const {}}) {
+    if (!value.every((photo) => photo.completed)) return {};
+    final tags = <String, String>{};
+    for (final photo in value) {
+      final constructed = definition.constructor.construct((key) => [photo.id]);
+      final reference = constructed.remove('panoramax');
+      tags.addAll(constructed);
+      if (reference != null) {
+        tags.addAll(_referenceTag({...existingTags, ...tags}, reference));
+      }
+    }
+    return tags;
+  }
+
+  static Map<String, String> _referenceTag(Map<String, String> tags, String id) {
+    if (tags.entries.any(
+      (entry) =>
+          RegExp(r'^panoramax(?::\d+)?$').hasMatch(entry.key) &&
+          entry.value.split(';').map((value) => value.trim()).contains(id),
+    )) {
+      return {};
+    }
+    var key = 'panoramax';
+    var suffix = 1;
+    while (tags.containsKey(key)) {
+      key = 'panoramax:${suffix++}';
+    }
+    return {key: id};
+  }
+
+  @override
+  bool get isValid => value.isNotEmpty;
+
+  @override
+  String toLocaleString(AppLocalizations appLocale) => value.length.toString();
 }

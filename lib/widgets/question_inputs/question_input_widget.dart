@@ -2,7 +2,9 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 
+import '/api/stop_photo_store.dart';
 import '/models/answer.dart';
+import '/models/map_features/map_feature_representation.dart';
 import '/models/question_catalog/answer_definition.dart';
 import '/widgets/question_inputs/bool_input.dart';
 import '/widgets/question_inputs/duration_input.dart';
@@ -10,6 +12,7 @@ import '/widgets/question_inputs/list_input.dart';
 import '/widgets/question_inputs/multi_list_input.dart';
 import '/widgets/question_inputs/number_input.dart';
 import '/widgets/question_inputs/string_input.dart';
+import 'photo_input.dart';
 
 /// The base widget for all question input fields.
 /// It automatically rebuilds whenever its controller changes.
@@ -34,9 +37,19 @@ abstract class QuestionInputWidget<D extends AnswerDefinition, T extends Answer>
   static QuestionInputWidget fromAnswerDefinition<A extends Answer>({
     required AnswerDefinition definition,
     required AnswerController<A> controller,
+    MapFeatureRepresentation? target,
+    Future<StopPhotoStore> Function()? openPhotoStore,
     Key? key,
   }) {
     switch (definition.runtimeType) {
+      case const (PhotoAnswerDefinition):
+        return PhotoInput(
+          definition: definition as PhotoAnswerDefinition,
+          controller: controller as PhotoAnswerController,
+          target: target!,
+          openStore: openPhotoStore!,
+          key: key,
+        );
       case const (StringAnswerDefinition):
         return StringInput(
           definition: definition as StringAnswerDefinition,
@@ -152,6 +165,8 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
     T? initialAnswer,
   }) {
     switch (type) {
+      case const (PhotoAnswerDefinition):
+        return PhotoAnswerController(initialAnswer: initialAnswer as PhotoAnswer?);
       case const (BoolAnswerDefinition):
         return AnswerController<BoolAnswer>(initialAnswer: initialAnswer as BoolAnswer?);
       case const (NumberAnswerDefinition):
@@ -178,6 +193,20 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
     _statusListeners.clear();
     super.dispose();
     _isDisposed = true;
+  }
+}
+
+class PhotoAnswerController extends AnswerController<PhotoAnswer> {
+  PhotoAnswerController({super.initialAnswer});
+
+  bool busy = true;
+  String? message;
+
+  void update({required bool busy, String? message}) {
+    if (isDisposed || (this.busy == busy && this.message == message)) return;
+    this.busy = busy;
+    this.message = message;
+    notifyListeners();
   }
 }
 
