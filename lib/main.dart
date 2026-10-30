@@ -6,8 +6,8 @@ import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '/api/app_worker/app_worker_interface.dart';
+import '/api/photo_capture_store.dart';
 import '/api/preferences_service.dart';
-import '/api/stop_photo_store.dart';
 import '/commons/app_config.dart';
 import '/commons/routes.dart';
 import '/commons/themes.dart';
@@ -21,7 +21,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
-    await StopPhotoStore.recoverLostCapture();
+    await PhotoCaptureStore.recoverLostCapture();
   } catch (error) {
     debugPrint('Could not recover the interrupted photo selection: $error');
   }

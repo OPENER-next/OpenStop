@@ -10,7 +10,6 @@ import '/models/element_variants/element_identifier.dart';
 import '/models/question_catalog/question_catalog_reader.dart';
 import '/models/questionnaire.dart';
 import '/models/questionnaire_store.dart';
-import '/models/stop_photo.dart';
 import '/utils/service_worker.dart';
 import '/utils/stream_utils.dart';
 import 'element_handler.dart';
@@ -92,17 +91,10 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
     }
   }
 
-  bool updateQuestionnairePhotos(String sessionId, int questionId, List<StopPhoto> photos) {
+  bool updateQuestionnaireAnswer(String sessionId, int questionId, Answer? answer) {
     final questionnaire = _questionnaireStore.find((item) => item.sessionId == sessionId);
     if (questionnaire == null) return false;
-    if (photos.any(
-      (photo) =>
-          photo.osmId != questionnaire.workingElement.id ||
-          photo.osmType != questionnaire.workingElement.type.name,
-    )) {
-      return false;
-    }
-    if (!questionnaire.updatePhotos(questionId, photos)) return false;
+    if (!questionnaire.updateAnswer(questionId, answer)) return false;
     if (questionnaire == _activeQuestionnaire) {
       _activeQuestionnaireStreamController.add(
         QuestionnaireRepresentation.derive(
@@ -115,7 +107,11 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
   }
 
   Future<void> _deletePhotos(Questionnaire questionnaire) async {
-    for (final photo in questionnaire.photos) {
+    for (final photo
+        in questionnaire.entries
+            .map((entry) => entry.answer)
+            .whereType<PhotoAnswer>()
+            .expand((answer) => answer.value)) {
       final file = File(photo.path);
       try {
         if (file.existsSync()) await file.delete();
@@ -169,13 +165,19 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
         if (photoToken == null || account == null) {
           throw const PanoramaxUploadException(authenticationFailed: true);
         }
-        final photos = answer.value.map((photo) => photo.forAccount(account.id)).toList();
+        final photos = answer.value.map((photo) => api.forAccount(photo, account.id)).toList();
         // Keep checkpoints in the questionnaire so a failed submission can be retried.
-        questionnaire.updatePhotos(entry.question.runtimeId, photos);
+        questionnaire.updateAnswer(
+          entry.question.runtimeId,
+          PhotoAnswer(definition: answer.definition, value: photos),
+        );
         for (final photo in photos) {
           await api.upload(photo, photoToken);
         }
-        questionnaire.updatePhotos(entry.question.runtimeId, photos);
+        questionnaire.updateAnswer(
+          entry.question.runtimeId,
+          PhotoAnswer(definition: answer.definition, value: photos),
+        );
       }
       await uploadElement(questionnaire.workingElement, user);
       await discardQuestionnaire(questionnaire);

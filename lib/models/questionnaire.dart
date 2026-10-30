@@ -3,10 +3,8 @@ import 'dart:collection';
 import 'package:uuid/uuid.dart';
 
 import '/models/answer.dart';
-import '/models/question_catalog/answer_definition.dart';
 import '/models/question_catalog/question_catalog.dart';
 import '/models/question_catalog/question_definition.dart';
-import '/models/stop_photo.dart';
 import 'element_variants/base_element.dart';
 
 class Questionnaire {
@@ -21,24 +19,20 @@ class Questionnaire {
 
   final String sessionId = const Uuid().v4();
 
-  List<StopPhoto> get photos => _entries
-      .map((entry) => entry.answer)
-      .whereType<PhotoAnswer>()
-      .expand((answer) => answer.value)
-      .toList();
-
-  bool updatePhotos(int questionId, List<StopPhoto> photos) {
-    final index = _entries.indexWhere(
-      (entry) =>
-          entry.question.runtimeId == questionId && entry.question.answer is PhotoAnswerDefinition,
-    );
-    if (index == -1) return false;
-    final question = _entries[index].question;
-    _entries[index] = QuestionnaireEntry(
-      question,
-      PhotoAnswer(definition: question.answer as PhotoAnswerDefinition, value: photos),
-    );
-    _updateWorkingElement();
+  /// Update an entry by identity, including asynchronous input results.
+  bool updateAnswer(int questionId, Answer? answer) {
+    final index = _entries.indexWhere((entry) => entry.question.runtimeId == questionId);
+    if (index == -1 ||
+        (answer != null &&
+            _entries[index].question.answer.runtimeType != answer.definition.runtimeType)) {
+      return false;
+    }
+    final previousIndex = _activeIndex;
+    final previousQuestion = activeEntry?.question;
+    _activeIndex = index;
+    update(answer);
+    final restoredIndex = _entries.indexWhere((entry) => entry.question == previousQuestion);
+    _activeIndex = restoredIndex >= 0 ? restoredIndex : previousIndex.clamp(0, _entries.length - 1);
     return true;
   }
 

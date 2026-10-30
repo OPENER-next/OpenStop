@@ -25,7 +25,6 @@ import '/api/app_worker/element_handler.dart';
 import '/api/app_worker/stop_area_handler.dart';
 import '/api/panoramax_api.dart';
 import '/api/preferences_service.dart';
-import '/api/stop_photo_store.dart';
 import '/api/user_account_service.dart';
 import '/l10n/app_localizations.g.dart';
 import '/models/answer.dart';
@@ -320,24 +319,6 @@ class HomeViewModel extends ViewModel
 
   late final _questionnaireState = ObservableStream(_appWorker.subscribeQuestionnaireChanges());
 
-  Future<StopPhotoStore> openQuestionnairePhotos(int questionId) {
-    final state = _questionnaireState.value;
-    if (state == null || !state.matchesTarget(selectedElement)) {
-      throw StateError('The selected questionnaire is not ready');
-    }
-    return StopPhotoStore.open(
-      photos: state.entries
-          .where((entry) => entry.question.runtimeId == questionId)
-          .map((entry) => entry.answer)
-          .whereType<PhotoAnswer>()
-          .expand((answer) => answer.value)
-          .toList(),
-      osmReference: '${state.osmType}/${state.osmId}',
-      onChanged: (photos) =>
-          _appWorker.updateQuestionnairePhotos(state.sessionId, questionId, photos),
-    );
-  }
-
   late final _hasQuestionnaire = Computed(
     () => _questionnaireState.value?.matchesTarget(selectedElement) == true,
   );
@@ -538,8 +519,7 @@ class HomeViewModel extends ViewModel
       _answerInputDebouncer.cancel();
       final index = _questionnaireState.value!.activeIndex;
       final answerController = questionnaireAnswers[index];
-      if (answerController is PhotoAnswerController) return;
-      return _appWorker.updateQuestionnaire(answerController.answer);
+      await answerController.persist();
     }
   }
 
@@ -567,9 +547,21 @@ class HomeViewModel extends ViewModel
           type: questionEntry.question.answer.runtimeType,
           initialAnswer: questionEntry.answer,
         );
-        if (controller is! PhotoAnswerController) {
-          controller.addListener(_answerInputDebouncer.debounce(_updateQuestionnaireAnswer));
-        }
+        final sessionId = _questionnaireState.value!.sessionId;
+        controller.onSave = (answer) => _appWorker.updateQuestionnaireAnswer(
+          sessionId,
+          questionEntry.question.runtimeId,
+          answer,
+        );
+        var previousAnswer = controller.answer;
+        controller.addListener(() {
+          // Input status changes must not write the same answer again.
+          if (identical(previousAnswer, controller.answer)) return;
+          previousAnswer = controller.answer;
+          _answerInputDebouncer.debounce(() async {
+            await controller.persist();
+          })();
+        });
         return controller;
       });
     }

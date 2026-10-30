@@ -4519,7 +4519,7 @@
          "type": "Photo",
          "input": {},
          "constructor": {
-            "panoramax": [
+            "panoramax:*": [
                "$input"
             ]
          }
@@ -4559,13 +4559,7 @@
                "railway": "platform",
                "panoramax": false
             },
-            "!parent": [
-               {
-                  "osm_tags": {
-                     "public_transport": "platform"
-                  }
-               }
-            ]
+            "osm_element": ["OpenWay", "ClosedWay", "Relation"]
          }
       ]
    }

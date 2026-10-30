@@ -40,7 +40,7 @@ Further details and information can be added using the `description` and `image`
 ## The `answer` part
 
 This defines the input element the user interacts with as well as which tags are written. It consists of three sub-properties:
-- `type` defines the UI input element that will be displayed to the user. Possible types are: `String`, `Number`, `Duration`, `Bool`, `List` and `MultiList`
+- `type` defines the UI input element that will be displayed to the user. Possible types are: `String`, `Number`, `Duration`, `Bool`, `List`, `MultiList` and `Photo`
 - `input` defines additional settings for the input element, which varies across different input types.
 - `constructor` defines the transformation from input value(s) to tags that are ultimately written to the OSM element.
 
@@ -196,6 +196,22 @@ Displays a list of multiple options and allows the selection of one option (`Lis
     "constructor": { }
 }
 ```
+
+#### `Photo` input
+
+Allows taking or selecting photos. A new OSM login automatically obtains the Panoramax upload credential; existing sessions without a usable credential authorize when photos are submitted. Photos are uploaded when submitting the questionnaire, immediately before its OSM update. The constructor receives preassigned picture UUIDs through `$input`, so dependent questions see the tags immediately. OSM submission waits until every referenced photo has uploaded successfully.
+
+```json
+"answer": {
+    "type": "Photo",
+    "input": {},
+    "constructor": {
+        "panoramax:*": ["$input"]
+    }
+}
+```
+
+A constructor key ending in `:*` evaluates its expression separately for each input value and appends references using numbered keys. This works for any tag family, not only photos. The first photo uses `panoramax` and additional photos use the next available `panoramax:N` keys, preserving existing references. All tags are submitted with the ordinary answers in the same OSM update. Eligibility is configured using the ordinary `conditions`, such as requiring a platform with no `panoramax` tag and limiting railway platforms to ways and relations.
 
 ### Constructor
 
@@ -627,3 +643,9 @@ The example below matches all elements which are part of a public transport bus 
   ]
 }
 ```
+
+### Photo implementation notes
+
+`ElementPhoto` holds the selected file and its OSM context as data. `PhotoUploadState` holds retry checkpoints separately; account switching is handled by `PanoramaxAPI`. Selected photos live exclusively in `PhotoAnswer`. `PhotoCaptureStore` manages temporary files, capture validation and Android lost-camera recovery, without keeping a second list of selected photos. All answer controllers share the same persistence callback, including asynchronous photo edits. The dialog has no photo-store wiring; its generic busy state only prevents navigating away during input operations. `PhotoMetadata` validates original EXIF coordinates and capture time; it does not write or synthesize metadata.
+
+The `uuid` dependency assigns picture IDs before upload. These IDs make tags available immediately and let retries reuse the same ID. Changing upload accounts assigns a fresh ID. `crypto` implements the OAuth PKCE challenge. Photo uploads run within the existing upload queue Future, before the OSM update.

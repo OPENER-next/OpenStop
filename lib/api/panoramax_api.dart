@@ -2,13 +2,13 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:uuid/uuid.dart';
 
 import '/api/osm_authentication_api.dart';
 import '/commons/app_config.dart';
 import '/commons/osm_config.dart';
-import '/models/stop_photo.dart';
-
-const kPanoramaxUrl = 'https://osm-lens.vee.network';
+import '/commons/panoramax_config.dart';
+import '/models/element_photo.dart';
 
 class PanoramaxAPI {
   static const tokenKey = 'panoramaxToken';
@@ -70,10 +70,28 @@ class PanoramaxAPI {
     return (token: token, name: user.name);
   }
 
-  Future<void> upload(StopPhoto photo, String token) async {
-    if (photo.completed) return;
+  ElementPhoto forAccount(ElementPhoto photo, String accountId) {
+    if (photo.upload.accountId == accountId) return photo;
+    final changed = photo.upload.accountId != null;
+    return ElementPhoto(
+      id: changed ? const Uuid().v4() : photo.id,
+      osmType: photo.osmType,
+      osmId: photo.osmId,
+      label: photo.label,
+      path: photo.path,
+      upload: PhotoUploadState(
+        accountId: accountId,
+        setId: changed ? null : photo.upload.setId,
+        fileUploaded: !changed && photo.upload.fileUploaded,
+        completed: !changed && photo.upload.completed,
+      ),
+    );
+  }
+
+  Future<void> upload(ElementPhoto photo, String token) async {
+    if (photo.upload.completed) return;
     final options = _auth(token);
-    if (photo.uploadSetId == null) {
+    if (photo.upload.setId == null) {
       final response = await _client.post<Map<String, dynamic>>(
         '/upload_sets',
         options: options,
@@ -88,10 +106,10 @@ class PanoramaxAPI {
           ],
         },
       );
-      photo.uploadSetId = response.data!['id'] as String;
+      photo.upload.setId = response.data!['id'] as String;
     }
-    final path = '/upload_sets/${photo.uploadSetId}';
-    if (!photo.fileUploaded) {
+    final path = '/upload_sets/${photo.upload.setId}';
+    if (!photo.upload.fileUploaded) {
       try {
         final response = await _client.post<Map<String, dynamic>>(
           '$path/files',
@@ -119,13 +137,13 @@ class PanoramaxAPI {
           rethrow;
         }
       }
-      photo.fileUploaded = true;
+      photo.upload.fileUploaded = true;
     }
     final status = await _client.get<Map<String, dynamic>>(path, options: options);
     if (status.data?['completed'] != true) {
       await _client.post<dynamic>('$path/complete', options: options);
     }
-    photo.completed = true;
+    photo.upload.completed = true;
   }
 
   void dispose() => _client.close();

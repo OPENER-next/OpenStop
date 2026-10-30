@@ -4,24 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
-import '/api/stop_photo_store.dart';
+import '/api/photo_capture_store.dart';
 import '/commons/themes.dart';
 import '/l10n/app_localizations.g.dart';
 import '/models/answer.dart';
+import '/models/element_photo.dart';
 import '/models/map_features/map_feature_representation.dart';
 import '/models/question_catalog/answer_definition.dart';
-import '/models/stop_photo.dart';
 import 'question_input_widget.dart';
 
 class PhotoInput extends QuestionInputWidget<PhotoAnswerDefinition, PhotoAnswer> {
   final MapFeatureRepresentation target;
-  final Future<StopPhotoStore> Function() openStore;
+  final Future<PhotoCaptureStore> Function()? openStore;
 
   const PhotoInput({
     required super.definition,
     required PhotoAnswerController controller,
     required this.target,
-    required this.openStore,
+    this.openStore,
     super.key,
   }) : super(controller: controller);
 
@@ -38,13 +38,13 @@ class _PhotoInputView extends StatefulWidget {
   final MapFeatureRepresentation target;
   final PhotoAnswerDefinition definition;
   final PhotoAnswerController controller;
-  final Future<StopPhotoStore> Function() openStore;
+  final Future<PhotoCaptureStore> Function()? openStore;
 
   const _PhotoInputView({
     required this.definition,
     required this.target,
     required this.controller,
-    required this.openStore,
+    this.openStore,
   });
 
   @override
@@ -53,7 +53,7 @@ class _PhotoInputView extends StatefulWidget {
 
 class _PhotoInputState extends State<_PhotoInputView> {
   late final _picker = ImagePicker();
-  late StopPhotoStore _store;
+  late PhotoCaptureStore _store;
   bool get _busy => widget.controller.busy;
   String? get _error => widget.controller.message;
 
@@ -70,20 +70,36 @@ class _PhotoInputState extends State<_PhotoInputView> {
   }
 
   Future<void> _load() => _run(() async {
-    _store = await widget.openStore();
-    await _refresh();
-    if (mounted && _store.recoveryFailed) {
+    _store = await (widget.openStore ?? PhotoCaptureStore.open)();
+    final reference = '${widget.target.type.name}/${widget.target.id}';
+    final recovered = PhotoCaptureStore.recoveredFor(reference);
+    if (recovered.isNotEmpty) {
+      await _save([
+        ..._answerPhotos,
+        ...recovered.where((photo) => !_answerPhotos.any((item) => item.id == photo.id)),
+      ]);
+      PhotoCaptureStore.acknowledgeRecovered(recovered);
+    }
+    if (mounted && PhotoCaptureStore.takeRecoveryError(reference)) {
       _setError(_locale.photoCaptureError);
     }
   });
 
-  Future<void> _refresh() async {
-    final photos = await _store.load();
-    if (!mounted) return;
+  Future<void> _save(List<ElementPhoto> photos) async {
+    if (widget.controller.isDisposed) throw StateError('The questionnaire has been discarded');
+    final previous = widget.controller.answer;
     widget.controller.answer = PhotoAnswer(definition: widget.definition, value: photos);
+    try {
+      if (!await widget.controller.persist()) {
+        throw StateError('The questionnaire has been discarded');
+      }
+    } catch (_) {
+      widget.controller.answer = previous;
+      rethrow;
+    }
   }
 
-  List<StopPhoto> get _answerPhotos => widget.controller.answer?.value ?? const [];
+  List<ElementPhoto> get _answerPhotos => widget.controller.answer?.value ?? const [];
 
   void _setError(String message) => widget.controller.update(busy: _busy, message: message);
 
@@ -107,7 +123,7 @@ class _PhotoInputState extends State<_PhotoInputView> {
     final target = widget.target;
     final id = const Uuid().v4();
     await _store.prepareCapture(
-      StopPhoto(
+      ElementPhoto(
         id: id,
         osmType: target.type.name,
         osmId: target.id,
@@ -118,16 +134,23 @@ class _PhotoInputState extends State<_PhotoInputView> {
     try {
       final image = await _picker.pickImage(source: source, requestFullMetadata: true);
       if (image == null) return;
-      await _store.finishCapture(image);
+      final photo = await _store.finishCapture(image);
+      if (photo != null) {
+        try {
+          await _save([..._answerPhotos, photo]);
+        } catch (_) {
+          await _store.delete(photo);
+          rethrow;
+        }
+      }
     } on FormatException {
       if (mounted) _setError(_locale.photoMetadataError);
     } finally {
       await _store.cancelCapture();
     }
-    await _refresh();
   });
 
-  Future<void> _remove(StopPhoto photo) => _run(() async {
+  Future<void> _remove(ElementPhoto photo) => _run(() async {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -143,8 +166,8 @@ class _PhotoInputState extends State<_PhotoInputView> {
       ),
     );
     if (confirmed != true) return;
+    await _save(_answerPhotos.where((item) => item.id != photo.id).toList());
     await _store.delete(photo);
-    await _refresh();
   });
 
   @override

@@ -1,3 +1,5 @@
+/// Validates original EXIF coordinates and capture time before accepting a photo.
+/// This never invents metadata or modifies the selected image.
 class PhotoMetadata {
   final double latitude;
   final double longitude;

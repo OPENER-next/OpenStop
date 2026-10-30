@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 
 import '/l10n/app_localizations.g.dart';
-import '/models/stop_photo.dart';
+import '/models/element_photo.dart';
 import 'question_catalog/answer_definition.dart';
 
 /// A container class that holds answers for a specific question type in a readable form.
@@ -30,7 +30,7 @@ abstract class Answer<D extends AnswerDefinition, T> {
   /// Build OSM tags based on the given value.
 
   Map<String, String> toTagMap({Map<String, String> existingTags = const {}}) {
-    return definition.constructor.construct(_resolve);
+    return definition.constructor.construct(_resolve, existingTags: existingTags);
   }
 
   /// Whether the value of this answer is valid or not.
@@ -274,47 +274,14 @@ class DurationAnswer extends Answer<DurationAnswerDefinition, Duration> {
   }
 }
 
-class PhotoAnswer extends Answer<PhotoAnswerDefinition, List<StopPhoto>> {
-  PhotoAnswer({required super.definition, required List<StopPhoto> value})
+class PhotoAnswer extends Answer<PhotoAnswerDefinition, List<ElementPhoto>> {
+  PhotoAnswer({required super.definition, required List<ElementPhoto> value})
     : super(value: List.unmodifiable(value));
 
+  // Preassigned IDs make tags available to dependent questions immediately.
+  // Submission uploads all referenced images before writing any tags to OSM.
   @override
-  Iterable<String> _resolve(String key) sync* {
-    if (value.every((photo) => photo.completed)) {
-      yield* value.map((photo) => photo.id);
-    }
-  }
-
-  @override
-  Map<String, String> toTagMap({Map<String, String> existingTags = const {}}) {
-    if (!value.every((photo) => photo.completed)) return {};
-    final tags = <String, String>{};
-    for (final photo in value) {
-      final constructed = definition.constructor.construct((key) => [photo.id]);
-      final reference = constructed.remove('panoramax');
-      tags.addAll(constructed);
-      if (reference != null) {
-        tags.addAll(_referenceTag({...existingTags, ...tags}, reference));
-      }
-    }
-    return tags;
-  }
-
-  static Map<String, String> _referenceTag(Map<String, String> tags, String id) {
-    if (tags.entries.any(
-      (entry) =>
-          RegExp(r'^panoramax(?::\d+)?$').hasMatch(entry.key) &&
-          entry.value.split(';').map((value) => value.trim()).contains(id),
-    )) {
-      return {};
-    }
-    var key = 'panoramax';
-    var suffix = 1;
-    while (tags.containsKey(key)) {
-      key = 'panoramax:${suffix++}';
-    }
-    return {key: id};
-  }
+  Iterable<String> _resolve(String key) => value.map((photo) => photo.id);
 
   @override
   bool get isValid => value.isNotEmpty;

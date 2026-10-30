@@ -42,7 +42,7 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
     final selected = viewModel.selectedElement;
     final submitting = viewModel.isSubmittingQuestionnaire;
     return ListenableBuilder(
-      listenable: Listenable.merge(answers.whereType<PhotoAnswerController>().toList()),
+      listenable: Listenable.merge(answers),
       builder: (context, _) => _buildDialog(context, viewModel, selected, submitting),
     );
   }
@@ -54,8 +54,7 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
     bool submitting,
   ) {
     if (selected == null || (target != null && target != selected)) return const SizedBox.shrink();
-    final busy =
-        submitting || answers.whereType<PhotoAnswerController>().any((answer) => answer.busy);
+    final busy = submitting || answers.any((answer) => answer.busy);
     final layerLink = LayerLink();
     final questionCount = questions.length;
     final activeIndex = showSummary ? questionCount : activeQuestionIndex;
@@ -235,7 +234,6 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
             definition: question.answer,
             controller: answers[index],
             target: target,
-            openPhotoStore: () => viewModel.openQuestionnairePhotos(question.runtimeId),
           ),
         ),
       ),
