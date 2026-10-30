@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 
 import '/models/answer.dart';
+import '/models/map_features/map_feature_representation.dart';
 import '/models/question_catalog/answer_definition.dart';
 import '/widgets/question_inputs/bool_input.dart';
 import '/widgets/question_inputs/duration_input.dart';
@@ -10,6 +11,7 @@ import '/widgets/question_inputs/list_input.dart';
 import '/widgets/question_inputs/multi_list_input.dart';
 import '/widgets/question_inputs/number_input.dart';
 import '/widgets/question_inputs/string_input.dart';
+import 'photo_input.dart';
 
 /// The base widget for all question input fields.
 /// It automatically rebuilds whenever its controller changes.
@@ -34,9 +36,17 @@ abstract class QuestionInputWidget<D extends AnswerDefinition, T extends Answer>
   static QuestionInputWidget fromAnswerDefinition<A extends Answer>({
     required AnswerDefinition definition,
     required AnswerController<A> controller,
+    MapFeatureRepresentation? target,
     Key? key,
   }) {
     switch (definition.runtimeType) {
+      case const (PhotoAnswerDefinition):
+        return PhotoInput(
+          definition: definition as PhotoAnswerDefinition,
+          controller: controller as PhotoAnswerController,
+          target: target!,
+          key: key,
+        );
       case const (StringAnswerDefinition):
         return StringInput(
           definition: definition as StringAnswerDefinition,
@@ -87,7 +97,34 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
 
   AnswerController({
     T? initialAnswer,
-  }) : _answer = initialAnswer;
+  }) : _answer = initialAnswer,
+       _savedAnswer = initialAnswer;
+
+  /// Shared persistence path for synchronous and asynchronous inputs.
+  Future<bool> Function(Answer? answer)? onSave;
+
+  T? _savedAnswer;
+  T? _savingAnswer;
+  Future<bool>? _saving;
+
+  Future<bool> persist() {
+    if (isDisposed) return Future.value(false);
+    if (identical(_answer, _savedAnswer)) return Future.value(true);
+    if (_saving != null && identical(_answer, _savingAnswer)) return _saving!;
+    final value = _answer;
+    _savingAnswer = value;
+    return _saving = _persist(value);
+  }
+
+  Future<bool> _persist(T? value) async {
+    try {
+      final saved = await onSave?.call(value) ?? true;
+      if (saved) _savedAnswer = value;
+      return saved;
+    } finally {
+      if (identical(_savingAnswer, value)) _saving = null;
+    }
+  }
 
   T? get answer => _answer;
 
@@ -111,6 +148,9 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
   bool get isEmpty => _answer == null;
 
   bool get isNotEmpty => !isEmpty;
+
+  /// Whether this input is completing an asynchronous operation.
+  bool get busy => false;
 
   bool get hasValidAnswer => _answer?.isValid == true;
 
@@ -152,6 +192,8 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
     T? initialAnswer,
   }) {
     switch (type) {
+      case const (PhotoAnswerDefinition):
+        return PhotoAnswerController(initialAnswer: initialAnswer as PhotoAnswer?);
       case const (BoolAnswerDefinition):
         return AnswerController<BoolAnswer>(initialAnswer: initialAnswer as BoolAnswer?);
       case const (NumberAnswerDefinition):
@@ -178,6 +220,21 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
     _statusListeners.clear();
     super.dispose();
     _isDisposed = true;
+  }
+}
+
+class PhotoAnswerController extends AnswerController<PhotoAnswer> {
+  PhotoAnswerController({super.initialAnswer});
+
+  @override
+  bool busy = true;
+  String? message;
+
+  void update({required bool busy, String? message}) {
+    if (isDisposed || (this.busy == busy && this.message == message)) return;
+    this.busy = busy;
+    this.message = message;
+    notifyListeners();
   }
 }
 

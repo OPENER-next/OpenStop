@@ -67,6 +67,9 @@ dependencies:
   csv: ^8.0.0
   intl: any
   async: ^2.13.1
+  image_picker: ^1.2.4
+  exif: ^3.3.0
+  uuid: ^4.5.1
 
 dev_dependencies:
   flutter_test:

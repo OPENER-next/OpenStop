@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 
 import '/l10n/app_localizations.g.dart';
+import '/models/element_photo.dart';
 import 'question_catalog/answer_definition.dart';
 
 /// A container class that holds answers for a specific question type in a readable form.
@@ -271,4 +272,20 @@ class DurationAnswer extends Answer<DurationAnswerDefinition, Duration> {
       if (seconds > 0) yield appLocale.seconds(seconds);
     }().join(' ');
   }
+}
+
+class PhotoAnswer extends Answer<PhotoAnswerDefinition, List<ElementPhoto>> {
+  PhotoAnswer({required super.definition, required List<ElementPhoto> value})
+    : super(value: List.unmodifiable(value));
+
+  // Preassigned IDs make tags available to dependent questions immediately.
+  // Submission uploads all referenced images before writing any tags to OSM.
+  @override
+  Iterable<String> _resolve(String key) => value.map((photo) => photo.id);
+
+  @override
+  bool get isValid => value.isNotEmpty;
+
+  @override
+  String toLocaleString(AppLocalizations appLocale) => value.length.toString();
 }

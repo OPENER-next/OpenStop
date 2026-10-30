@@ -38,12 +38,16 @@ class AppWorker extends ServiceWorker<AppWorkerMessage>
         return openQuestionnaire(message.data);
       case AppWorkerSubject.updateQuestionnaire:
         return updateQuestionnaire(message.data);
+      case AppWorkerSubject.updateQuestionnaireAnswer:
+        final (sessionId, questionId, answer) = message.data;
+        return updateQuestionnaireAnswer(sessionId, questionId, answer);
       case AppWorkerSubject.closeQuestionnaire:
         return closeQuestionnaire();
       case AppWorkerSubject.discardQuestionnaire:
         return discardQuestionnaire(message.data);
       case AppWorkerSubject.uploadQuestionnaire:
-        return uploadQuestionnaire(message.data);
+        final (user, photoToken) = message.data;
+        return uploadQuestionnaire(user, photoToken);
       case AppWorkerSubject.nextQuestion:
         return nextQuestion();
       case AppWorkerSubject.previousQuestion:
@@ -94,6 +98,7 @@ enum AppWorkerSubject {
   subscribeQuestionnaireChanges,
   openQuestionnaire,
   updateQuestionnaire,
+  updateQuestionnaireAnswer,
   closeQuestionnaire,
   discardQuestionnaire,
   uploadQuestionnaire,

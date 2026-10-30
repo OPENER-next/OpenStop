@@ -673,5 +673,11 @@
   "elevatorDoorHeightDescription": "The clearance height is the inner measurement from the bottom of the door to the top, not the outer height of the door frame.",
   "@elevatorDoorHeightDescription": {},
   "elevatorDoorHeightPlaceholder": "Clearance height",
-  "@elevatorDoorHeightPlaceholder": {}
+  "@elevatorDoorHeightPlaceholder": {},
+  "stopPhotoName": "Photos",
+  "@stopPhotoName": {},
+  "stopPhotoText": "Take a photo of this stop or platform?",
+  "@stopPhotoText": {},
+  "stopPhotoDescription": "Photos help others assess accessibility. Add your own photos of the stop and its accessibility features. You can take several pictures or skip this question.",
+  "@stopPhotoDescription": {}
 }

@@ -6,6 +6,7 @@ import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '/api/app_worker/app_worker_interface.dart';
+import '/api/photo_capture_store.dart';
 import '/api/preferences_service.dart';
 import '/commons/app_config.dart';
 import '/commons/routes.dart';
@@ -18,6 +19,12 @@ Future<void> main() async {
   // this is required to run flutter dependent code before runApp is called
   // in this case SharedPreferences requires this
   WidgetsFlutterBinding.ensureInitialized();
+
+  try {
+    await PhotoCaptureStore.recoverLostCapture();
+  } catch (error) {
+    debugPrint('Could not recover the interrupted photo selection: $error');
+  }
 
   late final AppWorkerInterface appWorker;
   late final SharedPreferences sharedPreferences;

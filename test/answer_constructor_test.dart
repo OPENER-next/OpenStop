@@ -2,6 +2,26 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:open_stop/models/question_catalog/answer_constructor.dart';
 
 void main() async {
+  test('numbered keys come from the answer and skip duplicate results', () {
+    const constructor = AnswerConstructor({
+      'image:*': [r'$input'],
+    });
+    expect(
+      constructor.construct(
+        (key) => ['existing', 'first', 'second', 'first'],
+      ),
+      {'image': 'existing', 'image:1': 'first', 'image:2': 'second'},
+    );
+    expect(constructor.construct((key) => const []), isEmpty);
+  });
+
+  test('numbered keys evaluate expressions per input', () {
+    const constructor = AnswerConstructor({
+      'ref:*': ['CONCAT', 'prefix-', r'$input'],
+    });
+    expect(constructor.construct((key) => ['a', 'b']), {'ref': 'prefix-a', 'ref:1': 'prefix-b'});
+  });
+
   Iterable<String> withValues(String key) sync* {
     switch (key) {
       case 'key1':

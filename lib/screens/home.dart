@@ -213,6 +213,7 @@ class HomeScreen extends View<HomeViewModel> with PromptHandler {
                         },
                         child: viewModel.hasQuestionnaire
                             ? QuestionDialog(
+                                target: viewModel.selectedElement,
                                 activeQuestionIndex: viewModel.currentQuestionnaireIndex!,
                                 questions: viewModel.questionnaireQuestions,
                                 answers: viewModel.questionnaireAnswers,

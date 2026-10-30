@@ -50,6 +50,10 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>Take photos of stops to document accessibility and share them on Panoramax.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Access photos taken to document stop accessibility.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Diese App braucht Zugriff auf den Standort, um die Position des Nutzers auf der Karte anzuzeigen und um nahegelegene Haltestellen zu laden.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>

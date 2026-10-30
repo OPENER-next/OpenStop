@@ -18,6 +18,11 @@ abstract class AnswerDefinition<T> {
     final constructor = (json['constructor'] as Map<String, dynamic>?)?.cast<String, List>();
 
     switch (type) {
+      case 'Photo':
+        return PhotoAnswerDefinition(
+          input: const PhotoInputDefinition(),
+          constructor: AnswerConstructor(constructor!),
+        );
       case 'String':
         input as Map<String, dynamic>;
         return StringAnswerDefinition(
@@ -262,4 +267,12 @@ class MultiListAnswerDefinition extends ListAnswerDefinition {
     required super.input,
     super.constructor,
   });
+}
+
+class PhotoAnswerDefinition extends AnswerDefinition<PhotoInputDefinition> {
+  const PhotoAnswerDefinition({required super.input, required super.constructor});
+}
+
+class PhotoInputDefinition implements InputDefinition {
+  const PhotoInputDefinition();
 }

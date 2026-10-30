@@ -30,17 +30,29 @@ class AnswerConstructor with ExpressionHandler {
     final map = <String, String>{};
 
     for (final entry in tagConstructorDef.entries) {
-      final result = evaluateExpression(entry.value, (varName) sync* {
-        if (varName == 'input') {
-          final values = resolver(entry.key);
-          yield* values;
+      final numbered = entry.key.endsWith(':*');
+      final key = numbered ? entry.key.substring(0, entry.key.length - 2) : entry.key;
+      Iterable<String> evaluate(Iterable<String> values) => evaluateExpression(
+        entry.value,
+        (name) => name == 'input' ? values : const <String>[],
+      );
+      if (numbered) {
+        final written = <String>{};
+        var suffix = 0;
+        for (final value in resolver(key)) {
+          for (final result in evaluate([value])) {
+            if (!written.add(result)) continue;
+            var target = suffix == 0 ? key : '$key:$suffix';
+            while (map.containsKey(target)) {
+              target = '$key:${++suffix}';
+            }
+            map[target] = result;
+            suffix++;
+          }
         }
-      });
-      // write first value of expression to osm tag
-      try {
-        map[entry.key] = result.first;
-      } on StateError {
-        // no osm tag will be written
+      } else {
+        final result = evaluate(resolver(key));
+        if (result.isNotEmpty) map[key] = result.first;
       }
     }
     return map;
