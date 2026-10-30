@@ -29,8 +29,8 @@ abstract class Answer<D extends AnswerDefinition, T> {
 
   /// Build OSM tags based on the given value.
 
-  Map<String, String> toTagMap({Map<String, String> existingTags = const {}}) {
-    return definition.constructor.construct(_resolve, existingTags: existingTags);
+  Map<String, String> toTagMap() {
+    return definition.constructor.construct(_resolve);
   }
 
   /// Whether the value of this answer is valid or not.

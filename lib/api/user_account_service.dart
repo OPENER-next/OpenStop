@@ -5,7 +5,6 @@ import 'package:osm_api/osm_api.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '/api/osm_authentication_api.dart';
-import '/api/panoramax_api.dart';
 import '/commons/osm_config.dart';
 import '/models/authenticated_user.dart';
 
@@ -49,18 +48,6 @@ class UserAccountService extends Service {
       final authentication = await _osmAuthenticationApi.login();
       final user = await _getAuthenticatedUser(authentication);
       runInAction(() => _authenticatedUser.value = user);
-      // Obtain the upload credential while the new OSM identity proof is fresh.
-      // Existing sessions restored by _init never force an authorization here.
-      final panoramax = PanoramaxAPI();
-      try {
-        await panoramax.authenticateForUpload(osmUserId: user.id);
-      } catch (_) {
-        // OSM editing remains available if the photo service is unavailable.
-        // Retry at upload time; never log credentials or token responses.
-        debugPrint('Photo authentication unavailable; will retry when uploading.');
-      } finally {
-        panoramax.dispose();
-      }
     } catch (error) {
       // TODO: display or handle error
       debugPrint(error.toString());

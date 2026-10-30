@@ -11,7 +11,7 @@ import '/commons/panoramax_config.dart';
 import '/models/element_photo.dart';
 
 class PanoramaxAPI {
-  static const tokenKey = 'panoramaxToken';
+  static const tokenKey = kPanoramaxTokenKey;
   final Dio _client;
 
   PanoramaxAPI({Dio? client})
@@ -41,7 +41,7 @@ class PanoramaxAPI {
     );
     final token = response.data?['jwt_token'];
     if (token is! String || token.isEmpty) {
-      throw const FormatException('Panoramax did not return an upload credential');
+      throw const PanoramaxUploadException(authenticationFailed: true);
     }
     return token;
   }
@@ -53,7 +53,7 @@ class PanoramaxAPI {
     final osm = OSMAuthenticationAPI();
     final owner = '$kOSMServer:$osmUserId';
     final existing = await storage.read(key: tokenKey);
-    final storedOwner = await storage.read(key: 'panoramaxOsmAccount');
+    final storedOwner = await storage.read(key: kPanoramaxAccountKey);
     if (existing != null && storedOwner == owner) {
       try {
         return (token: existing, name: (await account(existing)).name);
@@ -66,7 +66,7 @@ class PanoramaxAPI {
     final token = await exchangeIdentity(identity);
     final user = await account(token);
     await storage.write(key: tokenKey, value: token);
-    await storage.write(key: 'panoramaxOsmAccount', value: owner);
+    await storage.write(key: kPanoramaxAccountKey, value: owner);
     return (token: token, name: user.name);
   }
 
@@ -127,14 +127,14 @@ class PanoramaxAPI {
           }),
         );
         if (response.data?['rejected'] != null) {
-          throw StateError('Panoramax rejected the photo');
+          throw const PanoramaxUploadException(authenticationFailed: false);
         }
       } on DioException catch (error) {
         if (error.response?.statusCode != 409) rethrow;
         final response = await _client.get<Map<String, dynamic>>('$path/files', options: options);
         final files = (response.data!['files'] as List<dynamic>).cast<Map<String, dynamic>>();
         if (!files.any((file) => file['picture_id'] == photo.id && file['rejected'] == null)) {
-          rethrow;
+          throw const PanoramaxUploadException(authenticationFailed: false);
         }
       }
       photo.upload.fileUploaded = true;

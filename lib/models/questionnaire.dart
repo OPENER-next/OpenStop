@@ -167,7 +167,7 @@ class Questionnaire {
   ProxyElement _createWorkingElement([Iterable<QuestionnaireEntry>? entries]) {
     final changes = <String, String>{};
     for (final entry in (entries ?? _entries).where((entry) => entry.hasValidAnswer)) {
-      changes.addAll(entry.answer!.toTagMap(existingTags: {..._osmElement.tags, ...changes}));
+      changes.addAll(entry.answer!.toTagMap());
     }
     return ProxyElement(_osmElement, additionalTags: changes);
   }

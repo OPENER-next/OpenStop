@@ -6,10 +6,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '/models/element_photo.dart';
-import '/models/photo_metadata.dart';
+import '/utils/photo_metadata_validator.dart';
 
-/// Manages temporary image files and Android camera recovery.
-/// Selected photos live exclusively in PhotoAnswer.
+
 class PhotoCaptureStore {
   final Directory directory;
   ElementPhoto? _pending;
@@ -24,22 +23,59 @@ class PhotoCaptureStore {
 
   static Future<Directory>? _sessionDirectory;
 
-  static Future<Directory> _startSession(Directory cache) async {
-    final cachePath = await cache.resolveSymbolicLinks();
-    final ownedPath = '$cachePath${Platform.pathSeparator}stop_photos';
+  static Future<Directory> _startSession(Directory support) async {
+    await support.create(recursive: true);
+    final supportPath = await support.resolveSymbolicLinks();
+    final ownedPath = '$supportPath${Platform.pathSeparator}stop_photos';
     final owned = Directory(ownedPath);
-    if (owned.existsSync()) {
-      if (await owned.resolveSymbolicLinks() != ownedPath) {
-        throw StateError('Unexpected photo cache location');
-      }
-      await owned.delete(recursive: true);
+    if (owned.existsSync() && await owned.resolveSymbolicLinks() != ownedPath) {
+      throw StateError('Unexpected photo storage location');
     }
     await owned.create(recursive: true);
+    await PhotoCaptureStore(
+      owned,
+      pendingCaptureFile: File('$supportPath/pending_stop_photo.json'),
+    ).cleanupPreviousSession();
     return owned;
   }
 
+  Future<void> cleanupPreviousSession() async {
+    final retained = <String>{};
+    final photoName = RegExp(r'^[a-fA-F0-9-]{36}\.jpg$');
+    final journal = pendingCaptureFile;
+    if (journal != null && journal.existsSync()) {
+      try {
+        final data = jsonDecode(await journal.readAsString());
+        if (data is! Map<String, dynamic>) return;
+        final id = data['id'];
+        if (id is! String || !photoName.hasMatch('$id.jpg')) return;
+        final destination = File('${directory.path}/$id.jpg');
+        if (destination.existsSync()) {
+          retained.add(await destination.resolveSymbolicLinks());
+        }
+        final source = data['sourcePath'];
+        if (source is String && File(source).existsSync()) {
+          retained.add(await File(source).resolveSymbolicLinks());
+        }
+      } on FormatException {
+        return;
+      } on FileSystemException {
+        return;
+      }
+    }
+    await for (final entry in directory.list(followLinks: false)) {
+      if (entry is File &&
+          photoName.hasMatch(entry.uri.pathSegments.last) &&
+          !retained.contains(await entry.resolveSymbolicLinks())) {
+        await entry.delete();
+      }
+    }
+  }
+
   static Future<PhotoCaptureStore> open() async {
-    final directory = await (_sessionDirectory ??= getTemporaryDirectory().then(_startSession));
+    final directory = await (_sessionDirectory ??= getApplicationSupportDirectory().then(
+      _startSession,
+    ));
     return PhotoCaptureStore(
       directory,
       pendingCaptureFile: Platform.isAndroid ? await _captureJournal() : null,
@@ -62,8 +98,8 @@ class PhotoCaptureStore {
   }
 
   static Future<void> recoverLostCapture() async {
-    if (!Platform.isAndroid) return;
     final store = await open();
+    if (!Platform.isAndroid) return;
     await store.recoverCapture(ImagePicker());
   }
 
@@ -132,7 +168,7 @@ class PhotoCaptureStore {
     if (pending == null) return null;
     final tags = await readExifFromFile(File(file.path));
     // Validate the original EXIF; upload the unchanged file with that metadata.
-    PhotoMetadata.fromExif(tags.map((key, tag) => MapEntry(key, tag.printable)));
+    validatePhotoMetadata(tags.map((key, tag) => MapEntry(key, tag.printable)));
     await file.saveTo(pending.path);
     await _removePickerTemporaryCopy(file);
     await cancelCapture();

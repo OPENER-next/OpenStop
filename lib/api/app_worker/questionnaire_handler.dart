@@ -179,8 +179,6 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
           PhotoAnswer(definition: answer.definition, value: photos),
         );
       }
-      await uploadElement(questionnaire.workingElement, user);
-      await discardQuestionnaire(questionnaire);
     } on DioException catch (error) {
       throw PanoramaxUploadException(
         authenticationFailed: [401, 403].contains(error.response?.statusCode),
@@ -188,6 +186,8 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
     } finally {
       api.dispose();
     }
+    await uploadElement(questionnaire.workingElement, user);
+    await discardQuestionnaire(questionnaire);
   }
 
   void previousQuestion() {

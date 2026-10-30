@@ -26,10 +26,7 @@ class AnswerConstructor with ExpressionHandler {
   ///
   /// Tags with an expression that evaluates to `null` will **not** be written.
 
-  Map<String, String> construct(
-    TagValuesResolver resolver, {
-    Map<String, String> existingTags = const {},
-  }) {
+  Map<String, String> construct(TagValuesResolver resolver) {
     final map = <String, String>{};
 
     for (final entry in tagConstructorDef.entries) {
@@ -40,26 +37,17 @@ class AnswerConstructor with ExpressionHandler {
         (name) => name == 'input' ? values : const <String>[],
       );
       if (numbered) {
+        final written = <String>{};
+        var suffix = 0;
         for (final value in resolver(key)) {
           for (final result in evaluate([value])) {
-            final occupied = {...existingTags, ...map};
-            final family = RegExp(
-              '^${RegExp.escape(key)}(?::[0-9]+)?'
-              r'$',
-            );
-            if (occupied.entries.any(
-              (tag) =>
-                  family.hasMatch(tag.key) &&
-                  tag.value.split(';').map((value) => value.trim()).contains(result),
-            )) {
-              continue;
-            }
-            var target = key;
-            var suffix = 1;
-            while (occupied.containsKey(target)) {
-              target = '$key:${suffix++}';
+            if (!written.add(result)) continue;
+            var target = suffix == 0 ? key : '$key:$suffix';
+            while (map.containsKey(target)) {
+              target = '$key:${++suffix}';
             }
             map[target] = result;
+            suffix++;
           }
         }
       } else {

@@ -441,7 +441,7 @@
   "@photoRemoveDescription": {},
   "photoPublishTitle": "Publish this photo?",
   "@photoPublishTitle": {},
-  "photoPublishDescription": "These photos, their capture locations and times, and the selected OpenStreetMap object reference will be sent to osm-lens.vee.network and published under CC BY-SA-4.0. Only upload photos you took and are allowed to share. Avoid people and private information. ",
+  "photoPublishDescription": "These photos, their capture locations and times, and the selected OpenStreetMap object reference will be sent to osm-lens.vee.network and published under CC BY-SA 4.0. You also permit anyone to extract non-photographic data from these photos and use, share, and adapt that data under ODbL 1.0. By continuing, you agree to share your OpenStreetMap identity with this service. Only upload photos you took and are allowed to share. Avoid people and private information.",
   "@photoPublishDescription": {},
   "photoAuthenticationError": "Photo authorization failed. Try signing in to OpenStreetMap again. You may need to accept the Panoramax instance's terms in your browser.",
   "@photoAuthenticationError": {},

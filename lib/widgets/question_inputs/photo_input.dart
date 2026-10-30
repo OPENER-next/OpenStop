@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
@@ -52,6 +53,7 @@ class _PhotoInputView extends StatefulWidget {
 }
 
 class _PhotoInputState extends State<_PhotoInputView> {
+  static const _photoQuestionChannel = MethodChannel('openstop/photo_question');
   late final _picker = ImagePicker();
   late PhotoCaptureStore _store;
   bool get _busy => widget.controller.busy;
@@ -131,7 +133,11 @@ class _PhotoInputState extends State<_PhotoInputView> {
         path: '${_store.directory.path}/$id.jpg',
       ),
     );
+    final scopedGalleryPicker = Platform.isAndroid && source == ImageSource.gallery;
     try {
+      if (scopedGalleryPicker) {
+        await _photoQuestionChannel.invokeMethod<void>('prepareGalleryPicker');
+      }
       final image = await _picker.pickImage(source: source, requestFullMetadata: true);
       if (image == null) return;
       final photo = await _store.finishCapture(image);
@@ -146,7 +152,13 @@ class _PhotoInputState extends State<_PhotoInputView> {
     } on FormatException {
       if (mounted) _setError(_locale.photoMetadataError);
     } finally {
-      await _store.cancelCapture();
+      try {
+        if (scopedGalleryPicker) {
+          await _photoQuestionChannel.invokeMethod<void>('finishGalleryPicker');
+        }
+      } finally {
+        await _store.cancelCapture();
+      }
     }
   });
 

@@ -14,18 +14,21 @@ abstract class SubCondition<T> extends Matcher<T, ProcessedElement> {
 
 /// Check whether certain tags match the tags of the element.
 
-class TagsSubCondition extends SubCondition<Map<String, TagValueMatcher>> {
+class TagsSubCondition extends SubCondition<Map<Pattern, TagValueMatcher>> {
   const TagsSubCondition(super.characteristics);
 
   /// Strings starting and ending with `/` are interpreted as regular expressions.
   ///
   /// Currently setting RegEx flags is not supported and case sensitive matching is enabled.
 
-  TagsSubCondition.fromJson(Map<String, dynamic> json) : super(json.map(_buildMatchersFromJSON));
+  TagsSubCondition.fromJson(Map<String, dynamic> json)
+    : super(json.map<Pattern, TagValueMatcher>(_buildMatchersFromJSON));
 
-  static MapEntry<String, TagValueMatcher> _buildMatchersFromJSON(String key, dynamic value) {
+  static MapEntry<Pattern, TagValueMatcher> _buildMatchersFromJSON(String key, dynamic value) {
     return MapEntry(
-      key,
+      key.length > 1 && key.startsWith('/') && key.endsWith('/')
+          ? RegExp(key.substring(1, key.length - 1))
+          : key,
       value is Iterable
           ? MultiValueMatcher(value.map(_buildMatcherFromJSON).toList(growable: false))
           : _buildMatcherFromJSON(value),
@@ -56,8 +59,17 @@ class TagsSubCondition extends SubCondition<Map<String, TagValueMatcher>> {
   @override
   bool matches(sample) {
     return characteristics.entries.every((tagCondition) {
-      final tagValue = sample.tags[tagCondition.key];
-      return tagCondition.value.matches(tagValue);
+      final key = tagCondition.key;
+      if (key is RegExp) {
+        final values = sample.tags.entries
+            .where((entry) => key.hasMatch(entry.key))
+            .map((entry) => entry.value);
+        // Absence applies to the whole key family, not to any single tag.
+        return values.isEmpty
+            ? tagCondition.value.matches(null)
+            : values.any(tagCondition.value.matches);
+      }
+      return tagCondition.value.matches(sample.tags[key]);
     });
   }
 }

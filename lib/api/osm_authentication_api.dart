@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
@@ -9,6 +8,7 @@ import 'package:osm_api/osm_api.dart';
 
 import '/commons/app_config.dart';
 import '/commons/osm_config.dart';
+import '/commons/panoramax_config.dart';
 
 // OAuth 2 login
 // A good introduction can be found here https://www.oauth.com/oauth2-servers/oauth-native-apps/
@@ -58,7 +58,6 @@ class OSMAuthenticationAPI {
   Future<OAuth2> login({int? expectedUserId}) async {
     final state = _randomValue();
     final nonce = _randomValue();
-    final verifier = _randomValue();
     final redirectUri = Uri.parse(kOAuth2RedirectUri);
     final authUri = Uri.https(kOSMServer, _authorizationEndpoint, {
       'response_type': 'code',
@@ -67,10 +66,6 @@ class OSMAuthenticationAPI {
       'scope': permissions.join(' '),
       'state': state,
       'nonce': nonce,
-      'code_challenge': base64UrlEncode(
-        sha256.convert(ascii.encode(verifier)).bytes,
-      ).replaceAll('=', ''),
-      'code_challenge_method': 'S256',
     });
 
     // Important: do NOT pass the client secret
@@ -105,7 +100,6 @@ class OSMAuthenticationAPI {
         'redirect_uri': kOAuth2RedirectUri,
         'grant_type': 'authorization_code',
         'code': code,
-        'code_verifier': verifier,
       },
     );
 
@@ -130,8 +124,8 @@ class OSMAuthenticationAPI {
     // Never leave a previous account's identity or upload credential attached.
     await _secureStorage.delete(key: _identityTokenKey);
     if (expectedUserId == null) {
-      await _secureStorage.delete(key: 'panoramaxToken');
-      await _secureStorage.delete(key: 'panoramaxOsmAccount');
+      await _secureStorage.delete(key: kPanoramaxTokenKey);
+      await _secureStorage.delete(key: kPanoramaxAccountKey);
     }
     await _secureStorage.write(key: 'accessToken', value: accessToken);
     if (idToken is String) await _secureStorage.write(key: _identityTokenKey, value: idToken);
@@ -164,8 +158,8 @@ class OSMAuthenticationAPI {
 
   Future<void> logout() async {
     await _secureStorage.delete(key: _identityTokenKey);
-    await _secureStorage.delete(key: 'panoramaxToken');
-    await _secureStorage.delete(key: 'panoramaxOsmAccount');
+    await _secureStorage.delete(key: kPanoramaxTokenKey);
+    await _secureStorage.delete(key: kPanoramaxAccountKey);
     final accessToken = await _secureStorage.read(key: 'accessToken');
     if (accessToken != null) {
       await Future.wait([

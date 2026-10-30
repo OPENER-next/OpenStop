@@ -199,7 +199,9 @@ Displays a list of multiple options and allows the selection of one option (`Lis
 
 #### `Photo` input
 
-Allows taking or selecting photos. A new OSM login automatically obtains the Panoramax upload credential; existing sessions without a usable credential authorize when photos are submitted. Photos are uploaded when submitting the questionnaire, immediately before its OSM update. The constructor receives preassigned picture UUIDs through `$input`, so dependent questions see the tags immediately. OSM submission waits until every referenced photo has uploaded successfully.
+Allows taking or selecting photos. Photo publication consent is requested before obtaining or using a Panoramax upload credential. Ordinary OSM login does not exchange the identity with Panoramax. Photos are uploaded when submitting the questionnaire, immediately before its OSM update. The constructor receives preassigned picture UUIDs through `$input`, so dependent questions see the tags immediately. OSM submission waits until every referenced photo has uploaded successfully.
+
+The publication prompt asks contributors to license photos under CC BY-SA 4.0 and additionally permit anyone to extract non-photographic data from the photos and use, share, and adapt that data under ODbL 1.0, following the [Panoramax federation's licensing approach](https://docs.panoramax.fr/federated-catalog/#pictures-and-metadata-licenses). It also asks permission to share their OSM identity with the photo service.
 
 ```json
 "answer": {
@@ -211,7 +213,7 @@ Allows taking or selecting photos. A new OSM login automatically obtains the Pan
 }
 ```
 
-A constructor key ending in `:*` evaluates its expression separately for each input value and appends references using numbered keys. This works for any tag family, not only photos. The first photo uses `panoramax` and additional photos use the next available `panoramax:N` keys, preserving existing references. All tags are submitted with the ordinary answers in the same OSM update. Eligibility is configured using the ordinary `conditions`, such as requiring a platform with no `panoramax` tag and limiting railway platforms to ways and relations.
+A constructor key ending in `:*` evaluates its expression separately for each input value and generates numbered keys from the answer. This works for any tag family, not only photos. The first photo uses `panoramax` and additional photos use `panoramax:1`, `panoramax:2`, and so on. Existing element tags are not consulted. The photo conditions exclude any element with a `panoramax` tag or any key starting with `panoramax:`, including `panoramax:0` without the main tag. All tags are submitted with the ordinary answers in the same OSM update. Eligibility is configured using the ordinary `conditions`, such as requiring a platform without Panoramax references and limiting railway platforms to ways and relations.
 
 ### Constructor
 
@@ -553,6 +555,16 @@ Example use cases are:
 - matching a tag that contains certain value `/INCLUDED_VALUE/`.
 - matching a tag that contains a certain value between a separator string (e.g. semicolon) `/(^|^.+;)LIST_VALUE(;.+$|$)/`.
 
+Tag **keys** can also be regular expressions enclosed in slashes. For example:
+
+```json
+"osm_tags": {
+  "/^panoramax(?::.*)?$/": false
+}
+```
+
+For a regex key, `false` requires that no matching key exists, even with an empty value; `true` requires at least one matching key. A string or value regex requires at least one matching tag with a matching value. An array permits any listed alternative, with `false` also permitting no matching keys. Multiple key conditions are combined with AND. `!osm_tags` negates the whole set of tag conditions. Invalid key regexes reject the catalog at load time.
+
 Currently, setting regex flags is not supported. All of them are turned off except for the *match case-sensitive* flag.
 
 **Notation summary:**
@@ -646,6 +658,8 @@ The example below matches all elements which are part of a public transport bus 
 
 ### Photo implementation notes
 
-`ElementPhoto` holds the selected file and its OSM context as data. `PhotoUploadState` holds retry checkpoints separately; account switching is handled by `PanoramaxAPI`. Selected photos live exclusively in `PhotoAnswer`. `PhotoCaptureStore` manages temporary files, capture validation and Android lost-camera recovery, without keeping a second list of selected photos. All answer controllers share the same persistence callback, including asynchronous photo edits. The dialog has no photo-store wiring; its generic busy state only prevents navigating away during input operations. `PhotoMetadata` validates original EXIF coordinates and capture time; it does not write or synthesize metadata.
+`ElementPhoto` holds the selected file and its OSM context as data. `PhotoUploadState` holds retry checkpoints separately; account switching is handled by `PanoramaxAPI`. Selected photos live exclusively in `PhotoAnswer`. `PhotoCaptureStore` manages working files in application-support storage, capture validation and Android lost-camera recovery, without keeping a second list of selected photos. All answer controllers share the same persistence callback, including asynchronous photo edits. The dialog has no photo-store wiring; its generic busy state only prevents navigating away during input operations. `validatePhotoMetadata` validates original EXIF coordinates and capture time; it does not write or synthesize metadata.
 
-The `uuid` dependency assigns picture IDs before upload. These IDs make tags available immediately and let retries reuse the same ID. Changing upload accounts assigns a fresh ID. `crypto` implements the OAuth PKCE challenge. Photo uploads run within the existing upload queue Future, before the OSM update.
+When the photo service first opens in a new app session, it deletes managed photo files left by previous, memory-only questionnaires. Pending capture destinations and journaled source files are preserved for Android recovery. Cleanup skips links and unrelated files, and defers deletion if the recovery journal cannot be read safely.
+
+The `uuid` dependency assigns picture IDs before upload. These IDs make tags available immediately and let retries reuse the same ID. Changing upload accounts assigns a fresh ID. Photo uploads run within the existing upload queue Future, before the OSM update.

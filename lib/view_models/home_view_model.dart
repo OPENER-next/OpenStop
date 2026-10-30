@@ -427,27 +427,29 @@ class HomeViewModel extends ViewModel
       );
       String? photoToken;
       if (hasPhotos) {
-        final api = PanoramaxAPI();
-        late String name;
-        try {
-          final credential = await api.authenticateForUpload(
-            osmUserId: _userAccountService.authenticatedUser!.id,
-          );
-          photoToken = credential.token;
-          name = credential.name;
-        } finally {
-          api.dispose();
-        }
-        if (!mounted || selectedElement != alteredElement) return;
         final confirmed = await promptUserInput(
           Prompt(
             title: appLocale.photoPublishTitle,
-            message: '${appLocale.photoUploadingAs(name)}\n\n${appLocale.photoPublishDescription}',
+            message: appLocale.photoPublishDescription,
             choices: {appLocale.photoUpload: true, appLocale.cancel: false},
             isDismissible: true,
           ),
         );
         if (confirmed != true || !mounted || selectedElement != alteredElement) return;
+        final api = PanoramaxAPI();
+        try {
+          final credential = await api.authenticateForUpload(
+            osmUserId: _userAccountService.authenticatedUser!.id,
+          );
+          photoToken = credential.token;
+        } on DioException catch (error) {
+          throw PanoramaxUploadException(
+            authenticationFailed: [401, 403].contains(error.response?.statusCode),
+          );
+        } finally {
+          api.dispose();
+        }
+        if (!mounted || selectedElement != alteredElement) return;
       }
       if (!questionnaireAnswers.any((answer) => answer.hasValidAnswer)) return;
 
@@ -468,16 +470,8 @@ class HomeViewModel extends ViewModel
           ),
         );
       }
-    } on DioException catch (error) {
-      if (mounted) {
-        notifyUser(
-          Notification(
-            [401, 403].contains(error.response?.statusCode)
-                ? appLocale.photoAuthenticationError
-                : appLocale.photoUploadError,
-          ),
-        );
-      }
+    } on DioException {
+      if (mounted) notifyUser(Notification(appLocale.uploadMessageServerConnectionError));
     } on OSMConnectionException {
       if (mounted) notifyUser(Notification(appLocale.uploadMessageServerConnectionError));
     } catch (e) {
