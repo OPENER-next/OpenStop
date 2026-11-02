@@ -9,6 +9,7 @@ import '/commons/app_config.dart';
 import '/commons/osm_config.dart';
 import '/commons/panoramax_config.dart';
 import '/models/element_photo.dart';
+import '/models/element_variants/element_identifier.dart';
 
 class PanoramaxAPI {
   static const tokenKey = kPanoramaxTokenKey;
@@ -75,9 +76,6 @@ class PanoramaxAPI {
     final changed = photo.upload.accountId != null;
     return ElementPhoto(
       id: changed ? const Uuid().v4() : photo.id,
-      osmType: photo.osmType,
-      osmId: photo.osmId,
-      label: photo.label,
       path: photo.path,
       captureLocation: photo.captureLocation,
       upload: PhotoUploadState(
@@ -89,21 +87,27 @@ class PanoramaxAPI {
     );
   }
 
-  Future<void> upload(ElementPhoto photo, String token) async {
+  Future<void> upload(
+    ElementPhoto photo,
+    String token, {
+    required ElementIdentifier target,
+    required String label,
+  }) async {
     if (photo.upload.completed) return;
+    final osmReference = '${target.type.name}/${target.id}';
     final options = _auth(token);
     if (photo.upload.setId == null) {
       final response = await _client.post<Map<String, dynamic>>(
         '/upload_sets',
         options: options,
         data: {
-          'title': 'OpenStop: ${photo.label} (${photo.osmReference})',
+          'title': 'OpenStop: $label ($osmReference)',
           'estimated_nb_files': 1,
           'no_split': true,
           'no_deduplication': true,
           'visibility': 'anyone',
           'semantics': [
-            {'key': 'osm_id', 'value': photo.osmReference},
+            {'key': 'osm_id', 'value': osmReference},
           ],
         },
       );
@@ -125,7 +129,7 @@ class PanoramaxAPI {
             },
             'semantics': MultipartFile.fromString(
               jsonEncode([
-                {'key': 'osm_id', 'value': photo.osmReference},
+                {'key': 'osm_id', 'value': osmReference},
               ]),
               contentType: DioMediaType('application', 'json'),
             ),

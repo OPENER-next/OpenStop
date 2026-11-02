@@ -4,20 +4,24 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 
 import '/api/panoramax_api.dart';
+import '/l10n/app_localizations.g.dart';
 import '/models/answer.dart';
 import '/models/authenticated_user.dart';
 import '/models/element_variants/element_identifier.dart';
+import '/models/map_features/map_features.dart';
 import '/models/question_catalog/question_catalog_reader.dart';
 import '/models/questionnaire.dart';
 import '/models/questionnaire_store.dart';
 import '/utils/service_worker.dart';
 import '/utils/stream_utils.dart';
 import 'element_handler.dart';
+import 'locale_handler.dart';
 import 'question_catalog_handler.dart';
 
 /// Handles questions to element matching and allows uploading the made changes.
 
-mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, ElementHandler<M> {
+mixin QuestionnaireHandler<M>
+    on ServiceWorker<M>, QuestionCatalogHandler<M>, ElementHandler<M>, LocaleHandler<M> {
   final _questionnaireStore = QuestionnaireStore();
 
   Questionnaire? _activeQuestionnaire;
@@ -159,6 +163,8 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
     final api = PanoramaxAPI();
     try {
       final account = photoToken == null ? null : await api.account(photoToken);
+      late final target = MapFeatures().representElement(questionnaire.workingElement);
+      late final label = target.elementLabel(lookupAppLocalizations(appLocale));
       for (final entry in questionnaire.entries.toList()) {
         final answer = entry.answer;
         if (answer is! PhotoAnswer || !answer.isValid) continue;
@@ -172,7 +178,7 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
           PhotoAnswer(definition: answer.definition, value: photos),
         );
         for (final photo in photos) {
-          await api.upload(photo, photoToken);
+          await api.upload(photo, photoToken, target: target, label: label);
         }
         questionnaire.updateAnswer(
           entry.question.runtimeId,

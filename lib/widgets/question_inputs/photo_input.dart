@@ -81,7 +81,7 @@ class _PhotoInputState extends State<_PhotoInputView> {
         ..._answerPhotos,
         ...recovered.where((photo) => !_answerPhotos.any((item) => item.id == photo.id)),
       ]);
-      PhotoCaptureStore.acknowledgeRecovered(recovered);
+      PhotoCaptureStore.acknowledgeRecovered(reference, recovered);
     }
     if (mounted && PhotoCaptureStore.takeRecoveryError(reference)) {
       _setError(_locale.photoCaptureError);
@@ -128,11 +128,9 @@ class _PhotoInputState extends State<_PhotoInputView> {
     await _store.prepareCapture(
       ElementPhoto(
         id: id,
-        osmType: target.type.name,
-        osmId: target.id,
-        label: target.elementLabel(_locale),
         path: '${_store.directory.path}/$id.jpg',
       ),
+      osmReference: '${target.type.name}/${target.id}',
     );
     final scopedGalleryPicker = Platform.isAndroid && source == ImageSource.gallery;
     try {
@@ -255,7 +253,7 @@ class _PhotoInputState extends State<_PhotoInputView> {
                         child: Image.file(
                           File(photo.path),
                           fit: BoxFit.cover,
-                          semanticLabel: photo.label,
+                          semanticLabel: widget.target.elementLabel(_locale),
                           errorBuilder: (_, _, _) => const Icon(Icons.broken_image),
                         ),
                       ),

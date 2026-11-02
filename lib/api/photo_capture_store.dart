@@ -12,7 +12,7 @@ class PhotoCaptureStore {
   final Directory directory;
   ElementPhoto? _pending;
   final File? pendingCaptureFile;
-  static final _recovered = <ElementPhoto>[];
+  static final _recovered = <String, List<ElementPhoto>>{};
   static final _recoveryErrors = <String>{};
 
   PhotoCaptureStore(
@@ -83,10 +83,13 @@ class PhotoCaptureStore {
 
   // Recovery holds only captures that have not yet been accepted by an answer.
   static List<ElementPhoto> recoveredFor(String reference) =>
-      _recovered.where((photo) => photo.osmReference == reference).toList();
+      List.of(_recovered[reference] ?? const []);
 
-  static void acknowledgeRecovered(Iterable<ElementPhoto> photos) =>
-      _recovered.removeWhere(photos.contains);
+  static void acknowledgeRecovered(String reference, Iterable<ElementPhoto> photos) {
+    final recovered = _recovered[reference];
+    recovered?.removeWhere(photos.contains);
+    if (recovered?.isEmpty ?? false) _recovered.remove(reference);
+  }
 
   static bool takeRecoveryError(String reference) => _recoveryErrors.remove(reference);
 
@@ -110,12 +113,10 @@ class PhotoCaptureStore {
     await temporary.rename(journal.path);
   }
 
-  Future<void> prepareCapture(ElementPhoto photo) async {
+  Future<void> prepareCapture(ElementPhoto photo, {required String osmReference}) async {
     await _writePending({
       'id': photo.id,
-      'osmType': photo.osmType,
-      'osmId': photo.osmId,
-      'label': photo.label,
+      'osmReference': osmReference,
     });
     _pending = photo;
   }
@@ -135,25 +136,23 @@ class PhotoCaptureStore {
           : null;
       final lost = await picker.retrieveLostData();
       if (data == null) return;
-      reference = '${data['osmType']}/${data['osmId']}';
+      // Accept journals written before target context was separated from photos.
+      reference = data['osmReference'] as String? ?? '${data['osmType']}/${data['osmId']}';
       if (lost.exception != null) throw lost.exception!;
       final sourcePath = lost.files?.firstOrNull?.path ?? data['sourcePath'] as String?;
       if (sourcePath == null) return;
       await _writePending({...data, 'sourcePath': sourcePath});
       final id = data['id'] as String;
       if (!RegExp(r'^[a-fA-F0-9-]{36}$').hasMatch(id) ||
-          !['node', 'way', 'relation'].contains(data['osmType'])) {
+          !RegExp(r'^(node|way|relation)/[1-9]\d*$').hasMatch(reference)) {
         throw const FormatException('Invalid pending capture');
       }
       _pending = ElementPhoto(
         id: id,
-        osmType: data['osmType'] as String,
-        osmId: data['osmId'] as int,
-        label: data['label'] as String,
         path: '${directory.path}/$id.jpg',
       );
       final photo = await finishCapture(XFile(sourcePath));
-      if (photo != null) _recovered.add(photo);
+      if (photo != null) _recovered.putIfAbsent(reference, () => []).add(photo);
     } catch (_) {
       if (reference != null) _recoveryErrors.add(reference);
       rethrow;
@@ -180,9 +179,6 @@ class PhotoCaptureStore {
     if (captureLocation == null) return pending;
     return ElementPhoto(
       id: pending.id,
-      osmType: pending.osmType,
-      osmId: pending.osmId,
-      label: pending.label,
       path: pending.path,
       captureLocation: captureLocation,
       upload: pending.upload,

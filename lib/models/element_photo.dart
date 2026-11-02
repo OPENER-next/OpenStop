@@ -1,9 +1,6 @@
-/// A selected image with a preassigned Panoramax ID and its OSM context.
+/// A selected image and the state needed to upload it to Panoramax.
 class ElementPhoto {
   final String id;
-  final String osmType;
-  final int osmId;
-  final String label;
   final String path;
 
   /// Measured during an in-app capture; library photos use their original EXIF.
@@ -12,15 +9,10 @@ class ElementPhoto {
 
   ElementPhoto({
     required this.id,
-    required this.osmType,
-    required this.osmId,
-    required this.label,
     required this.path,
     this.captureLocation,
     PhotoUploadState? upload,
   }) : upload = upload ?? PhotoUploadState();
-
-  String get osmReference => '$osmType/$osmId';
 }
 
 /// Mutable checkpoints retained in the answer for retries after partial uploads.
