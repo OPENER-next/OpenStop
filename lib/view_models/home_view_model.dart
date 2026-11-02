@@ -358,9 +358,9 @@ class HomeViewModel extends ViewModel
     _updateAnswerControllers();
 
     return UnmodifiableListView<AnswerController>(
-      _questionnaireState.value?.entries.map(
-            (entry) => _answerControllerMapping[entry]!,
-          ) ??
+      _questionnaireState.value?.entries
+              .map((entry) => _answerControllerMapping[entry]!)
+              .toList(growable: false) ??
           const Iterable.empty(),
     );
   }
