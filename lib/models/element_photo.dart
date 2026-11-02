@@ -5,6 +5,9 @@ class ElementPhoto {
   final int osmId;
   final String label;
   final String path;
+
+  /// Measured during an in-app capture; library photos use their original EXIF.
+  final ({double latitude, double longitude})? captureLocation;
   final PhotoUploadState upload;
 
   ElementPhoto({
@@ -13,6 +16,7 @@ class ElementPhoto {
     required this.osmId,
     required this.label,
     required this.path,
+    this.captureLocation,
     PhotoUploadState? upload,
   }) : upload = upload ?? PhotoUploadState();
 

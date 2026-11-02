@@ -79,6 +79,7 @@ class PanoramaxAPI {
       osmId: photo.osmId,
       label: photo.label,
       path: photo.path,
+      captureLocation: photo.captureLocation,
       upload: PhotoUploadState(
         accountId: accountId,
         setId: changed ? null : photo.upload.setId,
@@ -118,6 +119,10 @@ class PanoramaxAPI {
             'file': await MultipartFile.fromFile(photo.path, filename: '${photo.id}.jpg'),
             'picture_id': photo.id,
             'isBlurred': false,
+            if (photo.captureLocation case final location?) ...{
+              'override_latitude': location.latitude,
+              'override_longitude': location.longitude,
+            },
             'semantics': MultipartFile.fromString(
               jsonEncode([
                 {'key': 'osm_id', 'value': photo.osmReference},

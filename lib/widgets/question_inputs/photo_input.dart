@@ -12,6 +12,7 @@ import '/models/answer.dart';
 import '/models/element_photo.dart';
 import '/models/map_features/map_feature_representation.dart';
 import '/models/question_catalog/answer_definition.dart';
+import '/utils/photo_capture.dart';
 import 'question_input_widget.dart';
 
 class PhotoInput extends QuestionInputWidget<PhotoAnswerDefinition, PhotoAnswer> {
@@ -138,9 +139,13 @@ class _PhotoInputState extends State<_PhotoInputView> {
       if (scopedGalleryPicker) {
         await _photoQuestionChannel.invokeMethod<void>('prepareGalleryPicker');
       }
-      final image = await _picker.pickImage(source: source, requestFullMetadata: true);
+      Future<XFile?> pick() => _picker.pickImage(source: source, requestFullMetadata: true);
+      final capture = Platform.isIOS && source == ImageSource.camera
+          ? await capturePhotoWithLocation(pick)
+          : null;
+      final image = Platform.isIOS && source == ImageSource.camera ? capture?.image : await pick();
       if (image == null) return;
-      final photo = await _store.finishCapture(image);
+      final photo = await _store.finishCapture(image, captureLocationAt: capture?.locationAt);
       if (photo != null) {
         try {
           await _save([..._answerPhotos, photo]);

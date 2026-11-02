@@ -8,7 +8,6 @@ import 'package:path_provider/path_provider.dart';
 import '/models/element_photo.dart';
 import '/utils/photo_metadata_validator.dart';
 
-
 class PhotoCaptureStore {
   final Directory directory;
   ElementPhoto? _pending;
@@ -163,16 +162,31 @@ class PhotoCaptureStore {
     }
   }
 
-  Future<ElementPhoto?> finishCapture(XFile file) async {
+  Future<ElementPhoto?> finishCapture(
+    XFile file, {
+    ({double latitude, double longitude}) Function(DateTime)? captureLocationAt,
+  }) async {
     final pending = _pending;
     if (pending == null) return null;
     final tags = await readExifFromFile(File(file.path));
-    // Validate the original EXIF; upload the unchanged file with that metadata.
-    validatePhotoMetadata(tags.map((key, tag) => MapEntry(key, tag.printable)));
+    // Library images require original EXIF. In-app captures may supply measured GPS.
+    final captureLocation = validatePhotoMetadata(
+      tags.map((key, tag) => MapEntry(key, tag.printable)),
+      captureLocationAt: captureLocationAt,
+    );
     await file.saveTo(pending.path);
     await _removePickerTemporaryCopy(file);
     await cancelCapture();
-    return pending;
+    if (captureLocation == null) return pending;
+    return ElementPhoto(
+      id: pending.id,
+      osmType: pending.osmType,
+      osmId: pending.osmId,
+      label: pending.label,
+      path: pending.path,
+      captureLocation: captureLocation,
+      upload: pending.upload,
+    );
   }
 
   Future<void> _removePickerTemporaryCopy(XFile file) async {
