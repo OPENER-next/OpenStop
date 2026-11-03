@@ -3,7 +3,6 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 
 import '/models/answer.dart';
-import '/models/map_features/map_feature_representation.dart';
 import '/models/question_catalog/answer_definition.dart';
 import '/widgets/question_inputs/bool_input.dart';
 import '/widgets/question_inputs/duration_input.dart';
@@ -36,7 +35,6 @@ abstract class QuestionInputWidget<D extends AnswerDefinition, T extends Answer>
   static QuestionInputWidget fromAnswerDefinition<A extends Answer>({
     required AnswerDefinition definition,
     required AnswerController<A> controller,
-    MapFeatureRepresentation? target,
     Key? key,
   }) {
     switch (definition.runtimeType) {
@@ -44,7 +42,6 @@ abstract class QuestionInputWidget<D extends AnswerDefinition, T extends Answer>
         return PhotoInput(
           definition: definition as PhotoAnswerDefinition,
           controller: controller as PhotoAnswerController,
-          target: target!,
           key: key,
         );
       case const (StringAnswerDefinition):
@@ -149,9 +146,6 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
 
   bool get isNotEmpty => !isEmpty;
 
-  /// Whether this input is completing an asynchronous operation.
-  bool get busy => false;
-
   bool get hasValidAnswer => _answer?.isValid == true;
 
   AnswerStatus get state {
@@ -226,7 +220,9 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
 class PhotoAnswerController extends AnswerController<PhotoAnswer> {
   PhotoAnswerController({super.initialAnswer});
 
-  @override
+  String? osmReference;
+  String? label;
+
   bool busy = true;
   String? message;
 

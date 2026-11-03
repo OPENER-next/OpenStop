@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 
 import '/l10n/app_localizations.g.dart';
-import '/models/element_photo.dart';
+import '/models/panoramax_photo.dart';
 import 'question_catalog/answer_definition.dart';
 
 /// A container class that holds answers for a specific question type in a readable form.
@@ -274,17 +274,27 @@ class DurationAnswer extends Answer<DurationAnswerDefinition, Duration> {
   }
 }
 
-class PhotoAnswer extends Answer<PhotoAnswerDefinition, List<ElementPhoto>> {
-  PhotoAnswer({required super.definition, required List<ElementPhoto> value})
+class PhotoAnswer extends Answer<PhotoAnswerDefinition, List<PanoramaxPhoto>> {
+  static final _photoIndex = RegExp(r':([0-9]+)$');
+
+  PhotoAnswer({required super.definition, required List<PanoramaxPhoto> value})
     : super(value: List.unmodifiable(value));
 
   // Preassigned IDs make tags available to dependent questions immediately.
   // Submission uploads all referenced images before writing any tags to OSM.
   @override
-  Iterable<String> _resolve(String key) => value.map((photo) => photo.id);
+  Iterable<String> _resolve(String key) sync* {
+    final suffix = _photoIndex.firstMatch(key);
+    if (suffix == null) {
+      yield* value.map((photo) => photo.id);
+    } else {
+      final index = int.parse(suffix[1]!);
+      if (index < value.length) yield value[index].id;
+    }
+  }
 
   @override
-  bool get isValid => value.isNotEmpty;
+  bool get isValid => value.isNotEmpty && value.length <= definition.input.max;
 
   @override
   String toLocaleString(AppLocalizations appLocale) => value.length.toString();

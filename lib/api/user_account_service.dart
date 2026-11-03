@@ -4,14 +4,14 @@ import 'package:mobx/mobx.dart';
 import 'package:osm_api/osm_api.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '/api/osm_authentication_api.dart';
+import '/api/authentication_api.dart';
 import '/commons/osm_config.dart';
 import '/models/authenticated_user.dart';
 
 /// Provides login/logout method and details about the currently authenticated user.
 
 class UserAccountService extends Service {
-  final _osmAuthenticationApi = OSMAuthenticationAPI();
+  final _authenticationApi = AuthenticationAPI();
 
   final _authenticatedUser = Observable<AuthenticatedUser?>(null);
 
@@ -20,7 +20,7 @@ class UserAccountService extends Service {
   }
 
   Future<void> _init() async {
-    final authentication = await _osmAuthenticationApi.restore();
+    final authentication = await _authenticationApi.restore();
     if (authentication != null) {
       try {
         final user = await _getAuthenticatedUser(authentication);
@@ -45,7 +45,7 @@ class UserAccountService extends Service {
   Future<void> login() async {
     if (isLoggedIn) return;
     try {
-      final authentication = await _osmAuthenticationApi.login();
+      final authentication = await _authenticationApi.login();
       final user = await _getAuthenticatedUser(authentication);
       runInAction(() => _authenticatedUser.value = user);
     } catch (error) {
@@ -57,13 +57,17 @@ class UserAccountService extends Service {
   Future<void> logout() async {
     if (isLoggedOut) return;
     try {
-      await _osmAuthenticationApi.logout();
+      await _authenticationApi.logout();
       runInAction(() => _authenticatedUser.value = null);
     } catch (error) {
       // TODO: display or handle error
       debugPrint(error.toString());
     }
   }
+
+  Future<String> authorizePhotoUpload() => _authenticationApi.authenticateForUpload(
+    osmUserId: _authenticatedUser.value!.id,
+  );
 
   Future<bool> openUserProfile() async {
     if (isLoggedOut) return false;

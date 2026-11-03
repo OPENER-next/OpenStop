@@ -91,14 +91,6 @@ class AppWorkerInterface extends Service implements Disposable {
     );
   }
 
-  Future<bool> updateQuestionnaireAnswer(
-    String sessionId,
-    int questionId,
-    Answer? answer,
-  ) => _worker.send<bool>(
-    AppWorkerMessage(AppWorkerSubject.updateQuestionnaireAnswer, (sessionId, questionId, answer)),
-  );
-
   Future<void> updateQuestionnaire(Answer? answer) {
     return _worker.send<void>(
       AppWorkerMessage(

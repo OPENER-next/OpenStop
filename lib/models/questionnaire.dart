@@ -1,7 +1,5 @@
 import 'dart:collection';
 
-import 'package:uuid/uuid.dart';
-
 import '/models/answer.dart';
 import '/models/question_catalog/question_catalog.dart';
 import '/models/question_catalog/question_definition.dart';
@@ -15,25 +13,6 @@ class Questionnaire {
        _osmElement = osmElement {
     _updateWorkingElement();
     _insertMatchingEntries(afterIndex: -1);
-  }
-
-  final String sessionId = const Uuid().v4();
-
-  /// Update an entry by identity, including asynchronous input results.
-  bool updateAnswer(int questionId, Answer? answer) {
-    final index = _entries.indexWhere((entry) => entry.question.runtimeId == questionId);
-    if (index == -1 ||
-        (answer != null &&
-            _entries[index].question.answer.runtimeType != answer.definition.runtimeType)) {
-      return false;
-    }
-    final previousIndex = _activeIndex;
-    final previousQuestion = activeEntry?.question;
-    _activeIndex = index;
-    update(answer);
-    final restoredIndex = _entries.indexWhere((entry) => entry.question == previousQuestion);
-    _activeIndex = restoredIndex >= 0 ? restoredIndex : previousIndex.clamp(0, _entries.length - 1);
-    return true;
   }
 
   QuestionCatalog _questionCatalog;
@@ -165,11 +144,17 @@ class Questionnaire {
   /// Optionally specify a custom list of entries from which the working element is constructed.
 
   ProxyElement _createWorkingElement([Iterable<QuestionnaireEntry>? entries]) {
-    final changes = <String, String>{};
-    for (final entry in (entries ?? _entries).where((entry) => entry.hasValidAnswer)) {
-      changes.addAll(entry.answer!.toTagMap());
-    }
-    return ProxyElement(_osmElement, additionalTags: changes);
+    final changes = (entries ?? _entries)
+        .where((entry) => entry.hasValidAnswer)
+        .map((entry) => entry.answer!.toTagMap());
+
+    return ProxyElement(
+      _osmElement,
+      additionalTags: changes.fold<Map<String, String>>(
+        {},
+        (tags, newTags) => tags..addAll(newTags),
+      ),
+    );
   }
 }
 

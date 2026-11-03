@@ -1,18 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:exif/exif.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '/models/element_photo.dart';
-import '/utils/photo_metadata_validator.dart';
+import '/models/panoramax_photo.dart';
 
+/// Owns working image files and the journal for interrupted Android captures.
+/// Accepted photos live in answers; recovery retains only unaccepted captures.
 class PhotoCaptureStore {
   final Directory directory;
-  ElementPhoto? _pending;
   final File? pendingCaptureFile;
-  static final _recovered = <String, List<ElementPhoto>>{};
+  static final _recovered = <String, List<PanoramaxPhoto>>{};
   static final _recoveryErrors = <String>{};
 
   PhotoCaptureStore(
@@ -82,10 +81,10 @@ class PhotoCaptureStore {
   }
 
   // Recovery holds only captures that have not yet been accepted by an answer.
-  static List<ElementPhoto> recoveredFor(String reference) =>
+  static List<PanoramaxPhoto> recoveredFor(String reference) =>
       List.of(_recovered[reference] ?? const []);
 
-  static void acknowledgeRecovered(String reference, Iterable<ElementPhoto> photos) {
+  static void acknowledgeRecovered(String reference, Iterable<PanoramaxPhoto> photos) {
     final recovered = _recovered[reference];
     recovered?.removeWhere(photos.contains);
     if (recovered?.isEmpty ?? false) _recovered.remove(reference);
@@ -113,16 +112,14 @@ class PhotoCaptureStore {
     await temporary.rename(journal.path);
   }
 
-  Future<void> prepareCapture(ElementPhoto photo, {required String osmReference}) async {
+  Future<void> prepareCapture(PanoramaxPhoto photo, {required String osmReference}) async {
     await _writePending({
       'id': photo.id,
       'osmReference': osmReference,
     });
-    _pending = photo;
   }
 
   Future<void> cancelCapture() async {
-    _pending = null;
     final journal = pendingCaptureFile;
     if (journal != null && journal.existsSync()) await journal.delete();
   }
@@ -147,12 +144,12 @@ class PhotoCaptureStore {
           !RegExp(r'^(node|way|relation)/[1-9]\d*$').hasMatch(reference)) {
         throw const FormatException('Invalid pending capture');
       }
-      _pending = ElementPhoto(
+      final photo = await PanoramaxPhoto.recover(
+        XFile(sourcePath),
         id: id,
         path: '${directory.path}/$id.jpg',
       );
-      final photo = await finishCapture(XFile(sourcePath));
-      if (photo != null) _recovered.putIfAbsent(reference, () => []).add(photo);
+      _recovered.putIfAbsent(reference, () => []).add(photo);
     } catch (_) {
       if (reference != null) _recoveryErrors.add(reference);
       rethrow;
@@ -161,42 +158,7 @@ class PhotoCaptureStore {
     }
   }
 
-  Future<ElementPhoto?> finishCapture(
-    XFile file, {
-    ({double latitude, double longitude}) Function(DateTime)? captureLocationAt,
-  }) async {
-    final pending = _pending;
-    if (pending == null) return null;
-    final tags = await readExifFromFile(File(file.path));
-    // Library images require original EXIF. In-app captures may supply measured GPS.
-    final captureLocation = validatePhotoMetadata(
-      tags.map((key, tag) => MapEntry(key, tag.printable)),
-      captureLocationAt: captureLocationAt,
-    );
-    await file.saveTo(pending.path);
-    await _removePickerTemporaryCopy(file);
-    await cancelCapture();
-    if (captureLocation == null) return pending;
-    return ElementPhoto(
-      id: pending.id,
-      path: pending.path,
-      captureLocation: captureLocation,
-      upload: pending.upload,
-    );
-  }
-
-  Future<void> _removePickerTemporaryCopy(XFile file) async {
-    try {
-      final cache = await getTemporaryDirectory();
-      final cachePath = await cache.resolveSymbolicLinks();
-      final sourcePath = await File(file.path).resolveSymbolicLinks();
-      if (sourcePath.startsWith('$cachePath${Platform.pathSeparator}')) {
-        await File(file.path).delete();
-      }
-    } catch (_) {}
-  }
-
-  Future<void> delete(ElementPhoto photo) async {
+  Future<void> delete(PanoramaxPhoto photo) async {
     final image = File(photo.path);
     try {
       if (image.existsSync()) await image.delete();

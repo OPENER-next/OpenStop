@@ -11,6 +11,13 @@ import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
+/**
+ * Preserve GPS metadata only for the photo question's gallery request.
+ * Android 10+ redacts media locations unless ACCESS_MEDIA_LOCATION is granted
+ * and the original MediaStore URI is requested. image_picker's full-metadata
+ * option does not perform that Android permission/original-URI flow.
+ * See docs/PHOTO_CAPTURE.md before removing this workaround.
+ */
 class MainActivity: FlutterActivity() {
     private var pendingPhotoPicker: Triple<Intent, Int, Bundle?>? = null
     private var photoQuestionPickerArmed = false

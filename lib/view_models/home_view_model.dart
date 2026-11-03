@@ -368,6 +368,8 @@ class HomeViewModel extends ViewModel
   /// This either reopens an existing questionnaire or creates a new one.
 
   void _openQuestionnaire(MapFeatureRepresentation element) {
+    if (_photoInputBusy || _submitting) return;
+
     final appLocale = AppLocalizations.of(context)!;
     if (_questionnaireState.value != null) {
       // store latest answer from previous questionnaire
@@ -391,6 +393,8 @@ class HomeViewModel extends ViewModel
   /// Close the currently active questionnaire if any.
 
   void closeQuestionnaire() {
+    if (_photoInputBusy || _submitting) return;
+
     final appLocale = AppLocalizations.of(context)!;
     if (_questionnaireState.value != null) {
       // store latest answer from questionnaire
@@ -409,12 +413,15 @@ class HomeViewModel extends ViewModel
 
   /// Upload the changes made by this questionnaire with the current authenticated user.
 
-  final _submitting = Observable(false);
-  bool get isSubmittingQuestionnaire => _submitting.value;
+  bool get _photoInputBusy => _answerControllerMapping.values
+      .whereType<PhotoAnswerController>()
+      .any((controller) => controller.busy);
+
+  bool _submitting = false;
 
   Future<void> submitQuestionnaire() async {
-    if (isSubmittingQuestionnaire) return;
-    runInAction(() => _submitting.value = true);
+    if (_submitting || _photoInputBusy) return;
+    _submitting = true;
     final appLocale = AppLocalizations.of(context)!;
     final alteredElement = selectedElement;
     try {
@@ -436,18 +443,12 @@ class HomeViewModel extends ViewModel
           ),
         );
         if (confirmed != true || !mounted || selectedElement != alteredElement) return;
-        final api = PanoramaxAPI();
         try {
-          final credential = await api.authenticateForUpload(
-            osmUserId: _userAccountService.authenticatedUser!.id,
-          );
-          photoToken = credential.token;
+          photoToken = await _userAccountService.authorizePhotoUpload();
         } on DioException catch (error) {
           throw PanoramaxUploadException(
             authenticationFailed: [401, 403].contains(error.response?.statusCode),
           );
-        } finally {
-          api.dispose();
         }
         if (!mounted || selectedElement != alteredElement) return;
       }
@@ -479,11 +480,13 @@ class HomeViewModel extends ViewModel
       if (mounted) notifyUser(Notification(appLocale.uploadMessageUnknownConnectionError));
     } finally {
       _uploadQueue.remove(alteredElement)?.ignore();
-      runInAction(() => _submitting.value = false);
+      _submitting = false;
     }
   }
 
   void goToPreviousQuestion() {
+    if (_photoInputBusy || _submitting) return;
+
     // always unfocus the current node to close all onscreen keyboards
     FocusManager.instance.primaryFocus?.unfocus();
     _updateQuestionnaireAnswer();
@@ -491,6 +494,8 @@ class HomeViewModel extends ViewModel
   }
 
   void goToNextQuestion() {
+    if (_photoInputBusy || _submitting) return;
+
     // always unfocus the current node to close all onscreen keyboards
     FocusManager.instance.primaryFocus?.unfocus();
     _updateQuestionnaireAnswer();
@@ -498,6 +503,8 @@ class HomeViewModel extends ViewModel
   }
 
   void jumpToQuestion(int index) {
+    if (_photoInputBusy || _submitting) return;
+
     // always unfocus the current node to close all onscreen keyboards
     FocusManager.instance.primaryFocus?.unfocus();
     _updateQuestionnaireAnswer();
@@ -541,12 +548,24 @@ class HomeViewModel extends ViewModel
           type: questionEntry.question.answer.runtimeType,
           initialAnswer: questionEntry.answer,
         );
-        final sessionId = _questionnaireState.value!.sessionId;
-        controller.onSave = (answer) => _appWorker.updateQuestionnaireAnswer(
-          sessionId,
-          questionEntry.question.runtimeId,
-          answer,
-        );
+        final osmId = _questionnaireState.value!.osmId;
+        final osmType = _questionnaireState.value!.osmType;
+        if (controller is PhotoAnswerController) {
+          controller.osmReference = '$osmType/$osmId';
+          controller.label = selectedElement?.elementLabel(AppLocalizations.of(context)!);
+        }
+        controller.onSave = (answer) async {
+          final current = _questionnaireState.value;
+          if (controller.isDisposed ||
+              current == null ||
+              current.osmId != osmId ||
+              current.osmType != osmType ||
+              current.entries[current.activeIndex].question != questionEntry.question) {
+            return false;
+          }
+          await _appWorker.updateQuestionnaire(answer);
+          return true;
+        };
         var previousAnswer = controller.answer;
         controller.addListener(() {
           // Input status changes must not write the same answer again.
@@ -596,6 +615,8 @@ class HomeViewModel extends ViewModel
   Key get selectedElementKey => _selectedElementKey.value;
 
   void onElementTap(MapFeatureRepresentation element) {
+    if (_photoInputBusy || _submitting) return;
+
     // show questions if a new marker is selected, else hide the current one
     if (_selectedElement.value != element) {
       _openQuestionnaire(element);

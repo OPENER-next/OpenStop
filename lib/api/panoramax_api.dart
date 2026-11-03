@@ -1,15 +1,12 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:uuid/uuid.dart';
 
-import '/api/osm_authentication_api.dart';
 import '/commons/app_config.dart';
-import '/commons/osm_config.dart';
 import '/commons/panoramax_config.dart';
-import '/models/element_photo.dart';
 import '/models/element_variants/element_identifier.dart';
+import '/models/panoramax_photo.dart';
 
 class PanoramaxAPI {
   static const tokenKey = kPanoramaxTokenKey;
@@ -33,48 +30,12 @@ class PanoramaxAPI {
     return (id: response.data!['id'] as String, name: response.data!['name'] as String);
   }
 
-  /// Exchanges only the OSM identity proof; never submit the OSM access token.
-  Future<String> exchangeIdentity(String idToken) async {
-    final response = await _client.post<Map<String, dynamic>>(
-      '/auth/osm/exchange',
-      data: {'id_token': idToken},
-      options: Options(followRedirects: false),
-    );
-    final token = response.data?['jwt_token'];
-    if (token is! String || token.isEmpty) {
-      throw const PanoramaxUploadException(authenticationFailed: true);
-    }
-    return token;
-  }
-
   Options _auth(String token) => Options(headers: {'Authorization': 'Bearer $token'});
 
-  Future<({String token, String name})> authenticateForUpload({required int osmUserId}) async {
-    const storage = FlutterSecureStorage();
-    final osm = OSMAuthenticationAPI();
-    final owner = '$kOSMServer:$osmUserId';
-    final existing = await storage.read(key: tokenKey);
-    final storedOwner = await storage.read(key: kPanoramaxAccountKey);
-    if (existing != null && storedOwner == owner) {
-      try {
-        return (token: existing, name: (await account(existing)).name);
-      } on DioException catch (error) {
-        if (![401, 403].contains(error.response?.statusCode)) rethrow;
-        await storage.delete(key: tokenKey);
-      }
-    }
-    final identity = await osm.identityTokenForUpload(expectedUserId: osmUserId);
-    final token = await exchangeIdentity(identity);
-    final user = await account(token);
-    await storage.write(key: tokenKey, value: token);
-    await storage.write(key: kPanoramaxAccountKey, value: owner);
-    return (token: token, name: user.name);
-  }
-
-  ElementPhoto forAccount(ElementPhoto photo, String accountId) {
+  PanoramaxPhoto forAccount(PanoramaxPhoto photo, String accountId) {
     if (photo.upload.accountId == accountId) return photo;
     final changed = photo.upload.accountId != null;
-    return ElementPhoto(
+    return PanoramaxPhoto(
       id: changed ? const Uuid().v4() : photo.id,
       path: photo.path,
       captureLocation: photo.captureLocation,
@@ -88,7 +49,7 @@ class PanoramaxAPI {
   }
 
   Future<void> upload(
-    ElementPhoto photo,
+    PanoramaxPhoto photo,
     String token, {
     required ElementIdentifier target,
     required String label,

@@ -95,21 +95,6 @@ mixin QuestionnaireHandler<M>
     }
   }
 
-  bool updateQuestionnaireAnswer(String sessionId, int questionId, Answer? answer) {
-    final questionnaire = _questionnaireStore.find((item) => item.sessionId == sessionId);
-    if (questionnaire == null) return false;
-    if (!questionnaire.updateAnswer(questionId, answer)) return false;
-    if (questionnaire == _activeQuestionnaire) {
-      _activeQuestionnaireStreamController.add(
-        QuestionnaireRepresentation.derive(
-          questionnaire,
-          isCompleted: _questionnaireStore.isFinished(questionnaire),
-        ),
-      );
-    }
-    return true;
-  }
-
   Future<void> _deletePhotos(Questionnaire questionnaire) async {
     for (final photo
         in questionnaire.entries
@@ -173,17 +158,15 @@ mixin QuestionnaireHandler<M>
         }
         final photos = answer.value.map((photo) => api.forAccount(photo, account.id)).toList();
         // Keep checkpoints in the questionnaire so a failed submission can be retried.
-        questionnaire.updateAnswer(
-          entry.question.runtimeId,
-          PhotoAnswer(definition: answer.definition, value: photos),
-        );
+        final index = questionnaire.entries.indexOf(entry);
+        if (index < 0) continue;
+        final activeIndex = questionnaire.activeIndex;
+        questionnaire.jumpTo(index);
+        questionnaire.update(PhotoAnswer(definition: answer.definition, value: photos));
+        questionnaire.jumpTo(activeIndex);
         for (final photo in photos) {
           await api.upload(photo, photoToken, target: target, label: label);
         }
-        questionnaire.updateAnswer(
-          entry.question.runtimeId,
-          PhotoAnswer(definition: answer.definition, value: photos),
-        );
       }
     } on DioException catch (error) {
       throw PanoramaxUploadException(
@@ -285,7 +268,6 @@ class QuestionnaireRepresentation {
   final int activeIndex;
 
   final bool isCompleted;
-  final String sessionId;
   final int? osmId;
   final String? osmType;
 
@@ -298,13 +280,11 @@ class QuestionnaireRepresentation {
     this.isCompleted = false,
     this.osmId,
     this.osmType,
-    this.sessionId = '',
   });
 
   QuestionnaireRepresentation.derive(Questionnaire questionnaire, {this.isCompleted = false})
     : osmId = questionnaire.workingElement.id,
       osmType = questionnaire.workingElement.type.name,
-      sessionId = questionnaire.sessionId,
       entries = questionnaire.entries,
       activeIndex = questionnaire.activeIndex;
 }

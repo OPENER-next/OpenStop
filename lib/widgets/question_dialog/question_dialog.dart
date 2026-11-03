@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 
 import '/l10n/app_localizations.g.dart';
-import '/models/map_features/map_feature_representation.dart';
 import '/models/question_catalog/question_definition.dart';
 import '/utils/ui_utils.dart';
 import '/view_models/home_view_model.dart';
@@ -17,7 +16,6 @@ import 'question_sheet.dart';
 import 'question_text_header.dart';
 
 class QuestionDialog extends ViewFragment<HomeViewModel> {
-  final MapFeatureRepresentation? target;
   final int activeQuestionIndex;
 
   final List<QuestionDefinition> questions;
@@ -29,7 +27,6 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
     required this.activeQuestionIndex,
     required this.questions,
     required this.answers,
-    this.target,
     this.showSummary = false,
     super.key,
   }) : assert(
@@ -39,22 +36,6 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
 
   @override
   Widget build(BuildContext context, viewModel) {
-    final selected = viewModel.selectedElement;
-    final submitting = viewModel.isSubmittingQuestionnaire;
-    return ListenableBuilder(
-      listenable: Listenable.merge(answers),
-      builder: (context, _) => _buildDialog(context, viewModel, selected, submitting),
-    );
-  }
-
-  Widget _buildDialog(
-    BuildContext context,
-    HomeViewModel viewModel,
-    MapFeatureRepresentation? selected,
-    bool submitting,
-  ) {
-    if (selected == null || (target != null && target != selected)) return const SizedBox.shrink();
-    final busy = submitting || answers.any((answer) => answer.busy);
     final layerLink = LayerLink();
     final questionCount = questions.length;
     final activeIndex = showSummary ? questionCount : activeQuestionIndex;
@@ -82,9 +63,7 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
     // Use WillPopScope with "false" to prevent that back button closes app instead of Question Dialog
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (_, _) {
-        if (!busy) viewModel.closeQuestionnaire();
-      },
+      onPopInvokedWithResult: (_, _) => viewModel.closeQuestionnaire(),
       child: SafeArea(
         minimum: MediaQuery.of(context).viewInsets,
         bottom: false,
@@ -104,10 +83,7 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                       child: QuestionList(
                         index: activeIndex,
                         children: [
-                          ...Iterable<Widget>.generate(
-                            questionCount,
-                            (index) => _buildQuestion(index, viewModel, selected),
-                          ),
+                          ...Iterable<Widget>.generate(questionCount, _buildQuestion),
                           QuestionSummary(
                             elevate: showSummary,
                             questions: questions
@@ -119,7 +95,6 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                                 .map((controller) => controller.answer!.toLocaleString(appLocale))
                                 .toList(growable: false),
                             onJump: (index) {
-                              if (busy) return;
                               // we get the filtered index so we need to convert it to the original index
                               // otherwise we jump to the wrong question/answer
                               final originalIndex = answers
@@ -157,10 +132,10 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                                 nextText: nextText,
                                 backText: hasPreviousQuestion ? appLocale.back : null,
                                 backTextSemantics: appLocale.semanticsBackQuestionButton,
-                                onNext: !busy && (hasNextQuestion || hasAnyValidAnswer)
+                                onNext: hasNextQuestion || hasAnyValidAnswer
                                     ? viewModel.goToNextQuestion
                                     : null,
-                                onBack: busy ? null : viewModel.goToPreviousQuestion,
+                                onBack: viewModel.goToPreviousQuestion,
                               ),
                             ),
                           ],
@@ -189,7 +164,7 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
                             highlightElevation: 2,
                             shape: const CircleBorder(),
                             backgroundColor: Theme.of(context).colorScheme.primary,
-                            onPressed: busy ? null : viewModel.submitQuestionnaire,
+                            onPressed: viewModel.submitQuestionnaire,
                             child: Icon(
                               Icons.cloud_upload_rounded,
                               color: Theme.of(context).colorScheme.onPrimary,
@@ -207,7 +182,7 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
     );
   }
 
-  Widget _buildQuestion(int index, HomeViewModel viewModel, MapFeatureRepresentation target) {
+  Widget _buildQuestion(int index) {
     final question = questions[index];
     final isActive = !showSummary && activeQuestionIndex == index;
 
@@ -233,7 +208,6 @@ class QuestionDialog extends ViewFragment<HomeViewModel> {
           child: QuestionInputWidget.fromAnswerDefinition(
             definition: question.answer,
             controller: answers[index],
-            target: target,
           ),
         ),
       ),

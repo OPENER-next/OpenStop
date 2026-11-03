@@ -206,14 +206,17 @@ The publication prompt asks contributors to license photos under CC BY-SA 4.0 an
 ```json
 "answer": {
     "type": "Photo",
-    "input": {},
+    "input": {"max": 4},
     "constructor": {
-        "panoramax:*": ["$input"]
+        "panoramax:0": ["$input"],
+        "panoramax:1": ["$input"],
+        "panoramax:2": ["$input"],
+        "panoramax:3": ["$input"]
     }
 }
 ```
 
-A constructor key ending in `:*` evaluates its expression separately for each input value and generates numbered keys from the answer. This works for any tag family, not only photos. The first photo uses `panoramax` and additional photos use `panoramax:1`, `panoramax:2`, and so on. Existing element tags are not consulted. The photo conditions exclude any element with a `panoramax` tag or any key starting with `panoramax:`, including `panoramax:0` without the main tag. All tags are submitted with the ordinary answers in the same OSM update. Eligibility is configured using the ordinary `conditions`, such as requiring a platform without Panoramax references and limiting railway platforms to ways and relations.
+The photo input accepts at most `max` images (default 4). A numeric key suffix selects the corresponding zero-based photo index; keys without a suffix receive all UUIDs. Missing indices produce no tag. Define one constructor key per permitted photo. Photos are uploaded before the ordinary OSM update.
 
 ### Constructor
 
@@ -658,7 +661,7 @@ The example below matches all elements which are part of a public transport bus 
 
 ### Photo implementation notes
 
-`ElementPhoto` holds the selected file and its OSM context as data. `PhotoUploadState` holds retry checkpoints separately; account switching is handled by `PanoramaxAPI`. Selected photos live exclusively in `PhotoAnswer`. `PhotoCaptureStore` manages working files in application-support storage, capture validation and Android lost-camera recovery, without keeping a second list of selected photos. All answer controllers share the same persistence callback, including asynchronous photo edits. The dialog has no photo-store wiring; its generic busy state only prevents navigating away during input operations. `validatePhotoMetadata` validates original EXIF coordinates and capture time; it does not write or synthesize metadata.
+`PanoramaxPhoto` holds the file, UUID, optional measured capture location and upload checkpoints. Its `captureWithLocation` factory preserves existing GPS and supplements missing GPS only for a new camera capture. Library images require original GPS. `PhotoCaptureStore` manages application-support files and Android interrupted captures; target context is retained only in the recovery journal. The upload worker obtains target details from the questionnaire. Authentication is coordinated by `AuthenticationAPI`; short-lived `OSMIdentityToken` proofs stay in memory, and only Panoramax credentials are persisted by `PanoramaxAuthenticationAPI`. Identity exchange occurs only after publication consent.
 
 When the photo service first opens in a new app session, it deletes managed photo files left by previous, memory-only questionnaires. Pending capture destinations and journaled source files are preserved for Android recovery. Cleanup skips links and unrelated files, and defers deletion if the recovery journal cannot be read safely.
 
