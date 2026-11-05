@@ -11,7 +11,9 @@ import '/models/authenticated_user.dart';
 /// Provides login/logout method and details about the currently authenticated user.
 
 class UserAccountService extends Service {
-  final _authenticationApi = AuthenticationAPI();
+  late final _authenticationApi = AuthenticationAPI(
+    onAuthenticationChanged: _onAuthenticationChanged,
+  );
 
   final _authenticatedUser = Observable<AuthenticatedUser?>(null);
 
@@ -41,6 +43,23 @@ class UserAccountService extends Service {
   bool get isLoggedOut => _isLoggedOut.value;
 
   AuthenticatedUser? get authenticatedUser => _authenticatedUser.value;
+
+  void _onAuthenticationChanged(OAuth2? authentication) {
+    final user = authenticatedUser;
+    runInAction(() {
+      if (authentication == null) {
+        _authenticatedUser.value = null;
+      } else if (user != null) {
+        _authenticatedUser.value = AuthenticatedUser(
+          authentication: authentication,
+          name: user.name,
+          id: user.id,
+          preferredLanguages: user.preferredLanguages,
+          profileImageUrl: user.profileImageUrl,
+        );
+      }
+    });
+  }
 
   Future<void> login() async {
     if (isLoggedIn) return;
