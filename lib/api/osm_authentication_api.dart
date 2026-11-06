@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -26,12 +25,8 @@ class OSMAuthenticationAPI {
   static const _secureStorage = FlutterSecureStorage();
 
   /// Short-lived OIDC proof for exchanging identity with another service.
-  /// Kept in memory only; the OSM access token is never sent to that service.
+  /// Kept in memory only. The OSM access token is never sent to that service.
   OSMIdentityToken? idToken;
-
-  static String _randomValue() => base64UrlEncode(
-    List<int>.generate(32, (_) => Random.secure().nextInt(256)),
-  ).replaceAll('=', '');
 
   static const _authorizationEndpoint = '/oauth2/authorize';
   static const _tokenEndpoint = '/oauth2/token';
@@ -44,16 +39,11 @@ class OSMAuthenticationAPI {
 
   Future<OAuth2> login() async {
     this.idToken = null;
-    final state = _randomValue();
-    final nonce = _randomValue();
-    final redirectUri = Uri.parse(kOAuth2RedirectUri);
     final authUri = Uri.https(kOSMServer, _authorizationEndpoint, {
       'response_type': 'code',
       'client_id': kOAuth2ClientId,
       'redirect_uri': kOAuth2RedirectUri,
       'scope': permissions.join(' '),
-      'state': state,
-      'nonce': nonce,
     });
 
     // Important: do NOT pass the client secret
@@ -69,14 +59,7 @@ class OSMAuthenticationAPI {
         httpsPath: kAppCallbackUrlPath,
       ),
     );
-    final callback = Uri.parse(result);
-    if (callback.scheme != redirectUri.scheme ||
-        callback.host != redirectUri.host ||
-        callback.path != redirectUri.path ||
-        callback.queryParameters['state'] != state) {
-      throw const FormatException('Unexpected OSM authorization callback');
-    }
-    final code = callback.queryParameters['code'];
+    final code = Uri.parse(result).queryParameters['code'];
     if (code == null) {
       throw Exception('Failed to retrieve OAuth2 code.');
     }
@@ -101,11 +84,7 @@ class OSMAuthenticationAPI {
     final idToken = tokenResponse.data?['id_token'];
     if (permissions.contains('openid')) {
       if (idToken is! String) throw const FormatException('OSM did not return an identity proof');
-      final identity = OSMIdentityToken.parse(idToken);
-      if (identity.isExpired || identity.nonce != nonce) {
-        throw const FormatException('OSM identity does not match the requested session');
-      }
-      this.idToken = identity;
+      this.idToken = OSMIdentityToken.parse(idToken);
     }
 
     await _secureStorage.write(key: 'accessToken', value: accessToken);
@@ -206,9 +185,8 @@ class OSMIdentityToken {
   final String encoded;
   final String subject;
   final DateTime expiresAt;
-  final String? nonce;
 
-  OSMIdentityToken._(this.encoded, this.subject, this.expiresAt, this.nonce);
+  OSMIdentityToken._(this.encoded, this.subject, this.expiresAt);
 
   factory OSMIdentityToken.parse(String encoded) {
     final parts = encoded.split('.');
@@ -222,15 +200,13 @@ class OSMIdentityToken {
         !(audience == kOAuth2ClientId || audience is List && audience.contains(kOAuth2ClientId)) ||
         subject is! String ||
         !RegExp(r'^[1-9][0-9]*$').hasMatch(subject) ||
-        expiry is! int ||
-        claims['nonce'] != null && claims['nonce'] is! String) {
+        expiry is! int) {
       throw const FormatException('Unexpected OSM identity claims');
     }
     return OSMIdentityToken._(
       encoded,
       subject,
       DateTime.fromMillisecondsSinceEpoch(expiry * 1000, isUtc: true),
-      claims['nonce'] as String?,
     );
   }
 
