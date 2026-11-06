@@ -208,7 +208,7 @@ The publication prompt asks contributors to license photos under CC BY-SA 4.0 an
     "type": "Photo",
     "input": {"max": 4},
     "constructor": {
-        "panoramax:0": ["$input"],
+        "panoramax": ["$input"],
         "panoramax:1": ["$input"],
         "panoramax:2": ["$input"],
         "panoramax:3": ["$input"]
@@ -216,7 +216,7 @@ The publication prompt asks contributors to license photos under CC BY-SA 4.0 an
 }
 ```
 
-The required `max` value limits the number of images. A numeric key suffix selects the corresponding zero-based photo index. Keys without a suffix receive all UUIDs. Missing indices produce no tag. Define one constructor key per permitted photo. Photos are uploaded before the ordinary OSM update.
+The required `max` value limits the number of images. Keys without a numeric suffix select the first photo. A numeric suffix selects the corresponding zero-based photo index. Missing indices produce no tag. Define one constructor key per permitted photo. Photos are uploaded before the ordinary OSM update.
 
 ### Constructor
 

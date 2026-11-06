@@ -285,12 +285,8 @@ class PhotoAnswer extends Answer<PhotoAnswerDefinition, List<PanoramaxPhoto>> {
   @override
   Iterable<String> _resolve(String key) sync* {
     final suffix = _photoIndex.firstMatch(key);
-    if (suffix == null) {
-      yield* value.map((photo) => photo.id);
-    } else {
-      final index = int.parse(suffix[1]!);
-      if (index < value.length) yield value[index].id;
-    }
+    final index = suffix == null ? 0 : int.parse(suffix[1]!);
+    if (index < value.length) yield value[index].id;
   }
 
   @override
