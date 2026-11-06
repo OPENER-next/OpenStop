@@ -606,9 +606,7 @@ class HomeViewModel extends ViewModel
           type: questionEntry.question.answer.runtimeType,
           initialAnswer: questionEntry.answer,
         );
-        controller.addListener(() {
-          _answerInputDebouncer.debounce(_updateQuestionnaireAnswer)();
-        });
+        controller.addListener(_answerInputDebouncer.debounce(_updateQuestionnaireAnswer));
         return controller;
       });
     }

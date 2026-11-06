@@ -133,14 +133,14 @@ class PhotoCaptureStore {
           : null;
       final lost = await picker.retrieveLostData();
       if (data == null) return;
-      // Accept journals written before target context was separated from photos.
-      reference = data['osmReference'] as String? ?? '${data['osmType']}/${data['osmId']}';
+      reference = data['osmReference'] as String?;
       if (lost.exception != null) throw lost.exception!;
       final sourcePath = lost.files?.firstOrNull?.path ?? data['sourcePath'] as String?;
       if (sourcePath == null) return;
       await _writePending({...data, 'sourcePath': sourcePath});
       final id = data['id'] as String;
       if (!RegExp(r'^[a-fA-F0-9-]{36}$').hasMatch(id) ||
+          reference == null ||
           !RegExp(r'^(node|way|relation)/[1-9]\d*$').hasMatch(reference)) {
         throw const FormatException('Invalid pending capture');
       }

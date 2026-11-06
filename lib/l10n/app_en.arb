@@ -449,8 +449,6 @@
   "@photoUploadError": {},
   "photoCaptureError": "Could not complete this action. Check camera and location permissions and available storage, then try again. Saved photos remain on this device.",
   "@photoCaptureError": {},
-  "photoUploadingAs": "Uploading as \"{name}\" on Panoramax",
-  "@photoUploadingAs": {"placeholders": {"name": {"type": "String"}}},
   "photoTakePicture": "Take picture",
   "@photoTakePicture": {},
   "photoChooseFromLibrary": "Choose from library",

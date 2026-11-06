@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobx/mobx.dart';
 import 'package:osm_api/osm_api.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -29,8 +28,6 @@ class UserAccountService extends Service {
 
   Future<void> _init() async {
     try {
-      // Remove legacy proofs. New identity proofs remain in memory only.
-      await const FlutterSecureStorage().delete(key: 'osmIdToken');
       final authentication = await _osmAuthentication.restore();
       if (authentication == null) {
         await _panoramaxAuthentication.logout();

@@ -10,7 +10,6 @@ import '/models/panoramax_photo.dart';
 
 class PanoramaxAPI {
   final Dio _client;
-  late OAuth2 _authentication;
   final _uploads = <String, Future<void>>{};
   final _uploadSets = <String, String>{};
 
@@ -29,13 +28,10 @@ class PanoramaxAPI {
                headers: {'User-Agent': kAppUserAgent},
              ),
            ) {
-    this.authentication = authentication;
+    updateAuthentication(authentication);
   }
 
-  OAuth2 get authentication => _authentication;
-
-  set authentication(OAuth2 value) {
-    _authentication = value;
+  void updateAuthentication(OAuth2 value) {
     _client.options.headers['Authorization'] = value.getAuthorizationHeader();
   }
 

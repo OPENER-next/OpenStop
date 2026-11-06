@@ -161,7 +161,7 @@ mixin QuestionnaireHandler<M>
           questionnaire,
           () => PanoramaxAPI(authentication: authentication),
         );
-        api.authentication = authentication;
+        api.updateAuthentication(authentication);
         for (final photo in answer.value) {
           await api.upload(photo, target: questionnaire.workingElement, label: label);
         }
