@@ -20,7 +20,7 @@ abstract class AnswerDefinition<T> {
     switch (type) {
       case 'Photo':
         return PhotoAnswerDefinition(
-          input: PhotoInputDefinition(max: (input as Map<String, dynamic>)['max'] as int? ?? 4),
+          input: PhotoInputDefinition(max: (input as Map<String, dynamic>)['max'] as int),
           constructor: AnswerConstructor(constructor!),
         );
       case 'String':
@@ -276,6 +276,6 @@ class PhotoAnswerDefinition extends AnswerDefinition<PhotoInputDefinition> {
 class PhotoInputDefinition implements InputDefinition {
   final int max;
 
-  const PhotoInputDefinition({this.max = 4})
+  const PhotoInputDefinition({required this.max})
     : assert(max > 0, 'At least one photo must be allowed.');
 }

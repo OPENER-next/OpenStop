@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '/api/photo_capture_store.dart';
@@ -9,6 +10,7 @@ import '/l10n/app_localizations.g.dart';
 import '/models/answer.dart';
 import '/models/panoramax_photo.dart';
 import '/models/question_catalog/answer_definition.dart';
+import '/view_models/home_view_model.dart';
 import 'question_input_widget.dart';
 
 class PhotoInput extends QuestionInputWidget<PhotoAnswerDefinition, PhotoAnswer> {
@@ -16,25 +18,48 @@ class PhotoInput extends QuestionInputWidget<PhotoAnswerDefinition, PhotoAnswer>
 
   const PhotoInput({
     required super.definition,
-    required PhotoAnswerController controller,
+    required super.controller,
     this.openStore,
     super.key,
-  }) : super(controller: controller);
+  });
 
   @override
-  Widget build(BuildContext context) => _PhotoInputView(
+  Widget build(BuildContext context) => _PhotoInputFragment(
     definition: definition,
-    controller: controller as PhotoAnswerController,
+    controller: controller,
     openStore: openStore,
   );
 }
 
-class _PhotoInputView extends StatefulWidget {
+class _PhotoInputFragment extends ViewFragment<HomeViewModel> {
   final PhotoAnswerDefinition definition;
-  final PhotoAnswerController controller;
+  final AnswerController<PhotoAnswer> controller;
+  final Future<PhotoCaptureStore> Function()? openStore;
+
+  const _PhotoInputFragment({required this.definition, required this.controller, this.openStore});
+
+  @override
+  Widget build(BuildContext context, HomeViewModel viewModel) => _PhotoInputView(
+    definition: definition,
+    controller: controller,
+    openStore: openStore,
+    viewModel: viewModel,
+    semanticLabel:
+        viewModel.selectedElement?.elementLabel(AppLocalizations.of(context)!) ??
+        AppLocalizations.of(context)!.photoTakePicture,
+  );
+}
+
+class _PhotoInputView extends StatefulWidget {
+  final HomeViewModel viewModel;
+  final String semanticLabel;
+  final PhotoAnswerDefinition definition;
+  final AnswerController<PhotoAnswer> controller;
   final Future<PhotoCaptureStore> Function()? openStore;
 
   const _PhotoInputView({
+    required this.viewModel,
+    required this.semanticLabel,
     required this.definition,
     required this.controller,
     this.openStore,
@@ -46,17 +71,17 @@ class _PhotoInputView extends StatefulWidget {
 
 class _PhotoInputState extends State<_PhotoInputView> {
   late final _picker = ImagePicker();
-  late PhotoCaptureStore _store;
-  bool get _busy => widget.controller.busy;
-  String? get _error => widget.controller.message;
+  PhotoCaptureStore? _store;
+  bool _busy = true;
+  String? _error;
+  HomeViewModel get _viewModel => widget.viewModel;
 
   AppLocalizations get _locale => AppLocalizations.of(context)!;
 
   @override
   void initState() {
     super.initState();
-    // Loading notifies the shared controller, which also rebuilds the dialog.
-    // Its ancestor must finish building before we dispatch those notifications.
+    // Restore captured answers after the questionnaire has finished building.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _load();
     });
@@ -64,48 +89,35 @@ class _PhotoInputState extends State<_PhotoInputView> {
 
   Future<void> _load() => _run(() async {
     _store = await (widget.openStore ?? PhotoCaptureStore.open)();
-    final reference = widget.controller.osmReference;
-    if (reference == null) return;
-    final recovered = PhotoCaptureStore.recoveredFor(reference);
-    if (recovered.isNotEmpty) {
-      await _save([
-        ..._answerPhotos,
-        ...recovered.where((photo) => !_answerPhotos.any((item) => item.id == photo.id)),
-      ]);
-      PhotoCaptureStore.acknowledgeRecovered(reference, recovered);
-    }
-    if (mounted && PhotoCaptureStore.takeRecoveryError(reference)) {
+    if (!mounted) return;
+    if (!_viewModel.restoreCapturedPhotos(widget.definition, widget.controller)) {
       _setError(_locale.photoCaptureError);
     }
   });
 
-  Future<void> _save(List<PanoramaxPhoto> photos) async {
+  void _save(List<PanoramaxPhoto> photos) {
     if (widget.controller.isDisposed) throw StateError('The questionnaire has been discarded');
-    final previous = widget.controller.answer;
     widget.controller.answer = PhotoAnswer(definition: widget.definition, value: photos);
-    try {
-      if (!await widget.controller.persist()) {
-        throw StateError('The questionnaire has been discarded');
-      }
-    } catch (_) {
-      widget.controller.answer = previous;
-      rethrow;
-    }
   }
 
   List<PanoramaxPhoto> get _answerPhotos => widget.controller.answer?.value ?? const [];
 
-  void _setError(String message) => widget.controller.update(busy: _busy, message: message);
+  void _setError(String message) {
+    if (mounted) setState(() => _error = message);
+  }
 
   Future<void> _run(Future<void> Function() operation) async {
     if (!mounted) return;
-    widget.controller.update(busy: true);
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
     try {
       await operation();
     } catch (_) {
       if (mounted) _setError(_locale.photoCaptureError);
     } finally {
-      widget.controller.update(busy: false, message: _error);
+      if (mounted) setState(() => _busy = false);
     }
   }
 
@@ -114,30 +126,24 @@ class _PhotoInputState extends State<_PhotoInputView> {
   Future<void> _chooseFromLibrary() => _pickPhoto(ImageSource.gallery);
 
   Future<void> _pickPhoto(ImageSource source) => _run(() async {
-    if (_answerPhotos.length >= widget.definition.input.max) return;
+    final store = _store;
+    if (store == null || _answerPhotos.length >= widget.definition.input.max) return;
     try {
-      final photo = await PanoramaxPhoto.captureWithLocation(
-        directory: _store.directory,
+      final photo = await _viewModel.capturePhoto(
         source: source,
+        store: store,
         picker: _picker,
-        onCaptureStarted: (photo) => _store.prepareCapture(
-          photo,
-          osmReference:
-              widget.controller.osmReference ?? (throw StateError('No questionnaire target')),
-        ),
       );
       if (photo != null) {
         try {
-          await _save([..._answerPhotos, photo]);
+          _save([..._answerPhotos, photo]);
         } catch (_) {
-          await _store.delete(photo);
+          await store.delete(photo);
           rethrow;
         }
       }
     } on FormatException {
       if (mounted) _setError(_locale.photoMetadataError);
-    } finally {
-      await _store.cancelCapture();
     }
   });
 
@@ -157,8 +163,8 @@ class _PhotoInputState extends State<_PhotoInputView> {
       ),
     );
     if (confirmed != true) return;
-    await _save(_answerPhotos.where((item) => item.id != photo.id).toList());
-    await _store.delete(photo);
+    _save(_answerPhotos.where((item) => item.id != photo.id).toList());
+    await _store!.delete(photo);
   });
 
   @override
@@ -187,7 +193,7 @@ class _PhotoInputState extends State<_PhotoInputView> {
               Expanded(
                 child: FilledButton.icon(
                   style: photoButtonStyle,
-                  onPressed: _busy || photos.length >= widget.definition.input.max
+                  onPressed: _busy || _store == null || photos.length >= widget.definition.input.max
                       ? null
                       : _capture,
                   icon: const Icon(Icons.camera_alt),
@@ -198,7 +204,7 @@ class _PhotoInputState extends State<_PhotoInputView> {
               Expanded(
                 child: OutlinedButton(
                   style: photoButtonStyle,
-                  onPressed: _busy || photos.length >= widget.definition.input.max
+                  onPressed: _busy || _store == null || photos.length >= widget.definition.input.max
                       ? null
                       : _chooseFromLibrary,
                   child: Text(_locale.photoChooseFromLibrary),
@@ -233,7 +239,7 @@ class _PhotoInputState extends State<_PhotoInputView> {
                         child: Image.file(
                           File(photo.path),
                           fit: BoxFit.cover,
-                          semanticLabel: widget.controller.label ?? _locale.photoTakePicture,
+                          semanticLabel: widget.semanticLabel,
                           errorBuilder: (_, _, _) => const Icon(Icons.broken_image),
                         ),
                       ),
@@ -244,7 +250,7 @@ class _PhotoInputState extends State<_PhotoInputView> {
                       child: IconButton.filled(
                         tooltip: _locale.photoRemove,
                         icon: const Icon(Icons.close, size: 18),
-                        onPressed: _busy ? null : () => _remove(photo),
+                        onPressed: _busy || _store == null ? null : () => _remove(photo),
                       ),
                     ),
                   ],

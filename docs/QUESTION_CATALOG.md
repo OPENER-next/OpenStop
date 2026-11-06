@@ -216,7 +216,7 @@ The publication prompt asks contributors to license photos under CC BY-SA 4.0 an
 }
 ```
 
-The photo input accepts at most `max` images (default 4). A numeric key suffix selects the corresponding zero-based photo index; keys without a suffix receive all UUIDs. Missing indices produce no tag. Define one constructor key per permitted photo. Photos are uploaded before the ordinary OSM update.
+The required `max` value limits the number of images. A numeric key suffix selects the corresponding zero-based photo index. Keys without a suffix receive all UUIDs. Missing indices produce no tag. Define one constructor key per permitted photo. Photos are uploaded before the ordinary OSM update.
 
 ### Constructor
 
@@ -566,7 +566,7 @@ Tag **keys** can also be regular expressions enclosed in slashes. For example:
 }
 ```
 
-For a regex key, `false` requires that no matching key exists, even with an empty value; `true` requires at least one matching key. A string or value regex requires at least one matching tag with a matching value. An array permits any listed alternative, with `false` also permitting no matching keys. Multiple key conditions are combined with AND. `!osm_tags` negates the whole set of tag conditions. Invalid key regexes reject the catalog at load time.
+For regex keys, a condition value of `false` requires every matching tag key to be absent. Other values match any tag selected by the key regex. Arrays allow alternatives, including `false` for absence. Invalid key regexes are rejected when loading the catalog.
 
 Currently, setting regex flags is not supported. All of them are turned off except for the *match case-sensitive* flag.
 
@@ -661,10 +661,14 @@ The example below matches all elements which are part of a public transport bus 
 
 ### Photo implementation notes
 
-`PanoramaxPhoto` holds the file, UUID, optional measured capture location and upload checkpoints. Its `captureWithLocation` factory preserves existing GPS and supplements missing GPS only for a new camera capture. Library images require original GPS. `PhotoCaptureStore` manages application-support files and Android interrupted captures; target context is retained only in the recovery journal. The upload worker obtains target details from the questionnaire. Authentication is coordinated by `AuthenticationAPI`; short-lived `OSMIdentityToken` proofs stay in memory, and only Panoramax credentials are persisted by `PanoramaxAuthenticationAPI`. Identity exchange occurs only after publication consent.
+`PanoramaxPhoto` holds the file, UUID and optional measured capture location. Its `captureWithLocation` factory preserves existing GPS and supplements missing GPS only for a new camera capture. Library images require original GPS. Photos use the same answer controller as other inputs. `HomeViewModel` coordinates capture and associates interrupted Android captures with their questionnaire. `PhotoCaptureStore` owns the application-support files and recovery journal.
 
-Ordinary OSM login does not exchange identity with Panoramax. The coordinator exchanges the in-memory proof after the user accepts the publication and identity-sharing prompt, so cancelling never shares identity. If reauthorization is required, the account service receives the renewed OSM credentials before exchange. Selecting a different account clears the session and aborts the upload.
+`UserAccountService` coordinates the separate OSM and Panoramax authentication APIs. `AuthenticatedUser` holds the OSM authentication and optional Panoramax `OAuth2` credential. OSM identity proofs are parsed using `dart_jsonwebtoken` and kept in memory with their original signed encoding. The exchange server verifies the proof before issuing a Panoramax credential.
 
-When the photo service first opens in a new app session, it deletes managed photo files left by previous, memory-only questionnaires. Pending capture destinations and journaled source files are preserved for Android recovery. Cleanup skips links and unrelated files, and defers deletion if the recovery journal cannot be read safely.
+Ordinary OSM login does not exchange identity with Panoramax. Exchange occurs after the publication and identity-sharing consent prompt. The account service clears the old Panoramax credential before logging into OSM, so a new OSM session cannot inherit the previous photo credential.
 
-The `uuid` dependency assigns picture IDs before upload. These IDs make tags available immediately and let retries reuse the same ID. Changing upload accounts assigns a fresh ID. Photo uploads run within the existing upload queue Future, before the OSM update.
+The upload worker passes authentication to `PanoramaxAPI` on construction and retains it while a questionnaire can be retried. The API reuses successful upload Futures and resumes failed upload sets by checking which files the server accepted. OSM uploads wait for the photo uploads. Photo objects contain no authentication or upload progress.
+
+At the start of a new app session, managed files from previous, memory-only questionnaires are deleted. Pending capture destinations and journaled source files are preserved for Android recovery. Cleanup skips links and unrelated files, and defers deletion if the recovery journal cannot be read safely.
+
+The `uuid` dependency assigns picture IDs before upload. These IDs make tags available immediately and remain unchanged on retries. Photo uploads run within the existing upload queue Future, before the OSM update.

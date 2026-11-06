@@ -8,21 +8,19 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
-/// A selected image and the state needed to upload it to Panoramax.
+/// A selected image and its preassigned Panoramax identifier.
 class PanoramaxPhoto {
   final String id;
   final String path;
 
-  /// Measured during an in-app capture; library photos use their original EXIF.
+  /// Measured during an in-app capture. Library photos use their original EXIF.
   final ({double latitude, double longitude})? captureLocation;
-  final PhotoUploadState upload;
 
   PanoramaxPhoto({
     required this.id,
     required this.path,
     this.captureLocation,
-    PhotoUploadState? upload,
-  }) : upload = upload ?? PhotoUploadState();
+  });
 
   /// Capture or select an image, retaining original GPS when present. Missing
   /// GPS may be supplemented only for a new camera capture, never a library image.
@@ -132,17 +130,7 @@ class PanoramaxPhoto {
         await File(source).delete();
       }
     } catch (_) {
-      // The accepted copy is already stored; picker cache cleanup is best effort.
+      // The accepted copy is already stored. Picker cache cleanup is best effort.
     }
   }
-}
-
-/// Mutable checkpoints retained in the answer for retries after partial uploads.
-class PhotoUploadState {
-  final String? accountId;
-  String? setId;
-  bool fileUploaded;
-  bool completed;
-
-  PhotoUploadState({this.accountId, this.setId, this.fileUploaded = false, this.completed = false});
 }

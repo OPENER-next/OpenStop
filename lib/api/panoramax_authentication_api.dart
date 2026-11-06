@@ -1,67 +1,73 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:osm_api/osm_api.dart';
 
 import '/commons/app_config.dart';
-import '/commons/osm_config.dart';
 import '/commons/panoramax_config.dart';
-import 'osm_authentication_api.dart';
-import 'panoramax_api.dart';
+import 'panoramax_api.dart' show PanoramaxUploadException;
 
 /// Exchanges an OSM identity proof for the instance's own upload credential.
 class PanoramaxAuthenticationAPI {
   static const _storage = FlutterSecureStorage();
+  static const _tokenKey = 'panoramaxToken';
 
-  Future<String?> restore({required int osmUserId}) async {
-    final token = await _storage.read(key: kPanoramaxTokenKey);
-    final owner = await _storage.read(key: kPanoramaxAccountKey);
-    if (token == null || owner != '$kOSMServer:$osmUserId') return null;
-    final api = PanoramaxAPI();
-    try {
-      await api.account(token);
-      return token;
-    } on DioException catch (error) {
-      if (![401, 403].contains(error.response?.statusCode)) rethrow;
-      await logout();
-      return null;
-    } finally {
-      api.dispose();
-    }
+  Dio _client() => Dio(
+    BaseOptions(
+      baseUrl: '$kPanoramaxUrl/api',
+      connectTimeout: const Duration(seconds: 20),
+      receiveTimeout: const Duration(seconds: 60),
+      headers: {'User-Agent': kAppUserAgent},
+    ),
+  );
+
+  Future<OAuth2?> restore() async {
+    final token = await _storage.read(key: _tokenKey);
+    if (token == null) return null;
+    final authentication = OAuth2(accessToken: token);
+    if (await verifyAuthentication(authentication)) return authentication;
+    await logout();
+    return null;
   }
 
-  Future<String> authenticate(OSMIdentityToken idToken) async {
-    if (idToken.isExpired) throw const PanoramaxUploadException(authenticationFailed: true);
-    final client = Dio(
-      BaseOptions(
-        baseUrl: '$kPanoramaxUrl/api',
-        connectTimeout: const Duration(seconds: 20),
-        receiveTimeout: const Duration(seconds: 60),
-        headers: {'User-Agent': kAppUserAgent},
-      ),
-    );
+  /// The exchange service verifies the original JWT signature and claims.
+  Future<OAuth2> authenticate(String idToken) async {
+    final client = _client();
     try {
       final response = await client.post<Map<String, dynamic>>(
         '/auth/osm/exchange',
-        data: {'id_token': idToken.encoded},
+        data: {'id_token': idToken},
         options: Options(followRedirects: false),
       );
       final token = response.data?['jwt_token'];
       if (token is! String || token.isEmpty) {
         throw const PanoramaxUploadException(authenticationFailed: true);
       }
-      await client.get<dynamic>(
-        '/users/me',
-        options: Options(headers: {'Authorization': 'Bearer $token'}),
-      );
-      await _storage.write(key: kPanoramaxTokenKey, value: token);
-      await _storage.write(key: kPanoramaxAccountKey, value: '$kOSMServer:${idToken.subject}');
-      return token;
+      final authentication = OAuth2(accessToken: token);
+      if (!await verifyAuthentication(authentication)) {
+        throw const PanoramaxUploadException(authenticationFailed: true);
+      }
+      await _storage.write(key: _tokenKey, value: token);
+      return authentication;
     } finally {
       client.close();
     }
   }
 
-  Future<void> logout() => Future.wait([
-    _storage.delete(key: kPanoramaxTokenKey),
-    _storage.delete(key: kPanoramaxAccountKey),
-  ]);
+  Future<bool> verifyAuthentication(OAuth2 authentication) async {
+    final client = _client();
+    try {
+      await client.get<dynamic>(
+        '/users/me',
+        options: Options(headers: {'Authorization': authentication.getAuthorizationHeader()}),
+      );
+      return true;
+    } on DioException catch (error) {
+      if ([401, 403].contains(error.response?.statusCode)) return false;
+      rethrow;
+    } finally {
+      client.close();
+    }
+  }
+
+  Future<void> logout() => _storage.delete(key: _tokenKey);
 }

@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -26,7 +26,11 @@ class OSMAuthenticationAPI {
 
   /// Short-lived OIDC proof for exchanging identity with another service.
   /// Kept in memory only. The OSM access token is never sent to that service.
-  OSMIdentityToken? idToken;
+  JWT? idToken;
+
+  // Keep the original signed token for the exchange service. JWT.decode only
+  // exposes its contents and does not preserve the original signature.
+  String? encodedIdToken;
 
   static const _authorizationEndpoint = '/oauth2/authorize';
   static const _tokenEndpoint = '/oauth2/token';
@@ -38,7 +42,8 @@ class OSMAuthenticationAPI {
   /// Otherwise errors might be thrown.
 
   Future<OAuth2> login() async {
-    this.idToken = null;
+    idToken = null;
+    encodedIdToken = null;
     final authUri = Uri.https(kOSMServer, _authorizationEndpoint, {
       'response_type': 'code',
       'client_id': kOAuth2ClientId,
@@ -81,10 +86,11 @@ class OSMAuthenticationAPI {
       throw Exception('Failed to retrieve OAuth2 access token.');
     }
 
-    final idToken = tokenResponse.data?['id_token'];
     if (permissions.contains('openid')) {
+      final idToken = tokenResponse.data?['id_token'];
       if (idToken is! String) throw const FormatException('OSM did not return an identity proof');
-      this.idToken = OSMIdentityToken.parse(idToken);
+      this.idToken = JWT.decode(idToken);
+      encodedIdToken = idToken;
     }
 
     await _secureStorage.write(key: 'accessToken', value: accessToken);
@@ -117,6 +123,7 @@ class OSMAuthenticationAPI {
 
   Future<void> logout() async {
     idToken = null;
+    encodedIdToken = null;
     final accessToken = await _secureStorage.read(key: 'accessToken');
     if (accessToken != null) {
       await Future.wait([
@@ -177,38 +184,4 @@ class OSMAuthenticationAPI {
       dio.close();
     }
   }
-}
-
-/// Inspected locally to decide whether to submit a proof. The exchange service
-/// must verify the signature using OSM's public keys before trusting identity.
-class OSMIdentityToken {
-  final String encoded;
-  final String subject;
-  final DateTime expiresAt;
-
-  OSMIdentityToken._(this.encoded, this.subject, this.expiresAt);
-
-  factory OSMIdentityToken.parse(String encoded) {
-    final parts = encoded.split('.');
-    if (parts.length != 3) throw const FormatException('Invalid OSM identity proof');
-    final claims = jsonDecode(utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))));
-    if (claims is! Map<String, dynamic>) throw const FormatException('Invalid OSM identity claims');
-    final audience = claims['aud'];
-    final subject = claims['sub'];
-    final expiry = claims['exp'];
-    if (claims['iss'] != 'https://$kOSMServer' ||
-        !(audience == kOAuth2ClientId || audience is List && audience.contains(kOAuth2ClientId)) ||
-        subject is! String ||
-        !RegExp(r'^[1-9][0-9]*$').hasMatch(subject) ||
-        expiry is! int) {
-      throw const FormatException('Unexpected OSM identity claims');
-    }
-    return OSMIdentityToken._(
-      encoded,
-      subject,
-      DateTime.fromMillisecondsSinceEpoch(expiry * 1000, isUtc: true),
-    );
-  }
-
-  bool get isExpired => !expiresAt.isAfter(DateTime.now().toUtc().add(const Duration(seconds: 30)));
 }

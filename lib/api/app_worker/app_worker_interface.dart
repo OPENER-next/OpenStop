@@ -117,8 +117,8 @@ class AppWorkerInterface extends Service implements Disposable {
     );
   }
 
-  Future<void> uploadQuestionnaire({required AuthenticatedUser user, String? photoToken}) => _worker
-      .send<void>(AppWorkerMessage(AppWorkerSubject.uploadQuestionnaire, (user, photoToken)));
+  Future<void> uploadQuestionnaire({required AuthenticatedUser user}) =>
+      _worker.send<void>(AppWorkerMessage(AppWorkerSubject.uploadQuestionnaire, user));
 
   Future<void> nextQuestion() {
     return _worker.send<void>(

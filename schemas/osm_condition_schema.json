@@ -38,7 +38,7 @@
   "$defs": {
     "osm_tags": {
       "type": "object",
-      "description": "A map of OSM tag conditions. Keys enclosed in slashes are regular expressions; false requires that no matching key exists.",
+      "description": "A map of OSM tag conditions. Keys enclosed in slashes are regular expressions matched against tag keys. A condition with the value false excludes elements that have any matching key.",
       "additionalProperties": {
         "description": "If this is set to a boolean the corresponding osm tag either needs to exist or not independent of its value. An array means one of the given values must match the tag value.",
         "type": ["string", "boolean", "array"],

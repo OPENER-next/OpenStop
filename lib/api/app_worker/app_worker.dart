@@ -43,8 +43,7 @@ class AppWorker extends ServiceWorker<AppWorkerMessage>
       case AppWorkerSubject.discardQuestionnaire:
         return discardQuestionnaire(message.data);
       case AppWorkerSubject.uploadQuestionnaire:
-        final (user, photoToken) = message.data;
-        return uploadQuestionnaire(user, photoToken);
+        return uploadQuestionnaire(message.data);
       case AppWorkerSubject.nextQuestion:
         return nextQuestion();
       case AppWorkerSubject.previousQuestion:

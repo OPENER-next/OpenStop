@@ -23,6 +23,7 @@ import 'question_catalog_handler.dart';
 mixin QuestionnaireHandler<M>
     on ServiceWorker<M>, QuestionCatalogHandler<M>, ElementHandler<M>, LocaleHandler<M> {
   final _questionnaireStore = QuestionnaireStore();
+  final _photoApis = <Questionnaire, PanoramaxAPI>{};
 
   Questionnaire? _activeQuestionnaire;
 
@@ -129,6 +130,7 @@ mixin QuestionnaireHandler<M>
 
   Future<void> discardQuestionnaire(Questionnaire questionnaire) async {
     _questionnaireStore.remove(questionnaire);
+    _photoApis.remove(questionnaire)?.dispose();
     await _deletePhotos(questionnaire);
 
     if (questionnaire == _activeQuestionnaire) {
@@ -141,39 +143,33 @@ mixin QuestionnaireHandler<M>
 
   /// This also automatically closes the questionnaire.
 
-  Future<void> uploadQuestionnaire(AuthenticatedUser user, String? photoToken) async {
+  Future<void> uploadQuestionnaire(AuthenticatedUser user) async {
     final questionnaire = _activeQuestionnaire!;
     closeQuestionnaire();
 
-    final api = PanoramaxAPI();
     try {
-      final account = photoToken == null ? null : await api.account(photoToken);
       late final target = MapFeatures().representElement(questionnaire.workingElement);
       late final label = target.elementLabel(lookupAppLocalizations(appLocale));
-      for (final entry in questionnaire.entries.toList()) {
+      for (final entry in questionnaire.entries) {
         final answer = entry.answer;
         if (answer is! PhotoAnswer || !answer.isValid) continue;
-        if (photoToken == null || account == null) {
+        final authentication = user.panoramaxAuthentication;
+        if (authentication == null) {
           throw const PanoramaxUploadException(authenticationFailed: true);
         }
-        final photos = answer.value.map((photo) => api.forAccount(photo, account.id)).toList();
-        // Keep checkpoints in the questionnaire so a failed submission can be retried.
-        final index = questionnaire.entries.indexOf(entry);
-        if (index < 0) continue;
-        final activeIndex = questionnaire.activeIndex;
-        questionnaire.jumpTo(index);
-        questionnaire.update(PhotoAnswer(definition: answer.definition, value: photos));
-        questionnaire.jumpTo(activeIndex);
-        for (final photo in photos) {
-          await api.upload(photo, photoToken, target: target, label: label);
+        final api = _photoApis.putIfAbsent(
+          questionnaire,
+          () => PanoramaxAPI(authentication: authentication),
+        );
+        api.authentication = authentication;
+        for (final photo in answer.value) {
+          await api.upload(photo, target: questionnaire.workingElement, label: label);
         }
       }
     } on DioException catch (error) {
       throw PanoramaxUploadException(
         authenticationFailed: [401, 403].contains(error.response?.statusCode),
       );
-    } finally {
-      api.dispose();
     }
     await uploadElement(questionnaire.workingElement, user);
     await discardQuestionnaire(questionnaire);
@@ -224,6 +220,9 @@ mixin QuestionnaireHandler<M>
 
   @override
   void exit() {
+    for (final api in _photoApis.values) {
+      api.dispose();
+    }
     _activeQuestionnaireStreamController.close();
     super.exit();
   }
@@ -252,6 +251,7 @@ mixin QuestionnaireHandler<M>
     } else {
       for (final questionnaire in _questionnaireStore.items) {
         unawaited(_deletePhotos(questionnaire));
+        _photoApis.remove(questionnaire)?.dispose();
       }
       _questionnaireStore.clear();
       closeQuestionnaire();

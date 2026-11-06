@@ -1,66 +1,75 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:uuid/uuid.dart';
+import 'package:osm_api/osm_api.dart';
 
 import '/commons/app_config.dart';
 import '/commons/panoramax_config.dart';
-import '/models/element_variants/element_identifier.dart';
+import '/models/element_variants/base_element.dart';
 import '/models/panoramax_photo.dart';
 
 class PanoramaxAPI {
-  static const tokenKey = kPanoramaxTokenKey;
   final Dio _client;
+  late OAuth2 _authentication;
+  final _uploads = <String, Future<void>>{};
+  final _uploadSets = <String, String>{};
 
-  PanoramaxAPI({Dio? client})
-    : _client =
-          client ??
-          Dio(
-            BaseOptions(
-              baseUrl: '$kPanoramaxUrl/api',
-              connectTimeout: const Duration(seconds: 20),
-              receiveTimeout: const Duration(seconds: 60),
-              sendTimeout: const Duration(minutes: 3),
-              headers: {'User-Agent': kAppUserAgent},
-            ),
-          );
-
-  Future<({String id, String name})> account(String token) async {
-    final response = await _client.get<Map<String, dynamic>>('/users/me', options: _auth(token));
-    return (id: response.data!['id'] as String, name: response.data!['name'] as String);
+  PanoramaxAPI({
+    required OAuth2 authentication,
+    String endPoint = '$kPanoramaxUrl/api',
+    Dio? client,
+  }) : _client =
+           client ??
+           Dio(
+             BaseOptions(
+               baseUrl: endPoint,
+               connectTimeout: const Duration(seconds: 20),
+               receiveTimeout: const Duration(seconds: 60),
+               sendTimeout: const Duration(minutes: 3),
+               headers: {'User-Agent': kAppUserAgent},
+             ),
+           ) {
+    this.authentication = authentication;
   }
 
-  Options _auth(String token) => Options(headers: {'Authorization': 'Bearer $token'});
+  OAuth2 get authentication => _authentication;
 
-  PanoramaxPhoto forAccount(PanoramaxPhoto photo, String accountId) {
-    if (photo.upload.accountId == accountId) return photo;
-    final changed = photo.upload.accountId != null;
-    return PanoramaxPhoto(
-      id: changed ? const Uuid().v4() : photo.id,
-      path: photo.path,
-      captureLocation: photo.captureLocation,
-      upload: PhotoUploadState(
-        accountId: accountId,
-        setId: changed ? null : photo.upload.setId,
-        fileUploaded: !changed && photo.upload.fileUploaded,
-        completed: !changed && photo.upload.completed,
+  set authentication(OAuth2 value) {
+    _authentication = value;
+    _client.options.headers['Authorization'] = value.getAuthorizationHeader();
+  }
+
+  /// Reuse successful or in-flight uploads. Failed uploads can resume their set.
+  Future<void> upload(
+    PanoramaxPhoto photo, {
+    required ProcessedElement target,
+    required String label,
+  }) {
+    return _uploads.putIfAbsent(
+      photo.id,
+      () => _upload(photo, target, label).then<void>(
+        (_) {},
+        onError: (Object error, StackTrace stack) {
+          _uploads.remove(photo.id);
+          Error.throwWithStackTrace(error, stack);
+        },
       ),
     );
   }
 
-  Future<void> upload(
-    PanoramaxPhoto photo,
-    String token, {
-    required ElementIdentifier target,
-    required String label,
-  }) async {
-    if (photo.upload.completed) return;
+  Future<bool> _containsPhoto(String path, PanoramaxPhoto photo) async {
+    final response = await _client.get<Map<String, dynamic>>('$path/files');
+    final files = (response.data!['files'] as List<dynamic>).cast<Map<String, dynamic>>();
+    return files.any((file) => file['picture_id'] == photo.id && file['rejected'] == null);
+  }
+
+  Future<void> _upload(PanoramaxPhoto photo, ProcessedElement target, String label) async {
     final osmReference = '${target.type.name}/${target.id}';
-    final options = _auth(token);
-    if (photo.upload.setId == null) {
+    var setId = _uploadSets[photo.id];
+    var fileUploaded = false;
+    if (setId == null) {
       final response = await _client.post<Map<String, dynamic>>(
         '/upload_sets',
-        options: options,
         data: {
           'title': 'OpenStop: $label ($osmReference)',
           'estimated_nb_files': 1,
@@ -72,14 +81,16 @@ class PanoramaxAPI {
           ],
         },
       );
-      photo.upload.setId = response.data!['id'] as String;
+      setId = response.data!['id'] as String;
+      _uploadSets[photo.id] = setId;
+    } else {
+      fileUploaded = await _containsPhoto('/upload_sets/$setId', photo);
     }
-    final path = '/upload_sets/${photo.upload.setId}';
-    if (!photo.upload.fileUploaded) {
+    final path = '/upload_sets/$setId';
+    if (!fileUploaded) {
       try {
         final response = await _client.post<Map<String, dynamic>>(
           '$path/files',
-          options: options,
           data: FormData.fromMap({
             'file': await MultipartFile.fromFile(photo.path, filename: '${photo.id}.jpg'),
             'picture_id': photo.id,
@@ -101,19 +112,15 @@ class PanoramaxAPI {
         }
       } on DioException catch (error) {
         if (error.response?.statusCode != 409) rethrow;
-        final response = await _client.get<Map<String, dynamic>>('$path/files', options: options);
-        final files = (response.data!['files'] as List<dynamic>).cast<Map<String, dynamic>>();
-        if (!files.any((file) => file['picture_id'] == photo.id && file['rejected'] == null)) {
+        if (!await _containsPhoto(path, photo)) {
           throw const PanoramaxUploadException(authenticationFailed: false);
         }
       }
-      photo.upload.fileUploaded = true;
     }
-    final status = await _client.get<Map<String, dynamic>>(path, options: options);
+    final status = await _client.get<Map<String, dynamic>>(path);
     if (status.data?['completed'] != true) {
-      await _client.post<dynamic>('$path/complete', options: options);
+      await _client.post<dynamic>('$path/complete');
     }
-    photo.upload.completed = true;
   }
 
   void dispose() => _client.close();

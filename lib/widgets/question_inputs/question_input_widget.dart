@@ -41,7 +41,7 @@ abstract class QuestionInputWidget<D extends AnswerDefinition, T extends Answer>
       case const (PhotoAnswerDefinition):
         return PhotoInput(
           definition: definition as PhotoAnswerDefinition,
-          controller: controller as PhotoAnswerController,
+          controller: controller as AnswerController<PhotoAnswer>,
           key: key,
         );
       case const (StringAnswerDefinition):
@@ -94,34 +94,7 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
 
   AnswerController({
     T? initialAnswer,
-  }) : _answer = initialAnswer,
-       _savedAnswer = initialAnswer;
-
-  /// Shared persistence path for synchronous and asynchronous inputs.
-  Future<bool> Function(Answer? answer)? onSave;
-
-  T? _savedAnswer;
-  T? _savingAnswer;
-  Future<bool>? _saving;
-
-  Future<bool> persist() {
-    if (isDisposed) return Future.value(false);
-    if (identical(_answer, _savedAnswer)) return Future.value(true);
-    if (_saving != null && identical(_answer, _savingAnswer)) return _saving!;
-    final value = _answer;
-    _savingAnswer = value;
-    return _saving = _persist(value);
-  }
-
-  Future<bool> _persist(T? value) async {
-    try {
-      final saved = await onSave?.call(value) ?? true;
-      if (saved) _savedAnswer = value;
-      return saved;
-    } finally {
-      if (identical(_savingAnswer, value)) _saving = null;
-    }
-  }
+  }) : _answer = initialAnswer;
 
   T? get answer => _answer;
 
@@ -187,7 +160,7 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
   }) {
     switch (type) {
       case const (PhotoAnswerDefinition):
-        return PhotoAnswerController(initialAnswer: initialAnswer as PhotoAnswer?);
+        return AnswerController<PhotoAnswer>(initialAnswer: initialAnswer as PhotoAnswer?);
       case const (BoolAnswerDefinition):
         return AnswerController<BoolAnswer>(initialAnswer: initialAnswer as BoolAnswer?);
       case const (NumberAnswerDefinition):
@@ -214,23 +187,6 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
     _statusListeners.clear();
     super.dispose();
     _isDisposed = true;
-  }
-}
-
-class PhotoAnswerController extends AnswerController<PhotoAnswer> {
-  PhotoAnswerController({super.initialAnswer});
-
-  String? osmReference;
-  String? label;
-
-  bool busy = true;
-  String? message;
-
-  void update({required bool busy, String? message}) {
-    if (isDisposed || (this.busy == busy && this.message == message)) return;
-    this.busy = busy;
-    this.message = message;
-    notifyListeners();
   }
 }
 
