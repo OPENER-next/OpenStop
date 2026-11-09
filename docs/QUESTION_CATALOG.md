@@ -208,15 +208,15 @@ The publication prompt asks contributors to license photos under CC BY-SA 4.0 an
     "type": "Photo",
     "input": {"max": 4},
     "constructor": {
-        "panoramax": ["$input"],
-        "panoramax:1": ["$input"],
-        "panoramax:2": ["$input"],
-        "panoramax:3": ["$input"]
+        "panoramax": ["SELECT", 0, "$input"],
+        "panoramax:1": ["SELECT", 1, "$input"],
+        "panoramax:2": ["SELECT", 2, "$input"],
+        "panoramax:3": ["SELECT", 3, "$input"]
     }
 }
 ```
 
-The required `max` value limits the number of images. Keys without a numeric suffix select the first photo. A numeric suffix selects the corresponding zero-based photo index. Missing indices produce no tag. Define one constructor key per permitted photo. Photos are uploaded before the ordinary OSM update.
+The required `max` value limits the number of images. `$input` provides all photo UUIDs regardless of the tag key. Use `SELECT` to assign individual photos to tags. Missing indices produce no tag. `JOIN` can instead combine all UUIDs into one tag. Photos are uploaded before the ordinary OSM update.
 
 ### Constructor
 
@@ -228,12 +228,12 @@ The constructor is defined as a mapping of OSM keys to expressions, while an exp
 }
 ```
 
-Expressions are structured like this: `["EXPRESSION", arg1, arg2, argN]`, while every argument hast to be a string.
+Expressions are structured like this: `["EXPRESSION", arg1, arg2, argN]`. Arguments can be strings, integers or nested expressions. Integers are converted to strings before evaluation.
 The first item of the array is the expression identifier and must be written in caps. Expressions can freely be nested in other expressions.
 
 There is a special `$input` variable which holds the **values** entered by the user via the input widget. Note that for some inputs like `MultiList` this might spread into multiple values.
 
-For `Number`, `Duration` and `String` inputs the `$input` variable will return the same value regardless of the tag/key it is used on.
+For `Number`, `Duration`, `String` and `Photo` inputs the `$input` variable will return the same values regardless of the tag/key it is used on.
 For `Bool`, `List` and `MultiList` the `$input` variable has a separate value for each tag/key which is defined in the `input` part.
 
 If an expression doesn't return a value, for example because all arguments are empty or invalid, the corresponding tag won't be written.
@@ -251,6 +251,15 @@ output: `operator=first`
 - input: `[A,B,C]`
 constructor: `"operator": ["COALESCE", "$input"]`
 output: `operator=A`
+
+#### `SELECT` expression
+
+Selects one value by its zero-based index. The first argument is the index, followed by the values to select from. A missing, invalid, negative or out-of-range index returns no value, so the tag is omitted. The index can be an integer or an integer string.
+
+**Example:**
+- input: `[A,B,C]`
+constructor: `"image": ["SELECT", 1, "$input"]`
+output: `image=B`
 
 #### `CONCAT` expression
 

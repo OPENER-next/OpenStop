@@ -275,19 +275,13 @@ class DurationAnswer extends Answer<DurationAnswerDefinition, Duration> {
 }
 
 class PhotoAnswer extends Answer<PhotoAnswerDefinition, List<PanoramaxPhoto>> {
-  static final _photoIndex = RegExp(r':([0-9]+)$');
-
   PhotoAnswer({required super.definition, required List<PanoramaxPhoto> value})
     : super(value: List.unmodifiable(value));
 
   // Preassigned IDs make tags available to dependent questions immediately.
   // Submission uploads all referenced images before writing any tags to OSM.
   @override
-  Iterable<String> _resolve(String key) sync* {
-    final suffix = _photoIndex.firstMatch(key);
-    final index = suffix == null ? 0 : int.parse(suffix[1]!);
-    if (index < value.length) yield value[index].id;
-  }
+  Iterable<String> _resolve(String key) => value.map((photo) => photo.id);
 
   @override
   bool get isValid => value.isNotEmpty && value.length <= definition.input.max;

@@ -4519,10 +4519,10 @@
          "type": "Photo",
          "input": {"max": 4},
          "constructor": {
-            "panoramax": ["$input"],
-            "panoramax:1": ["$input"],
-            "panoramax:2": ["$input"],
-            "panoramax:3": ["$input"]
+            "panoramax": ["SELECT", 0, "$input"],
+            "panoramax:1": ["SELECT", 1, "$input"],
+            "panoramax:2": ["SELECT", 2, "$input"],
+            "panoramax:3": ["SELECT", 3, "$input"]
          }
       },
       "conditions": [

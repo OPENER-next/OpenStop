@@ -11,7 +11,7 @@ typedef ExpressionCallback = Iterable<String> Function(Iterable<String>);
 /// A utility class that can be mixed in to get expression support wherever needed.
 ///
 /// Expressions are defined as an array where the first item is the expression identifier/name,
-/// while the other items are strings or nested expressions (nested array) which will be passed
+/// while the other items are strings, integers or nested expressions (nested array) which will be passed
 /// as arguments/parameters to the specific expression function.
 ///
 /// Expressions can also contain variables which are marked with a `$` symbol at the start.
@@ -35,6 +35,7 @@ mixin ExpressionHandler {
     'JOIN': _join,
     'CONCAT': _concat,
     'COALESCE': _coalesce,
+    'SELECT': _select,
     'COUPLE': _couple,
     'PAD': _pad,
     'INSERT': _insert,
@@ -87,6 +88,8 @@ mixin ExpressionHandler {
         } else {
           yield arg;
         }
+      } else if (arg is int) {
+        yield arg.toString();
       } else if (arg is Iterable) {
         // evaluate nested expressions recursively
         yield* evaluateExpression(arg, substitutionCallback);
@@ -133,6 +136,23 @@ Iterable<String> _concat(Iterable<String> args) sync* {
 Iterable<String> _coalesce(Iterable<String> args) sync* {
   final iter = args.iterator;
   if (iter.moveNext()) yield iter.current;
+}
+
+/// Returns the value at the zero-based index given by the first argument.
+/// Invalid or missing indices return no value.
+Iterable<String> _select(Iterable<String> args) sync* {
+  final iter = args.iterator;
+  if (!iter.moveNext()) return;
+  final index = int.tryParse(iter.current);
+  if (index == null || index.isNegative) return;
+
+  var position = 0;
+  while (iter.moveNext()) {
+    if (position++ == index) {
+      yield iter.current;
+      return;
+    }
+  }
 }
 
 /// Concatenates exactly two values. If less or more values are given this returns empty.
