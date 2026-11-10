@@ -7,8 +7,10 @@ import 'map_feature_representation.dart';
 
 /// The [tags] argument may be passed to build an element specific label.
 
-typedef MapFeatureLabelConstructor =
-    String Function(AppLocalizations locale, Map<String, String> tags);
+typedef MapFeatureLabelConstructor = String Function(
+  AppLocalizations locale,
+  Map<String, String> tags,
+);
 
 /// A map feature defines how certain elements will be represented and described.
 
