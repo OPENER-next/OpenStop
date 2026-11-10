@@ -383,8 +383,7 @@ void main() async {
     final stopAreaWithLongName = StopArea(
       const LatLng(9.8241, 19.6779),
       const LatLng(10.2136, 20.3240),
-      name:
-          'Stop area with name longer than 255 characters - loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong',
+      name: 'Stop area with name longer than 255 characters - loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong',
     );
 
     // update changeset with map feature and stop area of long name
@@ -414,8 +413,7 @@ void main() async {
           'created_by': changesetCreatedBy,
           'locale': changesetLocale,
           'source': changesetSource,
-          'comment':
-              'Added details to Element in the stop area Stop area with name longer than 255 characters - looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo',
+          'comment': 'Added details to Element in the stop area Stop area with name longer than 255 characters - looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo',
         }),
       ),
     );
