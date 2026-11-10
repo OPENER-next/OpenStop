@@ -16,11 +16,11 @@ typedef MapFeatureLabelConstructor = String Function(
 
 class MapFeatureDefinition {
   const MapFeatureDefinition({
-    required MapFeatureLabelConstructor label,
+    required this._label,
     required this.icon,
     required this.conditions,
     this.priority = 0,
-  }) : _label = label;
+  });
 
   final MapFeatureLabelConstructor _label;
 

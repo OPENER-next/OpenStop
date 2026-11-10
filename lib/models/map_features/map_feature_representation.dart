@@ -20,20 +20,18 @@ class MapFeatureRepresentation extends ElementIdentifier {
     required this.type,
     required this.geometry,
     required this.icon,
-    required MapFeatureLabelConstructor label,
-    required Map<String, String> tags,
-  }) : _label = label,
-       _tags = tags;
+    required this._label,
+    required this._tags,
+  });
 
   MapFeatureRepresentation.fromElement({
     required ProcessedElement element,
     this.icon = MdiIcons.help,
-    MapFeatureLabelConstructor label = _defaultLabel,
+    this._label = _defaultLabel,
   }) : id = element.id,
        type = element.type,
        geometry = element.geometry,
-       _tags = element.tags,
-       _label = label;
+       _tags = element.tags;
 
   static String _defaultLabel(AppLocalizations _, Map<String, String> tags) {
     return tags['name'] ?? tags['ref'] ?? 'Element';

@@ -43,9 +43,9 @@ class RenderMapLayer extends RenderBox
         ContainerRenderObjectMixin<RenderBox, _MapLayerParentData>,
         RenderBoxContainerDefaultsMixin<RenderBox, _MapLayerParentData> {
   RenderMapLayer({
-    required MapCamera mapCamera,
+    required this._mapCamera,
     List<RenderBox>? children,
-  }) : _mapCamera = mapCamera {
+  }) {
     addAll(children);
     _updateCachedValues();
   }

@@ -24,7 +24,6 @@ linter:
     avoid_bool_literals_in_conditional_expressions: true
     avoid_dynamic_calls: true
     avoid_escaping_inner_quotes: true
-    avoid_null_checks_in_equality_operators: true
     avoid_setters_without_getters: true
     avoid_slow_async_io: true
     avoid_type_to_string: true
@@ -48,7 +47,6 @@ linter:
     unnecessary_parenthesis: true
     unnecessary_lambdas: true
     unnecessary_null_aware_assignments: true
-    unnecessary_await_in_return: true
     unnecessary_breaks: true
     unnecessary_null_aware_operator_on_extension_on_nullable: true
     unnecessary_null_checks: true

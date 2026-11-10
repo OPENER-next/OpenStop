@@ -19,10 +19,9 @@ class QuestionCatalogReader with WidgetsBindingObserver {
   String _defaultLocale;
 
   QuestionCatalogReader({
-    required Iterable<String> assetPaths,
-    String defaultLocale = 'en',
-  }) : _assetPaths = assetPaths,
-       _defaultLocale = defaultLocale {
+    required this._assetPaths,
+    this._defaultLocale = 'en',
+  }) {
     WidgetsBinding.instance.addObserver(this);
     _readAll(assetPaths).then((questionCatalog) {
       _streamController.add(
