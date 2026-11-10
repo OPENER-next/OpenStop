@@ -1,5 +1,3 @@
-import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
@@ -24,26 +22,17 @@ class OSMAuthenticationAPI {
 
   static const _secureStorage = FlutterSecureStorage();
 
-  /// Short-lived OIDC proof for exchanging identity with another service.
-  /// Kept in memory only. The OSM access token is never sent to that service.
-  JWT? idToken;
-
-  // Keep the original signed token for the exchange service. JWT.decode only
-  // exposes its contents and does not preserve the original signature.
-  String? encodedIdToken;
-
   static const _authorizationEndpoint = '/oauth2/authorize';
   static const _tokenEndpoint = '/oauth2/token';
   static const _revokeEndpoint = '/oauth2/revoke';
 
   /// This will start the login/authentication process by opening the openstreetmap website inside a browser/webview.
   /// The future will resolve when this process has finished.
-  /// If the access token was gathered successfully an [OAuth2] authentication object will be returned.
+  /// Returns OSM authentication and, after a successful login with the openid
+  /// permission, the raw identity token for the Panoramax exchange service.
   /// Otherwise errors might be thrown.
 
-  Future<OAuth2> login() async {
-    idToken = null;
-    encodedIdToken = null;
+  Future<({OAuth2 auth, String? idToken})> login() async {
     final authUri = Uri.https(kOSMServer, _authorizationEndpoint, {
       'response_type': 'code',
       'client_id': kOAuth2ClientId,
@@ -86,18 +75,17 @@ class OSMAuthenticationAPI {
       throw Exception('Failed to retrieve OAuth2 access token.');
     }
 
+    String? idToken;
     if (permissions.contains('openid')) {
-      final idToken = tokenResponse.data?['id_token'];
+      idToken = tokenResponse.data?['id_token'] as String?;
       if (idToken is! String) throw const FormatException('OSM did not return an identity proof');
-      this.idToken = JWT.decode(idToken);
-      encodedIdToken = idToken;
     }
 
     await _secureStorage.write(key: 'accessToken', value: accessToken);
 
-    return OAuth2(
-      accessToken: accessToken,
-      tokenType: tokenType,
+    return (
+      auth: OAuth2(accessToken: accessToken, tokenType: tokenType),
+      idToken: idToken,
     );
   }
 
@@ -122,8 +110,6 @@ class OSMAuthenticationAPI {
   /// This also revokes the authentication token from the server.
 
   Future<void> logout() async {
-    idToken = null;
-    encodedIdToken = null;
     final accessToken = await _secureStorage.read(key: 'accessToken');
     if (accessToken != null) {
       await Future.wait([

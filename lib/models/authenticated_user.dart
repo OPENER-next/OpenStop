@@ -24,12 +24,21 @@ class AuthenticatedUser {
     this.profileImageUrl,
   });
 
-  AuthenticatedUser withPanoramaxAuthentication(OAuth2? value) => AuthenticatedUser(
-    authentication: authentication,
-    panoramaxAuthentication: value,
-    name: name,
-    id: id,
-    preferredLanguages: preferredLanguages,
-    profileImageUrl: profileImageUrl,
+  bool get isAuthenticatedWithPanoramax => panoramaxAuthentication != null;
+
+  AuthenticatedUser copyWith({
+    Auth? authentication,
+    OAuth2? panoramaxAuthentication,
+    String? name,
+    int? id,
+    String? profileImageUrl,
+    List<String>? preferredLanguages,
+  }) => AuthenticatedUser(
+    authentication: authentication ?? this.authentication,
+    panoramaxAuthentication: panoramaxAuthentication ?? this.panoramaxAuthentication,
+    name: name ?? this.name,
+    id: id ?? this.id,
+    preferredLanguages: preferredLanguages ?? this.preferredLanguages,
+    profileImageUrl: profileImageUrl ?? this.profileImageUrl,
   );
 }

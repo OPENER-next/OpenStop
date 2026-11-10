@@ -141,11 +141,12 @@ mixin QuestionnaireHandler<M>
     }
   }
 
-  /// This also automatically closes the questionnaire.
+  /// Uploads a stored questionnaire after its dialog has been closed.
 
-  Future<void> uploadQuestionnaire(AuthenticatedUser user) async {
-    final questionnaire = _activeQuestionnaire!;
-    closeQuestionnaire();
+  Future<void> uploadQuestionnaire((AuthenticatedUser, ElementIdentifier) data) async {
+    final (user, element) = data;
+    final questionnaire = _questionnaireStore.find((item) => item.workingElement == element);
+    if (questionnaire == null) return;
 
     try {
       late final target = MapFeatures().representElement(questionnaire.workingElement);
@@ -155,7 +156,7 @@ mixin QuestionnaireHandler<M>
         if (answer is! PhotoAnswer || !answer.isValid) continue;
         final authentication = user.panoramaxAuthentication;
         if (authentication == null) {
-          throw const PanoramaxUploadException(authenticationFailed: true);
+          throw const PanoramaxException(authenticationFailed: true);
         }
         final api = _photoApis.putIfAbsent(
           questionnaire,
@@ -167,7 +168,7 @@ mixin QuestionnaireHandler<M>
         }
       }
     } on DioException catch (error) {
-      throw PanoramaxUploadException(
+      throw PanoramaxException(
         authenticationFailed: [401, 403].contains(error.response?.statusCode),
       );
     }

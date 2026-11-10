@@ -70,7 +70,7 @@ dependencies:
   image_picker: ^1.2.4
   exif: ^3.3.0
   uuid: ^4.5.1
-  dart_jsonwebtoken: 3.4.1
+  meta_photo_picker: ^0.0.5
 
 dev_dependencies:
   flutter_test:

@@ -14,7 +14,6 @@ import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:flutter_mvvm_architecture/extras.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http_cache_file_store/http_cache_file_store.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:mobx/mobx.dart';
 import 'package:osm_api/osm_api.dart';
@@ -24,14 +23,11 @@ import '/api/app_worker/app_worker_interface.dart';
 import '/api/app_worker/element_handler.dart';
 import '/api/app_worker/stop_area_handler.dart';
 import '/api/panoramax_api.dart';
-import '/api/photo_capture_store.dart';
 import '/api/preferences_service.dart';
 import '/api/user_account_service.dart';
 import '/l10n/app_localizations.g.dart';
 import '/models/answer.dart';
 import '/models/map_features/map_feature_representation.dart';
-import '/models/panoramax_photo.dart';
-import '/models/question_catalog/answer_definition.dart';
 import '/models/question_catalog/question_definition.dart';
 import '/models/questionnaire.dart';
 import '/models/stop_area/stop_area.dart';
@@ -371,8 +367,6 @@ class HomeViewModel extends ViewModel
   /// This either reopens an existing questionnaire or creates a new one.
 
   void _openQuestionnaire(MapFeatureRepresentation element) {
-    if (_photoInputBusy || _submitting) return;
-
     final appLocale = AppLocalizations.of(context)!;
     if (_questionnaireState.value != null) {
       // store latest answer from previous questionnaire
@@ -396,8 +390,6 @@ class HomeViewModel extends ViewModel
   /// Close the currently active questionnaire if any.
 
   void closeQuestionnaire() {
-    if (_photoInputBusy || _submitting) return;
-
     final appLocale = AppLocalizations.of(context)!;
     if (_questionnaireState.value != null) {
       // store latest answer from questionnaire
@@ -416,62 +408,11 @@ class HomeViewModel extends ViewModel
 
   /// Upload the changes made by this questionnaire with the current authenticated user.
 
-  bool _photoInputBusy = false;
-
-  Future<PanoramaxPhoto?> capturePhoto({
-    required ImageSource source,
-    required PhotoCaptureStore store,
-    required ImagePicker picker,
-  }) async {
-    final target = selectedElement;
-    if (target == null || _photoInputBusy || _submitting) return null;
-    _photoInputBusy = true;
-    try {
-      return await PanoramaxPhoto.captureWithLocation(
-        directory: store.directory,
-        source: source,
-        picker: picker,
-        onCaptureStarted: (photo) => store.prepareCapture(
-          photo,
-          osmReference: '${target.type.name}/${target.id}',
-        ),
-      );
-    } finally {
-      try {
-        await store.cancelCapture();
-      } finally {
-        _photoInputBusy = false;
-      }
-    }
-  }
-
-  bool restoreCapturedPhotos(
-    PhotoAnswerDefinition definition,
-    AnswerController<PhotoAnswer> controller,
-  ) {
-    final target = selectedElement;
-    if (target == null || controller.isDisposed) return true;
-    final reference = '${target.type.name}/${target.id}';
-    final recovered = PhotoCaptureStore.recoveredFor(reference);
-    if (recovered.isNotEmpty) {
-      final photos = controller.answer?.value ?? const <PanoramaxPhoto>[];
-      controller.answer = PhotoAnswer(
-        definition: definition,
-        value: [
-          ...photos,
-          ...recovered.where((photo) => !photos.any((item) => item.id == photo.id)),
-        ],
-      );
-      PhotoCaptureStore.acknowledgeRecovered(reference, recovered);
-    }
-    return !PhotoCaptureStore.takeRecoveryError(reference);
-  }
-
   // Only preparation holds this lock. Each upload has its own queue entry.
   bool _submitting = false;
 
   Future<void> submitQuestionnaire() async {
-    if (_submitting || _photoInputBusy) return;
+    if (_submitting) return;
     final appLocale = AppLocalizations.of(context)!;
     final alteredElement = selectedElement;
     if (alteredElement == null || _uploadQueue.containsKey(alteredElement)) return;
@@ -479,46 +420,53 @@ class HomeViewModel extends ViewModel
     Future<void>? uploading;
     try {
       try {
-        if (_userAccountService.isLoggedOut) await _userAccountService.login();
-        if (!_userAccountService.isLoggedIn || !mounted || selectedElement != alteredElement) {
-          return;
-        }
-
         await _updateQuestionnaireAnswer();
         final hasPhotos = questionnaireAnswers.any(
           (controller) => controller.answer is PhotoAnswer && controller.hasValidAnswer,
         );
-        if (hasPhotos) {
-          final confirmed = await promptUserInput(
-            Prompt(
-              title: appLocale.photoPublishTitle,
-              message: appLocale.photoPublishDescription,
-              choices: {appLocale.photoUpload: true, appLocale.cancel: false},
-              isDismissible: true,
-            ),
-          );
-          if (confirmed != true || !mounted || selectedElement != alteredElement) return;
+        if (!questionnaireAnswers.any((answer) => answer.hasValidAnswer)) return;
+        do {
+          var photoConsent = false;
+          if (hasPhotos && !_userAccountService.hasPhotoPublicationConsent) {
+            final confirmed = await promptUserInput(
+              Prompt(
+                title: appLocale.photoPublishTitle,
+                message: appLocale.photoPublishDescription,
+                choices: {appLocale.photoUpload: true, appLocale.cancel: false},
+                isDismissible: true,
+              ),
+            );
+            if (confirmed != true || !mounted) return;
+            photoConsent = true;
+          }
           try {
-            await _userAccountService.authorizePhotoUpload();
+            await _userAccountService.login(
+              withPanoramax: hasPhotos,
+              photoConsent: photoConsent,
+            );
           } on DioException catch (error) {
-            throw PanoramaxUploadException(
+            if (!hasPhotos) rethrow;
+            throw PanoramaxException(
               authenticationFailed: [401, 403].contains(error.response?.statusCode),
             );
           }
-          if (!mounted || selectedElement != alteredElement) return;
-        }
-        if (!questionnaireAnswers.any((answer) => answer.hasValidAnswer)) return;
+          if (!_userAccountService.isLoggedIn || !mounted) return;
+          // A different account selected during login needs its own consent.
+        } while (hasPhotos && !_userAccountService.hasPhotoPublicationConsent);
+
+        await _appWorker.closeQuestionnaire();
+        runInAction(() => _selectedElement.value = null);
 
         uploading = _appWorker.uploadQuestionnaire(
           user: _userAccountService.authenticatedUser!,
+          element: alteredElement,
         );
         _uploadQueue[alteredElement] = uploading;
-        runInAction(() => _selectedElement.value = null);
       } finally {
         _submitting = false;
       }
       await uploading;
-    } on PanoramaxUploadException catch (error) {
+    } on PanoramaxException catch (error) {
       if (mounted) {
         notifyUser(
           Notification(
@@ -543,8 +491,6 @@ class HomeViewModel extends ViewModel
   }
 
   void goToPreviousQuestion() {
-    if (_photoInputBusy || _submitting) return;
-
     // always unfocus the current node to close all onscreen keyboards
     FocusManager.instance.primaryFocus?.unfocus();
     _updateQuestionnaireAnswer();
@@ -552,8 +498,6 @@ class HomeViewModel extends ViewModel
   }
 
   void goToNextQuestion() {
-    if (_photoInputBusy || _submitting) return;
-
     // always unfocus the current node to close all onscreen keyboards
     FocusManager.instance.primaryFocus?.unfocus();
     _updateQuestionnaireAnswer();
@@ -561,8 +505,6 @@ class HomeViewModel extends ViewModel
   }
 
   void jumpToQuestion(int index) {
-    if (_photoInputBusy || _submitting) return;
-
     // always unfocus the current node to close all onscreen keyboards
     FocusManager.instance.primaryFocus?.unfocus();
     _updateQuestionnaireAnswer();
@@ -578,7 +520,7 @@ class HomeViewModel extends ViewModel
       _answerInputDebouncer.cancel();
       final index = _questionnaireState.value!.activeIndex;
       final answerController = questionnaireAnswers[index];
-      await _appWorker.updateQuestionnaire(answerController.answer);
+      return _appWorker.updateQuestionnaire(answerController.answer);
     }
   }
 
@@ -647,7 +589,7 @@ class HomeViewModel extends ViewModel
   Key get selectedElementKey => _selectedElementKey.value;
 
   void onElementTap(MapFeatureRepresentation element) {
-    if (_photoInputBusy || _submitting || _uploadQueue.containsKey(element)) return;
+    if (_submitting || _uploadQueue.containsKey(element)) return;
 
     // show questions if a new marker is selected, else hide the current one
     if (_selectedElement.value != element) {

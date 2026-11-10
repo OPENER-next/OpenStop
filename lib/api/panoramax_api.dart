@@ -104,12 +104,12 @@ class PanoramaxAPI {
           }),
         );
         if (response.data?['rejected'] != null) {
-          throw const PanoramaxUploadException(authenticationFailed: false);
+          throw const PanoramaxException(authenticationFailed: false);
         }
       } on DioException catch (error) {
         if (error.response?.statusCode != 409) rethrow;
         if (!await _containsPhoto(path, photo)) {
-          throw const PanoramaxUploadException(authenticationFailed: false);
+          throw const PanoramaxException(authenticationFailed: false);
         }
       }
     }
@@ -123,8 +123,8 @@ class PanoramaxAPI {
 }
 
 /// Upload failures forwarded from the worker without Dio's multipart file streams.
-class PanoramaxUploadException implements Exception {
+class PanoramaxException implements Exception {
   final bool authenticationFailed;
 
-  const PanoramaxUploadException({required this.authenticationFailed});
+  const PanoramaxException({required this.authenticationFailed});
 }

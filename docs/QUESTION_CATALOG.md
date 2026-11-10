@@ -208,10 +208,10 @@ The publication prompt asks contributors to license photos under CC BY-SA 4.0 an
     "type": "Photo",
     "input": {"max": 4},
     "constructor": {
-        "panoramax": ["SELECT", 0, "$input"],
-        "panoramax:1": ["SELECT", 1, "$input"],
-        "panoramax:2": ["SELECT", 2, "$input"],
-        "panoramax:3": ["SELECT", 3, "$input"]
+        "panoramax": ["SELECT", "0", "$input"],
+        "panoramax:1": ["SELECT", "1", "$input"],
+        "panoramax:2": ["SELECT", "2", "$input"],
+        "panoramax:3": ["SELECT", "3", "$input"]
     }
 }
 ```
@@ -228,7 +228,7 @@ The constructor is defined as a mapping of OSM keys to expressions, while an exp
 }
 ```
 
-Expressions are structured like this: `["EXPRESSION", arg1, arg2, argN]`. Arguments can be strings, integers or nested expressions. Integers are converted to strings before evaluation.
+Expressions are structured like this: `["EXPRESSION", arg1, arg2, argN]`. Arguments can be strings or nested expressions.
 The first item of the array is the expression identifier and must be written in caps. Expressions can freely be nested in other expressions.
 
 There is a special `$input` variable which holds the **values** entered by the user via the input widget. Note that for some inputs like `MultiList` this might spread into multiple values.
@@ -254,11 +254,11 @@ output: `operator=A`
 
 #### `SELECT` expression
 
-Selects one value by its zero-based index. The first argument is the index, followed by the values to select from. A missing, invalid, negative or out-of-range index returns no value, so the tag is omitted. The index can be an integer or an integer string.
+Selects one value by its zero-based index. The first argument is the index, followed by the values to select from. A missing, invalid, negative or out-of-range index returns no value, so the tag is omitted. The index must be an integer string.
 
 **Example:**
 - input: `[A,B,C]`
-constructor: `"image": ["SELECT", 1, "$input"]`
+constructor: `"image": ["SELECT", "1", "$input"]`
 output: `image=B`
 
 #### `CONCAT` expression
@@ -575,7 +575,7 @@ Tag **keys** can also be regular expressions enclosed in slashes. For example:
 }
 ```
 
-For regex keys, a condition value of `false` requires every matching tag key to be absent. Other values match any tag selected by the key regex. Arrays allow alternatives, including `false` for absence. Invalid key regexes are rejected when loading the catalog.
+For regex keys, a condition value of `false` requires every matching tag key to be absent. Other values must match every tag selected by the key regex. Arrays allow alternatives, including `false` for absence. Invalid key regexes are rejected when loading the catalog.
 
 Currently, setting regex flags is not supported. All of them are turned off except for the *match case-sensitive* flag.
 
@@ -670,14 +670,14 @@ The example below matches all elements which are part of a public transport bus 
 
 ### Photo implementation notes
 
-`PanoramaxPhoto` holds the file, UUID and optional measured capture location. Its `captureWithLocation` factory preserves existing GPS and supplements missing GPS only for a new camera capture. Library images require original GPS. Photos use the same answer controller as other inputs. `HomeViewModel` coordinates capture and associates interrupted Android captures with their questionnaire. `PhotoCaptureStore` owns the application-support files and recovery journal.
+`PanoramaxPhoto` holds the file, UUID and optional measured capture location. The photo input calls `captureWithLocation` directly and stores the result through the ordinary answer controller. Library selection uses `meta_photo_picker` on both Android and iOS. Camera capture uses the native camera through `image_picker`. Existing GPS is preserved. Missing GPS is supplemented only for a new camera capture. Library images require original GPS.
 
-`UserAccountService` coordinates the separate OSM and Panoramax authentication APIs. `AuthenticatedUser` holds the OSM authentication and optional Panoramax `OAuth2` credential. OSM identity proofs are parsed using `dart_jsonwebtoken` and kept in memory with their original signed encoding. The exchange server verifies the proof before issuing a Panoramax credential.
+`UserAccountService` coordinates the separate OSM and Panoramax authentication APIs. `AuthenticatedUser` holds the OSM authentication and optional Panoramax `OAuth2` credential. OSM login returns authentication and an optional raw identity proof in a record. The APIs retain no identity proof state. The exchange server validates the proof before issuing a Panoramax credential.
 
-Ordinary OSM login does not exchange identity with Panoramax. Exchange occurs after the publication and identity-sharing consent prompt. The account service clears the old Panoramax credential before logging into OSM, so a new OSM session cannot inherit the previous photo credential.
+Ordinary OSM login does not exchange identity with Panoramax. Publication and identity-sharing consent is remembered for the current OSM account across app restarts. Logout or switching accounts clears consent. Submission calls `login(withPanoramax: true)` to reuse valid photo authentication or obtain a fresh OSM identity proof and exchange it. The questionnaire stays open until consent and authentication succeed. The account service clears the old Panoramax credential before a new OSM login, so a new OSM session cannot inherit the previous photo credential.
 
 The upload worker passes authentication to `PanoramaxAPI` on construction and retains it while a questionnaire can be retried. The API reuses successful upload Futures and resumes failed upload sets by checking which files the server accepted. OSM uploads wait for the photo uploads. Photo objects contain no authentication or upload progress.
 
-At the start of a new app session, managed files from previous, memory-only questionnaires are deleted. Pending capture destinations and journaled source files are preserved for Android recovery. Cleanup skips links and unrelated files, and defers deletion if the recovery journal cannot be read safely.
+Selected images are copied into application-support storage and deleted when removed, discarded or uploaded. Interrupted-capture recovery and restoration of questionnaires after Android kills the app are deferred to a follow-up change.
 
 The `uuid` dependency assigns picture IDs before upload. These IDs make tags available immediately and remain unchanged on retries. Photo uploads run within the existing upload queue Future, before the OSM update.

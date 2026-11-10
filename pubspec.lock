@@ -259,14 +259,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
-  dart_jsonwebtoken:
-    dependency: "direct main"
-    description:
-      name: dart_jsonwebtoken
-      sha256: ad84e60181696513d04d5f2078e0bbc20365b911f46f647797317414bdc88fbe
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.4.1"
   dart_polylabel2:
     dependency: transitive
     description:
@@ -992,6 +984,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.19.0"
+  meta_photo_picker:
+    dependency: "direct main"
+    description:
+      name: meta_photo_picker
+      sha256: f8451ba2daedcf532c1ea59283cf2f202ec8318a771184136bd3ea325c550e9e
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.5"
   mgrs_dart:
     dependency: transitive
     description:
@@ -1170,14 +1170,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
-  pointycastle:
-    dependency: transitive
-    description:
-      name: pointycastle
-      sha256: "92aa3841d083cc4b0f4709b5c74fd6409a3e6ba833ffc7dc6a8fee096366acf5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.0"
   polylabel:
     dependency: "direct main"
     description:

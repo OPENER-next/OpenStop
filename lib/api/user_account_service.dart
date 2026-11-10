@@ -1,29 +1,44 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobx/mobx.dart';
 import 'package:osm_api/osm_api.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '/api/osm_authentication_api.dart';
-import '/api/panoramax_api.dart' show PanoramaxUploadException;
+import '/api/panoramax_api.dart' show PanoramaxException;
 import '/api/panoramax_authentication_api.dart';
 import '/commons/osm_config.dart';
 import '/models/authenticated_user.dart';
 
 /// Owns the OSM session and its optional, consented Panoramax authentication.
 class UserAccountService extends Service {
+  static const _storage = FlutterSecureStorage();
+  static const _photoConsentKey = 'panoramaxPhotoConsent';
+
   final OSMAuthenticationAPI _osmAuthentication;
   final PanoramaxAuthenticationAPI _panoramaxAuthentication;
   final _authenticatedUser = Observable<AuthenticatedUser?>(null);
-  late final Future<void> _initializing;
-  Future<void> _sessionOperation = Future.value();
+  bool _initializing = true;
+  bool _hasPhotoPublicationConsent = false;
+
+  bool get hasPhotoPublicationConsent => _hasPhotoPublicationConsent;
+
+  Future<void> _setPhotoPublicationConsent(bool consented) async {
+    if (consented) {
+      await _storage.write(key: _photoConsentKey, value: 'true');
+    } else {
+      await _storage.delete(key: _photoConsentKey);
+    }
+    _hasPhotoPublicationConsent = consented;
+  }
 
   UserAccountService({
     OSMAuthenticationAPI? osmAuthentication,
     PanoramaxAuthenticationAPI? panoramaxAuthentication,
   }) : _osmAuthentication = osmAuthentication ?? OSMAuthenticationAPI(),
        _panoramaxAuthentication = panoramaxAuthentication ?? PanoramaxAuthenticationAPI() {
-    _initializing = _init();
+    _init();
   }
 
   Future<void> _init() async {
@@ -31,96 +46,99 @@ class UserAccountService extends Service {
       final authentication = await _osmAuthentication.restore();
       if (authentication == null) {
         await _panoramaxAuthentication.logout();
+        await _setPhotoPublicationConsent(false);
         return;
       }
-      final user = await _getAuthenticatedUser(authentication);
-      runInAction(() => _authenticatedUser.value = user);
+      OAuth2? photoAuthentication;
       try {
-        final photoAuthentication = await _panoramaxAuthentication.restore();
-        runInAction(
-          () => _authenticatedUser.value = user.withPanoramaxAuthentication(photoAuthentication),
-        );
+        photoAuthentication = await _panoramaxAuthentication.restore();
       } catch (error) {
         // A photo service outage does not prevent ordinary OSM editing.
         debugPrint(error.toString());
       }
+      final user = await _getAuthenticatedUser(authentication, photoAuthentication);
+      _hasPhotoPublicationConsent = await _storage.read(key: _photoConsentKey) == 'true';
+      runInAction(() => _authenticatedUser.value = user);
     } catch (error) {
       debugPrint(error.toString());
+    } finally {
+      _initializing = false;
     }
   }
 
   late final _isLoggedIn = Computed(() => authenticatedUser != null);
+
   bool get isLoggedIn => _isLoggedIn.value;
+
   late final _isLoggedOut = Computed(() => authenticatedUser == null);
+
   bool get isLoggedOut => _isLoggedOut.value;
+
   AuthenticatedUser? get authenticatedUser => _authenticatedUser.value;
 
-  Future<void> _login() async {
-    // Clear the old photo credential before OSM can write a different session.
-    await _panoramaxAuthentication.logout();
-    runInAction(() => _authenticatedUser.value = null);
-    final authentication = await _osmAuthentication.login();
-    final user = await _getAuthenticatedUser(authentication);
-    runInAction(() => _authenticatedUser.value = user);
-  }
-
-  // Serialize session changes so an exchange cannot restore credentials after logout.
-  Future<void> _changeSession(Future<void> Function() operation) {
-    final next = _sessionOperation.then((_) => operation());
-    _sessionOperation = next.then<void>((_) {}, onError: (Object _, StackTrace _) {});
-    return next;
-  }
-
-  Future<void> login() => _changeSession(() async {
-    await _initializing;
-    if (isLoggedIn) return;
+  /// [photoConsent] records an explicit acceptance for the account used to log in.
+  /// Photo authentication requires that acceptance or the current account's saved consent.
+  Future<void> login({bool withPanoramax = false, bool photoConsent = false}) async {
+    if (_initializing || (isLoggedIn && !withPanoramax)) return;
+    _initializing = true;
     try {
-      await _login();
+      final existing = authenticatedUser;
+      if (withPanoramax &&
+          (hasPhotoPublicationConsent || photoConsent) &&
+          existing?.isAuthenticatedWithPanoramax == true &&
+          await _panoramaxAuthentication.verifyAuthentication(existing!.panoramaxAuthentication!)) {
+        if (photoConsent) await _setPhotoPublicationConsent(true);
+        return;
+      }
+      final previousConsent = hasPhotoPublicationConsent;
+      // A newly stored OSM session must not inherit another account's consent.
+      await _setPhotoPublicationConsent(false);
+      await _panoramaxAuthentication.logout();
+      final result = await _osmAuthentication.login();
+      final user = await _getAuthenticatedUser(result.auth);
+      if (photoConsent || (existing?.id == user.id && previousConsent)) {
+        await _setPhotoPublicationConsent(true);
+      }
+      OAuth2? photoAuthentication;
+      if (withPanoramax && hasPhotoPublicationConsent) {
+        try {
+          final proof = result.idToken;
+          if (proof == null) throw const PanoramaxException(authenticationFailed: true);
+          photoAuthentication = await _panoramaxAuthentication.authenticate(proof);
+        } catch (_) {
+          // Keep the new OSM session usable if the optional photo exchange fails.
+          runInAction(() => _authenticatedUser.value = user);
+          rethrow;
+        }
+      }
+      runInAction(
+        () =>
+            _authenticatedUser.value = user.copyWith(panoramaxAuthentication: photoAuthentication),
+      );
     } catch (error) {
       debugPrint(error.toString());
+      if (withPanoramax) rethrow;
+    } finally {
+      _initializing = false;
     }
-  });
+  }
 
-  Future<void> logout() => _changeSession(() async {
-    await _initializing;
+  Future<void> logout() async {
+    if (_initializing || isLoggedOut) return;
+    _initializing = true;
     try {
-      await _panoramaxAuthentication.logout();
-      await _osmAuthentication.logout();
+      await Future.wait([
+        _panoramaxAuthentication.logout(),
+        _osmAuthentication.logout(),
+        _setPhotoPublicationConsent(false),
+      ]);
+      runInAction(() => _authenticatedUser.value = null);
     } catch (error) {
       debugPrint(error.toString());
     } finally {
-      runInAction(() => _authenticatedUser.value = null);
+      _initializing = false;
     }
-  });
-
-  bool get _hasFreshIdentityProof {
-    final payload = _osmAuthentication.idToken?.payload;
-    final expiry = payload is Map ? payload['exp'] : null;
-    return expiry is num &&
-        DateTime.fromMillisecondsSinceEpoch(
-          (expiry * 1000).toInt(),
-          isUtc: true,
-        ).isAfter(DateTime.now().toUtc().add(const Duration(seconds: 30)));
   }
-
-  /// Called only after publication and identity-sharing consent.
-  Future<void> authorizePhotoUpload() => _changeSession(() async {
-    await _initializing;
-    final user = authenticatedUser;
-    if (user == null) throw const PanoramaxUploadException(authenticationFailed: true);
-    final existing = user.panoramaxAuthentication;
-    if (existing != null && await _panoramaxAuthentication.verifyAuthentication(existing)) return;
-    await _panoramaxAuthentication.logout();
-    runInAction(() => _authenticatedUser.value = user.withPanoramaxAuthentication(null));
-    if (!_hasFreshIdentityProof) await _login();
-    final proof = _osmAuthentication.encodedIdToken;
-    if (proof == null) throw const PanoramaxUploadException(authenticationFailed: true);
-    final authentication = await _panoramaxAuthentication.authenticate(proof);
-    runInAction(
-      () =>
-          _authenticatedUser.value = authenticatedUser!.withPanoramaxAuthentication(authentication),
-    );
-  });
 
   Future<bool> openUserProfile() async {
     if (isLoggedOut) return false;
@@ -138,7 +156,10 @@ class UserAccountService extends Service {
   /// Method to get user details of the currently authenticated user.
   /// This method will throw [OSMAPI] exceptions, like an [OSMUnauthorizedException] if the user isn't authenticated any more.
 
-  Future<AuthenticatedUser> _getAuthenticatedUser(OAuth2 authentication) async {
+  Future<AuthenticatedUser> _getAuthenticatedUser(
+    OAuth2 authentication, [
+    OAuth2? panoramaxAuthentication,
+  ]) async {
     final osmApi = DefaultOSMAPI(
       authentication: authentication,
     );
@@ -148,6 +169,7 @@ class UserAccountService extends Service {
       final userDetails = await osmApi.getCurrentUserDetails();
       user = AuthenticatedUser(
         authentication: authentication,
+        panoramaxAuthentication: panoramaxAuthentication,
         name: userDetails.name,
         id: userDetails.id,
         preferredLanguages: userDetails.preferredLanguages,

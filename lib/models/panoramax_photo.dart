@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:exif/exif.dart';
-import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:meta_photo_picker/meta_photo_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -28,11 +28,10 @@ class PanoramaxPhoto {
     required Directory directory,
     ImageSource source = ImageSource.camera,
     ImagePicker? picker,
-    Future<void> Function(PanoramaxPhoto)? onCaptureStarted,
+    MetaPhotoPicker? libraryPicker,
   }) async {
     final id = const Uuid().v4();
     final pending = PanoramaxPhoto(id: id, path: '${directory.path}/$id.jpg');
-    await onCaptureStarted?.call(pending);
     final positions = <Position>[];
     StreamSubscription<Position>? subscription;
     if (source == ImageSource.camera) {
@@ -48,14 +47,20 @@ class PanoramaxPhoto {
         );
       }
     }
-    final galleryPicker = Platform.isAndroid && source == ImageSource.gallery;
-    const channel = MethodChannel('openstop/photo_question');
     try {
-      if (galleryPicker) await channel.invokeMethod<void>('prepareGalleryPicker');
-      final image = await (picker ?? ImagePicker()).pickImage(
-        source: source,
-        requestFullMetadata: true,
-      );
+      final XFile? image;
+      if (source == ImageSource.gallery) {
+        final selected = await (libraryPicker ?? MetaPhotoPicker()).pickSinglePhoto();
+        if (selected == null) return null;
+        final path = selected.filePath;
+        if (path == null) throw const FormatException('Missing selected photo file');
+        image = XFile(path);
+      } else {
+        image = await (picker ?? ImagePicker()).pickImage(
+          source: source,
+          requestFullMetadata: true,
+        );
+      }
       if (image == null) return null;
       final selectedAt = DateTime.now();
       final tags = await readExifFromFile(File(image.path));
@@ -100,21 +105,7 @@ class PanoramaxPhoto {
       return PanoramaxPhoto(id: id, path: pending.path, captureLocation: location);
     } finally {
       await subscription?.cancel();
-      if (galleryPicker) await channel.invokeMethod<void>('finishGalleryPicker');
     }
-  }
-
-  /// Accept an interrupted Android capture using its original GPS metadata.
-  static Future<PanoramaxPhoto> recover(
-    XFile image, {
-    required String id,
-    required String path,
-  }) async {
-    if (!_hasLocation(await readExifFromFile(File(image.path)))) {
-      throw const FormatException('Missing photo location');
-    }
-    await _saveImage(image, path);
-    return PanoramaxPhoto(id: id, path: path);
   }
 
   static bool _hasLocation(Map<String, IfdTag> tags) =>

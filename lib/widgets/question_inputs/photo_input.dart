@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
-import '/api/photo_capture_store.dart';
 import '/commons/themes.dart';
 import '/l10n/app_localizations.g.dart';
 import '/models/answer.dart';
@@ -14,12 +14,9 @@ import '/view_models/home_view_model.dart';
 import 'question_input_widget.dart';
 
 class PhotoInput extends QuestionInputWidget<PhotoAnswerDefinition, PhotoAnswer> {
-  final Future<PhotoCaptureStore> Function()? openStore;
-
   const PhotoInput({
     required super.definition,
     required super.controller,
-    this.openStore,
     super.key,
   });
 
@@ -27,23 +24,18 @@ class PhotoInput extends QuestionInputWidget<PhotoAnswerDefinition, PhotoAnswer>
   Widget build(BuildContext context) => _PhotoInputFragment(
     definition: definition,
     controller: controller,
-    openStore: openStore,
   );
 }
 
 class _PhotoInputFragment extends ViewFragment<HomeViewModel> {
   final PhotoAnswerDefinition definition;
   final AnswerController<PhotoAnswer> controller;
-  final Future<PhotoCaptureStore> Function()? openStore;
-
-  const _PhotoInputFragment({required this.definition, required this.controller, this.openStore});
+  const _PhotoInputFragment({required this.definition, required this.controller});
 
   @override
   Widget build(BuildContext context, HomeViewModel viewModel) => _PhotoInputView(
     definition: definition,
     controller: controller,
-    openStore: openStore,
-    viewModel: viewModel,
     semanticLabel:
         viewModel.selectedElement?.elementLabel(AppLocalizations.of(context)!) ??
         AppLocalizations.of(context)!.photoTakePicture,
@@ -51,18 +43,14 @@ class _PhotoInputFragment extends ViewFragment<HomeViewModel> {
 }
 
 class _PhotoInputView extends StatefulWidget {
-  final HomeViewModel viewModel;
   final String semanticLabel;
   final PhotoAnswerDefinition definition;
   final AnswerController<PhotoAnswer> controller;
-  final Future<PhotoCaptureStore> Function()? openStore;
 
   const _PhotoInputView({
-    required this.viewModel,
     required this.semanticLabel,
     required this.definition,
     required this.controller,
-    this.openStore,
   });
 
   @override
@@ -71,29 +59,10 @@ class _PhotoInputView extends StatefulWidget {
 
 class _PhotoInputState extends State<_PhotoInputView> {
   late final _picker = ImagePicker();
-  PhotoCaptureStore? _store;
-  bool _busy = true;
+  bool _busy = false;
   String? _error;
-  HomeViewModel get _viewModel => widget.viewModel;
 
   AppLocalizations get _locale => AppLocalizations.of(context)!;
-
-  @override
-  void initState() {
-    super.initState();
-    // Restore captured answers after the questionnaire has finished building.
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) _load();
-    });
-  }
-
-  Future<void> _load() => _run(() async {
-    _store = await (widget.openStore ?? PhotoCaptureStore.open)();
-    if (!mounted) return;
-    if (!_viewModel.restoreCapturedPhotos(widget.definition, widget.controller)) {
-      _setError(_locale.photoCaptureError);
-    }
-  });
 
   void _save(List<PanoramaxPhoto> photos) {
     if (widget.controller.isDisposed) throw StateError('The questionnaire has been discarded');
@@ -107,7 +76,7 @@ class _PhotoInputState extends State<_PhotoInputView> {
   }
 
   Future<void> _run(Future<void> Function() operation) async {
-    if (!mounted) return;
+    if (!mounted || _busy) return;
     setState(() {
       _busy = true;
       _error = null;
@@ -126,19 +95,25 @@ class _PhotoInputState extends State<_PhotoInputView> {
   Future<void> _chooseFromLibrary() => _pickPhoto(ImageSource.gallery);
 
   Future<void> _pickPhoto(ImageSource source) => _run(() async {
-    final store = _store;
-    if (store == null || _answerPhotos.length >= widget.definition.input.max) return;
+    if (_answerPhotos.length >= widget.definition.input.max) return;
     try {
-      final photo = await _viewModel.capturePhoto(
+      final support = await getApplicationSupportDirectory();
+      final directory = await Directory('${support.path}/stop_photos').create(recursive: true);
+      if (!mounted || widget.controller.isDisposed) return;
+      final photo = await PanoramaxPhoto.captureWithLocation(
+        directory: directory,
         source: source,
-        store: store,
         picker: _picker,
       );
       if (photo != null) {
         try {
+          if (!mounted || widget.controller.isDisposed) {
+            await File(photo.path).delete();
+            return;
+          }
           _save([..._answerPhotos, photo]);
         } catch (_) {
-          await store.delete(photo);
+          await File(photo.path).delete();
           rethrow;
         }
       }
@@ -164,7 +139,7 @@ class _PhotoInputState extends State<_PhotoInputView> {
     );
     if (confirmed != true) return;
     _save(_answerPhotos.where((item) => item.id != photo.id).toList());
-    await _store!.delete(photo);
+    await File(photo.path).delete();
   });
 
   @override
@@ -193,7 +168,7 @@ class _PhotoInputState extends State<_PhotoInputView> {
               Expanded(
                 child: FilledButton.icon(
                   style: photoButtonStyle,
-                  onPressed: _busy || _store == null || photos.length >= widget.definition.input.max
+                  onPressed: _busy || photos.length >= widget.definition.input.max
                       ? null
                       : _capture,
                   icon: const Icon(Icons.camera_alt),
@@ -204,7 +179,7 @@ class _PhotoInputState extends State<_PhotoInputView> {
               Expanded(
                 child: OutlinedButton(
                   style: photoButtonStyle,
-                  onPressed: _busy || _store == null || photos.length >= widget.definition.input.max
+                  onPressed: _busy || photos.length >= widget.definition.input.max
                       ? null
                       : _chooseFromLibrary,
                   child: Text(_locale.photoChooseFromLibrary),
@@ -250,7 +225,7 @@ class _PhotoInputState extends State<_PhotoInputView> {
                       child: IconButton.filled(
                         tooltip: _locale.photoRemove,
                         icon: const Icon(Icons.close, size: 18),
-                        onPressed: _busy || _store == null ? null : () => _remove(photo),
+                        onPressed: _busy ? null : () => _remove(photo),
                       ),
                     ),
                   ],

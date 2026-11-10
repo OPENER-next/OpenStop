@@ -67,7 +67,7 @@ class TagsSubCondition extends SubCondition<Map<Pattern, TagValueMatcher>> {
         // Absence applies to the whole key family, not to any single tag.
         return values.isEmpty
             ? tagCondition.value.matches(null)
-            : values.any(tagCondition.value.matches);
+            : values.every(tagCondition.value.matches);
       }
       return tagCondition.value.matches(sample.tags[key]);
     });
