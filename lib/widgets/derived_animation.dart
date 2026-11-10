@@ -12,10 +12,9 @@ class DerivedAnimation<T extends ChangeNotifier, V> extends Animation<V> {
   final V Function(T) _transformer;
 
   DerivedAnimation({
-    required T notifier,
-    required V Function(T) transformer,
-  }) : _notifier = notifier,
-       _transformer = transformer;
+    required this._notifier,
+    required this._transformer,
+  });
 
   @override
   void addListener(VoidCallback listener) {
