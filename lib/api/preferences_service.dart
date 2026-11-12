@@ -33,6 +33,20 @@ class PreferencesService extends Service {
     );
   }
 
+  final _photoPublicationConsentAtom = Atom(name: 'photoPublicationConsentPreference');
+  bool get hasPhotoPublicationConsent {
+    _photoPublicationConsentAtom.reportRead();
+    return _preferences.getBool('photoPublicationConsent') ?? false;
+  }
+
+  set hasPhotoPublicationConsent(bool newValue) {
+    _photoPublicationConsentAtom.reportWrite<bool>(
+      newValue,
+      hasPhotoPublicationConsent,
+      () => _preferences.setBool('photoPublicationConsent', newValue),
+    );
+  }
+
   final _themeModeIndexAtom = Atom(name: 'themePreference');
   ThemeMode get themeMode {
     _themeModeIndexAtom.reportRead();

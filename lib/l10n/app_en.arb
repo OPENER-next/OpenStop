@@ -437,16 +437,22 @@
   "@photoUpload": {},
   "photoRemove": "Remove photo",
   "@photoRemove": {},
-  "photoRemoveDescription": "Remove this photo from the questionnaire? Your original library photo will not be deleted.",
-  "@photoRemoveDescription": {},
   "photoPublishTitle": "Enable photo uploads?",
   "@photoPublishTitle": {},
-  "photoPublishDescription": "Photos you upload, their capture locations and times, and the selected OpenStreetMap object reference will be sent to osm-lens.vee.network and published under CC BY-SA 4.0. You also permit anyone to extract non-photographic data from these photos and use, share, and adapt that data under ODbL 1.0. By continuing, you agree to share your OpenStreetMap identity with this service. This consent applies to future photo uploads from this OpenStreetMap account. Only upload photos you took and are allowed to share. Avoid people and private information.",
-  "@photoPublishDescription": {},
+  "photoPublishDescription": "Photos you upload, their capture locations and times, and the selected OpenStreetMap object reference will be sent to {instanceHost} and published under CC BY-SA 4.0. You also permit anyone to extract non-photographic data from these photos and use, share, and adapt that data under ODbL 1.0. By continuing, you agree to share your OpenStreetMap identity with this service. This consent applies to future photo uploads from this OpenStreetMap account. Only upload photos you took and are allowed to share. Avoid people and private information.",
+  "@photoPublishDescription": {
+    "placeholders": {
+      "instanceHost": {
+        "type": "String"
+      }
+    }
+  },
   "photoAuthenticationError": "Photo authorization failed. Try signing in to OpenStreetMap again. You may need to accept the Panoramax instance's terms in your browser.",
   "@photoAuthenticationError": {},
   "photoUploadError": "Could not upload to Panoramax.",
   "@photoUploadError": {},
+  "photoDuplicateError": "One of the selected photos has already been uploaded to Panoramax. Remove it or choose a different photo, then try again.",
+  "@photoDuplicateError": {},
   "photoCaptureError": "Could not complete this action. Check camera and location permissions and available storage, then try again. Saved photos remain on this device.",
   "@photoCaptureError": {},
   "photoTakePicture": "Take picture",

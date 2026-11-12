@@ -1,43 +1,28 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:osm_api/osm_api.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '/api/osm_authentication_api.dart';
-import '/api/panoramax_api.dart' show PanoramaxException;
 import '/api/panoramax_authentication_api.dart';
+import '/api/preferences_service.dart';
 import '/commons/osm_config.dart';
 import '/models/authenticated_user.dart';
 
 /// Owns the OSM session and its optional, consented Panoramax authentication.
 class UserAccountService extends Service {
-  static const _storage = FlutterSecureStorage();
-  static const _photoConsentKey = 'panoramaxPhotoConsent';
-
-  final OSMAuthenticationAPI _osmAuthentication;
-  final PanoramaxAuthenticationAPI _panoramaxAuthentication;
+  final _osmAuthentication = OSMAuthenticationAPI();
+  final _panoramaxAuthentication = PanoramaxAuthenticationAPI();
   final _authenticatedUser = Observable<AuthenticatedUser?>(null);
   bool _initializing = true;
-  bool _hasPhotoPublicationConsent = false;
 
-  bool get hasPhotoPublicationConsent => _hasPhotoPublicationConsent;
+  PreferencesService get _preferences => GetIt.I.get<PreferencesService>();
 
-  Future<void> _setPhotoPublicationConsent(bool consented) async {
-    if (consented) {
-      await _storage.write(key: _photoConsentKey, value: 'true');
-    } else {
-      await _storage.delete(key: _photoConsentKey);
-    }
-    _hasPhotoPublicationConsent = consented;
-  }
+  bool get hasPhotoPublicationConsent => _preferences.hasPhotoPublicationConsent;
 
-  UserAccountService({
-    OSMAuthenticationAPI? osmAuthentication,
-    PanoramaxAuthenticationAPI? panoramaxAuthentication,
-  }) : _osmAuthentication = osmAuthentication ?? OSMAuthenticationAPI(),
-       _panoramaxAuthentication = panoramaxAuthentication ?? PanoramaxAuthenticationAPI() {
+  UserAccountService() {
     _init();
   }
 
@@ -46,7 +31,7 @@ class UserAccountService extends Service {
       final authentication = await _osmAuthentication.restore();
       if (authentication == null) {
         await _panoramaxAuthentication.logout();
-        await _setPhotoPublicationConsent(false);
+        _preferences.hasPhotoPublicationConsent = false;
         return;
       }
       OAuth2? photoAuthentication;
@@ -57,7 +42,6 @@ class UserAccountService extends Service {
         debugPrint(error.toString());
       }
       final user = await _getAuthenticatedUser(authentication, photoAuthentication);
-      _hasPhotoPublicationConsent = await _storage.read(key: _photoConsentKey) == 'true';
       runInAction(() => _authenticatedUser.value = user);
     } catch (error) {
       debugPrint(error.toString());
@@ -80,30 +64,29 @@ class UserAccountService extends Service {
   /// Photo authentication requires that acceptance or the current account's saved consent.
   Future<void> login({bool withPanoramax = false, bool photoConsent = false}) async {
     if (_initializing || (isLoggedIn && !withPanoramax)) return;
-    _initializing = true;
     try {
       final existing = authenticatedUser;
       if (withPanoramax &&
           (hasPhotoPublicationConsent || photoConsent) &&
           existing?.isAuthenticatedWithPanoramax == true &&
           await _panoramaxAuthentication.verifyAuthentication(existing!.panoramaxAuthentication!)) {
-        if (photoConsent) await _setPhotoPublicationConsent(true);
+        if (photoConsent) _preferences.hasPhotoPublicationConsent = true;
         return;
       }
       final previousConsent = hasPhotoPublicationConsent;
       // A newly stored OSM session must not inherit another account's consent.
-      await _setPhotoPublicationConsent(false);
+      _preferences.hasPhotoPublicationConsent = false;
       await _panoramaxAuthentication.logout();
       final result = await _osmAuthentication.login();
       final user = await _getAuthenticatedUser(result.auth);
       if (photoConsent || (existing?.id == user.id && previousConsent)) {
-        await _setPhotoPublicationConsent(true);
+        _preferences.hasPhotoPublicationConsent = true;
       }
       OAuth2? photoAuthentication;
       if (withPanoramax && hasPhotoPublicationConsent) {
         try {
           final proof = result.idToken;
-          if (proof == null) throw const PanoramaxException(authenticationFailed: true);
+          if (proof == null) throw const PanoramaxAuthenticationException();
           photoAuthentication = await _panoramaxAuthentication.authenticate(proof);
         } catch (_) {
           // Keep the new OSM session usable if the optional photo exchange fails.
@@ -118,25 +101,20 @@ class UserAccountService extends Service {
     } catch (error) {
       debugPrint(error.toString());
       if (withPanoramax) rethrow;
-    } finally {
-      _initializing = false;
     }
   }
 
   Future<void> logout() async {
     if (_initializing || isLoggedOut) return;
-    _initializing = true;
     try {
+      _preferences.hasPhotoPublicationConsent = false;
       await Future.wait([
         _panoramaxAuthentication.logout(),
         _osmAuthentication.logout(),
-        _setPhotoPublicationConsent(false),
       ]);
       runInAction(() => _authenticatedUser.value = null);
     } catch (error) {
       debugPrint(error.toString());
-    } finally {
-      _initializing = false;
     }
   }
 

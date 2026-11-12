@@ -567,17 +567,42 @@ Example use cases are:
 - matching a tag that contains certain value `/INCLUDED_VALUE/`.
 - matching a tag that contains a certain value between a separator string (e.g. semicolon) `/(^|^.+;)LIST_VALUE(;.+$|$)/`.
 
-Tag **keys** can also be regular expressions enclosed in slashes. For example:
-
-```json
-"osm_tags": {
-  "/^panoramax(?::.*)?$/": false
-}
-```
-
-For regex keys, a condition value of `false` requires every matching tag key to be absent. Other values must match every tag selected by the key regex. Arrays allow alternatives, including `false` for absence. Invalid key regexes are rejected when loading the catalog.
-
 Currently, setting regex flags is not supported. All of them are turned off except for the *match case-sensitive* flag.
+
+#### Regular expressions for keys
+
+Keys can also be matched with a regular expression. As with values, a regex is a string enclosed by slashes (`/`). A key regex matches against all keys of the element.
+
+##### Matching semantics: OR
+
+If a key is a regex, the entry is fulfilled as soon as **at least one** key that matches the regex also has a matching value.
+
+| Notation | Meaning |
+|---|---|
+| `"/^payment:/": "yes"` | at least one `payment:*` tag has the value `yes` |
+| `"/^payment:/": true` | at least one `payment:*` tag exists |
+| `"/^payment:/": false` | no `payment:*` tag exists |
+
+
+##### Matching semantics: AND
+
+In rare cases **every** key matching the regex must have a certain value (e.g. "all `payment:*` tags are `yes`"). There is no separate notation for this, but it can be expressed by combining a negation with an inverted value regex:
+
+
+```jsonc
+"conditions": [
+  {
+    // At least one `payment:*` tag exists. This part is optional but usually wanted. Without it, elements without any `payment:*` tag would also match, because "all of nothing" is vacuously true.
+    "osm_tags": {
+      "/^payment:/": true
+    },
+    // There is no `payment:*` tag whose value is something other than `yes`.
+    "!osm_tags": {
+      "/^payment:/": "/^(?!yes$).*$/"
+    }
+  }
+]
+```
 
 **Notation summary:**
 
@@ -670,14 +695,4 @@ The example below matches all elements which are part of a public transport bus 
 
 ### Photo implementation notes
 
-`PanoramaxPhoto` holds the file, UUID and optional measured capture location. The photo input calls `captureWithLocation` directly and stores the result through the ordinary answer controller. Library selection uses `meta_photo_picker` on both Android and iOS. Camera capture uses the native camera through `image_picker`. Existing GPS is preserved. Missing GPS is supplemented only for a new camera capture. Library images require original GPS.
-
-`UserAccountService` coordinates the separate OSM and Panoramax authentication APIs. `AuthenticatedUser` holds the OSM authentication and optional Panoramax `OAuth2` credential. OSM login returns authentication and an optional raw identity proof in a record. The APIs retain no identity proof state. The exchange server validates the proof before issuing a Panoramax credential.
-
-Ordinary OSM login does not exchange identity with Panoramax. Publication and identity-sharing consent is remembered for the current OSM account across app restarts. Logout or switching accounts clears consent. Submission calls `login(withPanoramax: true)` to reuse valid photo authentication or obtain a fresh OSM identity proof and exchange it. The questionnaire stays open until consent and authentication succeed. The account service clears the old Panoramax credential before a new OSM login, so a new OSM session cannot inherit the previous photo credential.
-
-The upload worker passes authentication to `PanoramaxAPI` on construction and retains it while a questionnaire can be retried. The API reuses successful upload Futures and resumes failed upload sets by checking which files the server accepted. OSM uploads wait for the photo uploads. Photo objects contain no authentication or upload progress.
-
-Selected images are copied into application-support storage and deleted when removed, discarded or uploaded. Interrupted-capture recovery and restoration of questionnaires after Android kills the app are deferred to a follow-up change.
-
-The `uuid` dependency assigns picture IDs before upload. These IDs make tags available immediately and remain unchanged on retries. Photo uploads run within the existing upload queue Future, before the OSM update.
+See [PANORAMAX.md](PANORAMAX.md) for photo capture and authentication design decisions.

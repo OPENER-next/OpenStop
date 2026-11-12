@@ -4,7 +4,6 @@ import 'package:osm_api/osm_api.dart';
 
 import '/commons/app_config.dart';
 import '/commons/panoramax_config.dart';
-import 'panoramax_api.dart' show PanoramaxException;
 
 /// Exchanges an OSM identity proof for the instance's own upload credential.
 class PanoramaxAuthenticationAPI {
@@ -22,17 +21,18 @@ class PanoramaxAuthenticationAPI {
 
   /// The exchange service verifies the original JWT signature and claims.
   Future<OAuth2> authenticate(String idToken) async {
-    final response = await _request('/auth/osm/exchange', data: {'id_token': idToken});
-    final token = response.data?['jwt_token'];
-    if (token is! String || token.isEmpty) {
-      throw const PanoramaxException(authenticationFailed: true);
+    try {
+      final response = await _request('/auth/osm/exchange', data: {'id_token': idToken});
+      final token = response.data?['jwt_token'];
+      if (token is! String || token.isEmpty) {
+        throw const PanoramaxAuthenticationException();
+      }
+      final authentication = OAuth2(accessToken: token);
+      await _storage.write(key: _tokenKey, value: token);
+      return authentication;
+    } on DioException {
+      throw const PanoramaxAuthenticationException();
     }
-    final authentication = OAuth2(accessToken: token);
-    if (!await verifyAuthentication(authentication)) {
-      throw const PanoramaxException(authenticationFailed: true);
-    }
-    await _storage.write(key: _tokenKey, value: token);
-    return authentication;
   }
 
   Future<bool> verifyAuthentication(OAuth2 authentication) async {
@@ -76,4 +76,8 @@ class PanoramaxAuthenticationAPI {
       dio.close();
     }
   }
+}
+
+class PanoramaxAuthenticationException implements Exception {
+  const PanoramaxAuthenticationException();
 }

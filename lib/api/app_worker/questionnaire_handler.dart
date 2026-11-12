@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
-
-import '/api/panoramax_api.dart';
+import '/api/panoramax_authentication_api.dart';
+import '/api/panoramax_photo_upload_api.dart';
 import '/l10n/app_localizations.g.dart';
 import '/models/answer.dart';
 import '/models/authenticated_user.dart';
@@ -23,7 +22,6 @@ import 'question_catalog_handler.dart';
 mixin QuestionnaireHandler<M>
     on ServiceWorker<M>, QuestionCatalogHandler<M>, ElementHandler<M>, LocaleHandler<M> {
   final _questionnaireStore = QuestionnaireStore();
-  final _photoApis = <Questionnaire, PanoramaxAPI>{};
 
   Questionnaire? _activeQuestionnaire;
 
@@ -102,9 +100,8 @@ mixin QuestionnaireHandler<M>
             .map((entry) => entry.answer)
             .whereType<PhotoAnswer>()
             .expand((answer) => answer.value)) {
-      final file = File(photo.path);
       try {
-        if (file.existsSync()) await file.delete();
+        await photo.deleteFromDisk();
       } on FileSystemException {
         continue;
       }
@@ -130,7 +127,6 @@ mixin QuestionnaireHandler<M>
 
   Future<void> discardQuestionnaire(Questionnaire questionnaire) async {
     _questionnaireStore.remove(questionnaire);
-    _photoApis.remove(questionnaire)?.dispose();
     await _deletePhotos(questionnaire);
 
     if (questionnaire == _activeQuestionnaire) {
@@ -141,36 +137,33 @@ mixin QuestionnaireHandler<M>
     }
   }
 
-  /// Uploads a stored questionnaire after its dialog has been closed.
+  /// Uploads the current questionnaire and closes its dialog before transmission.
 
-  Future<void> uploadQuestionnaire((AuthenticatedUser, ElementIdentifier) data) async {
-    final (user, element) = data;
-    final questionnaire = _questionnaireStore.find((item) => item.workingElement == element);
+  Future<void> uploadQuestionnaire(AuthenticatedUser user) async {
+    final questionnaire = _activeQuestionnaire;
     if (questionnaire == null) return;
+    closeQuestionnaire();
 
-    try {
-      late final target = MapFeatures().representElement(questionnaire.workingElement);
-      late final label = target.elementLabel(lookupAppLocalizations(appLocale));
-      for (final entry in questionnaire.entries) {
-        final answer = entry.answer;
-        if (answer is! PhotoAnswer || !answer.isValid) continue;
-        final authentication = user.panoramaxAuthentication;
-        if (authentication == null) {
-          throw const PanoramaxException(authenticationFailed: true);
-        }
-        final api = _photoApis.putIfAbsent(
-          questionnaire,
-          () => PanoramaxAPI(authentication: authentication),
+    final photos = questionnaire.entries
+        .map((entry) => entry.answer)
+        .whereType<PhotoAnswer>()
+        .where((answer) => answer.isValid)
+        .expand((answer) => answer.value)
+        .toList();
+    if (photos.isNotEmpty) {
+      final authentication = user.panoramaxAuthentication;
+      if (authentication == null) throw const PanoramaxAuthenticationException();
+      final api = PanoramaxPhotoUploadAPI(authentication: authentication);
+      try {
+        final target = MapFeatures().representElement(questionnaire.workingElement);
+        await api.upload(
+          photos: photos,
+          target: questionnaire.workingElement,
+          label: target.elementLabel(lookupAppLocalizations(appLocale)),
         );
-        api.updateAuthentication(authentication);
-        for (final photo in answer.value) {
-          await api.upload(photo, target: questionnaire.workingElement, label: label);
-        }
+      } finally {
+        api.dispose();
       }
-    } on DioException catch (error) {
-      throw PanoramaxException(
-        authenticationFailed: [401, 403].contains(error.response?.statusCode),
-      );
     }
     await uploadElement(questionnaire.workingElement, user);
     await discardQuestionnaire(questionnaire);
@@ -221,9 +214,6 @@ mixin QuestionnaireHandler<M>
 
   @override
   void exit() {
-    for (final api in _photoApis.values) {
-      api.dispose();
-    }
     _activeQuestionnaireStreamController.close();
     super.exit();
   }
@@ -252,7 +242,6 @@ mixin QuestionnaireHandler<M>
     } else {
       for (final questionnaire in _questionnaireStore.items) {
         unawaited(_deletePhotos(questionnaire));
-        _photoApis.remove(questionnaire)?.dispose();
       }
       _questionnaireStore.clear();
       closeQuestionnaire();

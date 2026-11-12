@@ -22,9 +22,11 @@ import 'package:path_provider/path_provider.dart';
 import '/api/app_worker/app_worker_interface.dart';
 import '/api/app_worker/element_handler.dart';
 import '/api/app_worker/stop_area_handler.dart';
-import '/api/panoramax_api.dart';
+import '/api/panoramax_authentication_api.dart';
+import '/api/panoramax_photo_upload_api.dart';
 import '/api/preferences_service.dart';
 import '/api/user_account_service.dart';
+import '/commons/panoramax_config.dart';
 import '/l10n/app_localizations.g.dart';
 import '/models/answer.dart';
 import '/models/map_features/map_feature_representation.dart';
@@ -431,7 +433,7 @@ class HomeViewModel extends ViewModel
             final confirmed = await promptUserInput(
               Prompt(
                 title: appLocale.photoPublishTitle,
-                message: appLocale.photoPublishDescription,
+                message: appLocale.photoPublishDescription(Uri.parse(kPanoramaxUrl).host),
                 choices: {appLocale.photoUpload: true, appLocale.cancel: false},
                 isDismissible: true,
               ),
@@ -444,35 +446,29 @@ class HomeViewModel extends ViewModel
               withPanoramax: hasPhotos,
               photoConsent: photoConsent,
             );
-          } on DioException catch (error) {
+          } on DioException {
             if (!hasPhotos) rethrow;
-            throw PanoramaxException(
-              authenticationFailed: [401, 403].contains(error.response?.statusCode),
-            );
+            throw const PanoramaxAuthenticationException();
           }
           if (!_userAccountService.isLoggedIn || !mounted) return;
           // A different account selected during login needs its own consent.
         } while (hasPhotos && !_userAccountService.hasPhotoPublicationConsent);
 
-        await _appWorker.closeQuestionnaire();
         runInAction(() => _selectedElement.value = null);
 
-        uploading = _appWorker.uploadQuestionnaire(
-          user: _userAccountService.authenticatedUser!,
-          element: alteredElement,
-        );
+        uploading = _appWorker.uploadQuestionnaire(_userAccountService.authenticatedUser!);
         _uploadQueue[alteredElement] = uploading;
       } finally {
         _submitting = false;
       }
       await uploading;
-    } on PanoramaxException catch (error) {
+    } on PanoramaxAuthenticationException {
+      if (mounted) notifyUser(Notification(appLocale.photoAuthenticationError));
+    } on PanoramaxPhotoUploadException catch (error) {
       if (mounted) {
         notifyUser(
           Notification(
-            error.authenticationFailed
-                ? appLocale.photoAuthenticationError
-                : appLocale.photoUploadError,
+            error.isDuplicate ? appLocale.photoDuplicateError : appLocale.photoUploadError,
           ),
         );
       }

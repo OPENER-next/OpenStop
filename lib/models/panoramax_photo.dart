@@ -1,127 +1,95 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:exif/exif.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:meta_photo_picker/meta_photo_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
 /// A selected image and its preassigned Panoramax identifier.
 class PanoramaxPhoto {
   final String id;
   final String path;
+  final LatLng captureLocation;
 
-  /// Measured during an in-app capture. Library photos use their original EXIF.
-  final ({double latitude, double longitude})? captureLocation;
+  PanoramaxPhoto._({required this.path, required this.captureLocation}) : id = const Uuid().v4();
 
-  PanoramaxPhoto({
-    required this.id,
-    required this.path,
-    this.captureLocation,
-  });
-
-  /// Capture or select an image, retaining original GPS when present. Missing
-  /// GPS may be supplemented only for a new camera capture, never a library image.
-  static Future<PanoramaxPhoto?> captureWithLocation({
-    required Directory directory,
-    ImageSource source = ImageSource.camera,
-    ImagePicker? picker,
-    MetaPhotoPicker? libraryPicker,
-  }) async {
-    final id = const Uuid().v4();
-    final pending = PanoramaxPhoto(id: id, path: '${directory.path}/$id.jpg');
-    final positions = <Position>[];
-    StreamSubscription<Position>? subscription;
-    if (source == ImageSource.camera) {
-      var permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-      }
-      if (permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
-        const settings = LocationSettings(accuracy: LocationAccuracy.best);
-        subscription = Geolocator.getPositionStream(locationSettings: settings).listen(
-          positions.add,
-          onError: (Object _) {},
-        );
-      }
-    }
+  /// Uses the native camera and supplements missing EXIF GPS with a fresh fix.
+  static Future<PanoramaxPhoto?> takePhoto() async {
+    final image = await ImagePicker().pickImage(
+      source: ImageSource.camera,
+      requestFullMetadata: true,
+    );
+    if (image == null) return null;
     try {
-      final XFile? image;
-      if (source == ImageSource.gallery) {
-        final selected = await (libraryPicker ?? MetaPhotoPicker()).pickSinglePhoto();
-        if (selected == null) return null;
-        final path = selected.filePath;
-        if (path == null) throw const FormatException('Missing selected photo file');
-        image = XFile(path);
-      } else {
-        image = await (picker ?? ImagePicker()).pickImage(
-          source: source,
-          requestFullMetadata: true,
-        );
-      }
-      if (image == null) return null;
-      final selectedAt = DateTime.now();
-      final tags = await readExifFromFile(File(image.path));
-      final hasLocation = _hasLocation(tags);
-      ({double latitude, double longitude})? location;
-      if (!hasLocation) {
-        if (source != ImageSource.camera) throw const FormatException('Missing photo location');
-        // A fresh fix is required; never substitute the selected OSM element's position.
-        if (positions.isEmpty) {
-          positions.add(
-            await Geolocator.getCurrentPosition(
-              locationSettings: const LocationSettings(
-                accuracy: LocationAccuracy.best,
-                timeLimit: Duration(seconds: 20),
-              ),
-            ),
-          );
+      var location = _readLocation(await readExifFromFile(File(image.path)));
+      if (location == null) {
+        final permission = await Geolocator.checkPermission();
+        if (permission == LocationPermission.denied) {
+          await Geolocator.requestPermission();
         }
-        final time = tags['EXIF DateTimeOriginal']?.printable;
-        final capturedAt = time == null
-            ? selectedAt
-            : DateTime.tryParse(
-                    time.replaceFirstMapped(
-                      RegExp(r'^(\d{4}):(\d{2}):(\d{2})'),
-                      (match) => '${match[1]}-${match[2]}-${match[3]}',
-                    ),
-                  ) ??
-                  selectedAt;
-        final nearest = positions.reduce(
-          (a, b) =>
-              a.timestamp.difference(capturedAt).abs() <= b.timestamp.difference(capturedAt).abs()
-              ? a
-              : b,
+        final position = await Geolocator.getCurrentPosition(
+          locationSettings: const LocationSettings(
+            accuracy: LocationAccuracy.best,
+            timeLimit: Duration(seconds: 20),
+          ),
         );
-        // Allow GPS update delays without reusing an old fix from a long camera session.
-        if (nearest.timestamp.difference(capturedAt).abs() > const Duration(seconds: 30)) {
-          throw TimeoutException('No location near capture time');
-        }
-        location = (latitude: nearest.latitude, longitude: nearest.longitude);
+        location = LatLng(position.latitude, position.longitude);
       }
-      await _saveImage(image, pending.path);
-      return PanoramaxPhoto(id: id, path: pending.path, captureLocation: location);
-    } finally {
-      await subscription?.cancel();
+      return PanoramaxPhoto._(path: image.path, captureLocation: location);
+    } catch (_) {
+      await _discardRejectedFile(image.path);
+      rethrow;
     }
   }
 
-  static bool _hasLocation(Map<String, IfdTag> tags) =>
-      (tags['GPS GPSLatitude']?.printable.isNotEmpty ?? false) &&
-      (tags['GPS GPSLongitude']?.printable.isNotEmpty ?? false);
-
-  static Future<void> _saveImage(XFile image, String path) async {
-    await image.saveTo(path);
+  /// Selects an original image with GPS through the platform file picker.
+  static Future<PanoramaxPhoto?> selectPhoto() async {
+    final selected = await MetaPhotoPicker().pickSinglePhoto();
+    if (selected == null) return null;
+    final path = selected.filePath;
+    if (path == null) throw const FormatException('Missing selected photo file');
     try {
-      final cache = await (await getTemporaryDirectory()).resolveSymbolicLinks();
-      final source = await File(image.path).resolveSymbolicLinks();
-      if (source.startsWith('$cache${Platform.pathSeparator}') && source != path) {
-        await File(source).delete();
-      }
+      final location = _readLocation(await readExifFromFile(File(path)));
+      if (location == null) throw const FormatException('Missing photo location');
+      return PanoramaxPhoto._(path: path, captureLocation: location);
     } catch (_) {
-      // The accepted copy is already stored. Picker cache cleanup is best effort.
+      await _discardRejectedFile(path);
+      rethrow;
     }
+  }
+
+  static Future<void> _discardRejectedFile(String path) async {
+    try {
+      final file = File(path);
+      if (file.existsSync()) await file.delete();
+    } on FileSystemException {
+      // Preserve the original capture or metadata error.
+    }
+  }
+
+  static LatLng? _readLocation(Map<String, IfdTag> tags) {
+    double? coordinate(String key, String positive, String negative, double limit) {
+      final values = tags['GPS GPS$key']?.values;
+      final reference = tags['GPS GPS${key}Ref']?.printable;
+      if (values is! IfdRatios || values.ratios.length != 3) return null;
+      if (reference != positive && reference != negative) return null;
+      final parts = values.ratios.map((ratio) => ratio.toDouble()).toList();
+      final value = parts[0] + parts[1] / 60 + parts[2] / 3600;
+      if (!value.isFinite || value < 0 || value > limit) return null;
+      return reference == negative ? -value : value;
+    }
+
+    final latitude = coordinate('Latitude', 'N', 'S', 90);
+    final longitude = coordinate('Longitude', 'E', 'W', 180);
+    if (latitude == null || longitude == null) return null;
+    return LatLng(latitude, longitude);
+  }
+
+  /// Deletes the picker's temporary copy, leaving the original library photo intact.
+  Future<void> deleteFromDisk() async {
+    final file = File(path);
+    if (file.existsSync()) await file.delete();
   }
 }
