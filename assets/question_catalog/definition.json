@@ -4508,5 +4508,60 @@
             "osm_element": "Node"
          }
       ]
+   },
+   {
+      "question": {
+         "name": "@stopPhotoName",
+         "text": "@stopPhotoText",
+         "description": "@stopPhotoDescription"
+      },
+      "answer": {
+         "type": "Photo",
+         "input": {"max": 4},
+         "constructor": {
+            "panoramax": ["SELECT", "0", "$input"],
+            "panoramax:1": ["SELECT", "1", "$input"],
+            "panoramax:2": ["SELECT", "2", "$input"],
+            "panoramax:3": ["SELECT", "3", "$input"]
+         }
+      },
+      "conditions": [
+         {
+            "osm_tags": {
+               "public_transport": "platform",
+               "/^panoramax(?::.*)?$/": false
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
+         },
+         {
+            "osm_tags": {
+               "highway": [
+                  "bus_stop",
+                  "platform"
+               ],
+               "/^panoramax(?::.*)?$/": false
+            },
+            "!parent": [
+               {
+                  "osm_tags": {
+                     "public_transport": "platform"
+                  }
+               }
+            ]
+         },
+         {
+            "osm_tags": {
+               "railway": "platform",
+               "/^panoramax(?::.*)?$/": false
+            },
+            "osm_element": ["OpenWay", "ClosedWay", "Relation"]
+         }
+      ]
    }
 ]

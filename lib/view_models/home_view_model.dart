@@ -22,9 +22,13 @@ import 'package:path_provider/path_provider.dart';
 import '/api/app_worker/app_worker_interface.dart';
 import '/api/app_worker/element_handler.dart';
 import '/api/app_worker/stop_area_handler.dart';
+import '/api/panoramax_authentication_api.dart';
+import '/api/panoramax_photo_upload_api.dart';
 import '/api/preferences_service.dart';
 import '/api/user_account_service.dart';
+import '/commons/panoramax_config.dart';
 import '/l10n/app_localizations.g.dart';
+import '/models/answer.dart';
 import '/models/map_features/map_feature_representation.dart';
 import '/models/question_catalog/question_definition.dart';
 import '/models/questionnaire.dart';
@@ -316,7 +320,9 @@ class HomeViewModel extends ViewModel
 
   late final _questionnaireState = ObservableStream(_appWorker.subscribeQuestionnaireChanges());
 
-  late final _hasQuestionnaire = Computed(() => _questionnaireState.value != null);
+  late final _hasQuestionnaire = Computed(
+    () => _questionnaireState.value?.matchesTarget(selectedElement) == true,
+  );
   bool get hasQuestionnaire => _hasQuestionnaire.value;
 
   late final _questionCount = Computed(() => _questionnaireState.value?.entries.length ?? 0);
@@ -353,9 +359,9 @@ class HomeViewModel extends ViewModel
     _updateAnswerControllers();
 
     return UnmodifiableListView<AnswerController>(
-      _questionnaireState.value?.entries.map(
-            (entry) => _answerControllerMapping[entry]!,
-          ) ??
+      _questionnaireState.value?.entries
+              .map((entry) => _answerControllerMapping[entry]!)
+              .toList(growable: false) ??
           const Iterable.empty(),
     );
   }
@@ -404,32 +410,77 @@ class HomeViewModel extends ViewModel
 
   /// Upload the changes made by this questionnaire with the current authenticated user.
 
+  // Only preparation holds this lock. Each upload has its own queue entry.
+  bool _submitting = false;
+
   Future<void> submitQuestionnaire() async {
+    if (_submitting) return;
     final appLocale = AppLocalizations.of(context)!;
     final alteredElement = selectedElement;
-
-    if (_userAccountService.isLoggedOut) {
-      // wait till the user login process finishes
-      await _userAccountService.login();
-    }
-    // check if the user is successfully logged in
-    // check if mounted to ensure context is valid
-    if (_userAccountService.isLoggedIn && mounted) {
+    if (alteredElement == null || _uploadQueue.containsKey(alteredElement)) return;
+    _submitting = true;
+    Future<void>? uploading;
+    try {
       try {
-        // deselect element
-        runInAction(() => _selectedElement.value = null);
-        // this automatically closes the questionaire
-        final uploading = _appWorker.uploadQuestionnaire(
-          user: _userAccountService.authenticatedUser!,
+        await _updateQuestionnaireAnswer();
+        final hasPhotos = questionnaireAnswers.any(
+          (controller) => controller.answer is PhotoAnswer && controller.hasValidAnswer,
         );
-        _uploadQueue[alteredElement!] = uploading;
-        await uploading;
-      } on OSMConnectionException {
-        notifyUser(Notification(appLocale.uploadMessageServerConnectionError));
-      } catch (e) {
-        debugPrint(e.toString());
-        notifyUser(Notification(appLocale.uploadMessageUnknownConnectionError));
+        if (!questionnaireAnswers.any((answer) => answer.hasValidAnswer)) return;
+        do {
+          var photoConsent = false;
+          if (hasPhotos && !_userAccountService.hasPhotoPublicationConsent) {
+            final confirmed = await promptUserInput(
+              Prompt(
+                title: appLocale.photoPublishTitle,
+                message: appLocale.photoPublishDescription(Uri.parse(kPanoramaxUrl).host),
+                choices: {appLocale.photoUpload: true, appLocale.cancel: false},
+                isDismissible: true,
+              ),
+            );
+            if (confirmed != true || !mounted) return;
+            photoConsent = true;
+          }
+          try {
+            await _userAccountService.login(
+              withPanoramax: hasPhotos,
+              photoConsent: photoConsent,
+            );
+          } on DioException {
+            if (!hasPhotos) rethrow;
+            throw const PanoramaxAuthenticationException();
+          }
+          if (!_userAccountService.isLoggedIn || !mounted) return;
+          // A different account selected during login needs its own consent.
+        } while (hasPhotos && !_userAccountService.hasPhotoPublicationConsent);
+
+        runInAction(() => _selectedElement.value = null);
+
+        uploading = _appWorker.uploadQuestionnaire(_userAccountService.authenticatedUser!);
+        _uploadQueue[alteredElement] = uploading;
       } finally {
+        _submitting = false;
+      }
+      await uploading;
+    } on PanoramaxAuthenticationException {
+      if (mounted) notifyUser(Notification(appLocale.photoAuthenticationError));
+    } on PanoramaxPhotoUploadException catch (error) {
+      if (mounted) {
+        notifyUser(
+          Notification(
+            error.isDuplicate ? appLocale.photoDuplicateError : appLocale.photoUploadError,
+          ),
+        );
+      }
+    } on DioException {
+      if (mounted) notifyUser(Notification(appLocale.uploadMessageServerConnectionError));
+    } on OSMConnectionException {
+      if (mounted) notifyUser(Notification(appLocale.uploadMessageServerConnectionError));
+    } catch (e) {
+      debugPrint(e.toString());
+      if (mounted) notifyUser(Notification(appLocale.uploadMessageUnknownConnectionError));
+    } finally {
+      if (uploading != null && identical(_uploadQueue[alteredElement], uploading)) {
         _uploadQueue.remove(alteredElement)?.ignore();
       }
     }
@@ -488,17 +539,14 @@ class HomeViewModel extends ViewModel
     });
     // add new answer controllers for each entry if none already exists
     for (final questionEntry in questionEntries) {
-      _answerControllerMapping.putIfAbsent(
-        questionEntry,
-        () => AnswerController.fromType(
+      _answerControllerMapping.putIfAbsent(questionEntry, () {
+        final controller = AnswerController.fromType(
           type: questionEntry.question.answer.runtimeType,
           initialAnswer: questionEntry.answer,
-          // Calling this repeatedly might be expensive, since a questionnaire update
-          // will go through all questions and check whether they still match or start
-          // matching.
-          // The questionnaire is still updated on "go to next/previous question" calls.
-        )..addListener(_answerInputDebouncer.debounce(_updateQuestionnaireAnswer)),
-      );
+        );
+        controller.addListener(_answerInputDebouncer.debounce(_updateQuestionnaireAnswer));
+        return controller;
+      });
     }
   }
 
@@ -537,6 +585,8 @@ class HomeViewModel extends ViewModel
   Key get selectedElementKey => _selectedElementKey.value;
 
   void onElementTap(MapFeatureRepresentation element) {
+    if (_submitting || _uploadQueue.containsKey(element)) return;
+
     // show questions if a new marker is selected, else hide the current one
     if (_selectedElement.value != element) {
       _openQuestionnaire(element);

@@ -40,7 +40,7 @@ Further details and information can be added using the `description` and `image`
 ## The `answer` part
 
 This defines the input element the user interacts with as well as which tags are written. It consists of three sub-properties:
-- `type` defines the UI input element that will be displayed to the user. Possible types are: `String`, `Number`, `Duration`, `Bool`, `List` and `MultiList`
+- `type` defines the UI input element that will be displayed to the user. Possible types are: `String`, `Number`, `Duration`, `Bool`, `List`, `MultiList` and `Photo`
 - `input` defines additional settings for the input element, which varies across different input types.
 - `constructor` defines the transformation from input value(s) to tags that are ultimately written to the OSM element.
 
@@ -197,6 +197,27 @@ Displays a list of multiple options and allows the selection of one option (`Lis
 }
 ```
 
+#### `Photo` input
+
+Allows taking or selecting photos. Photo publication consent is requested before obtaining or using a Panoramax upload credential. Ordinary OSM login does not exchange the identity with Panoramax. Photos are uploaded when submitting the questionnaire, immediately before its OSM update. The constructor receives preassigned picture UUIDs through `$input`, so dependent questions see the tags immediately. OSM submission waits until every referenced photo has uploaded successfully.
+
+The publication prompt asks contributors to license photos under CC BY-SA 4.0 and additionally permit anyone to extract non-photographic data from the photos and use, share, and adapt that data under ODbL 1.0, following the [Panoramax federation's licensing approach](https://docs.panoramax.fr/federated-catalog/#pictures-and-metadata-licenses). It also asks permission to share their OSM identity with the photo service.
+
+```json
+"answer": {
+    "type": "Photo",
+    "input": {"max": 4},
+    "constructor": {
+        "panoramax": ["SELECT", "0", "$input"],
+        "panoramax:1": ["SELECT", "1", "$input"],
+        "panoramax:2": ["SELECT", "2", "$input"],
+        "panoramax:3": ["SELECT", "3", "$input"]
+    }
+}
+```
+
+The required `max` value limits the number of images. `$input` provides all photo UUIDs regardless of the tag key. Use `SELECT` to assign individual photos to tags. Missing indices produce no tag. `JOIN` can instead combine all UUIDs into one tag. Photos are uploaded before the ordinary OSM update.
+
 ### Constructor
 
 The constructor is defined as a mapping of OSM keys to expressions, while an expression is like a function which eventually computes the value of the tag.
@@ -207,12 +228,12 @@ The constructor is defined as a mapping of OSM keys to expressions, while an exp
 }
 ```
 
-Expressions are structured like this: `["EXPRESSION", arg1, arg2, argN]`, while every argument hast to be a string.
+Expressions are structured like this: `["EXPRESSION", arg1, arg2, argN]`. Arguments can be strings or nested expressions.
 The first item of the array is the expression identifier and must be written in caps. Expressions can freely be nested in other expressions.
 
 There is a special `$input` variable which holds the **values** entered by the user via the input widget. Note that for some inputs like `MultiList` this might spread into multiple values.
 
-For `Number`, `Duration` and `String` inputs the `$input` variable will return the same value regardless of the tag/key it is used on.
+For `Number`, `Duration`, `String` and `Photo` inputs the `$input` variable will return the same values regardless of the tag/key it is used on.
 For `Bool`, `List` and `MultiList` the `$input` variable has a separate value for each tag/key which is defined in the `input` part.
 
 If an expression doesn't return a value, for example because all arguments are empty or invalid, the corresponding tag won't be written.
@@ -230,6 +251,15 @@ output: `operator=first`
 - input: `[A,B,C]`
 constructor: `"operator": ["COALESCE", "$input"]`
 output: `operator=A`
+
+#### `SELECT` expression
+
+Selects one value by its zero-based index. The first argument is the index, followed by the values to select from. A missing, invalid, negative or out-of-range index returns no value, so the tag is omitted. The index must be an integer string.
+
+**Example:**
+- input: `[A,B,C]`
+constructor: `"image": ["SELECT", "1", "$input"]`
+output: `image=B`
 
 #### `CONCAT` expression
 
@@ -539,6 +569,41 @@ Example use cases are:
 
 Currently, setting regex flags is not supported. All of them are turned off except for the *match case-sensitive* flag.
 
+#### Regular expressions for keys
+
+Keys can also be matched with a regular expression. As with values, a regex is a string enclosed by slashes (`/`). A key regex matches against all keys of the element.
+
+##### Matching semantics: OR
+
+If a key is a regex, the entry is fulfilled as soon as **at least one** key that matches the regex also has a matching value.
+
+| Notation | Meaning |
+|---|---|
+| `"/^payment:/": "yes"` | at least one `payment:*` tag has the value `yes` |
+| `"/^payment:/": true` | at least one `payment:*` tag exists |
+| `"/^payment:/": false` | no `payment:*` tag exists |
+
+
+##### Matching semantics: AND
+
+In rare cases **every** key matching the regex must have a certain value (e.g. "all `payment:*` tags are `yes`"). There is no separate notation for this, but it can be expressed by combining a negation with an inverted value regex:
+
+
+```jsonc
+"conditions": [
+  {
+    // At least one `payment:*` tag exists. This part is optional but usually wanted. Without it, elements without any `payment:*` tag would also match, because "all of nothing" is vacuously true.
+    "osm_tags": {
+      "/^payment:/": true
+    },
+    // There is no `payment:*` tag whose value is something other than `yes`.
+    "!osm_tags": {
+      "/^payment:/": "/^(?!yes$).*$/"
+    }
+  }
+]
+```
+
 **Notation summary:**
 
 ```jsonc
@@ -627,3 +692,7 @@ The example below matches all elements which are part of a public transport bus 
   ]
 }
 ```
+
+### Photo implementation notes
+
+See [PANORAMAX.md](PANORAMAX.md) for photo capture and authentication design decisions.

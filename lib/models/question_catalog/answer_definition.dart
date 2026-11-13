@@ -18,6 +18,11 @@ abstract class AnswerDefinition<T> {
     final constructor = (json['constructor'] as Map<String, dynamic>?)?.cast<String, List>();
 
     switch (type) {
+      case 'Photo':
+        return PhotoAnswerDefinition(
+          input: PhotoInputDefinition(max: (input as Map<String, dynamic>)['max'] as int),
+          constructor: AnswerConstructor(constructor!),
+        );
       case 'String':
         input as Map<String, dynamic>;
         return StringAnswerDefinition(
@@ -262,4 +267,15 @@ class MultiListAnswerDefinition extends ListAnswerDefinition {
     required super.input,
     super.constructor,
   });
+}
+
+class PhotoAnswerDefinition extends AnswerDefinition<PhotoInputDefinition> {
+  const PhotoAnswerDefinition({required super.input, required super.constructor});
+}
+
+class PhotoInputDefinition implements InputDefinition {
+  final int max;
+
+  const PhotoInputDefinition({required this.max})
+    : assert(max > 0, 'At least one photo must be allowed.');
 }

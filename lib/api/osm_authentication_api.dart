@@ -16,6 +16,7 @@ class OSMAuthenticationAPI {
     this.permissions = const [
       'write_api',
       'read_prefs',
+      'openid',
     ],
   });
 
@@ -27,10 +28,11 @@ class OSMAuthenticationAPI {
 
   /// This will start the login/authentication process by opening the openstreetmap website inside a browser/webview.
   /// The future will resolve when this process has finished.
-  /// If the access token was gathered successfully an [OAuth2] authentication object will be returned.
+  /// Returns OSM authentication and, after a successful login with the openid
+  /// permission, the raw identity token for the Panoramax exchange service.
   /// Otherwise errors might be thrown.
 
-  Future<OAuth2> login() async {
+  Future<({OAuth2 auth, String? idToken})> login() async {
     final authUri = Uri.https(kOSMServer, _authorizationEndpoint, {
       'response_type': 'code',
       'client_id': kOAuth2ClientId,
@@ -73,11 +75,17 @@ class OSMAuthenticationAPI {
       throw Exception('Failed to retrieve OAuth2 access token.');
     }
 
+    String? idToken;
+    if (permissions.contains('openid')) {
+      idToken = tokenResponse.data?['id_token'] as String?;
+      if (idToken is! String) throw const FormatException('OSM did not return an identity proof');
+    }
+
     await _secureStorage.write(key: 'accessToken', value: accessToken);
 
-    return OAuth2(
-      accessToken: accessToken,
-      tokenType: tokenType,
+    return (
+      auth: OAuth2(accessToken: accessToken, tokenType: tokenType),
+      idToken: idToken,
     );
   }
 

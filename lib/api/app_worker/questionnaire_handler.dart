@@ -1,19 +1,26 @@
 import 'dart:async';
+import 'dart:io';
 
+import '/api/panoramax_authentication_api.dart';
+import '/api/panoramax_photo_upload_api.dart';
+import '/l10n/app_localizations.g.dart';
 import '/models/answer.dart';
 import '/models/authenticated_user.dart';
 import '/models/element_variants/element_identifier.dart';
+import '/models/map_features/map_features.dart';
 import '/models/question_catalog/question_catalog_reader.dart';
 import '/models/questionnaire.dart';
 import '/models/questionnaire_store.dart';
 import '/utils/service_worker.dart';
 import '/utils/stream_utils.dart';
 import 'element_handler.dart';
+import 'locale_handler.dart';
 import 'question_catalog_handler.dart';
 
 /// Handles questions to element matching and allows uploading the made changes.
 
-mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, ElementHandler<M> {
+mixin QuestionnaireHandler<M>
+    on ServiceWorker<M>, QuestionCatalogHandler<M>, ElementHandler<M>, LocaleHandler<M> {
   final _questionnaireStore = QuestionnaireStore();
 
   Questionnaire? _activeQuestionnaire;
@@ -87,16 +94,30 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
     }
   }
 
+  Future<void> _deletePhotos(Questionnaire questionnaire) async {
+    for (final photo
+        in questionnaire.entries
+            .map((entry) => entry.answer)
+            .whereType<PhotoAnswer>()
+            .expand((answer) => answer.value)) {
+      try {
+        await photo.deleteFromDisk();
+      } on FileSystemException {
+        continue;
+      }
+    }
+  }
+
   /// Remove a previously stored questionnaire associated to the provided element.
   ///
   /// Returns true if a corresponding questionnaire was found and discarded.
 
-  bool discardQuestionnaireByElement(ElementIdentifier osmElement) {
+  Future<bool> discardQuestionnaireByElement(ElementIdentifier osmElement) async {
     final questionnaire = _questionnaireStore.find(
       (questionnaire) => questionnaire.workingElement == osmElement,
     );
     if (questionnaire != null) {
-      discardQuestionnaire(questionnaire);
+      await discardQuestionnaire(questionnaire);
       return true;
     }
     return false;
@@ -104,8 +125,9 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
 
   /// Remove a previously stored questionnaire.
 
-  void discardQuestionnaire(Questionnaire questionnaire) {
+  Future<void> discardQuestionnaire(Questionnaire questionnaire) async {
     _questionnaireStore.remove(questionnaire);
+    await _deletePhotos(questionnaire);
 
     if (questionnaire == _activeQuestionnaire) {
       // unset current questionnaire
@@ -115,17 +137,36 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
     }
   }
 
-  /// This also automatically closes the questionnaire.
+  /// Uploads the current questionnaire and closes its dialog before transmission.
 
   Future<void> uploadQuestionnaire(AuthenticatedUser user) async {
-    final questionnaire = _activeQuestionnaire!;
-    final element = _activeQuestionnaire!.workingElement;
-    // close questionnaire before uploading
+    final questionnaire = _activeQuestionnaire;
+    if (questionnaire == null) return;
     closeQuestionnaire();
 
-    await uploadElement(element, user);
-    // if uploadElement throws the questionnaire will not be discarded
-    discardQuestionnaire(questionnaire);
+    final photos = questionnaire.entries
+        .map((entry) => entry.answer)
+        .whereType<PhotoAnswer>()
+        .where((answer) => answer.isValid)
+        .expand((answer) => answer.value)
+        .toList();
+    if (photos.isNotEmpty) {
+      final authentication = user.panoramaxAuthentication;
+      if (authentication == null) throw const PanoramaxAuthenticationException();
+      final api = PanoramaxPhotoUploadAPI(authentication: authentication);
+      try {
+        final target = MapFeatures().representElement(questionnaire.workingElement);
+        await api.upload(
+          photos: photos,
+          target: questionnaire.workingElement,
+          label: target.elementLabel(lookupAppLocalizations(appLocale)),
+        );
+      } finally {
+        api.dispose();
+      }
+    }
+    await uploadElement(questionnaire.workingElement, user);
+    await discardQuestionnaire(questionnaire);
   }
 
   void previousQuestion() {
@@ -199,6 +240,9 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
         );
       }
     } else {
+      for (final questionnaire in _questionnaireStore.items) {
+        unawaited(_deletePhotos(questionnaire));
+      }
       _questionnaireStore.clear();
       closeQuestionnaire();
     }
@@ -214,14 +258,23 @@ class QuestionnaireRepresentation {
   final int activeIndex;
 
   final bool isCompleted;
+  final int? osmId;
+  final String? osmType;
+
+  bool matchesTarget(ElementIdentifier? target) =>
+      target != null && osmId == target.id && osmType == target.type.name;
 
   QuestionnaireRepresentation({
     required this.entries,
     required this.activeIndex,
     this.isCompleted = false,
+    this.osmId,
+    this.osmType,
   });
 
   QuestionnaireRepresentation.derive(Questionnaire questionnaire, {this.isCompleted = false})
-    : entries = questionnaire.entries,
+    : osmId = questionnaire.workingElement.id,
+      osmType = questionnaire.workingElement.type.name,
+      entries = questionnaire.entries,
       activeIndex = questionnaire.activeIndex;
 }

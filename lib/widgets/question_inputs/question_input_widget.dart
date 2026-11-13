@@ -10,6 +10,7 @@ import '/widgets/question_inputs/list_input.dart';
 import '/widgets/question_inputs/multi_list_input.dart';
 import '/widgets/question_inputs/number_input.dart';
 import '/widgets/question_inputs/string_input.dart';
+import 'photo_input.dart';
 
 /// The base widget for all question input fields.
 /// It automatically rebuilds whenever its controller changes.
@@ -37,6 +38,12 @@ abstract class QuestionInputWidget<D extends AnswerDefinition, T extends Answer>
     Key? key,
   }) {
     switch (definition.runtimeType) {
+      case const (PhotoAnswerDefinition):
+        return PhotoInput(
+          definition: definition as PhotoAnswerDefinition,
+          controller: controller as AnswerController<PhotoAnswer>,
+          key: key,
+        );
       case const (StringAnswerDefinition):
         return StringInput(
           definition: definition as StringAnswerDefinition,
@@ -152,6 +159,8 @@ class AnswerController<T extends Answer> extends ChangeNotifier {
     T? initialAnswer,
   }) {
     switch (type) {
+      case const (PhotoAnswerDefinition):
+        return AnswerController<PhotoAnswer>(initialAnswer: initialAnswer as PhotoAnswer?);
       case const (BoolAnswerDefinition):
         return AnswerController<BoolAnswer>(initialAnswer: initialAnswer as BoolAnswer?);
       case const (NumberAnswerDefinition):
