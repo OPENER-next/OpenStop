@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '/commons/themes.dart';
 import '/l10n/app_localizations.g.dart';
 import '/models/answer.dart';
 import '/models/panoramax_photo.dart';
@@ -99,59 +98,65 @@ class _PhotoInputState extends State<_PhotoInputView> {
     final photos = _answerPhotos;
     final canAdd = !_busy && photos.length < widget.definition.input.max;
     final theme = Theme.of(context);
-    final buttonStyle = FilledButton.styleFrom(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Default.borderRadius)),
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-      minimumSize: const Size(0, 48),
-      textStyle: theme.textTheme.bodyLarge,
-    );
+    final buttonShape = theme.outlinedButtonTheme.style?.shape?.resolve({});
+    final borderRadius = buttonShape is RoundedRectangleBorder
+        ? buttonShape.borderRadius.resolve(Directionality.of(context))
+        : BorderRadius.zero;
+    final leftToRight = Directionality.of(context) == TextDirection.ltr;
+    final cameraCorners = leftToRight
+        ? borderRadius.copyWith(topRight: Radius.zero, bottomRight: Radius.zero)
+        : borderRadius.copyWith(topLeft: Radius.zero, bottomLeft: Radius.zero);
+    final libraryCorners = leftToRight
+        ? borderRadius.copyWith(topLeft: Radius.zero, bottomLeft: Radius.zero)
+        : borderRadius.copyWith(topRight: Radius.zero, bottomRight: Radius.zero);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (_busy) const LinearProgressIndicator(),
-        LayoutBuilder(
-          builder: (context, constraints) => IntrinsicHeight(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(
-                  width: constraints.maxWidth * 0.45,
-                  child: FilledButton.icon(
-                    style: buttonStyle,
-                    onPressed: canAdd ? () => _pickPhoto(PanoramaxPhoto.takePhoto) : null,
-                    icon: const Icon(Icons.camera_alt),
-                    label: Text(_locale.photoTakePicture, textAlign: TextAlign.center),
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: theme.colorScheme.primary,
+                    foregroundColor: theme.colorScheme.onPrimary,
+                    shape: RoundedRectangleBorder(borderRadius: cameraCorners),
                   ),
+                  onPressed: canAdd ? () => _pickPhoto(PanoramaxPhoto.takePhoto) : null,
+                  icon: const Icon(Icons.camera_alt),
+                  label: Text(_locale.photoTakePicture, textAlign: TextAlign.center),
                 ),
-                SizedBox(
-                  width: constraints.maxWidth * 0.45,
-                  child: OutlinedButton(
-                    style: buttonStyle,
-                    onPressed: canAdd ? () => _pickPhoto(PanoramaxPhoto.selectPhoto) : null,
-                    child: Text(_locale.photoChooseFromLibrary, textAlign: TextAlign.center),
-                  ),
+              ),
+              OutlinedButton.icon(
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  shape: RoundedRectangleBorder(borderRadius: libraryCorners),
                 ),
-              ],
-            ),
+                onPressed: canAdd ? () => _pickPhoto(PanoramaxPhoto.selectPhoto) : null,
+                icon: const Icon(Icons.photo_library_outlined),
+                label: Text(_locale.photoChooseFromLibrary, textAlign: TextAlign.center),
+              ),
+            ],
           ),
         ),
         if (photos.isNotEmpty) ...[
-          const SizedBox(height: Default.padding),
+          const SizedBox(height: 8),
           Wrap(
             spacing: 10,
-            runSpacing: 10,
+            runSpacing: 8,
             children: [
               for (final photo in photos)
                 SizedBox(
-                  width: 110,
-                  height: 110,
+                  width: 90,
+                  height: 90,
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(Default.borderRadius),
+                        borderRadius: borderRadius,
                         child: HeroViewer(
                           tag: photo.id,
                           openOn: _busy ? InteractionTrigger.none : InteractionTrigger.tap,

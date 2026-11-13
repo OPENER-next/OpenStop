@@ -457,7 +457,7 @@
   "@photoCaptureError": {},
   "photoTakePicture": "Take picture",
   "@photoTakePicture": {},
-  "photoChooseFromLibrary": "Choose from library",
+  "photoChooseFromLibrary": "From library",
   "@photoChooseFromLibrary": {},
   "photoMetadataError": "This photo has no usable capture location. Enable location tagging in your camera and take a new photo, or choose a geotagged original.",
   "@photoMetadataError": {}
