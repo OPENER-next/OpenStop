@@ -81,7 +81,7 @@ class OSMElementUploadAPI {
     // get existing open changesets that was created by the user
     final changesets = await _osmApi.queryChangesets(
       open: true,
-      uid: _authenticatedUser.id,
+      uid: int.parse(_authenticatedUser.id),
       bbox: BoundingBox(stopArea.west, stopArea.south, stopArea.east, stopArea.north),
     );
 

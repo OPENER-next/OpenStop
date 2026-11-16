@@ -64,6 +64,16 @@
   "@onboardingContributingButton": {},
   "privacyPolicyTitle": "Privacy Policy",
   "@privacyPolicyTitle": {},
+  "servicesTitle": "Services",
+  "@servicesTitle": {},
+  "servicesPanoramaxInstance": "Panoramax server",
+  "@servicesPanoramaxInstance": {},
+  "servicesPanoramaxDescription": "Log in to upload photos.",
+  "@servicesPanoramaxDescription": {},
+  "servicesInstanceUrl": "Server URL",
+  "@servicesInstanceUrl": {},
+  "servicesInstanceError": "Could not reach a Panoramax server at this secure (https) address.",
+  "@servicesInstanceError": {},
   "settingsTitle": "Settings",
   "@settingsTitle": {},
   "settingsProfessionalQuestionsLabel": "Display Professional Questions",
@@ -433,21 +443,11 @@
   "@semanticsFinishOnboarding" : {},
   "semanticsAttribution" : "Attribution",
   "@semanticsAttribution" : {},
-  "photoUpload": "Upload",
-  "@photoUpload": {},
+  "photoLogin": "Authenticate with Panoramax",
+  "@photoLogin": {},
   "photoRemove": "Remove photo",
   "@photoRemove": {},
-  "photoPublishTitle": "Enable photo uploads?",
-  "@photoPublishTitle": {},
-  "photoPublishDescription": "Photos you upload, their capture locations and times, and the selected OpenStreetMap object reference will be sent to {instanceHost} and published under CC BY-SA 4.0. You also permit anyone to extract non-photographic data from these photos and use, share, and adapt that data under ODbL 1.0. By continuing, you agree to share your OpenStreetMap identity with this service. This consent applies to future photo uploads from this OpenStreetMap account. Only upload photos you took and are allowed to share. Avoid people and private information.",
-  "@photoPublishDescription": {
-    "placeholders": {
-      "instanceHost": {
-        "type": "String"
-      }
-    }
-  },
-  "photoAuthenticationError": "Photo authorization failed. Try signing in to OpenStreetMap again. You may need to accept the Panoramax instance's terms in your browser.",
+  "photoAuthenticationError": "Panoramax login expired. Please login again to upload the photos",
   "@photoAuthenticationError": {},
   "photoUploadError": "Could not upload to Panoramax.",
   "@photoUploadError": {},
@@ -459,6 +459,8 @@
   "@photoTakePicture": {},
   "photoChooseFromLibrary": "From library",
   "@photoChooseFromLibrary": {},
-  "photoMetadataError": "This photo has no usable capture location. Enable location tagging in your camera and take a new photo, or choose a geotagged original.",
-  "@photoMetadataError": {}
+  "photoMetadataError": "This photo has no usable capture location. Enable location tagging in your camera and take a new photo, or choose a geotagged original. If the photo picker has an option to include the location, make sure it is turned on.",
+  "@photoMetadataError": {},
+  "photoAlreadyAddedError": "This photo has already been added.",
+  "@photoAlreadyAddedError": {}
 }

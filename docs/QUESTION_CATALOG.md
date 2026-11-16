@@ -199,9 +199,7 @@ Displays a list of multiple options and allows the selection of one option (`Lis
 
 #### `Photo` input
 
-Allows taking or selecting photos. Photo publication consent is requested before obtaining or using a Panoramax upload credential. Ordinary OSM login does not exchange the identity with Panoramax. Photos are uploaded when submitting the questionnaire, immediately before its OSM update. The constructor receives preassigned picture UUIDs through `$input`, so dependent questions see the tags immediately. OSM submission waits until every referenced photo has uploaded successfully.
-
-The publication prompt asks contributors to license photos under CC BY-SA 4.0 and additionally permit anyone to extract non-photographic data from the photos and use, share, and adapt that data under ODbL 1.0, following the [Panoramax federation's licensing approach](https://docs.panoramax.fr/federated-catalog/#pictures-and-metadata-licenses). It also asks permission to share their OSM identity with the photo service.
+Allows taking or selecting photos. Users must log in to Panoramax before adding photos. This login is separate from the OSM login. Photos are uploaded when submitting the questionnaire, immediately before its OSM update. The constructor receives preassigned picture UUIDs through `$input`, so dependent questions see the tags immediately. OSM submission waits until every referenced photo has uploaded successfully.
 
 ```json
 "answer": {
@@ -216,7 +214,7 @@ The publication prompt asks contributors to license photos under CC BY-SA 4.0 an
 }
 ```
 
-The required `max` value limits the number of images. `$input` provides all photo UUIDs regardless of the tag key. Use `SELECT` to assign individual photos to tags. Missing indices produce no tag. `JOIN` can instead combine all UUIDs into one tag. Photos are uploaded before the ordinary OSM update.
+The required `max` value limits the number of images. `$input` provides all photo UUIDs regardless of the tag key. Use `SELECT` to assign individual photos to tags. Missing indices produce no tag. `JOIN` can instead combine all UUIDs into one tag.
 
 ### Constructor
 
@@ -228,7 +226,7 @@ The constructor is defined as a mapping of OSM keys to expressions, while an exp
 }
 ```
 
-Expressions are structured like this: `["EXPRESSION", arg1, arg2, argN]`. Arguments can be strings or nested expressions.
+Expressions are structured like this: `["EXPRESSION", arg1, arg2, argN]`, while every argument hast to be a string.
 The first item of the array is the expression identifier and must be written in caps. Expressions can freely be nested in other expressions.
 
 There is a special `$input` variable which holds the **values** entered by the user via the input widget. Note that for some inputs like `MultiList` this might spread into multiple values.
@@ -692,7 +690,3 @@ The example below matches all elements which are part of a public transport bus 
   ]
 }
 ```
-
-### Photo implementation notes
-
-See [PANORAMAX.md](PANORAMAX.md) for photo capture and authentication design decisions.

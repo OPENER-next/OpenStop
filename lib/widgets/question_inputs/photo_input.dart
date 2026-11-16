@@ -1,7 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 
+import '/api/authentication/panoramax_authentication_api.dart';
+import '/api/user_account_service.dart';
 import '/l10n/app_localizations.g.dart';
 import '/models/answer.dart';
 import '/models/panoramax_photo.dart';
@@ -17,10 +21,29 @@ class PhotoInput extends QuestionInputWidget<PhotoAnswerDefinition, PhotoAnswer>
   });
 
   @override
-  Widget build(BuildContext context) => _PhotoInputView(
-    definition: definition,
-    controller: controller,
-  );
+  Widget build(BuildContext context) {
+    final photoAccountService = GetIt.I.get<UserAccountService<PanoramaxAuthenticationAPI>>();
+    return Observer(
+      builder: (context) {
+        if (photoAccountService.isLoggedOut) {
+          final theme = Theme.of(context);
+          return OutlinedButton.icon(
+            style: OutlinedButton.styleFrom(
+              backgroundColor: theme.colorScheme.primary,
+              foregroundColor: theme.colorScheme.onPrimary,
+            ),
+            onPressed: photoAccountService.login,
+            icon: const Icon(Icons.login),
+            label: Text(AppLocalizations.of(context)!.photoLogin),
+          );
+        }
+        return _PhotoInputView(
+          definition: definition,
+          controller: controller,
+        );
+      },
+    );
+  }
 }
 
 class _PhotoInputView extends StatefulWidget {
@@ -78,6 +101,11 @@ class _PhotoInputState extends State<_PhotoInputView> {
     if (photo == null) return;
     if (!mounted || widget.controller.isDisposed) {
       await photo.deleteFromDisk();
+      return;
+    }
+    if (_answerPhotos.any(photo.isDuplicateOf)) {
+      if (_answerPhotos.every((item) => item.path != photo.path)) await photo.deleteFromDisk();
+      if (mounted) await _showError(_locale.photoAlreadyAddedError);
       return;
     }
     try {

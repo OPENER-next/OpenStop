@@ -4,6 +4,8 @@ import 'package:latlong2/latlong.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '/commons/panoramax_config.dart';
+
 /// An interface around [SharedPreferences] with observable properties.
 
 class PreferencesService extends Service {
@@ -14,6 +16,7 @@ class PreferencesService extends Service {
   static const _defaultMapLocation = LatLng(50.8144951, 12.9295576);
   static const _defaultMapZoom = 15.0;
   static const _defaultMapRotation = 0.0;
+  static const _defaultPanoramaxInstance = kPanoramaxUrl;
 
   PreferencesService({
     required this._preferences,
@@ -30,20 +33,6 @@ class PreferencesService extends Service {
       newValue,
       hasSeenOnboarding,
       () => _preferences.setBool('hasSeenOnboarding', newValue),
-    );
-  }
-
-  final _photoPublicationConsentAtom = Atom(name: 'photoPublicationConsentPreference');
-  bool get hasPhotoPublicationConsent {
-    _photoPublicationConsentAtom.reportRead();
-    return _preferences.getBool('photoPublicationConsent') ?? false;
-  }
-
-  set hasPhotoPublicationConsent(bool newValue) {
-    _photoPublicationConsentAtom.reportWrite<bool>(
-      newValue,
-      hasPhotoPublicationConsent,
-      () => _preferences.setBool('photoPublicationConsent', newValue),
     );
   }
 
@@ -122,6 +111,20 @@ class PreferencesService extends Service {
       newValue,
       mapRotation,
       () => _preferences.setDouble('mapRotation', newValue),
+    );
+  }
+
+  final _panoramaxInstanceAtom = Atom(name: 'panoramaxInstancePreference');
+  String get panoramaxInstance {
+    _panoramaxInstanceAtom.reportRead();
+    return _preferences.getString('panoramaxInstance') ?? _defaultPanoramaxInstance;
+  }
+
+  set panoramaxInstance(String newValue) {
+    _panoramaxInstanceAtom.reportWrite<String>(
+      newValue,
+      panoramaxInstance,
+      () => _preferences.setString('panoramaxInstance', newValue),
     );
   }
 }

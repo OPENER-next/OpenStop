@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import '/api/panoramax_authentication_api.dart';
+import '/api/authentication/panoramax_authentication_api.dart';
 import '/api/panoramax_photo_upload_api.dart';
 import '/l10n/app_localizations.g.dart';
 import '/models/answer.dart';
@@ -137,11 +137,16 @@ mixin QuestionnaireHandler<M>
     }
   }
 
-  /// Uploads the current questionnaire and closes its dialog before transmission.
+  /// This also automatically closes the questionnaire.
 
-  Future<void> uploadQuestionnaire(AuthenticatedUser user) async {
-    final questionnaire = _activeQuestionnaire;
-    if (questionnaire == null) return;
+  Future<void> uploadQuestionnaire(
+    AuthenticatedUser user,
+    AuthenticatedUser? photoUser,
+    Uri photoInstance,
+  ) async {
+    final questionnaire = _activeQuestionnaire!;
+    final element = _activeQuestionnaire!.workingElement;
+    // close questionnaire before uploading
     closeQuestionnaire();
 
     final photos = questionnaire.entries
@@ -151,21 +156,25 @@ mixin QuestionnaireHandler<M>
         .expand((answer) => answer.value)
         .toList();
     if (photos.isNotEmpty) {
-      final authentication = user.panoramaxAuthentication;
-      if (authentication == null) throw const PanoramaxAuthenticationException();
-      final api = PanoramaxPhotoUploadAPI(authentication: authentication);
+      if (photoUser == null) throw const PanoramaxAuthenticationException();
+      final api = PanoramaxPhotoUploadAPI(
+        authentication: photoUser.authentication,
+        endPoint: '$photoInstance/api',
+      );
       try {
-        final target = MapFeatures().representElement(questionnaire.workingElement);
+        final target = MapFeatures().representElement(element);
         await api.upload(
           photos: photos,
-          target: questionnaire.workingElement,
+          target: element,
           label: target.elementLabel(lookupAppLocalizations(appLocale)),
         );
       } finally {
         api.dispose();
       }
     }
-    await uploadElement(questionnaire.workingElement, user);
+
+    await uploadElement(element, user);
+    // if uploadElement throws the questionnaire will not be discarded
     await discardQuestionnaire(questionnaire);
   }
 
@@ -258,23 +267,14 @@ class QuestionnaireRepresentation {
   final int activeIndex;
 
   final bool isCompleted;
-  final int? osmId;
-  final String? osmType;
-
-  bool matchesTarget(ElementIdentifier? target) =>
-      target != null && osmId == target.id && osmType == target.type.name;
 
   QuestionnaireRepresentation({
     required this.entries,
     required this.activeIndex,
     this.isCompleted = false,
-    this.osmId,
-    this.osmType,
   });
 
   QuestionnaireRepresentation.derive(Questionnaire questionnaire, {this.isCompleted = false})
-    : osmId = questionnaire.workingElement.id,
-      osmType = questionnaire.workingElement.type.name,
-      entries = questionnaire.entries,
+    : entries = questionnaire.entries,
       activeIndex = questionnaire.activeIndex;
 }

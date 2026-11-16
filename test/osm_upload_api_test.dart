@@ -180,7 +180,8 @@ void main() async {
     user = AuthenticatedUser(
       authentication: auth,
       name: userDetails.name,
-      id: userDetails.id,
+      id: userDetails.id.toString(),
+      profileUrl: Uri.parse('http://127.0.0.1:3000/user/${userDetails.name}'),
       preferredLanguages: userDetails.preferredLanguages,
     );
 
@@ -194,7 +195,7 @@ void main() async {
     // close all open changesets
     final openChangesets = await osmapi.queryChangesets(
       open: true,
-      uid: user.id,
+      uid: int.parse(user.id),
     );
     await Future.wait(
       openChangesets.map((changeset) => osmapi.closeChangeset(changeset.id)),
@@ -221,7 +222,7 @@ void main() async {
     // check if one changeset of the currently open changesets contains the expected tags.
     final changesetTagList01 = (await osmapi.queryChangesets(
       open: true,
-      uid: user.id,
+      uid: int.parse(user.id),
     )).map((c) => c.tags);
     expect(
       changesetTagList01,
@@ -254,7 +255,7 @@ void main() async {
     // check if one changeset of the currently open changesets contains the expected tags.
     final changesetTagList02 = (await osmapi.queryChangesets(
       open: true,
-      uid: user.id,
+      uid: int.parse(user.id),
     )).map((c) => c.tags);
     expect(
       changesetTagList02,
@@ -286,7 +287,7 @@ void main() async {
     // check if one changeset of the currently open changesets contains the expected tags.
     final changesetTagList03 = (await osmapi.queryChangesets(
       open: true,
-      uid: user.id,
+      uid: int.parse(user.id),
     )).map((c) => c.tags);
     expect(
       changesetTagList03,
@@ -318,7 +319,7 @@ void main() async {
     // check if one changeset of the currently open changesets contains the expected tags.
     final changesetTagList04 = (await osmapi.queryChangesets(
       open: true,
-      uid: user.id,
+      uid: int.parse(user.id),
     )).map((c) => c.tags);
     expect(
       changesetTagList04,
@@ -351,7 +352,7 @@ void main() async {
     // check if one changeset of the currently open changesets contains the expected tags.
     final changesetTagList05 = (await osmapi.queryChangesets(
       open: true,
-      uid: user.id,
+      uid: int.parse(user.id),
     )).map((c) => c.tags);
     expect(
       changesetTagList05,
@@ -402,7 +403,7 @@ void main() async {
     // check if one changeset of the currently open changesets contains the expected tags.
     final changesetTagList = (await osmapi.queryChangesets(
       open: true,
-      uid: user.id,
+      uid: int.parse(user.id),
     )).map((c) => c.tags);
 
     expect(changesetTagList.any((e) => e['comment']?.length == 255), isTrue);

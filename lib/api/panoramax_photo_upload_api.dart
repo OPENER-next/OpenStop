@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:osm_api/osm_api.dart';
 
+import '/api/authentication/panoramax_authentication_api.dart';
 import '/commons/app_config.dart';
 import '/commons/panoramax_config.dart';
 import '/models/element_variants/element_identifier.dart';
@@ -11,8 +12,11 @@ import '/models/panoramax_photo.dart';
 class PanoramaxPhotoUploadAPI {
   final Dio _client;
 
+  static const _processingTimeout = Duration(minutes: 5);
+  static const _processingPollInterval = Duration(seconds: 2);
+
   PanoramaxPhotoUploadAPI({
-    required OAuth2 authentication,
+    required Auth authentication,
     String endPoint = '$kPanoramaxUrl/api',
   }) : _client = Dio(
          BaseOptions(
@@ -27,6 +31,9 @@ class PanoramaxPhotoUploadAPI {
          ),
        );
 
+  /// Uploads the photos into a new upload set and waits until the server has processed them.
+  /// If anything fails the upload set is deleted again.
+
   Future<void> upload({
     required List<PanoramaxPhoto> photos,
     required ElementIdentifier target,
@@ -37,22 +44,15 @@ class PanoramaxPhotoUploadAPI {
       final semantics = [
         {'key': 'osm_id', 'value': target.osmReference},
       ];
-      final response = await _client.post<Map<String, dynamic>>(
-        '/upload_sets',
-        data: {
-          'title': 'OpenStop: $label (${target.osmReference})',
-          'estimated_nb_files': photos.length,
-          'no_split': true,
-          'no_deduplication': true,
-          'visibility': 'anyone',
-          'semantics': semantics,
-        },
+      final uploadSetId = await _createUploadSet(
+        title: 'OpenStop: $label (${target.osmReference})',
+        fileCount: photos.length,
+        semantics: semantics,
       );
-      final path = '/upload_sets/${response.data!['id']}';
-      for (final photo in photos) {
-        try {
+      try {
+        for (final photo in photos) {
           final response = await _client.post<Map<String, dynamic>>(
-            '$path/files',
+            '/upload_sets/$uploadSetId/files',
             data: FormData.fromMap({
               'file': await MultipartFile.fromFile(photo.path, filename: '${photo.id}.jpg'),
               'picture_id': photo.id,
@@ -71,30 +71,69 @@ class PanoramaxPhotoUploadAPI {
               isDuplicate: rejected is Map && rejected['reason'] == 'file_duplicate',
             );
           }
-        } on DioException catch (error) {
-          if (error.response?.statusCode != 409) rethrow;
-          // A retry can find its preassigned UUID in a previous upload set.
-          final data = error.response?.data;
-          final duplicates = data is Map ? data['upload_sets'] : null;
-          final existing = duplicates is List
-              ? duplicates
-                    .whereType<Map>()
-                    .where((item) => item['existing_item_id'] == photo.id)
-                    .firstOrNull
-              : null;
-          if (existing == null) {
-            if ((duplicates is List && duplicates.isNotEmpty) ||
-                (data is Map && data['existing_item'] is Map)) {
-              throw const PanoramaxPhotoUploadException(isDuplicate: true);
-            }
-            rethrow;
-          }
-          await _client.post<dynamic>('/upload_sets/${existing['upload_set_id']}/complete');
         }
+        await _completeUploadSet(uploadSetId, photos.length);
+      } catch (_) {
+        await _deleteUploadSet(uploadSetId);
+        rethrow;
       }
-      await _client.post<dynamic>('$path/complete');
+    } on DioException catch (error) {
+      final statusCode = error.response?.statusCode;
+      if (statusCode == 401 || statusCode == 403) throw const PanoramaxAuthenticationException();
+      throw PanoramaxPhotoUploadException(isDuplicate: statusCode == 409);
+    }
+  }
+
+  Future<String> _createUploadSet({
+    required String title,
+    required int fileCount,
+    required List<Map<String, String>> semantics,
+  }) async {
+    final response = await _client.post<Map<String, dynamic>>(
+      '/upload_sets',
+      data: {
+        'title': title,
+        'estimated_nb_files': fileCount,
+        'no_split': true,
+        'no_deduplication': true,
+        'visibility': 'anyone',
+        'semantics': semantics,
+      },
+    );
+    return response.data!['id'] as String;
+  }
+
+  /// Completes the upload set and waits until all of its photos are processed and published.
+  /// Throws if any photo is missing or could not be processed.
+
+  Future<void> _completeUploadSet(String id, int fileCount) async {
+    await _client.post<dynamic>('/upload_sets/$id/complete');
+
+    final deadline = DateTime.now().add(_processingTimeout);
+    while (true) {
+      final response = await _client.get<Map<String, dynamic>>('/upload_sets/$id');
+      final status = response.data!['items_status'] as Map<String, dynamic>;
+      if (status['broken'] != 0 || status['rejected'] != 0) {
+        throw const PanoramaxPhotoUploadException();
+      }
+      if (response.data!['ready'] == true) {
+        if (status['prepared'] != fileCount) {
+          throw const PanoramaxPhotoUploadException();
+        }
+        return;
+      }
+      if (DateTime.now().isAfter(deadline)) {
+        throw const PanoramaxPhotoUploadException();
+      }
+      await Future<void>.delayed(_processingPollInterval);
+    }
+  }
+
+  Future<void> _deleteUploadSet(String id) async {
+    try {
+      await _client.delete<dynamic>('/upload_sets/$id');
     } on DioException {
-      throw const PanoramaxPhotoUploadException();
+      // The original upload error is more relevant than a failed clean-up.
     }
   }
 

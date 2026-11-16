@@ -1,15 +1,17 @@
+import 'package:flutter/foundation.dart';
 import 'package:osm_api/osm_api.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-/// A class holding information about an authenticated OpenStreetMap user.
+/// A class holding information about an authenticated user.
 
 class AuthenticatedUser {
   final Auth authentication;
 
-  final OAuth2? panoramaxAuthentication;
-
   final String name;
 
-  final int id;
+  final String id;
+
+  final Uri profileUrl;
 
   final String? profileImageUrl;
 
@@ -19,26 +21,20 @@ class AuthenticatedUser {
     required this.authentication,
     required this.name,
     required this.id,
+    required this.profileUrl,
     required this.preferredLanguages,
-    this.panoramaxAuthentication,
     this.profileImageUrl,
   });
 
-  bool get isAuthenticatedWithPanoramax => panoramaxAuthentication != null;
-
-  AuthenticatedUser copyWith({
-    Auth? authentication,
-    OAuth2? panoramaxAuthentication,
-    String? name,
-    int? id,
-    String? profileImageUrl,
-    List<String>? preferredLanguages,
-  }) => AuthenticatedUser(
-    authentication: authentication ?? this.authentication,
-    panoramaxAuthentication: panoramaxAuthentication ?? this.panoramaxAuthentication,
-    name: name ?? this.name,
-    id: id ?? this.id,
-    preferredLanguages: preferredLanguages ?? this.preferredLanguages,
-    profileImageUrl: profileImageUrl ?? this.profileImageUrl,
-  );
+  Future<bool> openUserProfile() async {
+    try {
+      return await launchUrl(
+        profileUrl,
+        mode: LaunchMode.externalApplication,
+      );
+    } catch (error) {
+      debugPrint(error.toString());
+      return false;
+    }
+  }
 }

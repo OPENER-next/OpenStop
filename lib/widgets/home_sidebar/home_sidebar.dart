@@ -45,6 +45,11 @@ class HomeSidebar extends ViewFragment<HomeViewModel> {
             ),
           ),
           CustomListTile(
+            leadingIcon: Icons.cloud,
+            title: appLocale.servicesTitle,
+            onTap: () => Navigator.push(context, Routes.services),
+          ),
+          CustomListTile(
             leadingIcon: Icons.settings,
             title: appLocale.settingsTitle,
             onTap: () => Navigator.push(context, Routes.settings),

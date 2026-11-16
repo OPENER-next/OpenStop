@@ -6,7 +6,10 @@ import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '/api/app_worker/app_worker_interface.dart';
+import '/api/authentication/osm_authentication_api.dart';
+import '/api/authentication/panoramax_authentication_api.dart';
 import '/api/preferences_service.dart';
+import '/api/user_account_service.dart';
 import '/commons/app_config.dart';
 import '/commons/routes.dart';
 import '/commons/themes.dart';
@@ -31,6 +34,14 @@ Future<void> main() async {
   GetIt.I.registerSingleton<AppWorkerInterface>(appWorker);
   GetIt.I.registerSingleton<PreferencesService>(
     PreferencesService(preferences: sharedPreferences),
+  );
+  GetIt.I.registerSingleton<UserAccountService<OSMAuthenticationAPI>>(
+    UserAccountService(OSMAuthenticationAPI()),
+  );
+  GetIt.I.registerSingleton<UserAccountService<PanoramaxAuthenticationAPI>>(
+    UserAccountService(
+      PanoramaxAuthenticationAPI(preferences: GetIt.I.get<PreferencesService>()),
+    ),
   );
 
   const mainCatalogDirectory = 'assets/question_catalog';

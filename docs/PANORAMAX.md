@@ -10,14 +10,18 @@ Original EXIF coordinates are used when available. Camera photos without GPS use
 
 The app retains the temporary files returned by the pickers and deletes them when removed, discarded or uploaded. Original library photos are preserved.
 
-## OSM identity and Panoramax login
+## Panoramax login
 
-OSM editing and Panoramax uploads use separate credentials. OpenStop requests the OSM `openid` scope to obtain a short-lived ID token alongside its editing credential. The ID token is sent to the instance's custom `POST /api/auth/osm/exchange` endpoint, which verifies its signature, issuer, audience and expiry before issuing a Panoramax credential.
+OSM and Panoramax use separate accounts. Logging out of one leaves the other logged in. Users log in to Panoramax from the photo question or from the Services page.
 
-The Panoramax credential is stored in secure storage. The ID token is not persisted, and the OSM access token stays in the app. Renewing photo authentication obtains a fresh identity proof through OSM login.
+Login follows the token flow of the Panoramax command line tool. OpenStop generates a token and opens its claim page with `flutter_web_auth_2`. After the user logs in on the instance website, the claim page redirects back to the app through `next_url`. On instances without `next_url` support (instances running versions prior to 2.16.0) the user closes the browser after claiming. OpenStop then verifies the token and stores it in secure storage. Logout revokes the token on the instance.
 
-Publication and identity-sharing consent is requested before the exchange and remembered for the current OSM account. Logout or switching accounts clears it. Cancelling leaves the questionnaire open.
+The instance's terms are accepted on its website during login, so OpenStop does not ask for separate consent.
+
+## Upload
+
+Each questionnaire uploads its photos into a new upload set. After completing the set, OpenStop waits until the instance has processed every photo and only then uploads the OSM changes. If uploading or processing fails, the upload set is deleted and the OSM changes are not uploaded.
 
 ## Build configuration
 
-`IS_RELEASE=true` selects https://osm-lens.vee.network. Development builds use https://osm-lens-sandbox.vee.network, with separate test data.
+`IS_RELEASE=true` uses https://osm-lens.vee.network by default. Development builds use https://osm-lens-sandbox.vee.network, with separate test data. Users can choose another instance on the Services page, which logs them out of the previous one.

@@ -7,7 +7,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nock/nock.dart';
 import 'package:open_stop/api/app_worker/app_worker_interface.dart';
+import 'package:open_stop/api/authentication/osm_authentication_api.dart';
+import 'package:open_stop/api/authentication/panoramax_authentication_api.dart';
 import 'package:open_stop/api/preferences_service.dart';
+import 'package:open_stop/api/user_account_service.dart';
 import 'package:open_stop/main.dart';
 import 'package:open_stop/models/question_catalog/question_catalog_reader.dart';
 import 'package:open_stop/screens/home.dart';
@@ -86,6 +89,14 @@ void main() {
       GetIt.I.registerSingleton<AppWorkerInterface>(worker);
       GetIt.I.registerSingleton<PreferencesService>(
         PreferencesService(preferences: await SharedPreferences.getInstance()),
+      );
+      GetIt.I.registerSingleton<UserAccountService<OSMAuthenticationAPI>>(
+        UserAccountService(OSMAuthenticationAPI()),
+      );
+      GetIt.I.registerSingleton<UserAccountService<PanoramaxAuthenticationAPI>>(
+        UserAccountService(
+          PanoramaxAuthenticationAPI(preferences: GetIt.I.get<PreferencesService>()),
+        ),
       );
 
       const mainCatalogDirectory = 'assets/question_catalog';

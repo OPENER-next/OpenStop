@@ -3,20 +3,21 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:osm_api/osm_api.dart';
 
+import '/api/authentication/authentication_api.dart';
 import '/commons/app_config.dart';
 import '/commons/osm_config.dart';
+import '/models/authenticated_user.dart';
 
 // OAuth 2 login
 // A good introduction can be found here https://www.oauth.com/oauth2-servers/oauth-native-apps/
 
-class OSMAuthenticationAPI {
+class OSMAuthenticationAPI implements AuthenticationAPI {
   final List<String> permissions;
 
   OSMAuthenticationAPI({
     this.permissions = const [
       'write_api',
       'read_prefs',
-      'openid',
     ],
   });
 
@@ -28,11 +29,11 @@ class OSMAuthenticationAPI {
 
   /// This will start the login/authentication process by opening the openstreetmap website inside a browser/webview.
   /// The future will resolve when this process has finished.
-  /// Returns OSM authentication and, after a successful login with the openid
-  /// permission, the raw identity token for the Panoramax exchange service.
+  /// If the access token was gathered successfully an [OAuth2] authentication object will be returned.
   /// Otherwise errors might be thrown.
 
-  Future<({OAuth2 auth, String? idToken})> login() async {
+  @override
+  Future<OAuth2> login() async {
     final authUri = Uri.https(kOSMServer, _authorizationEndpoint, {
       'response_type': 'code',
       'client_id': kOAuth2ClientId,
@@ -75,23 +76,18 @@ class OSMAuthenticationAPI {
       throw Exception('Failed to retrieve OAuth2 access token.');
     }
 
-    String? idToken;
-    if (permissions.contains('openid')) {
-      idToken = tokenResponse.data?['id_token'] as String?;
-      if (idToken is! String) throw const FormatException('OSM did not return an identity proof');
-    }
-
     await _secureStorage.write(key: 'accessToken', value: accessToken);
 
-    return (
-      auth: OAuth2(accessToken: accessToken, tokenType: tokenType),
-      idToken: idToken,
+    return OAuth2(
+      accessToken: accessToken,
+      tokenType: tokenType,
     );
   }
 
   /// Restore the previous session if one exists.
   /// This method looks for a previous access token in the storage and tries to reuse it.
 
+  @override
   Future<OAuth2?> restore() async {
     final accessToken = await _secureStorage.read(key: 'accessToken');
     if (accessToken != null) {
@@ -99,7 +95,7 @@ class OSMAuthenticationAPI {
         accessToken: accessToken,
       );
 
-      if (await verifyAuthentication(authentication)) {
+      if (await _verifyAuthentication(authentication)) {
         return authentication;
       }
     }
@@ -109,6 +105,7 @@ class OSMAuthenticationAPI {
   /// Terminates the current session by deleting the current access token.
   /// This also revokes the authentication token from the server.
 
+  @override
   Future<void> logout() async {
     final accessToken = await _secureStorage.read(key: 'accessToken');
     if (accessToken != null) {
@@ -133,7 +130,7 @@ class OSMAuthenticationAPI {
   /// Verify that the current api is (still) authenticated and grants the required permissions.
   /// This can throw OSM API connection exceptions
 
-  Future<bool> verifyAuthentication(OAuth2 authentication) async {
+  Future<bool> _verifyAuthentication(OAuth2 authentication) async {
     final osmApi = DefaultOSMAPI(
       authentication: authentication,
     );
@@ -148,6 +145,34 @@ class OSMAuthenticationAPI {
     } finally {
       osmApi.dispose();
     }
+  }
+
+  /// Method to get user details of the currently authenticated user.
+  /// This method will throw [OSMAPI] exceptions, like an [OSMUnauthorizedException] if the user isn't authenticated any more.
+
+  @override
+  Future<AuthenticatedUser> user(OAuth2 authentication) async {
+    final osmApi = DefaultOSMAPI(
+      authentication: authentication,
+    );
+
+    final AuthenticatedUser user;
+    try {
+      final userDetails = await osmApi.getCurrentUserDetails();
+      user = AuthenticatedUser(
+        authentication: authentication,
+        name: userDetails.name,
+        id: userDetails.id.toString(),
+        profileUrl: Uri.https(kOSMServer, '/user/${userDetails.name}'),
+        preferredLanguages: userDetails.preferredLanguages,
+        profileImageUrl: userDetails.profileImageUrl,
+      );
+    } catch (error) {
+      rethrow;
+    } finally {
+      osmApi.dispose();
+    }
+    return user;
   }
 
   Future<Response<Map<String, dynamic>>> _request(
