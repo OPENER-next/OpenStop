@@ -7,10 +7,9 @@ import 'element_variants/base_element.dart';
 
 class Questionnaire {
   Questionnaire({
-    required ProcessedElement osmElement,
-    required QuestionCatalog questionCatalog,
-  }) : _questionCatalog = questionCatalog,
-       _osmElement = osmElement {
+    required this._osmElement,
+    required this._questionCatalog,
+  }) {
     _updateWorkingElement();
     _insertMatchingEntries(afterIndex: -1);
   }

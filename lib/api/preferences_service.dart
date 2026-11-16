@@ -16,8 +16,8 @@ class PreferencesService extends Service {
   static const _defaultMapRotation = 0.0;
 
   PreferencesService({
-    required SharedPreferences preferences,
-  }) : _preferences = preferences;
+    required this._preferences,
+  });
 
   final _hasSeenOnboardingAtom = Atom(name: 'hasSeenOnboardingPreference');
   bool get hasSeenOnboarding {

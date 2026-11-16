@@ -1,4 +1,5 @@
 import 'dart:collection';
+
 import 'question_definition.dart';
 
 /// This class resembles an iterable of questions.

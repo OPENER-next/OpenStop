@@ -151,8 +151,7 @@ class OSMElementUploadAPI {
   }
 }
 
-typedef ChangesetInfoCallback =
-    ChangesetInfo Function(
-      StopArea stopArea,
-      Iterable<ProcessedElement> modifiedElements,
-    );
+typedef ChangesetInfoCallback = ChangesetInfo Function(
+  StopArea stopArea,
+  Iterable<ProcessedElement> modifiedElements,
+);

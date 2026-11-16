@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'question_catalog.dart';
 
 /// This method should not be invoked prior `WidgetsFlutterBinding.ensureInitialized`
@@ -17,10 +19,9 @@ class QuestionCatalogReader with WidgetsBindingObserver {
   String _defaultLocale;
 
   QuestionCatalogReader({
-    required Iterable<String> assetPaths,
-    String defaultLocale = 'en',
-  }) : _assetPaths = assetPaths,
-       _defaultLocale = defaultLocale {
+    required this._assetPaths,
+    this._defaultLocale = 'en',
+  }) {
     WidgetsBinding.instance.addObserver(this);
     _readAll(assetPaths).then((questionCatalog) {
       _streamController.add(
@@ -114,10 +115,9 @@ class QuestionCatalogReader with WidgetsBindingObserver {
 
   Future<Map<String, dynamic>> _readArbFile(String directory, String localeCode) async {
     return await _readJsonFile(
-          '$directory/locales/$localeCode.arb',
-          fallback: const <String, dynamic>{},
-        )
-        as Map<String, dynamic>;
+      '$directory/locales/$localeCode.arb',
+      fallback: const <String, dynamic>{},
+    ) as Map<String, dynamic>;
   }
 
   Future<dynamic> _readJsonFile(
