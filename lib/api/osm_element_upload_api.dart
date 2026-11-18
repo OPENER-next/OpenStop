@@ -14,12 +14,12 @@ import '/models/stop_area/stop_area.dart';
 // because the stop area bbox doesn't take the dimensions of ways into account.
 
 class OSMElementUploadAPI {
-  AuthenticatedUser _authenticatedUser;
+  AuthenticatedUser<int> _authenticatedUser;
 
   final OSMAPI _osmApi;
 
   OSMElementUploadAPI({
-    required AuthenticatedUser authenticatedUser,
+    required AuthenticatedUser<int> authenticatedUser,
     String endPoint = DefaultOSMAPI.endPoint,
   }) : _authenticatedUser = authenticatedUser,
        _osmApi = DefaultOSMAPI(
@@ -27,12 +27,12 @@ class OSMElementUploadAPI {
          baseUrl: endPoint,
        );
 
-  set authenticatedUser(AuthenticatedUser value) {
+  set authenticatedUser(AuthenticatedUser<int> value) {
     _authenticatedUser = value;
     _osmApi.authentication = _authenticatedUser.authentication;
   }
 
-  AuthenticatedUser get authenticatedUser => _authenticatedUser;
+  AuthenticatedUser<int> get authenticatedUser => _authenticatedUser;
 
   /// Upload the given element to the OSM server.
   ///
@@ -81,7 +81,7 @@ class OSMElementUploadAPI {
     // get existing open changesets that was created by the user
     final changesets = await _osmApi.queryChangesets(
       open: true,
-      uid: int.parse(_authenticatedUser.id),
+      uid: _authenticatedUser.id,
       bbox: BoundingBox(stopArea.west, stopArea.south, stopArea.east, stopArea.north),
     );
 

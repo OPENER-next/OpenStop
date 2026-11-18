@@ -14,7 +14,7 @@ The app retains the temporary files returned by the pickers and deletes them whe
 
 OSM and Panoramax use separate accounts. Logging out of one leaves the other logged in. Users log in to Panoramax from the photo question or from the Services page.
 
-Login follows the token flow of the Panoramax command line tool. OpenStop generates a token and opens its claim page with `flutter_web_auth_2`. After the user logs in on the instance website, the claim page redirects back to the app through `next_url`. On instances without `next_url` support (instances running versions prior to 2.16.0) the user closes the browser after claiming. OpenStop then verifies the token and stores it in secure storage. Logout revokes the token on the instance.
+Login follows the token flow of the Panoramax command line tool. OpenStop generates a token and opens its claim page with `flutter_web_auth_2`. After the user logs in on the instance website, the claim page redirects back to the app through `next_url`. On Android and iOS this uses the custom scheme `de.tu-chemnitz.etit.sse.openstop://panoramax` rather than the verified `https://openstop.app/oauth2` link the OSM login uses. If the user is still logged in on the instance website, the claim page redirects without any user interaction, and browsers do not open verified https links in the app for such redirects. The redirect carries no secret, so a custom scheme is safe. On instances without `next_url` support (instances running versions prior to 2.16.0) the user closes the browser after claiming. OpenStop then verifies the token and stores it in secure storage. Logout revokes the token on the instance.
 
 The instance's terms are accepted on its website during login, so OpenStop does not ask for separate consent.
 

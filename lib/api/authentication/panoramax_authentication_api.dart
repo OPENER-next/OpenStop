@@ -5,29 +5,27 @@ import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:osm_api/osm_api.dart';
 
 import '/api/authentication/authentication_api.dart';
-import '/api/preferences_service.dart';
 import '/commons/app_config.dart';
-import '/commons/osm_config.dart';
+import '/commons/panoramax_config.dart';
 import '/models/authenticated_user.dart';
 
 // Token login as used by the Panoramax command line tool
 // The app generates a token which the user then claims on the website of the Panoramax instance.
 
-class PanoramaxAuthenticationAPI implements AuthenticationAPI {
-  final PreferencesService _preferences;
+class PanoramaxAuthenticationAPI implements AuthenticationAPI<String> {
+  /// The base URL of the Panoramax instance.
+
+  final Uri _instance;
 
   PanoramaxAuthenticationAPI({
-    required this._preferences,
-  });
+    String endPoint = kPanoramaxUrl,
+  }) : _instance = Uri.parse(endPoint);
 
   static const _secureStorage = FlutterSecureStorage();
 
   static const _tokenKey = 'panoramaxToken';
+  // The token id is required to revoke the token on logout.
   static const _tokenIdKey = 'panoramaxTokenId';
-
-  /// The URL of the currently selected Panoramax instance.
-
-  Uri get instance => Uri.parse(_preferences.panoramaxInstance);
 
   /// This will start the login/authentication process by opening the claim page of a new token inside a browser/webview.
   /// The future will resolve when this process has finished.
@@ -54,15 +52,13 @@ class PanoramaxAuthenticationAPI implements AuthenticationAPI {
             .replace(
               queryParameters: {
                 ...claimUri.queryParameters,
-                'next_url': kOAuth2RedirectUri,
+                'next_url': kPanoramaxCallbackUri,
               },
             )
             .toString(),
-        callbackUrlScheme: kAppCallbackUrlScheme,
+        callbackUrlScheme: kPanoramaxCallbackUrlScheme,
         options: const FlutterWebAuth2Options(
           preferEphemeral: true,
-          httpsHost: kAppCallbackUrlHost,
-          httpsPath: kAppCallbackUrlPath,
         ),
       );
     } on PlatformException catch (error) {
@@ -70,17 +66,12 @@ class PanoramaxAuthenticationAPI implements AuthenticationAPI {
       if (error.code != 'CANCELED') rethrow;
     }
 
-    final authentication = OAuth2(accessToken: token);
-    if (!await _verifyAuthentication(authentication)) {
-      throw const PanoramaxAuthenticationException();
-    }
-
     await Future.wait([
       _secureStorage.write(key: _tokenKey, value: token),
       _secureStorage.write(key: _tokenIdKey, value: tokenId),
     ]);
 
-    return authentication;
+    return OAuth2(accessToken: token);
   }
 
   /// Restore the previous session if one exists.
@@ -143,14 +134,15 @@ class PanoramaxAuthenticationAPI implements AuthenticationAPI {
   /// Method to get user details of the currently authenticated user.
 
   @override
-  Future<AuthenticatedUser> user(OAuth2 authentication) async {
+  Future<AuthenticatedUser<String>> user(OAuth2 authentication) async {
     final response = await _request('users/me', authentication: authentication);
     return AuthenticatedUser(
       authentication: authentication,
       name: response.data!['name'] as String,
       id: response.data!['id'] as String,
+      instance: _instance,
       // Panoramax doesn't currently have a profile page
-      profileUrl: instance.replace(path: '${instance.path}/your-pictures'),
+      profileUrl: _instance.replace(path: '${_instance.path}/your-pictures'),
       preferredLanguages: const [],
     );
   }
@@ -169,7 +161,7 @@ class PanoramaxAuthenticationAPI implements AuthenticationAPI {
     );
     try {
       return await dio.request<Map<String, dynamic>>(
-        '$instance/api/$path',
+        '$_instance/api/$path',
         queryParameters: queryParameters,
         options: Options(
           method: method,

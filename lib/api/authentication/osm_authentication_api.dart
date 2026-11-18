@@ -11,7 +11,7 @@ import '/models/authenticated_user.dart';
 // OAuth 2 login
 // A good introduction can be found here https://www.oauth.com/oauth2-servers/oauth-native-apps/
 
-class OSMAuthenticationAPI implements AuthenticationAPI {
+class OSMAuthenticationAPI implements AuthenticationAPI<int> {
   final List<String> permissions;
 
   OSMAuthenticationAPI({
@@ -151,18 +151,19 @@ class OSMAuthenticationAPI implements AuthenticationAPI {
   /// This method will throw [OSMAPI] exceptions, like an [OSMUnauthorizedException] if the user isn't authenticated any more.
 
   @override
-  Future<AuthenticatedUser> user(OAuth2 authentication) async {
+  Future<AuthenticatedUser<int>> user(OAuth2 authentication) async {
     final osmApi = DefaultOSMAPI(
       authentication: authentication,
     );
 
-    final AuthenticatedUser user;
+    final AuthenticatedUser<int> user;
     try {
       final userDetails = await osmApi.getCurrentUserDetails();
       user = AuthenticatedUser(
         authentication: authentication,
         name: userDetails.name,
-        id: userDetails.id.toString(),
+        id: userDetails.id,
+        instance: Uri.https(kOSMServer),
         profileUrl: Uri.https(kOSMServer, '/user/${userDetails.name}'),
         preferredLanguages: userDetails.preferredLanguages,
         profileImageUrl: userDetails.profileImageUrl,

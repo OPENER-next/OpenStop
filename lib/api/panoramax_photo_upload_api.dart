@@ -12,12 +12,19 @@ import '/models/panoramax_photo.dart';
 class PanoramaxPhotoUploadAPI {
   final Dio _client;
 
-  static const _processingTimeout = Duration(minutes: 5);
-  static const _processingPollInterval = Duration(seconds: 2);
+  /// How long to wait for the server to process the uploaded photos.
+
+  final Duration processingTimeout;
+
+  /// How often to check whether the server has processed the uploaded photos.
+
+  final Duration processingPollInterval;
 
   PanoramaxPhotoUploadAPI({
     required Auth authentication,
     String endPoint = '$kPanoramaxUrl/api',
+    this.processingTimeout = const Duration(minutes: 5),
+    this.processingPollInterval = const Duration(seconds: 2),
   }) : _client = Dio(
          BaseOptions(
            baseUrl: endPoint,
@@ -37,7 +44,6 @@ class PanoramaxPhotoUploadAPI {
   Future<void> upload({
     required List<PanoramaxPhoto> photos,
     required ElementIdentifier target,
-    required String label,
   }) async {
     if (photos.isEmpty) return;
     try {
@@ -45,7 +51,7 @@ class PanoramaxPhotoUploadAPI {
         {'key': 'osm_id', 'value': target.osmReference},
       ];
       final uploadSetId = await _createUploadSet(
-        title: 'OpenStop: $label (${target.osmReference})',
+        title: 'OpenStop: ${target.osmReference}',
         fileCount: photos.length,
         semantics: semantics,
       );
@@ -109,7 +115,9 @@ class PanoramaxPhotoUploadAPI {
   Future<void> _completeUploadSet(String id, int fileCount) async {
     await _client.post<dynamic>('/upload_sets/$id/complete');
 
-    final deadline = DateTime.now().add(_processingTimeout);
+    final deadline = DateTime.now().add(processingTimeout);
+    // This loop also ends when dispose() is called on the api,
+    // because the closed client then throws a DioException on the next request.
     while (true) {
       final response = await _client.get<Map<String, dynamic>>('/upload_sets/$id');
       final status = response.data!['items_status'] as Map<String, dynamic>;
@@ -125,7 +133,7 @@ class PanoramaxPhotoUploadAPI {
       if (DateTime.now().isAfter(deadline)) {
         throw const PanoramaxPhotoUploadException();
       }
-      await Future<void>.delayed(_processingPollInterval);
+      await Future<void>.delayed(processingPollInterval);
     }
   }
 

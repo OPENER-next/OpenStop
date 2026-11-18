@@ -16,7 +16,6 @@ class PreferencesService extends Service {
   static const _defaultMapLocation = LatLng(50.8144951, 12.9295576);
   static const _defaultMapZoom = 15.0;
   static const _defaultMapRotation = 0.0;
-  static const _defaultPanoramaxInstance = kPanoramaxUrl;
 
   PreferencesService({
     required this._preferences,
@@ -117,7 +116,7 @@ class PreferencesService extends Service {
   final _panoramaxInstanceAtom = Atom(name: 'panoramaxInstancePreference');
   String get panoramaxInstance {
     _panoramaxInstanceAtom.reportRead();
-    return _preferences.getString('panoramaxInstance') ?? _defaultPanoramaxInstance;
+    return _preferences.getString('panoramaxInstance') ?? kPanoramaxUrl;
   }
 
   set panoramaxInstance(String newValue) {

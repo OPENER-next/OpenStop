@@ -3,14 +3,22 @@ import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:mobx/mobx.dart';
 
 import '/api/authentication/authentication_api.dart';
+import '/api/authentication/osm_authentication_api.dart';
+import '/api/authentication/panoramax_authentication_api.dart';
 import '/models/authenticated_user.dart';
 
-/// Provides login/logout method and details about the currently authenticated user.
+typedef OSMAccountService = UserAccountService<int, OSMAuthenticationAPI>;
 
-class UserAccountService<T extends AuthenticationAPI> extends Service {
+typedef PanoramaxAccountService = UserAccountService<String, PanoramaxAuthenticationAPI>;
+
+/// Provides login/logout method and details about the currently authenticated user.
+///
+/// [ID] is the user id type of the [AuthenticationAPI] [T].
+
+class UserAccountService<ID, T extends AuthenticationAPI<ID>> extends Service {
   final T _authenticationApi;
 
-  final _authenticatedUser = Observable<AuthenticatedUser?>(null);
+  final _authenticatedUser = Observable<AuthenticatedUser<ID>?>(null);
 
   UserAccountService(this._authenticationApi) {
     _init();
@@ -37,7 +45,7 @@ class UserAccountService<T extends AuthenticationAPI> extends Service {
 
   bool get isLoggedOut => _isLoggedOut.value;
 
-  AuthenticatedUser? get authenticatedUser => _authenticatedUser.value;
+  AuthenticatedUser<ID>? get authenticatedUser => _authenticatedUser.value;
 
   Future<void> login() async {
     if (isLoggedIn) return;

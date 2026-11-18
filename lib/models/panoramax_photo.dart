@@ -14,12 +14,12 @@ class PanoramaxPhoto {
   final LatLng captureLocation;
 
   /// The identifier of the original photo in the library, if it was selected from there.
-  final String? assetIdentifier;
+  final String? _assetIdentifier;
 
   PanoramaxPhoto._({
     required this.path,
     required this.captureLocation,
-    this.assetIdentifier,
+    this._assetIdentifier,
   }) : id = const Uuid().v4();
 
   /// Uses the native camera and supplements missing EXIF GPS with a fresh fix.
@@ -101,7 +101,7 @@ class PanoramaxPhoto {
   /// Whether both photos were selected from the same library photo.
   /// Compares the library identifiers instead of the files, because iOS may convert the photo on every selection.
   bool isDuplicateOf(PanoramaxPhoto other) =>
-      assetIdentifier != null && assetIdentifier == other.assetIdentifier;
+      _assetIdentifier != null && _assetIdentifier == other._assetIdentifier;
 
   /// Deletes the picker's temporary copy, leaving the original library photo intact.
   Future<void> deleteFromDisk() async {

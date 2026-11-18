@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
-import '/api/authentication/panoramax_authentication_api.dart';
 import '/api/user_account_service.dart';
 import '/l10n/app_localizations.g.dart';
 import '/models/answer.dart';
@@ -22,9 +21,10 @@ class PhotoInput extends QuestionInputWidget<PhotoAnswerDefinition, PhotoAnswer>
 
   @override
   Widget build(BuildContext context) {
-    final photoAccountService = GetIt.I.get<UserAccountService<PanoramaxAuthenticationAPI>>();
     return Observer(
       builder: (context) {
+        // Looked up on every build, because the service is replaced when the Panoramax instance changes.
+        final photoAccountService = GetIt.I.get<PanoramaxAccountService>();
         if (photoAccountService.isLoggedOut) {
           final theme = Theme.of(context);
           return OutlinedButton.icon(

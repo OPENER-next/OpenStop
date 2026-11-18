@@ -35,12 +35,12 @@ Future<void> main() async {
   GetIt.I.registerSingleton<PreferencesService>(
     PreferencesService(preferences: sharedPreferences),
   );
-  GetIt.I.registerSingleton<UserAccountService<OSMAuthenticationAPI>>(
-    UserAccountService(OSMAuthenticationAPI()),
+  GetIt.I.registerSingleton<OSMAccountService>(
+    OSMAccountService(OSMAuthenticationAPI()),
   );
-  GetIt.I.registerSingleton<UserAccountService<PanoramaxAuthenticationAPI>>(
-    UserAccountService(
-      PanoramaxAuthenticationAPI(preferences: GetIt.I.get<PreferencesService>()),
+  GetIt.I.registerSingleton<PanoramaxAccountService>(
+    PanoramaxAccountService(
+      PanoramaxAuthenticationAPI(endPoint: GetIt.I.get<PreferencesService>().panoramaxInstance),
     ),
   );
 

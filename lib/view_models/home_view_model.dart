@@ -22,7 +22,6 @@ import 'package:path_provider/path_provider.dart';
 import '/api/app_worker/app_worker_interface.dart';
 import '/api/app_worker/element_handler.dart';
 import '/api/app_worker/stop_area_handler.dart';
-import '/api/authentication/osm_authentication_api.dart';
 import '/api/authentication/panoramax_authentication_api.dart';
 import '/api/panoramax_photo_upload_api.dart';
 import '/api/preferences_service.dart';
@@ -46,11 +45,9 @@ class HomeViewModel extends ViewModel
 
   PreferencesService get _preferencesService => getService<PreferencesService>();
 
-  UserAccountService<OSMAuthenticationAPI> get _userAccountService =>
-      getService<UserAccountService<OSMAuthenticationAPI>>();
+  OSMAccountService get _userAccountService => getService<OSMAccountService>();
 
-  UserAccountService<PanoramaxAuthenticationAPI> get _photoAccountService =>
-      getService<UserAccountService<PanoramaxAuthenticationAPI>>();
+  PanoramaxAccountService get _photoAccountService => getService<PanoramaxAccountService>();
 
   final _reactionDisposers = <ReactionDisposer>[];
 
@@ -437,7 +434,6 @@ class HomeViewModel extends ViewModel
         // this automatically closes the questionaire
         final uploading = _appWorker.uploadQuestionnaire(
           user: _userAccountService.authenticatedUser!,
-          photoInstance: Uri.parse(_preferencesService.panoramaxInstance),
           photoUser: _photoAccountService.authenticatedUser,
         );
         _uploadQueue[alteredElement!] = uploading;

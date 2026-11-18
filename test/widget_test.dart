@@ -90,13 +90,11 @@ void main() {
       GetIt.I.registerSingleton<PreferencesService>(
         PreferencesService(preferences: await SharedPreferences.getInstance()),
       );
-      GetIt.I.registerSingleton<UserAccountService<OSMAuthenticationAPI>>(
-        UserAccountService(OSMAuthenticationAPI()),
+      GetIt.I.registerSingleton<OSMAccountService>(
+        OSMAccountService(OSMAuthenticationAPI()),
       );
-      GetIt.I.registerSingleton<UserAccountService<PanoramaxAuthenticationAPI>>(
-        UserAccountService(
-          PanoramaxAuthenticationAPI(preferences: GetIt.I.get<PreferencesService>()),
-        ),
+      GetIt.I.registerSingleton<PanoramaxAccountService>(
+        PanoramaxAccountService(PanoramaxAuthenticationAPI()),
       );
 
       const mainCatalogDirectory = 'assets/question_catalog';
