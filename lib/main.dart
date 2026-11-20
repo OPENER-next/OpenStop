@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -30,6 +31,18 @@ Future<void> main() async {
     SharedPreferences.getInstance().then((v) => sharedPreferences = v),
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge),
   ]);
+
+  LicenseRegistry.addLicense(
+    () => Stream<LicenseEntry>.value(
+      const LicenseEntryWithLineBreaks(
+        <String>['Panoramax logo'],
+        'Panoramax logo by Adrien Pavie (https://panoramax.fr)\n\n'
+        'Source: https://commons.wikimedia.org/wiki/File:Panoramax.svg\n\n'
+        'Licensed under CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/\n\n'
+        'Unmodified, rasterized for use in the app.',
+      ),
+    ),
+  );
 
   GetIt.I.registerSingleton<AppWorkerInterface>(appWorker);
   GetIt.I.registerSingleton<PreferencesService>(

@@ -28,110 +28,95 @@ class ServicesScreen extends View<ServicesViewModel> {
             Default.padding,
             Default.padding + MediaQuery.of(context).padding.bottom,
           ),
-          child: Card.outlined(
+          child: Card.filled(
             margin: EdgeInsets.zero,
             clipBehavior: Clip.antiAlias,
-            color: theme.colorScheme.onSurface.withValues(alpha: 0.04),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(Default.borderRadius),
-              side: BorderSide(color: theme.colorScheme.outlineVariant),
-            ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                ListTile(
-                  contentPadding: const EdgeInsets.only(left: Default.padding * 1.5, right: 4),
-                  leading: const Icon(Icons.panorama),
-                  title: Text(
-                    'Panoramax',
-                    style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Row(
+                // Header
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                  child: Row(
                     children: [
-                      Flexible(
-                        child: Text(
-                          viewModel.panoramaxInstance.host,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                      const CircleAvatar(
+                        radius: 20,
+                        foregroundImage: AssetImage('assets/images/logos/Panoramax.webp'),
                       ),
-                      const SizedBox(width: 4),
-                      Icon(
-                        Icons.open_in_new,
-                        size: 14,
-                        color: theme.iconTheme.color?.withValues(alpha: 0.4),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Panoramax', style: theme.textTheme.titleLarge),
+                            Text(
+                              appLocale.servicesPanoramaxDescription,
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
-                  onTap: viewModel.openPanoramaxWebsite,
-                  trailing: IconButton(
-                    tooltip: appLocale.servicesPanoramaxInstance,
-                    icon: const Icon(Icons.settings),
-                    onPressed: () => showDialog<void>(
-                      context: context,
-                      builder: (context) => _PanoramaxInstanceDialog(
-                        instance: viewModel.panoramaxInstance.toString(),
-                        onConfirm: viewModel.changePanoramaxInstance,
-                      ),
-                    ),
-                  ),
                 ),
-                Divider(
-                  height: 1,
-                  color: theme.colorScheme.outlineVariant,
+                // Supporting content
+                ListTile(
+                  title: Text(
+                    appLocale.servicesInstanceUrl,
+                  ),
+                  subtitle: Text(
+                    viewModel.panoramaxInstance.host,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  trailing: const Icon(Icons.open_in_new),
+                  onTap: viewModel.openPanoramaxWebsite,
                 ),
                 if (userName != null)
                   ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: Default.padding * 1.5),
-                    leading: CircleAvatar(
-                      radius: 12,
-                      backgroundColor: theme.colorScheme.primary,
-                      foregroundColor: theme.colorScheme.onPrimary,
-                      child: Text(userName.characters.first.toUpperCase()),
-                    ),
                     title: Text(
+                      appLocale.servicesAccount,
+                    ),
+                    subtitle: Text(
                       userName,
                       semanticsLabel: appLocale.semanticsUser(userName),
                       overflow: TextOverflow.ellipsis,
                     ),
-                    trailing: Icon(
-                      Icons.open_in_new,
-                      size: 16,
-                      color: theme.iconTheme.color?.withValues(alpha: 0.4),
-                    ),
+                    trailing: const Icon(Icons.open_in_new),
                     onTap: viewModel.openPanoramaxUserProfile,
-                  )
-                else
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                      Default.padding * 1.5,
-                      Default.padding,
-                      Default.padding * 1.5,
-                      0,
-                    ),
-                    child: Text(
-                      appLocale.servicesPanoramaxDescription,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
                   ),
+                // Actions
                 Padding(
-                  padding: const EdgeInsets.all(Default.padding),
-                  child: userName != null
-                      ? OutlinedButton.icon(
-                          onPressed: viewModel.logoutPanoramax,
-                          icon: const Icon(Icons.logout),
-                          label: Text(appLocale.logout),
-                        )
-                      : OutlinedButton.icon(
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: theme.colorScheme.primary,
-                            foregroundColor: theme.colorScheme.onPrimary,
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                  child: OverflowBar(
+                    alignment: MainAxisAlignment.end,
+                    overflowAlignment: OverflowBarAlignment.end,
+                    spacing: 8,
+                    children: [
+                      TextButton(
+                        onPressed: () => showDialog<void>(
+                          context: context,
+                          builder: (context) => _PanoramaxInstanceDialog(
+                            instance: viewModel.panoramaxInstance.toString(),
+                            onConfirm: viewModel.changePanoramaxInstance,
                           ),
-                          onPressed: viewModel.loginPanoramax,
-                          icon: const Icon(Icons.login),
-                          label: Text(appLocale.login),
                         ),
+                        child: Text(appLocale.servicesChangeServer),
+                      ),
+                      if (userName != null)
+                        FilledButton(
+                          onPressed: viewModel.logoutPanoramax,
+                          child: Text(appLocale.logout),
+                        )
+                      else
+                        FilledButton(
+                          onPressed: viewModel.loginPanoramax,
+                          child: Text(appLocale.login),
+                        ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -198,10 +183,6 @@ class _PanoramaxInstanceDialogState extends State<_PanoramaxInstanceDialog> {
         decoration: InputDecoration(
           labelText: appLocale.servicesInstanceUrl,
           hintText: kPanoramaxUrl,
-          enabledBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(Default.borderRadius)),
-            borderSide: BorderSide(color: Theme.of(context).colorScheme.outline),
-          ),
           errorText: _failed ? appLocale.servicesInstanceError : null,
         ),
       ),
