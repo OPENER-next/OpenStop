@@ -4545,6 +4545,7 @@
                   "bus_stop",
                   "platform"
                ],
+               "public_transport": ["platform", false],
                "/^panoramax(?::.*)?$/": false
             },
             "!parent": [
@@ -4558,6 +4559,7 @@
          {
             "osm_tags": {
                "railway": "platform",
+               "public_transport": ["platform", false],
                "/^panoramax(?::.*)?$/": false
             },
             "osm_element": ["OpenWay", "ClosedWay", "Relation"]
