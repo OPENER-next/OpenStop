@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 
 import '/commons/routes.dart';
@@ -45,14 +46,14 @@ class HomeSidebar extends ViewFragment<HomeViewModel> {
             ),
           ),
           CustomListTile(
-            leadingIcon: Icons.cloud,
-            title: appLocale.servicesTitle,
-            onTap: () => Navigator.push(context, Routes.services),
-          ),
-          CustomListTile(
             leadingIcon: Icons.settings,
             title: appLocale.settingsTitle,
             onTap: () => Navigator.push(context, Routes.settings),
+          ),
+          CustomListTile(
+            leadingIcon: MdiIcons.shapePlus,
+            title: appLocale.servicesTitle,
+            onTap: () => Navigator.push(context, Routes.services),
           ),
           CustomListTile(
             leadingIcon: Icons.info,
