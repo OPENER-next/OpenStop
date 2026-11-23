@@ -2,21 +2,28 @@ PODS:
   - compassx (0.0.1):
     - Flutter
   - Flutter (1.0.0)
+  - h3_flutter (0.7.0):
+    - Flutter
+    - FlutterMacOS
 
 DEPENDENCIES:
   - compassx (from `.symlinks/plugins/compassx/ios`)
   - Flutter (from `Flutter`)
+  - h3_flutter (from `.symlinks/plugins/h3_flutter/darwin`)
 
 EXTERNAL SOURCES:
   compassx:
     :path: ".symlinks/plugins/compassx/ios"
   Flutter:
     :path: Flutter
+  h3_flutter:
+    :path: ".symlinks/plugins/h3_flutter/darwin"
 
 SPEC CHECKSUMS:
   compassx: 2d291f8c8e5672f35c62277f2318ef48359dc1d0
   Flutter: 71a624a5bc0c04062bf19101d501e466baf2fb47
+  h3_flutter: a7af78474210b8d5e59ff9e4539ecfc1ea143706
 
-PODFILE CHECKSUM: e9fda76361f7b869a3fa74d0e691906ebc6ead57
+PODFILE CHECKSUM: 57c8aed26fba39d3ec9424816221f294a07c58eb
 
 COCOAPODS: 1.17.0

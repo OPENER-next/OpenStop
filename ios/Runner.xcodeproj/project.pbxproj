@@ -383,7 +383,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4C9Y67SX5K;
 				ENABLE_BITCODE = NO;
 				EXCLUDED_ARCHS = "";
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 i386";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				INFOPLIST_FILE = "Runner/Info-$(CONFIGURATION).plist";
 				INFOPLIST_KEY_CFBundleDisplayName = OpenStop;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
@@ -524,7 +524,7 @@
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4C9Y67SX5K;
 				ENABLE_BITCODE = NO;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 i386";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				INFOPLIST_FILE = "Runner/Info-$(CONFIGURATION).plist";
 				INFOPLIST_KEY_CFBundleDisplayName = OpenStop;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
@@ -557,7 +557,7 @@
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 4C9Y67SX5K;
 				ENABLE_BITCODE = NO;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 i386";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				INFOPLIST_FILE = "Runner/Info-$(CONFIGURATION).plist";
 				INFOPLIST_KEY_CFBundleDisplayName = OpenStop;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.navigation";
