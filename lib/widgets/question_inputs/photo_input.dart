@@ -1,10 +1,8 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:get_it/get_it.dart';
 
-import '/api/user_account_service.dart';
 import '/l10n/app_localizations.g.dart';
 import '/models/answer.dart';
 import '/models/panoramax_photo.dart';
@@ -19,198 +17,222 @@ class PhotoInput extends QuestionInputWidget<PhotoAnswerDefinition, PhotoAnswer>
     super.key,
   });
 
+  List<PanoramaxPhoto> get _answerPhotos => controller.answer?.value ?? const [];
+
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (context) {
-        // Looked up on every build, because the service is replaced when the Panoramax instance changes.
-        final photoAccountService = GetIt.I.get<PanoramaxAccountService>();
-        if (photoAccountService.isLoggedOut) {
-          final theme = Theme.of(context);
-          return OutlinedButton.icon(
-            style: OutlinedButton.styleFrom(
-              backgroundColor: theme.colorScheme.primary,
-              foregroundColor: theme.colorScheme.onPrimary,
+    final locale = AppLocalizations.of(context)!;
+    final photos = _answerPhotos;
+    final enabled = photos.length < definition.input.max;
+
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (photos.isNotEmpty)
+            GridView.count(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: 4,
+              childAspectRatio: 1,
+              children: [
+                for (final photo in photos)
+                  _PhotoItem(photo: photo, onRemove: () => _removePhoto(photo)),
+              ],
             ),
-            onPressed: photoAccountService.login,
-            icon: const Icon(Icons.login),
-            label: Text(AppLocalizations.of(context)!.photoLogin),
-          );
-        }
-        return _PhotoInputView(
-          definition: definition,
-          controller: controller,
-        );
-      },
+          Row(
+            spacing: 15,
+            children: [
+              Expanded(
+                child: _BusyButton(
+                  icon: Icons.add_a_photo_rounded,
+                  label: locale.photoTakePicture,
+                  onPressed: enabled ? () => _takePhoto(context) : null,
+                ),
+              ),
+              Expanded(
+                child: _BusyButton(
+                  icon: Icons.folder_open_rounded,
+                  label: locale.photoChooseFromLibrary,
+                  onPressed: enabled ? () => _selectPhoto(context) : null,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
-}
 
-class _PhotoInputView extends StatefulWidget {
-  final PhotoAnswerDefinition definition;
-  final AnswerController<PhotoAnswer> controller;
-
-  const _PhotoInputView({required this.definition, required this.controller});
-
-  @override
-  State<_PhotoInputView> createState() => _PhotoInputState();
-}
-
-class _PhotoInputState extends State<_PhotoInputView> {
-  bool _busy = false;
-
-  AppLocalizations get _locale => AppLocalizations.of(context)!;
-
-  void _save(List<PanoramaxPhoto> photos) {
-    if (widget.controller.isDisposed) throw StateError('The questionnaire has been discarded');
-    widget.controller.answer = PhotoAnswer(definition: widget.definition, value: photos);
+  Future<void> _takePhoto(BuildContext context) async {
+    final locale = AppLocalizations.of(context)!;
+    try {
+      final photo = await PanoramaxPhoto.takePhoto();
+      if (photo == null) return;
+      if (!context.mounted) {
+        return unawaited(photo.deleteFromDisk());
+      }
+      _addPhoto(photo);
+    } catch (_) {
+      unawaited(_showError(context, locale.photoCaptureError));
+    }
   }
 
-  List<PanoramaxPhoto> get _answerPhotos => widget.controller.answer?.value ?? const [];
+  Future<void> _selectPhoto(BuildContext context) async {
+    final locale = AppLocalizations.of(context)!;
+    try {
+      final photo = await PanoramaxPhoto.selectPhoto();
+      if (photo == null) return;
+      if (!context.mounted) {
+        return unawaited(photo.deleteFromDisk());
+      }
+      if (_answerPhotos.any(photo.isDuplicateOf)) {
+        return unawaited(
+          Future.wait([
+            _showError(context, AppLocalizations.of(context)!.photoAlreadyAddedError),
+            photo.deleteFromDisk(),
+          ]),
+        );
+      }
+      _addPhoto(photo);
+    } on FormatException {
+      unawaited(_showError(context, locale.photoMetadataError));
+    } catch (_) {
+      unawaited(_showError(context, locale.photoCaptureError));
+    }
+  }
 
-  Future<void> _showError(String message) => showDialog<void>(
-    context: context,
-    builder: (context) => AlertDialog(
-      content: Text(message),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(MaterialLocalizations.of(context).okButtonLabel),
+  void _addPhoto(PanoramaxPhoto photo) {
+    controller.answer = PhotoAnswer(
+      definition: definition,
+      value: [..._answerPhotos, photo],
+    );
+  }
+
+  Future<void> _removePhoto(PanoramaxPhoto photo) async {
+    controller.answer = PhotoAnswer(
+      definition: definition,
+      value: _answerPhotos.where((item) => item.id != photo.id).toList(),
+    );
+    await photo.deleteFromDisk();
+  }
+
+  Future<void> _showError(BuildContext context, String message) async {
+    if (context.mounted) {
+      await showDialog<void>(
+        context: context,
+        builder: (context) => AlertDialog(
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(MaterialLocalizations.of(context).okButtonLabel),
+            ),
+          ],
         ),
-      ],
-    ),
-  );
+      );
+    }
+  }
+}
 
-  Future<void> _run(Future<void> Function() operation) async {
-    if (!mounted || _busy) return;
+class _BusyButton extends StatefulWidget {
+  final IconData icon;
+  final String label;
+  final Future<void> Function()? onPressed;
+
+  const _BusyButton({
+    required this.icon,
+    required this.label,
+    required this.onPressed,
+  });
+
+  @override
+  State<_BusyButton> createState() => _BusyButtonState();
+}
+
+class _BusyButtonState extends State<_BusyButton> {
+  bool _busy = false;
+
+  Future<void> _run() async {
     setState(() => _busy = true);
     try {
-      await operation();
-    } on FormatException {
-      if (mounted) await _showError(_locale.photoMetadataError);
-    } catch (_) {
-      if (mounted) await _showError(_locale.photoCaptureError);
+      await widget.onPressed!();
     } finally {
       if (mounted) setState(() => _busy = false);
     }
   }
 
-  Future<void> _pickPhoto(Future<PanoramaxPhoto?> Function() pick) => _run(() async {
-    if (_answerPhotos.length >= widget.definition.input.max) return;
-    final photo = await pick();
-    if (photo == null) return;
-    if (!mounted || widget.controller.isDisposed) {
-      await photo.deleteFromDisk();
-      return;
-    }
-    if (_answerPhotos.any(photo.isDuplicateOf)) {
-      if (_answerPhotos.every((item) => item.path != photo.path)) await photo.deleteFromDisk();
-      if (mounted) await _showError(_locale.photoAlreadyAddedError);
-      return;
-    }
-    try {
-      _save([..._answerPhotos, photo]);
-    } catch (_) {
-      await photo.deleteFromDisk();
-      rethrow;
-    }
-  });
+  @override
+  Widget build(BuildContext context) {
+    final canInteract = widget.onPressed != null && !_busy;
 
-  Future<void> _remove(PanoramaxPhoto photo) => _run(() async {
-    _save(_answerPhotos.where((item) => item.id != photo.id).toList());
-    await photo.deleteFromDisk();
-  });
+    return FilledButton.icon(
+      onPressed: canInteract ? _run : null,
+      icon: Icon(widget.icon),
+      label: Text(
+        widget.label,
+        overflow: .fade,
+        softWrap: false,
+      ),
+    );
+  }
+}
+
+class _PhotoItem extends StatelessWidget {
+  final PanoramaxPhoto photo;
+  final VoidCallback onRemove;
+
+  const new({required this.photo, required this.onRemove});
 
   @override
   Widget build(BuildContext context) {
-    final photos = _answerPhotos;
-    final canAdd = !_busy && photos.length < widget.definition.input.max;
+    final locale = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final buttonShape = theme.outlinedButtonTheme.style?.shape?.resolve({});
     final borderRadius = buttonShape is RoundedRectangleBorder
         ? buttonShape.borderRadius.resolve(Directionality.of(context))
         : BorderRadius.zero;
-    final leftToRight = Directionality.of(context) == TextDirection.ltr;
-    final cameraCorners = leftToRight
-        ? borderRadius.copyWith(topRight: Radius.zero, bottomRight: Radius.zero)
-        : borderRadius.copyWith(topLeft: Radius.zero, bottomLeft: Radius.zero);
-    final libraryCorners = leftToRight
-        ? borderRadius.copyWith(topLeft: Radius.zero, bottomLeft: Radius.zero)
-        : borderRadius.copyWith(topRight: Radius.zero, bottomRight: Radius.zero);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+
+    return Stack(
+      fit: StackFit.expand,
       children: [
-        if (_busy) const LinearProgressIndicator(),
-        IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: theme.colorScheme.primary,
-                    foregroundColor: theme.colorScheme.onPrimary,
-                    shape: RoundedRectangleBorder(borderRadius: cameraCorners),
-                  ),
-                  onPressed: canAdd ? () => _pickPhoto(PanoramaxPhoto.takePhoto) : null,
-                  icon: const Icon(Icons.camera_alt),
-                  label: Text(_locale.photoTakePicture, textAlign: TextAlign.center),
+        Padding(
+          padding: const EdgeInsets.only(top: 20, right: 20),
+          child: DecoratedBox(
+            position: .foreground,
+            decoration: BoxDecoration(
+              borderRadius: borderRadius,
+              border: Border.all(
+                color: theme.colorScheme.primary, // Border color
+                width: 1.0, // Border thickness
+              ),
+            ),
+            child: ClipRRect(
+              borderRadius: borderRadius,
+              child: HeroViewer(
+                tag: photo.id,
+                openOn: InteractionTrigger.tap,
+                child: Image.file(
+                  File(photo.path),
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, _, _) => const Icon(Icons.broken_image),
                 ),
               ),
-              OutlinedButton.icon(
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  shape: RoundedRectangleBorder(borderRadius: libraryCorners),
-                ),
-                onPressed: canAdd ? () => _pickPhoto(PanoramaxPhoto.selectPhoto) : null,
-                icon: const Icon(Icons.photo_library_outlined),
-                label: Text(_locale.photoChooseFromLibrary, textAlign: TextAlign.center),
-              ),
-            ],
+            ),
           ),
         ),
-        if (photos.isNotEmpty) ...[
-          const SizedBox(height: 8),
-          Wrap(
-            spacing: 10,
-            runSpacing: 8,
-            children: [
-              for (final photo in photos)
-                SizedBox(
-                  width: 90,
-                  height: 90,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      ClipRRect(
-                        borderRadius: borderRadius,
-                        child: HeroViewer(
-                          tag: photo.id,
-                          openOn: _busy ? InteractionTrigger.none : InteractionTrigger.tap,
-                          child: Image.file(
-                            File(photo.path),
-                            fit: BoxFit.cover,
-                            semanticLabel: _locale.photoTakePicture,
-                            errorBuilder: (_, _, _) => const Icon(Icons.broken_image),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        child: IconButton.filled(
-                          tooltip: _locale.photoRemove,
-                          icon: const Icon(Icons.close, size: 18),
-                          onPressed: _busy ? null : () => _remove(photo),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-            ],
+        Align(
+          alignment: .topRight,
+          child: IconButton.filled(
+            style: IconButton.styleFrom(
+              shape: const CircleBorder(),
+            ),
+            visualDensity: VisualDensity.comfortable,
+            tooltip: locale?.photoRemove,
+            icon: const Icon(Icons.remove),
+            onPressed: onRemove,
           ),
-        ],
+        ),
       ],
     );
   }

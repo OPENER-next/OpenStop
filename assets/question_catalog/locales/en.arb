@@ -676,8 +676,8 @@
   "@elevatorDoorHeightPlaceholder": {},
   "stopPhotoName": "Photos",
   "@stopPhotoName": {},
-  "stopPhotoText": "Take a photo of this stop or platform?",
+  "stopPhotoText": "Take a photo of this stop or platform.",
   "@stopPhotoText": {},
-  "stopPhotoDescription": "Photos help others assess accessibility. Add your own photos of the stop and its accessibility features. You can take several pictures or skip this question.",
+  "stopPhotoDescription": "Photos help others assess accessibility. Add photos of the stop and its accessibility features. The selected photos will be uploaded to Panoramax and attached to this OSM element.",
   "@stopPhotoDescription": {}
 }
