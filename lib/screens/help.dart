@@ -5,7 +5,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '/commons/app_config.dart';
 import '/commons/routes.dart';
 import '/l10n/app_localizations.g.dart';
-import '/widgets/custom_list_tile.dart';
 
 class HelpScreen extends StatelessWidget {
   const HelpScreen({super.key});
@@ -26,22 +25,22 @@ class HelpScreen extends StatelessWidget {
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
           child: Column(
             children: [
-              CustomListTile(
-                leadingIcon: MdiIcons.headSync,
-                trailingIcon: Icons.arrow_forward_ios_rounded,
-                title: appLocale.helpOnboardingLabel,
+              ListTile(
+                leading: const Icon(MdiIcons.headSync),
+                trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                title: Text(appLocale.helpOnboardingLabel),
                 onTap: () => Navigator.push(context, Routes.onboarding),
               ),
-              CustomListTile(
-                leadingIcon: Icons.feedback,
-                trailingIcon: Icons.open_in_new,
-                title: appLocale.helpReportErrorLabel,
+              ListTile(
+                leading: const Icon(Icons.feedback),
+                trailing: const Icon(Icons.open_in_new),
+                title: Text(appLocale.helpReportErrorLabel),
                 onTap: () => launchUrl(_urlIssues),
               ),
-              CustomListTile(
-                leadingIcon: Icons.translate,
-                trailingIcon: Icons.open_in_new,
-                title: appLocale.helpImproveTranslationLabel,
+              ListTile(
+                leading: const Icon(Icons.translate),
+                trailing: const Icon(Icons.open_in_new),
+                title: Text(appLocale.helpImproveTranslationLabel),
                 onTap: () => launchUrl(_urlTranslation),
               ),
             ],

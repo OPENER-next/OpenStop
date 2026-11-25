@@ -3,7 +3,6 @@ import 'package:flutter_mvvm_architecture/base.dart';
 
 import '/l10n/app_localizations.g.dart';
 import '/view_models/settings_view_model.dart';
-import '/widgets/custom_list_tile.dart';
 import '/widgets/select_dialog.dart';
 
 class SettingsScreen extends View<SettingsViewModel> {
@@ -28,10 +27,10 @@ class SettingsScreen extends View<SettingsViewModel> {
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
           child: Column(
             children: [
-              CustomListTile(
-                leadingIcon: Icons.palette,
-                title: appLocale.settingsThemeLabel,
-                subtitle: themeModesMap[viewModel.themeMode] ?? 'Unbekannt',
+              ListTile(
+                leading: const Icon(Icons.palette),
+                title: Text(appLocale.settingsThemeLabel),
+                subtitle: Text(themeModesMap[viewModel.themeMode] ?? 'Unbekannt'),
                 onTap: () async {
                   final selection = await showDialog<ThemeMode>(
                     context: context,
@@ -50,11 +49,11 @@ class SettingsScreen extends View<SettingsViewModel> {
                   }
                 },
               ),
-              CustomSwitchListTile(
+              SwitchListTile(
                 value: viewModel.isProfessional,
-                leadingIcon: Icons.report_problem_rounded,
-                title: appLocale.settingsProfessionalQuestionsLabel,
-                subtitle: appLocale.settingsProfessionalQuestionsDescription,
+                secondary: const Icon(Icons.report_problem_rounded),
+                title: Text(appLocale.settingsProfessionalQuestionsLabel),
+                subtitle: Text(appLocale.settingsProfessionalQuestionsDescription),
                 onChanged: (v) => viewModel.changeIsProfessional([v]),
               ),
             ],

@@ -4,7 +4,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '/commons/app_config.dart';
 import '/commons/routes.dart';
 import '/l10n/app_localizations.g.dart';
-import '/widgets/custom_list_tile.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
@@ -51,58 +50,58 @@ class AboutScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              CustomListTile(
-                leadingIcon: Icons.info,
-                trailingIcon: Icons.open_in_new,
-                title: appLocale.aboutVersionLabel,
-                subtitle: kAppVersion,
+              ListTile(
+                leading: const Icon(Icons.info),
+                trailing: const Icon(Icons.open_in_new),
+                title: Text(appLocale.aboutVersionLabel),
+                subtitle: const Text(kAppVersion),
                 onTap: () => launchUrl(_urlVersion),
               ),
-              CustomListTile(
-                leadingIcon: Icons.supervisor_account,
-                trailingIcon: Icons.open_in_new,
-                title: appLocale.aboutAuthorsLabel,
-                subtitle: appLocale.aboutAuthorsDescription(kAppName),
+              ListTile(
+                leading: const Icon(Icons.supervisor_account),
+                trailing: const Icon(Icons.open_in_new),
+                title: Text(appLocale.aboutAuthorsLabel),
+                subtitle: Text(appLocale.aboutAuthorsDescription(kAppName)),
                 onTap: () => launchUrl(_urlContributors),
               ),
-              CustomListTile(
+              ListTile(
                 isThreeLine: true,
-                leadingIcon: Icons.lightbulb,
-                trailingIcon: Icons.open_in_new,
-                title: appLocale.aboutIdeaLabel,
-                subtitle: appLocale.aboutIdeaDescription,
+                leading: const Icon(Icons.lightbulb),
+                trailing: const Icon(Icons.open_in_new),
+                title: Text(appLocale.aboutIdeaLabel),
+                subtitle: Text(appLocale.aboutIdeaDescription),
                 onTap: () => launchUrl(_urlIdea),
               ),
-              CustomListTile(
-                leadingIcon: Icons.code,
-                trailingIcon: Icons.open_in_new,
-                title: appLocale.aboutSourceCodeLabel,
-                subtitle: 'https://github.com/OPENER-next',
+              ListTile(
+                leading: const Icon(Icons.code),
+                trailing: const Icon(Icons.open_in_new),
+                title: Text(appLocale.aboutSourceCodeLabel),
+                subtitle: const Text('https://github.com/OPENER-next'),
                 onTap: () => launchUrl(_urlCode),
               ),
-              CustomListTile(
-                leadingIcon: Icons.query_stats,
-                trailingIcon: Icons.open_in_new,
-                title: appLocale.aboutStatisticLabel,
+              ListTile(
+                leading: const Icon(Icons.query_stats),
+                trailing: const Icon(Icons.open_in_new),
+                title: Text(appLocale.aboutStatisticLabel),
                 onTap: () => launchUrl(_urlStatistic),
               ),
-              CustomListTile(
-                leadingIcon: Icons.copyright,
-                trailingIcon: Icons.open_in_new,
-                title: appLocale.aboutLicenseLabel,
-                subtitle: 'GPL-3.0-or-later',
+              ListTile(
+                leading: const Icon(Icons.copyright),
+                trailing: const Icon(Icons.open_in_new),
+                title: Text(appLocale.aboutLicenseLabel),
+                subtitle: const Text('GPL-3.0-or-later'),
                 onTap: () => launchUrl(_urlLicense),
               ),
-              CustomListTile(
-                leadingIcon: Icons.privacy_tip,
-                trailingIcon: Icons.arrow_forward_ios_rounded,
-                title: appLocale.aboutPrivacyPolicyLabel,
+              ListTile(
+                leading: const Icon(Icons.privacy_tip),
+                trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                title: Text(appLocale.aboutPrivacyPolicyLabel),
                 onTap: () => Navigator.push(context, Routes.privacyPolicy),
               ),
-              CustomListTile(
-                leadingIcon: Icons.text_snippet,
-                trailingIcon: Icons.arrow_forward_ios_rounded,
-                title: appLocale.aboutLicensePackageLabel,
+              ListTile(
+                leading: const Icon(Icons.text_snippet),
+                trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                title: Text(appLocale.aboutLicensePackageLabel),
                 onTap: () => Navigator.push(context, Routes.licenses),
               ),
               Container(
