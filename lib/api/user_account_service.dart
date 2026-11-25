@@ -16,7 +16,7 @@ typedef PanoramaxAccountService = UserAccountService<String, PanoramaxAuthentica
 /// [ID] is the user id type of the [AuthenticationAPI] [T].
 
 class UserAccountService<ID, T extends AuthenticationAPI<ID>> extends Service {
-  final T _authenticationApi;
+  T _authenticationApi;
 
   final _authenticatedUser = Observable<AuthenticatedUser<ID>?>(null);
 
@@ -46,6 +46,13 @@ class UserAccountService<ID, T extends AuthenticationAPI<ID>> extends Service {
   bool get isLoggedOut => _isLoggedOut.value;
 
   AuthenticatedUser<ID>? get authenticatedUser => _authenticatedUser.value;
+
+  /// Replace the underlying API.
+  /// Logout is called first before replacing the API.
+  Future<void> rebind(T api) async {
+    await logout();
+    _authenticationApi = api;
+  }
 
   Future<void> login() async {
     if (isLoggedIn) return;

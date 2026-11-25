@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
-import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '/api/authentication/panoramax_authentication_api.dart';
@@ -33,6 +32,7 @@ class ServicesViewModel extends ViewModel {
   /// Returns false if the URL is not a secure Panoramax instance that can be reached.
 
   Future<bool> changePanoramaxInstance(String value) async {
+    // always remove trailing / of the URL
     final input = value.trim().replaceFirst(RegExp(r'/+$'), '');
     final instance = Uri.tryParse(input.isEmpty ? kPanoramaxUrl : input);
     if (instance == null || instance.scheme != 'https' || instance.host.isEmpty) return false;
@@ -54,15 +54,7 @@ class ServicesViewModel extends ViewModel {
       dio.close();
     }
 
-    final previousService = _photoAccountService;
-    await previousService.logout();
-    if (previousService.isLoggedIn) return false;
-    // The authentication API is bound to one instance, so replace the whole account service.
-    // Update the preference afterwards, so views observing it rebuild with the new service.
-    GetIt.I.unregister<PanoramaxAccountService>(instance: previousService);
-    GetIt.I.registerSingleton<PanoramaxAccountService>(
-      PanoramaxAccountService(PanoramaxAuthenticationAPI(endPoint: instance.toString())),
-    );
+    await _photoAccountService.rebind(PanoramaxAuthenticationAPI(endPoint: instance.toString()));
     _preferencesService.panoramaxInstance = instance.toString();
     return true;
   }

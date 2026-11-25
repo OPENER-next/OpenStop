@@ -142,7 +142,9 @@ class PanoramaxAuthenticationAPI implements AuthenticationAPI<String> {
       id: response.data!['id'] as String,
       instance: _instance,
       // Panoramax doesn't currently have a profile page
-      profileUrl: _instance.replace(path: '${_instance.path}/your-pictures'),
+      profileUrl: _instance.replace(
+        pathSegments: [..._instance.pathSegments, 'your-pictures'],
+      ),
       preferredLanguages: const [],
     );
   }
