@@ -4,6 +4,8 @@ import 'package:latlong2/latlong.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '/commons/panoramax_config.dart';
+
 /// An interface around [SharedPreferences] with observable properties.
 
 class PreferencesService extends Service {
@@ -108,6 +110,20 @@ class PreferencesService extends Service {
       newValue,
       mapRotation,
       () => _preferences.setDouble('mapRotation', newValue),
+    );
+  }
+
+  final _panoramaxInstanceAtom = Atom(name: 'panoramaxInstancePreference');
+  String get panoramaxInstance {
+    _panoramaxInstanceAtom.reportRead();
+    return _preferences.getString('panoramaxInstance') ?? kPanoramaxUrl;
+  }
+
+  set panoramaxInstance(String newValue) {
+    _panoramaxInstanceAtom.reportWrite<String>(
+      newValue,
+      panoramaxInstance,
+      () => _preferences.setString('panoramaxInstance', newValue),
     );
   }
 }

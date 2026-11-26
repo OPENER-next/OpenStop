@@ -115,7 +115,7 @@ void main() async {
   late final List<OSMNode> baseNodes;
   late final List<OSMWay> baseWays;
   late final List<OSMRelation> baseRelations;
-  late final AuthenticatedUser user;
+  late final AuthenticatedUser<int> user;
   late final OSMElementUploadAPI uploadApi;
 
   setUpAll(() async {
@@ -181,6 +181,8 @@ void main() async {
       authentication: auth,
       name: userDetails.name,
       id: userDetails.id,
+      instance: Uri.parse('http://127.0.0.1:3000'),
+      profileUrl: Uri.parse('http://127.0.0.1:3000/user/${userDetails.name}'),
       preferredLanguages: userDetails.preferredLanguages,
     );
 

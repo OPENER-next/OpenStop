@@ -50,6 +50,10 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>Diese App braucht Zugriff auf die Kamera, um Fotos von Haltestellen aufzunehmen, die deren Barrierefreiheit dokumentieren und auf Panoramax geteilt werden.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Diese App braucht Zugriff auf die Fotos, um bereits aufgenommene Bilder von Haltestellen auszuwählen und auf Panoramax zu teilen.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Diese App braucht Zugriff auf den Standort, um die Position des Nutzers auf der Karte anzuzeigen und um nahegelegene Haltestellen zu laden.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>

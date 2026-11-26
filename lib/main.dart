@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -6,7 +7,10 @@ import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '/api/app_worker/app_worker_interface.dart';
+import '/api/authentication/osm_authentication_api.dart';
+import '/api/authentication/panoramax_authentication_api.dart';
 import '/api/preferences_service.dart';
+import '/api/user_account_service.dart';
 import '/commons/app_config.dart';
 import '/commons/routes.dart';
 import '/commons/themes.dart';
@@ -28,9 +32,29 @@ Future<void> main() async {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge),
   ]);
 
+  LicenseRegistry.addLicense(
+    () => Stream<LicenseEntry>.value(
+      const LicenseEntryWithLineBreaks(
+        <String>['Panoramax logo'],
+        'Panoramax logo by Adrien Pavie (https://panoramax.fr)\n\n'
+        'Source: https://commons.wikimedia.org/wiki/File:Panoramax.svg\n\n'
+        'Licensed under CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/\n\n'
+        'Unmodified, rasterized for use in the app.',
+      ),
+    ),
+  );
+
   GetIt.I.registerSingleton<AppWorkerInterface>(appWorker);
   GetIt.I.registerSingleton<PreferencesService>(
     PreferencesService(preferences: sharedPreferences),
+  );
+  GetIt.I.registerSingleton<OSMAccountService>(
+    OSMAccountService(OSMAuthenticationAPI()),
+  );
+  GetIt.I.registerSingleton<PanoramaxAccountService>(
+    PanoramaxAccountService(
+      PanoramaxAuthenticationAPI(endPoint: GetIt.I.get<PreferencesService>().panoramaxInstance),
+    ),
   );
 
   const mainCatalogDirectory = 'assets/question_catalog';

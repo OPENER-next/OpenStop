@@ -22,9 +22,12 @@ import 'package:path_provider/path_provider.dart';
 import '/api/app_worker/app_worker_interface.dart';
 import '/api/app_worker/element_handler.dart';
 import '/api/app_worker/stop_area_handler.dart';
+import '/api/authentication/panoramax_authentication_api.dart';
+import '/api/panoramax_photo_upload_api.dart';
 import '/api/preferences_service.dart';
 import '/api/user_account_service.dart';
 import '/l10n/app_localizations.g.dart';
+import '/models/answer.dart';
 import '/models/map_features/map_feature_representation.dart';
 import '/models/question_catalog/question_definition.dart';
 import '/models/questionnaire.dart';
@@ -42,7 +45,9 @@ class HomeViewModel extends ViewModel
 
   PreferencesService get _preferencesService => getService<PreferencesService>();
 
-  final _userAccountService = UserAccountService();
+  OSMAccountService get _userAccountService => getService<OSMAccountService>();
+
+  PanoramaxAccountService get _photoAccountService => getService<PanoramaxAccountService>();
 
   final _reactionDisposers = <ReactionDisposer>[];
 
@@ -308,7 +313,7 @@ class HomeViewModel extends ViewModel
     }
   }
 
-  void openUserProfile() => _userAccountService.openUserProfile();
+  void openUserProfile() => _userAccountService.authenticatedUser?.openUserProfile();
 
   ////////////////////////////////
   /// Questionnaire properties ///
@@ -407,23 +412,42 @@ class HomeViewModel extends ViewModel
   Future<void> submitQuestionnaire() async {
     final appLocale = AppLocalizations.of(context)!;
     final alteredElement = selectedElement;
+    final hasPhotos = questionnaireAnswers.any(
+      (controller) => controller.answer is PhotoAnswer && controller.hasValidAnswer,
+    );
 
     if (_userAccountService.isLoggedOut) {
       // wait till the user login process finishes
       await _userAccountService.login();
     }
+    if (hasPhotos && _userAccountService.isLoggedIn && _photoAccountService.isLoggedOut) {
+      await _photoAccountService.login();
+    }
     // check if the user is successfully logged in
     // check if mounted to ensure context is valid
-    if (_userAccountService.isLoggedIn && mounted) {
+    if (_userAccountService.isLoggedIn &&
+        (!hasPhotos || _photoAccountService.isLoggedIn) &&
+        mounted) {
       try {
         // deselect element
         runInAction(() => _selectedElement.value = null);
         // this automatically closes the questionaire
         final uploading = _appWorker.uploadQuestionnaire(
           user: _userAccountService.authenticatedUser!,
+          photoUser: _photoAccountService.authenticatedUser,
         );
         _uploadQueue[alteredElement!] = uploading;
         await uploading;
+      } on PanoramaxAuthenticationException {
+        // The token is no longer valid, for example because it was revoked on the website.
+        await _photoAccountService.logout();
+        notifyUser(Notification(appLocale.photoAuthenticationError));
+      } on PanoramaxPhotoUploadException catch (error) {
+        notifyUser(
+          Notification(
+            error.isDuplicate ? appLocale.photoDuplicateError : appLocale.photoUploadError,
+          ),
+        );
       } on OSMConnectionException {
         notifyUser(Notification(appLocale.uploadMessageServerConnectionError));
       } catch (e) {

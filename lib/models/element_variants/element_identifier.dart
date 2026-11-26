@@ -11,6 +11,9 @@ abstract class ElementIdentifier {
 
   osmapi.OSMElementType get type;
 
+  /// The OSM type and ID, for example `node/123`.
+  String get osmReference => '${type.name}/$id';
+
   /// Two elements are considered equal if they have the same [id] and [type].
 
   @override
