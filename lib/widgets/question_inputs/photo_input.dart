@@ -27,9 +27,11 @@ class PhotoInput extends QuestionInputWidget<PhotoAnswerDefinition, PhotoAnswer>
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: 15,
         children: [
           if (photos.isNotEmpty)
             GridView.count(
+              padding: EdgeInsets.zero,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               crossAxisCount: 4,
@@ -73,7 +75,7 @@ class PhotoInput extends QuestionInputWidget<PhotoAnswerDefinition, PhotoAnswer>
       }
       _addPhoto(photo);
     } catch (_) {
-      unawaited(_showError(context, locale.photoCaptureError));
+      _showError(context, locale.photoCaptureError);
     }
   }
 
@@ -86,20 +88,19 @@ class PhotoInput extends QuestionInputWidget<PhotoAnswerDefinition, PhotoAnswer>
         return unawaited(photo.deleteFromDisk());
       }
       if (_answerPhotos.any(photo.isDuplicateOf)) {
-        return unawaited(
-          Future.wait([
-            _showError(context, AppLocalizations.of(context)!.photoAlreadyAddedError),
-            photo.deleteFromDisk(),
-          ]),
-        );
+        // On Android selecting the same file will result in the same path
+        // This check ensures we are not deleting an already selected image
+        final cleanupRequired = _answerPhotos.every((p) => p.file.path != photo.file.path);
+        if (cleanupRequired) unawaited(photo.deleteFromDisk());
+        return _showError(context, AppLocalizations.of(context)!.photoAlreadyAddedError);
       }
       _addPhoto(photo);
     } on MissingLocationException {
-      unawaited(_showError(context, locale.photoMissingLocationError));
+      _showError(context, locale.photoMissingLocationError);
     } on UnsupportedFileTypeException {
-      unawaited(_showError(context, locale.photoUnsupportedFileTypeError));
+      _showError(context, locale.photoUnsupportedFileTypeError);
     } catch (_) {
-      unawaited(_showError(context, locale.photoCaptureError));
+      _showError(context, locale.photoCaptureError);
     }
   }
 
@@ -118,9 +119,9 @@ class PhotoInput extends QuestionInputWidget<PhotoAnswerDefinition, PhotoAnswer>
     await photo.deleteFromDisk();
   }
 
-  Future<void> _showError(BuildContext context, String message) async {
+  void _showError(BuildContext context, String message) {
     if (context.mounted) {
-      await showDialog<void>(
+      unawaited(showDialog<void>(
         context: context,
         builder: (context) => AlertDialog(
           content: Text(message),
@@ -131,7 +132,7 @@ class PhotoInput extends QuestionInputWidget<PhotoAnswerDefinition, PhotoAnswer>
             ),
           ],
         ),
-      );
+      ));
     }
   }
 }
