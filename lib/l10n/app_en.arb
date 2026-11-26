@@ -461,8 +461,10 @@
   "@photoTakePicture": {},
   "photoChooseFromLibrary": "Select photo",
   "@photoChooseFromLibrary": {},
-  "photoMetadataError": "This photo has no usable capture location. Enable location tagging in your camera and take a new photo, or choose a geotagged original. If the photo picker has an option to include the location, make sure it is turned on.",
-  "@photoMetadataError": {},
-  "photoAlreadyAddedError": "This photo has already been added.",
+  "photoMissingLocationError": "The selected photo has no usable capture location. Enable location tagging in your camera and take a new photo, or choose a geotagged original. If the photo picker has an option to include the location, make sure it is turned on.",
+  "@photoMissingLocationError": {},
+  "photoUnsupportedFileTypeError": "The selected photo has an unsupported file type. Only JPEG files are supported.",
+  "@photoUnsupportedFileTypeError": {},
+  "photoAlreadyAddedError": "The selected photo has already been added.",
   "@photoAlreadyAddedError": {}
 }

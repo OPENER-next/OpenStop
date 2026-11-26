@@ -60,7 +60,7 @@ class PanoramaxPhotoUploadAPI {
           final response = await _client.post<Map<String, dynamic>>(
             '/upload_sets/$uploadSetId/files',
             data: FormData.fromMap({
-              'file': await MultipartFile.fromFile(photo.path, filename: '${photo.id}.jpg'),
+              'file': await MultipartFile.fromFile(photo.file.path, filename: '${photo.id}.jpg'),
               'picture_id': photo.id,
               'isBlurred': false,
               'override_latitude': photo.captureLocation.latitude,

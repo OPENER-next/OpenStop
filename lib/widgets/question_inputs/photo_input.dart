@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 
@@ -95,8 +94,10 @@ class PhotoInput extends QuestionInputWidget<PhotoAnswerDefinition, PhotoAnswer>
         );
       }
       _addPhoto(photo);
-    } on FormatException {
-      unawaited(_showError(context, locale.photoMetadataError));
+    } on MissingLocationException {
+      unawaited(_showError(context, locale.photoMissingLocationError));
+    } on UnsupportedFileTypeException {
+      unawaited(_showError(context, locale.photoUnsupportedFileTypeError));
     } catch (_) {
       unawaited(_showError(context, locale.photoCaptureError));
     }
@@ -213,7 +214,7 @@ class _PhotoItem extends StatelessWidget {
                 tag: photo.id,
                 openOn: InteractionTrigger.tap,
                 child: Image.file(
-                  File(photo.path),
+                  photo.file,
                   fit: BoxFit.cover,
                   errorBuilder: (_, _, _) => const Icon(Icons.broken_image),
                 ),
