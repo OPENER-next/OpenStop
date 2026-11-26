@@ -13,6 +13,7 @@ class PanoramaxPhoto {
   final String id;
   final File file;
   final LatLng captureLocation;
+
   /// MD5 hash of the entire file used to detect duplicates.
   final Digest? _hash;
 
