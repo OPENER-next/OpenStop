@@ -121,18 +121,20 @@ class PhotoInput extends QuestionInputWidget<PhotoAnswerDefinition, PhotoAnswer>
 
   void _showError(BuildContext context, String message) {
     if (context.mounted) {
-      unawaited(showDialog<void>(
-        context: context,
-        builder: (context) => AlertDialog(
-          content: Text(message),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(MaterialLocalizations.of(context).okButtonLabel),
-            ),
-          ],
+      unawaited(
+        showDialog<void>(
+          context: context,
+          builder: (context) => AlertDialog(
+            content: Text(message),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(MaterialLocalizations.of(context).okButtonLabel),
+              ),
+            ],
+          ),
         ),
-      ));
+      );
     }
   }
 }
