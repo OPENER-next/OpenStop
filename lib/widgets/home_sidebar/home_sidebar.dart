@@ -50,6 +50,11 @@ class HomeSidebar extends ViewFragment<HomeViewModel> {
             onTap: () => Navigator.push(context, Routes.settings),
           ),
           ListTile(
+            leading: const Icon(MdiIcons.shapePlus),
+            title: Text(appLocale.servicesTitle),
+            onTap: () => Navigator.push(context, Routes.services),
+          ),
+          ListTile(
             leading: const Icon(Icons.info),
             title: Text(appLocale.aboutTitle),
             onTap: () => Navigator.push(context, Routes.about),
