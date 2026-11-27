@@ -7,7 +7,6 @@ import 'package:flutter_mvvm_architecture/base.dart';
 import '/commons/routes.dart';
 import '/l10n/app_localizations.g.dart';
 import '/view_models/home_view_model.dart';
-import '/widgets/custom_list_tile.dart';
 import 'login_info_header.dart';
 import 'user_account_header.dart';
 
@@ -45,24 +44,24 @@ class HomeSidebar extends ViewFragment<HomeViewModel> {
               ),
             ),
           ),
-          CustomListTile(
-            leadingIcon: Icons.settings,
-            title: appLocale.settingsTitle,
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: Text(appLocale.settingsTitle),
             onTap: () => Navigator.push(context, Routes.settings),
           ),
-          CustomListTile(
-            leadingIcon: MdiIcons.shapePlus,
-            title: appLocale.servicesTitle,
+          ListTile(
+            leading: const Icon(MdiIcons.shapePlus),
+            title: Text(appLocale.servicesTitle),
             onTap: () => Navigator.push(context, Routes.services),
           ),
-          CustomListTile(
-            leadingIcon: Icons.info,
-            title: appLocale.aboutTitle,
+          ListTile(
+            leading: const Icon(Icons.info),
+            title: Text(appLocale.aboutTitle),
             onTap: () => Navigator.push(context, Routes.about),
           ),
-          CustomListTile(
-            leadingIcon: Icons.help,
-            title: appLocale.helpTitle,
+          ListTile(
+            leading: const Icon(Icons.help),
+            title: Text(appLocale.helpTitle),
             onTap: () => Navigator.push(context, Routes.help),
           ),
         ],
