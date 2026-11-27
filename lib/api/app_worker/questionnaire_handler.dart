@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import '/api/authentication/panoramax_authentication_api.dart';
+import '/api/panoramax_photo_upload_api.dart';
 import '/models/answer.dart';
 import '/models/authenticated_user.dart';
 import '/models/element_variants/element_identifier.dart';
@@ -91,12 +93,12 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
   ///
   /// Returns true if a corresponding questionnaire was found and discarded.
 
-  bool discardQuestionnaireByElement(ElementIdentifier osmElement) {
+  Future<bool> discardQuestionnaireByElement(ElementIdentifier osmElement) async {
     final questionnaire = _questionnaireStore.find(
       (questionnaire) => questionnaire.workingElement == osmElement,
     );
     if (questionnaire != null) {
-      discardQuestionnaire(questionnaire);
+      await discardQuestionnaire(questionnaire);
       return true;
     }
     return false;
@@ -104,8 +106,8 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
 
   /// Remove a previously stored questionnaire.
 
-  void discardQuestionnaire(Questionnaire questionnaire) {
-    _questionnaireStore.remove(questionnaire);
+  Future<void> discardQuestionnaire(Questionnaire questionnaire) async {
+    await _questionnaireStore.remove(questionnaire);
 
     if (questionnaire == _activeQuestionnaire) {
       // unset current questionnaire
@@ -117,15 +119,37 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
 
   /// This also automatically closes the questionnaire.
 
-  Future<void> uploadQuestionnaire(AuthenticatedUser user) async {
+  Future<void> uploadQuestionnaire(
+    AuthenticatedUser<int> user,
+    AuthenticatedUser<String>? photoUser,
+  ) async {
     final questionnaire = _activeQuestionnaire!;
     final element = _activeQuestionnaire!.workingElement;
     // close questionnaire before uploading
     closeQuestionnaire();
 
+    final photos = questionnaire.entries
+        .map((entry) => entry.answer)
+        .whereType<PhotoAnswer>()
+        .where((answer) => answer.isValid)
+        .expand((answer) => answer.value)
+        .toList();
+    if (photos.isNotEmpty) {
+      if (photoUser == null) throw const PanoramaxAuthenticationException();
+      final api = PanoramaxPhotoUploadAPI(
+        authentication: photoUser.authentication,
+        endPoint: '${photoUser.instance}/api',
+      );
+      try {
+        await api.upload(photos: photos, target: element);
+      } finally {
+        api.dispose();
+      }
+    }
+
     await uploadElement(element, user);
     // if uploadElement throws the questionnaire will not be discarded
-    discardQuestionnaire(questionnaire);
+    await discardQuestionnaire(questionnaire);
   }
 
   void previousQuestion() {
@@ -199,7 +223,7 @@ mixin QuestionnaireHandler<M> on ServiceWorker<M>, QuestionCatalogHandler<M>, El
         );
       }
     } else {
-      _questionnaireStore.clear();
+      unawaited(_questionnaireStore.clear());
       closeQuestionnaire();
     }
     return ret;

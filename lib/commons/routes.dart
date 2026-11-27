@@ -7,6 +7,7 @@ import '/screens/home.dart';
 import '/screens/licenses.dart';
 import '/screens/onboarding.dart';
 import '/screens/privacy_policy.dart';
+import '/screens/services.dart';
 import '/screens/settings.dart';
 import '/widgets/hero_viewer.dart';
 
@@ -28,6 +29,9 @@ class Routes {
   );
   static SlideInOutPageRoute get privacyPolicy => SlideInOutPageRoute(
     const PrivacyPolicyScreen(),
+  );
+  static SlideInOutPageRoute get services => SlideInOutPageRoute(
+    const ServicesScreen(),
   );
   static SlideInOutPageRoute get settings => SlideInOutPageRoute(
     const SettingsScreen(),

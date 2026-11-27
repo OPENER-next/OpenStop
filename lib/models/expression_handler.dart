@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 /// Function to substitute variables found in an expression.
 /// Returns zero to multiple values for a given variable.
 
@@ -35,6 +37,7 @@ mixin ExpressionHandler {
     'JOIN': _join,
     'CONCAT': _concat,
     'COALESCE': _coalesce,
+    'SELECT': _select,
     'COUPLE': _couple,
     'PAD': _pad,
     'INSERT': _insert,
@@ -133,6 +136,16 @@ Iterable<String> _concat(Iterable<String> args) sync* {
 Iterable<String> _coalesce(Iterable<String> args) sync* {
   final iter = args.iterator;
   if (iter.moveNext()) yield iter.current;
+}
+
+/// Returns the value at the zero-based index given by the first argument.
+/// Invalid or missing indices return no value.
+Iterable<String> _select(Iterable<String> args) sync* {
+  final index = int.tryParse(args.firstOrNull ?? '');
+  if (index == null || index.isNegative) return;
+
+  final value = args.skip(1).elementAtOrNull(index);
+  if (value != null) yield value;
 }
 
 /// Concatenates exactly two values. If less or more values are given this returns empty.

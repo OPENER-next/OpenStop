@@ -131,6 +131,45 @@ void main() async {
     }
   });
 
+  test('SELECT selects zero-based values using string indices', () {
+    const constructor = AnswerConstructor({
+      'key1': ['SELECT', '0', r'$input'],
+      'key2': ['SELECT', '1', r'$input'],
+      'key3': ['SELECT', '2', 'a', 'b', 'c'],
+    });
+    expect(constructor.construct(withValues), {'key1': 'a', 'key2': 'b', 'key3': 'c'});
+  });
+
+  test('SELECT omits unavailable values and composes with other expressions', () {
+    const constructor = AnswerConstructor({
+      'key1': [
+        'SELECT',
+        '1',
+        ['REPLACE', 'b', 'B', r'$input'],
+      ],
+      'key2': ['SELECT', '3', r'$input'],
+      'key3': [
+        'COALESCE',
+        ['SELECT', '4', r'$input'],
+        'fallback',
+      ],
+    });
+    expect(constructor.construct(withValues), {'key1': 'B', 'key3': 'fallback'});
+    expect(constructor.construct(noValues), {'key3': 'fallback'});
+  });
+
+  test('SELECT omits missing, invalid and negative indices', () {
+    for (final expression in <List<dynamic>>[
+      ['SELECT'],
+      ['SELECT', '0'],
+      ['SELECT', '-1', r'$input'],
+      ['SELECT', 'invalid', r'$input'],
+      ['SELECT', '1.5', r'$input'],
+    ]) {
+      expect(AnswerConstructor({'key1': expression}).construct(withValues), isEmpty);
+    }
+  });
+
   test('test if constructor CONCAT works correctly', () {
     {
       const testConstructor = AnswerConstructor({

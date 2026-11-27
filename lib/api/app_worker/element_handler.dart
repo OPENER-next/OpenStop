@@ -153,7 +153,7 @@ mixin ElementHandler<M>
   ///
   /// Throws if the upload fails.
 
-  Future<void> uploadElement(ProxyElement element, AuthenticatedUser user) async {
+  Future<void> uploadElement(ProxyElement element, AuthenticatedUser<int> user) async {
     final qCatalog = await questionCatalog;
 
     final stopArea = findCorrespondingStopArea(element);

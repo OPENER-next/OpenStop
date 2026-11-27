@@ -30,17 +30,19 @@ Web: https://www.tu-chemnitz.de/rektorat/dsb
 Die technische Umsetzung der App erfolgt quell-offen auf GitHub und ist über den folgenden Link zu erreichen: https://github.com/OPENER-next/OpenStop. Die Betreuung und Entwicklung findet maßgeblich durch Mitwirkende im Forschungsprojekt OPENER next statt. Alle derzeitigen oder ehemaligen Mitwirkenden finden Sie hier: https://github.com/OPENER-next/OpenStop/graphs/contributors.
 
 ## IV. Auf welcher Rechtsgrundlage werden Ihre Daten verarbeitet?
-Ihre Daten werden im Zusammenhang mit den Funktionen der App grundsätzlich nur auf Grundlage Ihres Einverständnisses verarbeitet. Dies umfasst z. B. die Anmeldung bei OpenStreetMap sowie die Weitergabe Ihres Standortes zwecks Herunterladens der in der Nähe befindlichen Haltestellen. Die Rechtsgrundlage ist Art. 6 Abs. 1 S. 1 lit. a DSGVO.
+Ihre Daten werden im Zusammenhang mit den Funktionen der App grundsätzlich nur auf Grundlage Ihres Einverständnisses verarbeitet. Dies umfasst z. B. die Anmeldung bei OpenStreetMap und bei Panoramax, das Hochladen von Fotos sowie die Weitergabe Ihres Standortes zwecks Herunterladens der in der Nähe befindlichen Haltestellen. Die Rechtsgrundlage ist Art. 6 Abs. 1 S. 1 lit. a DSGVO.
 
 ## V. An wen richtet sich die App?
-Die App richtet sich an alle, die dabei helfen wollen, Barrieren im öffentlichen Nahverkehr zu erfassen, um so die Welt ein kleines bisschen besser machen.
+Die App richtet sich an alle, die dabei helfen wollen, Barrieren im öffentlichen Nahverkehr zu erfassen, um so die Welt ein kleines bisschen besser zu machen.
 
 ## VI. Welche Berechtigungen benötigt die App?
-Die App benötigt Zugriff auf den Standardort Ihres Smartphones. Dazu ist es erforderlich, dass Sie der App diese Berechtigung erteilen. Das Berechtigungssystem richtet sich nach den Vorgaben Ihres Betriebssystems. Sie können auf Ihrem Smartphone beispielsweise Einzelberechtigungen zu Berechtigungskategorien zusammengefasst sein, wobei Sie der Berechtigungskategorie nur insgesamt zustimmen können.
+Die App benötigt Zugriff auf den Standort Ihres Smartphones sowie für das Aufnehmen und Hochladen von Fotos auf die Kamera bzw. Ihre Fotos. Dazu ist es erforderlich, dass Sie der App diese Berechtigungen erteilen. Das Berechtigungssystem richtet sich nach den Vorgaben Ihres Betriebssystems. Sie können auf Ihrem Smartphone beispielsweise Einzelberechtigungen zu Berechtigungskategorien zusammengefasst sein, wobei Sie der Berechtigungskategorie nur insgesamt zustimmen können.
 
 Bitte beachten Sie, dass ohne die von der App angeforderten Berechtigungen diese nicht oder nur eingeschränkt nutzbar ist.
-*	Die App benötigt eine Internetverbindung, um mit den OpenStreetMap-, GitHub- und Kartenmaterial-Servern Daten auszutauschen.
-*	Der Zugriff auf Ihren Standort ist nur nötig, um Ihre Position auf der Karte anzuzeigen zur Unterstützung der Orientierung.
+*	Die App benötigt eine Internetverbindung, um mit den OpenStreetMap-, GitHub-, Panoramax- und Kartenmaterial-Servern Daten auszutauschen.
+*	Der Zugriff auf Ihren Standort ist nur nötig, um Ihre Position auf der Karte anzuzeigen zur Unterstützung der Orientierung sowie um aufgenommene Fotos mit dem Aufnahmeort zu versehen.
+*	Der Zugriff auf die Kamera ist nur nötig, um Fotos von Haltestellen aufzunehmen, die Sie zu Panoramax hochladen möchten.
+*	Der Zugriff auf Ihre Fotos ist nur nötig, um bereits aufgenommene Fotos zum Hochladen zu Panoramax auszuwählen.
 
 ## VII. Welche Daten werden zu welchem Zweck verarbeitet?
 Wir verarbeiten Ihre personenbezogenen Daten grundsätzlich nur, soweit dies zur Bereitstellung einer funktionsfähigen App erforderlich ist. Betroffen sind:
@@ -50,8 +52,15 @@ Um darzustellen, mit welchem Account Sie aktuell in der App angemeldet sind und 
 
 Wenn Sie sich innerhalb der App anmelden, werden Sie auf die Internetseite von OpenStreetMap weitergeleitet. Dort müssen Sie Ihre Anmeldedaten eingeben und einmalig der App die Erlaubnis erteilen, auf Ihr Nutzerprofil zuzugreifen sowie in Ihren Namen Änderungen beizutragen. Durch die Eingabe Ihrer Anmeldedaten direkt bei OpenStreetMap erfasst die App selbst niemals ihr Passwort. Die Erteilung der Erlaubnis erfolgt über den Austausch eines Tokens (elektronischer Schlüssel) nur nach Ihrer expliziten Zustimmung, welche jederzeit über Ihr OpenStreetMap-Konto wieder entzogen werden kann.
 
+### Panoramax-Konto und Fotos
+Die App ermöglicht es Ihnen, Fotos zu einer Panoramax-Instanz hochzuladen. Dazu müssen Sie sich innerhalb der App bei der Instanz anmelden und dort den Nutzungsbedingungen des Betreibers zustimmen. Bei der Anmeldung werden Sie auf die Internetseite der Instanz weitergeleitet, sodass die App Ihr Passwort niemals erfasst. Die Erlaubnis zum Hochladen erfolgt über den Austausch eines Tokens (elektronischer Schlüssel), welcher jederzeit über Ihr Panoramax-Konto widerrufen werden kann. Als Standard ist die Instanz https://osm-lens.vee.network voreingestellt. Sie wird von einer Privatperson mit Sitz in Schweden betrieben und bei Hetzner in Deutschland gehostet. Die Instanz kann in der App geändert werden. Es gilt dann die Datenschutzerklärung des jeweils gewählten Betreibers. Dieser ist für die Datenverarbeitung auf seiner Instanz selbst verantwortlich. Die Nutzungsbedingungen und Datenschutzhinweise der Standardinstanz finden Sie hier: https://osm-lens.vee.network/terms-of-service
+
+Zusammen mit den Fotos werden deren Metadaten übertragen, insbesondere Aufnahmeort und Aufnahmezeitpunkt sowie ggf. weitere in der Bilddatei gespeicherte Angaben (z. B. Kameramodell). Fehlt der Aufnahmeort in einem mit der App aufgenommenen Foto, ergänzt die App diesen anhand Ihres aktuellen Standortes.
+
+Hochgeladene Fotos werden unter einer von der jeweiligen Instanz abhängigen Lizenz veröffentlicht (standardmäßig CC-BY-4.0), sind öffentlich einsehbar und Ihrem Panoramax-Konto zuordenbar. Bitte achten Sie darauf, dass auf den Fotos keine Personen oder andere personenbezogene Informationen (z. B. Kfz-Kennzeichen) erkennbar sind. Aus den Fotos und ihren Metadaten lässt sich potenziell erkennen, zu welcher Zeit Sie an welchem Ort unterwegs waren. Wir raten daher auch hier zur Verwendung eines Pseudonyms.
+
 ### Standortdaten
-Um Ihren aktuellen Standort auf der Karte anzuzeigen zwecks besserer Orientierung, benötigt die App Zugriff auf Ihren aktuellen Standort. Dies geschieht nur mit Ihrer expliziten Zustimmung.
+Um Ihren aktuellen Standort auf der Karte anzuzeigen zwecks besserer Orientierung sowie um Fotos mit dem Aufnahmeort zu versehen, benötigt die App Zugriff auf Ihren aktuellen Standort. Dies geschieht nur mit Ihrer expliziten Zustimmung.
 
 ### Nutzungsdaten
 Änderungen, die Sie als Nutzer durch das Beantworten von Fragen zu OpenStreetMap beitragen, werden in sogenannten Änderungssätzen (Changesets) an die OpenStreetMap-Server übermittelt und dort gespeichert. Änderungssätze, die durch die App übertragen werden, beinhalten folgende zusätzliche Informationen:
@@ -62,7 +71,7 @@ Um Ihren aktuellen Standort auf der Karte anzuzeigen zwecks besserer Orientierun
 *	Beschreibung der gemachten Änderungen
 *	Art der Datenerfassung
 
-Jeder Beitrag zu OpenStreetMap ist öffentlich einsehbar und Ihrem OpenStreetMap-Konto zuordenbar ist. Aus diesen Daten lässt sich potentiell erkennen, zu welcher Zeit Sie an welchem Ort unterwegs waren oder in welcher Region Sie wohnen. Wir raten daher zur Verwendung eines Pseudonyms als Nutzernamen.
+Jeder Beitrag zu OpenStreetMap ist öffentlich einsehbar und Ihrem OpenStreetMap-Konto zuordenbar. Aus diesen Daten lässt sich potenziell erkennen, zu welcher Zeit Sie an welchem Ort unterwegs waren oder in welcher Region Sie wohnen. Wir raten daher zur Verwendung eines Pseudonyms als Nutzernamen.
 
 Weitere Informationen zu Änderungssätzen können Sie hier finden: [https://wiki.openstreetmap.org/wiki/DE:Änderungssatz](https://wiki.openstreetmap.org/wiki/DE:%C3%84nderungssatz)
 
@@ -78,14 +87,19 @@ Mit folgenden Dritt-Servern kommuniziert die App:
     * Thunderforest - https://www.thunderforest.com/privacy
 *	**OpenStreetMap-Server** wird für das Herunterladen von Geodaten wie Haltestellen-Plattformen, Wege oder Toiletten verwendet. Zusätzlich werden davon Profilbild und Nutzername von dem verwendeten OpenStreetMap-Konto heruntergeladen. Die Datenschutzerklärung von OpenStreetMap finden sie hier: https://wiki.osmfoundation.org/wiki/Privacy_Policy
 *	**GitHub-Server** wird für das Herunterladen von vorprozessierten Haltestellenbereichen verwendet. Die Datenschutzerklärung von GitHub finden sie hier: https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement
+*	**Panoramax-Server** wird für das Anmelden sowie das Hochladen von Fotos verwendet. Standardmäßig ist dies https://osm-lens.vee.network (Betreiber: Privatperson mit Sitz in Schweden; Hosting: Hetzner, Deutschland). Die Datenschutzhinweise des jeweiligen Betreibers finden Sie auf der jeweiligen Instanz, die der Standardinstanz hier: https://osm-lens.vee.network/terms-of-service
 
 ## VIII. An wen werden Ihre Daten weitergegeben?
 Die von Ihnen gegebenen Antworten werden von der App in OpenStreetMap-konforme Daten umgewandelt und mit weiteren Informationen angereichert (siehe Nutzungsdaten) und anschließend an den OpenStreetMap-Server weitergeben und dort gespeichert.
 
+Von Ihnen hochgeladene Fotos werden an die von Ihnen gewählte Panoramax-Instanz übermittelt und dort unter einer von der jeweiligen Instanz abhängigen Lizenz veröffentlicht.
+
 ## IX. Wann werden Ihre Daten gelöscht?
-Jegliche Einstellungen der App und Nutzerprofil-Daten werden ausschließlich lokal gespeichert, wodurch Sie die volle Kontrolle über die Speicherdauer dieser Daten behalten. Sie können diese Daten durch die Deinstallation der App oder über die Systemeinstellungen Ihres Endgeräts löschen.
+Jegliche Einstellungen der App und Nutzerprofil-Daten werden ausschließlich lokal gespeichert, wodurch Sie die volle Kontrolle über die Speicherdauer dieser Daten behalten. Dies umfasst auch die Zugangstoken für OpenStreetMap und Panoramax, die im geschützten Speicher Ihres Endgeräts abgelegt werden, sowie Fotos, die noch nicht hochgeladen wurden. Sie können diese Daten durch die Deinstallation der App oder über die Systemeinstellungen Ihres Endgeräts löschen.
 
 Das Löschen der zu OpenStreetMap hochgeladen Daten (siehe Nutzungsdaten) liegt außerhalb unserer Zuständigkeit.
+
+Das Löschen der zu Panoramax hochgeladenen Fotos und Kontodaten liegt ebenfalls außerhalb unserer Zuständigkeit. Wenden Sie sich dazu an den Betreiber der jeweiligen Instanz.
 
 Sämtliche durch die Nutzung von Dritt-Servern anfallenden Zugriffsdaten werden von uns nicht gespeichert. Auskunft über die Speicherung der Zugriffsdaten von erwähnten Dritt-Servern entnehmen Sie bitte der Datenschutzerklärung des jeweiligen Anbieters (siehe Zugriffsdaten).
 
@@ -213,6 +227,6 @@ Die Aufsichtsbehörde, bei der die Beschwerde eingereicht wurde, unterrichtet de
 
 ## XI. Was geschieht, wenn diese Datenschutzerklärung geändert wird?
 
-Diese Datenschutzerklärung ist aktuell gültig und hat den Stand März 2022.
+Diese Datenschutzerklärung ist aktuell gültig und hat den Stand November 2026.
 
 Durch die Weiterentwicklung dieser Anwendung oder aufgrund geänderter gesetzlicher beziehungsweise behördlicher Vorgaben kann es notwendig werden, diese Datenschutzerklärung zu ändern/zu aktualisieren. Eine gesonderte Zustimmung/Einwilligung Ihrerseits ist hierfür gesetzlich grundsätzlich nicht vorgesehen.

@@ -1,29 +1,34 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_mvvm_architecture/base.dart';
 import 'package:mobx/mobx.dart';
-import 'package:osm_api/osm_api.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import '/api/osm_authentication_api.dart';
-import '/commons/osm_config.dart';
+import '/api/authentication/authentication_api.dart';
+import '/api/authentication/osm_authentication_api.dart';
+import '/api/authentication/panoramax_authentication_api.dart';
 import '/models/authenticated_user.dart';
 
+typedef OSMAccountService = UserAccountService<int, OSMAuthenticationAPI>;
+
+typedef PanoramaxAccountService = UserAccountService<String, PanoramaxAuthenticationAPI>;
+
 /// Provides login/logout method and details about the currently authenticated user.
+///
+/// [ID] is the user id type of the [AuthenticationAPI] [T].
 
-class UserAccountService extends Service {
-  final _osmAuthenticationApi = OSMAuthenticationAPI();
+class UserAccountService<ID, T extends AuthenticationAPI<ID>> extends Service {
+  T _authenticationApi;
 
-  final _authenticatedUser = Observable<AuthenticatedUser?>(null);
+  final _authenticatedUser = Observable<AuthenticatedUser<ID>?>(null);
 
-  UserAccountService() {
+  UserAccountService(this._authenticationApi) {
     _init();
   }
 
   Future<void> _init() async {
-    final authentication = await _osmAuthenticationApi.restore();
+    final authentication = await _authenticationApi.restore();
     if (authentication != null) {
       try {
-        final user = await _getAuthenticatedUser(authentication);
+        final user = await _authenticationApi.user(authentication);
         runInAction(() => _authenticatedUser.value = user);
       } catch (error) {
         // TODO: display or handle error
@@ -40,13 +45,20 @@ class UserAccountService extends Service {
 
   bool get isLoggedOut => _isLoggedOut.value;
 
-  AuthenticatedUser? get authenticatedUser => _authenticatedUser.value;
+  AuthenticatedUser<ID>? get authenticatedUser => _authenticatedUser.value;
+
+  /// Replace the underlying API.
+  /// Logout is called first before replacing the API.
+  Future<void> rebind(T api) async {
+    await logout();
+    _authenticationApi = api;
+  }
 
   Future<void> login() async {
     if (isLoggedIn) return;
     try {
-      final authentication = await _osmAuthenticationApi.login();
-      final user = await _getAuthenticatedUser(authentication);
+      final authentication = await _authenticationApi.login();
+      final user = await _authenticationApi.user(authentication);
       runInAction(() => _authenticatedUser.value = user);
     } catch (error) {
       // TODO: display or handle error
@@ -57,50 +69,11 @@ class UserAccountService extends Service {
   Future<void> logout() async {
     if (isLoggedOut) return;
     try {
-      await _osmAuthenticationApi.logout();
+      await _authenticationApi.logout();
       runInAction(() => _authenticatedUser.value = null);
     } catch (error) {
       // TODO: display or handle error
       debugPrint(error.toString());
     }
-  }
-
-  Future<bool> openUserProfile() async {
-    if (isLoggedOut) return false;
-    try {
-      return await launchUrl(
-        Uri.https(kOSMServer, '/user/${_authenticatedUser.value!.name}'),
-        mode: LaunchMode.externalApplication,
-      );
-    } catch (error) {
-      debugPrint(error.toString());
-      return false;
-    }
-  }
-
-  /// Method to get user details of the currently authenticated user.
-  /// This method will throw [OSMAPI] exceptions, like an [OSMUnauthorizedException] if the user isn't authenticated any more.
-
-  Future<AuthenticatedUser> _getAuthenticatedUser(OAuth2 authentication) async {
-    final osmApi = DefaultOSMAPI(
-      authentication: authentication,
-    );
-
-    final AuthenticatedUser user;
-    try {
-      final userDetails = await osmApi.getCurrentUserDetails();
-      user = AuthenticatedUser(
-        authentication: authentication,
-        name: userDetails.name,
-        id: userDetails.id,
-        preferredLanguages: userDetails.preferredLanguages,
-        profileImageUrl: userDetails.profileImageUrl,
-      );
-    } catch (error) {
-      rethrow;
-    } finally {
-      osmApi.dispose();
-    }
-    return user;
   }
 }
