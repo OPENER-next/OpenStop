@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import '/models/answer.dart';
+import '/models/answer_serialization.dart';
 import '/models/question_catalog/question_catalog.dart';
 import '/models/question_catalog/question_definition.dart';
 import 'element_variants/base_element.dart';
@@ -13,6 +14,52 @@ class Questionnaire {
     _updateWorkingElement();
     _insertMatchingEntries(afterIndex: -1);
   }
+
+  /// Recreates a questionnaire by replaying the given answers in their original order.
+  ///
+  /// Answers are identified by the id of their question.
+  /// Answers whose question no longer exists in the [questionCatalog], doesn't fit the stored answer
+  /// or doesn't apply to the element anymore are dropped.
+  /// [onDropped] is called for each dropped answer.
+
+  factory Questionnaire.restore({
+    required ProcessedElement osmElement,
+    required QuestionCatalog questionCatalog,
+    required Iterable<({String questionId, Map<String, dynamic> answer})> answers,
+    void Function(String questionId, Map<String, dynamic> answer)? onDropped,
+  }) {
+    final questionnaire = Questionnaire(
+      osmElement: osmElement,
+      questionCatalog: questionCatalog,
+    );
+    for (final (:questionId, :answer) in answers) {
+      final question = questionCatalog.findById(questionId);
+      final index = question == null
+          ? -1
+          : questionnaire._entries.indexWhere((entry) => entry.question == question);
+      final restoredAnswer = index == -1 ? null : answerFromJson(question!.answer, answer);
+      if (restoredAnswer == null || !restoredAnswer.isValid) {
+        onDropped?.call(questionId, answer);
+        continue;
+      }
+      questionnaire._activeIndex = index;
+      questionnaire.update(restoredAnswer);
+    }
+    questionnaire._activeIndex = 0;
+    return questionnaire;
+  }
+
+  /// The valid answers of this questionnaire in order, identified by the id of their question.
+  /// They can be restored via [Questionnaire.restore].
+
+  List<({String questionId, Map<String, dynamic> answer})> get serializedAnswers => [
+    for (final entry in _entries)
+      if (entry.hasValidAnswer) (questionId: entry.question.id, answer: answerToJson(entry.answer!)),
+  ];
+
+  /// The element as it was when the questionnaire was created, without any answers applied.
+
+  ProcessedElement get originalElement => _osmElement;
 
   QuestionCatalog _questionCatalog;
 

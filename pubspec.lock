@@ -1084,11 +1084,9 @@ packages:
   osm_api:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "716630c8e59fd62472756809c5046bb5267c258f"
-      url: "https://github.com/OPENER-next/osm_api.git"
-    source: git
+      path: "../osm_api"
+      relative: true
+    source: path
     version: "0.0.1"
   package_config:
     dependency: transitive

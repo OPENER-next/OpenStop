@@ -78,10 +78,14 @@ class CachedStopAreaAPI extends StopAreaAPI {
   }) : _cache = FileCache(
          timeToLive: timeToLive,
          folderName: folderName,
+         // the stop areas are required to show cached elements while offline
+         location: FileCacheLocation.applicationSupport,
        );
 
   @override
   Stream<StopArea> queryByH3Id(BigInt id) async* {
+    // not done in the constructor, because this class is created before platform channels are available
+    _cache.evictStaleOnce();
     final idString = id.toString();
     if (await _cache.isFresh(idString)) {
       yield* _decode(_cache.read(idString).transform(gzip.decoder));

@@ -9,52 +9,105 @@ import 'package:path_provider/path_provider.dart';
 /// [0..7] -> 8 bytes: eviction timestamp
 /// [8..]  -> gzip-compressed payload
 ///
-/// Files live under a subdirectory of the platform's temporary directory.
+/// Files live under a subdirectory of either the platform's temporary directory
+/// (may be purged by the OS at any time) or the application support directory
+/// (kept until the app deletes them), see [FileCacheLocation].
 class FileCache {
   FileCache({
     required this.timeToLive,
     this.folderName = 'file_cache',
+    this.location = FileCacheLocation.temporary,
+    @visibleForTesting this._baseDirectory,
   });
 
   final Duration timeToLive;
 
-  /// Name of the subdirectory created under the platform's temporary
-  /// directory to hold cached files.
+  /// Name of the subdirectory created under the base directory to hold cached files.
   final String folderName;
+
+  /// The base directory in which the cache folder is created.
+  final FileCacheLocation location;
+
+  final Future<Directory> Function()? _baseDirectory;
 
   /// Size of the header block that stores the eviction timestamp.
   /// 64 bits = 8 bytes.
   static const int _headerSizeBytes = 8;
 
-  late final Future<Directory> _directory = () async {
-    final tempDir = await getTemporaryDirectory();
-    return Directory('${tempDir.path}${Platform.pathSeparator}$folderName');
+  /// Suffix of files that are currently being written.
+  static const String _tempSuffix = '.tmp';
+
+  Future<Directory>? _directoryFuture;
+
+  /// The cache directory. A failed lookup is not cached,
+  /// so a call made too early (e.g. before platform channels are available in an isolate)
+  /// doesn't break the cache permanently.
+  Future<Directory> get _directory => _directoryFuture ??= () async {
+    try {
+      final baseDir = await (_baseDirectory?.call() ?? switch (location) {
+        FileCacheLocation.temporary => getTemporaryDirectory(),
+        FileCacheLocation.applicationSupport => getApplicationSupportDirectory(),
+      });
+      return Directory('${baseDir.path}${Platform.pathSeparator}$folderName');
+    } catch (_) {
+      _directoryFuture = null;
+      rethrow;
+    }
   }();
+
+  bool _staleEntriesEvicted = false;
+
+  /// Calls [evictStale] once per instance in the background.
+  ///
+  /// Must not be called from a constructor of a class that is created during the
+  /// field initialization of a service worker, because platform channels are not available yet.
+  void evictStaleOnce() {
+    if (_staleEntriesEvicted) return;
+    _staleEntriesEvicted = true;
+    evictStale().catchError((Object e) => debugPrint('Could not evict stale entries: $e')).ignore();
+  }
 
   /// Writes [payload] to the cache under [id],
   /// prefixed with an 8-byte eviction timestamp. Creates the cache
   /// directory on disk if it doesn't exist yet.
+  ///
+  /// The data is first written to a temporary file which is renamed on success.
+  /// This way an existing entry is never replaced by a partially written file,
+  /// for example when the app is killed during the write.
   Future<void> write(String id, Stream<List<int>> payload) async {
     final dir = await _directory;
     await dir.create(recursive: true);
     final file = await _fileFor(id);
+    final tempFile = File('${file.path}$_tempSuffix');
 
     final evictionDate = DateTime.now().add(timeToLive);
     final header = _encodeHeader(evictionDate);
 
-    final sink = file.openWrite();
+    final sink = tempFile.openWrite();
     try {
       sink.add(header);
+      // pipe also closes the sink
       await payload.pipe(sink);
-      await sink.flush();
-    } finally {
-      // the returned future will hold any error produced earlier
-      await sink.close().catchError((Object e) {
-        debugPrint('Discard $file from cache due to error: $e');
-        // prevent storage of corrupted or invalid cache files
-        return file.delete();
-      });
+    } catch (e) {
+      debugPrint('Discard $file from cache due to error: $e');
+      // prevent storage of corrupted or invalid cache files
+      await sink.close().catchError((_) {});
+      if (tempFile.existsSync()) await tempFile.delete();
+      rethrow;
     }
+    await tempFile.rename(file.path);
+  }
+
+  /// Writes the given [bytes] to the cache under [id], see [write].
+  Future<void> writeBytes(String id, List<int> bytes) => write(id, Stream.value(bytes));
+
+  /// Reads the entire payload for [id] or returns `null` if there is no entry.
+  /// This does not check staleness.
+  Future<Uint8List?> readBytes(String id) async {
+    final file = await _fileFor(id);
+    if (!file.existsSync()) return null;
+    final bytes = await file.readAsBytes();
+    return bytes.length < _headerSizeBytes ? null : Uint8List.sublistView(bytes, _headerSizeBytes);
   }
 
   /// Whether a cache entry exists for [id] (does not check staleness).
@@ -98,6 +151,26 @@ class FileCache {
     }
   }
 
+  /// Deletes all entries that are past their eviction date
+  /// as well as any leftovers of interrupted writes.
+  Future<void> evictStale() async {
+    final dir = await _directory;
+    if (!dir.existsSync()) return;
+    await for (final entity in dir.list()) {
+      if (entity is! File) continue;
+      try {
+        if (entity.path.endsWith(_tempSuffix)) {
+          await entity.delete();
+        } else {
+          final id = entity.uri.pathSegments.last;
+          if (await isStale(id)) await entity.delete();
+        }
+      } on FileSystemException catch (e) {
+        debugPrint('Could not evict $entity from cache: $e');
+      }
+    }
+  }
+
   /// Deletes all cached entries.
   Future<void> clear() async {
     final dir = await _directory;
@@ -126,4 +199,12 @@ class FileCache {
     final evictionMillis = byteData.getInt64(0, Endian.big);
     return DateTime.fromMillisecondsSinceEpoch(evictionMillis);
   }
+}
+
+enum FileCacheLocation {
+  /// The platform's temporary directory, which may be purged by the OS at any time.
+  temporary,
+
+  /// The application support directory, which is kept until the app deletes it.
+  applicationSupport,
 }

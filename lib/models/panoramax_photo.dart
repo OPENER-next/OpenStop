@@ -6,6 +6,7 @@ import 'package:file_selector/file_selector.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
 /// A selected image and its preassigned Panoramax identifier.
@@ -18,10 +19,66 @@ class PanoramaxPhoto {
   final Digest? _hash;
 
   PanoramaxPhoto._({
+    required this.id,
     required this.file,
     required this.captureLocation,
     this._hash,
-  }) : id = const Uuid().v4();
+  });
+
+  /// Restores a photo previously serialized with [toJson].
+  /// Returns `null` if the photo file no longer exists.
+
+  static PanoramaxPhoto? fromJson(Map<String, dynamic> json) {
+    final file = File(json['file'] as String);
+    if (!file.existsSync()) return null;
+    final hash = json['hash'] as String?;
+    return PanoramaxPhoto._(
+      id: json['id'] as String,
+      file: file,
+      captureLocation: LatLng(
+        (json['lat'] as num).toDouble(),
+        (json['lon'] as num).toDouble(),
+      ),
+      hash: hash == null ? null : Digest(_hexToBytes(hash)),
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'file': file.path,
+    'lat': captureLocation.latitude,
+    'lon': captureLocation.longitude,
+    if (_hash != null) 'hash': _hash.toString(),
+  };
+
+  static List<int> _hexToBytes(String hex) => [
+    for (var i = 0; i + 1 < hex.length; i += 2) int.parse(hex.substring(i, i + 2), radix: 16),
+  ];
+
+  /// Directory in which all photos are kept until their questionnaire is uploaded or discarded.
+  /// Unlike the temporary directory it is not purged by the OS.
+
+  static Future<Directory> get storageDirectory async {
+    final supportDir = await getApplicationSupportDirectory();
+    return Directory('${supportDir.path}${Platform.pathSeparator}photos');
+  }
+
+  /// Moves the picker's temporary copy to the [storageDirectory],
+  /// so the photo survives app restarts while the questionnaire is not uploaded.
+
+  static Future<File> _moveToStorage(File file, String id) async {
+    final dir = await storageDirectory;
+    await dir.create(recursive: true);
+    final target = File('${dir.path}${Platform.pathSeparator}$id.jpg');
+    try {
+      return await file.rename(target.path);
+    } on FileSystemException {
+      // rename fails across file systems
+      final copy = await file.copy(target.path);
+      await file.delete();
+      return copy;
+    }
+  }
 
   // At the moment Panoramax only supports photos with type JPEG
   static const _jpegTypes = XTypeGroup(
@@ -60,7 +117,12 @@ class PanoramaxPhoto {
         );
         location = LatLng(position.latitude, position.longitude);
       }
-      return PanoramaxPhoto._(file: file, captureLocation: location);
+      final id = const Uuid().v4();
+      return PanoramaxPhoto._(
+        id: id,
+        file: await _moveToStorage(file, id),
+        captureLocation: location,
+      );
     } catch (_) {
       await _discardRejectedFile(file);
       rethrow;
@@ -91,10 +153,13 @@ class PanoramaxPhoto {
       if (location == null) {
         throw const MissingLocationException('Missing photo location');
       }
+      final hash = await _fileHash(image);
+      final id = const Uuid().v4();
       return PanoramaxPhoto._(
-        file: file,
+        id: id,
+        file: await _moveToStorage(file, id),
         captureLocation: location,
-        hash: await _fileHash(image),
+        hash: hash,
       );
     } catch (_) {
       await _discardRejectedFile(file);
@@ -146,7 +211,7 @@ class PanoramaxPhoto {
   /// Whether both photos were selected from the same file.
   bool isDuplicateOf(PanoramaxPhoto other) => _hash != null && _hash == other._hash;
 
-  /// Deletes the picker's temporary copy, leaving the original library photo intact.
+  /// Deletes the app's copy of the photo, leaving the original library photo intact.
   Future<void> deleteFromDisk() async {
     if (file.existsSync()) await file.delete();
   }

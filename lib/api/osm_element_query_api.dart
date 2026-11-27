@@ -1,7 +1,18 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:crypto/crypto.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:osm_api/osm_api.dart';
 
 import '/commons/osm_config.dart';
+import '/models/stop_area/stop_area.dart';
+import '/utils/file_cache.dart';
+
+/// How long downloaded elements of a stop area are kept and shown without a connection.
+
+const kElementCacheTimeToLive = Duration(days: 7);
 
 /// This class exposes API calls for querying [OSMElement]s via the OSM API.
 
@@ -59,5 +70,67 @@ class OSMElementQueryAPI {
 
   void dispose() {
     _osmApi.dispose();
+  }
+}
+
+/// Disk-cached element queries with one cache entry per [StopArea].
+///
+/// The cache only ever contains the server state of the elements.
+/// Expired entries are never returned, so without a connection their stop area cannot be loaded.
+
+class CachedOSMElementQueryAPI extends OSMElementQueryAPI {
+  final FileCache _cache;
+
+  CachedOSMElementQueryAPI({
+    super.endPoint,
+    Duration timeToLive = kElementCacheTimeToLive,
+    String folderName = 'element_cache',
+    @visibleForTesting FileCache? cache,
+  }) : _cache =
+           cache ??
+           FileCache(
+             timeToLive: timeToLive,
+             folderName: folderName,
+             location: FileCacheLocation.applicationSupport,
+           );
+
+  /// Returns the elements of the given stop area from the cache if the entry hasn't expired,
+  /// otherwise queries them via [queryByBBox] and stores them in the cache.
+  ///
+  /// This method will throw [OSMAPI] connection errors.
+
+  Future<OSMElementBundle> queryByStopArea(StopArea stopArea) async {
+    // not done in the constructor, because this class is created before platform channels are available
+    _cache.evictStaleOnce();
+    final key = cacheKey(stopArea);
+    if (await _cache.isFresh(key)) {
+      try {
+        final bytes = await _cache.readBytes(key);
+        if (bytes != null) {
+          final json = jsonDecode(utf8.decode(gzip.decode(bytes)));
+          return OSMElementBundle.fromJSONObject(json as Map<String, dynamic>);
+        }
+      } catch (e) {
+        debugPrint('Discard invalid element cache entry $key: $e');
+        await _cache.delete(key);
+      }
+    }
+    final bundle = await queryByBBox(stopArea);
+    final bytes = gzip.encode(utf8.encode(jsonEncode(bundle.toJSONObject())));
+    await _cache.writeBytes(key, bytes).catchError((Object e) => debugPrint(e.toString()));
+    return bundle;
+  }
+
+  /// [StopArea]s have no identifier, therefore they are identified by their bounds.
+
+  @visibleForTesting
+  static String cacheKey(StopArea stopArea) {
+    final bounds = [
+      stopArea.south,
+      stopArea.west,
+      stopArea.north,
+      stopArea.east,
+    ].map((v) => v.toStringAsFixed(7)).join(',');
+    return md5.convert(utf8.encode(bounds)).toString();
   }
 }

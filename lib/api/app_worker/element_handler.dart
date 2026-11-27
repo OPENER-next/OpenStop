@@ -5,6 +5,7 @@ import 'package:osm_api/osm_api.dart' as osmapi;
 
 import '/api/osm_element_query_api.dart';
 import '/api/osm_element_upload_api.dart';
+import '/api/uploaded_elements_overlay.dart';
 import '/models/affected_elements_detector.dart';
 import '/models/authenticated_user.dart';
 import '/models/changeset_info_generator.dart';
@@ -17,6 +18,7 @@ import '/models/map_features/map_feature_representation.dart';
 import '/models/map_features/map_features.dart';
 import '/models/question_catalog/question_catalog_reader.dart';
 import '/models/stop_area/stop_area.dart';
+import '/models/tag_diff.dart';
 import '/utils/service_worker.dart';
 import '/utils/stream_utils.dart';
 import 'locale_handler.dart';
@@ -49,7 +51,7 @@ mixin ElementHandler<M>
       Stream.fromIterable(_elementPool.elements),
     );
     final elementUpdates = existingElements.map(
-      (element) => ElementUpdate.derive(
+      (element) => _deriveUpdate(
         element,
         action: ElementUpdateAction.update,
       ),
@@ -59,7 +61,39 @@ mixin ElementHandler<M>
 
   final _elementPool = OSMElementProcessor();
 
-  final _osmElementQueryHandler = OSMElementQueryAPI();
+  final _osmElementQueryHandler = CachedOSMElementQueryAPI();
+
+  final _uploadedElements = UploadedElementsOverlay(timeToLive: kElementCacheTimeToLive);
+
+  /// Called whenever the elements of a stop area were loaded (from the cache or the server)
+  /// and before they are published via the [elementStream].
+  ///
+  /// The elements are the ones contained in the element pool.
+
+  Future<void> onElementsLoaded(Iterable<ProcessedElement> elements) async {}
+
+  /// Whether the given element has a finished questionnaire that is not uploaded yet.
+  /// Used to mark these elements on the map.
+
+  bool hasFinishedQuestionnaire(ElementIdentifier element) => false;
+
+  ElementUpdate _deriveUpdate(ProcessedElement element, {required ElementUpdateAction action}) {
+    return ElementUpdate.derive(
+      element,
+      action: action,
+      hasFinishedQuestionnaire: hasFinishedQuestionnaire(element),
+    );
+  }
+
+  /// Sends an update for the given element, for example after its questionnaire state changed.
+
+  Future<void> refreshElement(ProcessedElement element) async {
+    final qCatalog = await questionCatalog;
+    // only update elements that are already visible
+    if (!QuestionFilter(qCatalog).matches(element)) return;
+    if (!loadedStopAreas.any((stopArea) => AreaOverlapFilter(stopArea).matches(element))) return;
+    _elementStreamController.add(_deriveUpdate(element, action: ElementUpdateAction.update));
+  }
 
   @override
   Future<void> updateQuestionCatalog(QuestionCatalogChange questionCatalogChange) async {
@@ -70,7 +104,7 @@ mixin ElementHandler<M>
     );
     _elementStreamController.add(const ElementUpdate(action: ElementUpdateAction.clear));
     return existingElements
-        .map((element) => ElementUpdate.derive(element, action: ElementUpdateAction.update))
+        .map((element) => _deriveUpdate(element, action: ElementUpdateAction.update))
         .forEach(_elementStreamController.add);
   }
 
@@ -91,7 +125,7 @@ mixin ElementHandler<M>
       );
       // construct element updates
       final elementUpdates = filteredElements.map(
-        (element) => ElementUpdate.derive(
+        (element) => _deriveUpdate(
           element,
           action: ElementUpdateAction.update,
         ),
@@ -122,10 +156,16 @@ mixin ElementHandler<M>
       // add to current loading stop areas and mark as loading
       markStopArea(stopArea, StopAreaState.loading);
       try {
-        // query elements by stop areas bbox
-        final elementBundle = await _osmElementQueryHandler.queryByBBox(stopArea);
+        // query elements by stop areas bbox (from cache if available)
+        var elementBundle = await _osmElementQueryHandler.queryByStopArea(stopArea);
+        // replace outdated cached elements by their uploaded version
+        elementBundle = await _uploadedElements.apply(elementBundle);
         // process stop area elements
-        final stopAreaElements = _elementPool.add(elementBundle).map((record) => record.element);
+        final stopAreaElements = _elementPool
+            .add(elementBundle)
+            .map((record) => record.element)
+            .toList();
+        await onElementsLoaded(stopAreaElements);
         // on success add to loaded stop areas and mark accordingly
         if (await stopAreaHasQuestions(stopArea, stopAreaElements)) {
           markStopArea(stopArea, StopAreaState.incomplete);
@@ -151,9 +191,19 @@ mixin ElementHandler<M>
   /// Uploads a given element.
   /// Sends update events for the given element and its dependents.
   ///
-  /// Throws if the upload fails.
+  /// The changes are applied to the current server version of the element (see [ProxyElement.rebaseOnto]).
+  /// [beforePublish] is called once after the changes were found to be applicable
+  /// and before they are written to the server.
+  ///
+  /// Throws an [ElementConflictException] if the element was changed in a contradicting way or deleted.
+  /// In this case the element is updated to the server state.
+  /// Throws any other error if the upload fails.
 
-  Future<void> uploadElement(ProxyElement element, AuthenticatedUser<int> user) async {
+  Future<void> uploadElement(
+    ProxyElement element,
+    AuthenticatedUser<int> user, {
+    Future<void> Function()? beforePublish,
+  }) async {
     final qCatalog = await questionCatalog;
 
     final stopArea = findCorrespondingStopArea(element);
@@ -167,6 +217,10 @@ mixin ElementHandler<M>
       // upload element and detect elements that are affected by this change
       final diffDetector = AffectedElementsDetector(questionCatalog: qCatalog);
       diffDetector.takeSnapshot(element.original);
+      // check for conflicts before anything is uploaded
+      var rebased = await _rebase(element, uploadAPI);
+      await beforePublish?.call();
+
       final changesetId = await uploadAPI.createOrReuseChangeset(stopArea, element, (
         stopArea,
         elements,
@@ -180,7 +234,16 @@ mixin ElementHandler<M>
           locale: appLocale.toLanguageTag(),
         );
       });
-      await element.publish(uploadAPI, changesetId);
+
+      osmapi.OSMElement uploaded;
+      try {
+        uploaded = await element.publish(uploadAPI, changesetId, rebased);
+      } on osmapi.OSMConflictException {
+        // the element was changed between querying and uploading it, so retry once
+        rebased = await _rebase(element, uploadAPI);
+        uploaded = await element.publish(uploadAPI, changesetId, rebased);
+      }
+      await _uploadedElements.record(uploaded);
       final affectedElements = diffDetector.takeSnapshot(element.original);
 
       // update stop area state
@@ -200,7 +263,7 @@ mixin ElementHandler<M>
           ])
           // send update messages to the main thread
           .map(
-            (record) => ElementUpdate.derive(
+            (record) => _deriveUpdate(
               record.element,
               action: record.matches ? ElementUpdateAction.update : ElementUpdateAction.remove,
             ),
@@ -209,6 +272,53 @@ mixin ElementHandler<M>
     } finally {
       uploadAPI.dispose();
     }
+  }
+
+  /// Queries the current server version of the element and applies the changes to it.
+  ///
+  /// On conflict the element is updated to the server state (or removed if it was deleted)
+  /// and an [ElementConflictException] is thrown.
+
+  Future<osmapi.OSMElement> _rebase(ProxyElement element, OSMElementUploadAPI uploadAPI) async {
+    final osmapi.OSMElement current;
+    try {
+      current = await uploadAPI.getElement(element.type, element.id);
+    } on osmapi.OSMNotFoundException {
+      _onConflict(element, null);
+      throw const ElementConflictException('Element was deleted in the meantime.');
+    } on osmapi.OSMGoneException {
+      _onConflict(element, null);
+      throw const ElementConflictException('Element was deleted in the meantime.');
+    }
+    try {
+      return element.rebaseOnto(current);
+    } on ElementConflictException {
+      _onConflict(element, current);
+      rethrow;
+    }
+  }
+
+  void _onConflict(ProxyElement element, osmapi.OSMElement? current) {
+    if (current == null) {
+      _elementStreamController.add(
+        _deriveUpdate(element.original, action: ElementUpdateAction.remove),
+      );
+      return;
+    }
+    element.adopt(current);
+    unawaited(_uploadedElements.record(current));
+    unawaited(
+      questionCatalog.then((qCatalog) {
+        _elementStreamController.add(
+          _deriveUpdate(
+            element.original,
+            action: QuestionFilter(qCatalog).matches(element.original)
+                ? ElementUpdateAction.update
+                : ElementUpdateAction.remove,
+          ),
+        );
+      }),
+    );
   }
 
   @override
@@ -262,6 +372,11 @@ class ElementUpdate {
     this.element,
   });
 
-  ElementUpdate.derive(ProcessedElement element, {required this.action})
-    : element = MapFeatures().representElement(element);
+  ElementUpdate.derive(
+    ProcessedElement element, {
+    required this.action,
+    bool hasFinishedQuestionnaire = false,
+  }) : element = MapFeatures()
+           .representElement(element)
+           .copyWith(hasFinishedQuestionnaire: hasFinishedQuestionnaire);
 }

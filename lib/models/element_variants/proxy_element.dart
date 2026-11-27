@@ -25,31 +25,48 @@ class ProxyElement<T extends osmapi.OSMElement, G extends GeographicGeometry>
     additionalTags, super.tags,
   ]);
 
-  /// Updates the underlying OSM element with the given tags (and version) and
-  /// uploads it to the OSM server.
+  /// The tag changes this proxy makes to the original element.
+
+  TagDiff get tagDiff => TagDiff.between(original.tags, tags);
+
+  /// Applies the tag changes of this proxy to the [current] server version of the element.
+  ///
+  /// Throws an [ElementConflictException] if the element was changed in a contradicting way
+  /// (see [TagDiff.applyTo] and [checkGeometryConflict]).
+
+  T rebaseOnto(T current) {
+    checkGeometryConflict(_osmElement, current);
+    return current.copyWith(tags: tagDiff.applyTo(current.tags)) as T;
+  }
+
+  /// Uploads the given [rebased] element (see [rebaseOnto]) to the OSM server
+  /// and on success updates the underlying OSM element with its tags and version.
   ///
   /// The method primarily exists to prevent the exposal of the underlying original OSM element.
   ///
   /// This method may throw any upload/OSMAPI errors.
-  /// In this case the changes to the underlying element are reverted.
+  /// In this case the underlying element stays unchanged.
+  ///
+  /// Returns the uploaded element.
 
-  Future<void> publish(OSMElementUploadAPI uploadAPI, int changesetId) async {
-    // create tag copy for rollback
-    final tagCopy = Map.of(_osmElement.tags);
-    // apply all tags to underlying OSM element
-    _osmElement.tags.addAll(additionalTags);
-    try {
-      // trigger upload
-      await uploadAPI.updateOsmElement(changesetId, _osmElement);
-      // on success clear any added tags
-      additionalTags.clear();
-    } catch (e) {
-      // revert applied changes on error
-      _osmElement.tags
-        ..clear()
-        ..addAll(tagCopy);
-      rethrow;
-    }
+  Future<T> publish(OSMElementUploadAPI uploadAPI, int changesetId, T rebased) async {
+    final uploaded = await uploadAPI.updateOsmElement(changesetId, rebased);
+    adopt(rebased..version = uploaded.version);
+    // all changes are now part of the original element
+    additionalTags.clear();
+    return rebased;
+  }
+
+  /// Replaces the tags and version of the underlying OSM element by the ones of the given [current] element.
+  ///
+  /// This is used to update the element to the server state after an upload or conflict.
+  /// The geometry is not updated.
+
+  void adopt(osmapi.OSMElement current) {
+    _osmElement.tags
+      ..clear()
+      ..addAll(current.tags);
+    _osmElement.version = current.version;
   }
 
   // forward methods from processed elements

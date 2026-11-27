@@ -159,6 +159,14 @@
   "@uploadMessageServerConnectionError": {},
   "uploadMessageUnknownConnectionError": "Unknown error during transmission.",
   "@uploadMessageUnknownConnectionError": {},
+  "uploadMessageSavedForLater": "Your answers have been saved. Tap the element again to upload them later.",
+  "@uploadMessageSavedForLater": {
+    "description": "Shown when answers could not be uploaded (e.g. offline) and are kept on the device."
+  },
+  "uploadMessageElementConflict": "Your answers were discarded, because the element was changed on OpenStreetMap in the meantime.",
+  "@uploadMessageElementConflict": {
+    "description": "Shown when an upload is dropped because someone else changed the same element."
+  },
   "queryMessageServerUnavailableError": "Server unavailable or overloaded. Try again later.",
   "@queryMessageServerUnavailableError": {},
   "queryMessageTooManyRequestsError": "Too many requests to the server.",

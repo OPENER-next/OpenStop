@@ -13,6 +13,9 @@ class OsmElementMarker extends StatefulWidget {
   final String label;
   final Future? uploadState;
 
+  /// Shows a badge indicating that the element has answers that are not uploaded yet.
+  final bool pendingUpload;
+
   const OsmElementMarker({
     super.key,
     this.onTap,
@@ -21,6 +24,7 @@ class OsmElementMarker extends StatefulWidget {
     this.active = false,
     this.label = '',
     this.uploadState,
+    this.pendingUpload = false,
   });
 
   @override
@@ -82,24 +86,37 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
                     children: [
                       AspectRatio(
                         aspectRatio: 1,
-                        child: ClipOval(
-                          child: ColoredBox(
-                            color: Theme.of(context).colorScheme.primary,
-                            child: UploadIndicator(
-                              trigger: widget.uploadState,
-                              padding: const EdgeInsets.all(7),
-                              child: Icon(
-                                widget.icon,
-                                color: Colors.white,
-                                shadows: const [
-                                  Shadow(
-                                    color: Colors.black12,
-                                    offset: Offset(2, 2),
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Positioned.fill(
+                              child: ClipOval(
+                                child: ColoredBox(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  child: UploadIndicator(
+                                    trigger: widget.uploadState,
+                                    padding: const EdgeInsets.all(7),
+                                    child: Icon(
+                                      widget.icon,
+                                      color: Colors.white,
+                                      shadows: const [
+                                        Shadow(
+                                          color: Colors.black12,
+                                          offset: Offset(2, 2),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ],
+                                ),
                               ),
                             ),
-                          ),
+                            if (widget.pendingUpload && widget.uploadState == null)
+                              const Positioned(
+                                right: -4,
+                                top: -4,
+                                child: _PendingUploadBadge(),
+                              ),
+                          ],
                         ),
                       ),
                       if (widget.label.isNotEmpty && !_animation.isDismissed)
@@ -145,6 +162,30 @@ class _OsmElementMarkerState extends State<OsmElementMarker> with SingleTickerPr
     _animation.dispose();
     _controller.dispose();
     super.dispose();
+  }
+}
+
+class _PendingUploadBadge extends StatelessWidget {
+  const _PendingUploadBadge();
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colorScheme.tertiary,
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.white, width: 1.5),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(2),
+        child: Icon(
+          Icons.cloud_upload_rounded,
+          size: 12,
+          color: colorScheme.onTertiary,
+        ),
+      ),
+    );
   }
 }
 

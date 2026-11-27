@@ -7,6 +7,7 @@ import 'package:osm_api/osm_api.dart' as osmapi;
 import '/api/osm_element_upload_api.dart';
 import '/models/geographic_geometries.dart';
 import '/models/osm_element_type.dart';
+import '/models/tag_diff.dart';
 import '/utils/osm_tag_area_resolver.dart';
 import 'element_identifier.dart';
 

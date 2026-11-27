@@ -32,6 +32,7 @@ import '/models/map_features/map_feature_representation.dart';
 import '/models/question_catalog/question_definition.dart';
 import '/models/questionnaire.dart';
 import '/models/stop_area/stop_area.dart';
+import '/models/tag_diff.dart';
 import '/utils/debouncer.dart';
 import '/utils/geo_utils.dart';
 import '/utils/map_utils.dart';
@@ -408,6 +409,9 @@ class HomeViewModel extends ViewModel
   }
 
   /// Upload the changes made by this questionnaire with the current authenticated user.
+  ///
+  /// If the upload isn't possible (for example while offline) the finished questionnaire
+  /// stays saved on the device and can be uploaded later by opening the element again.
 
   Future<void> submitQuestionnaire() async {
     final appLocale = AppLocalizations.of(context)!;
@@ -422,6 +426,12 @@ class HomeViewModel extends ViewModel
     }
     if (hasPhotos && _userAccountService.isLoggedIn && _photoAccountService.isLoggedOut) {
       await _photoAccountService.login();
+    }
+    if (mounted &&
+        (_userAccountService.isLoggedOut || (hasPhotos && _photoAccountService.isLoggedOut))) {
+      // login not possible, for example because there is no connection
+      notifyUser(Notification(appLocale.uploadMessageSavedForLater));
+      return;
     }
     // check if the user is successfully logged in
     // check if mounted to ensure context is valid
@@ -448,8 +458,10 @@ class HomeViewModel extends ViewModel
             error.isDuplicate ? appLocale.photoDuplicateError : appLocale.photoUploadError,
           ),
         );
+      } on ElementConflictException {
+        notifyUser(Notification(appLocale.uploadMessageElementConflict));
       } on OSMConnectionException {
-        notifyUser(Notification(appLocale.uploadMessageServerConnectionError));
+        notifyUser(Notification(appLocale.uploadMessageSavedForLater));
       } catch (e) {
         debugPrint(e.toString());
         notifyUser(Notification(appLocale.uploadMessageUnknownConnectionError));

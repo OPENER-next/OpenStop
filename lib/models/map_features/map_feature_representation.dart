@@ -22,16 +22,28 @@ class MapFeatureRepresentation extends ElementIdentifier {
     required this.icon,
     required this._label,
     required this._tags,
+    this.hasFinishedQuestionnaire = false,
   });
 
   MapFeatureRepresentation.fromElement({
     required ProcessedElement element,
     this.icon = MdiIcons.help,
     this._label = _defaultLabel,
+    this.hasFinishedQuestionnaire = false,
   }) : id = element.id,
        type = element.type,
        geometry = element.geometry,
        _tags = element.tags;
+
+  MapFeatureRepresentation copyWith({bool? hasFinishedQuestionnaire}) => MapFeatureRepresentation(
+    id: id,
+    type: type,
+    geometry: geometry,
+    icon: icon,
+    label: _label,
+    tags: _tags,
+    hasFinishedQuestionnaire: hasFinishedQuestionnaire ?? this.hasFinishedQuestionnaire,
+  );
 
   static String _defaultLabel(AppLocalizations _, Map<String, String> tags) {
     return tags['name'] ?? tags['ref'] ?? 'Element';
@@ -50,6 +62,10 @@ class MapFeatureRepresentation extends ElementIdentifier {
   final MapFeatureLabelConstructor _label;
 
   final Map<String, String> _tags;
+
+  /// Whether the element has a finished questionnaire that is not uploaded yet.
+
+  final bool hasFinishedQuestionnaire;
 
   String genericLabel(AppLocalizations locale) => _label(locale, const {});
 

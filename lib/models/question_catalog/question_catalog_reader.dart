@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'question_catalog.dart';
+import 'question_definition.dart';
 
 /// This method should not be invoked prior `WidgetsFlutterBinding.ensureInitialized`
 ///
@@ -83,11 +84,13 @@ class QuestionCatalogReader with WidgetsBindingObserver {
     final catalogs = await Future.wait(
       assetPaths.map(_readCatalog),
     );
-    return QuestionCatalog.fromJson(catalogs.expand((list) => list));
+    return QuestionCatalog.fromEntries(catalogs.expand((list) => list));
   }
 
-  Future<List<Map<String, dynamic>>> _readCatalog(String directory) async {
-    final locales = await Future.wait([
+  /// Returns the translated question entries together with the ids calculated from the untranslated entries.
+
+  Future<List<({String id, Map<String, dynamic> json})>> _readCatalog(String directory) async {
+    final locales = await Future.wait<Map<String, dynamic>>([
       ..._deviceLocales.expand((deviceLocale) sync* {
         yield _readArbFile(directory, deviceLocale.toLanguageTag());
         yield _readArbFile(directory, deviceLocale.languageCode);
@@ -95,22 +98,43 @@ class QuestionCatalogReader with WidgetsBindingObserver {
       _readArbFile(directory, defaultLocale),
     ]);
 
+    // the translation must happen after the id calculation,
+    // otherwise the question ids would change with the language
     final json = await _readJsonFile(
       '$directory/definition.json',
       fallback: const <Map<String, dynamic>>[],
-      reviver: (key, value) {
-        if (value is String && value.startsWith('@')) {
-          for (final locale in locales) {
-            final localeString = locale[value.substring(1)];
-            if (localeString != null) {
-              return localeString;
-            }
-          }
-        }
-        return value;
-      },
     );
-    return (json as List).cast<Map<String, dynamic>>();
+    return (json as List)
+        .cast<Map<String, dynamic>>()
+        .map(
+          (entry) => (
+            id: QuestionDefinition.idFromJSON(entry),
+            json: translateQuestionEntry(entry, locales)! as Map<String, dynamic>,
+          ),
+        )
+        .toList();
+  }
+
+  /// Recursively replaces all string values starting with `@` by the first matching string of the given [locales].
+
+  @visibleForTesting
+  static Object? translateQuestionEntry(Object? value, List<Map<String, dynamic>> locales) {
+    if (value is String && value.startsWith('@')) {
+      for (final locale in locales) {
+        final localeString = locale[value.substring(1)];
+        if (localeString != null) {
+          return localeString;
+        }
+      }
+      return value;
+    }
+    if (value is Map<String, dynamic>) {
+      return value.map((key, value) => MapEntry(key, translateQuestionEntry(value, locales)));
+    }
+    if (value is List) {
+      return value.map((value) => translateQuestionEntry(value, locales)).toList();
+    }
+    return value;
   }
 
   Future<Map<String, dynamic>> _readArbFile(String directory, String localeCode) async {
@@ -122,12 +146,11 @@ class QuestionCatalogReader with WidgetsBindingObserver {
 
   Future<dynamic> _readJsonFile(
     String path, {
-    Object? Function(Object? key, Object? value)? reviver,
     dynamic fallback,
   }) async {
     try {
       final jsonData = await rootBundle.loadString(path);
-      return json.decode(jsonData, reviver: reviver);
+      return json.decode(jsonData);
     } catch (e) {
       return fallback;
     }

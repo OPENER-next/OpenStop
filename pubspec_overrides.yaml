@@ -1,0 +1,6 @@
+# TEMPORARY: use the local osm_api checkout with the new JSON serialization
+# (branch element-json-serialization) until it is merged upstream.
+# Delete this file and run `flutter pub upgrade osm_api` afterwards.
+dependency_overrides:
+  osm_api:
+    path: ../osm_api

@@ -14,6 +14,13 @@ import 'package:open_stop/models/osm_element_type.dart' as app;
 import 'package:open_stop/models/stop_area/stop_area.dart';
 import 'package:osm_api/osm_api.dart';
 
+/// Applies the changes to the current server version of the element and uploads it.
+
+Future<void> _publish(ProxyElement element, OSMElementUploadAPI uploadApi, int changesetId) async {
+  final current = await uploadApi.getElement(element.type, element.id);
+  await element.publish(uploadApi, changesetId, element.rebaseOnto(current));
+}
+
 void main() async {
   const auth = OAuth2(
     accessToken: 'DummyTestToken',
@@ -218,7 +225,7 @@ void main() async {
         element,
         changesetGeneratorCb,
       );
-      await element.publish(uploadApi, changesetId);
+      await _publish(element, uploadApi, changesetId);
     }
     // check if one changeset of the currently open changesets contains the expected tags.
     final changesetTagList01 = (await osmapi.queryChangesets(
@@ -251,7 +258,7 @@ void main() async {
         element,
         changesetGeneratorCb,
       );
-      await element.publish(uploadApi, changesetId);
+      await _publish(element, uploadApi, changesetId);
     }
     // check if one changeset of the currently open changesets contains the expected tags.
     final changesetTagList02 = (await osmapi.queryChangesets(
@@ -283,7 +290,7 @@ void main() async {
         element,
         changesetGeneratorCb,
       );
-      await element.publish(uploadApi, changesetId);
+      await _publish(element, uploadApi, changesetId);
     }
     // check if one changeset of the currently open changesets contains the expected tags.
     final changesetTagList03 = (await osmapi.queryChangesets(
@@ -315,7 +322,7 @@ void main() async {
         element,
         changesetGeneratorCb,
       );
-      await element.publish(uploadApi, changesetId);
+      await _publish(element, uploadApi, changesetId);
     }
     // check if one changeset of the currently open changesets contains the expected tags.
     final changesetTagList04 = (await osmapi.queryChangesets(
@@ -348,7 +355,7 @@ void main() async {
         element,
         changesetGeneratorCb,
       );
-      await element.publish(uploadApi, changesetId);
+      await _publish(element, uploadApi, changesetId);
     }
     // check if one changeset of the currently open changesets contains the expected tags.
     final changesetTagList05 = (await osmapi.queryChangesets(
@@ -400,7 +407,7 @@ void main() async {
       element,
       changesetGeneratorCb,
     );
-    await element.publish(uploadApi, changesetId);
+    await _publish(element, uploadApi, changesetId);
     // check if one changeset of the currently open changesets contains the expected tags.
     final changesetTagList = (await osmapi.queryChangesets(
       open: true,

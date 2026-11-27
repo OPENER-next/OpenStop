@@ -208,6 +208,7 @@ class _OsmElementLayerState extends State<OsmElementLayer> {
         icon: marker.element.icon,
         label: marker.element.elementLabel(appLocale),
         uploadState: uploadState,
+        pendingUpload: marker.element.hasFinishedQuestionnaire,
       ),
     );
   }

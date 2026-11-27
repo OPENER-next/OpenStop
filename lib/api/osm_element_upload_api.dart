@@ -45,6 +45,18 @@ class OSMElementUploadAPI {
     return _osmApi.updateElement(originalElement, changesetId);
   }
 
+  /// Queries the current server version of an element.
+  ///
+  /// Throws [OSMNotFoundException] or [OSMGoneException] if the element doesn't exist (anymore).
+
+  Future<OSMElement> getElement(OSMElementType type, int id) {
+    return switch (type) {
+      OSMElementType.node => _osmApi.getNode(id),
+      OSMElementType.way => _osmApi.getWay(id),
+      OSMElementType.relation => _osmApi.getRelation(id),
+    };
+  }
+
   /// Creates or retrieves (and updates) a suitable changeset for the given element and returns its id.
 
   Future<int> createOrReuseChangeset(

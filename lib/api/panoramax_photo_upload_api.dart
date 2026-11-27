@@ -40,12 +40,14 @@ class PanoramaxPhotoUploadAPI {
 
   /// Uploads the photos into a new upload set and waits until the server has processed them.
   /// If anything fails the upload set is deleted again.
+  ///
+  /// Returns the id of the upload set or `null` if there were no photos.
 
-  Future<void> upload({
+  Future<String?> upload({
     required List<PanoramaxPhoto> photos,
     required ElementIdentifier target,
   }) async {
-    if (photos.isEmpty) return;
+    if (photos.isEmpty) return null;
     try {
       final semantics = [
         {'key': 'osm_id', 'value': target.osmReference},
@@ -79,8 +81,9 @@ class PanoramaxPhotoUploadAPI {
           }
         }
         await _completeUploadSet(uploadSetId, photos.length);
+        return uploadSetId;
       } catch (_) {
-        await _deleteUploadSet(uploadSetId);
+        await deleteUploadSet(uploadSetId);
         rethrow;
       }
     } on DioException catch (error) {
@@ -137,11 +140,17 @@ class PanoramaxPhotoUploadAPI {
     }
   }
 
-  Future<void> _deleteUploadSet(String id) async {
+  /// Deletes an upload set including its photos.
+  ///
+  /// Returns whether the deletion succeeded. Errors are not thrown,
+  /// because the original upload error is usually more relevant than a failed clean-up.
+
+  Future<bool> deleteUploadSet(String id) async {
     try {
       await _client.delete<dynamic>('/upload_sets/$id');
+      return true;
     } on DioException {
-      // The original upload error is more relevant than a failed clean-up.
+      return false;
     }
   }
 
