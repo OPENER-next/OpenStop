@@ -65,7 +65,6 @@ class AboutScreen extends StatelessWidget {
                 onTap: () => launchUrl(_urlContributors),
               ),
               ListTile(
-                isThreeLine: true,
                 leading: const Icon(Icons.lightbulb),
                 trailing: const Icon(Icons.open_in_new),
                 title: Text(appLocale.aboutIdeaLabel),
